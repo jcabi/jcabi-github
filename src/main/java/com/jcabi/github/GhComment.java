@@ -51,7 +51,8 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "coords", "num" })
 @EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhComment implements Comment {
+final class GhComment
+    implements Comment {
 
     /**
      * Authentication header.
@@ -100,6 +101,18 @@ final class GhComment implements Comment {
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .getJson().readObject().getJsonObject("user").getString("login")
         );
+    }
+    @Override
+    public String body() throws IOException {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/comments/{num}")
+            .build(this.coords.user(), this.coords.repo(), this.num);
+        return RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("get body of Github comment")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject().getString("body");
     }
 
     @Override

@@ -56,6 +56,13 @@ public interface Comment {
     User author() throws IOException;
 
     /**
+     * Get its body.
+     * @return Body of comment
+     * @throws IOException If fails
+     */
+    String body() throws IOException;
+
+    /**
      * Delete the comment.
      * @throws IOException If fails
      */
