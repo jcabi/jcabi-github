@@ -46,7 +46,7 @@ public final class GithubTest {
      */
     @Test
     public void worksWithMockedData() throws Exception {
-        final Repo repo = new GithubMocker().createRepo("tt");
+        final Repo repo = new GithubMocker().createRepo("tt/a");
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(

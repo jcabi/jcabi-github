@@ -59,7 +59,10 @@ public final class GithubMocker implements Github {
      * @return Repo just created
      */
     public Repo createRepo(final String name) {
-        this.repos.put(name, new RepoMocker(this));
+        this.repos.put(
+            name,
+            new RepoMocker(this, new Coordinates.Simple(name))
+        );
         return this.repo(name);
     }
 

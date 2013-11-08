@@ -49,12 +49,19 @@ public final class RepoMocker implements Repo {
     private final transient Issues iss;
 
     /**
+     * Coordinates.
+     */
+    private final transient Coordinates crd;
+
+    /**
      * Public ctor.
      * @param github Owner of it
+     * @param coords Coordinates
      */
-    public RepoMocker(final Github github) {
+    public RepoMocker(final Github github, final Coordinates coords) {
         this.owner = github;
         this.iss = new IssuesMocker(this);
+        this.crd = coords;
     }
 
     @Override
@@ -64,7 +71,7 @@ public final class RepoMocker implements Repo {
 
     @Override
     public Coordinates coordinates() {
-        return new Coordinates.Simple("test/test");
+        return this.crd;
     }
 
     @Override
