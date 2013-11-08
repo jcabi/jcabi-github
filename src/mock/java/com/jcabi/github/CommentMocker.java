@@ -29,8 +29,6 @@
  */
 package com.jcabi.github;
 
-import java.io.IOException;
-
 /**
  * Mocker of {@link Comment}.
  *
@@ -71,17 +69,17 @@ public final class CommentMocker implements Comment {
     }
 
     @Override
-    public User author() throws IOException {
+    public User author() {
         return new UserMocker();
     }
 
     @Override
-    public String body() throws IOException {
+    public String body() {
         return this.text;
     }
 
     @Override
-    public void remove() throws IOException {
+    public void remove() {
         // nothing to do
     }
 

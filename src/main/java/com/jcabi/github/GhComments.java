@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
-import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -92,7 +91,7 @@ final class GhComments implements Comments {
     }
 
     @Override
-    public Comment post(final String text) throws IOException {
+    public Comment post(final String text) {
         final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/{number}/comments")

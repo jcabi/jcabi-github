@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.ws.rs.core.HttpHeaders;
@@ -91,7 +90,7 @@ final class GhComment implements Comment {
     }
 
     @Override
-    public User author() throws IOException {
+    public User author() {
         final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/comments/{id}")
@@ -108,7 +107,7 @@ final class GhComment implements Comment {
         );
     }
     @Override
-    public String body() throws IOException {
+    public String body() {
         final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/comments/{num}")
@@ -122,7 +121,7 @@ final class GhComment implements Comment {
     }
 
     @Override
-    public void remove() throws IOException {
+    public void remove() {
         final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/comments/{id}")

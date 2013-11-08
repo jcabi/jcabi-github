@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 
 /**
  * Github comments.
@@ -59,8 +58,7 @@ public interface Comments extends Iterable<Comment> {
      * Post new comment.
      * @param text Text of comment to post in Markdown format
      * @return Comment
-     * @throws IOException If fails
      */
-    Comment post(String text) throws IOException;
+    Comment post(String text);
 
 }

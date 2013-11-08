@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 
 /**
  * Github get comment.
@@ -57,21 +56,18 @@ public interface Comment {
     /**
      * Get author of it.
      * @return User who posted the comment
-     * @throws IOException If fails
      */
-    User author() throws IOException;
+    User author();
 
     /**
      * Get its body.
      * @return Body of comment
-     * @throws IOException If fails
      */
-    String body() throws IOException;
+    String body();
 
     /**
      * Delete the comment.
-     * @throws IOException If fails
      */
-    void remove() throws IOException;
+    void remove();
 
 }

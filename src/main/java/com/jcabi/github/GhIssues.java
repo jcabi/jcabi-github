@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
-import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -92,8 +91,7 @@ final class GhIssues implements Issues {
     }
 
     @Override
-    public Issue create(final String title, final String body)
-        throws IOException {
+    public Issue create(final String title, final String body) {
         final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues")
