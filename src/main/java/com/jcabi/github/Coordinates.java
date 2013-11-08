@@ -80,6 +80,11 @@ public interface Coordinates {
          */
         Simple(final String mnemo) {
             final String[] parts = mnemo.split("/", 2);
+            if (parts.length != 2) {
+                throw new IllegalArgumentException(
+                    String.format("invalid coordinates '%s'", mnemo)
+                );
+            }
             this.usr = parts[0];
             this.rpo = parts[1];
         }
