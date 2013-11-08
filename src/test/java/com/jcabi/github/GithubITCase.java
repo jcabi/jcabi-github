@@ -91,6 +91,25 @@ public final class GithubITCase {
     }
 
     /**
+     * Github.Simple can iterate issues.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iteratesIssues() throws Exception {
+        if (GithubITCase.KEY == null) {
+            return;
+        }
+        final Github github = new Github.Simple(GithubITCase.KEY);
+        final Repo repo = github.repo(GithubITCase.REPO);
+        for (final Issue issue : repo.issues()) {
+            MatcherAssert.assertThat(
+                issue.title(),
+                Matchers.notNullValue()
+            );
+        }
+    }
+
+    /**
      * Github.Simple can add and remove issue labels.
      * @throws Exception If some problem inside
      */

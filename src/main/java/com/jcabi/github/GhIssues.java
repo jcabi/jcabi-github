@@ -53,6 +53,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -128,7 +129,7 @@ final class GhIssues implements Issues {
             .getJson().readArray();
         final Collection<Issue> issues = new ArrayList<Issue>(array.size());
         for (final JsonValue item : array) {
-            issues.add(this.get(JsonObject.class.cast(item).getInt("id")));
+            issues.add(this.get(JsonObject.class.cast(item).getInt("number")));
         }
         return issues.iterator();
     }
