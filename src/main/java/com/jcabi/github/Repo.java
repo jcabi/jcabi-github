@@ -43,6 +43,20 @@ import javax.validation.constraints.NotNull;
 public interface Repo {
 
     /**
+     * Get its owner.
+     * @return Github
+     */
+    @NotNull(message = "github is never NULL")
+    Github github();
+
+    /**
+     * Get its coordinates.
+     * @return Coordinates
+     */
+    @NotNull(message = "coordinates is never NULL")
+    Coordinates coordinates();
+
+    /**
      * Iterate issues.
      * @return Issues
      */

@@ -44,8 +44,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "header", "coords" })
+@EqualsAndHashCode(of = { "ghub", "header", "coords" })
 final class GhRepo implements Repo {
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
 
     /**
      * Authentication header.
@@ -59,16 +64,29 @@ final class GhRepo implements Repo {
 
     /**
      * Public ctor.
+     * @param github Github
      * @param hdr Authentication header
      * @param crd Coordinate of the repo
      */
-    GhRepo(final String hdr, final Coordinates crd) {
+    GhRepo(final Github github, final String hdr, final Coordinates crd) {
+        this.ghub = github;
         this.header = hdr;
         this.coords = crd;
+    }
+
+    @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public Coordinates coordinates() {
+        return this.coords;
     }
 
     @Override
     public Issues issues() {
         return new GhIssues(this.header, this.coords);
     }
+
 }

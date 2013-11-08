@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Repository coordinates.
@@ -41,7 +40,7 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-interface Coordinates {
+public interface Coordinates {
 
     /**
      * Get usr name.
@@ -56,7 +55,6 @@ interface Coordinates {
     String repo();
 
     @Immutable
-    @ToString
     @EqualsAndHashCode(of = { "usr", "rpo" })
     final class Simple implements Coordinates {
         /**

@@ -81,6 +81,11 @@ final class GhComment implements Comment {
     }
 
     @Override
+    public int number() {
+        return this.num;
+    }
+
+    @Override
     public User author() throws IOException {
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/comments/{id}")

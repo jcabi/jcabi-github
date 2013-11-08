@@ -48,6 +48,30 @@ public interface Issue {
     int number();
 
     /**
+     * Get its title.
+     * @return Title of the issue
+     */
+    String title();
+
+    /**
+     * Get its body.
+     * @return Body of the issue
+     */
+    String body();
+
+    /**
+     * Change title.
+     * @param text Title to set
+     */
+    void title(String text);
+
+    /**
+     * Set its body.
+     * @param text Body to set
+     */
+    void body(String text);
+
+    /**
      * Get comments by number.
      * @return Comments
      */

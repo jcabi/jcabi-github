@@ -65,7 +65,17 @@ public final class GithubITCase {
         }
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Repo repo = github.repo(GithubITCase.REPO);
-        final Issue issue = repo.issues().create("test", "just a test");
+        final Issue issue = repo.issues().create("something", "just a test");
+        issue.title("test one more time");
+        MatcherAssert.assertThat(
+            issue.title(),
+            Matchers.startsWith("test o")
+        );
+        issue.body("some new body of the issue");
+        MatcherAssert.assertThat(
+            issue.body(),
+            Matchers.startsWith("some new ")
+        );
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
             repo.issues().get(issue.number()).comments(),

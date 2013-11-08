@@ -31,6 +31,13 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.RestTester;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import javax.json.Json;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -40,6 +47,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -78,6 +86,69 @@ final class GhIssue implements Issue {
     public int number() {
         return this.num;
     }
+
+    @Override
+    public String title() {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/{id}")
+            .build(this.coords.user(), this.coords.repo(), this.num);
+        return RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("get title of Github issue")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject().getString("title");
+    }
+
+    @Override
+    public String body() {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{owner}/{repo}/issues/{num}")
+            .build(this.coords.user(), this.coords.repo(), this.num);
+        return RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("get body of Github issue")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject().getString("body");
+    }
+
+    @Override
+    public void title(final String text) {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{owner}/{repo}/issues/{id}")
+            .build(this.coords.user(), this.coords.repo(), this.num);
+        final StringWriter post = new StringWriter();
+        Json.createGenerator(post)
+            .writeStartObject()
+            .write("title", text)
+            .writeEnd()
+            .close();
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .patch("change title of Github issue", post.toString())
+            .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public void body(final String text) {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/{num}")
+            .build(this.coords.user(), this.coords.repo(), this.num);
+        final StringWriter post = new StringWriter();
+        Json.createGenerator(post)
+            .writeStartObject()
+            .write("body", text)
+            .writeEnd()
+            .close();
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .patch("change body of Github issue", post.toString())
+            .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
     @Override
     public Comments comments() {
         return new GhComments(this.header, this.coords, this.num);

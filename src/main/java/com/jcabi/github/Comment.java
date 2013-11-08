@@ -43,6 +43,12 @@ import java.io.IOException;
 public interface Comment {
 
     /**
+     * Number.
+     * @return Comment number
+     */
+    int number();
+
+    /**
      * Get author of it.
      * @return User who posted the comment
      * @throws IOException If fails

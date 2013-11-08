@@ -93,7 +93,7 @@ public interface Github {
         @Override
         @NotNull(message = "repo is never NULL")
         public Repo repo(@NotNull final String name) {
-            return new GhRepo(this.header, new Coordinates.Simple(name));
+            return new GhRepo(this, this.header, new Coordinates.Simple(name));
         }
     }
 
