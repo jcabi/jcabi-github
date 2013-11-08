@@ -64,6 +64,10 @@ public final class GistMocker implements Gist {
     public Github github() {
         return this.owner;
     }
+    @Override
+    public Iterable<String> files() {
+        return this.map.keySet();
+    }
 
     @Override
     public String read(final String file) {

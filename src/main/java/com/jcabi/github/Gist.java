@@ -48,6 +48,12 @@ public interface Gist {
     Github github();
 
     /**
+     * All file names.
+     * @return Names
+     */
+    Iterable<String> files();
+
+    /**
      * Read file content.
      * @param name Name of it
      * @return File content

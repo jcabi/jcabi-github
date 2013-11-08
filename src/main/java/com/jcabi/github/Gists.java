@@ -39,7 +39,7 @@ import com.jcabi.aspects.Immutable;
  * @since 0.1
  */
 @Immutable
-public interface Gists {
+public interface Gists extends Iterable<Gist> {
 
     /**
      * Github we're in.

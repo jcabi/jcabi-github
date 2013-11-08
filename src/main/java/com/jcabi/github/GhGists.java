@@ -31,6 +31,17 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.RestTester;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -75,6 +86,22 @@ final class GhGists implements Gists {
     @Override
     public Gist get(final String name) {
         return new GhGist(this.ghub, this.header, name);
+    }
+
+    @Override
+    public Iterator<Gist> iterator() {
+        final URI uri = Github.ENTRY.clone().path("/gists").build();
+        final JsonArray array = RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("list all gists of Github user")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readArray();
+        final Collection<Gist> gists = new ArrayList<Gist>(array.size());
+        for (final JsonValue value : array) {
+            gists.add(this.get(JsonObject.class.cast(value).getString("id")));
+        }
+        return gists.iterator();
     }
 
 }

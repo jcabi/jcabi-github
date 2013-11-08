@@ -35,7 +35,11 @@ import com.rexsl.test.RestTester;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
@@ -66,7 +70,7 @@ final class GhGist implements Gist {
     private final transient String header;
 
     /**
-     * Gist name.
+     * Gist id.
      */
     private final transient String label;
 
@@ -85,6 +89,24 @@ final class GhGist implements Gist {
     @Override
     public Github github() {
         return this.ghub;
+    }
+
+    @Override
+    public Iterable<String> files() {
+        final URI uri = Github.ENTRY.clone()
+            .path("/gists/{num}")
+            .build(this.label);
+        final JsonObject array = RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("list all files of a gist of Github")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject().getJsonObject("files");
+        final Collection<String> files = new ArrayList<String>(array.size());
+        for (final JsonValue value : array.values()) {
+            files.add(JsonObject.class.cast(value).getString("filename"));
+        }
+        return files;
     }
 
     @Override

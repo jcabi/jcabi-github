@@ -136,4 +136,21 @@ public final class GithubITCase {
         );
     }
 
+    /**
+     * Github.Simple can read Gists.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void readsGists() throws Exception {
+        if (GithubITCase.KEY == null) {
+            return;
+        }
+        final Github github = new Github.Simple(GithubITCase.KEY);
+        final Gist gist = github.gists().iterator().next();
+        MatcherAssert.assertThat(
+            gist.read(gist.files().iterator().next()),
+            Matchers.notNullValue()
+        );
+    }
+
 }
