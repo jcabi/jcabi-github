@@ -30,62 +30,32 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Github get.
+ * Github labels.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhIssue implements Issue {
+public interface Labels extends Iterable<Label> {
 
     /**
-     * Authentication header.
+     * Add new labels.
+     * @param labels The labels to add
      */
-    private final transient String header;
+    void add(Iterable<Label> labels);
 
     /**
-     * Repository coordinate.
+     * Remove label by name.
+     * @param name Name of the label to remove
      */
-    private final transient Coordinates coords;
+    void remove(String name);
 
     /**
-     * Issue number.
+     * Remove all labels.
      */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param hdr Authentication header
-     * @param crd Repository coord
-     * @param number Number of the get
-     */
-    GhIssue(final String hdr, final Coordinates crd, final int number) {
-        this.header = hdr;
-        this.coords = crd;
-        this.num = number;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-    @Override
-    public Comments comments() {
-        return new GhComments(this.header, this.coords, this.num);
-    }
-
-    @Override
-    public Labels labels() {
-        return new GhIssueLabels(this.header, this.coords, this.num);
-    }
+    void clear();
 
 }

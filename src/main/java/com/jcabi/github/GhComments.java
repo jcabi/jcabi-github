@@ -33,15 +33,23 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github comment.
+ * Github comments.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -51,7 +59,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "coords", "num" })
 @EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhComment implements Comment {
+final class GhComments implements Comments {
 
     /**
      * Authentication header.
@@ -64,7 +72,7 @@ final class GhComment implements Comment {
     private final transient Coordinates coords;
 
     /**
-     * Comment number.
+     * Issue number.
      */
     private final transient int num;
 
@@ -74,37 +82,57 @@ final class GhComment implements Comment {
      * @param crd Repository coord
      * @param number Number of the get
      */
-    GhComment(final String hdr, final Coordinates crd, final int number) {
+    GhComments(final String hdr, final Coordinates crd, final int number) {
         this.header = hdr;
         this.coords = crd;
         this.num = number;
     }
 
     @Override
-    public User author() throws IOException {
+    public Comment get(final int number) {
+        return new GhComment(this.header, this.coords, number);
+    }
+
+    @Override
+    public Comment post(final String text) throws IOException {
         final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/comments/{id}")
+            .path("/repos/{owner}/{repo}/issues/{number}/comments")
             .build(this.coords.user(), this.coords.repo(), this.num);
-        return new GhUser(
-            this.header,
+        final StringWriter post = new StringWriter();
+        Json.createGenerator(post)
+            .writeStartObject()
+            .write("body", text)
+            .writeEnd()
+            .close();
+        return this.get(
             RestTester.start(uri)
                 .header(HttpHeaders.AUTHORIZATION, this.header)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .get("get author of Github comment")
-                .assertStatus(HttpURLConnection.HTTP_OK)
-                .getJson().readObject().getJsonObject("user").getString("login")
+                .post("post new comment to Github get", post.toString())
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                    // @checkstyle MultipleStringLiterals (1 line)
+                .getJson().readObject().getInt("id")
         );
     }
 
     @Override
-    public void remove() throws IOException {
+    public Iterator<Comment> iterator() {
         final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/comments/{id}")
+            .path("/repos/{user}/{repo}/issues/{number}/comments")
             .build(this.coords.user(), this.coords.repo(), this.num);
-        RestTester.start(uri)
+        final JsonArray array = RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
-            .delete("removing Github comment")
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("list comments in Github get")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readArray();
+        final Collection<Comment> comments =
+            new ArrayList<Comment>(array.size());
+        for (final JsonValue item : array) {
+            comments.add(this.get(JsonObject.class.cast(item).getInt("id")));
+        }
+        return comments.iterator();
     }
+
 }

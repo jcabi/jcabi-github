@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -65,9 +66,9 @@ public final class GithubITCase {
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Repo repo = github.repo(GithubITCase.REPO);
         final Issue issue = repo.issues().create("test", "just a test");
-        final Comment comment = issue.post("hey, works?");
+        final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
-            repo.issues().issue(issue.number()),
+            repo.issues().get(issue.number()).comments(),
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
@@ -75,6 +76,32 @@ public final class GithubITCase {
             Matchers.equalTo(github.self().name())
         );
         comment.remove();
+    }
+
+    /**
+     * Github.Simple can add and remove issue labels.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void addsAndRemovesIssueLabels() throws Exception {
+        if (GithubITCase.KEY == null) {
+            return;
+        }
+        final Github github = new Github.Simple(GithubITCase.KEY);
+        final Repo repo = github.repo(GithubITCase.REPO);
+        final Issue issue = repo.issues().create("another test", "a test");
+        final Label label = new Label.Simple("first");
+        issue.labels().add(Collections.singletonList(label));
+        MatcherAssert.assertThat(
+            repo.issues().get(issue.number()).labels(),
+            Matchers.<Label>iterableWithSize(1)
+        );
+        issue.labels().remove(label.name());
+        MatcherAssert.assertThat(
+            repo.issues().get(issue.number()).labels(),
+            Matchers.<Label>emptyIterable()
+        );
+        issue.labels().clear();
     }
 
 }

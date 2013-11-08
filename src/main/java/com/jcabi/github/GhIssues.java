@@ -82,7 +82,7 @@ final class GhIssues implements Issues {
     }
 
     @Override
-    public Issue issue(final int number) {
+    public Issue get(final int number) {
         return new GhIssue(this.header, this.coords, number);
     }
 
@@ -99,12 +99,12 @@ final class GhIssues implements Issues {
             .write("body", body)
             .writeEnd()
             .close();
-        return this.issue(
+        return this.get(
             RestTester.start(uri)
                 .header(HttpHeaders.AUTHORIZATION, this.header)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .post("create new Github issue", post.toString())
+                .post("create new Github get", post.toString())
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .getJson().readObject().getInt("number")
         );
@@ -123,7 +123,7 @@ final class GhIssues implements Issues {
             .getJson().readArray();
         final Collection<Issue> issues = new ArrayList<Issue>(array.size());
         for (final JsonValue item : array) {
-            issues.add(this.issue(JsonObject.class.cast(item).getInt("id")));
+            issues.add(this.get(JsonObject.class.cast(item).getInt("id")));
         }
         return issues.iterator();
     }

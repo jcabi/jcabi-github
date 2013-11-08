@@ -31,61 +31,74 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github get.
+ * Github label.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhIssue implements Issue {
+public interface Label {
 
     /**
-     * Authentication header.
+     * Its name.
+     * @return Name of it
      */
-    private final transient String header;
+    String name();
 
     /**
-     * Repository coordinate.
+     * Its color (6 letters).
+     * @return Color of it
      */
-    private final transient Coordinates coords;
+    String color();
 
     /**
-     * Issue number.
+     * Simple implementation.
      */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param hdr Authentication header
-     * @param crd Repository coord
-     * @param number Number of the get
-     */
-    GhIssue(final String hdr, final Coordinates crd, final int number) {
-        this.header = hdr;
-        this.coords = crd;
-        this.num = number;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-    @Override
-    public Comments comments() {
-        return new GhComments(this.header, this.coords, this.num);
-    }
-
-    @Override
-    public Labels labels() {
-        return new GhIssueLabels(this.header, this.coords, this.num);
+    @Immutable
+    @Loggable(Loggable.DEBUG)
+    @ToString
+    @EqualsAndHashCode(of = { "txt", "clr" })
+    final class Simple implements Label {
+        /**
+         * Name of it.
+         */
+        private final transient String txt;
+        /**
+         * Color of it.
+         */
+        private final transient String clr;
+        /**
+         * Public ctor.
+         * @param name Name of it
+         */
+        public Simple(final String name) {
+            this(name, "000000");
+        }
+        /**
+         * Public ctor.
+         * @param name Name of it
+         * @param color Color of it
+         */
+        public Simple(
+            @NotNull(message = "label name can't be NULL") final String name,
+            @NotNull(message = "color can't be NULL") final String color) {
+            this.txt = name;
+            this.clr = color;
+        }
+        @Override
+        public String name() {
+            return this.txt;
+        }
+        @Override
+        public String color() {
+            return this.clr;
+        }
     }
 
 }

@@ -44,21 +44,21 @@ import javax.validation.constraints.NotNull;
 public interface Issues extends Iterable<Issue> {
 
     /**
-     * Get specific issue by number.
+     * Get specific get by number.
      * @param number Issue number
      * @return Issue
      */
-    @NotNull(message = "issue is never NULL")
-    Issue issue(int number);
+    @NotNull(message = "get is never NULL")
+    Issue get(int number);
 
     /**
-     * Create new issue.
+     * Create new get.
      * @param title Title
      * @param body Body of it
      * @return Issue just created
      * @throws IOException If fails
      */
-    @NotNull(message = "issue is never NULL")
+    @NotNull(message = "get is never NULL")
     Issue create(String title, String body) throws IOException;
 
 }

@@ -30,17 +30,16 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 
 /**
- * Github issue.
+ * Github get.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
 @Immutable
-public interface Issue extends Iterable<Comment> {
+public interface Issue {
 
     /**
      * Get its number.
@@ -49,18 +48,15 @@ public interface Issue extends Iterable<Comment> {
     int number();
 
     /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
+     * Get comments by number.
+     * @return Comments
      */
-    Comment comment(int number);
+    Comments comments();
 
     /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
+     * Get all get labels.
+     * @return Labels
      */
-    Comment post(String text) throws IOException;
+    Labels labels();
 
 }

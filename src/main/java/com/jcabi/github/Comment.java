@@ -33,7 +33,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github issue comment.
+ * Github get comment.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$

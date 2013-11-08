@@ -30,62 +30,31 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.io.IOException;
 
 /**
- * Github get.
+ * Github comments.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhIssue implements Issue {
+public interface Comments extends Iterable<Comment> {
 
     /**
-     * Authentication header.
+     * Get comment by number.
+     * @param number Comment number
+     * @return Comment
      */
-    private final transient String header;
+    Comment get(int number);
 
     /**
-     * Repository coordinate.
+     * Post new comment.
+     * @param text Text of comment to post in Markdown format
+     * @return Comment
+     * @throws IOException If fails
      */
-    private final transient Coordinates coords;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param hdr Authentication header
-     * @param crd Repository coord
-     * @param number Number of the get
-     */
-    GhIssue(final String hdr, final Coordinates crd, final int number) {
-        this.header = hdr;
-        this.coords = crd;
-        this.num = number;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-    @Override
-    public Comments comments() {
-        return new GhComments(this.header, this.coords, this.num);
-    }
-
-    @Override
-    public Labels labels() {
-        return new GhIssueLabels(this.header, this.coords, this.num);
-    }
+    Comment post(String text) throws IOException;
 
 }

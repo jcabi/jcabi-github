@@ -32,16 +32,24 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
-import java.io.IOException;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import javax.json.stream.JsonGenerator;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github comment.
+ * Github get labels.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -51,7 +59,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "coords", "num" })
 @EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhComment implements Comment {
+final class GhIssueLabels implements Labels {
 
     /**
      * Authentication header.
@@ -64,7 +72,7 @@ final class GhComment implements Comment {
     private final transient Coordinates coords;
 
     /**
-     * Comment number.
+     * Issue number.
      */
     private final transient int num;
 
@@ -74,37 +82,76 @@ final class GhComment implements Comment {
      * @param crd Repository coord
      * @param number Number of the get
      */
-    GhComment(final String hdr, final Coordinates crd, final int number) {
+    GhIssueLabels(final String hdr, final Coordinates crd, final int number) {
         this.header = hdr;
         this.coords = crd;
         this.num = number;
     }
 
     @Override
-    public User author() throws IOException {
+    public void add(final Iterable<Label> labels) {
         final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/comments/{id}")
+            .path("/repos/{user}/{repo}/issues/{number}/labels")
             .build(this.coords.user(), this.coords.repo(), this.num);
-        return new GhUser(
-            this.header,
-            RestTester.start(uri)
-                .header(HttpHeaders.AUTHORIZATION, this.header)
-                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .get("get author of Github comment")
-                .assertStatus(HttpURLConnection.HTTP_OK)
-                .getJson().readObject().getJsonObject("user").getString("login")
-        );
+        final StringWriter post = new StringWriter();
+        final JsonGenerator json = Json.createGenerator(post)
+            .writeStartArray();
+        for (final Label label : labels) {
+            json.write(label.name());
+        }
+        json.writeEnd().close();
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .post("add new labels to Github issue", post.toString())
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readArray();
     }
 
     @Override
-    public void remove() throws IOException {
+    public void remove(final String name) {
         final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/comments/{id}")
+            .path("/repos/{user}/{repo}/issues/{number}/labels/{name}")
+            .build(this.coords.user(), this.coords.repo(), this.num, name);
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .delete("delete label from Github issue")
+            .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public void clear() {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{owner}/{repo}/issues/{num}/labels")
             .build(this.coords.user(), this.coords.repo(), this.num);
         RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
-            .delete("removing Github comment")
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .delete("delete all labels from Github issue")
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
+
+    @Override
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    public Iterator<Label> iterator() {
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{owner}/{repo}/issues/{number}/labels")
+            .build(this.coords.user(), this.coords.repo(), this.num);
+        final JsonArray array = RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("list labels in Github issue")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readArray();
+        final Collection<Label> labels = new ArrayList<Label>(array.size());
+        for (final JsonValue item : array) {
+            final JsonObject obj = JsonObject.class.cast(item);
+            labels.add(
+                new Label.Simple(obj.getString("name"), obj.getString("color"))
+            );
+        }
+        return labels.iterator();
+    }
+
 }
