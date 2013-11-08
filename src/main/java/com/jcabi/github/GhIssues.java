@@ -57,8 +57,8 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "coords")
-@EqualsAndHashCode(of = { "header", "coords" })
+@ToString(of = "owner")
+@EqualsAndHashCode(of = { "header", "owner" })
 final class GhIssues implements Issues {
 
     /**
@@ -67,31 +67,32 @@ final class GhIssues implements Issues {
     private final transient String header;
 
     /**
-     * Repository coordinate.
+     * Repository.
      */
-    private final transient Coordinates coords;
+    private final transient Repo owner;
 
     /**
      * Public ctor.
      * @param hdr Authentication header
-     * @param crd Repository coords
+     * @param repo Repository
      */
-    GhIssues(final String hdr, final Coordinates crd) {
+    GhIssues(final String hdr, final Repo repo) {
         this.header = hdr;
-        this.coords = crd;
+        this.owner = repo;
     }
 
     @Override
     public Issue get(final int number) {
-        return new GhIssue(this.header, this.coords, number);
+        return new GhIssue(this.header, this.owner, number);
     }
 
     @Override
     public Issue create(final String title, final String body)
         throws IOException {
+        final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues")
-            .build(this.coords.user(), this.coords.repo());
+            .build(coords.user(), coords.repo());
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()
@@ -112,9 +113,10 @@ final class GhIssues implements Issues {
 
     @Override
     public Iterator<Issue> iterator() {
+        final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues")
-            .build(this.coords.user(), this.coords.repo());
+            .build(coords.user(), coords.repo());
         final JsonArray array = RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)

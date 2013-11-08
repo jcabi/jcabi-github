@@ -51,8 +51,8 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
+@ToString(of = { "owner", "num" })
+@EqualsAndHashCode(of = { "header", "owner", "num" })
 final class GhIssue implements Issue {
 
     /**
@@ -61,9 +61,9 @@ final class GhIssue implements Issue {
     private final transient String header;
 
     /**
-     * Repository coordinate.
+     * Repository we're in.
      */
-    private final transient Coordinates coords;
+    private final transient Repo owner;
 
     /**
      * Issue number.
@@ -73,13 +73,18 @@ final class GhIssue implements Issue {
     /**
      * Public ctor.
      * @param hdr Authentication header
-     * @param crd Repository coord
+     * @param repo Repository
      * @param number Number of the get
      */
-    GhIssue(final String hdr, final Coordinates crd, final int number) {
+    GhIssue(final String hdr, final Repo repo, final int number) {
         this.header = hdr;
-        this.coords = crd;
+        this.owner = repo;
         this.num = number;
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
     }
 
     @Override
@@ -89,9 +94,10 @@ final class GhIssue implements Issue {
 
     @Override
     public String title() {
+        final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/{id}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         return RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
@@ -102,9 +108,10 @@ final class GhIssue implements Issue {
 
     @Override
     public String body() {
+        final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/{num}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         return RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
@@ -115,9 +122,10 @@ final class GhIssue implements Issue {
 
     @Override
     public void title(final String text) {
+        final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/{id}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()
@@ -133,9 +141,10 @@ final class GhIssue implements Issue {
 
     @Override
     public void body(final String text) {
+        final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/{num}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()
@@ -151,12 +160,12 @@ final class GhIssue implements Issue {
 
     @Override
     public Comments comments() {
-        return new GhComments(this.header, this.coords, this.num);
+        return new GhComments(this.header, this);
     }
 
     @Override
     public Labels labels() {
-        return new GhIssueLabels(this.header, this.coords, this.num);
+        return new GhIssueLabels(this.header, this);
     }
 
 }

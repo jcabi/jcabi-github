@@ -57,8 +57,8 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
+@ToString(of = "owner")
+@EqualsAndHashCode(of = { "header", "owner" })
 final class GhComments implements Comments {
 
     /**
@@ -67,37 +67,31 @@ final class GhComments implements Comments {
     private final transient String header;
 
     /**
-     * Repository coordinate.
+     * Owner of comments.
      */
-    private final transient Coordinates coords;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
+    private final transient Issue owner;
 
     /**
      * Public ctor.
      * @param hdr Authentication header
-     * @param crd Repository coord
-     * @param number Number of the get
+     * @param issue Issue
      */
-    GhComments(final String hdr, final Coordinates crd, final int number) {
+    GhComments(final String hdr, final Issue issue) {
         this.header = hdr;
-        this.coords = crd;
-        this.num = number;
+        this.owner = issue;
     }
 
     @Override
     public Comment get(final int number) {
-        return new GhComment(this.header, this.coords, number);
+        return new GhComment(this.header, this.owner, number);
     }
 
     @Override
     public Comment post(final String text) throws IOException {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/{number}/comments")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.owner.number());
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()
@@ -118,9 +112,10 @@ final class GhComments implements Comments {
 
     @Override
     public Iterator<Comment> iterator() {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/{number}/comments")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.owner.number());
         final JsonArray array = RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)

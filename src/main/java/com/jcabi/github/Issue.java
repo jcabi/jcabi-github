@@ -42,6 +42,12 @@ import com.jcabi.aspects.Immutable;
 public interface Issue {
 
     /**
+     * Repository we're in.
+     * @return Repo
+     */
+    Repo repo();
+
+    /**
      * Get its number.
      * @return Issue number
      */

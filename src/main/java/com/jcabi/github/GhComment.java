@@ -49,10 +49,9 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
-final class GhComment
-    implements Comment {
+@ToString(of = { "owner", "num" })
+@EqualsAndHashCode(of = { "header", "owner", "num" })
+final class GhComment implements Comment {
 
     /**
      * Authentication header.
@@ -60,9 +59,9 @@ final class GhComment
     private final transient String header;
 
     /**
-     * Repository coordinate.
+     * Issue we're in.
      */
-    private final transient Coordinates coords;
+    private final transient Issue owner;
 
     /**
      * Comment number.
@@ -72,13 +71,18 @@ final class GhComment
     /**
      * Public ctor.
      * @param hdr Authentication header
-     * @param crd Repository coord
+     * @param issue Owner of this comment
      * @param number Number of the get
      */
-    GhComment(final String hdr, final Coordinates crd, final int number) {
+    GhComment(final String hdr, final Issue issue, final int number) {
         this.header = hdr;
-        this.coords = crd;
+        this.owner = issue;
         this.num = number;
+    }
+
+    @Override
+    public Issue issue() {
+        return this.owner;
     }
 
     @Override
@@ -88,9 +92,10 @@ final class GhComment
 
     @Override
     public User author() throws IOException {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/comments/{id}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         return new GhUser(
             this.header,
             RestTester.start(uri)
@@ -104,9 +109,10 @@ final class GhComment
     }
     @Override
     public String body() throws IOException {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/comments/{num}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         return RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
@@ -117,9 +123,10 @@ final class GhComment
 
     @Override
     public void remove() throws IOException {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/comments/{id}")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.num);
         RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .delete("removing Github comment")

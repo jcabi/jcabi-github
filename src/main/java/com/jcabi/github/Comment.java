@@ -43,6 +43,12 @@ import java.io.IOException;
 public interface Comment {
 
     /**
+     * The issue it's in.
+     * @return Owner of the comment
+     */
+    Issue issue();
+
+    /**
      * Number.
      * @return Comment number
      */

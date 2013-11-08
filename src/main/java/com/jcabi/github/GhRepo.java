@@ -86,7 +86,7 @@ final class GhRepo implements Repo {
 
     @Override
     public Issues issues() {
-        return new GhIssues(this.header, this.coords);
+        return new GhIssues(this.header, this);
     }
 
 }

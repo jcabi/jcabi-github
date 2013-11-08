@@ -57,8 +57,8 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "coords", "num" })
-@EqualsAndHashCode(of = { "header", "coords", "num" })
+@ToString(of = "owner")
+@EqualsAndHashCode(of = { "header", "owner" })
 final class GhIssueLabels implements Labels {
 
     /**
@@ -67,32 +67,26 @@ final class GhIssueLabels implements Labels {
     private final transient String header;
 
     /**
-     * Repository coordinate.
+     * Issue.
      */
-    private final transient Coordinates coords;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
+    private final transient Issue owner;
 
     /**
      * Public ctor.
      * @param hdr Authentication header
-     * @param crd Repository coord
-     * @param number Number of the get
+     * @param issue Issue
      */
-    GhIssueLabels(final String hdr, final Coordinates crd, final int number) {
+    GhIssueLabels(final String hdr, final Issue issue) {
         this.header = hdr;
-        this.coords = crd;
-        this.num = number;
+        this.owner = issue;
     }
 
     @Override
     public void add(final Iterable<Label> labels) {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/{number}/labels")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.owner.number());
         final StringWriter post = new StringWriter();
         final JsonGenerator json = Json.createGenerator(post)
             .writeStartArray();
@@ -110,9 +104,10 @@ final class GhIssueLabels implements Labels {
 
     @Override
     public void remove(final String name) {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{user}/{repo}/issues/{number}/labels/{name}")
-            .build(this.coords.user(), this.coords.repo(), this.num, name);
+            .build(coords.user(), coords.repo(), this.owner.number(), name);
         RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
@@ -122,9 +117,10 @@ final class GhIssueLabels implements Labels {
 
     @Override
     public void clear() {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/{num}/labels")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.owner.number());
         RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
@@ -135,9 +131,10 @@ final class GhIssueLabels implements Labels {
     @Override
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterator<Label> iterator() {
+        final Coordinates coords = this.owner.repo().coordinates();
         final URI uri = Github.ENTRY.clone()
             .path("/repos/{owner}/{repo}/issues/{number}/labels")
-            .build(this.coords.user(), this.coords.repo(), this.num);
+            .build(coords.user(), coords.repo(), this.owner.number());
         final JsonArray array = RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
