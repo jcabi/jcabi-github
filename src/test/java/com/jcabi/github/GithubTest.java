@@ -29,38 +29,38 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github comments.
- *
+ * Test case for {@link Github}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class GithubTest {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * GithubMocker can work.
+     * @throws Exception If some problem inside
      */
-    Issue issue();
-
-    /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
-     */
-    Comment get(int number);
-
-    /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
-     */
-    Comment post(String text) throws IOException;
+    @Test
+    public void worksWithMockedData() throws Exception {
+        final Repo repo = new GithubMocker().createRepo("tt");
+        final Issue issue = repo.issues().create("hey", "how are you?");
+        final Comment comment = issue.comments().post("hey, works?");
+        MatcherAssert.assertThat(
+            comment.body(),
+            Matchers.startsWith("hey, ")
+        );
+        MatcherAssert.assertThat(
+            repo.issues().get(issue.number()).comments(),
+            Matchers.<Comment>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            comment.author().name(),
+            Matchers.equalTo(repo.github().self().name())
+        );
+    }
 
 }

@@ -44,6 +44,12 @@ import javax.validation.constraints.NotNull;
 public interface Issues extends Iterable<Issue> {
 
     /**
+     * Owner of them.
+     * @return Repo
+     */
+    Repo repo();
+
+    /**
      * Get specific get by number.
      * @param number Issue number
      * @return Issue

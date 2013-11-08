@@ -29,38 +29,47 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-
 /**
- * Github comments.
+ * Mocker of {@link Repo}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class RepoMocker implements Repo {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * Github.
      */
-    Issue issue();
+    private final transient Github owner;
 
     /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
+     * All issues.
      */
-    Comment get(int number);
+    private final transient Issues iss;
 
     /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
+     * Public ctor.
+     * @param github Owner of it
      */
-    Comment post(String text) throws IOException;
+    public RepoMocker(final Github github) {
+        this.owner = github;
+        this.iss = new IssuesMocker(this);
+    }
+
+    @Override
+    public Github github() {
+        return this.owner;
+    }
+
+    @Override
+    public Coordinates coordinates() {
+        return new Coordinates.Simple("test/test");
+    }
+
+    @Override
+    public Issues issues() {
+        return this.iss;
+    }
 
 }

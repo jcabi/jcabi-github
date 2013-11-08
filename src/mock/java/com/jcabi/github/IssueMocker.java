@@ -29,38 +29,90 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-
 /**
- * Github comments.
+ * Mocker of {@link Issue}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class IssueMocker implements Issue {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * Repo.
      */
-    Issue issue();
+    private final transient Repo owner;
 
     /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
+     * Comments.
      */
-    Comment get(int number);
+    private final transient Comments cmnts;
 
     /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
+     * Labels.
      */
-    Comment post(String text) throws IOException;
+    private final transient Labels lbls;
+
+    /**
+     * Title.
+     */
+    private transient String head;
+
+    /**
+     * Body.
+     */
+    private transient String text;
+
+    /**
+     * Public ctor.
+     * @param repo Owner of it
+     */
+    public IssueMocker(final Repo repo) {
+        this.owner = repo;
+        this.cmnts = new CommentsMocker(this);
+        this.lbls = new LabelsMocker();
+        this.head = "";
+        this.text = "";
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return 1;
+    }
+
+    @Override
+    public String title() {
+        return this.head;
+    }
+
+    @Override
+    public String body() {
+        return this.text;
+    }
+
+    @Override
+    public void title(final String txt) {
+        this.head = txt;
+    }
+
+    @Override
+    public void body(final String txt) {
+        this.text = txt;
+    }
+
+    @Override
+    public Comments comments() {
+        return this.cmnts;
+    }
+
+    @Override
+    public Labels labels() {
+        return this.lbls;
+    }
 
 }

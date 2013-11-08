@@ -29,38 +29,60 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Github comments.
+ * Mocker of {@link Comments}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class CommentsMocker implements Comments {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * Issue.
      */
-    Issue issue();
+    private final transient Issue owner;
 
     /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
+     * All comments.
      */
-    Comment get(int number);
+    private final transient ConcurrentMap<Integer, Comment> map =
+        new ConcurrentSkipListMap<Integer, Comment>();
 
     /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
+     * Public ctor.
+     * @param issue Owner of it
      */
-    Comment post(String text) throws IOException;
+    public CommentsMocker(final Issue issue) {
+        this.owner = issue;
+    }
+
+    @Override
+    public Issue issue() {
+        return this.owner;
+    }
+
+    @Override
+    public Comment get(final int number) {
+        return this.map.get(number);
+    }
+
+    @Override
+    public Comment post(final String text) throws IOException {
+        final Comment comment = new CommentMocker(this.owner, text);
+        final int number = this.map.size() + 1;
+        this.map.put(number, comment);
+        return comment;
+    }
+
+    @Override
+    public Iterator<Comment> iterator() {
+        return this.map.values().iterator();
+    }
 
 }

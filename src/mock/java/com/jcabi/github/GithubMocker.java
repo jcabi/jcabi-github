@@ -29,38 +29,48 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github comments.
+ * Mocker of {@link Github}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class GithubMocker implements Github {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * Self.
      */
-    Issue issue();
+    private final transient User user = new UserMocker();
 
     /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
+     * Repositories.
      */
-    Comment get(int number);
+    private final transient ConcurrentMap<String, Repo> repos =
+        new ConcurrentHashMap<String, Repo>();
 
     /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
+     * Create a new repository.
+     * @param name Name of it
+     * @return Repo just created
      */
-    Comment post(String text) throws IOException;
+    public Repo createRepo(final String name) {
+        this.repos.put(name, new RepoMocker(this));
+        return this.repo(name);
+    }
+
+    @Override
+    public User self() {
+        return this.user;
+    }
+
+    @Override
+    public Repo repo(@NotNull final String name) {
+        return this.repos.get(name);
+    }
 
 }

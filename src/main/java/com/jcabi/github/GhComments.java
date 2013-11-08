@@ -82,6 +82,11 @@ final class GhComments implements Comments {
     }
 
     @Override
+    public Issue issue() {
+        return this.owner;
+    }
+
+    @Override
     public Comment get(final int number) {
         return new GhComment(this.header, this.owner, number);
     }

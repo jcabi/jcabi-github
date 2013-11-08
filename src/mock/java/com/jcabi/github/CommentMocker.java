@@ -29,38 +29,60 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github comments.
+ * Mocker of {@link Comment}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class CommentMocker implements Comment {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * Issue.
      */
-    Issue issue();
+    private final transient Issue owner;
 
     /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
+     * The text.
      */
-    Comment get(int number);
+    private final transient String text;
 
     /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
+     * Public ctor.
+     * @param issue Owner of it
+     * @param body Body of it
      */
-    Comment post(String text) throws IOException;
+    public CommentMocker(final Issue issue, final String body) {
+        this.owner = issue;
+        this.text = body;
+    }
+
+    @Override
+    public Issue issue() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return 1;
+    }
+
+    @Override
+    public User author() throws IOException {
+        return new UserMocker();
+    }
+
+    @Override
+    public String body() throws IOException {
+        return this.text;
+    }
+
+    @Override
+    public void remove() throws IOException {
+        // nothing to do
+    }
 
 }

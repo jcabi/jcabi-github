@@ -82,6 +82,11 @@ final class GhIssues implements Issues {
     }
 
     @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
     public Issue get(final int number) {
         return new GhIssue(this.header, this.owner, number);
     }

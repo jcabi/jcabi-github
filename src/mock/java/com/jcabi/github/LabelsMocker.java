@@ -29,38 +29,45 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
- * Github comments.
+ * Mocker of {@link Labels}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
+public final class LabelsMocker implements Labels {
 
     /**
-     * The issue we're in.
-     * @return Issue
+     * All labels.
      */
-    Issue issue();
+    private final transient Set<Label> set =
+        new ConcurrentSkipListSet<Label>();
 
-    /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
-     */
-    Comment get(int number);
+    @Override
+    public void add(final Iterable<Label> labels) {
+        for (final Label label : labels) {
+            this.set.add(label);
+        }
+    }
 
-    /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
-     */
-    Comment post(String text) throws IOException;
+    @Override
+    public void remove(final String name) {
+        this.set.remove(new Label.Simple(name));
+    }
+
+    @Override
+    public void clear() {
+        this.set.clear();
+    }
+
+    @Override
+    public Iterator<Label> iterator() {
+        return this.set.iterator();
+    }
 
 }

@@ -27,40 +27,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
-
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 
 /**
- * Github comments.
+ * Object Oriented Github API.
+ *
+ * <p>The only dependency you need is (check our latest version available
+ * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
+ *
+ * <pre>&lt;depedency&gt;
+ *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
+ *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
+ * &lt;/dependency&gt;</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://github.jcabi.com/">project website</a>
  */
-@Immutable
-public interface Comments extends Iterable<Comment> {
-
-    /**
-     * The issue we're in.
-     * @return Issue
-     */
-    Issue issue();
-
-    /**
-     * Get comment by number.
-     * @param number Comment number
-     * @return Comment
-     */
-    Comment get(int number);
-
-    /**
-     * Post new comment.
-     * @param text Text of comment to post in Markdown format
-     * @return Comment
-     * @throws IOException If fails
-     */
-    Comment post(String text) throws IOException;
-
-}
+package com.jcabi.github;
