@@ -76,4 +76,9 @@ public final class GithubMocker implements Github {
         return this.repos.get(name);
     }
 
+    @Override
+    public Gists gists() {
+        return new GistsMocker(this);
+    }
+
 }

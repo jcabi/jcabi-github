@@ -29,53 +29,52 @@
  */
 package com.jcabi.github;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Test case for {@link Github}.
+ * Github gists.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.1
  */
-public final class GithubTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "ghub", "header" })
+final class GhGists implements Gists {
 
     /**
-     * GithubMocker can work.
-     * @throws Exception If some problem inside
+     * Github.
      */
-    @Test
-    public void worksWithMockedData() throws Exception {
-        final Repo repo = new GithubMocker().createRepo("tt/a");
-        final Issue issue = repo.issues().create("hey", "how are you?");
-        final Comment comment = issue.comments().post("hey, works?");
-        MatcherAssert.assertThat(
-            comment.body(),
-            Matchers.startsWith("hey, ")
-        );
-        MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments(),
-            Matchers.<Comment>iterableWithSize(1)
-        );
-        MatcherAssert.assertThat(
-            comment.author().name(),
-            Matchers.equalTo(repo.github().self().name())
-        );
+    private final transient Github ghub;
+
+    /**
+     * Authentication header.
+     */
+    private final transient String header;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param hdr Authentication header
+     */
+    GhGists(final Github github, final String hdr) {
+        this.ghub = github;
+        this.header = hdr;
     }
 
-    /**
-     * GithubMocker can with gists.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void worksWithMockedGists() throws Exception {
-        final Gist gist = new GithubMocker().gists().get("gist-1");
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hello, ")
-        );
+    @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public Gist get(final String name) {
+        return new GhGist(this.ghub, this.header, name);
     }
 
 }

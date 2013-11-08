@@ -29,53 +29,50 @@
  */
 package com.jcabi.github;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Test case for {@link Github}.
+ * Mocker of {@link Gist}.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.1
  */
-public final class GithubTest {
+public final class GistMocker implements Gist {
 
     /**
-     * GithubMocker can work.
-     * @throws Exception If some problem inside
+     * Github.
      */
-    @Test
-    public void worksWithMockedData() throws Exception {
-        final Repo repo = new GithubMocker().createRepo("tt/a");
-        final Issue issue = repo.issues().create("hey", "how are you?");
-        final Comment comment = issue.comments().post("hey, works?");
-        MatcherAssert.assertThat(
-            comment.body(),
-            Matchers.startsWith("hey, ")
-        );
-        MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments(),
-            Matchers.<Comment>iterableWithSize(1)
-        );
-        MatcherAssert.assertThat(
-            comment.author().name(),
-            Matchers.equalTo(repo.github().self().name())
-        );
+    private final transient Github owner;
+
+    /**
+     * All gists.
+     */
+    private final transient ConcurrentMap<String, String> map =
+        new ConcurrentSkipListMap<String, String>();
+
+    /**
+     * Public ctor.
+     * @param github Owner of it
+     */
+    public GistMocker(final Github github) {
+        this.owner = github;
     }
 
-    /**
-     * GithubMocker can with gists.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void worksWithMockedGists() throws Exception {
-        final Gist gist = new GithubMocker().gists().get("gist-1");
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hello, ")
-        );
+    @Override
+    public Github github() {
+        return this.owner;
+    }
+
+    @Override
+    public String read(final String file) {
+        return this.map.get(file);
+    }
+
+    @Override
+    public void write(final String file, final String text) {
+        this.map.put(file, text);
     }
 
 }

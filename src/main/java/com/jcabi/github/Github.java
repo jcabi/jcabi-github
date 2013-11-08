@@ -67,6 +67,13 @@ public interface Github {
     Repo repo(@NotNull String name);
 
     /**
+     * Get gists.
+     * @return Gists
+     */
+    @NotNull(message = "gists is never NULL")
+    Gists gists();
+
+    /**
      * Simple implementation.
      */
     @Immutable
@@ -94,6 +101,11 @@ public interface Github {
         @NotNull(message = "repo is never NULL")
         public Repo repo(@NotNull final String name) {
             return new GhRepo(this, this.header, new Coordinates.Simple(name));
+        }
+        @Override
+        @NotNull(message = "gists are never NULL")
+        public Gists gists() {
+            return new GhGists(this, this.header);
         }
     }
 

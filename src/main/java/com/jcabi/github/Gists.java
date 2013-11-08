@@ -29,53 +29,29 @@
  */
 package com.jcabi.github;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
 
 /**
- * Test case for {@link Github}.
+ * Github gists.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.1
  */
-public final class GithubTest {
+@Immutable
+public interface Gists {
 
     /**
-     * GithubMocker can work.
-     * @throws Exception If some problem inside
+     * Github we're in.
+     * @return Github
      */
-    @Test
-    public void worksWithMockedData() throws Exception {
-        final Repo repo = new GithubMocker().createRepo("tt/a");
-        final Issue issue = repo.issues().create("hey", "how are you?");
-        final Comment comment = issue.comments().post("hey, works?");
-        MatcherAssert.assertThat(
-            comment.body(),
-            Matchers.startsWith("hey, ")
-        );
-        MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments(),
-            Matchers.<Comment>iterableWithSize(1)
-        );
-        MatcherAssert.assertThat(
-            comment.author().name(),
-            Matchers.equalTo(repo.github().self().name())
-        );
-    }
+    Github github();
 
     /**
-     * GithubMocker can with gists.
-     * @throws Exception If some problem inside
+     * Get gist by name.
+     * @param name Name of it
+     * @return Gist
      */
-    @Test
-    public void worksWithMockedGists() throws Exception {
-        final Gist gist = new GithubMocker().gists().get("gist-1");
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hello, ")
-        );
-    }
+    Gist get(String name);
 
 }
