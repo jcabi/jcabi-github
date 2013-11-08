@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.log.Logger;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -76,7 +77,12 @@ public final class IssuesMocker implements Issues {
         final Issue issue = new IssueMocker(this.owner);
         issue.title(title);
         issue.body(body);
-        this.map.put(this.map.size() + 1, issue);
+        final int number = this.map.size() + 1;
+        this.map.put(number, issue);
+        Logger.info(
+            this, "Github issue #%d created: %s",
+            number, title
+        );
         return issue;
     }
 

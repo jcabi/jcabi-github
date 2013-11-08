@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentMap;
@@ -77,6 +78,10 @@ public final class CommentsMocker implements Comments {
         final Comment comment = new CommentMocker(this.owner, text);
         final int number = this.map.size() + 1;
         this.map.put(number, comment);
+        Logger.info(
+            this, "Github comment #%d posted to issue #%d: %s",
+            number, this.owner.number(), text
+        );
         return comment;
     }
 
