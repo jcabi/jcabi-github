@@ -54,6 +54,12 @@ public interface Issue {
     int number();
 
     /**
+     * Get state, like "open" and "closed".
+     * @return State
+     */
+    String state();
+
+    /**
      * Get its title.
      * @return Title of the issue
      */
@@ -64,6 +70,12 @@ public interface Issue {
      * @return Body of the issue
      */
     String body();
+
+    /**
+     * Change state, like "open" and "closed".
+     * @param text State name
+     */
+    void state(String text);
 
     /**
      * Change title.

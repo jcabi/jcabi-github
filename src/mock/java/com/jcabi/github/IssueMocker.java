@@ -54,6 +54,11 @@ public final class IssueMocker implements Issue {
     private final transient Labels lbls;
 
     /**
+     * Is it open.
+     */
+    private transient String stt;
+
+    /**
      * Title.
      */
     private transient String head;
@@ -73,6 +78,7 @@ public final class IssueMocker implements Issue {
         this.lbls = new LabelsMocker();
         this.head = "";
         this.text = "";
+        this.stt = "open";
     }
 
     @Override
@@ -86,6 +92,11 @@ public final class IssueMocker implements Issue {
     }
 
     @Override
+    public String state() {
+        return this.stt;
+    }
+
+    @Override
     public String title() {
         return this.head;
     }
@@ -93,6 +104,11 @@ public final class IssueMocker implements Issue {
     @Override
     public String body() {
         return this.text;
+    }
+
+    @Override
+    public void state(final String state) {
+        this.stt = state;
     }
 
     @Override

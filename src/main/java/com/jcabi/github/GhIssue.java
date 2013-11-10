@@ -93,6 +93,20 @@ final class GhIssue implements Issue {
     }
 
     @Override
+    public String state() {
+        final Coordinates coords = this.owner.coordinates();
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/{number}")
+            .build(coords.user(), coords.repo(), this.num);
+        return RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("get title of Github issue")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject().getString("state");
+    }
+
+    @Override
     public String title() {
         final Coordinates coords = this.owner.coordinates();
         final URI uri = Github.ENTRY.clone()
@@ -118,6 +132,25 @@ final class GhIssue implements Issue {
             .get("get body of Github issue")
             .assertStatus(HttpURLConnection.HTTP_OK)
             .getJson().readObject().getString("body");
+    }
+
+    @Override
+    public void state(final String text) {
+        final Coordinates coords = this.owner.coordinates();
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{login}/{repo}/issues/{number}")
+            .build(coords.user(), coords.repo(), this.num);
+        final StringWriter post = new StringWriter();
+        Json.createGenerator(post)
+            .writeStartObject()
+            .write("state", text)
+            .writeEnd()
+            .close();
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .patch("change state of Github issue", post.toString())
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
