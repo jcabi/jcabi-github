@@ -42,6 +42,16 @@ import com.jcabi.aspects.Immutable;
 public interface Issue {
 
     /**
+     * Open state.
+     */
+    String OPEN = "open";
+
+    /**
+     * Closed state.
+     */
+    String CLOSED = "closed";
+
+    /**
      * Repository we're in.
      * @return Repo
      */

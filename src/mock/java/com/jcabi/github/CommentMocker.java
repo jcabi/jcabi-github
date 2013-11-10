@@ -39,6 +39,11 @@ package com.jcabi.github;
 public final class CommentMocker implements Comment {
 
     /**
+     * Comment number.
+     */
+    private final transient int num;
+
+    /**
      * Issue.
      */
     private final transient Issue owner;
@@ -55,12 +60,15 @@ public final class CommentMocker implements Comment {
 
     /**
      * Public ctor.
+     * @param number Comment number
      * @param issue Owner of it
      * @param author Author of it
      * @param body Body of it
+     * @checkstyle ParameterNumber (3 lines)
      */
-    public CommentMocker(final Issue issue, final User author,
+    public CommentMocker(final int number, final Issue issue, final User author,
         final String body) {
+        this.num = number;
         this.owner = issue;
         this.who = author;
         this.text = body;
@@ -73,7 +81,7 @@ public final class CommentMocker implements Comment {
 
     @Override
     public int number() {
-        return 1;
+        return this.num;
     }
 
     @Override
