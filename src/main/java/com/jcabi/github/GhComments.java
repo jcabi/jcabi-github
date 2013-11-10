@@ -107,7 +107,7 @@ final class GhComments implements Comments {
                 .header(HttpHeaders.AUTHORIZATION, this.header)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .post("post new comment to Github get", post.toString())
+                .post("post new comment to Github issue", post.toString())
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                     // @checkstyle MultipleStringLiterals (1 line)
                 .getJson().readObject().getInt("id")
@@ -123,7 +123,7 @@ final class GhComments implements Comments {
         final JsonArray array = RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("list comments in Github get")
+            .get("list comments in Github issue")
             .assertStatus(HttpURLConnection.HTTP_OK)
             .getJson().readArray();
         final Collection<Comment> comments =
