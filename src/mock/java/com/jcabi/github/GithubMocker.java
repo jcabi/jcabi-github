@@ -45,13 +45,28 @@ public final class GithubMocker implements Github {
     /**
      * Self.
      */
-    private final transient User user = new UserMocker();
+    private final transient User user;
 
     /**
      * Repositories.
      */
     private final transient ConcurrentMap<String, Repo> repos =
         new ConcurrentHashMap<String, Repo>();
+
+    /**
+     * Public ctor.
+     */
+    public GithubMocker() {
+        this("test");
+    }
+
+    /**
+     * Public ctor.
+     * @param name Name of itself
+     */
+    public GithubMocker(final String name) {
+        this.user = new UserMocker(name);
+    }
 
     /**
      * Create a new repository.

@@ -74,7 +74,9 @@ public final class CommentsMocker implements Comments {
 
     @Override
     public Comment post(final String text) {
-        final Comment comment = new CommentMocker(this.owner, text);
+        final Comment comment = new CommentMocker(
+            this.owner, this.owner.repo().github().self(), text
+        );
         final int number = this.map.size() + 1;
         this.map.put(number, comment);
         Logger.info(

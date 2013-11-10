@@ -38,9 +38,29 @@ package com.jcabi.github;
  */
 public final class UserMocker implements User {
 
+    /**
+     * Login of it.
+     */
+    private final transient String lgn;
+
+    /**
+     * Public ctor.
+     */
+    public UserMocker() {
+        this("test");
+    }
+
+    /**
+     * Public ctor.
+     * @param name Name of itself
+     */
+    public UserMocker(final String name) {
+        this.lgn = name;
+    }
+
     @Override
     public String login() {
-        return "test";
+        return this.lgn;
     }
 
     @Override

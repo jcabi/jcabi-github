@@ -44,6 +44,11 @@ public final class CommentMocker implements Comment {
     private final transient Issue owner;
 
     /**
+     * Author of it.
+     */
+    private final transient User who;
+
+    /**
      * The text.
      */
     private final transient String text;
@@ -51,10 +56,13 @@ public final class CommentMocker implements Comment {
     /**
      * Public ctor.
      * @param issue Owner of it
+     * @param author Author of it
      * @param body Body of it
      */
-    public CommentMocker(final Issue issue, final String body) {
+    public CommentMocker(final Issue issue, final User author,
+        final String body) {
         this.owner = issue;
+        this.who = author;
         this.text = body;
     }
 
@@ -70,7 +78,7 @@ public final class CommentMocker implements Comment {
 
     @Override
     public User author() {
-        return new UserMocker();
+        return this.who;
     }
 
     @Override
