@@ -83,19 +83,16 @@ final class GhUser implements User {
 
     @Override
     public String login() {
-        return this.fetch().getString("login");
+        return this.json().getString("login");
     }
 
     @Override
     public String name() {
-        return this.fetch().getString("name");
+        return this.json().getString("name");
     }
 
-    /**
-     * Fetch JSON object.
-     * @return Json object
-     */
-    private JsonObject fetch() {
+    @Override
+    public JsonObject json() {
         final URI uri;
         if (this.identity.isEmpty()) {
             uri = Github.ENTRY.clone().path("/user").build();

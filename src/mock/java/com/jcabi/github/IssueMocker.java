@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 /**
  * Mocker of {@link Issue}.
  *
@@ -130,6 +133,11 @@ public final class IssueMocker implements Issue {
     @Override
     public Labels labels() {
         return this.lbls;
+    }
+
+    @Override
+    public JsonObject json() {
+        return Json.createObjectBuilder().build();
     }
 
     @Override

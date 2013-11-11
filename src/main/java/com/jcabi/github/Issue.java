@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import javax.json.JsonObject;
 
 /**
  * Github get.
@@ -39,6 +40,7 @@ import com.jcabi.aspects.Immutable;
  * @since 0.1
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Issue extends Comparable<Issue> {
 
     /**
@@ -110,5 +112,11 @@ public interface Issue extends Comparable<Issue> {
      * @return Labels
      */
     Labels labels();
+
+    /**
+     * Describe it in a JSON object.
+     * @return JSON object
+     */
+    JsonObject json();
 
 }

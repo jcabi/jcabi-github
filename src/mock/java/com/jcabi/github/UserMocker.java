@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 /**
  * Mocker of {@link User}.
  *
@@ -66,6 +69,11 @@ public final class UserMocker implements User {
     @Override
     public String name() {
         return "Mr. Test";
+    }
+
+    @Override
+    public JsonObject json() {
+        return Json.createObjectBuilder().build();
     }
 
 }

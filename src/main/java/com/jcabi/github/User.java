@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import javax.json.JsonObject;
 
 /**
  * Github user.
@@ -52,5 +53,11 @@ public interface User {
      * @return Name
      */
     String name();
+
+    /**
+     * Get his JSON description.
+     * @return JSON object
+     */
+    JsonObject json();
 
 }

@@ -36,6 +36,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
@@ -95,44 +96,17 @@ final class GhIssue implements Issue {
 
     @Override
     public String state() {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{number}")
-            .build(coords.user(), coords.repo(), this.num);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("get title of Github issue")
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject().getString("state");
+        return this.json().getString("state");
     }
 
     @Override
     public String title() {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{id}")
-            .build(coords.user(), coords.repo(), this.num);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("get title of Github issue")
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject().getString("title");
+        return this.json().getString("title");
     }
 
     @Override
     public String body() {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/{num}")
-            .build(coords.user(), coords.repo(), this.num);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("get body of Github issue")
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject().getString("body");
+        return this.json().getString("body");
     }
 
     @Override
@@ -200,6 +174,20 @@ final class GhIssue implements Issue {
     @Override
     public Labels labels() {
         return new GhIssueLabels(this.header, this);
+    }
+
+    @Override
+    public JsonObject json() {
+        final Coordinates coords = this.owner.coordinates();
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/{number}")
+            .build(coords.user(), coords.repo(), this.num);
+        return RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .get("get details of Github issue")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject();
     }
 
     @Override
