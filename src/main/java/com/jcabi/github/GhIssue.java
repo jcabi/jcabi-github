@@ -53,6 +53,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "owner", "num" })
 @EqualsAndHashCode(of = { "header", "owner", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class GhIssue implements Issue {
 
     /**

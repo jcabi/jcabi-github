@@ -36,6 +36,7 @@ package com.jcabi.github;
  * @version $Id$
  * @since 0.1
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class IssueMocker implements Issue {
 
     /**

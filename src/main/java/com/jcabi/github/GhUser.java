@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
@@ -82,11 +83,19 @@ final class GhUser implements User {
 
     @Override
     public String login() {
-        return this.identity;
+        return this.fetch().getString("login");
     }
 
     @Override
     public String name() {
+        return this.fetch().getString("name");
+    }
+
+    /**
+     * Fetch JSON object.
+     * @return Json object
+     */
+    private JsonObject fetch() {
         final URI uri;
         if (this.identity.isEmpty()) {
             uri = Github.ENTRY.clone().path("/user").build();
@@ -98,10 +107,9 @@ final class GhUser implements User {
         return RestTester.start(uri)
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
             .get("getting Github user identity")
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject().getString("name");
+            .getJson().readObject();
     }
 
 }

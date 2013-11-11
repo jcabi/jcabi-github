@@ -32,6 +32,7 @@ package com.jcabi.github;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -177,6 +178,21 @@ public final class GithubITCase {
         MatcherAssert.assertThat(
             gist.read(gist.files().iterator().next()),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Github.Simple can understand who am I.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checksWhoAmI() throws Exception {
+        Assume.assumeThat(GithubITCase.KEY, Matchers.notNullValue());
+        final Github github = new Github.Simple(GithubITCase.KEY);
+        final User self = github.self();
+        MatcherAssert.assertThat(
+            self.login(),
+            Matchers.not(Matchers.isEmptyString())
         );
     }
 
