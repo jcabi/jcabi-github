@@ -131,4 +131,8 @@ public final class IssueMocker implements Issue {
         return this.lbls;
     }
 
+    @Override
+    public int compareTo(final Issue issue) {
+        return new Integer(this.number()).compareTo(issue.number());
+    }
 }

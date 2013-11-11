@@ -201,4 +201,9 @@ final class GhIssue implements Issue {
         return new GhIssueLabels(this.header, this);
     }
 
+    @Override
+    public int compareTo(final Issue issue) {
+        return new Integer(this.number()).compareTo(issue.number());
+    }
+
 }

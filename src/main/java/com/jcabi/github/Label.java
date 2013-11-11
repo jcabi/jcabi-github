@@ -43,7 +43,7 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-public interface Label {
+public interface Label extends Comparable<Label> {
 
     /**
      * Its name.
@@ -98,6 +98,10 @@ public interface Label {
         @Override
         public String color() {
             return this.clr;
+        }
+        @Override
+        public int compareTo(final Label label) {
+            return this.txt.compareTo(label.name());
         }
     }
 

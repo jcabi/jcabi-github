@@ -39,7 +39,7 @@ import com.jcabi.aspects.Immutable;
  * @since 0.1
  */
 @Immutable
-public interface Issue {
+public interface Issue extends Comparable<Issue> {
 
     /**
      * Open state.
