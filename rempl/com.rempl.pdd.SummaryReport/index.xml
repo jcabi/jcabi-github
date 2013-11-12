@@ -6,7 +6,7 @@
       <prefix>     * </prefix>
       <body>The test doesn't work because PATCH method is not allowed in HttpURLConnection in Java. I don't know yet how to fix it the right way.</body>
       <estimate>0</estimate>
-      <lines>141-143</lines>
+      <lines>143-145</lines>
       <owner>someone</owner>
    </puzzle>
 </puzzles>
