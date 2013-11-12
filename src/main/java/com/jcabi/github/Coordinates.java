@@ -57,6 +57,9 @@ public interface Coordinates {
     @NotNull(message = "repo is never NULL")
     String repo();
 
+    /**
+     * Simple implementation.
+     */
     @Immutable
     @EqualsAndHashCode(of = { "usr", "rpo" })
     final class Simple implements Coordinates {

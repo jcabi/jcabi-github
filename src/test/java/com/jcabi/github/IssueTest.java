@@ -29,85 +29,71 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mocker of {@link Comment}.
- *
+ * Test case for {@link Issue}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
  */
-public final class CommentMocker implements Comment {
+public final class IssueTest {
 
     /**
-     * Comment number.
+     * IssueMocker can open and close.
+     * @throws Exception If some problem inside
      */
-    private final transient int num;
+    @Test
+    public void opensAndCloses() throws Exception {
+        final Issue issue = this.issue();
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).isOpen(),
+            Matchers.is(true)
+        );
+        new Issue.Tool(issue).close();
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).isOpen(),
+            Matchers.is(false)
+        );
+    }
 
     /**
-     * Issue.
+     * IssueMocker can change title.
+     * @throws Exception If some problem inside
      */
-    private final transient Issue owner;
+    @Test
+    public void changesTitle() throws Exception {
+        final Issue issue = this.issue();
+        new Issue.Tool(issue).title("hey, works?");
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).title(),
+            Matchers.startsWith("hey, ")
+        );
+    }
 
     /**
-     * Author of it.
+     * IssueMocker can change body.
+     * @throws Exception If some problem inside
      */
-    private final transient User who;
+    @Test
+    public void changesBody() throws Exception {
+        final Issue issue = this.issue();
+        new Issue.Tool(issue).body("hey, body works?");
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).body(),
+            Matchers.startsWith("hey, b")
+        );
+    }
 
     /**
-     * JSON with properties.
+     * Create an issue to work with.
+     * @return Issue just created
+     * @throws Exception If some problem inside
      */
-    private transient JsonObject object;
-
-    /**
-     * Public ctor.
-     * @param number Comment number
-     * @param issue Owner of it
-     * @param author Author of it
-     */
-    public CommentMocker(final int number, final Issue issue,
-        final User author) {
-        this.num = number;
-        this.owner = issue;
-        this.who = author;
-        this.object = Json.createObjectBuilder().build();
-    }
-
-    @Override
-    public Issue issue() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public User author() {
-        return this.who;
-    }
-
-    @Override
-    public void remove() {
-        // nothing to do
-    }
-
-    @Override
-    public JsonObject json() {
-        return this.object;
-    }
-
-    @Override
-    public void patch(final JsonObject json) {
-        this.object = new JsonMocker(this.object).patch(json);
-    }
-
-    @Override
-    public int compareTo(final Comment comment) {
-        return new Integer(this.number()).compareTo(comment.number());
+    private Issue issue() throws Exception {
+        return new GithubMocker().createRepo("tt/a")
+            .issues().create("hey", "how are you?");
     }
 
 }

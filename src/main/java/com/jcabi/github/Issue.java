@@ -136,7 +136,15 @@ public interface Issue extends Comparable<Issue> {
          */
         public String state() {
             // @checkstyle MultipleStringLiterals (1 line)
-            return this.issue.json().getString("state");
+            final String state = this.issue.json().getString("state");
+            if (state == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "state is NULL is issue #%d", this.issue.number()
+                    )
+                );
+            }
+            return state;
         }
         /**
          * Change its state.
@@ -153,7 +161,15 @@ public interface Issue extends Comparable<Issue> {
          */
         public String title() {
             // @checkstyle MultipleStringLiterals (1 line)
-            return this.issue.json().getString("title");
+            final String title = this.issue.json().getString("title");
+            if (title == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "title is NULL is issue #%d", this.issue.number()
+                    )
+                );
+            }
+            return title;
         }
         /**
          * Change its state.
@@ -170,7 +186,15 @@ public interface Issue extends Comparable<Issue> {
          */
         public String body() {
             // @checkstyle MultipleStringLiterals (1 line)
-            return this.issue.json().getString("body");
+            final String body = this.issue.json().getString("body");
+            if (body == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "body is NULL is issue #%d", this.issue.number()
+                    )
+                );
+            }
+            return body;
         }
         /**
          * Change its body.
@@ -195,8 +219,16 @@ public interface Issue extends Comparable<Issue> {
          * @return URL of issue
          */
         public URL url() {
+            final String url = this.issue.json().getString("url");
+            if (url == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "url is NULL is issue #%d", this.issue.number()
+                    )
+                );
+            }
             try {
-                return new URL(this.issue.json().getString("url"));
+                return new URL(url);
             } catch (MalformedURLException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -206,8 +238,16 @@ public interface Issue extends Comparable<Issue> {
          * @return URL of issue
          */
         public URL htmlUrl() {
+            final String url = this.issue.json().getString("html_url");
+            if (url == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "html_url is NULL is issue #%d", this.issue.number()
+                    )
+                );
+            }
             try {
-                return new URL(this.issue.json().getString("html_url"));
+                return new URL(url);
             } catch (MalformedURLException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -217,7 +257,15 @@ public interface Issue extends Comparable<Issue> {
          * @return Date of creation
          */
         public Date createdAt() {
-            return new Time(this.issue.json().getString("created_at")).date();
+            final String date = this.issue.json().getString("created_at");
+            if (date == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "created_at is NULL is issue #%d", this.issue.number()
+                    )
+                );
+            }
+            return new Time(date).date();
         }
     }
 

@@ -142,4 +142,9 @@ final class GhComment implements Comment {
             .patch("patch Github comment", post.toString())
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
+
+    @Override
+    public int compareTo(final Comment comment) {
+        return new Integer(this.number()).compareTo(comment.number());
+    }
 }

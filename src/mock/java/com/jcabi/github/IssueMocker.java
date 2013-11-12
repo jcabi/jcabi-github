@@ -78,6 +78,7 @@ public final class IssueMocker implements Issue {
         this.lbls = new LabelsMocker();
         this.object = Json.createObjectBuilder().build();
         this.num = number;
+        new Issue.Tool(this).open();
     }
 
     @Override
