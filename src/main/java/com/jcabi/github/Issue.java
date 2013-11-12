@@ -111,6 +111,26 @@ public interface Issue extends Comparable<Issue> {
             this.issue = iss;
         }
         /**
+         * Is it open?
+         * @return TRUE if it's open
+         */
+        public boolean isOpen() {
+            // @checkstyle MultipleStringLiterals (1 line)
+            return "open".equals(this.state());
+        }
+        /**
+         * Open it (make sure it's open).
+         */
+        public void open() {
+            this.state("open");
+        }
+        /**
+         * Close it (make sure it's closed).
+         */
+        public void close() {
+            this.state("closed");
+        }
+        /**
          * Get its state.
          * @return State of issue
          */
