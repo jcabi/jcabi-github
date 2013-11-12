@@ -46,7 +46,7 @@ import lombok.ToString;
 public interface Label extends Comparable<Label> {
 
     /**
-     * Its name.
+     * Get it.
      * @return Name of it
      */
     String name();

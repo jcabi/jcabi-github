@@ -54,7 +54,6 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "owner", "num" })
 @EqualsAndHashCode(of = { "header", "owner", "num" })
-@SuppressWarnings("PMD.TooManyMethods")
 final class GhIssue implements Issue {
 
     /**
@@ -95,78 +94,6 @@ final class GhIssue implements Issue {
     }
 
     @Override
-    public String state() {
-        return this.json().getString("state");
-    }
-
-    @Override
-    public String title() {
-        return this.json().getString("title");
-    }
-
-    @Override
-    public String body() {
-        return this.json().getString("body");
-    }
-
-    @Override
-    public void state(final String text) {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{login}/{repo}/issues/{number}")
-            .build(coords.user(), coords.repo(), this.num);
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("state", text)
-            .writeEnd()
-            .close();
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .patch("change state of Github issue", post.toString())
-            .assertStatus(HttpURLConnection.HTTP_OK);
-    }
-
-    @Override
-    public void title(final String text) {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/{id}")
-            .build(coords.user(), coords.repo(), this.num);
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("title", text)
-            .writeEnd()
-            .close();
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .patch("change title of Github issue", post.toString())
-            .assertStatus(HttpURLConnection.HTTP_OK);
-    }
-
-    @Override
-    public void body(final String text) {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{num}")
-            .build(coords.user(), coords.repo(), this.num);
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("body", text)
-            .writeEnd()
-            .close();
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .patch("change body of Github issue", post.toString())
-            .assertStatus(HttpURLConnection.HTTP_OK);
-    }
-
-    @Override
     public Comments comments() {
         return new GhComments(this.header, this);
     }
@@ -188,6 +115,21 @@ final class GhIssue implements Issue {
             .get("get details of Github issue")
             .assertStatus(HttpURLConnection.HTTP_OK)
             .getJson().readObject();
+    }
+
+    @Override
+    public void patch(final JsonObject json) {
+        final Coordinates coords = this.owner.coordinates();
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/{num}")
+            .build(coords.user(), coords.repo(), this.num);
+        final StringWriter post = new StringWriter();
+        Json.createWriter(post).writeObject(json);
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .patch("patch Github issue details", post.toString())
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override

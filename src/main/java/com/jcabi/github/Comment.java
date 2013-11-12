@@ -30,6 +30,15 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github get comment.
@@ -37,6 +46,7 @@ import com.jcabi.aspects.Immutable;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  */
 @Immutable
 public interface Comment {
@@ -45,6 +55,7 @@ public interface Comment {
      * The issue it's in.
      * @return Owner of the comment
      */
+    @NotNull(message = "issue is never NULL")
     Issue issue();
 
     /**
@@ -57,17 +68,91 @@ public interface Comment {
      * Get author of it.
      * @return User who posted the comment
      */
+    @NotNull(message = "comment author is never NULL")
     User author();
 
     /**
-     * Get its body.
-     * @return Body of comment
-     */
-    String body();
-
-    /**
      * Delete the comment.
+     * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove();
+
+    /**
+     * Describe it in a JSON object.
+     * @return JSON object
+     * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
+     */
+    @NotNull(message = "JSON object is never NULL")
+    JsonObject json();
+
+    /**
+     * Patch using this JSON object.
+     * @param json JSON object
+     * @see <a href="http://developer.github.com/v3/issues/comments/#edit-a-comment">Edit a Comment</a>
+     */
+    void patch(@NotNull(message = "JSON object can't be NULL") JsonObject json);
+
+    /**
+     * Comment manipulation toolkit.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "comment")
+    final class Tool {
+        /**
+         * Encapsulated comment.
+         */
+        private final transient Comment comment;
+        /**
+         * Public ctor.
+         * @param cmt Comment
+         */
+        public Tool(final Comment cmt) {
+            this.comment = cmt;
+        }
+        /**
+         * Get its body.
+         * @return Body of comment
+         */
+        public String body() {
+            // @checkstyle MultipleStringLiterals (1 line)
+            return this.comment.json().getString("body");
+        }
+        /**
+         * Change comment body.
+         * @param text Body of comment
+         */
+        public void body(final String text) {
+            this.comment.patch(
+                Json.createObjectBuilder().add("body", text).build()
+            );
+        }
+        /**
+         * Get its URL.
+         * @return URL of comment
+         */
+        public URL url() {
+            try {
+                return new URL(this.comment.json().getString("url"));
+            } catch (MalformedURLException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
+         * When this comment was created.
+         * @return Date of creation
+         */
+        public Date createdAt() {
+            return new Time(this.comment.json().getString("created_at")).date();
+        }
+        /**
+         * When this comment was updated last time.
+         * @return Date of update
+         */
+        public Date updatedAt() {
+            return new Time(this.comment.json().getString("updated_at")).date();
+        }
+    }
 
 }

@@ -33,6 +33,7 @@ import com.jcabi.log.Logger;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import javax.json.Json;
 
 /**
  * Mocker of {@link Issues}.
@@ -74,11 +75,19 @@ public final class IssuesMocker implements Issues {
 
     @Override
     public Issue create(final String title, final String body) {
-        final Issue issue = new IssueMocker(this.owner);
-        issue.title(title);
-        issue.body(body);
-        final int number = this.map.size() + 1;
-        this.map.put(number, issue);
+        final int number;
+        final Issue issue;
+        synchronized (this.map) {
+            number = this.map.size() + 1;
+            issue = new IssueMocker(this.owner, number);
+            this.map.put(number, issue);
+        }
+        issue.patch(
+            Json.createObjectBuilder()
+                .add("title", title)
+                .add("body", body)
+                .build()
+        );
         Logger.info(
             this, "Github issue #%d created: %s",
             number, title

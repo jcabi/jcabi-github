@@ -48,6 +48,11 @@ public final class IssueMocker implements Issue {
     private final transient Repo owner;
 
     /**
+     * Number of it.
+     */
+    private final transient int num;
+
+    /**
      * Comments.
      */
     private final transient Comments cmnts;
@@ -58,31 +63,21 @@ public final class IssueMocker implements Issue {
     private final transient Labels lbls;
 
     /**
-     * Is it open.
+     * JSON of it.
      */
-    private transient String stt;
-
-    /**
-     * Title.
-     */
-    private transient String head;
-
-    /**
-     * Body.
-     */
-    private transient String text;
+    private transient JsonObject object;
 
     /**
      * Public ctor.
      * @param repo Owner of it
+     * @param number Number of it
      */
-    public IssueMocker(final Repo repo) {
+    public IssueMocker(final Repo repo, final int number) {
         this.owner = repo;
         this.cmnts = new CommentsMocker(this);
         this.lbls = new LabelsMocker();
-        this.head = "";
-        this.text = "";
-        this.stt = "open";
+        this.object = Json.createObjectBuilder().build();
+        this.num = number;
     }
 
     @Override
@@ -92,37 +87,7 @@ public final class IssueMocker implements Issue {
 
     @Override
     public int number() {
-        return 1;
-    }
-
-    @Override
-    public String state() {
-        return this.stt;
-    }
-
-    @Override
-    public String title() {
-        return this.head;
-    }
-
-    @Override
-    public String body() {
-        return this.text;
-    }
-
-    @Override
-    public void state(final String state) {
-        this.stt = state;
-    }
-
-    @Override
-    public void title(final String txt) {
-        this.head = txt;
-    }
-
-    @Override
-    public void body(final String txt) {
-        this.text = txt;
+        return this.num;
     }
 
     @Override
@@ -137,7 +102,12 @@ public final class IssueMocker implements Issue {
 
     @Override
     public JsonObject json() {
-        return Json.createObjectBuilder().build();
+        return this.object;
+    }
+
+    @Override
+    public void patch(final JsonObject json) {
+        this.object = new JsonMocker(this.object).patch(json);
     }
 
     @Override

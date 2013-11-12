@@ -30,6 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github gist.
@@ -45,26 +53,65 @@ public interface Gist {
      * Github we're in.
      * @return Github
      */
+    @NotNull(message = "Github is never NULL")
     Github github();
-
-    /**
-     * All file names.
-     * @return Names
-     */
-    Iterable<String> files();
 
     /**
      * Read file content.
      * @param name Name of it
      * @return File content
      */
-    String read(String name);
+    @NotNull(message = "file content is never NULL")
+    String read(@NotNull(message = "file name can't be NULL") String name);
 
     /**
      * Write file content.
      * @param name Name of it
      * @param content Content to write
      */
-    void write(String name, String content);
+    void write(
+        @NotNull(message = "file name can't be NULL") String name,
+        @NotNull(message = "file content can't be NULL") String content);
+
+    /**
+     * Describe it in a JSON object.
+     * @return JSON object
+     */
+    @NotNull(message = "JSON is never NULL")
+    JsonObject json();
+
+    /**
+     * Smart Gist that can manipulate with JSON data.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "gist")
+    final class Tool {
+        /**
+         * Encapsulated gist.
+         */
+        private final transient Gist gist;
+        /**
+         * Public ctor.
+         * @param gst Gist
+         */
+        public Tool(final Gist gst) {
+            this.gist = gst;
+        }
+        /**
+         * Get a list of all file names in the gist.
+         * @return File names
+         */
+        public Iterable<String> files() {
+            final JsonObject array = this.gist.json().getJsonObject("files");
+            final Collection<String> files =
+                new ArrayList<String>(array.size());
+            for (final JsonValue value : array.values()) {
+                files.add(JsonObject.class.cast(value).getString("filename"));
+            }
+            return files;
+        }
+    }
 
 }

@@ -32,8 +32,11 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.RestTester;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
@@ -91,33 +94,10 @@ final class GhComment implements Comment {
 
     @Override
     public User author() {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/comments/{id}")
-            .build(coords.user(), coords.repo(), this.num);
         return new GhUser(
             this.header,
-            RestTester.start(uri)
-                .header(HttpHeaders.AUTHORIZATION, this.header)
-                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .get("get author of Github comment")
-                .assertStatus(HttpURLConnection.HTTP_OK)
-                .getJson().readObject().getJsonObject("user").getString("login")
+            this.json().getJsonObject("user").getString("login")
         );
-    }
-    @Override
-    public String body() {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/comments/{num}")
-            .build(coords.user(), coords.repo(), this.num);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("get body of Github comment")
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject().getString("body");
     }
 
     @Override
@@ -130,5 +110,36 @@ final class GhComment implements Comment {
             .header(HttpHeaders.AUTHORIZATION, this.header)
             .delete("removing Github comment")
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public JsonObject json() {
+        final Coordinates coords = this.owner.repo().coordinates();
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/comments/{id}")
+            .build(coords.user(), coords.repo(), this.num);
+        return RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .get("get author of Github comment")
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .getJson().readObject();
+    }
+
+    @Override
+    public void patch(final JsonObject json) {
+        final Coordinates coords = this.owner.repo().coordinates();
+        final URI uri = Github.ENTRY.clone()
+            .path("/repos/{user}/{repo}/issues/comments/{number}")
+            .build(coords.user(), coords.repo(), this.num);
+        final StringWriter post = new StringWriter();
+        Json.createWriter(post).writeObject(json);
+        RestTester.start(uri)
+            .header(HttpHeaders.AUTHORIZATION, this.header)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .patch("patch Github comment", post.toString())
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 }

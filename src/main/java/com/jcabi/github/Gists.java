@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github gists.
@@ -45,6 +46,7 @@ public interface Gists extends Iterable<Gist> {
      * Github we're in.
      * @return Github
      */
+    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
@@ -52,6 +54,7 @@ public interface Gists extends Iterable<Gist> {
      * @param name Name of it
      * @return Gist
      */
-    Gist get(String name);
+    @NotNull(message = "gist is never NULL")
+    Gist get(@NotNull(message = "name is never NULL") String name);
 
 }

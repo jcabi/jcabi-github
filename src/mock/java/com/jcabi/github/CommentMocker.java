@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 /**
  * Mocker of {@link Comment}.
  *
@@ -54,24 +57,22 @@ public final class CommentMocker implements Comment {
     private final transient User who;
 
     /**
-     * The text.
+     * JSON with properties.
      */
-    private final transient String text;
+    private transient JsonObject object;
 
     /**
      * Public ctor.
      * @param number Comment number
      * @param issue Owner of it
      * @param author Author of it
-     * @param body Body of it
-     * @checkstyle ParameterNumber (3 lines)
      */
-    public CommentMocker(final int number, final Issue issue, final User author,
-        final String body) {
+    public CommentMocker(final int number, final Issue issue,
+        final User author) {
         this.num = number;
         this.owner = issue;
         this.who = author;
-        this.text = body;
+        this.object = Json.createObjectBuilder().build();
     }
 
     @Override
@@ -90,13 +91,18 @@ public final class CommentMocker implements Comment {
     }
 
     @Override
-    public String body() {
-        return this.text;
+    public void remove() {
+        // nothing to do
     }
 
     @Override
-    public void remove() {
-        // nothing to do
+    public JsonObject json() {
+        return this.object;
+    }
+
+    @Override
+    public void patch(final JsonObject json) {
+        this.object = new JsonMocker(this.object).patch(json);
     }
 
 }

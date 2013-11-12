@@ -68,16 +68,16 @@ public final class GithubITCase {
         final Repo repo = github.repo(GithubITCase.REPO);
         final Issue issue = repo.issues().create("something", "just a test");
         MatcherAssert.assertThat(
-            issue.title(),
+            new Issue.Tool(issue).title(),
             Matchers.startsWith("someth")
         );
         MatcherAssert.assertThat(
-            issue.body(),
+            new Issue.Tool(issue).body(),
             Matchers.startsWith("just a ")
         );
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
-            comment.body(),
+            new Comment.Tool(comment).body(),
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
@@ -85,8 +85,8 @@ public final class GithubITCase {
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            comment.author().name(),
-            Matchers.equalTo(github.self().name())
+            new User.Tool(comment.author()).name(),
+            Matchers.equalTo(new User.Tool(github.self()).name())
         );
         comment.remove();
     }
@@ -96,6 +96,7 @@ public final class GithubITCase {
      * @throws Exception If some problem inside
      */
     @Test
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void iteratesIssues() throws Exception {
         if (GithubITCase.KEY == null) {
             return;
@@ -104,7 +105,7 @@ public final class GithubITCase {
         final Repo repo = github.repo(GithubITCase.REPO);
         for (final Issue issue : repo.issues()) {
             MatcherAssert.assertThat(
-                issue.title(),
+                new Issue.Tool(issue).title(),
                 Matchers.notNullValue()
             );
         }
@@ -152,14 +153,14 @@ public final class GithubITCase {
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Repo repo = github.repo(GithubITCase.REPO);
         final Issue issue = repo.issues().create("alpha", "beta");
-        issue.title("test one more time");
+        new Issue.Tool(issue).title("test one more time");
         MatcherAssert.assertThat(
-            issue.title(),
+            new Issue.Tool(issue).title(),
             Matchers.startsWith("test o")
         );
-        issue.body("some new body of the issue");
+        new Issue.Tool(issue).body("some new body of the issue");
         MatcherAssert.assertThat(
-            issue.body(),
+            new Issue.Tool(issue).body(),
             Matchers.startsWith("some new ")
         );
     }
@@ -176,7 +177,7 @@ public final class GithubITCase {
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Gist gist = github.gists().iterator().next();
         MatcherAssert.assertThat(
-            gist.read(gist.files().iterator().next()),
+            gist.read(new Gist.Tool(gist).files().iterator().next()),
             Matchers.notNullValue()
         );
     }

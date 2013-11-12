@@ -30,84 +30,61 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.UriBuilder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
- * Github client.
+ * Time in Github JSON.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.2
+ * @see <a href="http://developer.github.com/v3/#schema">Schema</a>
  */
 @Immutable
-public interface Github {
+final class Time {
 
     /**
-     * URI builder of the API entry point.
+     * Pattern to present day in ISO-8601.
      */
-    UriBuilder ENTRY = UriBuilder.fromUri("https://api.github.com");
+    public static final String FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /**
-     * Get myself.
-     * @return Myself
+     * The time zone we're in.
      */
-    @NotNull(message = "user is never NULL")
-    User self();
+    public static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
 
     /**
-     * Get repository.
-     * @param name Repository name in "user/repo" format
-     * @return Repository
+     * Encapsulated time in milliseconds.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo(@NotNull String name);
+    private final transient long msec;
 
     /**
-     * Get gists.
-     * @return Gists
+     * Ctor.
+     * @param text ISO date/time
      */
-    @NotNull(message = "gists is never NULL")
-    Gists gists();
-
-    /**
-     * Simple implementation.
-     */
-    @Immutable
-    @Loggable(Loggable.DEBUG)
-    @ToString
-    @EqualsAndHashCode(of = "header")
-    final class Simple implements Github {
-        /**
-         * Authentication header.
-         */
-        private final transient String header;
-        /**
-         * Public ctor.
-         * @param token OAuth token
-         */
-        public Simple(@NotNull(message = "token can't be NULL")
-            final String token) {
-            this.header = String.format("token %s", token);
+    Time(final String text) {
+        final DateFormat fmt = new SimpleDateFormat(
+            Time.FORMAT_ISO, Locale.ENGLISH
+        );
+        fmt.setTimeZone(Time.TIMEZONE);
+        try {
+            this.msec = fmt.parse(text).getTime();
+        } catch (ParseException ex) {
+            throw new IllegalStateException(ex);
         }
-        @Override
-        public User self() {
-            return new GhUser(this.header);
-        }
-        @Override
-        @NotNull(message = "repo is never NULL")
-        public Repo repo(@NotNull(message = "repository name is never NULL")
-            final String name) {
-            return new GhRepo(this, this.header, new Coordinates.Simple(name));
-        }
-        @Override
-        @NotNull(message = "gists are never NULL")
-        public Gists gists() {
-            return new GhGists(this, this.header);
-        }
+    }
+
+    /**
+     * Get date.
+     * @return Date
+     */
+    public Date date() {
+        return new Date(this.msec);
     }
 
 }

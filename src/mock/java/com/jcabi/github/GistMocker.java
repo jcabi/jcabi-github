@@ -31,6 +31,8 @@ package com.jcabi.github;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 /**
  * Mocker of {@link Gist}.
@@ -53,20 +55,22 @@ public final class GistMocker implements Gist {
         new ConcurrentSkipListMap<String, String>();
 
     /**
+     * Object.
+     */
+    private final transient JsonObject object;
+
+    /**
      * Public ctor.
      * @param github Owner of it
      */
     public GistMocker(final Github github) {
         this.owner = github;
+        this.object = Json.createObjectBuilder().build();
     }
 
     @Override
     public Github github() {
         return this.owner;
-    }
-    @Override
-    public Iterable<String> files() {
-        return this.map.keySet();
     }
 
     @Override
@@ -77,6 +81,11 @@ public final class GistMocker implements Gist {
     @Override
     public void write(final String file, final String text) {
         this.map.put(file, text);
+    }
+
+    @Override
+    public JsonObject json() {
+        return this.object;
     }
 
 }

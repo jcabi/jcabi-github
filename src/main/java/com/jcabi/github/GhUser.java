@@ -87,11 +87,6 @@ final class GhUser implements User {
     }
 
     @Override
-    public String name() {
-        return this.json().getString("name");
-    }
-
-    @Override
     public JsonObject json() {
         final URI uri;
         if (this.identity.isEmpty()) {

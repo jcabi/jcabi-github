@@ -46,6 +46,7 @@ public interface Issues extends Iterable<Issue> {
      * Owner of them.
      * @return Repo
      */
+    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -53,7 +54,7 @@ public interface Issues extends Iterable<Issue> {
      * @param number Issue number
      * @return Issue
      */
-    @NotNull(message = "get is never NULL")
+    @NotNull(message = "issue is never NULL")
     Issue get(int number);
 
     /**
@@ -62,7 +63,9 @@ public interface Issues extends Iterable<Issue> {
      * @param body Body of it
      * @return Issue just created
      */
-    @NotNull(message = "get is never NULL")
-    Issue create(String title, String body);
+    @NotNull(message = "issue is never NULL")
+    Issue create(
+        @NotNull(message = "issue title is never NULL") String title,
+        @NotNull(message = "issue body is never NULL") String body);
 
 }

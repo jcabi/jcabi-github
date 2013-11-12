@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github comments.
@@ -45,6 +46,7 @@ public interface Comments extends Iterable<Comment> {
      * The issue we're in.
      * @return Issue
      */
+    @NotNull(message = "issue is never NULL")
     Issue issue();
 
     /**
@@ -52,6 +54,7 @@ public interface Comments extends Iterable<Comment> {
      * @param number Comment number
      * @return Comment
      */
+    @NotNull(message = "comment is never NULL")
     Comment get(int number);
 
     /**
@@ -59,6 +62,7 @@ public interface Comments extends Iterable<Comment> {
      * @param text Text of comment to post in Markdown format
      * @return Comment
      */
-    Comment post(String text);
+    @NotNull(message = "comment is never NULL")
+    Comment post(@NotNull(message = "text can't be NULL") String text);
 
 }

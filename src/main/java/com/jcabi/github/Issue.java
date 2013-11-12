@@ -30,7 +30,15 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Date;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github get.
@@ -44,19 +52,10 @@ import javax.json.JsonObject;
 public interface Issue extends Comparable<Issue> {
 
     /**
-     * Open state.
-     */
-    String OPEN = "open";
-
-    /**
-     * Closed state.
-     */
-    String CLOSED = "closed";
-
-    /**
      * Repository we're in.
      * @return Repo
      */
+    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -66,57 +65,140 @@ public interface Issue extends Comparable<Issue> {
     int number();
 
     /**
-     * Get state, like "open" and "closed".
-     * @return State
-     */
-    String state();
-
-    /**
-     * Get its title.
-     * @return Title of the issue
-     */
-    String title();
-
-    /**
-     * Get its body.
-     * @return Body of the issue
-     */
-    String body();
-
-    /**
-     * Change state, like "open" and "closed".
-     * @param text State name
-     */
-    void state(String text);
-
-    /**
-     * Change title.
-     * @param text Title to set
-     */
-    void title(String text);
-
-    /**
-     * Set its body.
-     * @param text Body to set
-     */
-    void body(String text);
-
-    /**
      * Get comments by number.
      * @return Comments
      */
+    @NotNull(message = "comments are never NULL")
     Comments comments();
 
     /**
      * Get all get labels.
      * @return Labels
      */
+    @NotNull(message = "labels are never NULL")
     Labels labels();
 
     /**
      * Describe it in a JSON object.
      * @return JSON object
      */
+    @NotNull(message = "JSON is never NULL")
     JsonObject json();
+
+    /**
+     * Patch using this JSON object.
+     * @param json JSON object
+     */
+    void patch(@NotNull(message = "JSON is never NULL") JsonObject json);
+
+    /**
+     * Issue manipulation toolkit.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "issue")
+    final class Tool {
+        /**
+         * Encapsulated issue.
+         */
+        private final transient Issue issue;
+        /**
+         * Public ctor.
+         * @param iss Issue
+         */
+        public Tool(final Issue iss) {
+            this.issue = iss;
+        }
+        /**
+         * Get its state.
+         * @return State of issue
+         */
+        public String state() {
+            // @checkstyle MultipleStringLiterals (1 line)
+            return this.issue.json().getString("state");
+        }
+        /**
+         * Change its state.
+         * @param state State of issue
+         */
+        public void state(final String state) {
+            this.issue.patch(
+                Json.createObjectBuilder().add("state", state).build()
+            );
+        }
+        /**
+         * Get its body.
+         * @return Body of issue
+         */
+        public String title() {
+            // @checkstyle MultipleStringLiterals (1 line)
+            return this.issue.json().getString("title");
+        }
+        /**
+         * Change its state.
+         * @param text Text of issue
+         */
+        public void title(final String text) {
+            this.issue.patch(
+                Json.createObjectBuilder().add("title", text).build()
+            );
+        }
+        /**
+         * Get its title.
+         * @return Title of issue
+         */
+        public String body() {
+            // @checkstyle MultipleStringLiterals (1 line)
+            return this.issue.json().getString("body");
+        }
+        /**
+         * Change its body.
+         * @param text Body of issue
+         */
+        public void body(final String text) {
+            this.issue.patch(
+                Json.createObjectBuilder().add("body", text).build()
+            );
+        }
+        /**
+         * Assign this issue to another user.
+         * @param login Login of the user to assign to
+         */
+        public void assign(final String login) {
+            this.issue.patch(
+                Json.createObjectBuilder().add("assignee", login).build()
+            );
+        }
+        /**
+         * Get its URL.
+         * @return URL of issue
+         */
+        public URL url() {
+            try {
+                return new URL(this.issue.json().getString("url"));
+            } catch (MalformedURLException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
+         * Get its HTML URL.
+         * @return URL of issue
+         */
+        public URL htmlUrl() {
+            try {
+                return new URL(this.issue.json().getString("html_url"));
+            } catch (MalformedURLException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
+         * When this issue was created.
+         * @return Date of creation
+         */
+        public Date createdAt() {
+            return new Time(this.issue.json().getString("created_at")).date();
+        }
+    }
 
 }

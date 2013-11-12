@@ -67,13 +67,10 @@ public final class UserMocker implements User {
     }
 
     @Override
-    public String name() {
-        return "Mr. Test";
-    }
-
-    @Override
     public JsonObject json() {
-        return Json.createObjectBuilder().build();
+        return Json.createObjectBuilder()
+            .add("name", "Test Name")
+            .build();
     }
 
 }

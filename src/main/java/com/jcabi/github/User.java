@@ -30,7 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github user.
@@ -38,6 +44,7 @@ import javax.json.JsonObject;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/users/">User API</a>
  */
 @Immutable
 public interface User {
@@ -46,18 +53,96 @@ public interface User {
      * Get his login.
      * @return Login name
      */
+    @NotNull(message = "login is never NULL")
     String login();
-
-    /**
-     * Get his name.
-     * @return Name
-     */
-    String name();
 
     /**
      * Get his JSON description.
      * @return JSON object
+     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
+    @NotNull(message = "JSON is never NULL")
     JsonObject json();
+
+    /**
+     * Smart Gist that can manipulate with JSON data.
+     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "user")
+    final class Tool {
+        /**
+         * Encapsulated user.
+         */
+        private final transient User user;
+        /**
+         * Public ctor.
+         * @param usr User
+         */
+        public Tool(final User usr) {
+            this.user = usr;
+        }
+        /**
+         * Get his ID.
+         * @return Unique user ID
+         * @checkstyle MethodName (3 lines)
+         */
+        @SuppressWarnings("PMD.ShortMethodName")
+        public int id() {
+            return this.user.json().getJsonNumber("id").intValue();
+        }
+        /**
+         * Get his avatar URL.
+         * @return URL of the avatar
+         */
+        public URL avatarUrl() {
+            try {
+                return new URL(this.user.json().getString("avatar_url"));
+            } catch (MalformedURLException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
+         * Get his URL.
+         * @return URL of the user
+         */
+        public URL url() {
+            try {
+                return new URL(this.user.json().getString("url"));
+            } catch (MalformedURLException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
+         * Get his name.
+         * @return User name
+         */
+        public String name() {
+            return this.user.json().getString("name");
+        }
+        /**
+         * Get his company.
+         * @return Company name
+         */
+        public String company() {
+            return this.user.json().getString("company");
+        }
+        /**
+         * Get his location.
+         * @return Location name
+         */
+        public String location() {
+            return this.user.json().getString("location");
+        }
+        /**
+         * Get his email.
+         * @return Email
+         */
+        public String email() {
+            return this.user.json().getString("email");
+        }
+    }
 
 }

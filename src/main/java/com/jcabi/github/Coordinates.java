@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -46,12 +47,14 @@ public interface Coordinates {
      * Get usr name.
      * @return User name
      */
+    @NotNull(message = "user is never NULL")
     String user();
 
     /**
      * Get rpo name.
      * @return Repo name
      */
+    @NotNull(message = "repo is never NULL")
     String repo();
 
     @Immutable
@@ -70,7 +73,9 @@ public interface Coordinates {
          * @param user User name
          * @param repo Repository name
          */
-        Simple(final String user, final String repo) {
+        Simple(
+            @NotNull(message = "user can't be NULL") final String user,
+            @NotNull(message = "repo can't be NULL") final String repo) {
             this.usr = user;
             this.rpo = repo;
         }
@@ -78,7 +83,7 @@ public interface Coordinates {
          * Public ctor.
          * @param mnemo Mnemo name
          */
-        Simple(final String mnemo) {
+        Simple(@NotNull(message = "mnemo can't be NULL") final String mnemo) {
             final String[] parts = mnemo.split("/", 2);
             if (parts.length != 2) {
                 throw new IllegalArgumentException(
@@ -87,6 +92,10 @@ public interface Coordinates {
             }
             this.usr = parts[0];
             this.rpo = parts[1];
+        }
+        @Override
+        public String toString() {
+            return String.format("%s/%s", this.usr, this.rpo);
         }
         @Override
         public String user() {

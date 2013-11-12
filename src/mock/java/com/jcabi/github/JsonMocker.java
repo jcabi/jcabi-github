@@ -29,34 +29,47 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import java.util.Map;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 
 /**
- * Github labels.
+ * Mocker of JSON.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.2
  */
-@Immutable
-public interface Labels extends Iterable<Label> {
+final class JsonMocker {
 
     /**
-     * Add new labels.
-     * @param labels The labels to add
+     * Object.
      */
-    void add(@NotNull(message = "labels can't be NULL") Iterable<Label> labels);
+    private final transient JsonObject object;
 
     /**
-     * Remove label by name.
-     * @param name Name of the label to remove
+     * Public ctor.
+     * @param obj Object to use
      */
-    void remove(@NotNull(message = "label name can't be NULL") String name);
+    JsonMocker(final JsonObject obj) {
+        this.object = obj;
+    }
 
     /**
-     * Remove all labels.
+     * Patch object with a new one.
+     * @param obj Object to apply
+     * @return New object
      */
-    void clear();
-
+    public JsonObject patch(final JsonObject obj) {
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        for (final Map.Entry<String, JsonValue> pair : this.object.entrySet()) {
+            builder.add(pair.getKey(), pair.getValue());
+        }
+        for (final Map.Entry<String, JsonValue> pair : obj.entrySet()) {
+            builder.add(pair.getKey(), pair.getValue());
+        }
+        return builder.build();
+    }
 }
