@@ -54,7 +54,7 @@ public final class GithubTest {
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments(),
+            repo.issues().get(issue.number()).comments().iterate(),
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(

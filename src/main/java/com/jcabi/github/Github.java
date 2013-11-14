@@ -31,8 +31,12 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.manifests.Manifests;
+import com.rexsl.test.ApacheRequest;
+import com.rexsl.test.Request;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -45,11 +49,6 @@ import lombok.ToString;
  */
 @Immutable
 public interface Github {
-
-    /**
-     * URI builder of the API entry point.
-     */
-    UriBuilder ENTRY = UriBuilder.fromUri("https://api.github.com");
 
     /**
      * Get myself.
@@ -79,34 +78,47 @@ public interface Github {
     @Immutable
     @Loggable(Loggable.DEBUG)
     @ToString
-    @EqualsAndHashCode(of = "header")
+    @EqualsAndHashCode(of = "request")
     final class Simple implements Github {
         /**
-         * Authentication header.
+         * Version of us.
          */
-        private final transient String header;
+        private static final String USER_AGENT = String.format(
+            "jcabi-github %s %s",
+            Manifests.read("Jcabi-Version"),
+            Manifests.read("Jcabi-Revision")
+        );
+        /**
+         * REST request.
+         */
+        private final transient Request request;
         /**
          * Public ctor.
          * @param token OAuth token
          */
         public Simple(@NotNull(message = "token can't be NULL")
             final String token) {
-            this.header = String.format("token %s", token);
+            final String auth = String.format("token %s", token);
+            this.request = new ApacheRequest("https://api.github.com")
+                .header(HttpHeaders.USER_AGENT, Github.Simple.USER_AGENT)
+                .header(HttpHeaders.AUTHORIZATION, auth)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
         }
         @Override
         public User self() {
-            return new GhUser(this.header);
+            return new GhUser(this.request);
         }
         @Override
         @NotNull(message = "repo is never NULL")
         public Repo repo(@NotNull(message = "repository name is never NULL")
             final String name) {
-            return new GhRepo(this, this.header, new Coordinates.Simple(name));
+            return new GhRepo(this, this.request, new Coordinates.Simple(name));
         }
         @Override
         @NotNull(message = "gists are never NULL")
         public Gists gists() {
-            return new GhGists(this, this.header);
+            return new GhGists(this, this.request);
         }
     }
 

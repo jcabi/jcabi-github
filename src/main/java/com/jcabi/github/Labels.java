@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -40,23 +41,35 @@ import javax.validation.constraints.NotNull;
  * @since 0.1
  */
 @Immutable
-public interface Labels extends Iterable<Label> {
+public interface Labels {
 
     /**
      * Add new labels.
      * @param labels The labels to add
+     * @throws IOException If fails
      */
-    void add(@NotNull(message = "labels can't be NULL") Iterable<Label> labels);
+    void add(@NotNull(message = "labels can't be NULL") Iterable<Label> labels)
+        throws IOException;
+
+    /**
+     * Iterate them all.
+     * @return Iterator of labels
+     * @throws IOException If fails
+     */
+    Iterable<Label> iterate() throws IOException;
 
     /**
      * Remove label by name.
      * @param name Name of the label to remove
+     * @throws IOException If fails
      */
-    void remove(@NotNull(message = "label name can't be NULL") String name);
+    void remove(@NotNull(message = "label name can't be NULL") String name)
+        throws IOException;
 
     /**
      * Remove all labels.
+     * @throws IOException If fails
      */
-    void clear();
+    void clear() throws IOException;
 
 }

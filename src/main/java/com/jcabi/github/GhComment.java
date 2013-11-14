@@ -31,14 +31,14 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -52,13 +52,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "owner", "num" })
-@EqualsAndHashCode(of = { "header", "owner", "num" })
+@EqualsAndHashCode(of = { "request", "owner", "num" })
 final class GhComment implements Comment {
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
+    private final transient Request request;
 
     /**
      * Issue we're in.
@@ -72,12 +72,20 @@ final class GhComment implements Comment {
 
     /**
      * Public ctor.
-     * @param hdr Authentication header
+     * @param req RESTful request
      * @param issue Owner of this comment
      * @param number Number of the get
      */
-    GhComment(final String hdr, final Issue issue, final int number) {
-        this.header = hdr;
+    GhComment(final Request req, final Issue issue, final int number) {
+        final Coordinates coords = issue.repo().coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/issues")
+            .path("/comments")
+            .path(Integer.toString(number))
+            .back();
         this.owner = issue;
         this.num = number;
     }
@@ -93,53 +101,37 @@ final class GhComment implements Comment {
     }
 
     @Override
-    public User author() {
+    public User author() throws IOException {
         return new GhUser(
-            this.header,
+            this.request,
             this.json().getJsonObject("user").getString("login")
         );
     }
 
     @Override
-    public void remove() {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/comments/{id}")
-            .build(coords.user(), coords.repo(), this.num);
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .delete("removing Github comment")
+    public void remove() throws IOException {
+        this.request.method(Request.DELETE).fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
-    public JsonObject json() {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/comments/{id}")
-            .build(coords.user(), coords.repo(), this.num);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-            .get("get author of Github comment")
+    public JsonObject json() throws IOException {
+        return this.request.fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject();
+            .as(JsonResponse.class)
+            .json().readObject();
     }
 
     @Override
-    public void patch(final JsonObject json) {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/comments/{number}")
-            .build(coords.user(), coords.repo(), this.num);
+    public void patch(final JsonObject json) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-            .patch("patch Github comment", post.toString())
+        this.request.method(Request.PATCH)
+            .body().set(post.toString()).back()
+            .fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
 

@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -81,15 +82,18 @@ public interface Issue extends Comparable<Issue> {
     /**
      * Describe it in a JSON object.
      * @return JSON object
+     * @throws IOException If fails
      */
     @NotNull(message = "JSON is never NULL")
-    JsonObject json();
+    JsonObject json() throws IOException;
 
     /**
      * Patch using this JSON object.
      * @param json JSON object
+     * @throws IOException If fails
      */
-    void patch(@NotNull(message = "JSON is never NULL") JsonObject json);
+    void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
+        throws IOException;
 
     /**
      * Issue manipulation toolkit.
@@ -113,28 +117,32 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Is it open?
          * @return TRUE if it's open
+         * @throws IOException If fails
          */
-        public boolean isOpen() {
+        public boolean isOpen() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
             return "open".equals(this.state());
         }
         /**
          * Open it (make sure it's open).
+         * @throws IOException If fails
          */
-        public void open() {
+        public void open() throws IOException {
             this.state("open");
         }
         /**
          * Close it (make sure it's closed).
+         * @throws IOException If fails
          */
-        public void close() {
+        public void close() throws IOException {
             this.state("closed");
         }
         /**
          * Get its state.
          * @return State of issue
+         * @throws IOException If fails
          */
-        public String state() {
+        public String state() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
             final String state = this.issue.json().getString("state");
             if (state == null) {
@@ -149,8 +157,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Change its state.
          * @param state State of issue
+         * @throws IOException If fails
          */
-        public void state(final String state) {
+        public void state(final String state) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("state", state).build()
             );
@@ -158,8 +167,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Get its body.
          * @return Body of issue
+         * @throws IOException If fails
          */
-        public String title() {
+        public String title() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
             final String title = this.issue.json().getString("title");
             if (title == null) {
@@ -174,8 +184,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Change its state.
          * @param text Text of issue
+         * @throws IOException If fails
          */
-        public void title(final String text) {
+        public void title(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
@@ -183,8 +194,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Get its title.
          * @return Title of issue
+         * @throws IOException If fails
          */
-        public String body() {
+        public String body() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
             final String body = this.issue.json().getString("body");
             if (body == null) {
@@ -199,8 +211,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Change its body.
          * @param text Body of issue
+         * @throws IOException If fails
          */
-        public void body(final String text) {
+        public void body(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -208,8 +221,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Assign this issue to another user.
          * @param login Login of the user to assign to
+         * @throws IOException If fails
          */
-        public void assign(final String login) {
+        public void assign(final String login) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("assignee", login).build()
             );
@@ -217,8 +231,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Get its URL.
          * @return URL of issue
+         * @throws IOException If fails
          */
-        public URL url() {
+        public URL url() throws IOException {
             final String url = this.issue.json().getString("url");
             if (url == null) {
                 throw new IllegalStateException(
@@ -236,8 +251,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * Get its HTML URL.
          * @return URL of issue
+         * @throws IOException If fails
          */
-        public URL htmlUrl() {
+        public URL htmlUrl() throws IOException {
             final String url = this.issue.json().getString("html_url");
             if (url == null) {
                 throw new IllegalStateException(
@@ -255,8 +271,9 @@ public interface Issue extends Comparable<Issue> {
         /**
          * When this issue was created.
          * @return Date of creation
+         * @throws IOException If fails
          */
-        public Date createdAt() {
+        public Date createdAt() throws IOException {
             final String date = this.issue.json().getString("created_at");
             if (date == null) {
                 throw new IllegalStateException(

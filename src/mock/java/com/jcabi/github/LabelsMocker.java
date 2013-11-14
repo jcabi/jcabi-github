@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -66,8 +65,8 @@ public final class LabelsMocker implements Labels {
     }
 
     @Override
-    public Iterator<Label> iterator() {
-        return this.set.iterator();
+    public Iterable<Label> iterate() {
+        return this.set;
     }
 
 }

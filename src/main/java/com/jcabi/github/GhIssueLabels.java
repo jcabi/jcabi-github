@@ -31,20 +31,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.json.stream.JsonGenerator;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -57,36 +56,34 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "owner")
-@EqualsAndHashCode(of = { "header", "owner" })
+@ToString(of = "request")
+@EqualsAndHashCode(of = "request")
 final class GhIssueLabels implements Labels {
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
-
-    /**
-     * Issue.
-     */
-    private final transient Issue owner;
+    private final transient Request request;
 
     /**
      * Public ctor.
-     * @param hdr Authentication header
-     * @param issue Issue
+     * @param req Request
+     * @param issue Issue we're in
      */
-    GhIssueLabels(final String hdr, final Issue issue) {
-        this.header = hdr;
-        this.owner = issue;
+    GhIssueLabels(final Request req, final Issue issue) {
+        final Coordinates coords = issue.repo().coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/issues")
+            .path(Integer.toString(issue.number()))
+            .path("/labels")
+            .back();
     }
 
     @Override
-    public void add(final Iterable<Label> labels) {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{number}/labels")
-            .build(coords.user(), coords.repo(), this.owner.number());
+    public void add(final Iterable<Label> labels) throws IOException {
         final StringWriter post = new StringWriter();
         final JsonGenerator json = Json.createGenerator(post)
             .writeStartArray();
@@ -94,61 +91,51 @@ final class GhIssueLabels implements Labels {
             json.write(label.name());
         }
         json.writeEnd().close();
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .post("add new labels to Github issue", post.toString())
+        this.request.method(Request.POST)
+            .body().set(post.toString()).back()
+            .fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readArray();
+            .as(JsonResponse.class)
+            .json().readArray();
     }
 
     @Override
-    public void remove(final String name) {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{number}/labels/{name}")
-            .build(coords.user(), coords.repo(), this.owner.number(), name);
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .delete("delete label from Github issue")
+    public void remove(final String name) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(name).back()
+            .fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
-    public void clear() {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/{num}/labels")
-            .build(coords.user(), coords.repo(), this.owner.number());
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .delete("delete all labels from Github issue")
+    public void clear() throws IOException {
+        this.request.method(Request.DELETE)
+            .fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public Iterator<Label> iterator() {
-        final Coordinates coords = this.owner.repo().coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues/{number}/labels")
-            .build(coords.user(), coords.repo(), this.owner.number());
-        final JsonArray array = RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("list labels in Github issue")
+    public Iterable<Label> iterate() throws IOException {
+        final JsonArray array = this.request.fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readArray();
+            .as(JsonResponse.class)
+            .json().readArray();
         final Collection<Label> labels = new ArrayList<Label>(array.size());
         for (final JsonValue item : array) {
             final JsonObject obj = JsonObject.class.cast(item);
             labels.add(
-                new Label.Simple(obj.getString("name"), obj.getString("color"))
+                new Label.Simple(
+                    obj.getString("name"),
+                    obj.getString("color")
+                )
             );
         }
-        return labels.iterator();
+        return labels;
     }
 
 }

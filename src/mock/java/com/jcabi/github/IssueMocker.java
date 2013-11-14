@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -71,8 +72,9 @@ public final class IssueMocker implements Issue {
      * Public ctor.
      * @param repo Owner of it
      * @param number Number of it
+     * @throws IOException If fails
      */
-    public IssueMocker(final Repo repo, final int number) {
+    public IssueMocker(final Repo repo, final int number) throws IOException {
         this.owner = repo;
         this.cmnts = new CommentsMocker(this);
         this.lbls = new LabelsMocker();

@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.log.Logger;
-import java.util.Iterator;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import javax.json.Json;
@@ -74,7 +74,8 @@ public final class IssuesMocker implements Issues {
     }
 
     @Override
-    public Issue create(final String title, final String body) {
+    public Issue create(final String title, final String body)
+        throws IOException {
         final int number;
         final Issue issue;
         synchronized (this.map) {
@@ -96,8 +97,8 @@ public final class IssuesMocker implements Issues {
     }
 
     @Override
-    public Iterator<Issue> iterator() {
-        return this.map.values().iterator();
+    public Iterable<Issue> iterate() {
+        return this.map.values();
     }
 
 }

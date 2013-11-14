@@ -31,19 +31,18 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -58,13 +57,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString(of = "owner")
-@EqualsAndHashCode(of = { "header", "owner" })
+@EqualsAndHashCode(of = { "request", "owner" })
 final class GhIssues implements Issues {
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
+    private final transient Request request;
 
     /**
      * Repository.
@@ -73,11 +72,17 @@ final class GhIssues implements Issues {
 
     /**
      * Public ctor.
-     * @param hdr Authentication header
+     * @param req Request
      * @param repo Repository
      */
-    GhIssues(final String hdr, final Repo repo) {
-        this.header = hdr;
+    GhIssues(final Request req, final Repo repo) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/issues")
+            .back();
         this.owner = repo;
     }
 
@@ -88,15 +93,12 @@ final class GhIssues implements Issues {
 
     @Override
     public Issue get(final int number) {
-        return new GhIssue(this.header, this.owner, number);
+        return new GhIssue(this.request, this.owner, number);
     }
 
     @Override
-    public Issue create(final String title, final String body) {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{owner}/{repo}/issues")
-            .build(coords.user(), coords.repo());
+    public Issue create(final String title, final String body)
+        throws IOException {
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()
@@ -105,33 +107,27 @@ final class GhIssues implements Issues {
             .writeEnd()
             .close();
         return this.get(
-            RestTester.start(uri)
-                .header(HttpHeaders.AUTHORIZATION, this.header)
-                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                .post("create new Github get", post.toString())
+            this.request.method(Request.POST)
+                .body().set(post.toString()).back()
+                .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .getJson().readObject().getInt("number")
+                .as(JsonResponse.class)
+                .json().readObject().getInt("number")
         );
     }
 
     @Override
-    public Iterator<Issue> iterator() {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues")
-            .build(coords.user(), coords.repo());
-        final JsonArray array = RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("list issues in Github repository")
+    public Iterable<Issue> iterate() throws IOException {
+        final JsonArray array = this.request
+            .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readArray();
+            .as(JsonResponse.class)
+            .json().readArray();
         final Collection<Issue> issues = new ArrayList<Issue>(array.size());
         for (final JsonValue item : array) {
             issues.add(this.get(JsonObject.class.cast(item).getInt("number")));
         }
-        return issues.iterator();
+        return issues;
     }
 
 }

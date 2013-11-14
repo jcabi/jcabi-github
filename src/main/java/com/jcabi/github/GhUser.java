@@ -31,12 +31,12 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -50,13 +50,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString(of = "identity")
-@EqualsAndHashCode(of = { "header", "identity" })
+@EqualsAndHashCode(of = { "request", "identity" })
 final class GhUser implements User {
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
+    private final transient Request request;
 
     /**
      * Login name of the user.
@@ -65,43 +65,41 @@ final class GhUser implements User {
 
     /**
      * Public ctor.
-     * @param hdr Authentication header
+     * @param req Request
      */
-    GhUser(final String hdr) {
-        this(hdr, "");
+    GhUser(final Request req) {
+        this(req, "");
     }
 
     /**
      * Public ctor.
-     * @param hdr Authentication header
+     * @param req Request
      * @param login User identity/identity
      */
-    GhUser(final String hdr, final String login) {
-        this.header = hdr;
+    GhUser(final Request req, final String login) {
+        this.request = req;
         this.identity = login;
     }
 
     @Override
-    public String login() {
+    public String login() throws IOException {
         return this.json().getString("login");
     }
 
     @Override
-    public JsonObject json() {
-        final URI uri;
+    public JsonObject json() throws IOException {
+        final Request req;
         if (this.identity.isEmpty()) {
-            uri = Github.ENTRY.clone().path("/user").build();
+            req = this.request.uri().path("/user").back();
         } else {
-            uri = Github.ENTRY.clone()
-                .path("/users/{user}")
-                .build(this.identity);
+            req = this.request.uri()
+                .path("/users").path(this.identity)
+                .back();
         }
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("getting Github user identity")
+        return req.fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject();
+            .as(JsonResponse.class)
+            .json().readObject();
     }
 
 }

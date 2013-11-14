@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -40,7 +41,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.1
  */
 @Immutable
-public interface Comments extends Iterable<Comment> {
+public interface Comments {
 
     /**
      * The issue we're in.
@@ -58,11 +59,20 @@ public interface Comments extends Iterable<Comment> {
     Comment get(int number);
 
     /**
+     * Iterate them all.
+     * @return All comments
+     * @throws IOException If fails
+     */
+    Iterable<Comment> iterate() throws IOException;
+
+    /**
      * Post new comment.
      * @param text Text of comment to post in Markdown format
      * @return Comment
+     * @throws IOException If fails
      */
     @NotNull(message = "comment is never NULL")
-    Comment post(@NotNull(message = "text can't be NULL") String text);
+    Comment post(@NotNull(message = "text can't be NULL") String text)
+        throws IOException;
 
 }

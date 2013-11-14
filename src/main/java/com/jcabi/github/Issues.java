@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -40,7 +41,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.1
  */
 @Immutable
-public interface Issues extends Iterable<Issue> {
+public interface Issues {
 
     /**
      * Owner of them.
@@ -62,10 +63,19 @@ public interface Issues extends Iterable<Issue> {
      * @param title Title
      * @param body Body of it
      * @return Issue just created
+     * @throws IOException If fails
      */
     @NotNull(message = "issue is never NULL")
     Issue create(
         @NotNull(message = "issue title is never NULL") String title,
-        @NotNull(message = "issue body is never NULL") String body);
+        @NotNull(message = "issue body is never NULL") String body)
+        throws IOException;
+
+    /**
+     * Iterate them all.
+     * @return Iterator of issues
+     * @throws IOException If fails
+     */
+    Iterable<Issue> iterate() throws IOException;
 
 }

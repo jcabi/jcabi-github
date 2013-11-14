@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.json.JsonObject;
@@ -60,25 +61,30 @@ public interface Gist {
      * Read file content.
      * @param name Name of it
      * @return File content
+     * @throws IOException If fails
      */
     @NotNull(message = "file content is never NULL")
-    String read(@NotNull(message = "file name can't be NULL") String name);
+    String read(@NotNull(message = "file name can't be NULL") String name)
+        throws IOException;
 
     /**
      * Write file content.
      * @param name Name of it
      * @param content Content to write
+     * @throws IOException If fails
      */
     void write(
         @NotNull(message = "file name can't be NULL") String name,
-        @NotNull(message = "file content can't be NULL") String content);
+        @NotNull(message = "file content can't be NULL") String content)
+        throws IOException;
 
     /**
      * Describe it in a JSON object.
      * @return JSON object
+     * @throws IOException If fails
      */
     @NotNull(message = "JSON is never NULL")
-    JsonObject json();
+    JsonObject json() throws IOException;
 
     /**
      * Smart Gist that can manipulate with JSON data.
@@ -102,8 +108,9 @@ public interface Gist {
         /**
          * Get a list of all file names in the gist.
          * @return File names
+         * @throws IOException If fails
          */
-        public Iterable<String> files() {
+        public Iterable<String> files() throws IOException {
             final JsonObject array = this.gist.json().getJsonObject("files");
             final Collection<String> files =
                 new ArrayList<String>(array.size());

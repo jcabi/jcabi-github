@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -74,8 +73,8 @@ public final class GistsMocker implements Gists {
     }
 
     @Override
-    public Iterator<Gist> iterator() {
-        return this.map.values().iterator();
+    public Iterable<Gist> iterate() {
+        return this.map.values();
     }
 
 }

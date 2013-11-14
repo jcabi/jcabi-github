@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -44,7 +45,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "ghub", "header", "coords" })
+@EqualsAndHashCode(of = { "ghub", "request", "coords" })
 final class GhRepo implements Repo {
 
     /**
@@ -53,9 +54,9 @@ final class GhRepo implements Repo {
     private final transient Github ghub;
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
+    private final transient Request request;
 
     /**
      * Repository coordinates.
@@ -65,12 +66,12 @@ final class GhRepo implements Repo {
     /**
      * Public ctor.
      * @param github Github
-     * @param hdr Authentication header
+     * @param req Request
      * @param crd Coordinate of the repo
      */
-    GhRepo(final Github github, final String hdr, final Coordinates crd) {
+    GhRepo(final Github github, final Request req, final Coordinates crd) {
         this.ghub = github;
-        this.header = hdr;
+        this.request = req;
         this.coords = crd;
     }
 
@@ -86,7 +87,7 @@ final class GhRepo implements Repo {
 
     @Override
     public Issues issues() {
-        return new GhIssues(this.header, this);
+        return new GhIssues(this.request, this);
     }
 
 }

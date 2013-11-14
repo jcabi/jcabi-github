@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import javax.json.Json;
@@ -67,30 +67,35 @@ public interface Comment extends Comparable<Comment> {
     /**
      * Get author of it.
      * @return User who posted the comment
+     * @throws IOException If fails
      */
     @NotNull(message = "comment author is never NULL")
-    User author();
+    User author() throws IOException;
 
     /**
      * Delete the comment.
+     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
-    void remove();
+    void remove() throws IOException;
 
     /**
      * Describe it in a JSON object.
      * @return JSON object
+     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
      */
     @NotNull(message = "JSON object is never NULL")
-    JsonObject json();
+    JsonObject json() throws IOException;
 
     /**
      * Patch using this JSON object.
      * @param json JSON object
+     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/issues/comments/#edit-a-comment">Edit a Comment</a>
      */
-    void patch(@NotNull(message = "JSON object can't be NULL") JsonObject json);
+    void patch(@NotNull(message = "JSON object can't be NULL") JsonObject json)
+        throws IOException;
 
     /**
      * Comment manipulation toolkit.
@@ -114,16 +119,18 @@ public interface Comment extends Comparable<Comment> {
         /**
          * Get its body.
          * @return Body of comment
+         * @throws IOException If fails
          */
-        public String body() {
+        public String body() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
             return this.comment.json().getString("body");
         }
         /**
          * Change comment body.
          * @param text Body of comment
+         * @throws IOException If fails
          */
-        public void body(final String text) {
+        public void body(final String text) throws IOException {
             this.comment.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -131,26 +138,25 @@ public interface Comment extends Comparable<Comment> {
         /**
          * Get its URL.
          * @return URL of comment
+         * @throws IOException If fails
          */
-        public URL url() {
-            try {
-                return new URL(this.comment.json().getString("url"));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public URL url() throws IOException {
+            return new URL(this.comment.json().getString("url"));
         }
         /**
          * When this comment was created.
          * @return Date of creation
+         * @throws IOException If fails
          */
-        public Date createdAt() {
+        public Date createdAt() throws IOException {
             return new Time(this.comment.json().getString("created_at")).date();
         }
         /**
          * When this comment was updated last time.
          * @return Date of update
+         * @throws IOException If fails
          */
-        public Date updatedAt() {
+        public Date updatedAt() throws IOException {
             return new Time(this.comment.json().getString("updated_at")).date();
         }
     }

@@ -81,7 +81,7 @@ public final class GithubITCase {
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments(),
+            repo.issues().get(issue.number()).comments().iterate(),
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
@@ -103,7 +103,7 @@ public final class GithubITCase {
         }
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Repo repo = github.repo(GithubITCase.REPO);
-        for (final Issue issue : repo.issues()) {
+        for (final Issue issue : repo.issues().iterate()) {
             MatcherAssert.assertThat(
                 new Issue.Tool(issue).title(),
                 Matchers.notNullValue()
@@ -126,12 +126,12 @@ public final class GithubITCase {
         final Label label = new Label.Simple("first");
         issue.labels().add(Collections.singletonList(label));
         MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).labels(),
+            repo.issues().get(issue.number()).labels().iterate(),
             Matchers.<Label>iterableWithSize(1)
         );
         issue.labels().remove(label.name());
         MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).labels(),
+            repo.issues().get(issue.number()).labels().iterate(),
             Matchers.<Label>emptyIterable()
         );
         issue.labels().clear();
@@ -175,7 +175,7 @@ public final class GithubITCase {
             return;
         }
         final Github github = new Github.Simple(GithubITCase.KEY);
-        final Gist gist = github.gists().iterator().next();
+        final Gist gist = github.gists().iterate().iterator().next();
         MatcherAssert.assertThat(
             gist.read(new Gist.Tool(gist).files().iterator().next()),
             Matchers.notNullValue()

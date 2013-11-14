@@ -31,19 +31,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github get.
+ * Github issue.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -53,13 +53,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString(of = { "owner", "num" })
-@EqualsAndHashCode(of = { "header", "owner", "num" })
+@EqualsAndHashCode(of = { "request", "owner", "num" })
 final class GhIssue implements Issue {
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
+    private final transient Request request;
 
     /**
      * Repository we're in.
@@ -73,12 +73,19 @@ final class GhIssue implements Issue {
 
     /**
      * Public ctor.
-     * @param hdr Authentication header
+     * @param req Request
      * @param repo Repository
      * @param number Number of the get
      */
-    GhIssue(final String hdr, final Repo repo, final int number) {
-        this.header = hdr;
+    GhIssue(final Request req, final Repo repo, final int number) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/issues")
+            .path(Integer.toString(number))
+            .back();
         this.owner = repo;
         this.num = number;
     }
@@ -95,40 +102,29 @@ final class GhIssue implements Issue {
 
     @Override
     public Comments comments() {
-        return new GhComments(this.header, this);
+        return new GhComments(this.request, this);
     }
 
     @Override
     public Labels labels() {
-        return new GhIssueLabels(this.header, this);
+        return new GhIssueLabels(this.request, this);
     }
 
     @Override
-    public JsonObject json() {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{number}")
-            .build(coords.user(), coords.repo(), this.num);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("get details of Github issue")
+    public JsonObject json() throws IOException {
+        return this.request.fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject();
+            .as(JsonResponse.class)
+            .json().readObject();
     }
 
     @Override
-    public void patch(final JsonObject json) {
-        final Coordinates coords = this.owner.coordinates();
-        final URI uri = Github.ENTRY.clone()
-            .path("/repos/{user}/{repo}/issues/{num}")
-            .build(coords.user(), coords.repo(), this.num);
+    public void patch(final JsonObject json) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .patch("patch Github issue details", post.toString())
+        this.request.body().set(post.toString()).back()
+            .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
 

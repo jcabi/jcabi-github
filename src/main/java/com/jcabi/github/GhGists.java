@@ -31,17 +31,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -55,7 +54,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "ghub", "header" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class GhGists implements Gists {
 
     /**
@@ -64,18 +63,18 @@ final class GhGists implements Gists {
     private final transient Github ghub;
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
+    private final transient Request request;
 
     /**
      * Public ctor.
      * @param github Github
-     * @param hdr Authentication header
+     * @param req Request
      */
-    GhGists(final Github github, final String hdr) {
+    GhGists(final Github github, final Request req) {
         this.ghub = github;
-        this.header = hdr;
+        this.request = req.uri().path("/gists").back();
     }
 
     @Override
@@ -85,23 +84,21 @@ final class GhGists implements Gists {
 
     @Override
     public Gist get(final String name) {
-        return new GhGist(this.ghub, this.header, name);
+        return new GhGist(this.ghub, this.request, name);
     }
 
     @Override
-    public Iterator<Gist> iterator() {
-        final URI uri = Github.ENTRY.clone().path("/gists").build();
-        final JsonArray array = RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("list all gists of Github user")
+    public Iterable<Gist> iterate() throws IOException {
+        final JsonArray array = this.request.fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readArray();
+            .as(JsonResponse.class)
+            .json().readArray();
         final Collection<Gist> gists = new ArrayList<Gist>(array.size());
         for (final JsonValue value : array) {
             gists.add(this.get(JsonObject.class.cast(value).getString("id")));
         }
-        return gists.iterator();
+        return gists;
     }
 
 }

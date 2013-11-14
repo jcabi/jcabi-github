@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.log.Logger;
-import java.util.Iterator;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -73,7 +73,7 @@ public final class CommentsMocker implements Comments {
     }
 
     @Override
-    public Comment post(final String text) {
+    public Comment post(final String text) throws IOException {
         final int number;
         final Comment comment;
         synchronized (this.map) {
@@ -92,8 +92,8 @@ public final class CommentsMocker implements Comments {
     }
 
     @Override
-    public Iterator<Comment> iterator() {
-        return this.map.values().iterator();
+    public Iterable<Comment> iterate() {
+        return this.map.values();
     }
 
 }

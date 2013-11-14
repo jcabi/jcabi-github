@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -52,17 +52,19 @@ public interface User {
     /**
      * Get his login.
      * @return Login name
+     * @throws IOException If it fails
      */
     @NotNull(message = "login is never NULL")
-    String login();
+    String login() throws IOException;
 
     /**
      * Get his JSON description.
      * @return JSON object
+     * @throws IOException If it fails
      * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     @NotNull(message = "JSON is never NULL")
-    JsonObject json();
+    JsonObject json() throws IOException;
 
     /**
      * Smart Gist that can manipulate with JSON data.
@@ -87,60 +89,59 @@ public interface User {
         /**
          * Get his ID.
          * @return Unique user ID
+         * @throws IOException If it fails
          * @checkstyle MethodName (3 lines)
          */
         @SuppressWarnings("PMD.ShortMethodName")
-        public int id() {
+        public int id() throws IOException {
             return this.user.json().getJsonNumber("id").intValue();
         }
         /**
          * Get his avatar URL.
          * @return URL of the avatar
+         * @throws IOException If it fails
          */
-        public URL avatarUrl() {
-            try {
-                return new URL(this.user.json().getString("avatar_url"));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public URL avatarUrl() throws IOException {
+            return new URL(this.user.json().getString("avatar_url"));
         }
         /**
          * Get his URL.
          * @return URL of the user
+         * @throws IOException If it fails
          */
-        public URL url() {
-            try {
-                return new URL(this.user.json().getString("url"));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public URL url() throws IOException {
+            return new URL(this.user.json().getString("url"));
         }
         /**
          * Get his name.
          * @return User name
+         * @throws IOException If it fails
          */
-        public String name() {
+        public String name() throws IOException {
             return this.user.json().getString("name");
         }
         /**
          * Get his company.
          * @return Company name
+         * @throws IOException If it fails
          */
-        public String company() {
+        public String company() throws IOException {
             return this.user.json().getString("company");
         }
         /**
          * Get his location.
          * @return Location name
+         * @throws IOException If it fails
          */
-        public String location() {
+        public String location() throws IOException {
             return this.user.json().getString("location");
         }
         /**
          * Get his email.
          * @return Email
+         * @throws IOException If it fails
          */
-        public String email() {
+        public String email() throws IOException {
             return this.user.json().getString("email");
         }
     }

@@ -31,14 +31,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.RestTester;
+import com.rexsl.test.JsonResponse;
+import com.rexsl.test.Request;
+import com.rexsl.test.Response;
+import com.rexsl.test.RestResponse;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -53,7 +55,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "ghub", "header", "label" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class GhGist implements Gist {
 
     /**
@@ -62,25 +64,19 @@ final class GhGist implements Gist {
     private final transient Github ghub;
 
     /**
-     * Authentication header.
+     * RESTful request.
      */
-    private final transient String header;
-
-    /**
-     * Gist id.
-     */
-    private final transient String label;
+    private final transient Request request;
 
     /**
      * Public ctor.
      * @param github Github
-     * @param hdr Authentication header
-     * @param name Name of it
+     * @param req Request
+     * @param name Name of gist
      */
-    GhGist(final Github github, final String hdr, final String name) {
+    GhGist(final Github github, final Request req, final String name) {
         this.ghub = github;
-        this.header = hdr;
-        this.label = name;
+        this.request = req.uri().path("/gists").path(name).back();
     }
 
     @Override
@@ -89,29 +85,26 @@ final class GhGist implements Gist {
     }
 
     @Override
-    public String read(final String file) {
-        final URI uri = Github.ENTRY.clone()
-            .path("/gists/{id}")
-            .build(this.label);
-        final String url = RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("read gist of Github")
+    public String read(final String file) throws IOException {
+        final Response response = this.request.fetch();
+        final String url = response
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject().getJsonObject("files")
+            .as(JsonResponse.class)
+            .json().readObject().getJsonObject("files")
             .getJsonObject(file).getString("raw_url");
-        return RestTester.start(URI.create(url))
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .get("read gist content of Github")
+        return response
+            .as(RestResponse.class)
+            .jump(URI.create(url))
+            .fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getBody();
+            .body();
     }
 
     @Override
-    public void write(final String file, final String content) {
-        final URI uri = Github.ENTRY.clone()
-            .path("/gists/{name}")
-            .build(this.label);
+    public void write(final String file, final String content)
+        throws IOException {
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()
@@ -122,25 +115,19 @@ final class GhGist implements Gist {
             .writeEnd()
             .writeEnd()
             .close();
-        RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-            .patch("save file to gist of Github", post.toString())
+        this.request.method(Request.PATCH)
+            .body().set(post.toString()).back().fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
-    public JsonObject json() {
-        final URI uri = Github.ENTRY.clone()
-            .path("/gists/{num}")
-            .build(this.label);
-        return RestTester.start(uri)
-            .header(HttpHeaders.AUTHORIZATION, this.header)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .get("list all files of a gist of Github")
+    public JsonObject json() throws IOException {
+        return this.request.fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
-            .getJson().readObject();
+            .as(JsonResponse.class)
+            .json().readObject();
     }
 
 }
