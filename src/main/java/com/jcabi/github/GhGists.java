@@ -58,6 +58,11 @@ import lombok.ToString;
 final class GhGists implements Gists {
 
     /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * Github.
      */
     private final transient Github ghub;
@@ -73,8 +78,9 @@ final class GhGists implements Gists {
      * @param req Request
      */
     GhGists(final Github github, final Request req) {
+        this.entry = req;
         this.ghub = github;
-        this.request = req.uri().path("/gists").back();
+        this.request = this.entry.uri().path("/gists").back();
     }
 
     @Override
@@ -84,7 +90,7 @@ final class GhGists implements Gists {
 
     @Override
     public Gist get(final String name) {
-        return new GhGist(this.ghub, this.request, name);
+        return new GhGist(this.ghub, this.entry, name);
     }
 
     @Override

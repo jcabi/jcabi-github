@@ -57,6 +57,11 @@ import lombok.ToString;
 final class GhIssue implements Issue {
 
     /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -78,8 +83,9 @@ final class GhIssue implements Issue {
      * @param number Number of the get
      */
     GhIssue(final Request req, final Repo repo, final int number) {
+        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -102,12 +108,12 @@ final class GhIssue implements Issue {
 
     @Override
     public Comments comments() {
-        return new GhComments(this.request, this);
+        return new GhComments(this.entry, this);
     }
 
     @Override
     public Labels labels() {
-        return new GhIssueLabels(this.request, this);
+        return new GhIssueLabels(this.entry, this);
     }
 
     @Override

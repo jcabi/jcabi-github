@@ -56,6 +56,11 @@ import lombok.ToString;
 final class GhComment implements Comment {
 
     /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -78,7 +83,8 @@ final class GhComment implements Comment {
      */
     GhComment(final Request req, final Issue issue, final int number) {
         final Coordinates coords = issue.repo().coordinates();
-        this.request = req.uri()
+        this.entry = req;
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -103,7 +109,7 @@ final class GhComment implements Comment {
     @Override
     public User author() throws IOException {
         return new GhUser(
-            this.request,
+            this.entry,
             this.json().getJsonObject("user").getString("login")
         );
     }

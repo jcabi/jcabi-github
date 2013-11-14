@@ -57,8 +57,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString(of = "owner")
-@EqualsAndHashCode(of = { "request", "owner" })
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
 final class GhIssues implements Issues {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -76,8 +81,9 @@ final class GhIssues implements Issues {
      * @param repo Repository
      */
     GhIssues(final Request req, final Repo repo) {
+        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -93,7 +99,7 @@ final class GhIssues implements Issues {
 
     @Override
     public Issue get(final int number) {
-        return new GhIssue(this.request, this.owner, number);
+        return new GhIssue(this.entry, this.owner, number);
     }
 
     @Override

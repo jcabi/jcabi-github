@@ -50,13 +50,13 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString(of = "identity")
-@EqualsAndHashCode(of = { "request", "identity" })
+@EqualsAndHashCode(of = { "entry", "identity" })
 final class GhUser implements User {
 
     /**
-     * RESTful request.
+     * RESTful entry.
      */
-    private final transient Request request;
+    private final transient Request entry;
 
     /**
      * Login name of the user.
@@ -77,7 +77,7 @@ final class GhUser implements User {
      * @param login User identity/identity
      */
     GhUser(final Request req, final String login) {
-        this.request = req;
+        this.entry = req;
         this.identity = login;
     }
 
@@ -90,9 +90,9 @@ final class GhUser implements User {
     public JsonObject json() throws IOException {
         final Request req;
         if (this.identity.isEmpty()) {
-            req = this.request.uri().path("/user").back();
+            req = this.entry.uri().path("/user").back();
         } else {
-            req = this.request.uri()
+            req = this.entry.uri()
                 .path("/users").path(this.identity)
                 .back();
         }

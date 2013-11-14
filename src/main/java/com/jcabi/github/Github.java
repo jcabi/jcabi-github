@@ -84,9 +84,10 @@ public interface Github {
          * Version of us.
          */
         private static final String USER_AGENT = String.format(
-            "jcabi-github %s %s",
-            Manifests.read("Jcabi-Version"),
-            Manifests.read("Jcabi-Revision")
+            "jcabi-github %s %s %s",
+            Manifests.read("JCabi-Version"),
+            Manifests.read("JCabi-Revision"),
+            Manifests.read("JCabi-Date")
         );
         /**
          * REST request.

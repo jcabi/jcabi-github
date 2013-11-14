@@ -55,7 +55,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "ghub", "request" })
+@EqualsAndHashCode(of = { "ghub", "entry" })
 final class GhGist implements Gist {
 
     /**
@@ -64,9 +64,9 @@ final class GhGist implements Gist {
     private final transient Github ghub;
 
     /**
-     * RESTful request.
+     * RESTful entry.
      */
-    private final transient Request request;
+    private final transient Request entry;
 
     /**
      * Public ctor.
@@ -76,7 +76,7 @@ final class GhGist implements Gist {
      */
     GhGist(final Github github, final Request req, final String name) {
         this.ghub = github;
-        this.request = req.uri().path("/gists").path(name).back();
+        this.entry = req.uri().path("/gists").path(name).back();
     }
 
     @Override
@@ -86,7 +86,7 @@ final class GhGist implements Gist {
 
     @Override
     public String read(final String file) throws IOException {
-        final Response response = this.request.fetch();
+        final Response response = this.entry.fetch();
         final String url = response
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
@@ -115,7 +115,7 @@ final class GhGist implements Gist {
             .writeEnd()
             .writeEnd()
             .close();
-        this.request.method(Request.PATCH)
+        this.entry.method(Request.PATCH)
             .body().set(post.toString()).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
@@ -123,7 +123,7 @@ final class GhGist implements Gist {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch()
+        return this.entry.fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)

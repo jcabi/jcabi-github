@@ -56,14 +56,14 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "request")
-@EqualsAndHashCode(of = "request")
+@ToString(of = "entry")
+@EqualsAndHashCode(of = "entry")
 final class GhIssueLabels implements Labels {
 
     /**
-     * RESTful request.
+     * RESTful entry.
      */
-    private final transient Request request;
+    private final transient Request entry;
 
     /**
      * Public ctor.
@@ -72,7 +72,7 @@ final class GhIssueLabels implements Labels {
      */
     GhIssueLabels(final Request req, final Issue issue) {
         final Coordinates coords = issue.repo().coordinates();
-        this.request = req.uri()
+        this.entry = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -91,7 +91,7 @@ final class GhIssueLabels implements Labels {
             json.write(label.name());
         }
         json.writeEnd().close();
-        this.request.method(Request.POST)
+        this.entry.method(Request.POST)
             .body().set(post.toString()).back()
             .fetch()
             .as(RestResponse.class)
@@ -102,7 +102,7 @@ final class GhIssueLabels implements Labels {
 
     @Override
     public void remove(final String name) throws IOException {
-        this.request.method(Request.DELETE)
+        this.entry.method(Request.DELETE)
             .uri().path(name).back()
             .fetch()
             .as(RestResponse.class)
@@ -111,7 +111,7 @@ final class GhIssueLabels implements Labels {
 
     @Override
     public void clear() throws IOException {
-        this.request.method(Request.DELETE)
+        this.entry.method(Request.DELETE)
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
@@ -120,7 +120,7 @@ final class GhIssueLabels implements Labels {
     @Override
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Label> iterate() throws IOException {
-        final JsonArray array = this.request.fetch()
+        final JsonArray array = this.entry.fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)

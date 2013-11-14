@@ -60,6 +60,11 @@ import lombok.ToString;
 final class GhComments implements Comments {
 
     /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -75,8 +80,9 @@ final class GhComments implements Comments {
      * @param issue Issue
      */
     GhComments(final Request req, final Issue issue) {
+        this.entry = req;
         final Coordinates coords = issue.repo().coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -94,7 +100,7 @@ final class GhComments implements Comments {
 
     @Override
     public Comment get(final int number) {
-        return new GhComment(this.request, this.owner, number);
+        return new GhComment(this.entry, this.owner, number);
     }
 
     @Override

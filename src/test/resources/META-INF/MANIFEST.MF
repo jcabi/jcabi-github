@@ -1,0 +1,3 @@
+JCabi-Version: 1.0-SNAPSHOT
+JCabi-Revision: 123
+JCabi-Date: 14 Nov 2013
