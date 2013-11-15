@@ -130,6 +130,7 @@ final class GhIssue implements Issue {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
         this.request.body().set(post.toString()).back()
+            .method(Request.PATCH)
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }

@@ -140,12 +140,8 @@ public final class GithubITCase {
     /**
      * Github.Simple can change title and body.
      * @throws Exception If some problem inside
-     * @todo #1 The test doesn't work because PATCH method is not
-     *  allowed in HttpURLConnection in Java. I don't know yet how
-     *  to fix it the right way.
      */
     @Test
-    @org.junit.Ignore
     public void changesTitleAndBody() throws Exception {
         if (GithubITCase.KEY == null) {
             return;
@@ -166,19 +162,45 @@ public final class GithubITCase {
     }
 
     /**
-     * Github.Simple can read Gists.
+     * Github.Simple can change issue state.
      * @throws Exception If some problem inside
      */
     @Test
-    public void readsGists() throws Exception {
+    public void changesIssueState() throws Exception {
+        if (GithubITCase.KEY == null) {
+            return;
+        }
+        final Github github = new Github.Simple(GithubITCase.KEY);
+        final Repo repo = github.repo(GithubITCase.REPO);
+        final Issue issue = repo.issues().create("test issue no.2", "data 2");
+        new Issue.Tool(issue).close();
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).isOpen(),
+            Matchers.is(false)
+        );
+        new Issue.Tool(issue).open();
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).isOpen(),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * Github.Simple can read and write Gists.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void readsAndWritesGists() throws Exception {
         if (GithubITCase.KEY == null) {
             return;
         }
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Gist gist = github.gists().iterate().iterator().next();
+        final String file = new Gist.Tool(gist).files().iterator().next();
+        gist.write(file, "hey, works for you this way?");
         MatcherAssert.assertThat(
-            gist.read(new Gist.Tool(gist).files().iterator().next()),
-            Matchers.notNullValue()
+            gist.read(file),
+            Matchers.startsWith("hey, works for ")
         );
     }
 
