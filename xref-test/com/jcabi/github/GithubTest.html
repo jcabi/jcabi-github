@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="54" href="#54">54</a>              Matchers.startsWith(<span class="jxr_string">"hey, "</span>)
 <a class="jxr_linenumber" name="55" href="#55">55</a>          );
 <a class="jxr_linenumber" name="56" href="#56">56</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="57" href="#57">57</a>              repo.issues().get(issue.number()).comments(),
+<a class="jxr_linenumber" name="57" href="#57">57</a>              repo.issues().get(issue.number()).comments().iterate(),
 <a class="jxr_linenumber" name="58" href="#58">58</a>              Matchers.&lt;Comment&gt;iterableWithSize(1)
 <a class="jxr_linenumber" name="59" href="#59">59</a>          );
 <a class="jxr_linenumber" name="60" href="#60">60</a>          MatcherAssert.assertThat(
