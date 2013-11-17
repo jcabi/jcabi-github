@@ -41,6 +41,7 @@ import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -80,7 +81,8 @@ final class GhIssueLabels implements Labels {
     }
 
     @Override
-    public void add(final Iterable<Label> labels) throws IOException {
+    public void add(@NotNull(message = "iterable of labels can't be NULL")
+        final Iterable<Label> labels) throws IOException {
         final StringWriter post = new StringWriter();
         final JsonGenerator json = Json.createGenerator(post)
             .writeStartArray();
@@ -98,7 +100,8 @@ final class GhIssueLabels implements Labels {
     }
 
     @Override
-    public void remove(final String name) throws IOException {
+    public void remove(@NotNull(message = "label name can't be NULL")
+        final String name) throws IOException {
         this.entry.method(Request.DELETE)
             .uri().path(name).back()
             .fetch()

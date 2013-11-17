@@ -38,8 +38,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
+import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -100,7 +102,9 @@ final class GhIssues implements Issues {
     }
 
     @Override
-    public Issue create(final String title, final String body)
+    public Issue create(
+        @NotNull(message = "title can't be NULL") final String title,
+        @NotNull(message = "body can't be NULL")final String body)
         throws IOException {
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
@@ -120,12 +124,14 @@ final class GhIssues implements Issues {
     }
 
     @Override
-    public Iterable<Issue> iterate() throws IOException {
+    public Iterable<Issue> iterate(
+        @NotNull(message = "map or params can't be NULL")
+        final Map<String, String> params) {
         return new Iterable<Issue>() {
             @Override
             public Iterator<Issue> iterator() {
                 return new GhPagination<Issue>(
-                    GhIssues.this.request,
+                    GhIssues.this.request.uri().queryParams(params).back(),
                     new GhPagination.Mapping<Issue>() {
                         @Override
                         public Issue map(final JsonObject object) {

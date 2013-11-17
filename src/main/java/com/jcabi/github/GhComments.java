@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -101,7 +102,8 @@ final class GhComments implements Comments {
     }
 
     @Override
-    public Comment post(final String text) throws IOException {
+    public Comment post(@NotNull(message = "post text can't be NULL")
+        final String text) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
             .writeStartObject()

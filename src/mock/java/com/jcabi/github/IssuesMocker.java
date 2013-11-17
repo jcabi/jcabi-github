@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.log.Logger;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import javax.json.Json;
@@ -97,7 +98,7 @@ public final class IssuesMocker implements Issues {
     }
 
     @Override
-    public Iterable<Issue> iterate() {
+    public Iterable<Issue> iterate(final Map<String, String> params) {
         return this.map.values();
     }
 

@@ -39,6 +39,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -131,7 +132,8 @@ final class GhComment implements Comment {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(@NotNull(message = "JSON can't be NULL")
+        final JsonObject json) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
         this.request.method(Request.PATCH)

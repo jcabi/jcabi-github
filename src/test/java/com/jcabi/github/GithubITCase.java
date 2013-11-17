@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.immutable.ArrayMap;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -103,7 +104,9 @@ public final class GithubITCase {
         }
         final Github github = new Github.Simple(GithubITCase.KEY);
         final Repo repo = github.repo(GithubITCase.REPO);
-        for (final Issue issue : repo.issues().iterate()) {
+        final ArrayMap<String, String> params = new ArrayMap<String, String>()
+            .with("sort", "comments");
+        for (final Issue issue : repo.issues().iterate(params)) {
             MatcherAssert.assertThat(
                 new Issue.Tool(issue).title(),
                 Matchers.notNullValue()

@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -85,7 +86,8 @@ final class GhGist implements Gist {
     }
 
     @Override
-    public String read(final String file) throws IOException {
+    public String read(@NotNull(message = "file name can't be NULL")
+        final String file) throws IOException {
         final Response response = this.entry.fetch();
         final String url = response
             .as(RestResponse.class)
@@ -103,7 +105,9 @@ final class GhGist implements Gist {
     }
 
     @Override
-    public void write(final String file, final String content)
+    public void write(
+        @NotNull(message = "file name can't be NULL") final String file,
+        @NotNull(message = "file content can't be NULL") final String content)
         throws IOException {
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)

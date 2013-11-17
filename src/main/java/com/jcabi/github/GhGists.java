@@ -35,6 +35,7 @@ import com.rexsl.test.Request;
 import java.io.IOException;
 import java.util.Iterator;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -83,7 +84,8 @@ final class GhGists implements Gists {
     }
 
     @Override
-    public Gist get(final String name) {
+    public Gist get(@NotNull(message = "gist name can't be NULL")
+        final String name) {
         return new GhGist(this.ghub, this.entry, name);
     }
 

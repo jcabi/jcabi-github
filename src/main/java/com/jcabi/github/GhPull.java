@@ -167,7 +167,8 @@ final class GhPull implements Pull {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(@NotNull(message = "JSON can't be NULL")
+        final JsonObject json) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
         this.request.body().set(post.toString()).back()
