@@ -41,7 +41,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github get comment.
+ * Github issue comment.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$

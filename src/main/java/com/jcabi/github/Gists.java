@@ -39,6 +39,7 @@ import javax.validation.constraints.NotNull;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
  */
 @Immutable
 public interface Gists {
@@ -54,6 +55,7 @@ public interface Gists {
      * Get gist by name.
      * @param name Name of it
      * @return Gist
+     * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     @NotNull(message = "gist is never NULL")
     Gist get(@NotNull(message = "name is never NULL") String name);
@@ -62,6 +64,7 @@ public interface Gists {
      * Iterate all gists.
      * @return Iterator of gists
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/gists/#list-gists">List Gists</a>
      */
     Iterable<Gist> iterate() throws IOException;
 

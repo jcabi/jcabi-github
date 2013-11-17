@@ -41,6 +41,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
 public interface Label extends Comparable<Label> {

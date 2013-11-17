@@ -63,4 +63,11 @@ public interface Repo {
     @NotNull(message = "iterator of issues is never NULL")
     Issues issues();
 
+    /**
+     * Pull requests.
+     * @return Pulls
+     */
+    @NotNull(message = "iterator of pull requests is never NULL")
+    Pulls pulls();
+
 }

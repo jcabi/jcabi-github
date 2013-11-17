@@ -42,98 +42,102 @@ import java.util.Collection;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.stream.JsonGenerator;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github get labels.
+ * Github pull requests.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.3
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "entry")
-@EqualsAndHashCode(of = "entry")
-final class GhIssueLabels implements Labels {
+@ToString(of = "owner")
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
+final class GhPulls implements Pulls {
 
     /**
-     * RESTful entry.
+     * API entry point.
      */
     private final transient Request entry;
 
     /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repository.
+     */
+    private final transient Repo owner;
+
+    /**
      * Public ctor.
      * @param req Request
-     * @param issue Issue we're in
+     * @param repo Repository
      */
-    GhIssueLabels(final Request req, final Issue issue) {
-        final Coordinates coords = issue.repo().coordinates();
-        this.entry = req.uri()
+    GhPulls(final Request req, final Repo repo) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/issues")
-            .path(Integer.toString(issue.number()))
-            .path("/labels")
+            .path("/pulls")
             .back();
+        this.owner = repo;
     }
 
     @Override
-    public void add(final Iterable<Label> labels) throws IOException {
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public Pull get(final int number) {
+        return new GhPull(this.entry, this.owner, number);
+    }
+
+    @Override
+    public Pull create(
+        @NotNull(message = "pull title is never NULL") final String title,
+        @NotNull(message = "head is never NULL") final String head,
+        @NotNull(message = "base is never NULL") final String base)
+        throws IOException {
         final StringWriter post = new StringWriter();
-        final JsonGenerator json = Json.createGenerator(post)
-            .writeStartArray();
-        for (final Label label : labels) {
-            json.write(label.name());
-        }
-        json.writeEnd().close();
-        this.entry.method(Request.POST)
-            .body().set(post.toString()).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray();
+        Json.createGenerator(post)
+            .writeStartObject()
+            .write("title", title)
+            .write("head", head)
+            .write("base", base)
+            .writeEnd()
+            .close();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(post.toString()).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("number")
+        );
     }
 
     @Override
-    public void remove(final String name) throws IOException {
-        this.entry.method(Request.DELETE)
-            .uri().path(name).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
-    }
-
-    @Override
-    public void clear() throws IOException {
-        this.entry.method(Request.DELETE)
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-    }
-
-    @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public Iterable<Label> iterate() throws IOException {
-        final List<JsonObject> array = this.entry.fetch()
-            .as(RestResponse.class)
+    public Iterable<Pull> iterate() throws IOException {
+        final List<JsonObject> array = this.request
+            .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
             .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Label> labels = new ArrayList<Label>(array.size());
+        final Collection<Pull> pulls = new ArrayList<Pull>(array.size());
         for (final JsonObject item : array) {
-            labels.add(
-                new Label.Simple(
-                    item.getString("name"),
-                    item.getString("color")
-                )
-            );
+            pulls.add(this.get(item.getInt("number")));
         }
-        return labels;
+        return pulls;
     }
 
 }

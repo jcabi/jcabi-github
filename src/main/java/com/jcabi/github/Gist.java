@@ -46,6 +46,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
  */
 @Immutable
 public interface Gist {
@@ -62,6 +63,7 @@ public interface Gist {
      * @param name Name of it
      * @return File content
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     @NotNull(message = "file content is never NULL")
     String read(@NotNull(message = "file name can't be NULL") String name)
@@ -72,6 +74,7 @@ public interface Gist {
      * @param name Name of it
      * @param content Content to write
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/gists/#edit-a-gist">Edit a Gist</a>
      */
     void write(
         @NotNull(message = "file name can't be NULL") String name,
@@ -82,6 +85,7 @@ public interface Gist {
      * Describe it in a JSON object.
      * @return JSON object
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;

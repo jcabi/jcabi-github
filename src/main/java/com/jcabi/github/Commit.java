@@ -30,56 +30,84 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.URL;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github issues.
+ * Github commit.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @since 0.3
+ * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
  */
 @Immutable
-public interface Issues {
+public interface Commit extends Comparable<Commit> {
 
     /**
-     * Owner of them.
+     * The repo we're in.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
+    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
-     * Get specific issue by number.
-     * @param number Issue number
-     * @return Issue
-     * @see <a href="http://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
+     * SHA of it.
+     * @return SHA
      */
-    @NotNull(message = "issue is never NULL")
-    Issue get(int number);
+    @NotNull(message = "commit SHA is never NULL")
+    String sha();
 
     /**
-     * Create new issue.
-     * @param title Title
-     * @param body Body of it
-     * @return Issue just created
+     * Describe it in a JSON object.
+     * @return JSON object
      * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
+     * @see <a href="http://developer.github.com/v3/git/commits/#get-a-commit">Get a Commit</a>
      */
-    @NotNull(message = "issue is never NULL")
-    Issue create(
-        @NotNull(message = "issue title is never NULL") String title,
-        @NotNull(message = "issue body is never NULL") String body)
-        throws IOException;
+    @NotNull(message = "JSON object is never NULL")
+    JsonObject json() throws IOException;
 
     /**
-     * Iterate them all.
-     * @return Iterator of issues
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#list-issues">List Issues</a>
+     * Commit manipulation toolkit.
      */
-    Iterable<Issue> iterate() throws IOException;
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "commit")
+    final class Tool {
+        /**
+         * Encapsulated commit.
+         */
+        private final transient Commit commit;
+        /**
+         * Public ctor.
+         * @param cmt Commit
+         */
+        public Tool(final Commit cmt) {
+            this.commit = cmt;
+        }
+        /**
+         * Get its message.
+         * @return Message of commit
+         * @throws IOException If fails
+         */
+        public String message() throws IOException {
+            return this.commit.json().getString("message");
+        }
+        /**
+         * Get its URL.
+         * @return URL of comment
+         * @throws IOException If fails
+         */
+        public URL url() throws IOException {
+            return new URL(this.commit.json().getString("url"));
+        }
+    }
 
 }

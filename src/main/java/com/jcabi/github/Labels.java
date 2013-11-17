@@ -39,6 +39,7 @@ import javax.validation.constraints.NotNull;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
 public interface Labels {
@@ -47,6 +48,7 @@ public interface Labels {
      * Add new labels.
      * @param labels The labels to add
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
      */
     void add(@NotNull(message = "labels can't be NULL") Iterable<Label> labels)
         throws IOException;
@@ -55,6 +57,7 @@ public interface Labels {
      * Iterate them all.
      * @return Iterator of labels
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
     Iterable<Label> iterate() throws IOException;
 
@@ -62,6 +65,7 @@ public interface Labels {
      * Remove label by name.
      * @param name Name of the label to remove
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
      */
     void remove(@NotNull(message = "label name can't be NULL") String name)
         throws IOException;
@@ -69,6 +73,7 @@ public interface Labels {
     /**
      * Remove all labels.
      * @throws IOException If fails
+     * @see <a href=""></a>
      */
     void clear() throws IOException;
 

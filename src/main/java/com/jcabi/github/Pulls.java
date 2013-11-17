@@ -34,15 +34,15 @@ import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github issues.
+ * Github pull requests.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @since 0.3
+ * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
  */
 @Immutable
-public interface Issues {
+public interface Pulls {
 
     /**
      * Owner of them.
@@ -52,34 +52,36 @@ public interface Issues {
     Repo repo();
 
     /**
-     * Get specific issue by number.
-     * @param number Issue number
-     * @return Issue
-     * @see <a href="http://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
+     * Get specific get by number.
+     * @param number Pull request number
+     * @return Pull request
+     * @see <a href="http://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
      */
     @NotNull(message = "issue is never NULL")
-    Issue get(int number);
+    Pull get(int number);
 
     /**
-     * Create new issue.
+     * Create new get.
      * @param title Title
-     * @param body Body of it
+     * @param head Head
+     * @param base Base
      * @return Issue just created
      * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
+     * @see <a href="http://developer.github.com/v3/pulls/#create-a-pull-request">Create a Pull Request</a>
      */
-    @NotNull(message = "issue is never NULL")
-    Issue create(
-        @NotNull(message = "issue title is never NULL") String title,
-        @NotNull(message = "issue body is never NULL") String body)
+    @NotNull(message = "pull is never NULL")
+    Pull create(
+        @NotNull(message = "pull title is never NULL") String title,
+        @NotNull(message = "head is never NULL") String head,
+        @NotNull(message = "base is never NULL") String base)
         throws IOException;
 
     /**
      * Iterate them all.
      * @return Iterator of issues
      * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#list-issues">List Issues</a>
+     * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
      */
-    Iterable<Issue> iterate() throws IOException;
+    Iterable<Pull> iterate() throws IOException;
 
 }

@@ -42,21 +42,23 @@ import java.util.Collection;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github comments.
+ * Github pull request.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.3
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "owner")
-@EqualsAndHashCode(of = { "request", "owner" })
-final class GhComments implements Comments {
+@ToString(of = { "owner", "num" })
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+final class GhPull implements Pull {
 
     /**
      * API entry point.
@@ -69,72 +71,114 @@ final class GhComments implements Comments {
     private final transient Request request;
 
     /**
-     * Owner of comments.
+     * Repository we're in.
      */
-    private final transient Issue owner;
+    private final transient Repo owner;
+
+    /**
+     * Pull request number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
      * @param req Request
-     * @param issue Issue
+     * @param repo Repository
+     * @param number Number of the get
      */
-    GhComments(final Request req, final Issue issue) {
+    GhPull(final Request req, final Repo repo, final int number) {
         this.entry = req;
-        final Coordinates coords = issue.repo().coordinates();
+        final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/issues")
-            .path(Integer.toString(issue.number()))
-            .path("/comments")
+            .path("/pulls")
+            .path(Integer.toString(number))
             .back();
-        this.owner = issue;
+        this.owner = repo;
+        this.num = number;
     }
 
     @Override
-    public Issue issue() {
+    public Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Comment get(final int number) {
-        return new GhComment(this.entry, this.owner, number);
+    public int number() {
+        return this.num;
     }
 
     @Override
-    public Comment post(final String text) throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("body", text)
-            .writeEnd()
-            .close();
-        return this.get(
-            this.request.method(Request.POST)
-                .body().set(post.toString()).back()
-                .fetch()
-                .as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                // @checkstyle MultipleStringLiterals (1 line)
-                .json().readObject().getInt("id")
-        );
-    }
-
-    @Override
-    public Iterable<Comment> iterate() throws IOException {
-        final List<JsonObject> array = this.request.fetch()
-            .as(RestResponse.class)
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    public Iterable<Commit> commits() throws IOException {
+        final List<JsonObject> array = this.request
+            .uri().path("/commits").back()
+            .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
             .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Comment> comments =
-            new ArrayList<Comment>(array.size());
+        final Collection<Commit> commits = new ArrayList<Commit>(array.size());
         for (final JsonObject item : array) {
-            comments.add(this.get(item.getInt("id")));
+            commits.add(
+                new GhCommit(this.entry, this.owner, item.getString("sha"))
+            );
         }
-        return comments;
+        return commits;
+    }
+
+    @Override
+    public Iterable<JsonObject> files() throws IOException {
+        return this.request
+            .uri().path("/files").back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().readArray().getValuesAs(JsonObject.class);
+    }
+
+    @Override
+    public void merge(
+        @NotNull(message = "message can't be NULL") final String msg)
+        throws IOException {
+        final StringWriter post = new StringWriter();
+        Json.createGenerator(post)
+            .writeStartObject()
+            .write("commit_message", msg)
+            .writeEnd()
+            .close();
+        this.request
+            .uri().path("/merge").back()
+            .body().set(post.toString()).back()
+            .method(Request.PUT)
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return this.request.fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().readObject();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        final StringWriter post = new StringWriter();
+        Json.createWriter(post).writeObject(json);
+        this.request.body().set(post.toString()).back()
+            .method(Request.PATCH)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public int compareTo(final Pull pull) {
+        return new Integer(this.number()).compareTo(pull.number());
     }
 
 }

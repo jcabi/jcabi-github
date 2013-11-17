@@ -79,4 +79,9 @@ public final class RepoMocker implements Repo {
         return this.iss;
     }
 
+    @Override
+    public Pulls pulls() {
+        throw new UnsupportedOperationException("#pulls()");
+    }
+
 }

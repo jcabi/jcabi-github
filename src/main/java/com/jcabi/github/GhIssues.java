@@ -39,10 +39,9 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -124,14 +123,14 @@ final class GhIssues implements Issues {
 
     @Override
     public Iterable<Issue> iterate() throws IOException {
-        final JsonArray array = this.request
+        final List<JsonObject> array = this.request
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
-            .json().readArray();
+            .json().readArray().getValuesAs(JsonObject.class);
         final Collection<Issue> issues = new ArrayList<Issue>(array.size());
-        for (final JsonValue item : array) {
-            issues.add(this.get(JsonObject.class.cast(item).getInt("number")));
+        for (final JsonObject item : array) {
+            issues.add(this.get(item.getInt("number")));
         }
         return issues;
     }

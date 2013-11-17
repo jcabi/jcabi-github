@@ -39,6 +39,7 @@ import javax.validation.constraints.NotNull;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  */
 @Immutable
 public interface Comments {
@@ -54,6 +55,7 @@ public interface Comments {
      * Get comment by number.
      * @param number Comment number
      * @return Comment
+     * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
      */
     @NotNull(message = "comment is never NULL")
     Comment get(int number);
@@ -62,6 +64,7 @@ public interface Comments {
      * Iterate them all.
      * @return All comments
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/issues/comments/#list-comments-on-an-issue">List Comments on an Issue</a>
      */
     Iterable<Comment> iterate() throws IOException;
 
@@ -70,6 +73,7 @@ public interface Comments {
      * @param text Text of comment to post in Markdown format
      * @return Comment
      * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/issues/comments/#create-a-comment">Create a Comment</a>
      */
     @NotNull(message = "comment is never NULL")
     Comment post(@NotNull(message = "text can't be NULL") String text)

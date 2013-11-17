@@ -42,16 +42,16 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github issue.
+ * Github pull request.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @since 0.3
+ * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Issue extends Comparable<Issue> {
+public interface Pull extends Comparable<Pull> {
 
     /**
      * Repository we're in.
@@ -62,31 +62,42 @@ public interface Issue extends Comparable<Issue> {
 
     /**
      * Get its number.
-     * @return Issue number
+     * @return Pull request number
      */
     int number();
 
     /**
-     * Get all comments of the issue.
-     * @return Comments
-     * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+     * Get all commits of the pull request.
+     * @return Commits
+     * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/pulls/#list-commits-on-a-pull-request">List Commits on a Pull Request</a>
      */
-    @NotNull(message = "comments are never NULL")
-    Comments comments();
+    @NotNull(message = "commits are never NULL")
+    Iterable<Commit> commits() throws IOException;
 
     /**
-     * Get all labels of the issue.
-     * @return Labels
-     * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+     * List all files of the pull request.
+     * @return Files
+     * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests-files">List Pull Request Files</a>
      */
-    @NotNull(message = "labels are never NULL")
-    Labels labels();
+    @NotNull(message = "iterable of files is never NULL")
+    Iterable<JsonObject> files() throws IOException;
+
+    /**
+     * Merge it.
+     * @param msg Commit message
+     * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
+     */
+    void merge(@NotNull(message = "message can't be NULL") String msg)
+        throws IOException;
 
     /**
      * Describe it in a JSON object.
      * @return JSON object
      * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
+     * @see <a href="http://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
      */
     @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;
@@ -95,29 +106,29 @@ public interface Issue extends Comparable<Issue> {
      * Patch using this JSON object.
      * @param json JSON object
      * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#edit-an-issue">Edit an Issue</a>
+     * @see <a href="http://developer.github.com/v3/pulls/#update-a-pull-request">Update a Pull Request</a>
      */
-    void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
+    void patch(@NotNull(message = "JSON can't be NULL") JsonObject json)
         throws IOException;
 
     /**
-     * Issue manipulation toolkit.
+     * Pull request manipulation toolkit.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "issue")
+    @EqualsAndHashCode(of = "pull")
     final class Tool {
         /**
-         * Encapsulated issue.
+         * Encapsulated pull request.
          */
-        private final transient Issue issue;
+        private final transient Pull pull;
         /**
          * Public ctor.
-         * @param iss Issue
+         * @param pll Pull request
          */
-        public Tool(final Issue iss) {
-            this.issue = iss;
+        public Tool(final Pull pll) {
+            this.pull = pll;
         }
         /**
          * Is it open?
@@ -129,31 +140,17 @@ public interface Issue extends Comparable<Issue> {
             return "open".equals(this.state());
         }
         /**
-         * Open it (make sure it's open).
-         * @throws IOException If fails
-         */
-        public void open() throws IOException {
-            this.state("open");
-        }
-        /**
-         * Close it (make sure it's closed).
-         * @throws IOException If fails
-         */
-        public void close() throws IOException {
-            this.state("closed");
-        }
-        /**
          * Get its state.
-         * @return State of issue
+         * @return State of pull request
          * @throws IOException If fails
          */
         public String state() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
-            final String state = this.issue.json().getString("state");
+            final String state = this.pull.json().getString("state");
             if (state == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "state is NULL is issue #%d", this.issue.number()
+                        "state is NULL is pull request #%d", this.pull.number()
                     )
                 );
             }
@@ -161,26 +158,26 @@ public interface Issue extends Comparable<Issue> {
         }
         /**
          * Change its state.
-         * @param state State of issue
+         * @param state State of pull request
          * @throws IOException If fails
          */
         public void state(final String state) throws IOException {
-            this.issue.patch(
+            this.pull.patch(
                 Json.createObjectBuilder().add("state", state).build()
             );
         }
         /**
          * Get its body.
-         * @return Body of issue
+         * @return Body of pull request
          * @throws IOException If fails
          */
         public String title() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
-            final String title = this.issue.json().getString("title");
+            final String title = this.pull.json().getString("title");
             if (title == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "title is NULL is issue #%d", this.issue.number()
+                        "title is NULL is issue #%d", this.pull.number()
                     )
                 );
             }
@@ -188,26 +185,26 @@ public interface Issue extends Comparable<Issue> {
         }
         /**
          * Change its state.
-         * @param text Text of issue
+         * @param text Text of pull request
          * @throws IOException If fails
          */
         public void title(final String text) throws IOException {
-            this.issue.patch(
+            this.pull.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
         }
         /**
          * Get its title.
-         * @return Title of issue
+         * @return Title of pull request
          * @throws IOException If fails
          */
         public String body() throws IOException {
             // @checkstyle MultipleStringLiterals (1 line)
-            final String body = this.issue.json().getString("body");
+            final String body = this.pull.json().getString("body");
             if (body == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "body is NULL is issue #%d", this.issue.number()
+                        "body is NULL is issue #%d", this.pull.number()
                     )
                 );
             }
@@ -215,35 +212,25 @@ public interface Issue extends Comparable<Issue> {
         }
         /**
          * Change its body.
-         * @param text Body of issue
+         * @param text Body of pull request
          * @throws IOException If fails
          */
         public void body(final String text) throws IOException {
-            this.issue.patch(
+            this.pull.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
         /**
-         * Assign this issue to another user.
-         * @param login Login of the user to assign to
-         * @throws IOException If fails
-         */
-        public void assign(final String login) throws IOException {
-            this.issue.patch(
-                Json.createObjectBuilder().add("assignee", login).build()
-            );
-        }
-        /**
          * Get its URL.
-         * @return URL of issue
+         * @return URL of pull request
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            final String url = this.issue.json().getString("url");
+            final String url = this.pull.json().getString("url");
             if (url == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "url is NULL is issue #%d", this.issue.number()
+                        "url is NULL is issue #%d", this.pull.number()
                     )
                 );
             }
@@ -255,15 +242,15 @@ public interface Issue extends Comparable<Issue> {
         }
         /**
          * Get its HTML URL.
-         * @return URL of issue
+         * @return URL of pull request
          * @throws IOException If fails
          */
         public URL htmlUrl() throws IOException {
-            final String url = this.issue.json().getString("html_url");
+            final String url = this.pull.json().getString("html_url");
             if (url == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "html_url is NULL is issue #%d", this.issue.number()
+                        "html_url is NULL is issue #%d", this.pull.number()
                     )
                 );
             }
@@ -274,16 +261,64 @@ public interface Issue extends Comparable<Issue> {
             }
         }
         /**
-         * When this issue was created.
+         * When this pull request was created.
          * @return Date of creation
          * @throws IOException If fails
          */
         public Date createdAt() throws IOException {
-            final String date = this.issue.json().getString("created_at");
+            final String date = this.pull.json().getString("created_at");
             if (date == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "created_at is NULL is issue #%d", this.issue.number()
+                        "created_at is NULL is issue #%d", this.pull.number()
+                    )
+                );
+            }
+            return new Time(date).date();
+        }
+        /**
+         * When this pull request was updated.
+         * @return Date of update
+         * @throws IOException If fails
+         */
+        public Date updatedAt() throws IOException {
+            final String date = this.pull.json().getString("updated_at");
+            if (date == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "updated_at is NULL is issue #%d", this.pull.number()
+                    )
+                );
+            }
+            return new Time(date).date();
+        }
+        /**
+         * When this pull request was closed.
+         * @return Date of closing
+         * @throws IOException If fails
+         */
+        public Date closedAt() throws IOException {
+            final String date = this.pull.json().getString("closed_at");
+            if (date == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "closed_at is NULL is issue #%d", this.pull.number()
+                    )
+                );
+            }
+            return new Time(date).date();
+        }
+        /**
+         * When this pull request was merged.
+         * @return Date of merging
+         * @throws IOException If fails
+         */
+        public Date mergedAt() throws IOException {
+            final String date = this.pull.json().getString("merged_at");
+            if (date == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "merged_at is NULL is issue #%d", this.pull.number()
                     )
                 );
             }

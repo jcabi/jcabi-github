@@ -90,4 +90,9 @@ final class GhRepo implements Repo {
         return new GhIssues(this.entry, this);
     }
 
+    @Override
+    public Pulls pulls() {
+        return new GhPulls(this.entry, this);
+    }
+
 }

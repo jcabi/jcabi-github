@@ -38,9 +38,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.json.JsonArray;
+import java.util.List;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -95,14 +94,14 @@ final class GhGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() throws IOException {
-        final JsonArray array = this.request.fetch()
+        final List<JsonObject> array = this.request.fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
-            .json().readArray();
+            .json().readArray().getValuesAs(JsonObject.class);
         final Collection<Gist> gists = new ArrayList<Gist>(array.size());
-        for (final JsonValue value : array) {
-            gists.add(this.get(JsonObject.class.cast(value).getString("id")));
+        for (final JsonObject value : array) {
+            gists.add(this.get(value.getString("id")));
         }
         return gists;
     }
