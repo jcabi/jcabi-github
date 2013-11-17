@@ -37,9 +37,7 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
@@ -117,23 +115,24 @@ final class GhIssueLabels implements Labels {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Label> iterate() throws IOException {
-        final List<JsonObject> array = this.entry.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Label> labels = new ArrayList<Label>(array.size());
-        for (final JsonObject item : array) {
-            labels.add(
-                new Label.Simple(
-                    item.getString("name"),
-                    item.getString("color")
-                )
-            );
-        }
-        return labels;
+        return new Iterable<Label>() {
+            @Override
+            public Iterator<Label> iterator() {
+                return new GhPagination<Label>(
+                    GhIssueLabels.this.entry,
+                    new GhPagination.Mapping<Label>() {
+                        @Override
+                        public Label map(final JsonObject object) {
+                            return new Label.Simple(
+                                object.getString("name"),
+                                object.getString("color")
+                            );
+                        }
+                    }
+                );
+            }
+        };
     }
 
 }

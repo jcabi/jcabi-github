@@ -37,9 +37,7 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -123,16 +121,20 @@ final class GhIssues implements Issues {
 
     @Override
     public Iterable<Issue> iterate() throws IOException {
-        final List<JsonObject> array = this.request
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Issue> issues = new ArrayList<Issue>(array.size());
-        for (final JsonObject item : array) {
-            issues.add(this.get(item.getInt("number")));
-        }
-        return issues;
+        return new Iterable<Issue>() {
+            @Override
+            public Iterator<Issue> iterator() {
+                return new GhPagination<Issue>(
+                    GhIssues.this.request,
+                    new GhPagination.Mapping<Issue>() {
+                        @Override
+                        public Issue map(final JsonObject object) {
+                            return GhIssues.this.get(object.getInt("number"));
+                        }
+                    }
+                );
+            }
+        };
     }
 
 }

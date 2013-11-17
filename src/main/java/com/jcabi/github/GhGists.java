@@ -31,14 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
-import com.rexsl.test.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -94,16 +89,20 @@ final class GhGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() throws IOException {
-        final List<JsonObject> array = this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Gist> gists = new ArrayList<Gist>(array.size());
-        for (final JsonObject value : array) {
-            gists.add(this.get(value.getString("id")));
-        }
-        return gists;
+        return new Iterable<Gist>() {
+            @Override
+            public Iterator<Gist> iterator() {
+                return new GhPagination<Gist>(
+                    GhGists.this.request,
+                    new GhPagination.Mapping<Gist>() {
+                        @Override
+                        public Gist map(final JsonObject object) {
+                            return GhGists.this.get(object.getString("id"));
+                        }
+                    }
+                );
+            }
+        };
     }
 
 }

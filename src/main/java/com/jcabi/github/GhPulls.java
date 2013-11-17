@@ -37,9 +37,7 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -128,16 +126,20 @@ final class GhPulls implements Pulls {
 
     @Override
     public Iterable<Pull> iterate() throws IOException {
-        final List<JsonObject> array = this.request
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Pull> pulls = new ArrayList<Pull>(array.size());
-        for (final JsonObject item : array) {
-            pulls.add(this.get(item.getInt("number")));
-        }
-        return pulls;
+        return new Iterable<Pull>() {
+            @Override
+            public Iterator<Pull> iterator() {
+                return new GhPagination<Pull>(
+                    GhPulls.this.request,
+                    new GhPagination.Mapping<Pull>() {
+                        @Override
+                        public Pull map(final JsonObject object) {
+                            return GhPulls.this.get(object.getInt("number"));
+                        }
+                    }
+                );
+            }
+        };
     }
 
 }

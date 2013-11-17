@@ -37,9 +37,7 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -124,17 +122,20 @@ final class GhComments implements Comments {
 
     @Override
     public Iterable<Comment> iterate() throws IOException {
-        final List<JsonObject> array = this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Comment> comments =
-            new ArrayList<Comment>(array.size());
-        for (final JsonObject item : array) {
-            comments.add(this.get(item.getInt("id")));
-        }
-        return comments;
+        return new Iterable<Comment>() {
+            @Override
+            public Iterator<Comment> iterator() {
+                return new GhPagination<Comment>(
+                    GhComments.this.request,
+                    new GhPagination.Mapping<Comment>() {
+                        @Override
+                        public Comment map(final JsonObject object) {
+                            return GhComments.this.get(object.getInt("id"));
+                        }
+                    }
+                );
+            }
+        };
     }
 
 }
