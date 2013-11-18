@@ -48,7 +48,7 @@ public final class GhGistITCase {
     @Test
     public void readsAndWritesGists() throws Exception {
         final Gist gist = GhGistITCase.gist();
-        final String file = new Gist.Tool(gist).files().iterator().next();
+        final String file = new Gist.Smart(gist).files().iterator().next();
         gist.write(file, "hey, works for you this way?");
         MatcherAssert.assertThat(
             gist.read(file),

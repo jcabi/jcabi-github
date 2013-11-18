@@ -54,7 +54,7 @@ public final class GhIssuesITCase {
             .with("sort", "comments");
         for (final Issue issue : repo.issues().iterate(params)) {
             MatcherAssert.assertThat(
-                new Issue.Tool(issue).title(),
+                new Issue.Smart(issue).title(),
                 Matchers.notNullValue()
             );
         }

@@ -50,7 +50,7 @@ public final class GithubTest {
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
-            new Comment.Tool(comment).body(),
+            new Comment.Smart(comment).body(),
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
@@ -58,8 +58,8 @@ public final class GithubTest {
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            new User.Tool(new Comment.Tool(comment).author()).name(),
-            Matchers.equalTo(new User.Tool(repo.github().users().self()).name())
+            new User.Smart(new Comment.Smart(comment).author()).name(),
+            Matchers.equalTo(new User.Smart(repo.github().users().self()).name())
         );
     }
 

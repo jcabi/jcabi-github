@@ -85,14 +85,14 @@ public interface User {
         throws IOException;
 
     /**
-     * Smart Gist that can manipulate with JSON data.
+     * Smart user with extra features.
      * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "user")
-    final class Tool {
+    final class Smart implements User {
         /**
          * Encapsulated user.
          */
@@ -101,7 +101,7 @@ public interface User {
          * Public ctor.
          * @param usr User
          */
-        public Tool(final User usr) {
+        public Smart(final User usr) {
             this.user = usr;
         }
         /**
@@ -161,6 +161,22 @@ public interface User {
          */
         public String email() throws IOException {
             return this.user.json().getString("email");
+        }
+        @Override
+        public Github github() {
+            return this.user.github();
+        }
+        @Override
+        public String login() throws IOException {
+            return this.user.login();
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.user.json();
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.user.patch(json);
         }
     }
 

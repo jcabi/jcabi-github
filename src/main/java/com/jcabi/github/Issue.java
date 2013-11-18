@@ -110,13 +110,13 @@ public interface Issue extends Comparable<Issue> {
         throws IOException;
 
     /**
-     * Issue manipulation toolkit.
+     * Smart Issue with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "issue")
-    final class Tool {
+    final class Smart implements Issue {
         /**
          * Encapsulated issue.
          */
@@ -125,7 +125,7 @@ public interface Issue extends Comparable<Issue> {
          * Public ctor.
          * @param iss Issue
          */
-        public Tool(final Issue iss) {
+        public Smart(final Issue iss) {
             this.issue = iss;
         }
         /**
@@ -327,6 +327,38 @@ public interface Issue extends Comparable<Issue> {
             return this.issue.repo().pulls().get(
                 Integer.parseInt(url.substring(url.lastIndexOf('/') + 1))
             );
+        }
+        @Override
+        public Repo repo() {
+            return this.issue.repo();
+        }
+        @Override
+        public int number() {
+            return this.issue.number();
+        }
+        @Override
+        public Comments comments() {
+            return this.issue.comments();
+        }
+        @Override
+        public Labels labels() {
+            return this.issue.labels();
+        }
+        @Override
+        public Iterable<Event> events() {
+            return this.issue.events();
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.issue.json();
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.issue.patch(json);
+        }
+        @Override
+        public int compareTo(final Issue obj) {
+            return this.issue.compareTo(obj);
         }
     }
 

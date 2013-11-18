@@ -74,13 +74,13 @@ public interface Commit extends Comparable<Commit> {
     JsonObject json() throws IOException;
 
     /**
-     * Commit manipulation toolkit.
+     * Smart commit.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "commit")
-    final class Tool {
+    final class Smart implements Commit {
         /**
          * Encapsulated commit.
          */
@@ -89,7 +89,7 @@ public interface Commit extends Comparable<Commit> {
          * Public ctor.
          * @param cmt Commit
          */
-        public Tool(final Commit cmt) {
+        public Smart(final Commit cmt) {
             this.commit = cmt;
         }
         /**
@@ -107,6 +107,22 @@ public interface Commit extends Comparable<Commit> {
          */
         public URL url() throws IOException {
             return new URL(this.commit.json().getString("url"));
+        }
+        @Override
+        public Repo repo() {
+            return this.commit.repo();
+        }
+        @Override
+        public String sha() {
+            return this.commit.sha();
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.commit.json();
+        }
+        @Override
+        public int compareTo(final Commit obj) {
+            return this.commit.compareTo(obj);
         }
     }
 

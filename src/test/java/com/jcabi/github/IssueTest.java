@@ -50,12 +50,12 @@ public final class IssueTest {
     public void opensAndCloses() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).isOpen(),
+            new Issue.Smart(issue).isOpen(),
             Matchers.is(true)
         );
-        new Issue.Tool(issue).close();
+        new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).isOpen(),
+            new Issue.Smart(issue).isOpen(),
             Matchers.is(false)
         );
     }
@@ -67,9 +67,9 @@ public final class IssueTest {
     @Test
     public void changesTitle() throws Exception {
         final Issue issue = this.issue();
-        new Issue.Tool(issue).title("hey, works?");
+        new Issue.Smart(issue).title("hey, works?");
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).title(),
+            new Issue.Smart(issue).title(),
             Matchers.startsWith("hey, ")
         );
     }
@@ -81,15 +81,15 @@ public final class IssueTest {
     @Test
     public void changesBody() throws Exception {
         final Issue issue = this.issue();
-        new Issue.Tool(issue).body("hey, body works?");
+        new Issue.Smart(issue).body("hey, body works?");
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).body(),
+            new Issue.Smart(issue).body(),
             Matchers.startsWith("hey, b")
         );
     }
 
     /**
-     * Issue.Tool can detect a pull request.
+     * Issue.Smart can detect a pull request.
      * @throws Exception If some problem inside
      */
     @Test
@@ -103,11 +103,11 @@ public final class IssueTest {
             ).build()
         ).when(issue).json();
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).isPull(),
+            new Issue.Smart(issue).isPull(),
             Matchers.is(true)
         );
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).pull().number(),
+            new Issue.Smart(issue).pull().number(),
             Matchers.equalTo(1)
         );
     }

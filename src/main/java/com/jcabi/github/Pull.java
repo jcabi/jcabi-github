@@ -112,13 +112,13 @@ public interface Pull extends Comparable<Pull> {
         throws IOException;
 
     /**
-     * Pull request manipulation toolkit.
+     * Smart pull request with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "pull")
-    final class Tool {
+    final class Smart implements Pull {
         /**
          * Encapsulated pull request.
          */
@@ -127,7 +127,7 @@ public interface Pull extends Comparable<Pull> {
          * Public ctor.
          * @param pll Pull request
          */
-        public Tool(final Pull pll) {
+        public Smart(final Pull pll) {
             this.pull = pll;
         }
         /**
@@ -323,6 +323,38 @@ public interface Pull extends Comparable<Pull> {
                 );
             }
             return new Time(date).date();
+        }
+        @Override
+        public Repo repo() {
+            return this.pull.repo();
+        }
+        @Override
+        public int number() {
+            return this.pull.number();
+        }
+        @Override
+        public Iterable<Commit> commits() throws IOException {
+            return this.pull.commits();
+        }
+        @Override
+        public Iterable<JsonObject> files() throws IOException {
+            return this.pull.files();
+        }
+        @Override
+        public void merge(final String msg) throws IOException {
+            this.pull.merge(msg);
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.pull.json();
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.pull.patch(json);
+        }
+        @Override
+        public int compareTo(final Pull obj) {
+            return this.pull.compareTo(obj);
         }
     }
 

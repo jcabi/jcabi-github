@@ -83,7 +83,7 @@ public final class CommentsMocker implements Comments {
             ).mock();
             this.map.put(number, comment);
         }
-        new Comment.Tool(comment).body(text);
+        new Comment.Smart(comment).body(text);
         Logger.info(
             this, "Github comment #%d posted to issue #%d: %s",
             number, this.owner.number(), text

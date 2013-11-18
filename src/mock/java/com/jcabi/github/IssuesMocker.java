@@ -83,8 +83,8 @@ public final class IssuesMocker implements Issues {
             issue = new IssueMocker(this.owner, number).mock();
             this.map.put(number, issue);
         }
-        new Issue.Tool(issue).title(title);
-        new Issue.Tool(issue).body(body);
+        new Issue.Smart(issue).title(title);
+        new Issue.Smart(issue).body(body);
         Logger.info(
             this, "Github issue #%d created: %s",
             number, title

@@ -91,13 +91,13 @@ public interface Gist {
     JsonObject json() throws IOException;
 
     /**
-     * Smart Gist that can manipulate with JSON data.
+     * Smart Gist with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "gist")
-    final class Tool {
+    final class Smart implements Gist {
         /**
          * Encapsulated gist.
          */
@@ -106,7 +106,7 @@ public interface Gist {
          * Public ctor.
          * @param gst Gist
          */
-        public Tool(final Gist gst) {
+        public Smart(final Gist gst) {
             this.gist = gst;
         }
         /**
@@ -122,6 +122,23 @@ public interface Gist {
                 files.add(JsonObject.class.cast(value).getString("filename"));
             }
             return files;
+        }
+        @Override
+        public Github github() {
+            return this.gist.github();
+        }
+        @Override
+        public String read(final String name) throws IOException {
+            return this.gist.read(name);
+        }
+        @Override
+        public void write(final String name, final String content)
+            throws IOException {
+            this.gist.write(name, content);
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.gist.json();
         }
     }
 

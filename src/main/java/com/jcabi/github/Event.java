@@ -76,13 +76,13 @@ public interface Event extends Comparable<Event> {
     JsonObject json() throws IOException;
 
     /**
-     * Event manipulation toolkit.
+     * Smart event with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "event")
-    final class Tool {
+    final class Smart implements Event {
         /**
          * Encapsulated event.
          */
@@ -91,7 +91,7 @@ public interface Event extends Comparable<Event> {
          * Public ctor.
          * @param evt Event
          */
-        public Tool(final Event evt) {
+        public Smart(final Event evt) {
             this.event = evt;
         }
         /**
@@ -155,6 +155,22 @@ public interface Event extends Comparable<Event> {
                 );
             }
             return new Time(date).date();
+        }
+        @Override
+        public Repo repo() {
+            return this.event.repo();
+        }
+        @Override
+        public int number() {
+            return this.event.number();
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.event.json();
+        }
+        @Override
+        public int compareTo(final Event obj) {
+            return this.event.compareTo(obj);
         }
     }
 

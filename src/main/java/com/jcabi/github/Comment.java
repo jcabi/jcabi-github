@@ -90,13 +90,13 @@ public interface Comment extends Comparable<Comment> {
         throws IOException;
 
     /**
-     * Comment manipulation toolkit.
+     * Smart comment with additional features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "comment")
-    final class Tool {
+    final class Smart implements Comment {
         /**
          * Encapsulated comment.
          */
@@ -105,7 +105,7 @@ public interface Comment extends Comparable<Comment> {
          * Public ctor.
          * @param cmt Comment
          */
-        public Tool(final Comment cmt) {
+        public Smart(final Comment cmt) {
             this.comment = cmt;
         }
         /**
@@ -160,6 +160,30 @@ public interface Comment extends Comparable<Comment> {
          */
         public Date updatedAt() throws IOException {
             return new Time(this.comment.json().getString("updated_at")).date();
+        }
+        @Override
+        public Issue issue() {
+            return this.comment.issue();
+        }
+        @Override
+        public int number() {
+            return this.comment.number();
+        }
+        @Override
+        public void remove() throws IOException {
+            this.comment.remove();
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.comment.json();
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.comment.patch(json);
+        }
+        @Override
+        public int compareTo(final Comment obj) {
+            return this.comment.compareTo(obj);
         }
     }
 

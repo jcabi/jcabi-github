@@ -47,9 +47,9 @@ public final class CommentTest {
     @Test
     public void changesBody() throws Exception {
         final Comment comment = this.comment();
-        new Comment.Tool(comment).body("hello, this is a new body");
+        new Comment.Smart(comment).body("hello, this is a new body");
         MatcherAssert.assertThat(
-            new Comment.Tool(comment).body(),
+            new Comment.Smart(comment).body(),
             Matchers.startsWith("hello, this ")
         );
     }

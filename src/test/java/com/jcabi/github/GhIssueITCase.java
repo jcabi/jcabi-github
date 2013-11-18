@@ -52,7 +52,7 @@ public final class GhIssueITCase {
         final Issue issue = GhIssueITCase.issue();
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
-            new Comment.Tool(comment).body(),
+            new Comment.Smart(comment).body(),
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
@@ -60,9 +60,9 @@ public final class GhIssueITCase {
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            new User.Tool(new Comment.Tool(comment).author()).name(),
+            new User.Smart(new Comment.Smart(comment).author()).name(),
             Matchers.equalTo(
-                new User.Tool(issue.repo().github().users().self()).name()
+                new User.Smart(issue.repo().github().users().self()).name()
             )
         );
         comment.remove();
@@ -96,14 +96,14 @@ public final class GhIssueITCase {
     @Test
     public void changesTitleAndBody() throws Exception {
         final Issue issue = GhIssueITCase.issue();
-        new Issue.Tool(issue).title("test one more time");
+        new Issue.Smart(issue).title("test one more time");
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).title(),
+            new Issue.Smart(issue).title(),
             Matchers.startsWith("test o")
         );
-        new Issue.Tool(issue).body("some new body of the issue");
+        new Issue.Smart(issue).body("some new body of the issue");
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).body(),
+            new Issue.Smart(issue).body(),
             Matchers.startsWith("some new ")
         );
     }
@@ -115,14 +115,14 @@ public final class GhIssueITCase {
     @Test
     public void changesIssueState() throws Exception {
         final Issue issue = GhIssueITCase.issue();
-        new Issue.Tool(issue).close();
+        new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).isOpen(),
+            new Issue.Smart(issue).isOpen(),
             Matchers.is(false)
         );
-        new Issue.Tool(issue).open();
+        new Issue.Smart(issue).open();
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).isOpen(),
+            new Issue.Smart(issue).isOpen(),
             Matchers.is(true)
         );
     }
@@ -135,7 +135,7 @@ public final class GhIssueITCase {
     public void checksForPullRequest() throws Exception {
         final Issue issue = GhIssueITCase.issue();
         MatcherAssert.assertThat(
-            new Issue.Tool(issue).isPull(),
+            new Issue.Smart(issue).isPull(),
             Matchers.is(false)
         );
     }
@@ -147,9 +147,9 @@ public final class GhIssueITCase {
     @Test
     public void listsIssueEvents() throws Exception {
         final Issue issue = GhIssueITCase.issue();
-        new Issue.Tool(issue).close();
+        new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            new Event.Tool(issue.events().iterator().next()).type(),
+            new Event.Smart(issue.events().iterator().next()).type(),
             Matchers.equalTo("closed")
         );
     }
