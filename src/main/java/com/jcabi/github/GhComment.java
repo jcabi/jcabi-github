@@ -105,13 +105,6 @@ final class GhComment implements Comment {
     }
 
     @Override
-    public User author() throws IOException {
-        return this.owner.repo().github().users().get(
-            this.json().getJsonObject("user").getString("login")
-        );
-    }
-
-    @Override
     public void remove() throws IOException {
         this.request.method(Request.DELETE).fetch()
             .as(RestResponse.class)

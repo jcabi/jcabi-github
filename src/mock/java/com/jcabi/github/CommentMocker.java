@@ -61,10 +61,13 @@ public final class CommentMocker implements Comment {
         final User author) throws IOException {
         Mockito.doReturn(number).when(this.comment).number();
         Mockito.doReturn(issue).when(this.comment).issue();
-        Mockito.doReturn(author).when(this.comment).author();
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("body", "some text")
+                .add(
+                    "user",
+                    Json.createObjectBuilder().add("login", author.login())
+                )
                 .build()
         ).when(this.comment).json();
         Mockito.doAnswer(
@@ -89,11 +92,6 @@ public final class CommentMocker implements Comment {
     @Override
     public int number() {
         return this.comment.number();
-    }
-
-    @Override
-    public User author() throws IOException {
-        return this.comment.author();
     }
 
     @Override

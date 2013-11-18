@@ -60,7 +60,7 @@ public final class GhIssueITCase {
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            new User.Tool(comment.author()).name(),
+            new User.Tool(new Comment.Tool(comment).author()).name(),
             Matchers.equalTo(
                 new User.Tool(issue.repo().github().users().self()).name()
             )
@@ -137,6 +137,20 @@ public final class GhIssueITCase {
         MatcherAssert.assertThat(
             new Issue.Tool(issue).isPull(),
             Matchers.is(false)
+        );
+    }
+
+    /**
+     * GhIssue can list issue events.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void listsIssueEvents() throws Exception {
+        final Issue issue = GhIssueITCase.issue();
+        new Issue.Tool(issue).close();
+        MatcherAssert.assertThat(
+            new Event.Tool(issue.events().iterator().next()).type(),
+            Matchers.equalTo("closed")
         );
     }
 

@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import java.util.Iterator;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -99,21 +98,17 @@ final class GhUsers implements Users {
     @Override
     public Iterable<User> iterate(@NotNull(message = "login is never NULL")
         final String login) {
-        return new Iterable<User>() {
-            @Override
-            public Iterator<User> iterator() {
-                return new GhPagination<User>(
-                    GhUsers.this.request.uri()
-                        .queryParam("since", login).back(),
-                    new GhPagination.Mapping<User>() {
-                        @Override
-                        public User map(final JsonObject object) {
-                            return GhUsers.this.get(object.getString("login"));
-                        }
+        return GhPagination.iterable(
+            new GhPagination<User>(
+                this.request.uri().queryParam("since", login).back(),
+                new GhPagination.Mapping<User>() {
+                    @Override
+                    public User map(final JsonObject object) {
+                        return GhUsers.this.get(object.getString("login"));
                     }
-                );
-            }
-        };
+                }
+            )
+        );
     }
 
 }

@@ -121,6 +121,25 @@ final class GhIssue implements Issue {
     }
 
     @Override
+    public Iterable<Event> events() {
+        return GhPagination.iterable(
+            new GhPagination<Event>(
+                this.request.uri().path("/events").back(),
+                new GhPagination.Mapping<Event>() {
+                    @Override
+                    public Event map(final JsonObject object) {
+                        return new GhEvent(
+                            GhIssue.this.entry,
+                            GhIssue.this.owner,
+                            object.getInt("id")
+                        );
+                    }
+                }
+            )
+        );
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return this.request.fetch()
             .as(RestResponse.class)

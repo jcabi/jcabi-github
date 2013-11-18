@@ -37,7 +37,6 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.Iterator;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -130,20 +129,17 @@ final class GhIssues implements Issues {
     public Iterable<Issue> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
-        return new Iterable<Issue>() {
-            @Override
-            public Iterator<Issue> iterator() {
-                return new GhPagination<Issue>(
-                    GhIssues.this.request.uri().queryParams(params).back(),
-                    new GhPagination.Mapping<Issue>() {
-                        @Override
-                        public Issue map(final JsonObject object) {
-                            return GhIssues.this.get(object.getInt("number"));
-                        }
+        return GhPagination.iterable(
+            new GhPagination<Issue>(
+                this.request.uri().queryParams(params).back(),
+                new GhPagination.Mapping<Issue>() {
+                    @Override
+                    public Issue map(final JsonObject object) {
+                        return GhIssues.this.get(object.getInt("number"));
                     }
-                );
-            }
-        };
+                }
+            )
+        );
     }
 
 }

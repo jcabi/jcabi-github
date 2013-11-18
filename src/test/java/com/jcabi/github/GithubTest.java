@@ -58,7 +58,7 @@ public final class GithubTest {
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            new User.Tool(comment.author()).name(),
+            new User.Tool(new Comment.Tool(comment).author()).name(),
             Matchers.equalTo(new User.Tool(repo.github().users().self()).name())
         );
     }

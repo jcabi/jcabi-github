@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.mockito.Mockito;
 
 /**
@@ -75,6 +76,11 @@ public final class RepoMocker implements Repo {
     @Override
     public Pulls pulls() {
         return this.repo.pulls();
+    }
+
+    @Override
+    public Iterable<Event> events() {
+        return Collections.emptyList();
     }
 
 }

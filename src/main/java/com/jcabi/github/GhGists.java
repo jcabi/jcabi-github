@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import java.util.Iterator;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -93,20 +92,17 @@ final class GhGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() {
-        return new Iterable<Gist>() {
-            @Override
-            public Iterator<Gist> iterator() {
-                return new GhPagination<Gist>(
-                    GhGists.this.request,
-                    new GhPagination.Mapping<Gist>() {
-                        @Override
-                        public Gist map(final JsonObject object) {
-                            return GhGists.this.get(object.getString("id"));
-                        }
+        return GhPagination.iterable(
+            new GhPagination<Gist>(
+                this.request,
+                new GhPagination.Mapping<Gist>() {
+                    @Override
+                    public Gist map(final JsonObject object) {
+                        return GhGists.this.get(object.getString("id"));
                     }
-                );
-            }
-        };
+                }
+            )
+        );
     }
 
 }

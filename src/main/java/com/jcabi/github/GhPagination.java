@@ -84,6 +84,21 @@ final class GhPagination<T> implements Iterator<T> {
         this.mapping = mpp;
     }
 
+    /**
+     * Supplementary method to convert Iterator to Iterable.
+     * @param iterator Iterator
+     * @return Iterable
+     * @param <X> Type of iterated objects
+     */
+    public static <X> Iterable<X> iterable(final Iterator<X> iterator) {
+        return new Iterable<X>() {
+            @Override
+            public Iterator<X> iterator() {
+                return iterator;
+            }
+        };
+    }
+
     @Override
     public String toString() {
         return this.request.uri().get().toString();

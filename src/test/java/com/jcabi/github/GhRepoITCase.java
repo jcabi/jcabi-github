@@ -56,6 +56,19 @@ public final class GhRepoITCase {
     }
 
     /**
+     * GhRepo can fetch events.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iteratesEvents() throws Exception {
+        final Repo repo = GhRepoITCase.repo();
+        MatcherAssert.assertThat(
+            repo.events(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside

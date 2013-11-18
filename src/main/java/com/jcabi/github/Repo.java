@@ -70,4 +70,12 @@ public interface Repo {
     @NotNull(message = "iterator of pull requests is never NULL")
     Pulls pulls();
 
+    /**
+     * Get all events for the repository.
+     * @return Events
+     * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
+     */
+    @NotNull(message = "iterable of events is never NULL")
+    Iterable<Event> events();
+
 }

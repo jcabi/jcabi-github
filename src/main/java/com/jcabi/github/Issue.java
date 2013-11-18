@@ -84,6 +84,14 @@ public interface Issue extends Comparable<Issue> {
     Labels labels();
 
     /**
+     * Get all events of the issue.
+     * @return Events
+     * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-an-issue">List Events for an Issue</a>
+     */
+    @NotNull(message = "iterable of events is never NULL")
+    Iterable<Event> events();
+
+    /**
      * Describe it in a JSON object.
      * @return JSON object
      * @throws IOException If fails

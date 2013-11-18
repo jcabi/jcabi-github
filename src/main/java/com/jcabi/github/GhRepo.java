@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -57,6 +58,11 @@ final class GhRepo implements Repo {
     private final transient Request entry;
 
     /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
      * Repository coordinates.
      */
     private final transient Coordinates coords;
@@ -71,6 +77,11 @@ final class GhRepo implements Repo {
         this.ghub = github;
         this.entry = req;
         this.coords = crd;
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(this.coords.user())
+            .path(this.coords.repo())
+            .back();
     }
 
     @Override
@@ -96,6 +107,25 @@ final class GhRepo implements Repo {
     @Override
     public Pulls pulls() {
         return new GhPulls(this.entry, this);
+    }
+
+    @Override
+    public Iterable<Event> events() {
+        return GhPagination.iterable(
+            new GhPagination<Event>(
+                this.request.uri().path("/issues/events").back(),
+                new GhPagination.Mapping<Event>() {
+                    @Override
+                    public Event map(final JsonObject object) {
+                        return new GhEvent(
+                            GhRepo.this.entry,
+                            GhRepo.this,
+                            object.getInt("id")
+                        );
+                    }
+                }
+            )
+        );
     }
 
 }

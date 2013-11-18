@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import java.io.IOException;
+import java.util.Collections;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.mockito.Mockito;
@@ -101,6 +102,11 @@ public final class IssueMocker implements Issue {
     @Override
     public Labels labels() {
         return this.issue.labels();
+    }
+
+    @Override
+    public Iterable<Event> events() {
+        return Collections.emptyList();
     }
 
     @Override

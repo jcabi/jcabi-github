@@ -32,81 +32,67 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github issue comment.
+ * Github event.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @since 0.4
+ * @see <a href="http://developer.github.com/v3/issues/events/">Issue Events API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public interface Comment extends Comparable<Comment> {
+@SuppressWarnings("PMD.TooManyMethods")
+public interface Event extends Comparable<Event> {
 
     /**
-     * The issue it's in.
-     * @return Owner of the comment
+     * Repository we're in.
+     * @return Repo
      */
-    @NotNull(message = "issue is never NULL")
-    Issue issue();
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
 
     /**
-     * Number.
-     * @return Comment number
+     * Get its number.
+     * @return Issue number
      */
     int number();
-
-    /**
-     * Delete the comment.
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
-     */
-    void remove() throws IOException;
 
     /**
      * Describe it in a JSON object.
      * @return JSON object
      * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
+     * @see <a href="http://developer.github.com/v3/issues/events/#get-a-single-event">Get a Single Event</a>
      */
-    @NotNull(message = "JSON object is never NULL")
+    @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;
 
     /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/comments/#edit-a-comment">Edit a Comment</a>
-     */
-    void patch(@NotNull(message = "JSON object can't be NULL") JsonObject json)
-        throws IOException;
-
-    /**
-     * Comment manipulation toolkit.
+     * Event manipulation toolkit.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "comment")
+    @EqualsAndHashCode(of = "event")
     final class Tool {
         /**
-         * Encapsulated comment.
+         * Encapsulated event.
          */
-        private final transient Comment comment;
+        private final transient Event event;
         /**
          * Public ctor.
-         * @param cmt Comment
+         * @param evt Event
          */
-        public Tool(final Comment cmt) {
-            this.comment = cmt;
+        public Tool(final Event evt) {
+            this.event = evt;
         }
         /**
          * Get its author.
@@ -114,52 +100,61 @@ public interface Comment extends Comparable<Comment> {
          * @throws IOException If fails
          */
         public User author() throws IOException {
-            return this.comment.issue().repo().github().users().get(
-                this.comment.json().getJsonObject("user").getString("login")
+            return this.event.repo().github().users().get(
+                this.event.json().getJsonObject("actor").getString("login")
             );
         }
         /**
-         * Get its body.
-         * @return Body of comment
+         * Get its type.
+         * @return State of issue
          * @throws IOException If fails
          */
-        public String body() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            return this.comment.json().getString("body");
-        }
-        /**
-         * Change comment body.
-         * @param text Body of comment
-         * @throws IOException If fails
-         */
-        public void body(final String text) throws IOException {
-            this.comment.patch(
-                Json.createObjectBuilder().add("body", text).build()
-            );
+        public String type() throws IOException {
+            final String type = this.event.json().getString("event");
+            if (type == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "type is NULL in event #%d", this.event.number()
+                    )
+                );
+            }
+            return type;
         }
         /**
          * Get its URL.
-         * @return URL of comment
+         * @return URL of issue
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            return new URL(this.comment.json().getString("url"));
+            final String url = this.event.json().getString("url");
+            if (url == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "url is NULL in issue #%d", this.event.number()
+                    )
+                );
+            }
+            try {
+                return new URL(url);
+            } catch (MalformedURLException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         /**
-         * When this comment was created.
+         * When this issue was created.
          * @return Date of creation
          * @throws IOException If fails
          */
         public Date createdAt() throws IOException {
-            return new Time(this.comment.json().getString("created_at")).date();
-        }
-        /**
-         * When this comment was updated last time.
-         * @return Date of update
-         * @throws IOException If fails
-         */
-        public Date updatedAt() throws IOException {
-            return new Time(this.comment.json().getString("updated_at")).date();
+            final String date = this.event.json().getString("created_at");
+            if (date == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "created_at is NULL in event #%d", this.event.number()
+                    )
+                );
+            }
+            return new Time(date).date();
         }
     }
 

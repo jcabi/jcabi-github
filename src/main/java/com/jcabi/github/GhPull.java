@@ -37,9 +37,6 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -114,21 +111,22 @@ final class GhPull implements Pull {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Commit> commits() throws IOException {
-        final List<JsonObject> array = this.request
-            .uri().path("/commits").back()
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<Commit> commits = new ArrayList<Commit>(array.size());
-        for (final JsonObject item : array) {
-            commits.add(
-                new GhCommit(this.entry, this.owner, item.getString("sha"))
-            );
-        }
-        return commits;
+        return GhPagination.iterable(
+            new GhPagination<Commit>(
+                this.request.uri().path("/commits").back(),
+                new GhPagination.Mapping<Commit>() {
+                    @Override
+                    public Commit map(final JsonObject object) {
+                        return new GhCommit(
+                            GhPull.this.entry,
+                            GhPull.this.owner,
+                            object.getString("sha")
+                        );
+                    }
+                }
+            )
+        );
     }
 
     @Override
