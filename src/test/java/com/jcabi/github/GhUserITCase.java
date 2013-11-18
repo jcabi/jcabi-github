@@ -38,20 +38,20 @@ import org.junit.Test;
  * Integration case for {@link Github}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class GithubITCase {
+public final class GhUserITCase {
 
     /**
-     * Github.Simple authenticates itself.
+     * Github.Simple can understand who am I.
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
-        final Github github = GithubITCase.github();
+    public void checksWhoAmI() throws Exception {
+        final Github github = GhUserITCase.github();
+        final User self = github.users().self();
         MatcherAssert.assertThat(
-            github.users().self(),
-            Matchers.notNullValue()
+            self.login(),
+            Matchers.not(Matchers.isEmptyString())
         );
     }
 

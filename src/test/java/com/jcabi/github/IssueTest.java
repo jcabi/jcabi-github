@@ -29,9 +29,11 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link Issue}.
@@ -83,6 +85,29 @@ public final class IssueTest {
         MatcherAssert.assertThat(
             new Issue.Tool(issue).body(),
             Matchers.startsWith("hey, b")
+        );
+    }
+
+    /**
+     * Issue.Tool can detect a pull request.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void detectsPullRequest() throws Exception {
+        final Issue issue = this.issue();
+        Mockito.doReturn(
+            Json.createObjectBuilder().add(
+                "pull_request",
+                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/2")
+            ).build()
+        ).when(issue).json();
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).isPull(),
+            Matchers.is(true)
+        );
+        MatcherAssert.assertThat(
+            new Issue.Tool(issue).pull().number(),
+            Matchers.equalTo(2)
         );
     }
 

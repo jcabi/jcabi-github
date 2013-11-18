@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Loggable;
 import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
 import com.rexsl.test.RestResponse;
@@ -52,7 +51,6 @@ import lombok.EqualsAndHashCode;
  * @param <T> Type of iterable objects
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
  */
-@Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "mapping", "objects", "hasMore" })
 final class GhPagination<T> implements Iterator<T> {
 

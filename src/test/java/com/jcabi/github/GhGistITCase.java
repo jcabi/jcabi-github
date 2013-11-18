@@ -35,35 +35,36 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link Gist}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class GithubITCase {
+public final class GhGistITCase {
 
     /**
-     * Github.Simple authenticates itself.
+     * GhGist can read and write files.
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
-        final Github github = GithubITCase.github();
+    public void readsAndWritesGists() throws Exception {
+        final Gist gist = GhGistITCase.gist();
+        final String file = new Gist.Tool(gist).files().iterator().next();
+        gist.write(file, "hey, works for you this way?");
         MatcherAssert.assertThat(
-            github.users().self(),
-            Matchers.notNullValue()
+            gist.read(file),
+            Matchers.startsWith("hey, works for ")
         );
     }
 
     /**
-     * Create and return repo to test.
+     * Return gist to test.
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Github github() throws Exception {
+    private static Gist gist() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new Github.Simple(key);
+        return new Github.Simple(key).gists().iterate().iterator().next();
     }
 
 }

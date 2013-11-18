@@ -48,6 +48,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -148,7 +149,6 @@ public interface Issue extends Comparable<Issue> {
          * @throws IOException If fails
          */
         public String state() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
             final String state = this.issue.json().getString("state");
             if (state == null) {
                 throw new IllegalStateException(
@@ -175,7 +175,6 @@ public interface Issue extends Comparable<Issue> {
          * @throws IOException If fails
          */
         public String title() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
             final String title = this.issue.json().getString("title");
             if (title == null) {
                 throw new IllegalStateException(
@@ -202,7 +201,6 @@ public interface Issue extends Comparable<Issue> {
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
             final String body = this.issue.json().getString("body");
             if (body == null) {
                 throw new IllegalStateException(
@@ -288,6 +286,29 @@ public interface Issue extends Comparable<Issue> {
                 );
             }
             return new Time(date).date();
+        }
+        /**
+         * Is it a pull requests?
+         * @return TRUE if it is a pull request
+         * @throws IOException If fails
+         */
+        public boolean isPull() throws IOException {
+            return this.issue.json()
+                .getJsonObject("pull_request")
+                .containsKey("url");
+        }
+        /**
+         * Get pull request.
+         * @return Pull request
+         * @throws IOException If fails
+         */
+        public Pull pull() throws IOException {
+            final String url = this.issue.json()
+                .getJsonObject("pull_request")
+                .getString("url");
+            return this.issue.repo().pulls().get(
+                Integer.parseInt(url.substring(url.lastIndexOf('/')))
+            );
         }
     }
 

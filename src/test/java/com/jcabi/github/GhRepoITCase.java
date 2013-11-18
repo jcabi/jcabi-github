@@ -40,17 +40,17 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class GithubITCase {
+public final class GhRepoITCase {
 
     /**
-     * Github.Simple authenticates itself.
+     * GhRepo can identify itself.
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
-        final Github github = GithubITCase.github();
+    public void identifiesItself() throws Exception {
+        final Repo repo = GhRepoITCase.repo();
         MatcherAssert.assertThat(
-            github.users().self(),
+            repo.coordinates(),
             Matchers.notNullValue()
         );
     }
@@ -60,10 +60,11 @@ public final class GithubITCase {
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Github github() throws Exception {
+    private static Repo repo() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new Github.Simple(key);
+        final Github github = new Github.Simple(key);
+        return github.repo(System.getProperty("failsafe.github.repo"));
     }
 
 }

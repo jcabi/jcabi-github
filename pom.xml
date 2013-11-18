@@ -59,6 +59,10 @@
             <url>http://github.jcabi.com/</url>
         </site>
     </distributionManagement>
+    <properties>
+        <jersey.version>1.17.1</jersey.version>
+        <httpcomponents.version>4.3</httpcomponents.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.jcabi</groupId>
@@ -114,25 +118,25 @@
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>1.17.1</version>
+            <version>${jersey.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-core</artifactId>
-            <version>1.17.1</version>
+            <version>${jersey.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.3</version>
+            <version>${httpcomponents.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.3</version>
+            <version>${httpcomponents.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

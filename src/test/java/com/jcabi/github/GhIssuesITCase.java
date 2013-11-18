@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.immutable.ArrayMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -38,21 +39,25 @@ import org.junit.Test;
  * Integration case for {@link Github}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class GithubITCase {
+public final class GhIssuesITCase {
 
     /**
-     * Github.Simple authenticates itself.
+     * GhIssues can iterate issues.
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
-        final Github github = GithubITCase.github();
-        MatcherAssert.assertThat(
-            github.users().self(),
-            Matchers.notNullValue()
-        );
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    public void iteratesIssues() throws Exception {
+        final Repo repo = GhIssuesITCase.repo();
+        final ArrayMap<String, String> params = new ArrayMap<String, String>()
+            .with("sort", "comments");
+        for (final Issue issue : repo.issues().iterate(params)) {
+            MatcherAssert.assertThat(
+                new Issue.Tool(issue).title(),
+                Matchers.notNullValue()
+            );
+        }
     }
 
     /**
@@ -60,10 +65,11 @@ public final class GithubITCase {
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Github github() throws Exception {
+    private static Repo repo() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new Github.Simple(key);
+        final Github github = new Github.Simple(key);
+        return github.repo(System.getProperty("failsafe.github.repo"));
     }
 
 }
