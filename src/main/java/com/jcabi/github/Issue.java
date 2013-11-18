@@ -129,6 +129,16 @@ public interface Issue extends Comparable<Issue> {
             this.issue = iss;
         }
         /**
+         * Get its author.
+         * @return Author of issue (who submitted it)
+         * @throws IOException If fails
+         */
+        public User author() throws IOException {
+            return this.issue.repo().github().users().get(
+                this.issue.json().getJsonObject("user").getString("login")
+            );
+        }
+        /**
          * Is it open?
          * @return TRUE if it's open
          * @throws IOException If fails
