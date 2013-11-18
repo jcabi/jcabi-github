@@ -22,7 +22,7 @@ You need just this dependency:
 <dependency>
   <groupId>com.jcabi</groupId>
   <artifactId>jcabi-github</artifactId>
-  <version>0.3</version>
+  <version>0.4</version>
 </dependency>
 ```
 
