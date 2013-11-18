@@ -49,6 +49,7 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Comment extends Comparable<Comment> {
 
     /**

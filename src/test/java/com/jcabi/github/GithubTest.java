@@ -58,8 +58,10 @@ public final class GithubTest {
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            new User.Smart(new Comment.Smart(comment).author()).name(),
-            Matchers.equalTo(new User.Smart(repo.github().users().self()).name())
+            new User.Smart(new Comment.Smart(comment).author()).login(),
+            Matchers.equalTo(
+                new User.Smart(repo.github().users().self()).login()
+            )
         );
     }
 
