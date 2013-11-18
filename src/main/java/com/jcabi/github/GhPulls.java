@@ -42,7 +42,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github pull requests.
@@ -54,7 +53,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "owner")
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
 final class GhPulls implements Pulls {
 
@@ -88,6 +86,11 @@ final class GhPulls implements Pulls {
             .path("/pulls")
             .back();
         this.owner = repo;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
@@ -125,7 +128,7 @@ final class GhPulls implements Pulls {
     }
 
     @Override
-    public Iterable<Pull> iterate() throws IOException {
+    public Iterable<Pull> iterate() {
         return new Iterable<Pull>() {
             @Override
             public Iterator<Pull> iterator() {

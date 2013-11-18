@@ -51,13 +51,6 @@ import lombok.ToString;
 public interface Github {
 
     /**
-     * Get myself.
-     * @return Myself
-     */
-    @NotNull(message = "user is never NULL")
-    User self();
-
-    /**
      * Get repository.
      * @param name Repository name in "user/repo" format
      * @return Repository
@@ -71,6 +64,14 @@ public interface Github {
      */
     @NotNull(message = "gists is never NULL")
     Gists gists();
+
+    /**
+     * Users.
+     * @return Users
+     * @since 0.4
+     */
+    @NotNull(message = "users is never NULL")
+    Users users();
 
     /**
      * Simple implementation.
@@ -107,10 +108,6 @@ public interface Github {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
         }
         @Override
-        public User self() {
-            return new GhUser(this.request);
-        }
-        @Override
         @NotNull(message = "repo is never NULL")
         public Repo repo(@NotNull(message = "repository name is never NULL")
             final String name) {
@@ -120,6 +117,11 @@ public interface Github {
         @NotNull(message = "gists are never NULL")
         public Gists gists() {
             return new GhGists(this, this.request);
+        }
+        @Override
+        @NotNull(message = "users are never NULL")
+        public Users users() {
+            return new GhUsers(this, this.request);
         }
     }
 

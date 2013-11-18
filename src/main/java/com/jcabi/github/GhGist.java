@@ -43,7 +43,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github gist.
@@ -55,7 +54,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "ghub", "entry" })
 final class GhGist implements Gist {
 
@@ -78,6 +76,11 @@ final class GhGist implements Gist {
     GhGist(final Github github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req.uri().path("/gists").path(name).back();
+    }
+
+    @Override
+    public String toString() {
+        return this.entry.uri().get().toString();
     }
 
     @Override

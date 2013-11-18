@@ -63,10 +63,10 @@ public interface Comments {
     /**
      * Iterate them all.
      * @return All comments
-     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/issues/comments/#list-comments-on-an-issue">List Comments on an Issue</a>
      */
-    Iterable<Comment> iterate() throws IOException;
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Comment> iterate();
 
     /**
      * Post new comment.

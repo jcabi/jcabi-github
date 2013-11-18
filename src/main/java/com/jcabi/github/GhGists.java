@@ -32,12 +32,10 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import java.io.IOException;
 import java.util.Iterator;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github gists.
@@ -48,7 +46,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "ghub", "request" })
 final class GhGists implements Gists {
 
@@ -79,6 +76,11 @@ final class GhGists implements Gists {
     }
 
     @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
     public Github github() {
         return this.ghub;
     }
@@ -90,7 +92,7 @@ final class GhGists implements Gists {
     }
 
     @Override
-    public Iterable<Gist> iterate() throws IOException {
+    public Iterable<Gist> iterate() {
         return new Iterable<Gist>() {
             @Override
             public Iterator<Gist> iterator() {

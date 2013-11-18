@@ -42,7 +42,6 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github pagination.
@@ -54,7 +53,6 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
  */
 @Loggable(Loggable.DEBUG)
-@ToString(of = "request")
 @EqualsAndHashCode(of = { "request", "mapping", "objects", "hasMore" })
 final class GhPagination<T> implements Iterator<T> {
 
@@ -86,6 +84,11 @@ final class GhPagination<T> implements Iterator<T> {
     GhPagination(final Request req, final GhPagination.Mapping<T> mpp) {
         this.request = req;
         this.mapping = mpp;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override

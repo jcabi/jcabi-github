@@ -56,10 +56,10 @@ public interface Labels {
     /**
      * Iterate them all.
      * @return Iterator of labels
-     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
-    Iterable<Label> iterate() throws IOException;
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Label> iterate();
 
     /**
      * Remove label by name.

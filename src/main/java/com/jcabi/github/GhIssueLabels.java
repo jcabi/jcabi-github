@@ -43,7 +43,6 @@ import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github get labels.
@@ -54,7 +53,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "entry")
 @EqualsAndHashCode(of = "entry")
 final class GhIssueLabels implements Labels {
 
@@ -78,6 +76,11 @@ final class GhIssueLabels implements Labels {
             .path(Integer.toString(issue.number()))
             .path("/labels")
             .back();
+    }
+
+    @Override
+    public String toString() {
+        return this.entry.uri().get().toString();
     }
 
     @Override
@@ -118,7 +121,7 @@ final class GhIssueLabels implements Labels {
     }
 
     @Override
-    public Iterable<Label> iterate() throws IOException {
+    public Iterable<Label> iterate() {
         return new Iterable<Label>() {
             @Override
             public Iterator<Label> iterator() {

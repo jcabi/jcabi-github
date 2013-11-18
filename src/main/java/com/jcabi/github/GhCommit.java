@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github commit.
@@ -49,7 +48,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "owner", "hash" })
 @EqualsAndHashCode(of = { "request", "owner", "hash" })
 final class GhCommit implements Commit {
 
@@ -86,6 +84,11 @@ final class GhCommit implements Commit {
             .back();
         this.owner = repo;
         this.hash = sha;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override

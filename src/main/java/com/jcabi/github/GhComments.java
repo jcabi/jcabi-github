@@ -42,7 +42,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github comments.
@@ -53,7 +52,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = "owner")
 @EqualsAndHashCode(of = { "request", "owner" })
 final class GhComments implements Comments {
 
@@ -92,6 +90,11 @@ final class GhComments implements Comments {
     }
 
     @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
     public Issue issue() {
         return this.owner;
     }
@@ -123,7 +126,7 @@ final class GhComments implements Comments {
     }
 
     @Override
-    public Iterable<Comment> iterate() throws IOException {
+    public Iterable<Comment> iterate() {
         return new Iterable<Comment>() {
             @Override
             public Iterator<Comment> iterator() {

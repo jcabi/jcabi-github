@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github repository.
@@ -44,7 +43,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
 final class GhRepo implements Repo {
 
@@ -73,6 +71,11 @@ final class GhRepo implements Repo {
         this.ghub = github;
         this.entry = req;
         this.coords = crd;
+    }
+
+    @Override
+    public String toString() {
+        return this.coords.toString();
     }
 
     @Override

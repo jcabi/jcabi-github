@@ -59,7 +59,7 @@ public final class GithubTest {
         );
         MatcherAssert.assertThat(
             new User.Tool(comment.author()).name(),
-            Matchers.equalTo(new User.Tool(repo.github().self()).name())
+            Matchers.equalTo(new User.Tool(repo.github().users().self()).name())
         );
     }
 

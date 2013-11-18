@@ -65,7 +65,7 @@ public final class GithubMocker implements Github {
      * @param name Name of itself
      */
     public GithubMocker(final String name) {
-        this.user = new UserMocker(name);
+        this.user = new UserMocker(this, name);
     }
 
     /**
@@ -82,11 +82,6 @@ public final class GithubMocker implements Github {
     }
 
     @Override
-    public User self() {
-        return this.user;
-    }
-
-    @Override
     public Repo repo(@NotNull final String name) {
         return this.repos.get(name);
     }
@@ -94,6 +89,11 @@ public final class GithubMocker implements Github {
     @Override
     public Gists gists() {
         return new GistsMocker(this);
+    }
+
+    @Override
+    public Users users() {
+        return new UsersMocker(this, this.user);
     }
 
 }

@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github comment.
@@ -52,14 +51,8 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "owner", "num" })
 @EqualsAndHashCode(of = { "request", "owner", "num" })
 final class GhComment implements Comment {
-
-    /**
-     * API entry point.
-     */
-    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -84,8 +77,7 @@ final class GhComment implements Comment {
      */
     GhComment(final Request req, final Issue issue, final int number) {
         final Coordinates coords = issue.repo().coordinates();
-        this.entry = req;
-        this.request = this.entry.uri()
+        this.request = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -95,6 +87,11 @@ final class GhComment implements Comment {
             .back();
         this.owner = issue;
         this.num = number;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
@@ -109,8 +106,7 @@ final class GhComment implements Comment {
 
     @Override
     public User author() throws IOException {
-        return new GhUser(
-            this.entry,
+        return this.owner.repo().github().users().get(
             this.json().getJsonObject("user").getString("login")
         );
     }

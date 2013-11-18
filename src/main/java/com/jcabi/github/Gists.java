@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -63,9 +62,9 @@ public interface Gists {
     /**
      * Iterate all gists.
      * @return Iterator of gists
-     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/gists/#list-gists">List Gists</a>
      */
-    Iterable<Gist> iterate() throws IOException;
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Gist> iterate();
 
 }

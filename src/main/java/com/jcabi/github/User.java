@@ -47,7 +47,16 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/users/">User API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface User {
+
+    /**
+     * Github we're in.
+     * @return Github
+     * @since 0.4
+     */
+    @NotNull(message = "Github is never NULL")
+    Github github();
 
     /**
      * Get his login.
@@ -65,6 +74,15 @@ public interface User {
      */
     @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;
+
+    /**
+     * Patch using this JSON object.
+     * @param json JSON object
+     * @throws IOException If fails
+     * @see <a href="http://developer.github.com/v3/users/#update-the-authenticated-user">Update the Authenticated User</a>
+     */
+    void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
+        throws IOException;
 
     /**
      * Smart Gist that can manipulate with JSON data.

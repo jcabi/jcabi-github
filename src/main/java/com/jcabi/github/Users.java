@@ -29,71 +29,51 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.log.Logger;
-import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import com.jcabi.aspects.Immutable;
+import javax.validation.constraints.NotNull;
 
 /**
- * Mocker of {@link Comments}.
+ * Github users.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
  */
-public final class CommentsMocker implements Comments {
+@Immutable
+public interface Users {
 
     /**
-     * Issue.
+     * Github we're in.
+     * @return Github
      */
-    private final transient Issue owner;
+    @NotNull(message = "Github is never NULL")
+    Github github();
 
     /**
-     * All comments.
+     * Get myself.
+     * @return Myself
      */
-    private final transient ConcurrentMap<Integer, Comment> map =
-        new ConcurrentSkipListMap<Integer, Comment>();
+    @NotNull(message = "user is never NULL")
+    User self();
 
     /**
-     * Public ctor.
-     * @param issue Owner of it
+     * Get user by login.
+     * @param login Login of it
+     * @return User
+     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
-    public CommentsMocker(final Issue issue) {
-        this.owner = issue;
-    }
+    @NotNull(message = "user is never NULL")
+    User get(@NotNull(message = "login is never NULL") String login);
 
-    @Override
-    public Issue issue() {
-        return this.owner;
-    }
-
-    @Override
-    public Comment get(final int number) {
-        return this.map.get(number);
-    }
-
-    @Override
-    public Comment post(final String text) throws IOException {
-        final int number;
-        final Comment comment;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            comment = new CommentMocker(
-                number, this.owner, this.owner.repo().github().users().self()
-            );
-            this.map.put(number, comment);
-        }
-        new Comment.Tool(comment).body(text);
-        Logger.info(
-            this, "Github comment #%d posted to issue #%d: %s",
-            number, this.owner.number(), text
-        );
-        return comment;
-    }
-
-    @Override
-    public Iterable<Comment> iterate() {
-        return this.map.values();
-    }
+    /**
+     * Iterate all users, starting with the one you've seen already.
+     * @param login Login you've seen already
+     * @return Iterator of gists
+     * @see <a href="http://developer.github.com/v3/users/#get-all-users">Get All Users</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<User> iterate(@NotNull(message = "login is never NULL")
+        String login);
 
 }

@@ -79,9 +79,9 @@ public interface Pulls {
     /**
      * Iterate them all.
      * @return Iterator of issues
-     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
      */
-    Iterable<Pull> iterate() throws IOException;
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Pull> iterate();
 
 }

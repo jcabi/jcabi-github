@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -42,23 +43,36 @@ import javax.json.JsonObject;
 public final class UserMocker implements User {
 
     /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
      * Login of it.
      */
     private final transient String lgn;
 
     /**
      * Public ctor.
+     * @param github Github
      */
-    public UserMocker() {
-        this("test");
+    public UserMocker(final Github github) {
+        this(github, "test");
     }
 
     /**
      * Public ctor.
+     * @param github Github
      * @param name Name of itself
      */
-    public UserMocker(final String name) {
+    public UserMocker(final Github github, final String name) {
+        this.ghub = github;
         this.lgn = name;
+    }
+
+    @Override
+    public Github github() {
+        return this.ghub;
     }
 
     @Override
@@ -71,6 +85,11 @@ public final class UserMocker implements User {
         return Json.createObjectBuilder()
             .add("name", "Test Name")
             .build();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("#patch()");
     }
 
 }

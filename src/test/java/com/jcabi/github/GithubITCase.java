@@ -87,7 +87,7 @@ public final class GithubITCase {
         );
         MatcherAssert.assertThat(
             new User.Tool(comment.author()).name(),
-            Matchers.equalTo(new User.Tool(github.self()).name())
+            Matchers.equalTo(new User.Tool(github.users().self()).name())
         );
         comment.remove();
     }
@@ -215,7 +215,7 @@ public final class GithubITCase {
     public void checksWhoAmI() throws Exception {
         Assume.assumeThat(GithubITCase.KEY, Matchers.notNullValue());
         final Github github = new Github.Simple(GithubITCase.KEY);
-        final User self = github.self();
+        final User self = github.users().self();
         MatcherAssert.assertThat(
             self.login(),
             Matchers.not(Matchers.isEmptyString())

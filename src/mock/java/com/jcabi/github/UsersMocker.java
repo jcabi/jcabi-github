@@ -29,71 +29,54 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.log.Logger;
-import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.Collections;
 
 /**
- * Mocker of {@link Comments}.
+ * Mocker of {@link Users}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.4
  */
-public final class CommentsMocker implements Comments {
+public final class UsersMocker implements Users {
 
     /**
-     * Issue.
+     * Github.
      */
-    private final transient Issue owner;
+    private final transient Github ghub;
 
     /**
-     * All comments.
+     * Self.
      */
-    private final transient ConcurrentMap<Integer, Comment> map =
-        new ConcurrentSkipListMap<Integer, Comment>();
+    private final transient User user;
 
     /**
      * Public ctor.
-     * @param issue Owner of it
+     * @param github Github
+     * @param self Self
      */
-    public CommentsMocker(final Issue issue) {
-        this.owner = issue;
+    public UsersMocker(final Github github, final User self) {
+        this.ghub = github;
+        this.user = self;
     }
 
     @Override
-    public Issue issue() {
-        return this.owner;
+    public Github github() {
+        return this.ghub;
     }
 
     @Override
-    public Comment get(final int number) {
-        return this.map.get(number);
+    public User self() {
+        return this.user;
     }
 
     @Override
-    public Comment post(final String text) throws IOException {
-        final int number;
-        final Comment comment;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            comment = new CommentMocker(
-                number, this.owner, this.owner.repo().github().users().self()
-            );
-            this.map.put(number, comment);
-        }
-        new Comment.Tool(comment).body(text);
-        Logger.info(
-            this, "Github comment #%d posted to issue #%d: %s",
-            number, this.owner.number(), text
-        );
-        return comment;
+    public User get(final String login) {
+        return new UserMocker(this.ghub, login);
     }
 
     @Override
-    public Iterable<Comment> iterate() {
-        return this.map.values();
+    public Iterable<User> iterate(final String login) {
+        return Collections.singletonList(this.user);
     }
-
 }

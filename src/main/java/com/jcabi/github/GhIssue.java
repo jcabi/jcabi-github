@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github issue.
@@ -53,7 +52,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString(of = { "owner", "num" })
 @EqualsAndHashCode(of = { "request", "owner", "num" })
 final class GhIssue implements Issue {
 
@@ -95,6 +93,11 @@ final class GhIssue implements Issue {
             .back();
         this.owner = repo;
         this.num = number;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override

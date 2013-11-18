@@ -79,10 +79,10 @@ public interface Issues {
      * Iterate them all.
      * @param params Iterating parameters, as requested by API
      * @return Iterator of issues
-     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/issues/#list-issues">List Issues</a>
      */
+    @NotNull(message = "iterable is never NULL")
     Iterable<Issue> iterate(@NotNull(message = "map of params can't be NULL")
-        Map<String, String> params) throws IOException;
+        Map<String, String> params);
 
 }

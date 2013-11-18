@@ -31,28 +31,28 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
-import com.rexsl.test.RestResponse;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import javax.json.Json;
+import java.util.Iterator;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user.
+ * Github users.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.4
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "request" })
-final class GhUser implements User {
+final class GhUsers implements Users {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * Github.
@@ -69,23 +69,10 @@ final class GhUser implements User {
      * @param github Github
      * @param req Request
      */
-    GhUser(final Github github, final Request req) {
-        this(github, req, "");
-    }
-
-    /**
-     * Public ctor.
-     * @param github Github
-     * @param req Request
-     * @param login User identity/identity
-     */
-    GhUser(final Github github, final Request req, final String login) {
+    GhUsers(final Github github, final Request req) {
+        this.entry = req;
         this.ghub = github;
-        if (login.isEmpty()) {
-            this.request = req.uri().path("/user").back();
-        } else {
-            this.request = req.uri().path("/users").path(login).back();
-        }
+        this.request = this.entry.uri().path("/users").back();
     }
 
     @Override
@@ -99,28 +86,34 @@ final class GhUser implements User {
     }
 
     @Override
-    public String login() throws IOException {
-        return this.json().getString("login");
+    public User self() {
+        return new GhUser(this.ghub, this.entry, "");
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return this.request.fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+    public User get(@NotNull(message = "login can't be NULL")
+        final String login) {
+        return new GhUser(this.ghub, this.entry, login);
     }
 
     @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createWriter(post).writeObject(json);
-        this.request.body().set(post.toString()).back()
-            .method(Request.PATCH)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+    public Iterable<User> iterate(@NotNull(message = "login is never NULL")
+        final String login) {
+        return new Iterable<User>() {
+            @Override
+            public Iterator<User> iterator() {
+                return new GhPagination<User>(
+                    GhUsers.this.request.uri()
+                        .queryParam("since", login).back(),
+                    new GhPagination.Mapping<User>() {
+                        @Override
+                        public User map(final JsonObject object) {
+                            return GhUsers.this.get(object.getString("login"));
+                        }
+                    }
+                );
+            }
+        };
     }
 
 }
