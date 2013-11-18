@@ -29,71 +29,40 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.log.Logger;
-import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mocker of {@link Comments}.
- *
+ * Test case for {@link Comment}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
  */
-public final class CommentsMocker implements Comments {
+public final class CommentTest {
 
     /**
-     * Issue.
+     * CommentMocker can change body.
+     * @throws Exception If some problem inside
      */
-    private final transient Issue owner;
-
-    /**
-     * All comments.
-     */
-    private final transient ConcurrentMap<Integer, Comment> map =
-        new ConcurrentSkipListMap<Integer, Comment>();
-
-    /**
-     * Public ctor.
-     * @param issue Owner of it
-     */
-    public CommentsMocker(final Issue issue) {
-        this.owner = issue;
-    }
-
-    @Override
-    public Issue issue() {
-        return this.owner;
-    }
-
-    @Override
-    public Comment get(final int number) {
-        return this.map.get(number);
-    }
-
-    @Override
-    public Comment post(final String text) throws IOException {
-        final int number;
-        final Comment comment;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            comment = new CommentMocker(
-                number, this.owner, this.owner.repo().github().users().self()
-            ).mock();
-            this.map.put(number, comment);
-        }
-        new Comment.Tool(comment).body(text);
-        Logger.info(
-            this, "Github comment #%d posted to issue #%d: %s",
-            number, this.owner.number(), text
+    @Test
+    public void changesBody() throws Exception {
+        final Comment comment = this.comment();
+        new Comment.Tool(comment).body("hello, this is a new body");
+        MatcherAssert.assertThat(
+            new Comment.Tool(comment).body(),
+            Matchers.startsWith("hello, this ")
         );
-        return comment;
     }
 
-    @Override
-    public Iterable<Comment> iterate() {
-        return this.map.values();
+    /**
+     * Create a comment to work with.
+     * @return Comment just created
+     * @throws Exception If some problem inside
+     */
+    private Comment comment() throws Exception {
+        return new GithubMocker().createRepo("tt/a")
+            .issues().create("hey", "how are you?")
+            .comments().post("what's up?");
     }
 
 }

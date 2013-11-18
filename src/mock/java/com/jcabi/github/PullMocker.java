@@ -29,71 +29,91 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.Collections;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.mockito.Mockito;
 
 /**
- * Mocker of {@link Comments}.
+ * Mocker of {@link Pull}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-public final class CommentsMocker implements Comments {
+@SuppressWarnings("PMD.TooManyMethods")
+public final class PullMocker implements Pull {
 
     /**
-     * Issue.
+     * Mocked pull request.
      */
-    private final transient Issue owner;
-
-    /**
-     * All comments.
-     */
-    private final transient ConcurrentMap<Integer, Comment> map =
-        new ConcurrentSkipListMap<Integer, Comment>();
+    private final transient Pull pull = Mockito.mock(Pull.class);
 
     /**
      * Public ctor.
-     * @param issue Owner of it
+     * @param repo Owner of it
+     * @param number Number of it
+     * @throws IOException If fails
      */
-    public CommentsMocker(final Issue issue) {
-        this.owner = issue;
+    public PullMocker(final Repo repo, final int number) throws IOException {
+        Mockito.doReturn(repo).when(this.pull).repo();
+        Mockito.doReturn(number).when(this.pull).number();
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("title", "test issue title")
+                .add("body", "test body")
+                .add("state", "open")
+                .build()
+        ).when(this.pull).json();
     }
 
     @Override
-    public Issue issue() {
-        return this.owner;
+    public Repo repo() {
+        return this.pull.repo();
     }
 
     @Override
-    public Comment get(final int number) {
-        return this.map.get(number);
+    public int number() {
+        return this.pull.number();
     }
 
     @Override
-    public Comment post(final String text) throws IOException {
-        final int number;
-        final Comment comment;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            comment = new CommentMocker(
-                number, this.owner, this.owner.repo().github().users().self()
-            ).mock();
-            this.map.put(number, comment);
-        }
-        new Comment.Tool(comment).body(text);
-        Logger.info(
-            this, "Github comment #%d posted to issue #%d: %s",
-            number, this.owner.number(), text
-        );
-        return comment;
+    public Iterable<Commit> commits() throws IOException {
+        return Collections.emptyList();
     }
 
     @Override
-    public Iterable<Comment> iterate() {
-        return this.map.values();
+    public Iterable<JsonObject> files() throws IOException {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public void merge(final String msg) throws IOException {
+        // nothing to do
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return this.pull.json();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        Mockito.doReturn(json).when(this.pull).json();
+    }
+
+    @Override
+    public int compareTo(final Pull pll) {
+        return new Integer(this.number()).compareTo(pll.number());
+    }
+
+    /**
+     * Get mocked object.
+     * @return Mocked object
+     */
+    public Pull mock() {
+        return this.pull;
     }
 
 }

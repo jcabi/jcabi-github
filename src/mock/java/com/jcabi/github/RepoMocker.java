@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import org.mockito.Mockito;
+
 /**
  * Mocker of {@link Repo}.
  *
@@ -39,19 +41,9 @@ package com.jcabi.github;
 public final class RepoMocker implements Repo {
 
     /**
-     * Github.
+     * Mocked repo.
      */
-    private final transient Github owner;
-
-    /**
-     * All issues.
-     */
-    private final transient Issues iss;
-
-    /**
-     * Coordinates.
-     */
-    private final transient Coordinates crd;
+    private final transient Repo repo = Mockito.mock(Repo.class);
 
     /**
      * Public ctor.
@@ -59,29 +51,30 @@ public final class RepoMocker implements Repo {
      * @param coords Coordinates
      */
     public RepoMocker(final Github github, final Coordinates coords) {
-        this.owner = github;
-        this.iss = new IssuesMocker(this);
-        this.crd = coords;
+        Mockito.doReturn(github).when(this.repo).github();
+        Mockito.doReturn(new IssuesMocker(this)).when(this.repo).issues();
+        Mockito.doReturn(new PullsMocker(this)).when(this.repo).pulls();
+        Mockito.doReturn(coords).when(this.repo).coordinates();
     }
 
     @Override
     public Github github() {
-        return this.owner;
+        return this.repo.github();
     }
 
     @Override
     public Coordinates coordinates() {
-        return this.crd;
+        return this.repo.coordinates();
     }
 
     @Override
     public Issues issues() {
-        return this.iss;
+        return this.repo.issues();
     }
 
     @Override
     public Pulls pulls() {
-        throw new UnsupportedOperationException("#pulls()");
+        return this.repo.pulls();
     }
 
 }

@@ -95,10 +95,11 @@ public final class IssueTest {
     @Test
     public void detectsPullRequest() throws Exception {
         final Issue issue = this.issue();
+        issue.repo().pulls().create("abc", "cde", "efg");
         Mockito.doReturn(
             Json.createObjectBuilder().add(
                 "pull_request",
-                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/2")
+                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/1")
             ).build()
         ).when(issue).json();
         MatcherAssert.assertThat(
@@ -107,7 +108,7 @@ public final class IssueTest {
         );
         MatcherAssert.assertThat(
             new Issue.Tool(issue).pull().number(),
-            Matchers.equalTo(2)
+            Matchers.equalTo(1)
         );
     }
 

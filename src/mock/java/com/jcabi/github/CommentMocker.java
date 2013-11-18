@@ -29,8 +29,12 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
  * Mocker of {@link Comment}.
@@ -42,52 +46,54 @@ import javax.json.JsonObject;
 public final class CommentMocker implements Comment {
 
     /**
-     * Comment number.
+     * Mocked comment.
      */
-    private final transient int num;
-
-    /**
-     * Issue.
-     */
-    private final transient Issue owner;
-
-    /**
-     * Author of it.
-     */
-    private final transient User who;
-
-    /**
-     * JSON with properties.
-     */
-    private transient JsonObject object;
+    private final transient Comment comment = Mockito.mock(Comment.class);
 
     /**
      * Public ctor.
      * @param number Comment number
      * @param issue Owner of it
      * @param author Author of it
+     * @throws IOException If fails
      */
     public CommentMocker(final int number, final Issue issue,
-        final User author) {
-        this.num = number;
-        this.owner = issue;
-        this.who = author;
-        this.object = Json.createObjectBuilder().build();
+        final User author) throws IOException {
+        Mockito.doReturn(number).when(this.comment).number();
+        Mockito.doReturn(issue).when(this.comment).issue();
+        Mockito.doReturn(author).when(this.comment).author();
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("body", "some text")
+                .build()
+        ).when(this.comment).json();
+        Mockito.doAnswer(
+            new Answer<Void>() {
+                @Override
+                public Void answer(final InvocationOnMock inv)
+                    throws IOException {
+                    CommentMocker.this.patch(
+                        JsonObject.class.cast(inv.getArguments()[0])
+                    );
+                    return null;
+                }
+            }
+        ).when(this.comment).patch(Mockito.any(JsonObject.class));
     }
 
     @Override
     public Issue issue() {
-        return this.owner;
+        return this.comment.issue();
     }
 
     @Override
     public int number() {
-        return this.num;
+        return this.comment.number();
     }
 
     @Override
-    public User author() {
-        return this.who;
+    public User author() throws IOException {
+        return this.comment.author();
     }
 
     @Override
@@ -96,18 +102,27 @@ public final class CommentMocker implements Comment {
     }
 
     @Override
-    public JsonObject json() {
-        return this.object;
+    public JsonObject json() throws IOException {
+        return this.comment.json();
     }
 
     @Override
-    public void patch(final JsonObject json) {
-        this.object = new JsonMocker(this.object).patch(json);
+    public void patch(final JsonObject json) throws IOException {
+        Mockito.doReturn(new JsonMocker(this.comment.json()).patch(json))
+            .when(this.comment).json();
     }
 
     @Override
-    public int compareTo(final Comment comment) {
-        return new Integer(this.number()).compareTo(comment.number());
+    public int compareTo(final Comment cmt) {
+        return new Integer(this.number()).compareTo(cmt.number());
+    }
+
+    /**
+     * Get mocked object.
+     * @return Mocked object
+     */
+    public Comment mock() {
+        return this.comment;
     }
 
 }

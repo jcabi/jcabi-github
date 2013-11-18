@@ -35,64 +35,62 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Mocker of {@link Comments}.
+ * Mocker of {@link Pulls}.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-public final class CommentsMocker implements Comments {
+public final class PullsMocker implements Pulls {
 
     /**
-     * Issue.
+     * Repo.
      */
-    private final transient Issue owner;
+    private final transient Repo owner;
 
     /**
-     * All comments.
+     * All pulls.
      */
-    private final transient ConcurrentMap<Integer, Comment> map =
-        new ConcurrentSkipListMap<Integer, Comment>();
+    private final transient ConcurrentMap<Integer, Pull> map =
+        new ConcurrentSkipListMap<Integer, Pull>();
 
     /**
      * Public ctor.
-     * @param issue Owner of it
+     * @param repo Owner of it
      */
-    public CommentsMocker(final Issue issue) {
-        this.owner = issue;
+    public PullsMocker(final Repo repo) {
+        this.owner = repo;
     }
 
     @Override
-    public Issue issue() {
+    public Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Comment get(final int number) {
+    public Pull get(final int number) {
         return this.map.get(number);
     }
 
     @Override
-    public Comment post(final String text) throws IOException {
+    public Pull create(final String title, final String head,
+        final String base) throws IOException {
         final int number;
-        final Comment comment;
+        final Pull pull;
         synchronized (this.map) {
             number = this.map.size() + 1;
-            comment = new CommentMocker(
-                number, this.owner, this.owner.repo().github().users().self()
-            ).mock();
-            this.map.put(number, comment);
+            pull = new PullMocker(this.owner, number).mock();
+            this.map.put(number, pull);
         }
-        new Comment.Tool(comment).body(text);
         Logger.info(
-            this, "Github comment #%d posted to issue #%d: %s",
-            number, this.owner.number(), text
+            this, "Github pull request #%d created: %s",
+            number, title
         );
-        return comment;
+        return pull;
     }
 
     @Override
-    public Iterable<Comment> iterate() {
+    public Iterable<Pull> iterate() {
         return this.map.values();
     }
 

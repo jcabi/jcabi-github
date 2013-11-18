@@ -307,7 +307,7 @@ public interface Issue extends Comparable<Issue> {
                 .getJsonObject("pull_request")
                 .getString("url");
             return this.issue.repo().pulls().get(
-                Integer.parseInt(url.substring(url.lastIndexOf('/')))
+                Integer.parseInt(url.substring(url.lastIndexOf('/') + 1))
             );
         }
     }

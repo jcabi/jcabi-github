@@ -32,6 +32,9 @@ package com.jcabi.github;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
  * Mocker of {@link Issue}.
@@ -44,29 +47,9 @@ import javax.json.JsonObject;
 public final class IssueMocker implements Issue {
 
     /**
-     * Repo.
+     * Mocked comment.
      */
-    private final transient Repo owner;
-
-    /**
-     * Number of it.
-     */
-    private final transient int num;
-
-    /**
-     * Comments.
-     */
-    private final transient Comments cmnts;
-
-    /**
-     * Labels.
-     */
-    private final transient Labels lbls;
-
-    /**
-     * JSON of it.
-     */
-    private transient JsonObject object;
+    private final transient Issue issue = Mockito.mock(Issue.class);
 
     /**
      * Public ctor.
@@ -75,46 +58,73 @@ public final class IssueMocker implements Issue {
      * @throws IOException If fails
      */
     public IssueMocker(final Repo repo, final int number) throws IOException {
-        this.owner = repo;
-        this.cmnts = new CommentsMocker(this);
-        this.lbls = new LabelsMocker();
-        this.object = Json.createObjectBuilder().build();
-        this.num = number;
-        new Issue.Tool(this).open();
+        Mockito.doReturn(repo).when(this.issue).repo();
+        Mockito.doReturn(number).when(this.issue).number();
+        Mockito.doReturn(new CommentsMocker(this)).when(this.issue).comments();
+        Mockito.doReturn(new LabelsMocker()).when(this.issue).labels();
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("title", "test issue title")
+                .add("body", "test body")
+                .add("state", "open")
+                .build()
+        ).when(this.issue).json();
+        Mockito.doAnswer(
+            new Answer<Void>() {
+                @Override
+                public Void answer(final InvocationOnMock inv)
+                    throws IOException {
+                    IssueMocker.this.patch(
+                        JsonObject.class.cast(inv.getArguments()[0])
+                    );
+                    return null;
+                }
+            }
+        ).when(this.issue).patch(Mockito.any(JsonObject.class));
     }
 
     @Override
     public Repo repo() {
-        return this.owner;
+        return this.issue.repo();
     }
 
     @Override
     public int number() {
-        return this.num;
+        return this.issue.number();
     }
 
     @Override
     public Comments comments() {
-        return this.cmnts;
+        return this.issue.comments();
     }
 
     @Override
     public Labels labels() {
-        return this.lbls;
+        return this.issue.labels();
     }
 
     @Override
-    public JsonObject json() {
-        return this.object;
+    public JsonObject json() throws IOException {
+        return this.issue.json();
     }
 
     @Override
-    public void patch(final JsonObject json) {
-        this.object = new JsonMocker(this.object).patch(json);
+    public void patch(final JsonObject json) throws IOException {
+        Mockito.doReturn(new JsonMocker(this.issue.json()).patch(json))
+            .when(this.issue).json();
     }
 
     @Override
-    public int compareTo(final Issue issue) {
-        return new Integer(this.number()).compareTo(issue.number());
+    public int compareTo(final Issue iss) {
+        return new Integer(this.number()).compareTo(iss.number());
     }
+
+    /**
+     * Get mocked object.
+     * @return Mocked object
+     */
+    public Issue mock() {
+        return this.issue;
+    }
+
 }
