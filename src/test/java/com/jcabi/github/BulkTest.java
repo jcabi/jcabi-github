@@ -29,56 +29,48 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.FakeRequest;
+import com.rexsl.test.Request;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Integration case for {@link Github}.
+ * Test case for {@link Bulk}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class GithubITCase {
+public final class BulkTest {
 
     /**
-     * Github.Simple can authenticate itself.
+     * Bulk can cache JSON data.
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
-        final Github github = GithubITCase.github();
+    public void cachesJsonData() throws Exception {
+        final Comment origin = Mockito.mock(Comment.class);
+        final Request request = new FakeRequest()
+            .withBody("[{\"body\": \"hey you\"}]");
+        final Comment comment = new Bulk<Comment>(
+            new GhPagination<Comment>(
+                request,
+                new GhPagination.Mapping<Comment>() {
+                    @Override
+                    public Comment map(final JsonObject object) {
+                        return origin;
+                    }
+                }
+            )
+        ).iterator().next();
         MatcherAssert.assertThat(
-            github.users().self(),
-            Matchers.notNullValue()
+            new Comment.Smart(comment).body(),
+            Matchers.equalTo("hey you")
         );
-    }
-
-    /**
-     * Github.Simple can connect anonymously.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void connectsAnonymously() throws Exception {
-        final Github github = new Github.Simple();
-        MatcherAssert.assertThat(
-            new Issue.Smart(
-                github.repo("jcabi/jcabi-github").issues().get(1)
-            ).title(),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new Github.Simple(key);
+        comment.number();
+        Mockito.verify(origin).number();
+        Mockito.verify(origin, Mockito.never()).json();
     }
 
 }

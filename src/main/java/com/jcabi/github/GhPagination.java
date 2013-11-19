@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
 import com.rexsl.test.RestResponse;
@@ -51,13 +52,14 @@ import lombok.EqualsAndHashCode;
  * @param <T> Type of iterable objects
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
  */
-@EqualsAndHashCode(of = { "entry", "mapping" })
+@Immutable
+@EqualsAndHashCode(of = { "entry", "map" })
 final class GhPagination<T> implements Iterable<T> {
 
     /**
      * Mapping to use.
      */
-    private final transient GhPagination.Mapping<T> mapping;
+    private final transient GhPagination.Mapping<T> map;
 
     /**
      * Start entry to use.
@@ -71,7 +73,7 @@ final class GhPagination<T> implements Iterable<T> {
      */
     GhPagination(final Request req, final GhPagination.Mapping<T> mpp) {
         this.entry = req;
-        this.mapping = mpp;
+        this.map = mpp;
     }
 
     @Override
@@ -81,13 +83,30 @@ final class GhPagination<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new GhPagination.Items<T>(this.entry, this.mapping);
+        return new GhPagination.Items<T>(this.entry, this.map);
+    }
+
+    /**
+     * Entry.
+     * @return Entry point
+     */
+    public Request request() {
+        return this.entry;
+    }
+
+    /**
+     * Mapping.
+     * @return Mapping
+     */
+    public GhPagination.Mapping<T> mapping() {
+        return this.map;
     }
 
     /**
      * Mapping from JsonObject to the destination type.
      * @param <X> Type of custom object
      */
+    @Immutable
     public interface Mapping<X> {
         /**
          * Map JsonObject to the type required.

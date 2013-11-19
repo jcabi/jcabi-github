@@ -41,7 +41,16 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github client.
+ * Github client, starting point to the entire library.
+ *
+ * <p>This is how you start communicating with Github API:
+ *
+ * <pre> Github github = new Github.Simple(oauthKey);
+ * Repo repo = github.repo("jcabi/jcabi-github");
+ * Issues issues = repo.issues();
+ * Issue issue = issues.post("issue title", "issue body");</pre>
+ *
+ * <p>It is strongly recommended to use </>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -51,7 +60,7 @@ import lombok.ToString;
 public interface Github {
 
     /**
-     * Get repository.
+     * Get repository by name.
      * @param name Repository name in "user/repo" format
      * @return Repository
      */
@@ -59,22 +68,22 @@ public interface Github {
     Repo repo(@NotNull String name);
 
     /**
-     * Get gists.
-     * @return Gists
+     * Get Gists API entry point.
+     * @return Gists API entry point
      */
     @NotNull(message = "gists is never NULL")
     Gists gists();
 
     /**
-     * Users.
-     * @return Users
+     * Get Users API entry point.
+     * @return Users API entry point
      * @since 0.4
      */
     @NotNull(message = "users is never NULL")
     Users users();
 
     /**
-     * Simple implementation.
+     * Simple and default implementation, to be used in most cases.
      */
     @Immutable
     @Loggable(Loggable.DEBUG)
@@ -91,21 +100,60 @@ public interface Github {
             Manifests.read("JCabi-Date")
         );
         /**
+         * Default request to start with.
+         */
+        private static final Request REQUEST =
+            new ApacheRequest("https://api.github.com")
+                .header(HttpHeaders.USER_AGENT, Github.Simple.USER_AGENT)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+        /**
          * REST request.
          */
         private final transient Request request;
         /**
-         * Public ctor.
+         * Public ctor, for anonymous access to Github.
+         * @since 0.4
+         */
+        public Simple() {
+            this(Github.Simple.REQUEST);
+        }
+        /**
+         * Public ctor, for HTTP Basic Authentication.
+         * @param user User name
+         * @param pwd Password
+         * @since 0.4
+         */
+        public Simple(
+            @NotNull(message = "user name can't be NULL") final String user,
+            @NotNull(message = "password can't be NULL") final String pwd) {
+            this(
+                Github.Simple.REQUEST.uri().userInfo(
+                    String.format("%s:%s", user, pwd)
+                ).back()
+            );
+        }
+        /**
+         * Public ctor, for authentication with OAuth2 token.
          * @param token OAuth token
          */
         public Simple(@NotNull(message = "token can't be NULL")
             final String token) {
-            final String auth = String.format("token %s", token);
-            this.request = new ApacheRequest("https://api.github.com")
-                .header(HttpHeaders.USER_AGENT, Github.Simple.USER_AGENT)
-                .header(HttpHeaders.AUTHORIZATION, auth)
-                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+            this(
+                Github.Simple.REQUEST.header(
+                    HttpHeaders.AUTHORIZATION,
+                    String.format("token %s", token)
+                )
+            );
+        }
+        /**
+         * Public ctor, with a custom request.
+         * @param req Request to start from
+         * @since 0.4
+         */
+        public Simple(@NotNull(message = "request can't be NULL")
+            final Request req) {
+            this.request = req;
         }
         @Override
         @NotNull(message = "repo is never NULL")

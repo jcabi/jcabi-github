@@ -47,6 +47,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -108,8 +109,15 @@ public interface Comment
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            return this.comment.json().getString("body");
+            final String body = this.comment.json().getString("body");
+            if (body == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "body is NULL in comment #%d", this.comment.number()
+                    )
+                );
+            }
+            return body;
         }
         /**
          * Change comment body.
