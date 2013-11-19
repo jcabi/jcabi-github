@@ -92,16 +92,14 @@ final class GhGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() {
-        return GhPagination.iterable(
-            new GhPagination<Gist>(
-                this.request,
-                new GhPagination.Mapping<Gist>() {
-                    @Override
-                    public Gist map(final JsonObject object) {
-                        return GhGists.this.get(object.getString("id"));
-                    }
+        return new GhPagination<Gist>(
+            this.request,
+            new GhPagination.Mapping<Gist>() {
+                @Override
+                public Gist map(final JsonObject object) {
+                    return GhGists.this.get(object.getString("id"));
                 }
-            )
+            }
         );
     }
 

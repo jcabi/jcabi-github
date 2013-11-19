@@ -112,20 +112,18 @@ final class GhPull implements Pull {
 
     @Override
     public Iterable<Commit> commits() throws IOException {
-        return GhPagination.iterable(
-            new GhPagination<Commit>(
-                this.request.uri().path("/commits").back(),
-                new GhPagination.Mapping<Commit>() {
-                    @Override
-                    public Commit map(final JsonObject object) {
-                        return new GhCommit(
-                            GhPull.this.entry,
-                            GhPull.this.owner,
-                            object.getString("sha")
-                        );
-                    }
+        return new GhPagination<Commit>(
+            this.request.uri().path("/commits").back(),
+            new GhPagination.Mapping<Commit>() {
+                @Override
+                public Commit map(final JsonObject object) {
+                    return new GhCommit(
+                        GhPull.this.entry,
+                        GhPull.this.owner,
+                        object.getString("sha")
+                    );
                 }
-            )
+            }
         );
     }
 

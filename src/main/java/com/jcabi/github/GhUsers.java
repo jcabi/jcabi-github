@@ -98,16 +98,14 @@ final class GhUsers implements Users {
     @Override
     public Iterable<User> iterate(@NotNull(message = "login is never NULL")
         final String login) {
-        return GhPagination.iterable(
-            new GhPagination<User>(
-                this.request.uri().queryParam("since", login).back(),
-                new GhPagination.Mapping<User>() {
-                    @Override
-                    public User map(final JsonObject object) {
-                        return GhUsers.this.get(object.getString("login"));
-                    }
+        return new GhPagination<User>(
+            this.request.uri().queryParam("since", login).back(),
+            new GhPagination.Mapping<User>() {
+                @Override
+                public User map(final JsonObject object) {
+                    return GhUsers.this.get(object.getString("login"));
                 }
-            )
+            }
         );
     }
 

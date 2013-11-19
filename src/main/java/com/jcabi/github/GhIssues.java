@@ -129,16 +129,14 @@ final class GhIssues implements Issues {
     public Iterable<Issue> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
-        return GhPagination.iterable(
-            new GhPagination<Issue>(
-                this.request.uri().queryParams(params).back(),
-                new GhPagination.Mapping<Issue>() {
-                    @Override
-                    public Issue map(final JsonObject object) {
-                        return GhIssues.this.get(object.getInt("number"));
-                    }
+        return new GhPagination<Issue>(
+            this.request.uri().queryParams(params).back(),
+            new GhPagination.Mapping<Issue>() {
+                @Override
+                public Issue map(final JsonObject object) {
+                    return GhIssues.this.get(object.getInt("number"));
                 }
-            )
+            }
         );
     }
 

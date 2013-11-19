@@ -37,7 +37,6 @@ import com.rexsl.test.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
@@ -122,23 +121,18 @@ final class GhIssueLabels implements Labels {
 
     @Override
     public Iterable<Label> iterate() {
-        return new Iterable<Label>() {
-            @Override
-            public Iterator<Label> iterator() {
-                return new GhPagination<Label>(
-                    GhIssueLabels.this.entry,
-                    new GhPagination.Mapping<Label>() {
-                        @Override
-                        public Label map(final JsonObject object) {
-                            return new Label.Simple(
-                                object.getString("name"),
-                                object.getString("color")
-                            );
-                        }
-                    }
-                );
+        return new GhPagination<Label>(
+            GhIssueLabels.this.entry,
+            new GhPagination.Mapping<Label>() {
+                @Override
+                public Label map(final JsonObject object) {
+                    return new Label.Simple(
+                        object.getString("name"),
+                        object.getString("color")
+                    );
+                }
             }
-        };
+        );
     }
 
 }

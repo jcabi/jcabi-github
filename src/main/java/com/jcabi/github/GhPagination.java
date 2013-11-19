@@ -51,8 +51,8 @@ import lombok.EqualsAndHashCode;
  * @param <T> Type of iterable objects
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
  */
-@EqualsAndHashCode(of = { "request", "mapping", "objects", "hasMore" })
-final class GhPagination<T> implements Iterator<T> {
+@EqualsAndHashCode(of = { "entry", "mapping" })
+final class GhPagination<T> implements Iterable<T> {
 
     /**
      * Mapping to use.
@@ -60,19 +60,9 @@ final class GhPagination<T> implements Iterator<T> {
     private final transient GhPagination.Mapping<T> mapping;
 
     /**
-     * Next request to use.
+     * Start entry to use.
      */
-    private transient Request request;
-
-    /**
-     * Available objects.
-     */
-    private transient Queue<JsonObject> objects;
-
-    /**
-     * Current request can be used to fetch objects.
-     */
-    private transient boolean hasMore = true;
+    private final transient Request entry;
 
     /**
      * Public ctor.
@@ -80,78 +70,18 @@ final class GhPagination<T> implements Iterator<T> {
      * @param mpp Mapping
      */
     GhPagination(final Request req, final GhPagination.Mapping<T> mpp) {
-        this.request = req;
+        this.entry = req;
         this.mapping = mpp;
-    }
-
-    /**
-     * Supplementary method to convert Iterator to Iterable.
-     * @param iterator Iterator
-     * @return Iterable
-     * @param <X> Type of iterated objects
-     */
-    public static <X> Iterable<X> iterable(final Iterator<X> iterator) {
-        return new Iterable<X>() {
-            @Override
-            public Iterator<X> iterator() {
-                return iterator;
-            }
-        };
     }
 
     @Override
     public String toString() {
-        return this.request.uri().get().toString();
+        return this.entry.uri().get().toString();
     }
 
     @Override
-    public T next() {
-        if (!this.hasNext()) {
-            throw new NoSuchElementException(
-                "no more elements in pagination, use #hasNext()"
-            );
-        }
-        return this.mapping.map(this.objects.remove());
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("#remove()");
-    }
-
-    @Override
-    public boolean hasNext() {
-        if ((this.objects == null || this.objects.isEmpty()) && this.hasMore) {
-            try {
-                this.fetch();
-            } catch (IOException ex) {
-                throw new IllegalStateException(ex);
-            }
-        }
-        return !this.objects.isEmpty();
-    }
-
-    /**
-     * Fetch the next portion, if available.
-     * @throws IOException If fails
-     */
-    private void fetch() throws IOException {
-        final RestResponse response = this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
-        final WebLinkingResponse.Link link = response
-            .as(WebLinkingResponse.class)
-            .links()
-            .get("next");
-        if (link == null) {
-            this.hasMore = false;
-        } else {
-            this.request = response.jump(link.uri());
-        }
-        this.objects = new LinkedList<JsonObject>(
-            response.as(JsonResponse.class).json()
-                .readArray().getValuesAs(JsonObject.class)
-        );
+    public Iterator<T> iterator() {
+        return new GhPagination.Items<T>(this.entry, this.mapping);
     }
 
     /**
@@ -165,6 +95,90 @@ final class GhPagination<T> implements Iterator<T> {
          * @return Custom object
          */
         X map(JsonObject object);
+    }
+
+    /**
+     * Iterator.
+     */
+    @EqualsAndHashCode(of = { "mapping", "request", "objects", "hasMore" })
+    private static final class Items<X> implements Iterator<X> {
+        /**
+         * Mapping to use.
+         */
+        private final transient GhPagination.Mapping<X> mapping;
+        /**
+         * Next entry to use.
+         */
+        private transient Request request;
+        /**
+         * Available objects.
+         */
+        private transient Queue<JsonObject> objects;
+        /**
+         * Current entry can be used to fetch objects.
+         */
+        private transient boolean hasMore = true;
+        /**
+         * Ctor.
+         * @param entry Entry
+         * @param mpp Mapping
+         */
+        Items(final Request entry, final GhPagination.Mapping<X> mpp) {
+            this.request = entry;
+            this.mapping = mpp;
+            this.objects = new LinkedList<JsonObject>();
+        }
+        @Override
+        public X next() {
+            synchronized (this.mapping) {
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException(
+                        "no more elements in pagination, use #hasNext()"
+                    );
+                }
+                return this.mapping.map(this.objects.remove());
+            }
+        }
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("#remove()");
+        }
+        @Override
+        public boolean hasNext() {
+            synchronized (this.mapping) {
+                if ((this.objects == null || this.objects.isEmpty())
+                    && this.hasMore) {
+                    try {
+                        this.fetch();
+                    } catch (IOException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+                return !this.objects.isEmpty();
+            }
+        }
+        /**
+         * Fetch the next portion, if available.
+         * @throws IOException If fails
+         */
+        private void fetch() throws IOException {
+            final RestResponse response = this.request.fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK);
+            final WebLinkingResponse.Link link = response
+                .as(WebLinkingResponse.class)
+                .links()
+                .get("next");
+            if (link == null) {
+                this.hasMore = false;
+            } else {
+                this.request = response.jump(link.uri());
+            }
+            this.objects = new LinkedList<JsonObject>(
+                response.as(JsonResponse.class).json()
+                    .readArray().getValuesAs(JsonObject.class)
+            );
+        }
     }
 
 }

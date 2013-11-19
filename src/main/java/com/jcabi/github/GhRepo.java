@@ -111,20 +111,18 @@ final class GhRepo implements Repo {
 
     @Override
     public Iterable<Event> events() {
-        return GhPagination.iterable(
-            new GhPagination<Event>(
-                this.request.uri().path("/issues/events").back(),
-                new GhPagination.Mapping<Event>() {
-                    @Override
-                    public Event map(final JsonObject object) {
-                        return new GhEvent(
-                            GhRepo.this.entry,
-                            GhRepo.this,
-                            object.getInt("id")
-                        );
-                    }
+        return new GhPagination<Event>(
+            this.request.uri().path("/issues/events").back(),
+            new GhPagination.Mapping<Event>() {
+                @Override
+                public Event map(final JsonObject object) {
+                    return new GhEvent(
+                        GhRepo.this.entry,
+                        GhRepo.this,
+                        object.getInt("id")
+                    );
                 }
-            )
+            }
         );
     }
 

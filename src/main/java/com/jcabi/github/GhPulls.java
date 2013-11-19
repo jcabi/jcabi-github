@@ -128,16 +128,14 @@ final class GhPulls implements Pulls {
 
     @Override
     public Iterable<Pull> iterate() {
-        return GhPagination.iterable(
-            new GhPagination<Pull>(
-                this.request,
-                new GhPagination.Mapping<Pull>() {
-                    @Override
-                    public Pull map(final JsonObject object) {
-                        return GhPulls.this.get(object.getInt("number"));
-                    }
+        return new GhPagination<Pull>(
+            this.request,
+            new GhPagination.Mapping<Pull>() {
+                @Override
+                public Pull map(final JsonObject object) {
+                    return GhPulls.this.get(object.getInt("number"));
                 }
-            )
+            }
         );
     }
 

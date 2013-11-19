@@ -126,16 +126,14 @@ final class GhComments implements Comments {
 
     @Override
     public Iterable<Comment> iterate() {
-        return GhPagination.iterable(
-            new GhPagination<Comment>(
-                this.request,
-                new GhPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return GhComments.this.get(object.getInt("id"));
-                    }
+        return new GhPagination<Comment>(
+            this.request,
+            new GhPagination.Mapping<Comment>() {
+                @Override
+                public Comment map(final JsonObject object) {
+                    return GhComments.this.get(object.getInt("id"));
                 }
-            )
+            }
         );
     }
 
