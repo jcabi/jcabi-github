@@ -65,6 +65,11 @@ final class GhUser implements User {
     private final transient Request request;
 
     /**
+     * Login of the user.
+     */
+    private final transient String self;
+
+    /**
      * Public ctor.
      * @param github Github
      * @param req Request
@@ -86,6 +91,7 @@ final class GhUser implements User {
         } else {
             this.request = req.uri().path("/users").path(login).back();
         }
+        this.self = login;
     }
 
     @Override
@@ -100,7 +106,13 @@ final class GhUser implements User {
 
     @Override
     public String login() throws IOException {
-        return this.json().getString("login");
+        final String login;
+        if (this.self.isEmpty()) {
+            login = this.json().getString("login");
+        } else {
+            login = this.self;
+        }
+        return login;
     }
 
     @Override
