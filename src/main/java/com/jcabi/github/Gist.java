@@ -49,7 +49,7 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
  */
 @Immutable
-public interface Gist {
+public interface Gist extends JsonReadable {
 
     /**
      * Github we're in.
@@ -80,15 +80,6 @@ public interface Gist {
         @NotNull(message = "file name can't be NULL") String name,
         @NotNull(message = "file content can't be NULL") String content)
         throws IOException;
-
-    /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
-     */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
 
     /**
      * Smart Gist with extra features.

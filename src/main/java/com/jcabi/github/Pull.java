@@ -51,7 +51,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Pull extends Comparable<Pull> {
+public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Repository we're in.
@@ -91,24 +91,6 @@ public interface Pull extends Comparable<Pull> {
      * @see <a href="http://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
      */
     void merge(@NotNull(message = "message can't be NULL") String msg)
-        throws IOException;
-
-    /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
-     */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/pulls/#update-a-pull-request">Update a Pull Request</a>
-     */
-    void patch(@NotNull(message = "JSON can't be NULL") JsonObject json)
         throws IOException;
 
     /**

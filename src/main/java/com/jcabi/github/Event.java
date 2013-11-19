@@ -51,7 +51,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Event extends Comparable<Event> {
+public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
      * Repository we're in.
@@ -65,15 +65,6 @@ public interface Event extends Comparable<Event> {
      * @return Issue number
      */
     int number();
-
-    /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/events/#get-a-single-event">Get a Single Event</a>
-     */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
 
     /**
      * Smart event with extra features.

@@ -48,7 +48,7 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
  */
 @Immutable
-public interface Commit extends Comparable<Commit> {
+public interface Commit extends Comparable<Commit>, JsonReadable {
 
     /**
      * The repo we're in.
@@ -63,15 +63,6 @@ public interface Commit extends Comparable<Commit> {
      */
     @NotNull(message = "commit SHA is never NULL")
     String sha();
-
-    /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/git/commits/#get-a-commit">Get a Commit</a>
-     */
-    @NotNull(message = "JSON object is never NULL")
-    JsonObject json() throws IOException;
 
     /**
      * Smart commit.

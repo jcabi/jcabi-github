@@ -50,7 +50,8 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Comment extends Comparable<Comment> {
+public interface Comment
+    extends Comparable<Comment>, JsonReadable, JsonPatchable {
 
     /**
      * The issue it's in.
@@ -71,24 +72,6 @@ public interface Comment extends Comparable<Comment> {
      * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;
-
-    /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
-     */
-    @NotNull(message = "JSON object is never NULL")
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/comments/#edit-a-comment">Edit a Comment</a>
-     */
-    void patch(@NotNull(message = "JSON object can't be NULL") JsonObject json)
-        throws IOException;
 
     /**
      * Smart comment with additional features.

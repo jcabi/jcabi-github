@@ -48,7 +48,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface User {
+public interface User extends JsonReadable, JsonPatchable {
 
     /**
      * Github we're in.
@@ -65,24 +65,6 @@ public interface User {
      */
     @NotNull(message = "login is never NULL")
     String login() throws IOException;
-
-    /**
-     * Get his JSON description.
-     * @return JSON object
-     * @throws IOException If it fails
-     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
-     */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/users/#update-the-authenticated-user">Update the Authenticated User</a>
-     */
-    void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
-        throws IOException;
 
     /**
      * Smart user with extra features.

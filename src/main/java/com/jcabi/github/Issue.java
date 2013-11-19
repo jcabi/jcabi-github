@@ -52,7 +52,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Issue extends Comparable<Issue> {
+public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Repository we're in.
@@ -90,24 +90,6 @@ public interface Issue extends Comparable<Issue> {
      */
     @NotNull(message = "iterable of events is never NULL")
     Iterable<Event> events();
-
-    /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
-     */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If fails
-     * @see <a href="http://developer.github.com/v3/issues/#edit-an-issue">Edit an Issue</a>
-     */
-    void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
-        throws IOException;
 
     /**
      * Smart Issue with extra features.
