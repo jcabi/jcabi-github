@@ -40,6 +40,34 @@ import lombok.EqualsAndHashCode;
 /**
  * Bulk items, with pre-saved JSON.
  *
+ * <p>This class should be used as a decorator for object obtained
+ * from Github, when you want to keep their JSON values in memory. For
+ * example:
+ *
+ * <pre> Iterable&lt;Issue&gt; issues = repo.issues().iterate(
+ *   new HashMap&lt;String, String&gt;()
+ * );
+ * for (Issue issue : issues) {
+ *     System.out.println(new Issue.Smart(issue).title());
+ * }</pre>
+ *
+ * <p>Let's say, there are 50 issues in Github's repo. This code will
+ * make 52 HTTP requests to Github. The first one will fetch the first
+ * 30 issues in JSON array. Then, for every one of them, in order
+ * to retrieve issue title a separate HTTP request will be made. Then,
+ * one more page will be fetched, with 20 issues. And again, 20 new
+ * HTTP requests to get their titles.
+ *
+ * <p>Class {@code Bulk} helps us to reduce the amount of this extra work:
+ *
+ * <pre> Iterable&lt;Issue&gt; issues = new Bulk&lt;Issue&gt;(
+ *   repo.issues().iterate(
+ *     new HashMap&lt;String, String&gt;()
+ *   )
+ * );</pre>
+ *
+ * <p>Now, there will be just two HTTP requests.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.4
@@ -47,7 +75,7 @@ import lombok.EqualsAndHashCode;
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
  */
 @EqualsAndHashCode(of = "origin")
-final class Bulk<T extends JsonReadable> implements Iterable<T> {
+public final class Bulk<T extends JsonReadable> implements Iterable<T> {
 
     /**
      * Original iterable.
@@ -60,7 +88,7 @@ final class Bulk<T extends JsonReadable> implements Iterable<T> {
      * @checkstyle AnonInnerLength (50 lines)
      */
     @SuppressWarnings("unchecked")
-    Bulk(final Iterable<T> items) {
+    public Bulk(final Iterable<T> items) {
         if (items instanceof GhPagination) {
             final GhPagination<T> page = GhPagination.class.cast(items);
             final GhPagination.Mapping<T> mapping = page.mapping();
