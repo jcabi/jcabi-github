@@ -153,7 +153,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             if (state == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "state is NULL is issue #%d", this.issue.number()
+                        "state is NULL in issue #%d", this.issue.number()
                     )
                 );
             }
@@ -179,7 +179,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             if (title == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "title is NULL is issue #%d", this.issue.number()
+                        "title is NULL in issue #%d", this.issue.number()
                     )
                 );
             }
@@ -205,7 +205,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             if (body == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "body is NULL is issue #%d", this.issue.number()
+                        "body is NULL in issue #%d", this.issue.number()
                     )
                 );
             }
@@ -241,7 +241,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             if (url == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "url is NULL is issue #%d", this.issue.number()
+                        "url is NULL in issue #%d", this.issue.number()
                     )
                 );
             }
@@ -261,7 +261,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             if (url == null) {
                 throw new IllegalStateException(
                     String.format(
-                        "html_url is NULL is issue #%d", this.issue.number()
+                        "html_url is NULL in issue #%d", this.issue.number()
                     )
                 );
             }
@@ -308,6 +308,28 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 .getString("url");
             return this.issue.repo().pulls().get(
                 Integer.parseInt(url.substring(url.lastIndexOf('/') + 1))
+            );
+        }
+        /**
+         * Get the latest event of a given type.
+         * @param type Type of event
+         * @return Event found (runtime exception if it doesn't exist)
+         * @throws IOException If fails
+         */
+        public Event latestEvent(final String type) throws IOException {
+            final Iterable<Event.Smart> events = new Smarts<Event.Smart>(
+                this.issue.events()
+            );
+            for (final Event.Smart event : events) {
+                if (event.type().equals(type)) {
+                    return event;
+                }
+            }
+            throw new IllegalStateException(
+                String.format(
+                    "event of type '%s' not found in issue #%d",
+                    type, this.issue.number()
+                )
             );
         }
         @Override
