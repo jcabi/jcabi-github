@@ -73,10 +73,10 @@
 <a class="jxr_linenumber" name="63" href="#63">63</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">     * Iterate them all.</em>
 <a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">     * @return All comments</em>
-<a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">     * @throws IOException If fails</em>
-<a class="jxr_linenumber" name="67" href="#67">67</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/comments/" target="alexandria_uri">http://developer.github.com/v3/issues/comments/</a>#list-comments-on-an-issue"&gt;List Comments on an Issue&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="68" href="#68">68</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="69" href="#69">69</a>      Iterable&lt;Comment&gt; iterate() <strong class="jxr_keyword">throws</strong> IOException;
+<a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/comments/" target="alexandria_uri">http://developer.github.com/v3/issues/comments/</a>#list-comments-on-an-issue"&gt;List Comments on an Issue&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="67" href="#67">67</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="68" href="#68">68</a>      @NotNull(message = <span class="jxr_string">"iterable is never NULL"</span>)
+<a class="jxr_linenumber" name="69" href="#69">69</a>      Iterable&lt;Comment&gt; iterate();
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
 <a class="jxr_linenumber" name="71" href="#71">71</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">     * Post new comment.</em>

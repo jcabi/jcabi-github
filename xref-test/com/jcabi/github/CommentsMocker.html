@@ -89,11 +89,11 @@
 <a class="jxr_linenumber" name="79" href="#79">79</a>          <strong class="jxr_keyword">synchronized</strong> (<strong class="jxr_keyword">this</strong>.map) {
 <a class="jxr_linenumber" name="80" href="#80">80</a>              number = <strong class="jxr_keyword">this</strong>.map.size() + 1;
 <a class="jxr_linenumber" name="81" href="#81">81</a>              comment = <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/CommentMocker.html">CommentMocker</a>(
-<a class="jxr_linenumber" name="82" href="#82">82</a>                  number, <strong class="jxr_keyword">this</strong>.owner, <strong class="jxr_keyword">this</strong>.owner.repo().github().self()
-<a class="jxr_linenumber" name="83" href="#83">83</a>              );
+<a class="jxr_linenumber" name="82" href="#82">82</a>                  number, <strong class="jxr_keyword">this</strong>.owner, <strong class="jxr_keyword">this</strong>.owner.repo().github().users().self()
+<a class="jxr_linenumber" name="83" href="#83">83</a>              ).mock();
 <a class="jxr_linenumber" name="84" href="#84">84</a>              <strong class="jxr_keyword">this</strong>.map.put(number, comment);
 <a class="jxr_linenumber" name="85" href="#85">85</a>          }
-<a class="jxr_linenumber" name="86" href="#86">86</a>          <strong class="jxr_keyword">new</strong> Comment.Tool(comment).body(text);
+<a class="jxr_linenumber" name="86" href="#86">86</a>          <strong class="jxr_keyword">new</strong> Comment.Smart(comment).body(text);
 <a class="jxr_linenumber" name="87" href="#87">87</a>          Logger.info(
 <a class="jxr_linenumber" name="88" href="#88">88</a>              <strong class="jxr_keyword">this</strong>, <span class="jxr_string">"Github comment #%d posted to issue #%d: %s"</span>,
 <a class="jxr_linenumber" name="89" href="#89">89</a>              number, <strong class="jxr_keyword">this</strong>.owner.number(), text

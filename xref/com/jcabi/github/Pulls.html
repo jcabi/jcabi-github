@@ -89,10 +89,10 @@
 <a class="jxr_linenumber" name="79" href="#79">79</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="80" href="#80">80</a>  <em class="jxr_javadoccomment">     * Iterate them all.</em>
 <a class="jxr_linenumber" name="81" href="#81">81</a>  <em class="jxr_javadoccomment">     * @return Iterator of issues</em>
-<a class="jxr_linenumber" name="82" href="#82">82</a>  <em class="jxr_javadoccomment">     * @throws IOException If fails</em>
-<a class="jxr_linenumber" name="83" href="#83">83</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/" target="alexandria_uri">http://developer.github.com/v3/pulls/</a>#list-pull-requests"&gt;List Pull Requests&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="84" href="#84">84</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="85" href="#85">85</a>      Iterable&lt;Pull&gt; iterate() <strong class="jxr_keyword">throws</strong> IOException;
+<a class="jxr_linenumber" name="82" href="#82">82</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/" target="alexandria_uri">http://developer.github.com/v3/pulls/</a>#list-pull-requests"&gt;List Pull Requests&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="83" href="#83">83</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="84" href="#84">84</a>      @NotNull(message = <span class="jxr_string">"iterable is never NULL"</span>)
+<a class="jxr_linenumber" name="85" href="#85">85</a>      Iterable&lt;Pull&gt; iterate();
 <a class="jxr_linenumber" name="86" href="#86">86</a>  
 <a class="jxr_linenumber" name="87" href="#87">87</a>  }
 </pre>

@@ -66,10 +66,10 @@
 <a class="jxr_linenumber" name="56" href="#56">56</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="57" href="#57">57</a>  <em class="jxr_javadoccomment">     * Iterate them all.</em>
 <a class="jxr_linenumber" name="58" href="#58">58</a>  <em class="jxr_javadoccomment">     * @return Iterator of labels</em>
-<a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">     * @throws IOException If fails</em>
-<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/labels/" target="alexandria_uri">http://developer.github.com/v3/issues/labels/</a>#list-labels-on-an-issue"&gt;List Labels on an Issue&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="62" href="#62">62</a>      Iterable&lt;Label&gt; iterate() <strong class="jxr_keyword">throws</strong> IOException;
+<a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/labels/" target="alexandria_uri">http://developer.github.com/v3/issues/labels/</a>#list-labels-on-an-issue"&gt;List Labels on an Issue&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="61" href="#61">61</a>      @NotNull(message = <span class="jxr_string">"iterable is never NULL"</span>)
+<a class="jxr_linenumber" name="62" href="#62">62</a>      Iterable&lt;Label&gt; iterate();
 <a class="jxr_linenumber" name="63" href="#63">63</a>  
 <a class="jxr_linenumber" name="64" href="#64">64</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">     * Remove label by name.</em>
