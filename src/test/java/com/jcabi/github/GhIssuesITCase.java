@@ -47,14 +47,17 @@ public final class GhIssuesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public void iteratesIssues() throws Exception {
-        final Repo repo = GhIssuesITCase.repo();
-        final ArrayMap<String, String> params = new ArrayMap<String, String>()
-            .with("sort", "comments");
-        for (final Issue issue : repo.issues().iterate(params)) {
+        final Iterable<Issue.Smart> issues = new Smarts<Issue.Smart>(
+            new Bulk<Issue>(
+                GhIssuesITCase.repo().issues().iterate(
+                    new ArrayMap<String, String>().with("sort", "comments")
+                )
+            )
+        );
+        for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
-                new Issue.Smart(issue).title(),
+                issue.title(),
                 Matchers.notNullValue()
             );
         }
