@@ -55,6 +55,16 @@ import lombok.ToString;
 public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
+     * Issue state.
+     */
+    String OPEN_STATE = "open";
+
+    /**
+     * Issue state.
+     */
+    String CLOSED_STATE = "closed";
+
+    /**
      * Repository we're in.
      * @return Repo
      */
@@ -126,22 +136,21 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public boolean isOpen() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            return "open".equals(this.state());
+            return Issue.OPEN_STATE.equals(this.state());
         }
         /**
          * Open it (make sure it's open).
          * @throws IOException If fails
          */
         public void open() throws IOException {
-            this.state("open");
+            this.state(Issue.OPEN_STATE);
         }
         /**
          * Close it (make sure it's closed).
          * @throws IOException If fails
          */
         public void close() throws IOException {
-            this.state("closed");
+            this.state(Issue.CLOSED_STATE);
         }
         /**
          * Get its state.
