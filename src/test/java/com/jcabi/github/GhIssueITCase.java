@@ -150,7 +150,23 @@ public final class GhIssueITCase {
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
             new Event.Smart(issue.events().iterator().next()).type(),
-            Matchers.equalTo("closed")
+            Matchers.equalTo(Event.CLOSED)
+        );
+    }
+
+    /**
+     * Issue.Smart can find the latest event.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void findsLatestEvent() throws Exception {
+        final Issue.Smart issue = new Issue.Smart(GhIssueITCase.issue());
+        issue.close();
+        MatcherAssert.assertThat(
+            new Event.Smart(
+                new Issue.Smart(issue).latestEvent(Event.CLOSED)
+            ).author().login(),
+            Matchers.equalTo(issue.author().login())
         );
     }
 

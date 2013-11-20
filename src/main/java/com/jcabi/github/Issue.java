@@ -320,17 +320,22 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             final Iterable<Event.Smart> events = new Smarts<Event.Smart>(
                 this.issue.events()
             );
+            Event found = null;
             for (final Event.Smart event : events) {
-                if (event.type().equals(type)) {
-                    return event;
+                if (event.type().equals(type) && (found == null
+                    || found.number() < event.number())) {
+                    found = event;
                 }
             }
-            throw new IllegalStateException(
-                String.format(
-                    "event of type '%s' not found in issue #%d",
-                    type, this.issue.number()
-                )
-            );
+            if (found == null) {
+                throw new IllegalStateException(
+                    String.format(
+                        "event of type '%s' not found in issue #%d",
+                        type, this.issue.number()
+                    )
+                );
+            }
+            return found;
         }
         @Override
         public Repo repo() {

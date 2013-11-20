@@ -54,6 +54,48 @@ import lombok.ToString;
 public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String CLOSED = "closed";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String REOPENED = "reopened";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String SUBSCRIBED = "subscribed";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String MERGED = "merged";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String REFERENCED = "referenced";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String MENTIONED = "mentioned";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String ASSIGNED = "assigned";
+
+    /**
      * Repository we're in.
      * @return Repo
      */
