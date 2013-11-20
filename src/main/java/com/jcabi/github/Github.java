@@ -34,6 +34,12 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.manifests.Manifests;
 import com.rexsl.test.ApacheRequest;
 import com.rexsl.test.Request;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -173,4 +179,69 @@ public interface Github {
         }
     }
 
+    /**
+     * Time in Github JSON.
+     *
+     * @since 0.2
+     * @see <a href="http://developer.github.com/v3/#schema">Schema</a>
+     */
+    @Immutable
+    final class Time {
+        /**
+         * Pattern to present day in ISO-8601.
+         */
+        public static final String FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        /**
+         * The time zone we're in.
+         */
+        public static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
+        /**
+         * Encapsulated time in milliseconds.
+         */
+        private final transient long msec;
+        /**
+         * Ctor.
+         * @param text ISO date/time
+         * @throws ParseException If fails
+         */
+        public Time(final String text) throws ParseException {
+            this(Github.Time.format().parse(text));
+        }
+        /**
+         * Ctor.
+         * @param date Date to encapsulate
+         */
+        public Time(final Date date) {
+            this(date.getTime());
+        }
+        /**
+         * Ctor.
+         * @param millis Milliseconds
+         */
+        public Time(final long millis) {
+            this.msec = millis;
+        }
+        @Override
+        public String toString() {
+            return Github.Time.format().format(this.date());
+        }
+        /**
+         * Get date.
+         * @return Date
+         */
+        public Date date() {
+            return new Date(this.msec);
+        }
+        /**
+         * Make format.
+         * @return Date format
+         */
+        private static DateFormat format() {
+            final DateFormat fmt = new SimpleDateFormat(
+                Github.Time.FORMAT_ISO, Locale.ENGLISH
+            );
+            fmt.setTimeZone(Github.Time.TIMEZONE);
+            return fmt;
+        }
+    }
 }

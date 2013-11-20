@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -294,7 +295,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return new Time(date).date();
+            try {
+                return new Github.Time(date).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         /**
          * Is it a pull requests?

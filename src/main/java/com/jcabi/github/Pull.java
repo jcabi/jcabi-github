@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -118,8 +119,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public boolean isOpen() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            return "open".equals(this.state());
+            return Issue.OPEN_STATE.equals(this.state());
         }
         /**
          * Get its state.
@@ -256,7 +256,11 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return new Time(date).date();
+            try {
+                return new Github.Time(date).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         /**
          * When this pull request was updated.
@@ -272,7 +276,11 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return new Time(date).date();
+            try {
+                return new Github.Time(date).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         /**
          * When this pull request was closed.
@@ -288,7 +296,11 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return new Time(date).date();
+            try {
+                return new Github.Time(date).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         /**
          * When this pull request was merged.
@@ -304,7 +316,11 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return new Time(date).date();
+            try {
+                return new Github.Time(date).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         @Override
         public Repo repo() {

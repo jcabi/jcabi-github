@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Date;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -187,7 +188,11 @@ public interface Event extends Comparable<Event>, JsonReadable {
                     )
                 );
             }
-            return new Time(date).date();
+            try {
+                return new Github.Time(date).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         @Override
         public Repo repo() {

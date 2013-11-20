@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -143,7 +144,13 @@ public interface Comment
          * @throws IOException If fails
          */
         public Date createdAt() throws IOException {
-            return new Time(this.comment.json().getString("created_at")).date();
+            try {
+                return new Github.Time(
+                    this.comment.json().getString("created_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         /**
          * When this comment was updated last time.
@@ -151,7 +158,13 @@ public interface Comment
          * @throws IOException If fails
          */
         public Date updatedAt() throws IOException {
-            return new Time(this.comment.json().getString("updated_at")).date();
+            try {
+                return new Github.Time(
+                    this.comment.json().getString("updated_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         @Override
         public Issue issue() {
