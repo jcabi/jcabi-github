@@ -30,7 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github repository.
@@ -77,5 +82,62 @@ public interface Repo extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "iterable of events is never NULL")
     Iterable<Event> events();
+
+    /**
+     * Smart Repo with extra features.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "repo")
+    final class Smart implements Repo {
+        /**
+         * Encapsulated Repo.
+         */
+        private final transient Repo repo;
+        /**
+         * Public ctor.
+         * @param rep Repo
+         */
+        public Smart(final Repo rep) {
+            this.repo = rep;
+        }
+        /**
+         * Get its description.
+         * @return Description
+         * @throws IOException If fails
+         */
+        public String description() throws IOException {
+            return this.repo.json().getString("description");
+        }
+        @Override
+        public Github github() {
+            return this.repo.github();
+        }
+        @Override
+        public Coordinates coordinates() {
+            return this.repo.coordinates();
+        }
+        @Override
+        public Issues issues() {
+            return this.repo.issues();
+        }
+        @Override
+        public Pulls pulls() {
+            return this.repo.pulls();
+        }
+        @Override
+        public Iterable<Event> events() {
+            return this.repo.events();
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.repo.patch(json);
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.repo.json();
+        }
+    }
 
 }

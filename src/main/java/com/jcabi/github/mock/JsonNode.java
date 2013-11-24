@@ -35,7 +35,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Json node in XML.
@@ -66,10 +65,9 @@ final class JsonNode {
      */
     public JsonObject json() {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
-        final NodeList nodes = this.xml.node().getChildNodes();
-        for (int idx = 0; idx < nodes.getLength(); ++idx) {
-            final Node node = nodes.item(idx);
-            builder.add(node.getLocalName(), node.getNodeValue());
+        for (final XML child : this.xml.nodes("*")) {
+            final Node node = child.node();
+            builder.add(node.getNodeName(), node.getTextContent());
         }
         return builder.build();
     }

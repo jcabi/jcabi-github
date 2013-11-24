@@ -35,7 +35,6 @@ import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Users;
-import java.io.File;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -76,12 +75,7 @@ public final class MkGithub implements Github {
      * @throws IOException If fails
      */
     public MkGithub() throws IOException {
-        this(
-            new MkStorage.InFile(
-                File.createTempFile("jcabi-github", ".xml")
-            ),
-            "jeff"
-        );
+        this(new MkStorage.InFile(), "jeff");
     }
 
     /**
@@ -96,7 +90,11 @@ public final class MkGithub implements Github {
 
     @Override
     public Repos repos() {
-        return new MkRepos(this.storage, this.self);
+        try {
+            return new MkRepos(this.storage, this.self);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

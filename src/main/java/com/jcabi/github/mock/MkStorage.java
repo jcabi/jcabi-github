@@ -93,13 +93,18 @@ public interface MkStorage {
         private final transient String name;
         /**
          * Public ctor.
+         * @throws IOException If fails
+         */
+        public InFile() throws IOException {
+            this(File.createTempFile("jcabi-github", ".xml"));
+        }
+        /**
+         * Public ctor.
          * @param file File to use
          * @throws IOException If fails
          */
         public InFile(final File file) throws IOException {
-            if (!file.exists()) {
-                FileUtils.write(file, "<github/>");
-            }
+            FileUtils.write(file, "<github/>");
             this.name = file.getAbsolutePath();
         }
         @Override

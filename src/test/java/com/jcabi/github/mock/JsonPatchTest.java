@@ -29,54 +29,38 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-import org.apache.commons.lang3.StringUtils;
-import org.xembly.Directives;
+import com.jcabi.xml.XML;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Json patch.
- *
+ * Test case for {@link JsonPatch}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.5
  */
-@Immutable
-final class JsonPatch {
+public final class JsonPatchTest {
 
     /**
-     * Storage.
+     * JsonPatch can patch an XML.
+     * @throws Exception If some problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Public ctor.
-     * @param stg Storage to use
-     */
-    JsonPatch(final MkStorage stg) {
-        this.storage = stg;
-    }
-
-    /**
-     * Patch an XML object/element.
-     * @param xpath XPath to locate the node to patch
-     * @param obj Object to apply
-     * @throws IOException If fails
-     */
-    public void patch(final String xpath, final JsonObject obj)
-        throws IOException {
-        final Directives dirs = new Directives().xpath(xpath);
-        for (final String key : obj.keySet()) {
-            final JsonValue value = obj.get(key);
-            dirs.addIf(key).set(StringUtils.strip(value.toString(), "\"")).up();
-        }
-        try {
-            this.storage.apply(dirs);
-        } catch (IOException ex) {
-            throw new IOException(ex);
-        }
+    @Test
+    public void patchesXml() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        new JsonPatch(storage).patch(
+            "/github",
+            Json.createObjectBuilder()
+                .add("name", "hi you!")
+                .add("number", 1)
+                .build()
+        );
+        final XML xml = storage.xml();
+        MatcherAssert.assertThat(
+            xml.xpath("/github/name/text()").get(0),
+            Matchers.describedAs(xml.toString(), Matchers.endsWith("you!"))
+        );
     }
 
 }

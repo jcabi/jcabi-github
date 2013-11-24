@@ -29,76 +29,32 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 import org.xembly.Directives;
 
 /**
- * Github repos.
- *
+ * Test case for {@link MkStorage}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.5
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self" })
-public final class MkRepos implements Repos {
+public final class MkStorageTest {
 
     /**
-     * Storage.
+     * MkStorage can read and write.
+     * @throws Exception If some problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     */
-    public MkRepos(final MkStorage stg, final String login) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.storage.apply(new Directives().xpath("/github").addIf("repos"));
-    }
-
-    @Override
-    public Repo create(final JsonObject json) throws IOException {
-        final String name = json.getString("name");
-        final Coordinates coords = new Coordinates.Simple(this.self, name);
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).add("repo")
-                .attr("coords", coords.toString())
-                .add("name").set(name)
+    @Test
+    public void readsAndWrites() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        storage.apply(
+            new Directives().xpath("/github").add("test").set("hello, world")
         );
-        final Repo repo = this.get(coords);
-        repo.patch(json);
-        return repo;
-    }
-
-    @Override
-    public Repo get(final Coordinates coords) {
-        return new MkRepo(this.storage, this.self, coords);
-    }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return "/github/repos";
+        MatcherAssert.assertThat(
+            storage.xml().xpath("/github/test/text()").get(0),
+            Matchers.endsWith(", world")
+        );
     }
 
 }
