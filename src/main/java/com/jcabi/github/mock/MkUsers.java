@@ -27,56 +27,72 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.util.Collections;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
+import com.jcabi.github.User;
+import com.jcabi.github.Users;
+import java.io.IOException;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Mocker of {@link Users}.
+ * Mock Github users.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.4
+ * @since 0.5
  */
-public final class UsersMocker implements Users {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self" })
+public final class MkUsers implements Users {
 
     /**
-     * Github.
+     * Storage.
      */
-    private final transient Github ghub;
+    private final transient MkStorage storage;
 
     /**
-     * Self.
+     * Login of the user logged in.
      */
-    private final transient User user;
+    private final transient String self;
 
     /**
      * Public ctor.
-     * @param github Github
-     * @param self Self
+     * @param stg Storage
+     * @param login User to login
      */
-    public UsersMocker(final Github github, final User self) {
-        this.ghub = github;
-        this.user = self;
+    public MkUsers(final MkStorage stg, final String login) {
+        this.storage = stg;
+        this.self = login;
     }
 
     @Override
     public Github github() {
-        return this.ghub;
+        return new MkGithub(this.storage, this.self);
     }
 
     @Override
     public User self() {
-        return this.user;
+        return this.get(this.self);
     }
 
     @Override
     public User get(final String login) {
-        return new UserMocker(this.ghub, login);
+        try {
+            return new MkUser(this.storage, login);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
     public Iterable<User> iterate(final String login) {
-        return Collections.singletonList(this.user);
+        throw new UnsupportedOperationException("#iterate()");
     }
+
 }

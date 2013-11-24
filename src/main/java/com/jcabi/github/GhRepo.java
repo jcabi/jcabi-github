@@ -32,7 +32,14 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -126,4 +133,24 @@ final class GhRepo implements Repo {
         );
     }
 
+    @Override
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        throws IOException {
+        final StringWriter post = new StringWriter();
+        Json.createWriter(post).writeObject(json);
+        this.request.body().set(post.toString()).back()
+            .method(Request.PATCH)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return this.request.fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().readObject();
+    }
 }

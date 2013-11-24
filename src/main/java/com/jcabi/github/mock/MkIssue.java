@@ -27,74 +27,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.Comments;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Event;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Labels;
+import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github event.
+ * Mock Github issue.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-final class GhEvent implements Event {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "repo", "num" })
+public final class MkIssue implements Issue {
 
     /**
-     * RESTful request.
+     * Storage.
      */
-    private final transient Request request;
+    private final transient MkStorage storage;
 
     /**
-     * Repository we're in.
+     * Login of the user logged in.
      */
-    private final transient Repo owner;
+    private final transient String self;
 
     /**
-     * Event number.
+     * Repo name.
+     */
+    private final transient Coordinates repo;
+
+    /**
+     * Issue number.
      */
     private final transient int num;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Number of the get
+     * @param stg Storage
+     * @param login User to login
      */
-    GhEvent(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/events")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
+    public MkIssue(final MkStorage stg, final String login,
+        final Coordinates rep, final int number) {
+        this.storage = stg;
+        this.self = login;
+        this.repo = rep;
         this.num = number;
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
     public Repo repo() {
-        return this.owner;
+        return new MkRepo(this.storage, this.self, this.repo);
     }
 
     @Override
@@ -103,17 +100,46 @@ final class GhEvent implements Event {
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+    public Comments comments() {
+        return new MkComments(this.storage, this.self, this.repo, this.num);
     }
 
     @Override
-    public int compareTo(final Event event) {
-        return new Integer(this.number()).compareTo(event.number());
+    public Labels labels() {
+        return new MkIssueLabels(this.storage, this.self, this.repo, this.num);
+    }
+
+    @Override
+    public Iterable<Event> events() {
+        return null;
+    }
+
+    @Override
+    public int compareTo(final Issue issue) {
+        return new Integer(this.num).compareTo(issue.number());
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[name='%s']/issues/issue[number='%d']",
+            this.repo, this.num
+        );
     }
 
 }

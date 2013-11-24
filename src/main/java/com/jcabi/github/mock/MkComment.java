@@ -27,42 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.Comment;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Issue;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Github comment.
+ * Mock Github comment.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-final class GhComment implements Comment {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "repo", "ticket", "num" })
+public final class MkComment implements Comment {
 
     /**
-     * RESTful request.
+     * Storage.
      */
-    private final transient Request request;
+    private final transient MkStorage storage;
 
     /**
-     * Issue we're in.
+     * Login of the user logged in.
      */
-    private final transient Issue owner;
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates repo;
+
+    /**
+     * Issue number.
+     */
+    private final transient int ticket;
 
     /**
      * Comment number.
@@ -71,32 +80,21 @@ final class GhComment implements Comment {
 
     /**
      * Public ctor.
-     * @param req RESTful request
-     * @param issue Owner of this comment
-     * @param number Number of the get
+     * @param stg Storage
+     * @param login User to login
      */
-    GhComment(final Request req, final Issue issue, final int number) {
-        final Coordinates coords = issue.repo().coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/comments")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = issue;
+    public MkComment(final MkStorage stg, final String login,
+        final Coordinates rep, final int issue, final int number) {
+        this.storage = stg;
+        this.self = login;
+        this.repo = rep;
+        this.ticket = issue;
         this.num = number;
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
     public Issue issue() {
-        return this.owner;
+        return new MkIssue(this.storage, this.self, this.repo, this.ticket);
     }
 
     @Override
@@ -106,34 +104,37 @@ final class GhComment implements Comment {
 
     @Override
     public void remove() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
-    }
-
-    @Override
-    public void patch(@NotNull(message = "JSON can't be NULL")
-        final JsonObject json) throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createWriter(post).writeObject(json);
-        this.request.method(Request.PATCH)
-            .body().set(post.toString()).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).strict(1).remove()
+        );
     }
 
     @Override
     public int compareTo(final Comment comment) {
-        return new Integer(this.number()).compareTo(comment.number());
+        return new Integer(this.num).compareTo(comment.number());
     }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[name='%s']/issues/issue[number='%d']/comments/comment[number='%d']",
+            this.repo, this.ticket, this.num
+        );
+    }
+
 }

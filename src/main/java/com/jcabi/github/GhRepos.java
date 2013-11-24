@@ -29,44 +29,66 @@
  */
 package com.jcabi.github;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Mocker of {@link Labels}.
+ * Github repositories.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
-public final class LabelsMocker implements Labels {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "ghub", "entry" })
+final class GhRepos implements Repos {
 
     /**
-     * All labels.
+     * Github.
      */
-    private final transient Set<Label> set =
-        new ConcurrentSkipListSet<Label>();
+    private final transient Github ghub;
 
-    @Override
-    public void add(final Iterable<Label> labels) {
-        for (final Label label : labels) {
-            this.set.add(label);
-        }
+    /**
+     * RESTful entry.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     */
+    GhRepos(final Github github, final Request req) {
+        this.ghub = github;
+        this.entry = req;
+        this.request = this.entry.uri().path("/repos").back();
     }
 
     @Override
-    public void remove(final String name) {
-        this.set.remove(new Label.Simple(name));
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public void clear() {
-        this.set.clear();
+    public Repo create(@NotNull(message = "JSON can't be NULL")
+        final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("#create()");
     }
 
     @Override
-    public Iterable<Label> iterate() {
-        return this.set;
+    public Repo get(@NotNull(message = "coordinates can't be NULL")
+        final Coordinates name) {
+        return new GhRepo(this.ghub, this.entry, name);
     }
-
 }

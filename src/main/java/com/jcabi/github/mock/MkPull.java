@@ -27,55 +27,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Commit;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Pull;
+import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;
-import javax.json.Json;
 import javax.json.JsonObject;
-import org.mockito.Mockito;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Mocker of {@link Pull}.
+ * Mock Github issue.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public final class PullMocker implements Pull {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "repo", "num" })
+public final class MkPull implements Pull {
 
     /**
-     * Mocked pull request.
+     * Storage.
      */
-    private final transient Pull pull = Mockito.mock(Pull.class);
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates repo;
+
+    /**
+     * Pull number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param repo Owner of it
-     * @param number Number of it
-     * @throws IOException If fails
+     * @param stg Storage
+     * @param login User to login
      */
-    public PullMocker(final Repo repo, final int number) throws IOException {
-        Mockito.doReturn(repo).when(this.pull).repo();
-        Mockito.doReturn(number).when(this.pull).number();
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("title", "test issue title")
-                .add("body", "test body")
-                .add("state", "open")
-                .build()
-        ).when(this.pull).json();
+    public MkPull(final MkStorage stg, final String login,
+        final Coordinates rep, final int number) {
+        this.storage = stg;
+        this.self = login;
+        this.repo = rep;
+        this.num = number;
     }
 
     @Override
     public Repo repo() {
-        return this.pull.repo();
+        return new MkRepo(this.storage, this.self, this.repo);
     }
 
     @Override
     public int number() {
-        return this.pull.number();
+        return this.num;
     }
 
     @Override
@@ -90,30 +109,35 @@ public final class PullMocker implements Pull {
 
     @Override
     public void merge(final String msg) throws IOException {
-        // nothing to do
+        // nothing to do here
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return this.pull.json();
+    public int compareTo(final Pull pull) {
+        return new Integer(this.num).compareTo(pull.number());
     }
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        Mockito.doReturn(json).when(this.pull).json();
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    public int compareTo(final Pull pll) {
-        return new Integer(this.number()).compareTo(pll.number());
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     /**
-     * Get mocked object.
-     * @return Mocked object
+     * XPath of this element in XML tree.
+     * @return XPath
      */
-    public Pull mock() {
-        return this.pull;
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
+            this.repo, this.num
+        );
     }
 
 }

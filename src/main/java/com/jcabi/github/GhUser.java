@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
-import com.rexsl.test.RestResponse;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
@@ -117,7 +117,8 @@ final class GhUser implements User {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch().as(RestResponse.class)
+        return this.request.fetch()
+            .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
             .json().readObject();

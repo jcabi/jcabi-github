@@ -30,10 +30,10 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
-import com.rexsl.test.RestResponse;
-import com.rexsl.test.WebLinkingResponse;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import com.rexsl.test.response.WebLinkingResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;

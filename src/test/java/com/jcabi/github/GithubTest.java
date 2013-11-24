@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -41,12 +43,14 @@ import org.junit.Test;
 public final class GithubTest {
 
     /**
-     * GithubMocker can work.
+     * MkGithub can work.
      * @throws Exception If some problem inside
      */
     @Test
     public void worksWithMockedData() throws Exception {
-        final Repo repo = new GithubMocker().createRepo("tt/a");
+        final Repo repo = new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -66,12 +70,12 @@ public final class GithubTest {
     }
 
     /**
-     * GithubMocker can with gists.
+     * MkGithub can with gists.
      * @throws Exception If some problem inside
      */
     @Test
     public void worksWithMockedGists() throws Exception {
-        final Gist gist = new GithubMocker().gists().get("gist-1");
+        final Gist gist = new MkGithub().gists().get("gist-1");
         final String file = "t.txt";
         gist.write(file, "hello, everybody!");
         MatcherAssert.assertThat(

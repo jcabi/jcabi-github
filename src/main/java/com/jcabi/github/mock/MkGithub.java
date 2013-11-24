@@ -27,73 +27,86 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.log.Logger;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Gists;
+import com.jcabi.github.Github;
+import com.jcabi.github.Repos;
+import com.jcabi.github.Users;
+import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Mocker of {@link Comments}.
+ * Mock Github client.
+ *
+ * <p>This is how you use it:
+ *
+ * <pre> Github github = new MkGithub(new MkStorage.InFile(file), "jeff");
+ * github.repos().create("jcabi/jcabi-github");
+ * Repo repo = github.repos().get("jcabi/jcabi-github");
+ * Issues issues = repo.issues();
+ * Issue issue = issues.post("issue title", "issue body");</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class CommentsMocker implements Comments {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self" })
+public final class MkGithub implements Github {
 
     /**
-     * Issue.
+     * Storage.
      */
-    private final transient Issue owner;
+    private final transient MkStorage storage;
 
     /**
-     * All comments.
+     * Login of the user logged in.
      */
-    private final transient ConcurrentMap<Integer, Comment> map =
-        new ConcurrentSkipListMap<Integer, Comment>();
+    private final transient String self;
 
     /**
      * Public ctor.
-     * @param issue Owner of it
+     * @throws IOException If fails
      */
-    public CommentsMocker(final Issue issue) {
-        this.owner = issue;
-    }
-
-    @Override
-    public Issue issue() {
-        return this.owner;
-    }
-
-    @Override
-    public Comment get(final int number) {
-        return this.map.get(number);
-    }
-
-    @Override
-    public Comment post(final String text) throws IOException {
-        final int number;
-        final Comment comment;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            comment = new CommentMocker(
-                number, this.owner, this.owner.repo().github().users().self()
-            ).mock();
-            this.map.put(number, comment);
-        }
-        new Comment.Smart(comment).body(text);
-        Logger.info(
-            this, "Github comment #%d posted to issue #%d: %s",
-            number, this.owner.number(), text
+    public MkGithub() throws IOException {
+        this(
+            new MkStorage.InFile(
+                File.createTempFile("jcabi-github", ".xml")
+            ),
+            "jeff"
         );
-        return comment;
+    }
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     */
+    public MkGithub(final MkStorage stg, final String login) {
+        this.storage = stg;
+        this.self = login;
     }
 
     @Override
-    public Iterable<Comment> iterate() {
-        return this.map.values();
+    public Repos repos() {
+        return new MkRepos(this.storage, this.self);
+    }
+
+    @Override
+    public Gists gists() {
+        return new MkGists(this.storage, this.self);
+    }
+
+    @Override
+    public Users users() {
+        return new MkUsers(this.storage, this.self);
     }
 
 }

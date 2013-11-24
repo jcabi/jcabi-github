@@ -27,74 +27,105 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.log.Logger;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Issues;
+import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Mocker of {@link Issues}.
+ * Mock Github issues.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class IssuesMocker implements Issues {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "repo" })
+public final class MkIssues implements Issues {
 
     /**
-     * Repo.
+     * Storage.
      */
-    private final transient Repo owner;
+    private final transient MkStorage storage;
 
     /**
-     * All issues.
+     * Login of the user logged in.
      */
-    private final transient ConcurrentMap<Integer, Issue> map =
-        new ConcurrentSkipListMap<Integer, Issue>();
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates repo;
 
     /**
      * Public ctor.
-     * @param repo Owner of it
+     * @param stg Storage
+     * @param login User to login
      */
-    public IssuesMocker(final Repo repo) {
-        this.owner = repo;
+    public MkIssues(final MkStorage stg, final String login,
+        final Coordinates rep) {
+        this.storage = stg;
+        this.self = login;
+        this.repo = rep;
     }
 
     @Override
     public Repo repo() {
-        return this.owner;
+        return new MkRepo(this.storage, this.self, this.repo);
     }
 
     @Override
     public Issue get(final int number) {
-        return this.map.get(number);
+        return new MkIssue(this.storage, this.self, this.repo, number);
     }
 
     @Override
     public Issue create(final String title, final String body)
         throws IOException {
+        this.storage.lock();
         final int number;
-        final Issue issue;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            issue = new IssueMocker(this.owner, number).mock();
-            this.map.put(number, issue);
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/issue/number", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("issue")
+                    .add("number").set(Integer.toString(number)).up()
+                    .add("title").set(title).up()
+                    .add("body").set(body).up()
+            );
+        } finally {
+            this.storage.unlock();
         }
-        new Issue.Smart(issue).title(title);
-        new Issue.Smart(issue).body(body);
-        Logger.info(
-            this, "Github issue #%d created: %s",
-            number, title
-        );
-        return issue;
+        return this.get(number);
     }
 
     @Override
     public Iterable<Issue> iterate(final Map<String, String> params) {
-        return this.map.values();
+        return null;
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[name='%s']/issues",
+            this.repo
+        );
     }
 
 }

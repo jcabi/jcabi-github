@@ -27,65 +27,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
-
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-import javax.json.Json;
-import javax.json.JsonObject;
 
 /**
- * Mocker of {@link Gist}.
+ * Github client that retries a few times before giving up (highly
+ * recommended to use in production environments).
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class GistMocker implements Gist {
-
-    /**
-     * Github.
-     */
-    private final transient Github owner;
-
-    /**
-     * All gists.
-     */
-    private final transient ConcurrentMap<String, String> map =
-        new ConcurrentSkipListMap<String, String>();
-
-    /**
-     * Object.
-     */
-    private final transient JsonObject object;
-
-    /**
-     * Public ctor.
-     * @param github Owner of it
-     */
-    public GistMocker(final Github github) {
-        this.owner = github;
-        this.object = Json.createObjectBuilder().build();
-    }
-
-    @Override
-    public Github github() {
-        return this.owner;
-    }
-
-    @Override
-    public String read(final String file) {
-        return this.map.get(file);
-    }
-
-    @Override
-    public void write(final String file, final String text) {
-        this.map.put(file, text);
-    }
-
-    @Override
-    public JsonObject json() {
-        return this.object;
-    }
-
-}
+package com.jcabi.github.mock;

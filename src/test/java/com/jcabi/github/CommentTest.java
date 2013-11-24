@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -41,7 +43,7 @@ import org.junit.Test;
 public final class CommentTest {
 
     /**
-     * CommentMocker can change body.
+     * MkComment can change body.
      * @throws Exception If some problem inside
      */
     @Test
@@ -60,9 +62,9 @@ public final class CommentTest {
      * @throws Exception If some problem inside
      */
     private Comment comment() throws Exception {
-        return new GithubMocker().createRepo("tt/a")
-            .issues().create("hey", "how are you?")
-            .comments().post("what's up?");
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).issues().create("hey", "how are you?").comments().post("what's up?");
     }
 
 }

@@ -27,71 +27,103 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.log.Logger;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Pull;
+import com.jcabi.github.Pulls;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Mocker of {@link Pulls}.
+ * Mock Github pull requests.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class PullsMocker implements Pulls {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "repo" })
+public final class MkPulls implements Pulls {
 
     /**
-     * Repo.
+     * Storage.
      */
-    private final transient Repo owner;
+    private final transient MkStorage storage;
 
     /**
-     * All pulls.
+     * Login of the user logged in.
      */
-    private final transient ConcurrentMap<Integer, Pull> map =
-        new ConcurrentSkipListMap<Integer, Pull>();
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates repo;
 
     /**
      * Public ctor.
-     * @param repo Owner of it
+     * @param stg Storage
+     * @param login User to login
      */
-    public PullsMocker(final Repo repo) {
-        this.owner = repo;
+    public MkPulls(final MkStorage stg, final String login,
+        final Coordinates rep) {
+        this.storage = stg;
+        this.self = login;
+        this.repo = rep;
     }
 
     @Override
     public Repo repo() {
-        return this.owner;
+        return new MkRepo(this.storage, this.self, this.repo);
     }
 
     @Override
     public Pull get(final int number) {
-        return this.map.get(number);
+        return new MkPull(this.storage, this.self, this.repo, number);
     }
 
     @Override
     public Pull create(final String title, final String head,
         final String base) throws IOException {
+        this.storage.lock();
         final int number;
-        final Pull pull;
-        synchronized (this.map) {
-            number = this.map.size() + 1;
-            pull = new PullMocker(this.owner, number).mock();
-            this.map.put(number, pull);
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/pull/number", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("pull")
+                    .add("number").set(Integer.toString(number)).up()
+                    .add("head").set(head).up()
+                    .add("base").set(base).up()
+            );
+        } finally {
+            this.storage.unlock();
         }
-        Logger.info(
-            this, "Github pull request #%d created: %s",
-            number, title
-        );
-        return pull;
+        return this.get(number);
     }
 
     @Override
     public Iterable<Pull> iterate() {
-        return this.map.values();
+        return null;
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/pulls",
+            this.repo
+        );
+    }
 }

@@ -27,93 +27,107 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Event;
+import com.jcabi.github.Github;
+import com.jcabi.github.Issues;
+import com.jcabi.github.Pulls;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github event.
+ * Mock Github repo.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-final class GhEvent implements Event {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+public final class MkRepo implements Repo {
 
     /**
-     * RESTful request.
+     * Storage.
      */
-    private final transient Request request;
+    private final transient MkStorage storage;
 
     /**
-     * Repository we're in.
+     * Login of the user logged in.
      */
-    private final transient Repo owner;
+    private final transient String self;
 
     /**
-     * Event number.
+     * Repo coordinates.
      */
-    private final transient int num;
+    private final transient Coordinates coords;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Number of the get
+     * @param stg Storage
+     * @param login User to login
+     * @param repo Repo name
      */
-    GhEvent(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/events")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    public MkRepo(final MkStorage stg, final String login,
+        final Coordinates repo) {
+        this.storage = stg;
+        this.self = login;
+        this.coords = repo;
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
+    public Coordinates coordinates() {
+        return this.coords;
     }
 
     @Override
-    public int number() {
-        return this.num;
+    public Issues issues() {
+        return new MkIssues(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public Pulls pulls() {
+        return new MkPulls(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public Iterable<Event> events() {
+        return null;
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
-    @Override
-    public int compareTo(final Event event) {
-        return new Integer(this.number()).compareTo(event.number());
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']",
+            this.coords
+        );
     }
-
 }

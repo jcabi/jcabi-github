@@ -27,49 +27,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.util.Map;
-import javax.json.Json;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
+import java.io.IOException;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Mocker of JSON.
+ * Github repos.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.2
+ * @since 0.5
  */
-final class JsonMocker {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self" })
+public final class MkRepos implements Repos {
 
     /**
-     * Object.
+     * Storage.
      */
-    private final transient JsonObject object;
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
 
     /**
      * Public ctor.
-     * @param obj Object to use
+     * @param stg Storage
+     * @param login User to login
      */
-    JsonMocker(final JsonObject obj) {
-        this.object = obj;
+    public MkRepos(final MkStorage stg, final String login) {
+        this.storage = stg;
+        this.self = login;
+    }
+
+    @Override
+    public Repo create(final JsonObject json) throws IOException {
+        final String name = json.getString("name");
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("repo")
+                .add("name").set(name).up()
+                .add("description").set(json.getString("description")).up()
+        );
+        return this.get(new Coordinates.Simple(this.self, name));
+    }
+
+    @Override
+    public Repo get(final Coordinates coords) {
+        return new MkRepo(this.storage, this.self, coords);
     }
 
     /**
-     * Patch object with a new one.
-     * @param obj Object to apply
-     * @return New object
+     * XPath of this element in XML tree.
+     * @return XPath
      */
-    public JsonObject patch(final JsonObject obj) {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
-        for (final Map.Entry<String, JsonValue> pair : this.object.entrySet()) {
-            builder.add(pair.getKey(), pair.getValue());
-        }
-        for (final Map.Entry<String, JsonValue> pair : obj.entrySet()) {
-            builder.add(pair.getKey(), pair.getValue());
-        }
-        return builder.build();
+    private String xpath() {
+        return "/github/repos";
     }
+
 }

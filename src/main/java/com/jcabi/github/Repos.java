@@ -29,71 +29,40 @@
  */
 package com.jcabi.github;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
- * Mocker of {@link Github}.
+ * Github Repo API.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
+ * @see <a href="http://developer.github.com/v3/repos/">Repos API</a>
  */
-public final class GithubMocker implements Github {
+@Immutable
+public interface Repos {
 
     /**
-     * Self.
+     * Create repository.
+     * @param json Repository creation JSON
+     * @return Repository
+     * @since 0.5
+     * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
      */
-    private final transient User user;
+    @NotNull(message = "repository is never NULL")
+    Repo create(@NotNull(message = "JSON can't be NULL") JsonObject json) throws IOException;
 
     /**
-     * Repositories.
+     * Get repository by name.
+     * @param coords Repository name in "user/repo" format
+     * @return Repository
+     * @see <a href="http://developer.github.com/v3/repos/#get">Get Repository</a>
      */
-    private final transient ConcurrentMap<String, Repo> repos =
-        new ConcurrentHashMap<String, Repo>();
-
-    /**
-     * Public ctor.
-     */
-    public GithubMocker() {
-        this("test");
-    }
-
-    /**
-     * Public ctor.
-     * @param name Name of itself
-     */
-    public GithubMocker(final String name) {
-        this.user = new UserMocker(this, name);
-    }
-
-    /**
-     * Create a new repository.
-     * @param name Name of it
-     * @return Repo just created
-     */
-    public Repo createRepo(final String name) {
-        this.repos.put(
-            name,
-            new RepoMocker(this, new Coordinates.Simple(name))
-        );
-        return this.repo(name);
-    }
-
-    @Override
-    public Repo repo(@NotNull final String name) {
-        return this.repos.get(name);
-    }
-
-    @Override
-    public Gists gists() {
-        return new GistsMocker(this);
-    }
-
-    @Override
-    public Users users() {
-        return new UsersMocker(this, this.user);
-    }
+    @NotNull(message = "repository is never NULL")
+    Repo get(@NotNull(message = "coordinates can't be NULL")
+        Coordinates coords);
 
 }

@@ -42,7 +42,7 @@ import org.junit.Test;
 public final class GhUserITCase {
 
     /**
-     * Github.Simple can understand who am I.
+     * Github.Rexsl can understand who am I.
      * @throws Exception If some problem inside
      */
     @Test
@@ -63,7 +63,7 @@ public final class GhUserITCase {
     private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new Github.Simple(key);
+        return new RexslGithub(key);
     }
 
 }

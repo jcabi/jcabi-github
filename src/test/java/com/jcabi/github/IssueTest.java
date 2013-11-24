@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -43,7 +44,7 @@ import org.mockito.Mockito;
 public final class IssueTest {
 
     /**
-     * IssueMocker can open and close.
+     * MkIssue can open and close.
      * @throws Exception If some problem inside
      */
     @Test
@@ -61,7 +62,7 @@ public final class IssueTest {
     }
 
     /**
-     * IssueMocker can change title.
+     * MkIssue can change title.
      * @throws Exception If some problem inside
      */
     @Test
@@ -75,7 +76,7 @@ public final class IssueTest {
     }
 
     /**
-     * IssueMocker can change body.
+     * MkIssue can change body.
      * @throws Exception If some problem inside
      */
     @Test
@@ -118,8 +119,9 @@ public final class IssueTest {
      * @throws Exception If some problem inside
      */
     private Issue issue() throws Exception {
-        return new GithubMocker().createRepo("tt/a")
-            .issues().create("hey", "how are you?");
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).issues().create("hey", "how are you?");
     }
 
 }

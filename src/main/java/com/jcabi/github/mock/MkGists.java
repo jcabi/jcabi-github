@@ -27,21 +27,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github.mock;
+
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Gist;
+import com.jcabi.github.Gists;
+import com.jcabi.github.Github;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Object Oriented Github API.
- *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
+ * Mock Github gists.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ * @since 0.5
  */
-package com.jcabi.github;
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self" })
+public final class MkGists implements Gists {
+
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     */
+    public MkGists(final MkStorage stg, final String login) {
+        this.storage = stg;
+        this.self = login;
+    }
+
+    @Override
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
+    }
+
+    @Override
+    public Gist get(final String name) {
+        return new MkGist(this.storage, this.self, name);
+    }
+
+    @Override
+    public Iterable<Gist> iterate() {
+        return null;
+    }
+
+}

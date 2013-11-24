@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.log.Logger;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
@@ -125,7 +126,7 @@ public final class Smarts<T> implements Iterable<T> {
                     String.format("%s$Smart", iface.getName())
                 ).getDeclaredConstructor(iface);
             } catch (ClassNotFoundException ex) {
-                continue;
+                Logger.debug(Smarts.class, "%s: %s", iface.getName(), ex);
             } catch (NoSuchMethodException ex) {
                 throw new IllegalStateException(ex);
             }

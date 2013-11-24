@@ -27,60 +27,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.util.Collections;
-import org.mockito.Mockito;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import org.xembly.Directives;
 
 /**
- * Mocker of {@link Repo}.
+ * Json patch.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class RepoMocker implements Repo {
+@Immutable
+final class JsonPatch {
 
     /**
-     * Mocked repo.
+     * Storage.
      */
-    private final transient Repo repo = Mockito.mock(Repo.class);
+    private final transient MkStorage storage;
 
     /**
      * Public ctor.
-     * @param github Owner of it
-     * @param coords Coordinates
+     * @param stg Storage to use
      */
-    public RepoMocker(final Github github, final Coordinates coords) {
-        Mockito.doReturn(github).when(this.repo).github();
-        Mockito.doReturn(new IssuesMocker(this)).when(this.repo).issues();
-        Mockito.doReturn(new PullsMocker(this)).when(this.repo).pulls();
-        Mockito.doReturn(coords).when(this.repo).coordinates();
+    JsonPatch(final MkStorage stg) {
+        this.storage = stg;
     }
 
-    @Override
-    public Github github() {
-        return this.repo.github();
-    }
-
-    @Override
-    public Coordinates coordinates() {
-        return this.repo.coordinates();
-    }
-
-    @Override
-    public Issues issues() {
-        return this.repo.issues();
-    }
-
-    @Override
-    public Pulls pulls() {
-        return this.repo.pulls();
-    }
-
-    @Override
-    public Iterable<Event> events() {
-        return Collections.emptyList();
+    /**
+     * Patch an XML object/element.
+     * @param xpath XPath to locate the node to patch
+     * @param obj Object to apply
+     * @throws IOException If fails
+     */
+    public void patch(final String xpath, final JsonObject obj)
+        throws IOException {
+        final Directives dirs = new Directives().xpath(xpath);
+        for (final String key : obj.keySet()) {
+            final JsonValue value = obj.get(key);
+            dirs.addIf(key).set(value.toString()).up();
+        }
+        try {
+            this.storage.apply(dirs);
+        } catch (IOException ex) {
+            throw new IOException(ex);
+        }
     }
 
 }

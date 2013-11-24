@@ -59,7 +59,7 @@ public interface Label extends Comparable<Label> {
     String color();
 
     /**
-     * Simple implementation.
+     * Rexsl implementation.
      */
     @Immutable
     @Loggable(Loggable.DEBUG)

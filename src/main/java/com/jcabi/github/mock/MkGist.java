@@ -27,93 +27,95 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.Gist;
+import com.jcabi.github.Github;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Github event.
+ * Mock Github gist.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-final class GhEvent implements Event {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "name" })
+public final class MkGist implements Gist {
 
     /**
-     * RESTful request.
+     * Storage.
      */
-    private final transient Request request;
+    private final transient MkStorage storage;
 
     /**
-     * Repository we're in.
+     * Login of the user logged in.
      */
-    private final transient Repo owner;
+    private final transient String self;
 
     /**
-     * Event number.
+     * Gist name.
      */
-    private final transient int num;
+    private final transient String name;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Number of the get
+     * @param stg Storage
+     * @param login User to login
      */
-    GhEvent(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/events")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    public MkGist(final MkStorage stg, final String login,
+        final String gist) {
+        this.storage = stg;
+        this.self = login;
+        this.name = gist;
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
+    public String read(final String file) throws IOException {
+        return this.storage.xml().nodes(this.xpath()).get(0)
+            .nodes("files").get(0).xpath(file).get(0);
     }
 
     @Override
-    public int number() {
-        return this.num;
+    public void write(final String file, final String content)
+        throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath())
+                .xpath("files").xpath(file)
+                .set(content)
+        );
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
-    @Override
-    public int compareTo(final Event event) {
-        return new Integer(this.number()).compareTo(event.number());
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/gists/gist[name='%s']",
+            this.name
+        );
     }
 
 }

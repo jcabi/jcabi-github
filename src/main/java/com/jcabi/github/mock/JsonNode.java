@@ -27,69 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.io.IOException;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.xml.XML;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
- * Mocker of {@link User}.
+ * Json node in XML.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class UserMocker implements User {
+@Immutable
+final class JsonNode {
 
     /**
-     * Github.
+     * XML.
      */
-    private final transient Github ghub;
-
-    /**
-     * Login of it.
-     */
-    private final transient String lgn;
+    private final transient XML xml;
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param src Source
      */
-    public UserMocker(final Github github) {
-        this(github, "test");
+    JsonNode(final XML src) {
+        this.xml = src;
     }
 
     /**
-     * Public ctor.
-     * @param github Github
-     * @param name Name of itself
+     * Fetch JSON object.
+     * @return JSON
      */
-    public UserMocker(final Github github, final String name) {
-        this.ghub = github;
-        this.lgn = name;
-    }
-
-    @Override
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    public String login() {
-        return this.lgn;
-    }
-
-    @Override
     public JsonObject json() {
-        return Json.createObjectBuilder()
-            .add("name", "Test Name")
-            .build();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("#patch()");
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        final NodeList nodes = this.xml.node().getChildNodes();
+        for (int idx = 0; idx < nodes.getLength(); ++idx) {
+            final Node node = nodes.item(idx);
+            builder.add(node.getLocalName(), node.getNodeValue());
+        }
+        return builder.build();
     }
 
 }

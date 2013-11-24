@@ -29,8 +29,8 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.FakeRequest;
 import com.rexsl.test.Request;
+import com.rexsl.test.request.FakeRequest;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

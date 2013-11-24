@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.JsonResponse;
 import com.rexsl.test.Request;
-import com.rexsl.test.RestResponse;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;

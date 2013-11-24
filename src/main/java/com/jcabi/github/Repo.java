@@ -40,7 +40,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.1
  */
 @Immutable
-public interface Repo {
+public interface Repo extends JsonReadable, JsonPatchable {
 
     /**
      * Get its owner.

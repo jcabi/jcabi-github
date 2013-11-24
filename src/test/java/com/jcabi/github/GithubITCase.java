@@ -43,7 +43,7 @@ import org.junit.Test;
 public final class GithubITCase {
 
     /**
-     * Github.Simple can authenticate itself.
+     * Github.Rexsl can authenticate itself.
      * @throws Exception If some problem inside
      */
     @Test
@@ -56,15 +56,17 @@ public final class GithubITCase {
     }
 
     /**
-     * Github.Simple can connect anonymously.
+     * Github.Rexsl can connect anonymously.
      * @throws Exception If some problem inside
      */
     @Test
     public void connectsAnonymously() throws Exception {
-        final Github github = new Github.Simple();
+        final Github github = new RexslGithub();
         MatcherAssert.assertThat(
             new Issue.Smart(
-                github.repo("jcabi/jcabi-github").issues().get(1)
+                github.repos().get(
+                    new Coordinates.Simple("jcabi/jcabi-github")
+                ).issues().get(1)
             ).title(),
             Matchers.notNullValue()
         );
@@ -78,7 +80,7 @@ public final class GithubITCase {
     private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new Github.Simple(key);
+        return new RexslGithub(key);
     }
 
 }

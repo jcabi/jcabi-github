@@ -27,54 +27,85 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
+import com.jcabi.github.User;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Mocker of {@link Gists}.
+ * Github user.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
-public final class GistsMocker implements Gists {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self" })
+public final class MkUser implements User {
 
     /**
-     * Github.
+     * Storage.
      */
-    private final transient Github owner;
+    private final transient MkStorage storage;
 
     /**
-     * All gists.
+     * Login of the user logged in.
      */
-    private final transient ConcurrentMap<String, Gist> map =
-        new ConcurrentSkipListMap<String, Gist>();
+    private final transient String self;
 
     /**
      * Public ctor.
-     * @param github Owner of it
+     * @param stg Storage
+     * @param login User to login
+     * @throws IOException If fails
      */
-    public GistsMocker(final Github github) {
-        this.owner = github;
+    public MkUser(final MkStorage stg, final String login) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("/github/users[not(user[login='%s'])]", login)
+            ).add("user").add("login").set(login)
+        );
     }
 
     @Override
     public Github github() {
-        return this.owner;
+        return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    public Gist get(final String name) {
-        final Gist gist = new GistMocker(this.owner);
-        this.map.putIfAbsent(name, gist);
-        return gist;
+    public String login() {
+        return this.self;
     }
 
     @Override
-    public Iterable<Gist> iterate() {
-        return this.map.values();
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format("/github/users/user[login='%s']", this.self);
     }
 
 }

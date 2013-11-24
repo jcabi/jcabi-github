@@ -58,7 +58,7 @@ public interface Coordinates {
     String repo();
 
     /**
-     * Simple implementation.
+     * Rexsl implementation.
      */
     @Immutable
     @EqualsAndHashCode(of = { "usr", "rpo" })
@@ -76,7 +76,7 @@ public interface Coordinates {
          * @param user User name
          * @param repo Repository name
          */
-        Simple(
+        public Simple(
             @NotNull(message = "user can't be NULL") final String user,
             @NotNull(message = "repo can't be NULL") final String repo) {
             this.usr = user;
@@ -86,7 +86,8 @@ public interface Coordinates {
          * Public ctor.
          * @param mnemo Mnemo name
          */
-        Simple(@NotNull(message = "mnemo can't be NULL") final String mnemo) {
+        public Simple(@NotNull(message = "mnemo can't be NULL")
+            final String mnemo) {
             final String[] parts = mnemo.split("/", 2);
             if (parts.length != 2) {
                 throw new IllegalArgumentException(
