@@ -37,7 +37,6 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -101,7 +100,11 @@ public final class MkIssue implements Issue {
 
     @Override
     public Comments comments() {
-        return new MkComments(this.storage, this.self, this.repo, this.num);
+        try {
+            return new MkComments(this.storage, this.self, this.repo, this.num);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -137,7 +140,7 @@ public final class MkIssue implements Issue {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[name='%s']/issues/issue[number='%d']",
+            "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
             this.repo, this.num
         );
     }

@@ -132,7 +132,7 @@ public final class MkComment implements Comment {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[name='%s']/issues/issue[number='%d']/comments/comment[number='%d']",
+            "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments/comment[number='%d']",
             this.repo, this.ticket, this.num
         );
     }

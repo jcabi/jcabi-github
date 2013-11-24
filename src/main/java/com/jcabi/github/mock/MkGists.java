@@ -34,8 +34,10 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github gists.
@@ -65,9 +67,12 @@ public final class MkGists implements Gists {
      * @param stg Storage
      * @param login User to login
      */
-    public MkGists(final MkStorage stg, final String login) {
+    public MkGists(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
+        this.storage.apply(
+            new Directives().xpath("/github").addIf("gists")
+        );
     }
 
     @Override

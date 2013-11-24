@@ -95,12 +95,20 @@ public final class MkRepo implements Repo {
 
     @Override
     public Issues issues() {
-        return new MkIssues(this.storage, this.self, this.coords);
+        try {
+            return new MkIssues(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
     public Pulls pulls() {
-        return new MkPulls(this.storage, this.self, this.coords);
+        try {
+            return new MkPulls(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

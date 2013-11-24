@@ -37,6 +37,7 @@ import com.jcabi.github.Users;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github users.
@@ -66,9 +67,12 @@ public final class MkUsers implements Users {
      * @param stg Storage
      * @param login User to login
      */
-    public MkUsers(final MkStorage stg, final String login) {
+    public MkUsers(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
+        this.storage.apply(
+            new Directives().xpath("/github").addIf("users")
+        );
     }
 
     @Override

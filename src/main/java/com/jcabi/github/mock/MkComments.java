@@ -79,11 +79,19 @@ public final class MkComments implements Comments {
      * @param login User to login
      */
     public MkComments(final MkStorage stg, final String login,
-        final Coordinates rep, final int issue) {
+        final Coordinates rep, final int issue) throws IOException {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
         this.ticket = issue;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
+                    this.repo, this.ticket
+                )
+            ).addIf("comments")
+        );
     }
 
     @Override

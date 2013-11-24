@@ -75,10 +75,18 @@ public final class MkIssues implements Issues {
      * @param login User to login
      */
     public MkIssues(final MkStorage stg, final String login,
-        final Coordinates rep) {
+        final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.repo
+                )
+            ).addIf("issues")
+        );
     }
 
     @Override
@@ -123,7 +131,7 @@ public final class MkIssues implements Issues {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[name='%s']/issues",
+            "/github/repos/repo[@coords='%s']/issues",
             this.repo
         );
     }

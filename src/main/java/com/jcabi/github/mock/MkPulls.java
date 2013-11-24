@@ -74,10 +74,18 @@ public final class MkPulls implements Pulls {
      * @param login User to login
      */
     public MkPulls(final MkStorage stg, final String login,
-        final Coordinates rep) {
+        final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.repo
+                )
+            ).addIf("pulls")
+        );
     }
 
     @Override

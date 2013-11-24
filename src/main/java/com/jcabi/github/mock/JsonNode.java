@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
 import com.jcabi.xml.XML;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -43,7 +42,6 @@ import org.w3c.dom.Node;
  * @version $Id$
  * @since 0.5
  */
-@Immutable
 final class JsonNode {
 
     /**

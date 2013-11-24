@@ -99,12 +99,20 @@ public final class MkGithub implements Github {
 
     @Override
     public Gists gists() {
-        return new MkGists(this.storage, this.self);
+        try {
+            return new MkGists(this.storage, this.self);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
     public Users users() {
-        return new MkUsers(this.storage, this.self);
+        try {
+            return new MkUsers(this.storage, this.self);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
 }

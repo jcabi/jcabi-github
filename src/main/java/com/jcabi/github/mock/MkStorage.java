@@ -129,11 +129,11 @@ public interface MkStorage {
         }
         @Override
         public void lock() throws IOException {
-            throw new UnsupportedOperationException("#lock()");
+            // nothing to do
         }
         @Override
         public void unlock() throws IOException {
-            throw new UnsupportedOperationException("#unlock()");
+            // nothing to do
         }
     }
 
