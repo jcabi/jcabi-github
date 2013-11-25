@@ -51,7 +51,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "ticket", "num" })
-public final class MkComment implements Comment {
+final class MkComment implements Comment {
 
     /**
      * Storage.
@@ -82,8 +82,12 @@ public final class MkComment implements Comment {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
+     * @param issue Issue number
+     * @param number Comment number
+     * @checkstyle ParameterNumber (5 lines)
      */
-    public MkComment(final MkStorage stg, final String login,
+    MkComment(final MkStorage stg, final String login,
         final Coordinates rep, final int issue, final int number) {
         this.storage = stg;
         this.self = login;
@@ -132,6 +136,7 @@ public final class MkComment implements Comment {
      */
     private String xpath() {
         return String.format(
+            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments/comment[number='%d']",
             this.repo, this.ticket, this.num
         );

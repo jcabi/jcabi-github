@@ -52,8 +52,8 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "repo", "num" })
-public final class MkIssue implements Issue {
+@EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
+final class MkIssue implements Issue {
 
     /**
      * Storage.
@@ -68,7 +68,7 @@ public final class MkIssue implements Issue {
     /**
      * Repo name.
      */
-    private final transient Coordinates repo;
+    private final transient Coordinates coords;
 
     /**
      * Issue number.
@@ -79,18 +79,21 @@ public final class MkIssue implements Issue {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
+     * @param number Issue number
+     * @checkstyle ParameterNumber (5 lines)
      */
-    public MkIssue(final MkStorage stg, final String login,
+    MkIssue(final MkStorage stg, final String login,
         final Coordinates rep, final int number) {
         this.storage = stg;
         this.self = login;
-        this.repo = rep;
+        this.coords = rep;
         this.num = number;
     }
 
     @Override
     public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.repo);
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
@@ -101,7 +104,9 @@ public final class MkIssue implements Issue {
     @Override
     public Comments comments() {
         try {
-            return new MkComments(this.storage, this.self, this.repo, this.num);
+            return new MkComments(
+                this.storage, this.self, this.coords, this.num
+            );
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -109,12 +114,12 @@ public final class MkIssue implements Issue {
 
     @Override
     public Labels labels() {
-        return new MkIssueLabels(this.storage, this.self, this.repo, this.num);
+        return new MkIssueLabels(this.storage, this.coords, this.num);
     }
 
     @Override
     public Iterable<Event> events() {
-        return null;
+        throw new UnsupportedOperationException("#iterate()");
     }
 
     @Override
@@ -141,7 +146,7 @@ public final class MkIssue implements Issue {
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
-            this.repo, this.num
+            this.coords, this.num
         );
     }
 

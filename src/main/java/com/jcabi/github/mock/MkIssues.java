@@ -35,6 +35,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -51,8 +52,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "repo" })
-public final class MkIssues implements Issues {
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+final class MkIssues implements Issues {
 
     /**
      * Storage.
@@ -67,23 +68,25 @@ public final class MkIssues implements Issues {
     /**
      * Repo name.
      */
-    private final transient Coordinates repo;
+    private final transient Coordinates coords;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
+     * @throws IOException If fails
      */
-    public MkIssues(final MkStorage stg, final String login,
+    MkIssues(final MkStorage stg, final String login,
         final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
-        this.repo = rep;
+        this.coords = rep;
         this.storage.apply(
             new Directives().xpath(
                 String.format(
                     "/github/repos/repo[@coords='%s']",
-                    this.repo
+                    this.coords
                 )
             ).addIf("issues")
         );
@@ -91,12 +94,12 @@ public final class MkIssues implements Issues {
 
     @Override
     public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.repo);
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     public Issue get(final int number) {
-        return new MkIssue(this.storage, this.self, this.repo, number);
+        return new MkIssue(this.storage, this.self, this.coords, number);
     }
 
     @Override
@@ -123,7 +126,18 @@ public final class MkIssues implements Issues {
 
     @Override
     public Iterable<Issue> iterate(final Map<String, String> params) {
-        return null;
+        return new MkIterable<Issue>(
+            this.storage,
+            String.format("%s/issue", this.xpath()),
+            new MkIterable.Mapping<Issue>() {
+                @Override
+                public Issue map(final XML xml) {
+                    return MkIssues.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     /**
@@ -133,7 +147,7 @@ public final class MkIssues implements Issues {
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues",
-            this.repo
+            this.coords
         );
     }
 

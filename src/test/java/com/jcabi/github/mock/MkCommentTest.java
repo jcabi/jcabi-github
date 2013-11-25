@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
-import com.jcabi.github.mock.MkGithub;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

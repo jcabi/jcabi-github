@@ -55,6 +55,7 @@ public interface Gists {
      * Create a new gist.
      * @param files Names of files
      * @return Gist
+     * @throws IOException If fails
      * @see <a href="http://developer.github.com/v3/gists/#create-a-gist">Create a Gist</a>
      */
     @NotNull(message = "gist is never NULL")

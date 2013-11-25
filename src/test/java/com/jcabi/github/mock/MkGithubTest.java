@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
-import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;

@@ -45,6 +45,7 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Repo extends JsonReadable, JsonPatchable {
 
     /**

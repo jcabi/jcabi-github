@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -50,7 +51,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-public final class MkGists implements Gists {
+final class MkGists implements Gists {
 
     /**
      * Storage.
@@ -66,8 +67,9 @@ public final class MkGists implements Gists {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @throws IOException If fails
      */
-    public MkGists(final MkStorage stg, final String login) throws IOException {
+    MkGists(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
@@ -111,7 +113,16 @@ public final class MkGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() {
-        return null;
+        return new MkIterable<Gist>(
+            this.storage,
+            String.format("%s/gist", this.xpath()),
+            new MkIterable.Mapping<Gist>() {
+                @Override
+                public Gist map(final XML xml) {
+                    return MkGists.this.get(xml.xpath("id/text()").get(0));
+                }
+            }
+        );
     }
 
     /**

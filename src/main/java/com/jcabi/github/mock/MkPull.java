@@ -51,8 +51,8 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "repo", "num" })
-public final class MkPull implements Pull {
+@EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
+final class MkPull implements Pull {
 
     /**
      * Storage.
@@ -67,7 +67,7 @@ public final class MkPull implements Pull {
     /**
      * Repo name.
      */
-    private final transient Coordinates repo;
+    private final transient Coordinates coords;
 
     /**
      * Pull number.
@@ -78,18 +78,21 @@ public final class MkPull implements Pull {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
+     * @param number Pull request number
+     * @checkstyle ParameterNumber (5 lines)
      */
-    public MkPull(final MkStorage stg, final String login,
+    MkPull(final MkStorage stg, final String login,
         final Coordinates rep, final int number) {
         this.storage = stg;
         this.self = login;
-        this.repo = rep;
+        this.coords = rep;
         this.num = number;
     }
 
     @Override
     public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.repo);
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
@@ -136,7 +139,7 @@ public final class MkPull implements Pull {
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
-            this.repo, this.num
+            this.coords, this.num
         );
     }
 

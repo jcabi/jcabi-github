@@ -30,6 +30,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -45,7 +49,14 @@ public final class MkRepoTest {
      */
     @Test
     public void works() throws Exception {
-        // todo
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+        MatcherAssert.assertThat(
+            repo.coordinates(),
+            Matchers.hasToString("jeff/test")
+        );
     }
 
 }

@@ -50,7 +50,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "name" })
-public final class MkGist implements Gist {
+final class MkGist implements Gist {
 
     /**
      * Storage.
@@ -71,8 +71,10 @@ public final class MkGist implements Gist {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param gist Gist name
+     * @checkstyle ParameterNumber (5 lines)
      */
-    public MkGist(final MkStorage stg, final String login,
+    MkGist(final MkStorage stg, final String login,
         final String gist) {
         this.storage = stg;
         this.self = login;

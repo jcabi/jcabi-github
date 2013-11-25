@@ -40,6 +40,7 @@ import org.junit.Test;
  * Test case for {@link MkRepos}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReposTest {
 

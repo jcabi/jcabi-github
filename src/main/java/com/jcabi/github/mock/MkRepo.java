@@ -53,7 +53,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkRepo implements Repo {
+final class MkRepo implements Repo {
 
     /**
      * Storage.
@@ -76,7 +76,7 @@ public final class MkRepo implements Repo {
      * @param login User to login
      * @param repo Repo name
      */
-    public MkRepo(final MkStorage stg, final String login,
+    MkRepo(final MkStorage stg, final String login,
         final Coordinates repo) {
         this.storage = stg;
         this.self = login;

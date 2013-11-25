@@ -35,6 +35,7 @@ import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -51,7 +52,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "ticket" })
-public final class MkComments implements Comments {
+final class MkComments implements Comments {
 
     /**
      * Storage.
@@ -77,8 +78,12 @@ public final class MkComments implements Comments {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
+     * @param issue Issue number
+     * @throws IOException If fails
+     * @checkstyle ParameterNumber (5 lines)
      */
-    public MkComments(final MkStorage stg, final String login,
+    MkComments(final MkStorage stg, final String login,
         final Coordinates rep, final int issue) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -87,6 +92,7 @@ public final class MkComments implements Comments {
         this.storage.apply(
             new Directives().xpath(
                 String.format(
+                    // @checkstyle LineLength (1 line)
                     "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
                     this.repo, this.ticket
                 )
@@ -108,7 +114,18 @@ public final class MkComments implements Comments {
 
     @Override
     public Iterable<Comment> iterate() {
-        return null;
+        return new MkIterable<Comment>(
+            this.storage,
+            String.format("%s/comment", this.xpath()),
+            new MkIterable.Mapping<Comment>() {
+                @Override
+                public Comment map(final XML xml) {
+                    return MkComments.this.get(
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -122,6 +139,7 @@ public final class MkComments implements Comments {
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Integer.toString(number)).up()
                     .add("body").set(text).up()
+                    .add("user").add("login").set(this.self)
             );
         } finally {
             this.storage.unlock();
@@ -135,6 +153,7 @@ public final class MkComments implements Comments {
      */
     private String xpath() {
         return String.format(
+            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments",
             this.repo, this.ticket
         );

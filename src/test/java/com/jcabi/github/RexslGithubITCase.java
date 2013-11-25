@@ -27,52 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.xml.XML;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import org.w3c.dom.Node;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
- * Json node in XML.
- *
+ * Integration case for {@link Github}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.5
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-final class JsonNode {
+public final class RexslGithubITCase {
 
     /**
-     * XML.
+     * RexslGithub can authenticate itself.
+     * @throws Exception If some problem inside
      */
-    private final transient XML xml;
-
-    /**
-     * Public ctor.
-     * @param src Source
-     */
-    JsonNode(final XML src) {
-        this.xml = src;
+    @Test
+    public void authenticatesItself() throws Exception {
+        final Github github = RexslGithubITCase.github();
+        MatcherAssert.assertThat(
+            github.users().self(),
+            Matchers.notNullValue()
+        );
     }
 
     /**
-     * Fetch JSON object.
-     * @return JSON
+     * RexslGithub can connect anonymously.
+     * @throws Exception If some problem inside
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public JsonObject json() {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
-        for (final XML child : this.xml.nodes("* ")) {
-            final Node node = child.node();
-            if (child.nodes("*").isEmpty()) {
-                builder.add(node.getNodeName(), node.getTextContent());
-            } else {
-                builder.add(node.getNodeName(), new JsonNode(child).json());
-            }
-        }
-        return builder.build();
+    @Test
+    public void connectsAnonymously() throws Exception {
+        final Github github = new RexslGithub();
+        MatcherAssert.assertThat(
+            new Issue.Smart(
+                github.repos().get(
+                    new Coordinates.Simple("jcabi/jcabi-github")
+                ).issues().get(1)
+            ).title(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Github github() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RexslGithub(key);
     }
 
 }

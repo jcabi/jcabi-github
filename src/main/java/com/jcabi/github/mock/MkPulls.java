@@ -35,6 +35,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -50,8 +51,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "repo" })
-public final class MkPulls implements Pulls {
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+final class MkPulls implements Pulls {
 
     /**
      * Storage.
@@ -66,23 +67,25 @@ public final class MkPulls implements Pulls {
     /**
      * Repo name.
      */
-    private final transient Coordinates repo;
+    private final transient Coordinates coords;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
+     * @throws IOException If fails
      */
-    public MkPulls(final MkStorage stg, final String login,
+    MkPulls(final MkStorage stg, final String login,
         final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
-        this.repo = rep;
+        this.coords = rep;
         this.storage.apply(
             new Directives().xpath(
                 String.format(
                     "/github/repos/repo[@coords='%s']",
-                    this.repo
+                    this.coords
                 )
             ).addIf("pulls")
         );
@@ -90,12 +93,12 @@ public final class MkPulls implements Pulls {
 
     @Override
     public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.repo);
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     public Pull get(final int number) {
-        return new MkPull(this.storage, this.self, this.repo, number);
+        return new MkPull(this.storage, this.self, this.coords, number);
     }
 
     @Override
@@ -121,7 +124,18 @@ public final class MkPulls implements Pulls {
 
     @Override
     public Iterable<Pull> iterate() {
-        return null;
+        return new MkIterable<Pull>(
+            this.storage,
+            String.format("%s/pull", this.xpath()),
+            new MkIterable.Mapping<Pull>() {
+                @Override
+                public Pull map(final XML xml) {
+                    return MkPulls.this.get(
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     /**
@@ -131,7 +145,7 @@ public final class MkPulls implements Pulls {
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/pulls",
-            this.repo
+            this.coords
         );
     }
 }

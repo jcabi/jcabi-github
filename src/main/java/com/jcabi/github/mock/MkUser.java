@@ -50,7 +50,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-public final class MkUser implements User {
+final class MkUser implements User {
 
     /**
      * Storage.
@@ -68,7 +68,7 @@ public final class MkUser implements User {
      * @param login User to login
      * @throws IOException If fails
      */
-    public MkUser(final MkStorage stg, final String login) throws IOException {
+    MkUser(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
         this.storage.apply(

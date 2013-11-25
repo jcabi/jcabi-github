@@ -49,11 +49,13 @@ public interface Repos {
      * Create repository.
      * @param json Repository creation JSON
      * @return Repository
+     * @throws IOException If fails
      * @since 0.5
      * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
      */
     @NotNull(message = "repository is never NULL")
-    Repo create(@NotNull(message = "JSON can't be NULL") JsonObject json) throws IOException;
+    Repo create(@NotNull(message = "JSON can't be NULL") JsonObject json)
+        throws IOException;
 
     /**
      * Get repository by name.

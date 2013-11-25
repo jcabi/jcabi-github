@@ -27,60 +27,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Mock Github server, tests.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @since 0.5
  */
-public final class GithubITCase {
-
-    /**
-     * Github.Rexsl can authenticate itself.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void authenticatesItself() throws Exception {
-        final Github github = GithubITCase.github();
-        MatcherAssert.assertThat(
-            github.users().self(),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * Github.Rexsl can connect anonymously.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void connectsAnonymously() throws Exception {
-        final Github github = new RexslGithub();
-        MatcherAssert.assertThat(
-            new Issue.Smart(
-                github.repos().get(
-                    new Coordinates.Simple("jcabi/jcabi-github")
-                ).issues().get(1)
-            ).title(),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RexslGithub(key);
-    }
-
-}
+package com.jcabi.github.mock;

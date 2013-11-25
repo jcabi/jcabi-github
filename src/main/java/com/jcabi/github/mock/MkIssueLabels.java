@@ -49,18 +49,13 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "repo", "ticket" })
-public final class MkIssueLabels implements Labels {
+@EqualsAndHashCode(of = { "storage", "repo", "ticket" })
+final class MkIssueLabels implements Labels {
 
     /**
      * Storage.
      */
     private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
 
     /**
      * Repo name.
@@ -75,12 +70,12 @@ public final class MkIssueLabels implements Labels {
     /**
      * Public ctor.
      * @param stg Storage
-     * @param login User to login
+     * @param rep Repo
+     * @param issue Issue number
+     * @checkstyle ParameterNumber (5 lines)
      */
-    public MkIssueLabels(final MkStorage stg, final String login,
-        final Coordinates rep, final int issue) {
+    MkIssueLabels(final MkStorage stg, final Coordinates rep, final int issue) {
         this.storage = stg;
-        this.self = login;
         this.repo = rep;
         this.ticket = issue;
     }
@@ -98,7 +93,7 @@ public final class MkIssueLabels implements Labels {
 
     @Override
     public Iterable<Label> iterate() {
-        return null;
+        throw new UnsupportedOperationException("#iterate()");
     }
 
     @Override
@@ -113,7 +108,7 @@ public final class MkIssueLabels implements Labels {
     @Override
     public void clear() throws IOException {
         this.storage.apply(
-            new Directives().xpath("label").remove()
+            new Directives().xpath("label[name]").remove()
         );
     }
 

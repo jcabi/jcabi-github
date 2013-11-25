@@ -72,11 +72,7 @@ final class JsonPatch {
             final JsonValue value = obj.get(key);
             dirs.addIf(key).set(StringUtils.strip(value.toString(), "\"")).up();
         }
-        try {
-            this.storage.apply(dirs);
-        } catch (IOException ex) {
-            throw new IOException(ex);
-        }
+        this.storage.apply(dirs);
     }
 
 }

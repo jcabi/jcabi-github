@@ -29,8 +29,7 @@
  */
 
 /**
- * Github client that retries a few times before giving up (highly
- * recommended to use in production environments).
+ * Mock Github server.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$

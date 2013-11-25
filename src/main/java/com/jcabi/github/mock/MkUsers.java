@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.User;
 import com.jcabi.github.Users;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -49,8 +50,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self" })
-public final class MkUsers implements Users {
+@EqualsAndHashCode(of = { "storage", "himself" })
+final class MkUsers implements Users {
 
     /**
      * Storage.
@@ -60,16 +61,17 @@ public final class MkUsers implements Users {
     /**
      * Login of the user logged in.
      */
-    private final transient String self;
+    private final transient String himself;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @throws IOException If fails
      */
-    public MkUsers(final MkStorage stg, final String login) throws IOException {
+    MkUsers(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
-        this.self = login;
+        this.himself = login;
         this.storage.apply(
             new Directives().xpath("/github").addIf("users")
         );
@@ -77,12 +79,12 @@ public final class MkUsers implements Users {
 
     @Override
     public Github github() {
-        return new MkGithub(this.storage, this.self);
+        return new MkGithub(this.storage, this.himself);
     }
 
     @Override
     public User self() {
-        return this.get(this.self);
+        return this.get(this.himself);
     }
 
     @Override
@@ -96,7 +98,16 @@ public final class MkUsers implements Users {
 
     @Override
     public Iterable<User> iterate(final String login) {
-        throw new UnsupportedOperationException("#iterate()");
+        return new MkIterable<User>(
+            this.storage,
+            "/github/users/user",
+            new MkIterable.Mapping<User>() {
+                @Override
+                public User map(final XML xml) {
+                    return MkUsers.this.get(xml.xpath("login/text()").get(0));
+                }
+            }
+        );
     }
 
 }

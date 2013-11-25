@@ -30,49 +30,38 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.xml.XML;
-import javax.json.Json;
+import com.jcabi.xml.XMLDocument;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import org.w3c.dom.Node;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Json node in XML.
- *
+ * Test case for {@link JsonNode}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.5
  */
-final class JsonNode {
+public final class JsonNodeTest {
 
     /**
-     * XML.
+     * JsonNode can read XML to JSON.
+     * @throws Exception If some problem inside
      */
-    private final transient XML xml;
-
-    /**
-     * Public ctor.
-     * @param src Source
-     */
-    JsonNode(final XML src) {
-        this.xml = src;
-    }
-
-    /**
-     * Fetch JSON object.
-     * @return JSON
-     */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public JsonObject json() {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
-        for (final XML child : this.xml.nodes("* ")) {
-            final Node node = child.node();
-            if (child.nodes("*").isEmpty()) {
-                builder.add(node.getNodeName(), node.getTextContent());
-            } else {
-                builder.add(node.getNodeName(), new JsonNode(child).json());
-            }
-        }
-        return builder.build();
+    @Test
+    public void convertsXmlToJson() throws Exception {
+        final XML xml = new XMLDocument(
+            "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
+        );
+        final JsonObject json = new JsonNode(xml.nodes("user").get(0)).json();
+        MatcherAssert.assertThat(json, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            json.getString("name"),
+            Matchers.equalTo("Jeff")
+        );
+        MatcherAssert.assertThat(
+            json.getJsonObject("dept").getString("title"),
+            Matchers.equalTo("IT")
+        );
     }
 
 }

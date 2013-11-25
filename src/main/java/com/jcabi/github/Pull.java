@@ -48,6 +48,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.3
  * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
