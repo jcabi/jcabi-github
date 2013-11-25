@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -127,16 +126,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String state() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            final String state = this.pull.json().getString("state");
-            if (state == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "state is NULL is pull request #%d", this.pull.number()
-                    )
-                );
-            }
-            return state;
+            return new SmartJson(this).read("state");
         }
         /**
          * Change its state.
@@ -154,16 +144,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String title() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            final String title = this.pull.json().getString("title");
-            if (title == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "title is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
-            return title;
+            return new SmartJson(this).read("title");
         }
         /**
          * Change its state.
@@ -181,16 +162,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            // @checkstyle MultipleStringLiterals (1 line)
-            final String body = this.pull.json().getString("body");
-            if (body == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "body is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
-            return body;
+            return new SmartJson(this).read("body");
         }
         /**
          * Change its body.
@@ -208,19 +180,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            final String url = this.pull.json().getString("url");
-            if (url == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "url is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
-            try {
-                return new URL(url);
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+            return new URL(new SmartJson(this).read("url"));
         }
         /**
          * Get its HTML URL.
@@ -228,19 +188,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public URL htmlUrl() throws IOException {
-            final String url = this.pull.json().getString("html_url");
-            if (url == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "html_url is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
-            try {
-                return new URL(url);
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+            return new URL(new SmartJson(this).read("html_url"));
         }
         /**
          * When this pull request was created.
@@ -248,16 +196,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public Date createdAt() throws IOException {
-            final String date = this.pull.json().getString("created_at");
-            if (date == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "created_at is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
             try {
-                return new Github.Time(date).date();
+                return new Github.Time(
+                    new SmartJson(this).read("created_at")
+                ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -268,16 +210,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public Date updatedAt() throws IOException {
-            final String date = this.pull.json().getString("updated_at");
-            if (date == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "updated_at is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
             try {
-                return new Github.Time(date).date();
+                return new Github.Time(
+                    new SmartJson(this).read("updated_at")
+                ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -288,16 +224,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public Date closedAt() throws IOException {
-            final String date = this.pull.json().getString("closed_at");
-            if (date == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "closed_at is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
             try {
-                return new Github.Time(date).date();
+                return new Github.Time(
+                    new SmartJson(this).read("closed_at")
+                ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -308,16 +238,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public Date mergedAt() throws IOException {
-            final String date = this.pull.json().getString("merged_at");
-            if (date == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "merged_at is NULL is issue #%d", this.pull.number()
-                    )
-                );
-            }
             try {
-                return new Github.Time(date).date();
+                return new Github.Time(
+                    new SmartJson(this).read("merged_at")
+                ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }

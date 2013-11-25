@@ -27,61 +27,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.github.mock.MkGithub;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import com.jcabi.github.Repo;
 import org.junit.Test;
 
 /**
- * Test case for {@link Github}.
+ * Test case for {@link Repo}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class GithubTest {
+public final class MkRepoTest {
 
     /**
-     * MkGithub can work.
+     * Repo can work.
      * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedData() throws Exception {
-        final Repo repo = new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-        final Issue issue = repo.issues().create("hey", "how are you?");
-        final Comment comment = issue.comments().post("hey, works?");
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.startsWith("hey, ")
-        );
-        MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments().iterate(),
-            Matchers.<Comment>iterableWithSize(1)
-        );
-        MatcherAssert.assertThat(
-            new User.Smart(new Comment.Smart(comment).author()).login(),
-            Matchers.equalTo(
-                new User.Smart(repo.github().users().self()).login()
-            )
-        );
-    }
-
-    /**
-     * MkGithub can with gists.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void worksWithMockedGists() throws Exception {
-        final Gist gist = new MkGithub().gists().get("gist-1");
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hello, ")
-        );
+    public void works() throws Exception {
+        // todo
     }
 
 }

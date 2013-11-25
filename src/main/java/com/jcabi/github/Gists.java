@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -51,13 +52,23 @@ public interface Gists {
     Github github();
 
     /**
+     * Create a new gist.
+     * @param files Names of files
+     * @return Gist
+     * @see <a href="http://developer.github.com/v3/gists/#create-a-gist">Create a Gist</a>
+     */
+    @NotNull(message = "gist is never NULL")
+    Gist create(@NotNull(message = "list of files can't be NULL")
+        Iterable<String> files) throws IOException;
+
+    /**
      * Get gist by name.
      * @param name Name of it
      * @return Gist
      * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     @NotNull(message = "gist is never NULL")
-    Gist get(@NotNull(message = "name is never NULL") String name);
+    Gist get(@NotNull(message = "name can't be NULL") String name);
 
     /**
      * Iterate all gists.

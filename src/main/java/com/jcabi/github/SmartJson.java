@@ -29,22 +29,63 @@
  */
 package com.jcabi.github;
 
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Test case for {@link Repo}.
+ * Smart JSON (supplementary help class).
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.5
  */
-public final class RepoTest {
+@Immutable
+@ToString
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "object")
+final class SmartJson {
 
     /**
-     * Repo can work.
-     * @throws Exception If some problem inside
+     * Encapsulated JSON object.
      */
-    @Test
-    public void works() throws Exception {
-        // todo
+    private final transient JsonReadable object;
+
+    /**
+     * Public ctor.
+     * @param obj Readable object
+     */
+    SmartJson(final JsonReadable obj) {
+        this.object = obj;
+    }
+
+    /**
+     * Get its property as string.
+     * @param name Name of the property
+     * @return Value
+     * @throws IOException If fails
+     */
+    public String read(final String name) throws IOException {
+        final JsonObject json = this.object.json();
+        if (!json.containsKey(name)) {
+            throw new IllegalStateException(
+                String.format(
+                    "'%s' is absent in JSON: %s", name, json
+                )
+            );
+        }
+        final String value = json.getString(name);
+        if (value == null) {
+            throw new IllegalStateException(
+                String.format(
+                    "'%s' is NULL in %s", name, json
+                )
+            );
+        }
+        return value;
     }
 
 }

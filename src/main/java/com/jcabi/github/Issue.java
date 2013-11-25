@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -159,15 +158,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String state() throws IOException {
-            final String state = this.issue.json().getString("state");
-            if (state == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "state is NULL in issue #%d", this.issue.number()
-                    )
-                );
-            }
-            return state;
+            return new SmartJson(this).read("state");
         }
         /**
          * Change its state.
@@ -185,15 +176,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String title() throws IOException {
-            final String title = this.issue.json().getString("title");
-            if (title == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "title is NULL in issue #%d", this.issue.number()
-                    )
-                );
-            }
-            return title;
+            return new SmartJson(this).read("title");
         }
         /**
          * Change its state.
@@ -211,15 +194,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            final String body = this.issue.json().getString("body");
-            if (body == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "body is NULL in issue #%d", this.issue.number()
-                    )
-                );
-            }
-            return body;
+            return new SmartJson(this).read("body");
         }
         /**
          * Change its body.
@@ -247,19 +222,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            final String url = this.issue.json().getString("url");
-            if (url == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "url is NULL in issue #%d", this.issue.number()
-                    )
-                );
-            }
-            try {
-                return new URL(url);
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+            return new URL(new SmartJson(this).read("url"));
         }
         /**
          * Get its HTML URL.
@@ -267,19 +230,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public URL htmlUrl() throws IOException {
-            final String url = this.issue.json().getString("html_url");
-            if (url == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "html_url is NULL in issue #%d", this.issue.number()
-                    )
-                );
-            }
-            try {
-                return new URL(url);
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+            return new URL(new SmartJson(this).read("html_url"));
         }
         /**
          * When this issue was created.
@@ -287,16 +238,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public Date createdAt() throws IOException {
-            final String date = this.issue.json().getString("created_at");
-            if (date == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "created_at is NULL is issue #%d", this.issue.number()
-                    )
-                );
-            }
             try {
-                return new Github.Time(date).date();
+                return new Github.Time(
+                    new SmartJson(this).read("created_at")
+                ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }

@@ -27,44 +27,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Comment;
+import com.jcabi.github.mock.MkGithub;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Issue}.
+ * Test case for {@link Comment}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class IssueTest {
+public final class MkCommentTest {
 
     /**
-     * Issue.Smart can detect a pull request.
+     * MkComment can change body.
      * @throws Exception If some problem inside
      */
     @Test
-    public void detectsPullRequest() throws Exception {
-        final Issue issue = Mockito.mock(Issue.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder().add(
-                "pull_request",
-                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/1")
-            ).build()
-        ).when(issue).json();
-        final Pulls pulls = Mockito.mock(Pulls.class);
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(repo).when(issue).repo();
-        Mockito.doReturn(pulls).when(repo).pulls();
+    public void changesBody() throws Exception {
+        final Comment comment = this.comment();
+        new Comment.Smart(comment).body("hello, this is a new body");
         MatcherAssert.assertThat(
-            new Issue.Smart(issue).isPull(),
-            Matchers.is(true)
+            new Comment.Smart(comment).body(),
+            Matchers.startsWith("hello, this ")
         );
-        new Issue.Smart(issue).pull();
-        Mockito.verify(pulls).get(1);
+    }
+
+    /**
+     * Create a comment to work with.
+     * @return Comment just created
+     * @throws Exception If some problem inside
+     */
+    private Comment comment() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).issues().create("hey", "how are you?").comments().post("what's up?");
     }
 
 }

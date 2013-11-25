@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -144,15 +143,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If fails
          */
         public String type() throws IOException {
-            final String type = this.event.json().getString("event");
-            if (type == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "type is NULL in event #%d", this.event.number()
-                    )
-                );
-            }
-            return type;
+            return new SmartJson(this).read("event");
         }
         /**
          * Get its URL.
@@ -160,19 +151,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            final String url = this.event.json().getString("url");
-            if (url == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "url is NULL in issue #%d", this.event.number()
-                    )
-                );
-            }
-            try {
-                return new URL(url);
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException(ex);
-            }
+            return new URL(new SmartJson(this).read("url"));
         }
         /**
          * When this issue was created.
@@ -180,16 +159,10 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If fails
          */
         public Date createdAt() throws IOException {
-            final String date = this.event.json().getString("created_at");
-            if (date == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "created_at is NULL in event #%d", this.event.number()
-                    )
-                );
-            }
             try {
-                return new Github.Time(date).date();
+                return new Github.Time(
+                    new SmartJson(this).read("created_at")
+                ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }

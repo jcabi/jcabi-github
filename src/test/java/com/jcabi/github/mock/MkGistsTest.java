@@ -27,44 +27,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import javax.json.Json;
+import com.jcabi.github.Gist;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Issue}.
+ * Test case for {@link MkGists}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class IssueTest {
+public final class MkGistsTest {
 
     /**
-     * Issue.Smart can detect a pull request.
+     * MkGists can work with gists.
      * @throws Exception If some problem inside
      */
     @Test
-    public void detectsPullRequest() throws Exception {
-        final Issue issue = Mockito.mock(Issue.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder().add(
-                "pull_request",
-                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/1")
-            ).build()
-        ).when(issue).json();
-        final Pulls pulls = Mockito.mock(Pulls.class);
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(repo).when(issue).repo();
-        Mockito.doReturn(pulls).when(repo).pulls();
-        MatcherAssert.assertThat(
-            new Issue.Smart(issue).isPull(),
-            Matchers.is(true)
+    public void worksWithMockedGists() throws Exception {
+        final Gist gist = new MkGithub().gists().create(
+            Collections.singletonList("test-file-name.txt")
         );
-        new Issue.Smart(issue).pull();
-        Mockito.verify(pulls).get(1);
+        final String file = "t.txt";
+        gist.write(file, "hello, everybody!");
+        MatcherAssert.assertThat(
+            gist.read(file),
+            Matchers.startsWith("hello, ")
+        );
     }
 
 }

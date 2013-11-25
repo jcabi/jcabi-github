@@ -111,6 +111,7 @@ public final class MkIssues implements Issues {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("issue")
                     .add("number").set(Integer.toString(number)).up()
+                    .add("state").set(Issue.OPEN_STATE).up()
                     .add("title").set(title).up()
                     .add("body").set(body).up()
             );

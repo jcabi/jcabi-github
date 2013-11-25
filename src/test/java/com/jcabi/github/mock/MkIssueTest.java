@@ -27,8 +27,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Issue;
+import com.jcabi.github.Pulls;
+import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,11 +39,57 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link Issue}.
+ * Test case for {@link MkIssue}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class IssueTest {
+public final class MkIssueTest {
+
+    /**
+     * MkIssue can open and close.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void opensAndCloses() throws Exception {
+        final Issue issue = this.issue();
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).isOpen(),
+            Matchers.is(true)
+        );
+        new Issue.Smart(issue).close();
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).isOpen(),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * MkIssue can change title.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void changesTitle() throws Exception {
+        final Issue issue = this.issue();
+        new Issue.Smart(issue).title("hey, works?");
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).title(),
+            Matchers.startsWith("hey, ")
+        );
+    }
+
+    /**
+     * MkIssue can change body.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void changesBody() throws Exception {
+        final Issue issue = this.issue();
+        new Issue.Smart(issue).body("hey, body works?");
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).body(),
+            Matchers.startsWith("hey, b")
+        );
+    }
 
     /**
      * Issue.Smart can detect a pull request.
@@ -65,6 +114,17 @@ public final class IssueTest {
         );
         new Issue.Smart(issue).pull();
         Mockito.verify(pulls).get(1);
+    }
+
+    /**
+     * Create an issue to work with.
+     * @return Issue just created
+     * @throws Exception If some problem inside
+     */
+    private Issue issue() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).issues().create("hey", "how are you?");
     }
 
 }

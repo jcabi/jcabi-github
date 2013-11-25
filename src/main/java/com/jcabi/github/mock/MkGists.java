@@ -81,6 +81,30 @@ public final class MkGists implements Gists {
     }
 
     @Override
+    public Gist create(final Iterable<String> files) throws IOException {
+        this.storage.lock();
+        final String number;
+        try {
+            number = Integer.toString(
+                1 + this.storage.xml().xpath(
+                    String.format("%s/gist/id", this.xpath())
+                ).size()
+            );
+            final Directives dirs = new Directives().xpath(this.xpath())
+                .add("gist")
+                .add("id").set(number).up()
+                .add("files");
+            for (final String file : files) {
+                dirs.add("file").add("filename").set(file).up().up();
+            }
+            this.storage.apply(dirs);
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
+    }
+
+    @Override
     public Gist get(final String name) {
         return new MkGist(this.storage, this.self, name);
     }
@@ -88,6 +112,14 @@ public final class MkGists implements Gists {
     @Override
     public Iterable<Gist> iterate() {
         return null;
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return "/github/gists";
     }
 
 }

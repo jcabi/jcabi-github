@@ -27,44 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.Comment;
+import com.jcabi.github.Github;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Repo;
+import com.jcabi.github.User;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link Comment}.
+ * Test case for {@link MkGithub}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class CommentTest {
+public final class MkGithubTest {
 
     /**
-     * MkComment can change body.
+     * MkGithub can work.
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesBody() throws Exception {
-        final Comment comment = this.comment();
-        new Comment.Smart(comment).body("hello, this is a new body");
+    public void worksWithMockedData() throws Exception {
+        final Repo repo = new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+        final Issue issue = repo.issues().create("hey", "how are you?");
+        final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
             new Comment.Smart(comment).body(),
-            Matchers.startsWith("hello, this ")
+            Matchers.startsWith("hey, ")
         );
-    }
-
-    /**
-     * Create a comment to work with.
-     * @return Comment just created
-     * @throws Exception If some problem inside
-     */
-    private Comment comment() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        ).issues().create("hey", "how are you?").comments().post("what's up?");
+        MatcherAssert.assertThat(
+            repo.issues().get(issue.number()).comments().iterate(),
+            Matchers.<Comment>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            new User.Smart(new Comment.Smart(comment).author()).login(),
+            Matchers.equalTo(
+                new User.Smart(repo.github().users().self()).login()
+            )
+        );
     }
 
 }

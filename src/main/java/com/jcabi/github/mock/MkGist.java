@@ -86,17 +86,29 @@ public final class MkGist implements Gist {
 
     @Override
     public String read(final String file) throws IOException {
-        return this.storage.xml().nodes(this.xpath()).get(0)
-            .nodes("files").get(0).xpath(file).get(0);
+        return this.storage.xml().xpath(
+            String.format(
+                "%s/files/file[filename='%s']/raw_content/text()",
+                this.xpath(), file
+            )
+        ).get(0);
     }
 
     @Override
     public void write(final String file, final String content)
         throws IOException {
         this.storage.apply(
-            new Directives().xpath(this.xpath())
-                .xpath("files").xpath(file)
-                .set(content)
+            new Directives().xpath(this.xpath()).xpath(
+                String.format("files[not(file[filename='%s'])]", file)
+            ).add("file").add("filename").set(file).up().add("raw_content")
+        );
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).xpath(
+                String.format(
+                    "files/file[filename='%s']/raw_content",
+                    file
+                )
+            ).set(content)
         );
     }
 
@@ -113,7 +125,7 @@ public final class MkGist implements Gist {
      */
     private String xpath() {
         return String.format(
-            "/github/gists/gist[name='%s']",
+            "/github/gists/gist[id='%s']",
             this.name
         );
     }

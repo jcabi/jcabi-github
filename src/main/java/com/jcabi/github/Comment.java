@@ -110,15 +110,7 @@ public interface Comment
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            final String body = this.comment.json().getString("body");
-            if (body == null) {
-                throw new IllegalStateException(
-                    String.format(
-                        "body is NULL in comment #%d", this.comment.number()
-                    )
-                );
-            }
-            return body;
+            return new SmartJson(this).read("body");
         }
         /**
          * Change comment body.
@@ -136,7 +128,7 @@ public interface Comment
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            return new URL(this.comment.json().getString("url"));
+            return new URL(new SmartJson(this).read("url"));
         }
         /**
          * When this comment was created.
@@ -146,7 +138,7 @@ public interface Comment
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    this.comment.json().getString("created_at")
+                    new SmartJson(this).read("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -160,7 +152,7 @@ public interface Comment
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
-                    this.comment.json().getString("updated_at")
+                    new SmartJson(this).read("updated_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);

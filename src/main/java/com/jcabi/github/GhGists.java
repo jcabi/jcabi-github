@@ -32,7 +32,14 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -82,6 +89,29 @@ final class GhGists implements Gists {
     @Override
     public Github github() {
         return this.ghub;
+    }
+
+    @Override
+    public Gist create(@NotNull(message = "list of files can't be NULL")
+        final Iterable<String> files) throws IOException {
+        final StringWriter post = new StringWriter();
+        final JsonGenerator json = Json.createGenerator(post)
+            .writeStartObject()
+            .writeStartObject("files");
+        for (final String file : files) {
+            json.writeStartObject(file)
+                .write("content", "")
+                .writeEnd();
+        }
+        json.writeEnd().writeEnd().close();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(post.toString()).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("id")
+        );
     }
 
     @Override

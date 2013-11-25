@@ -102,7 +102,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public URL avatarUrl() throws IOException {
-            return new URL(this.user.json().getString("avatar_url"));
+            return new URL(new SmartJson(this).read("avatar_url"));
         }
         /**
          * Get his URL.
@@ -110,7 +110,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public URL url() throws IOException {
-            return new URL(this.user.json().getString("url"));
+            return new URL(new SmartJson(this).read("url"));
         }
         /**
          * Get his name.
@@ -118,7 +118,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String name() throws IOException {
-            return this.user.json().getString("name");
+            return new SmartJson(this).read("name");
         }
         /**
          * Get his company.
@@ -126,7 +126,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String company() throws IOException {
-            return this.user.json().getString("company");
+            return new SmartJson(this).read("company");
         }
         /**
          * Get his location.
@@ -134,7 +134,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String location() throws IOException {
-            return this.user.json().getString("location");
+            return new SmartJson(this).read("location");
         }
         /**
          * Get his email.
@@ -142,7 +142,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String email() throws IOException {
-            return this.user.json().getString("email");
+            return new SmartJson(this).read("email");
         }
         @Override
         public Github github() {
