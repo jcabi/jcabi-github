@@ -134,7 +134,7 @@ final class MkComments implements Comments {
         final int number;
         try {
             number = 1 + this.storage.xml()
-                .xpath("//comment/number").size();
+                .nodes("//comment/number").size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Integer.toString(number)).up()

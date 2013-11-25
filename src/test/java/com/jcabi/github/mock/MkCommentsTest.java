@@ -30,41 +30,43 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
+import com.jcabi.github.Comments;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkComment}.
+ * Test case for {@link MkComments}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class MkCommentTest {
+public final class MkCommentsTest {
 
     /**
-     * MkComment can change body.
+     * MkComments can iterate comments.
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesBody() throws Exception {
-        final Comment comment = this.comment();
-        new Comment.Smart(comment).body("hello, this is a new body");
+    public void iteratesComments() throws Exception {
+        final Comments comments = this.comments();
+        comments.post("hello, dude!");
+        comments.post("hello again");
         MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.startsWith("hello, this ")
+            comments.iterate(),
+            Matchers.<Comment>iterableWithSize(2)
         );
     }
 
     /**
-     * Create a comment to work with.
-     * @return Comment just created
+     * Create a comments to work with.
+     * @return Comments just created
      * @throws Exception If some problem inside
      */
-    private Comment comment() throws Exception {
+    private Comments comments() throws Exception {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
-        ).issues().create("hey", "how are you?").comments().post("what's up?");
+        ).issues().create("hey", "how are you?").comments();
     }
 
 }
