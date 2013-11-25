@@ -81,6 +81,11 @@ final class GhRepos implements Repos {
     }
 
     @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
         throw new UnsupportedOperationException("#create()");

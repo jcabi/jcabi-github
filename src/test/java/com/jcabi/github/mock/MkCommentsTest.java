@@ -53,7 +53,7 @@ public final class MkCommentsTest {
         comments.post("hello, dude!");
         comments.post("hello again");
         MatcherAssert.assertThat(
-            comments.iterate(),
+            comments.issue().repo().issues().get(1).comments().iterate(),
             Matchers.<Comment>iterableWithSize(2)
         );
     }

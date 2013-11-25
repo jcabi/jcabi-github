@@ -35,6 +35,7 @@ import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
+import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
@@ -144,6 +145,10 @@ final class MkComments implements Comments {
         } finally {
             this.storage.unlock();
         }
+        Logger.info(
+            this, "comment #%d posted to issue #%d by %s",
+            number, this.issue().number(), this.self
+        );
         return this.get(number);
     }
 

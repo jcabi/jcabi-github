@@ -35,6 +35,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Repo;
+import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
@@ -121,6 +122,10 @@ final class MkIssues implements Issues {
         } finally {
             this.storage.unlock();
         }
+        Logger.info(
+            this, "issue #%d created in %s by %s",
+            number, this.repo().coordinates(), this.self
+        );
         return this.get(number);
     }
 

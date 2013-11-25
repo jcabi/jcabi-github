@@ -46,6 +46,13 @@ import javax.validation.constraints.NotNull;
 public interface Repos {
 
     /**
+     * Get its owner.
+     * @return Github
+     */
+    @NotNull(message = "github is never NULL")
+    Github github();
+
+    /**
      * Create repository.
      * @param json Repository creation JSON
      * @return Repository

@@ -32,8 +32,10 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import com.jcabi.log.Logger;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -77,6 +79,11 @@ final class MkRepos implements Repos {
     }
 
     @Override
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
+    }
+
+    @Override
     public Repo create(final JsonObject json) throws IOException {
         final String name = json.getString("name");
         final Coordinates coords = new Coordinates.Simple(this.self, name);
@@ -87,6 +94,10 @@ final class MkRepos implements Repos {
         );
         final Repo repo = this.get(coords);
         repo.patch(json);
+        Logger.info(
+            this, "repository %s created in %s by %s",
+            coords, this.github(), this.self
+        );
         return repo;
     }
 
