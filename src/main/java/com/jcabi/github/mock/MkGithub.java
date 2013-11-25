@@ -37,7 +37,6 @@ import com.jcabi.github.Repos;
 import com.jcabi.github.Users;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Mock Github client.
@@ -56,7 +55,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self" })
 public final class MkGithub implements Github {
 
@@ -95,6 +93,11 @@ public final class MkGithub implements Github {
     public MkGithub(final MkStorage stg, final String login) {
         this.storage = stg;
         this.self = login;
+    }
+
+    @Override
+    public String toString() {
+        return this.storage.toString();
     }
 
     @Override

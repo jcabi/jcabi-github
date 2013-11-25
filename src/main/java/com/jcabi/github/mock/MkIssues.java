@@ -123,8 +123,8 @@ final class MkIssues implements Issues {
             this.storage.unlock();
         }
         Logger.info(
-            this, "issue #%d created in %s by %s",
-            number, this.repo().coordinates(), this.self
+            this, "issue #%d created in %s by %s: %[text]s",
+            number, this.repo().coordinates(), this.self, title
         );
         return this.get(number);
     }
@@ -138,7 +138,7 @@ final class MkIssues implements Issues {
                 @Override
                 public Issue map(final XML xml) {
                     return MkIssues.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
                     );
                 }
             }

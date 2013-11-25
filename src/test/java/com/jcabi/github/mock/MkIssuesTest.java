@@ -29,44 +29,44 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Comment;
-import com.jcabi.github.Comments;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Repo;
+import com.jcabi.immutable.ArrayMap;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkComments}.
+ * Test case for {@link MkIssues}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class MkCommentsTest {
+public final class MkIssuesTest {
 
     /**
-     * MkComments can iterate comments.
+     * MkIssue can list issues.
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesComments() throws Exception {
-        final Comments comments = this.comments();
-        comments.post("hello, dude!");
-        comments.post("hello again");
+    public void iteratesIssues() throws Exception {
+        final Repo repo = this.repo();
+        repo.issues().create("hey, you", "body of issue");
         MatcherAssert.assertThat(
-            comments.iterate(),
-            Matchers.<Comment>iterableWithSize(2)
+            repo.issues().iterate(new ArrayMap<String, String>()),
+            Matchers.<Issue>iterableWithSize(1)
         );
     }
 
     /**
-     * Create a comments to work with.
-     * @return Comments just created
+     * Create an repo to work with.
+     * @return Repo
      * @throws Exception If some problem inside
      */
-    private Comments comments() throws Exception {
+    private Repo repo() throws Exception {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
-        ).issues().create("hey", "how are you?").comments();
+        );
     }
 
 }

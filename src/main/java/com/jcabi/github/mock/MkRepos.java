@@ -95,14 +95,26 @@ final class MkRepos implements Repos {
         final Repo repo = this.get(coords);
         repo.patch(json);
         Logger.info(
-            this, "repository %s created in %s by %s",
-            coords, this.github(), this.self
+            this, "repository %s created by %s",
+            coords, this.self
         );
         return repo;
     }
 
     @Override
     public Repo get(final Coordinates coords) {
+        try {
+            final String xpath = String.format(
+                "%s/repo[@coords='%s']", this.xpath(), coords
+            );
+            if (this.storage.xml().nodes(xpath).isEmpty()) {
+                throw new IllegalArgumentException(
+                    String.format("repository %s doesn't exist", coords)
+                );
+            }
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
         return new MkRepo(this.storage, this.self, coords);
     }
 

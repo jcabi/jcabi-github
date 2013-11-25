@@ -36,7 +36,6 @@ import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.xembly.Directive;
@@ -83,7 +82,6 @@ public interface MkStorage {
      * In file.
      */
     @Immutable
-    @ToString
     @EqualsAndHashCode(of = "name")
     @Loggable(Loggable.DEBUG)
     final class InFile implements MkStorage {
@@ -106,6 +104,14 @@ public interface MkStorage {
         public InFile(final File file) throws IOException {
             FileUtils.write(file, "<github/>");
             this.name = file.getAbsolutePath();
+        }
+        @Override
+        public String toString() {
+            try {
+                return this.xml().toString();
+            } catch (IOException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         @Override
         public XML xml() throws IOException {

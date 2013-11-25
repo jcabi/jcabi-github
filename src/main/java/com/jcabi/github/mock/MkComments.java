@@ -146,8 +146,8 @@ final class MkComments implements Comments {
             this.storage.unlock();
         }
         Logger.info(
-            this, "comment #%d posted to issue #%d by %s",
-            number, this.issue().number(), this.self
+            this, "comment #%d posted to issue #%d by %s: %[text]s",
+            number, this.issue().number(), this.self, text
         );
         return this.get(number);
     }
