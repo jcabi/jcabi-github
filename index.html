@@ -60,7 +60,7 @@
                                                     </ul>
                                     </li>
                                                                                         <li>
-                                                                    <a href="apidocs-0.4/index.html" title="API 0.4 (JavaDoc)">API 0.4 (JavaDoc)</a>
+                                                                    <a href="apidocs-0.5/index.html" title="API 0.5 (JavaDoc)">API 0.5 (JavaDoc)</a>
                                                                                                                         <ul>
                                                     </ul>
                                     </li>
@@ -84,7 +84,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </li>
                                                                                         <li>
                                                                     <a href="project-reports.html" title="Project Reports">Project Reports</a>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </li>
                                                                 </ul>
                                     </li>
                     </ul>
@@ -103,12 +103,12 @@
             </a>
                         <p>
                 
-                20-Nov-2013
-                0.4
+                26-Nov-2013
+                0.5
             </p>
             <article>
                 <h1>Object Oriented Github API</h1>
-<p>Set of classes in <tt>com.jcabi.github</tt> package is an object oriented API of Github:</p>
+<p>Set of classes in <tt>com.jcabi.github</tt> package is an object oriented Java adapter of <a class="externalLink" href="http://developer.github.com/v3/">Github API</a>:</p>
 
 <div class="source">
 <pre>public class Main {
@@ -120,14 +120,33 @@
   }
 }
 </pre></div>
-<p>Read <a href="./apidocs-0.4/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
-<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.4/jcabi-github-0.4.jar"><tt>jcabi-github-0.4.jar</tt></a> and add it to the classpath):</p>
+<p>Read <a href="./apidocs-0.5/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
+<p>There are <a class="externalLink" href="http://developer.github.com/libraries/">a few other Java adapters</a> of Github API, but our implementation has its advantages, including:</p>
+
+<ul>
+  
+<li>
+<p>All classes are private and implement public interfaces</p></li>
+  
+<li>
+<p>Out-of-the-box in-memory mock of Github server side</p></li>
+  
+<li>
+<p>All classes are truly immutable and thread-safe</p></li>
+  
+<li>
+<p>Every Github object gives GET/PATCH access to its raw JSON</p></li>
+  
+<li>
+<p>HTTP request is accessible for modifications</p></li>
+</ul>
+<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.5/jcabi-github-0.5.jar"><tt>jcabi-github-0.5.jar</tt></a> and add it to the classpath):</p>
 
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.4&lt;/version&gt;
+  &lt;version&gt;0.5&lt;/version&gt;
 &lt;/dependency&gt;
 </pre></div>
 <p>If you want to use current version of the product, you can do it with this configuration in your <tt>pom.xml</tt>:</p>

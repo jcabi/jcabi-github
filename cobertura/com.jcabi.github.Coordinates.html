@@ -138,7 +138,7 @@
 <tr>  <td class="numLine">&nbsp;60</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;61</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Simple implementation.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Rexsl implementation.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;62</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;63</td>  <td class="nbHits">&nbsp;</td>
@@ -173,7 +173,7 @@
 <tr>  <td class="numLine">&nbsp;78</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;79</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        Simple(</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Simple(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;80</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            @NotNull(message = <span class="string">"user can't be NULL"</span>) <span class="keyword">final</span> String user,</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;81</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            @NotNull(message = <span class="string">"repo can't be NULL"</span>) <span class="keyword">final</span> String repo) {</span></pre></td></tr>
@@ -188,48 +188,50 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param mnemo Mnemo name</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;88</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;89</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Simple(@NotNull(message = <span class="string">"mnemo can't be NULL"</span>) <span class="keyword">final</span> String mnemo) {</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;90</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">final</span> String[] parts = mnemo.split(<span class="string">"/"</span>, 2);</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;91</td>  <td class="nbHitsUncovered"><a title="Line 91: Conditional coverage 0% (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 91: Conditional coverage 0% (0/2).">            <span class="keyword">if</span> (parts.length != 2) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;92</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;93</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;                    String.format(<span class="string">"invalid coordinates '%s'"</span>, mnemo)</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;89</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Simple(@NotNull(message = <span class="string">"mnemo can't be NULL"</span>)</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;90</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">final</span> String mnemo) {</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;91</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">final</span> String[] parts = mnemo.split(<span class="string">"/"</span>, 2);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;92</td>  <td class="nbHitsUncovered"><a title="Line 92: Conditional coverage 0% (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 92: Conditional coverage 0% (0/2).">            <span class="keyword">if</span> (parts.length != 2) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;93</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;94</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;                );</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;                    String.format(<span class="string">"invalid coordinates '%s'"</span>, mnemo)</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;95</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;                );</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;96</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;96</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">this</span>.usr = parts[0];</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;97</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">this</span>.rpo = parts[1];</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;98</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        }</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;99</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;97</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">this</span>.usr = parts[0];</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;98</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">this</span>.rpo = parts[1];</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;99</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        }</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;100</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;101</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String toString() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;101</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">return</span> String.format(<span class="string">"%s/%s"</span>, <span class="keyword">this</span>.usr, <span class="keyword">this</span>.rpo);</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;102</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;102</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">return</span> String.format(<span class="string">"%s/%s"</span>, <span class="keyword">this</span>.usr, <span class="keyword">this</span>.rpo);</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;103</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;104</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String user() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;105</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.usr;</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;106</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLine">&nbsp;107</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
-<tr>  <td class="numLine">&nbsp;108</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String repo() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;109</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.rpo;</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;110</td>  <td class="nbHits">&nbsp;</td>
+<tr>  <td class="numLine">&nbsp;105</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String user() {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.usr;</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;107</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;108</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;109</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String repo() {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;110</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.rpo;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;111</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;112</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;113</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;114</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 11/20/13 11:33 AM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 11/26/13 11:34 AM.</div>
 </body>
 </html>
