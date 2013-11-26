@@ -43,6 +43,30 @@ import org.mockito.Mockito;
 public final class IssueTest {
 
     /**
+     * Issue.Smart can fetch key properties of an Issue.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchesProperties() throws Exception {
+        final Issue issue = Mockito.mock(Issue.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("title", "this is some text \u20ac")
+                .add("body", "body of the issue")
+                .build()
+        ).when(issue).json();
+        final Issue.Smart smart = new Issue.Smart(issue);
+        MatcherAssert.assertThat(
+            smart.title(),
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            smart.body(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * Issue.Smart can detect a pull request.
      * @throws Exception If some problem inside
      */
@@ -65,6 +89,22 @@ public final class IssueTest {
         );
         new Issue.Smart(issue).pull();
         Mockito.verify(pulls).get(1);
+    }
+
+    /**
+     * Issue.Smart can detect an absence of a pull request.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void detectsPullRequestAbsence() throws Exception {
+        final Issue issue = Mockito.mock(Issue.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().build()
+        ).when(issue).json();
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).isPull(),
+            Matchers.is(false)
+        );
     }
 
 }

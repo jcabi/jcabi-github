@@ -252,9 +252,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public boolean isPull() throws IOException {
-            return this.issue.json()
-                .getJsonObject("pull_request")
-                .containsKey("url");
+            return this.issue.json().containsKey("pull_request");
         }
         /**
          * Get pull request.
