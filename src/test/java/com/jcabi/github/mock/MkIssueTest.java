@@ -30,13 +30,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Issue;
-import com.jcabi.github.Pulls;
-import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkIssue}.
@@ -89,31 +86,6 @@ public final class MkIssueTest {
             new Issue.Smart(issue).body(),
             Matchers.startsWith("hey, b")
         );
-    }
-
-    /**
-     * Issue.Smart can detect a pull request.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void detectsPullRequest() throws Exception {
-        final Issue issue = Mockito.mock(Issue.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder().add(
-                "pull_request",
-                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/1")
-            ).build()
-        ).when(issue).json();
-        final Pulls pulls = Mockito.mock(Pulls.class);
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(repo).when(issue).repo();
-        Mockito.doReturn(pulls).when(repo).pulls();
-        MatcherAssert.assertThat(
-            new Issue.Smart(issue).isPull(),
-            Matchers.is(true)
-        );
-        new Issue.Smart(issue).pull();
-        Mockito.verify(pulls).get(1);
     }
 
     /**

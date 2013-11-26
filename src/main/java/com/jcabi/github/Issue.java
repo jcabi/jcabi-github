@@ -252,7 +252,9 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public boolean isPull() throws IOException {
-            return this.issue.json().containsKey("pull_request");
+            return !this.issue.json()
+                .getJsonObject("pull_request")
+                .isNull("html_url");
         }
         /**
          * Get pull request.
@@ -262,7 +264,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public Pull pull() throws IOException {
             final String url = this.issue.json()
                 .getJsonObject("pull_request")
-                .getString("url");
+                .getString("html_url");
             return this.issue.repo().pulls().get(
                 Integer.parseInt(url.substring(url.lastIndexOf('/') + 1))
             );

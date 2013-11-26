@@ -39,6 +39,7 @@ import org.mockito.Mockito;
  * Test case for {@link Issue}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class IssueTest {
 
@@ -76,7 +77,9 @@ public final class IssueTest {
         Mockito.doReturn(
             Json.createObjectBuilder().add(
                 "pull_request",
-                Json.createObjectBuilder().add("url", "http://ibm.com/pulls/1")
+                Json.createObjectBuilder().add(
+                    "html_url", "http://ibm.com/pulls/1"
+                )
             ).build()
         ).when(issue).json();
         final Pulls pulls = Mockito.mock(Pulls.class);
@@ -99,7 +102,10 @@ public final class IssueTest {
     public void detectsPullRequestAbsence() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
-            Json.createObjectBuilder().build()
+            Json.createObjectBuilder().add(
+                "pull_request",
+                Json.createObjectBuilder().addNull("html_url")
+            ).build()
         ).when(issue).json();
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
