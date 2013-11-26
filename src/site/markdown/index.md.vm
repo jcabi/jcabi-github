@@ -1,7 +1,8 @@
 # Object Oriented Github API
 
 Set of classes in `com.jcabi.github` package
-is an object oriented API of Github:
+is an object oriented Java adapter of
+[Github API](http://developer.github.com/v3/):
 
 ```java
 public class Main {
@@ -16,6 +17,20 @@ public class Main {
 
 Read [JavaDoc](./apidocs-${project.version}/com/jcabi/github/index.html)
 for more information and examples.
+
+There are [a few other Java adapters](http://developer.github.com/libraries/)
+of Github API, but our
+implementation has its advantages, including:
+
+ * All classes are private and implement public interfaces
+
+ * Out-of-the-box in-memory mock of Github server side
+
+ * All classes are truly immutable and thread-safe
+
+ * Every Github object gives GET/PATCH access to its raw JSON
+
+ * HTTP request is accessible for modifications
 
 The only dependency you need is
 (you can also download
