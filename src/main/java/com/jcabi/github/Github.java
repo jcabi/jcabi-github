@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,6 +41,8 @@ import java.util.TimeZone;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github client, starting point to the entire library.
@@ -61,6 +65,7 @@ import javax.validation.constraints.NotNull;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -165,18 +170,36 @@ public interface Github {
     /**
      * Throttled Github client, that always says that there are no more
      * remaining requests left.
+     * @since 0.6
      */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "origin")
     final class Throttled implements Github {
         /**
          * Original.
          */
         private final transient Github origin;
         /**
+         * Maximum allowed, instead of default 5000.
+         */
+        private final transient int max;
+        /**
          * Public ctor.
          * @param ghub Original github
          */
         public Throttled(final Github ghub) {
+            this(ghub, 1);
+        }
+        /**
+         * Public ctor.
+         * @param ghub Original github
+         * @param allowed Maximum allowed
+         */
+        public Throttled(final Github ghub, final int allowed) {
             this.origin = ghub;
+            this.max = allowed;
         }
         @Override
         public Repos repos() {
@@ -190,21 +213,27 @@ public interface Github {
         public Users users() {
             return this.origin.users();
         }
+        // @checkstyle AnonInnerLength (50 lines)
         @Override
         public Limits limits() {
+            final Limits limits = this.origin.limits();
             return new Limits() {
                 @Override
                 public Github github() {
                     return Github.Throttled.this;
                 }
                 @Override
-                public JsonObject json() {
+                public JsonObject json() throws IOException {
+                    final JsonObject rate = limits.json().getJsonObject("rate");
+                    final int limit = rate.getInt("limit");
+                    final int remaining = Github.Throttled.this.max
+                        - (limit - rate.getInt("remaining"));
                     return Json.createObjectBuilder().add(
                         "rate",
                         Json.createObjectBuilder()
-                            .add("limit", 0)
-                            .add("remaining", 0)
-                            .add("reset", Long.MAX_VALUE)
+                            .add("limit", limit)
+                            .add("remaining", remaining)
+                            .add("reset", rate.getInt("reset"))
                             .build()
                     ).build();
                 }

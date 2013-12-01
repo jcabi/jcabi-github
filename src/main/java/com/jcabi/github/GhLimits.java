@@ -67,7 +67,7 @@ final class GhLimits implements Limits {
      * @param req Request
      */
     GhLimits(final Github github, final Request req) {
-        this.entry = req;
+        this.entry = req.uri().path("rate_limit").back();
         this.ghub = github;
     }
 
