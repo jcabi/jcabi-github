@@ -31,33 +31,26 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.github.Limits;
-import com.jcabi.github.Repos;
-import com.jcabi.github.Users;
 import java.io.IOException;
+import javax.json.Json;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Mock Github client.
- *
- * <p>This is how you use it:
- *
- * <pre> Github github = new MkGithub(new MkStorage.InFile(file), "jeff");
- * github.repos().create("jcabi/jcabi-github");
- * Repo repo = github.repos().get("jcabi/jcabi-github");
- * Issues issues = repo.issues();
- * Issue issue = issues.post("issue title", "issue body");</pre>
+ * Mock Github Rate Limit API.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.5
+ * @since 0.6
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "storage", "self" })
-public final class MkGithub implements Github {
+@ToString
+@EqualsAndHashCode(of = { "storage", "himself" })
+final class MkLimits implements Limits {
 
     /**
      * Storage.
@@ -67,70 +60,33 @@ public final class MkGithub implements Github {
     /**
      * Login of the user logged in.
      */
-    private final transient String self;
-
-    /**
-     * Public ctor.
-     * @throws IOException If fails
-     */
-    public MkGithub() throws IOException {
-        this("jeff");
-    }
-
-    /**
-     * Public ctor.
-     * @param login User to login
-     * @throws IOException If fails
-     */
-    public MkGithub(final String login) throws IOException {
-        this(new MkStorage.InFile(), login);
-    }
+    private final transient String himself;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
      */
-    public MkGithub(final MkStorage stg, final String login) {
+    MkLimits(final MkStorage stg, final String login) {
         this.storage = stg;
-        this.self = login;
+        this.himself = login;
     }
 
     @Override
-    public String toString() {
-        return this.storage.toString();
+    public Github github() {
+        return new MkGithub(this.storage, this.himself);
     }
 
     @Override
-    public Repos repos() {
-        try {
-            return new MkRepos(this.storage, this.self);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public JsonObject json() throws IOException {
+        return Json.createObjectBuilder().add(
+            "rate",
+            Json.createObjectBuilder()
+                // @checkstyle MagicNumber (2 lines)
+                .add("limit", 5000)
+                .add("remaining", 4999)
+                .add("reset", System.currentTimeMillis())
+                .build()
+        ).build();
     }
-
-    @Override
-    public Gists gists() {
-        try {
-            return new MkGists(this.storage, this.self);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    public Users users() {
-        try {
-            return new MkUsers(this.storage, this.self);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    public Limits limits() {
-        return new MkLimits(this.storage, this.self);
-    }
-
 }

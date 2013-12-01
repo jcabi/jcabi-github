@@ -166,4 +166,9 @@ public final class RexslGithub implements Github {
         return new GhUsers(this, this.request);
     }
 
+    @Override
+    public Limits limits() {
+        return new GhLimits(this, this.request);
+    }
+
 }

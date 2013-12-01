@@ -36,6 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -61,6 +63,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.1
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Github {
 
     /**
@@ -84,6 +87,14 @@ public interface Github {
      */
     @NotNull(message = "users is never NULL")
     Users users();
+
+    /**
+     * Rate limit API entry point.
+     * @return Rate limit API
+     * @since 0.6
+     */
+    @NotNull(message = "rate limit API is never NULL")
+    Limits limits();
 
     /**
      * Time in Github JSON.
@@ -148,6 +159,56 @@ public interface Github {
             );
             fmt.setTimeZone(Github.Time.TIMEZONE);
             return fmt;
+        }
+    }
+
+    /**
+     * Throttled Github client, that always says that there are no more
+     * remaining requests left.
+     */
+    final class Throttled implements Github {
+        /**
+         * Original.
+         */
+        private final transient Github origin;
+        /**
+         * Public ctor.
+         * @param ghub Original github
+         */
+        public Throttled(final Github ghub) {
+            this.origin = ghub;
+        }
+        @Override
+        public Repos repos() {
+            return this.origin.repos();
+        }
+        @Override
+        public Gists gists() {
+            return this.origin.gists();
+        }
+        @Override
+        public Users users() {
+            return this.origin.users();
+        }
+        @Override
+        public Limits limits() {
+            return new Limits() {
+                @Override
+                public Github github() {
+                    return Github.Throttled.this;
+                }
+                @Override
+                public JsonObject json() {
+                    return Json.createObjectBuilder().add(
+                        "rate",
+                        Json.createObjectBuilder()
+                            .add("limit", 0)
+                            .add("remaining", 0)
+                            .add("reset", Long.MAX_VALUE)
+                            .build()
+                    ).build();
+                }
+            };
         }
     }
 }
