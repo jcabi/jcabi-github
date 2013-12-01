@@ -118,6 +118,8 @@ final class MkIssues implements Issues {
                     .add("state").set(Issue.OPEN_STATE).up()
                     .add("title").set(title).up()
                     .add("body").set(body).up()
+                    .add("url").set("http://localhost/1").up()
+                    .add("html_url").set("http://localhost/2").up()
             );
         } finally {
             this.storage.unlock();
