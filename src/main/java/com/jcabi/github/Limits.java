@@ -47,6 +47,16 @@ import lombok.ToString;
 public interface Limits {
 
     /**
+     * Resource name.
+     */
+    String CORE = "core";
+
+    /**
+     * Resource name.
+     */
+    String SEARCH = "search";
+
+    /**
      * Github we're in.
      * @return Github
      */

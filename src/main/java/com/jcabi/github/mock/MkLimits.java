@@ -56,7 +56,9 @@ final class MkLimits implements Limits {
     /**
      * All resources that we mock.
      */
-    private static final String[] RESOURCES = {"core", "search"};
+    private static final String[] RESOURCES = {
+        Limits.CORE, Limits.SEARCH,
+    };
 
     /**
      * Storage.
