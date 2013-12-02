@@ -31,15 +31,12 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -213,31 +210,9 @@ public interface Github {
         public Users users() {
             return this.origin.users();
         }
-        // @checkstyle AnonInnerLength (50 lines)
         @Override
         public Limits limits() {
-            final Limits limits = this.origin.limits();
-            return new Limits() {
-                @Override
-                public Github github() {
-                    return Github.Throttled.this;
-                }
-                @Override
-                public JsonObject json() throws IOException {
-                    final JsonObject rate = limits.json().getJsonObject("rate");
-                    final int limit = rate.getInt("limit");
-                    final int remaining = Github.Throttled.this.max
-                        - (limit - rate.getInt("remaining"));
-                    return Json.createObjectBuilder().add(
-                        "rate",
-                        Json.createObjectBuilder()
-                            .add("limit", limit)
-                            .add("remaining", remaining)
-                            .add("reset", rate.getInt("reset"))
-                            .build()
-                    ).build();
-                }
-            };
+            return new Limits.Throttled(this.origin.limits(), this.max);
         }
     }
 }

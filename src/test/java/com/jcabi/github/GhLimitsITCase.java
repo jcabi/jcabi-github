@@ -50,7 +50,7 @@ public final class GhLimitsITCase {
     public void checksRemainingRequests() throws Exception {
         final Github github = GhLimitsITCase.github();
         MatcherAssert.assertThat(
-            new Limits.Smart(github.limits()).remaining(),
+            new Limit.Smart(github.limits().get("core")).remaining(),
             Matchers.notNullValue()
         );
     }

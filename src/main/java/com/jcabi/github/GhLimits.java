@@ -32,11 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -77,11 +72,8 @@ final class GhLimits implements Limits {
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return this.entry.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+    public Limit get(final String resource) {
+        return new GhLimit(this.ghub, this.entry, resource);
     }
+
 }

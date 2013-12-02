@@ -27,21 +27,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
-import com.jcabi.github.Limit;
-import com.jcabi.github.Limits;
-import javax.json.Json;
+import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Mock Github Rate Limit API.
+ * Github limit rate.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -49,64 +48,47 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "himself" })
-final class MkLimits implements Limits {
+@EqualsAndHashCode(of = { "ghub", "entry", "res" })
+final class GhLimit implements Limit {
 
     /**
-     * All resources that we mock.
+     * API entry point.
      */
-    private static final String[] RESOURCES = {"core", "search"};
+    private final transient Request entry;
 
     /**
-     * Storage.
+     * Github.
      */
-    private final transient MkStorage storage;
+    private final transient Github ghub;
 
     /**
-     * Login of the user logged in.
+     * Name of resource.
      */
-    private final transient String himself;
+    private final transient String res;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param login User to login
+     * @param github Github
+     * @param req Request
+     * @param name Name of resource
      */
-    MkLimits(final MkStorage stg, final String login) {
-        this.storage = stg;
-        this.himself = login;
+    GhLimit(final Github github, final Request req, final String name) {
+        this.entry = req;
+        this.ghub = github;
+        this.res = name;
     }
 
     @Override
     public Github github() {
-        return new MkGithub(this.storage, this.himself);
+        return this.ghub;
     }
 
     @Override
-    public Limit get(final String resource) {
-        // @checkstyle AnonInnerLength (50 lines)
-        return new Limit() {
-            @Override
-            public Github github() {
-                return MkLimits.this.github();
-            }
-            @Override
-            public JsonObject json() {
-                final JsonObjectBuilder json = Json.createObjectBuilder();
-                for (final String res : MkLimits.RESOURCES) {
-                    json.add(
-                        res,
-                        Json.createObjectBuilder()
-                            // @checkstyle MagicNumber (2 lines)
-                            .add("limit", 5000)
-                            .add("remaining", 4999)
-                            .add("reset", System.currentTimeMillis())
-                            .build()
-                    ).build();
-                }
-                return json.build();
-            }
-        };
+    public JsonObject json() throws IOException {
+        return this.entry.fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().readObject().getJsonObject(this.res);
     }
 }

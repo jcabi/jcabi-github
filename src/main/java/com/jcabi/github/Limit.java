@@ -31,20 +31,25 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Rate Limit API.
+ * Github Rate Limit API, one resource limit.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
  * @see <a href="http://developer.github.com/v3/rate_limit/">Rate Limit API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public interface Limits {
+public interface Limit extends JsonReadable {
 
     /**
      * Github we're in.
@@ -54,45 +59,98 @@ public interface Limits {
     Github github();
 
     /**
-     * Get limit for the given resource.
-     * @param resource Name of resource
-     * @return Limit
+     * Smart limits with extra features.
      */
-    Limit get(String resource);
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "origin")
+    final class Smart implements Limit {
+        /**
+         * Encapsulated limit.
+         */
+        private final transient Limit origin;
+        /**
+         * Public ctor.
+         * @param limit Limit
+         */
+        public Smart(final Limit limit) {
+            this.origin = limit;
+        }
+        /**
+         * Limit of number of requests.
+         * @return Number of requests you can make in total
+         * @throws IOException If it fails
+         */
+        public int limit() throws IOException {
+            return this.origin.json().getInt("limit");
+        }
+        /**
+         * Remaining number of requests.
+         * @return Number of requests you can still make
+         * @throws IOException If it fails
+         */
+        public int remaining() throws IOException {
+            return this.origin.json().getInt("remaining");
+        }
+        /**
+         * When will the limit be reset.
+         * @return Date when this will happen
+         * @throws IOException If it fails
+         */
+        public Date reset() throws IOException {
+            return new Date((long) this.origin.json().getInt("reset"));
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.origin.json();
+        }
+        @Override
+        public Github github() {
+            return this.origin.github();
+        }
+    }
 
     /**
-     * Throttled Limits.
+     * Throttled Limit.
      * @since 0.6
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "origin")
-    final class Throttled implements Limits {
+    final class Throttled implements Limit {
         /**
          * Original.
          */
-        private final transient Limits origin;
+        private final transient Limit origin;
         /**
          * Maximum allowed, instead of default 5000.
          */
         private final transient int max;
         /**
          * Public ctor.
-         * @param limits Original limits
+         * @param limit Original limit
          * @param allowed Maximum allowed
          */
-        public Throttled(final Limits limits, final int allowed) {
-            this.origin = limits;
+        public Throttled(final Limit limit, final int allowed) {
+            this.origin = limit;
             this.max = allowed;
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            final JsonObject json = this.origin.json();
+            final int limit = json.getInt("limit");
+            final int remaining = this.max - (limit - json.getInt("remaining"));
+            return Json.createObjectBuilder()
+                .add("limit", limit)
+                .add("remaining", remaining)
+                .add("reset", json.getInt("reset"))
+                .build();
         }
         @Override
         public Github github() {
             return this.origin.github();
-        }
-        @Override
-        public Limit get(final String resource) {
-            return new Limit.Throttled(this.origin.get(resource), this.max);
         }
     }
 
