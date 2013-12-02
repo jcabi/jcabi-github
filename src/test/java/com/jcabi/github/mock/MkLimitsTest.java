@@ -29,71 +29,30 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
 import com.jcabi.github.Limit;
 import com.jcabi.github.Limits;
-import javax.json.Json;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mock Github Rate Limit API.
- *
+ * Test case for {@link MkLimits}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.6
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "himself" })
-final class MkLimits implements Limits {
+public final class MkLimitsTest {
 
     /**
-     * Storage.
+     * MkLimits can work.
+     * @throws Exception If some problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String himself;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     */
-    MkLimits(final MkStorage stg, final String login) {
-        this.storage = stg;
-        this.himself = login;
+    @Test
+    public void worksWithMockedData() throws Exception {
+        final Limits limits = new MkGithub().limits();
+        MatcherAssert.assertThat(
+            new Limit.Smart(limits.get(Limits.CORE)).limit(),
+            Matchers.greaterThan(0)
+        );
     }
 
-    @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.himself);
-    }
-
-    @Override
-    public Limit get(final String resource) {
-        // @checkstyle AnonInnerLength (50 lines)
-        return new Limit() {
-            @Override
-            public Github github() {
-                return MkLimits.this.github();
-            }
-            @Override
-            public JsonObject json() {
-                return Json.createObjectBuilder()
-                    // @checkstyle MagicNumber (2 lines)
-                    .add("limit", 5000)
-                    .add("remaining", 4999)
-                    .add("reset", System.currentTimeMillis())
-                    .build();
-            }
-        };
-    }
 }

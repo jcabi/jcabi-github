@@ -120,8 +120,8 @@ public final class RexslGithub implements Github {
      * Public ctor, for authentication with OAuth2 token.
      * @param token OAuth token
      */
-    public RexslGithub(@NotNull(message = "token can't be NULL")
-    final String token) {
+    public RexslGithub(
+        @NotNull(message = "token can't be NULL") final String token) {
         this(
             RexslGithub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
@@ -135,8 +135,8 @@ public final class RexslGithub implements Github {
      * @param req Request to start from
      * @since 0.4
      */
-    public RexslGithub(@NotNull(message = "request can't be NULL")
-    final Request req) {
+    public RexslGithub(
+        @NotNull(message = "request can't be NULL") final Request req) {
         this.request = req;
     }
 
