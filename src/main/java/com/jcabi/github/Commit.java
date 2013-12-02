@@ -89,7 +89,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @throws IOException If fails
          */
         public String message() throws IOException {
-            return new SmartJson(this).read("message");
+            return new SmartJson(this).text("message");
         }
         /**
          * Get its URL.
@@ -97,7 +97,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).read("url"));
+            return new URL(new SmartJson(this).text("url"));
         }
         @Override
         public Repo repo() {

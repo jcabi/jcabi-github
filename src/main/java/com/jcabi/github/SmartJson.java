@@ -32,7 +32,10 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -68,7 +71,27 @@ final class SmartJson {
      * @return Value
      * @throws IOException If fails
      */
-    public String read(final String name) throws IOException {
+    public String text(final String name) throws IOException {
+        return JsonString.class.cast(this.value(name)).getString();
+    }
+
+    /**
+     * Get its property as number.
+     * @param name Name of the property
+     * @return Value
+     * @throws IOException If fails
+     */
+    public int number(final String name) throws IOException {
+        return JsonNumber.class.cast(this.value(name)).intValue();
+    }
+
+    /**
+     * Get its property as string.
+     * @param name Name of the property
+     * @return Value
+     * @throws IOException If fails
+     */
+    public JsonValue value(final String name) throws IOException {
         final JsonObject json = this.object.json();
         if (!json.containsKey(name)) {
             throw new IllegalStateException(
@@ -77,7 +100,7 @@ final class SmartJson {
                 )
             );
         }
-        final String value = json.getString(name);
+        final JsonValue value = json.get(name);
         if (value == null) {
             throw new IllegalStateException(
                 String.format(

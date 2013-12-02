@@ -110,7 +110,7 @@ public interface Comment
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            return new SmartJson(this).read("body");
+            return new SmartJson(this).text("body");
         }
         /**
          * Change comment body.
@@ -128,7 +128,7 @@ public interface Comment
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).read("url"));
+            return new URL(new SmartJson(this).text("url"));
         }
         /**
          * When this comment was created.
@@ -138,7 +138,7 @@ public interface Comment
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).read("created_at")
+                    new SmartJson(this).text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -152,7 +152,7 @@ public interface Comment
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).read("updated_at")
+                    new SmartJson(this).text("updated_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);

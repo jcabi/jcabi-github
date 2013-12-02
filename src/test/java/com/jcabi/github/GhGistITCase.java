@@ -42,7 +42,7 @@ import org.junit.Test;
 public final class GhGistITCase {
 
     /**
-     * GhGist can read and write files.
+     * GhGist can text and write files.
      * @throws Exception If some problem inside
      */
     @Test

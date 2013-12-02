@@ -127,7 +127,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String state() throws IOException {
-            return new SmartJson(this).read("state");
+            return new SmartJson(this).text("state");
         }
         /**
          * Change its state.
@@ -145,7 +145,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String title() throws IOException {
-            return new SmartJson(this).read("title");
+            return new SmartJson(this).text("title");
         }
         /**
          * Change its state.
@@ -163,7 +163,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String body() throws IOException {
-            return new SmartJson(this).read("body");
+            return new SmartJson(this).text("body");
         }
         /**
          * Change its body.
@@ -181,7 +181,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).read("url"));
+            return new URL(new SmartJson(this).text("url"));
         }
         /**
          * Get its HTML URL.
@@ -189,7 +189,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public URL htmlUrl() throws IOException {
-            return new URL(new SmartJson(this).read("html_url"));
+            return new URL(new SmartJson(this).text("html_url"));
         }
         /**
          * When this pull request was created.
@@ -199,7 +199,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).read("created_at")
+                    new SmartJson(this).text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -213,7 +213,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).read("updated_at")
+                    new SmartJson(this).text("updated_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -227,7 +227,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date closedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).read("closed_at")
+                    new SmartJson(this).text("closed_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -241,7 +241,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date mergedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).read("merged_at")
+                    new SmartJson(this).text("merged_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);

@@ -42,7 +42,7 @@ import org.xembly.Directives;
 public final class MkStorageTest {
 
     /**
-     * MkStorage can read and write.
+     * MkStorage can text and write.
      * @throws Exception If some problem inside
      */
     @Test

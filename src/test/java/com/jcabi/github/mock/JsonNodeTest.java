@@ -44,7 +44,7 @@ import org.junit.Test;
 public final class JsonNodeTest {
 
     /**
-     * JsonNode can read XML to JSON.
+     * JsonNode can text XML to JSON.
      * @throws Exception If some problem inside
      */
     @Test

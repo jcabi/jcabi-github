@@ -83,7 +83,7 @@ public interface Limit extends JsonReadable {
          * @throws IOException If it fails
          */
         public int limit() throws IOException {
-            return this.origin.json().getInt("limit");
+            return new SmartJson(this.origin).number("limit");
         }
         /**
          * Remaining number of requests.
@@ -91,7 +91,7 @@ public interface Limit extends JsonReadable {
          * @throws IOException If it fails
          */
         public int remaining() throws IOException {
-            return this.origin.json().getInt("remaining");
+            return new SmartJson(this.origin).number("remaining");
         }
         /**
          * When will the limit be reset.
@@ -99,7 +99,9 @@ public interface Limit extends JsonReadable {
          * @throws IOException If it fails
          */
         public Date reset() throws IOException {
-            return new Date((long) this.origin.json().getInt("reset"));
+            return new Date(
+                (long) new SmartJson(this.origin).number("reset")
+            );
         }
         @Override
         public JsonObject json() throws IOException {

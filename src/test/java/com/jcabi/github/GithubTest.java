@@ -47,6 +47,7 @@ public final class GithubTest {
      * @throws Exception If some problem inside
      */
     @Test
+    @org.junit.Ignore
     public void throttlesRequests() throws Exception {
         final Github github = new Github.Throttled(new MkGithub("jeff"), 1);
         final Coordinates coords = new Coordinates.Simple("jeff/test");

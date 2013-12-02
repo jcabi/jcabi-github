@@ -109,7 +109,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
          * @throws IOException If fails
          */
         public String description() throws IOException {
-            return new SmartJson(this).read("description");
+            return new SmartJson(this).text("description");
         }
         @Override
         public Github github() {

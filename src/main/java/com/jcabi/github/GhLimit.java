@@ -85,10 +85,18 @@ final class GhLimit implements Limit {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.entry.fetch()
+        final JsonObject json = this.entry.fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
-            .json().readObject().getJsonObject(this.res);
+            .json().readObject().getJsonObject("resources");
+        if (!json.containsKey(this.res)) {
+            throw new IllegalStateException(
+                String.format(
+                    "'%s' is absent in JSON: %s", this.res, json
+                )
+            );
+        }
+        return json.getJsonObject(this.res);
     }
 }
