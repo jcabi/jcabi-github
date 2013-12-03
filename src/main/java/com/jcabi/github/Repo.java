@@ -85,6 +85,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Iterable<Event> events();
 
     /**
+     * Get all labels of the repo.
+     * @return Labels
+     * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+     */
+    @NotNull(message = "labels are never NULL")
+    Labels labels();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -106,7 +114,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
         /**
          * Get its description.
          * @return Description
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
             return new SmartJson(this).text("description");
@@ -130,6 +138,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Iterable<Event> events() {
             return this.repo.events();
+        }
+        @Override
+        public Labels labels() {
+            return this.repo.labels();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {

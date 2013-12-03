@@ -81,7 +81,7 @@ final class MkComments implements Comments {
      * @param login User to login
      * @param rep Repo
      * @param issue Issue number
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @checkstyle ParameterNumber (5 lines)
      */
     MkComments(final MkStorage stg, final String login,

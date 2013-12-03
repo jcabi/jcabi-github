@@ -70,7 +70,7 @@ public interface Comment
 
     /**
      * Delete the comment.
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;
@@ -97,7 +97,7 @@ public interface Comment
         /**
          * Get its author.
          * @return Author of comment
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public User author() throws IOException {
             return this.comment.issue().repo().github().users().get(
@@ -107,7 +107,7 @@ public interface Comment
         /**
          * Get its body.
          * @return Body of comment
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
             return new SmartJson(this).text("body");
@@ -115,7 +115,7 @@ public interface Comment
         /**
          * Change comment body.
          * @param text Body of comment
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public void body(final String text) throws IOException {
             this.comment.patch(
@@ -125,7 +125,7 @@ public interface Comment
         /**
          * Get its URL.
          * @return URL of comment
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
             return new URL(new SmartJson(this).text("url"));
@@ -133,7 +133,7 @@ public interface Comment
         /**
          * When this comment was created.
          * @return Date of creation
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date createdAt() throws IOException {
             try {
@@ -147,7 +147,7 @@ public interface Comment
         /**
          * When this comment was updated last time.
          * @return Date of update
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date updatedAt() throws IOException {
             try {

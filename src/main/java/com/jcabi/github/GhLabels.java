@@ -39,21 +39,20 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github get labels.
+ * Github labels of a repo.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.6
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "entry")
-final class GhIssueLabels implements IssueLabels {
+@EqualsAndHashCode(of = { "entry", "owner" })
+final class GhLabels implements Labels {
 
     /**
      * RESTful entry.
@@ -61,84 +60,76 @@ final class GhIssueLabels implements IssueLabels {
     private final transient Request entry;
 
     /**
-     * Which issue we belong to.
+     * RESTful request.
      */
-    private final transient Issue owner;
+    private final transient Request request;
+
+    /**
+     * Github.
+     */
+    private final transient Repo owner;
 
     /**
      * Public ctor.
      * @param req Request
-     * @param issue Issue we're in
+     * @param repo Repo we're in
      */
-    GhIssueLabels(final Request req, final Issue issue) {
-        this.owner = issue;
-        final Coordinates coords = issue.repo().coordinates();
-        this.entry = req.uri()
+    GhLabels(final Request req, final Repo repo) {
+        this.owner = repo;
+        final Coordinates coords = repo.coordinates();
+        this.entry = req;
+        this.request = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/issues")
-            .path(Integer.toString(issue.number()))
             .path("/labels")
             .back();
     }
 
     @Override
     public String toString() {
-        return this.entry.uri().get().toString();
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public void add(@NotNull(message = "iterable of labels can't be NULL")
-        final Iterable<String> labels) throws IOException {
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public Label create(
+        @NotNull(message = "label name can't be NULL") final String name,
+        @NotNull(message = "label color can't be NULL") final String color)
+        throws IOException {
         final StringWriter post = new StringWriter();
-        final JsonGenerator json = Json.createGenerator(post)
-            .writeStartArray();
-        for (final String label : labels) {
-            json.write(label);
-        }
-        json.writeEnd().close();
-        this.entry.method(Request.POST)
+        Json.createGenerator(post)
+            .writeStartObject()
+            // @checkstyle MultipleStringLiterals (1 line)
+            .write("name", name)
+            .write("color", color)
+            .writeEnd()
+            .close();
+        this.request.method(Request.POST)
             .body().set(post.toString()).back()
             .fetch()
             .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
+            .assertStatus(HttpURLConnection.HTTP_CREATED)
             .as(JsonResponse.class)
-            .json().readArray();
+            .json();
+        return new GhLabel(this.entry, this.owner, name);
     }
 
     @Override
-    public void replace(@NotNull(message = "iterable of labels can't be NULL")
-        final Iterable<String> labels) throws IOException {
-        final StringWriter post = new StringWriter();
-        final JsonGenerator json = Json.createGenerator(post)
-            .writeStartArray();
-        for (final String label : labels) {
-            json.write(label);
-        }
-        json.writeEnd().close();
-        this.entry.method(Request.PUT)
-            .body().set(post.toString()).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray();
+    public Label get(@NotNull(message = "label name can't be NULL")
+        final String name) {
+        return new GhLabel(this.entry, this.owner, name);
     }
 
     @Override
-    public void remove(@NotNull(message = "label name can't be NULL")
+    public void delete(@NotNull(message = "label name can't be NULL")
         final String name) throws IOException {
-        this.entry.method(Request.DELETE)
+        this.request.method(Request.DELETE)
             .uri().path(name).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
-    }
-
-    @Override
-    public void clear() throws IOException {
-        this.entry.method(Request.DELETE)
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
@@ -147,13 +138,13 @@ final class GhIssueLabels implements IssueLabels {
     @Override
     public Iterable<Label> iterate() {
         return new GhPagination<Label>(
-            this.entry,
+            this.request,
             new GhPagination.Mapping<Label>() {
                 @Override
                 public Label map(final JsonObject object) {
                     return new GhLabel(
-                        GhIssueLabels.this.entry,
-                        GhIssueLabels.this.owner.repo(),
+                        GhLabels.this.entry,
+                        GhLabels.this.owner,
                         object.getString("name")
                     );
                 }

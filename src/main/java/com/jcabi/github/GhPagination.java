@@ -178,7 +178,7 @@ final class GhPagination<T> implements Iterable<T> {
         }
         /**
          * Fetch the next portion, if available.
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         private void fetch() throws IOException {
             final RestResponse response = this.request.fetch()

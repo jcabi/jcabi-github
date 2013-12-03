@@ -130,7 +130,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         /**
          * Get its author.
          * @return Author of comment
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public User author() throws IOException {
             return this.event.repo().github().users().get(
@@ -140,7 +140,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         /**
          * Get its type.
          * @return State of issue
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String type() throws IOException {
             return new SmartJson(this).text("event");
@@ -148,7 +148,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         /**
          * Get its URL.
          * @return URL of issue
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
             return new URL(new SmartJson(this).text("url"));
@@ -156,7 +156,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         /**
          * When this issue was created.
          * @return Date of creation
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date createdAt() throws IOException {
             try {

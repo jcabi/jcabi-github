@@ -55,26 +55,26 @@ public interface MkStorage {
     /**
      * Get full XML.
      * @return XML
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     XML xml() throws IOException;
 
     /**
      * Update XML with this directives.
      * @param dirs Directives
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     void apply(Iterable<Directive> dirs) throws IOException;
 
     /**
      * Lock storage.
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     void lock() throws IOException;
 
     /**
      * Unlock storage.
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     void unlock() throws IOException;
 
@@ -91,7 +91,7 @@ public interface MkStorage {
         private final transient String name;
         /**
          * Public ctor.
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public InFile() throws IOException {
             this(File.createTempFile("jcabi-github", ".xml"));
@@ -99,7 +99,7 @@ public interface MkStorage {
         /**
          * Public ctor.
          * @param file File to use
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public InFile(final File file) throws IOException {
             FileUtils.write(file, "<github/>");

@@ -67,7 +67,7 @@ final class MkGists implements Gists {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     MkGists(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;

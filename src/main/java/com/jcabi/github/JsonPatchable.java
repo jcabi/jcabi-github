@@ -47,7 +47,7 @@ public interface JsonPatchable {
     /**
      * Patch using this JSON object.
      * @param json JSON object
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
         throws IOException;

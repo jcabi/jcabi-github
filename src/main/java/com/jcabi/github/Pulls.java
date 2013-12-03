@@ -66,7 +66,7 @@ public interface Pulls {
      * @param head Head
      * @param base Base
      * @return Issue just created
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#create-a-pull-request">Create a Pull Request</a>
      */
     @NotNull(message = "pull is never NULL")

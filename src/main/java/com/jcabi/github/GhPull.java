@@ -158,22 +158,13 @@ final class GhPull implements Pull {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        return new GhJson(this.request).fetch();
     }
 
     @Override
     public void patch(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createWriter(post).writeObject(json);
-        this.request.body().set(post.toString()).back()
-            .method(Request.PATCH)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        new GhJson(this.request).patch(json);
     }
 
     @Override

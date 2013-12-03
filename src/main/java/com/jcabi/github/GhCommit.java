@@ -32,10 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -103,11 +100,7 @@ final class GhCommit implements Commit {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        return new GhJson(this.request).fetch();
     }
 
     @Override

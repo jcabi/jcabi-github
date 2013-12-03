@@ -35,7 +35,7 @@ import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
-import com.jcabi.github.Labels;
+import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -113,8 +113,14 @@ final class MkIssue implements Issue {
     }
 
     @Override
-    public Labels labels() {
-        return new MkIssueLabels(this.storage, this.coords, this.num);
+    public IssueLabels labels() {
+        try {
+            return new MkIssueLabels(
+                this.storage, this.self, this.coords, this.num
+            );
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

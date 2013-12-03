@@ -63,7 +63,7 @@ final class JsonPatch {
      * Patch an XML object/element.
      * @param xpath XPath to locate the node to patch
      * @param obj Object to apply
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     public void patch(final String xpath, final JsonObject obj)
         throws IOException {

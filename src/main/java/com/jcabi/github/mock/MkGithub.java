@@ -71,7 +71,7 @@ public final class MkGithub implements Github {
 
     /**
      * Public ctor.
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     public MkGithub() throws IOException {
         this("jeff");
@@ -80,7 +80,7 @@ public final class MkGithub implements Github {
     /**
      * Public ctor.
      * @param login User to login
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     public MkGithub(final String login) throws IOException {
         this(new MkStorage.InFile(), login);

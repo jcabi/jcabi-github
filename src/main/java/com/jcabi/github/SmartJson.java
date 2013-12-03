@@ -69,7 +69,7 @@ final class SmartJson {
      * Get its property as string.
      * @param name Name of the property
      * @return Value
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     public String text(final String name) throws IOException {
         return JsonString.class.cast(this.value(name)).getString();
@@ -79,7 +79,7 @@ final class SmartJson {
      * Get its property as number.
      * @param name Name of the property
      * @return Value
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     public int number(final String name) throws IOException {
         return JsonNumber.class.cast(this.value(name)).intValue();
@@ -89,7 +89,7 @@ final class SmartJson {
      * Get its property as string.
      * @param name Name of the property
      * @return Value
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     public JsonValue value(final String name) throws IOException {
         final JsonObject json = this.object.json();

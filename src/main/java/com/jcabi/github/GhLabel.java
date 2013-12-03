@@ -30,26 +30,89 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * JSON readable.
+ * Github label.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.4
+ * @since 0.6
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public interface JsonReadable {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "txt" })
+final class GhLabel implements Label {
 
     /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If there is any I/O problem
+     * RESTful request.
      */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
+    private final transient Request request;
+
+    /**
+     * Repository we're in.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Name of the label.
+     */
+    private final transient String txt;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     * @param repo Repository
+     * @param name Name of it
+     */
+    GhLabel(final Request req, final Repo repo, final String name) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/labels")
+            .path(name)
+            .back();
+        this.owner = repo;
+        this.txt = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String name() {
+        return this.txt;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new GhJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(@NotNull(message = "JSON is never NULL")
+        final JsonObject json) throws IOException {
+        new GhJson(this.request).patch(json);
+    }
+
+    @Override
+    public int compareTo(final Label label) {
+        return label.name().compareTo(label.name());
+    }
 
 }

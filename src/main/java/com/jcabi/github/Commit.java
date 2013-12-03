@@ -86,7 +86,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
         /**
          * Get its message.
          * @return Message of commit
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String message() throws IOException {
             return new SmartJson(this).text("message");
@@ -94,7 +94,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
         /**
          * Get its URL.
          * @return URL of comment
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
             return new URL(new SmartJson(this).text("url"));

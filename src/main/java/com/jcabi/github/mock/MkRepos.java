@@ -70,7 +70,7 @@ final class MkRepos implements Repos {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     MkRepos(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;

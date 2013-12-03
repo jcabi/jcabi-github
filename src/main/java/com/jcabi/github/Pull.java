@@ -70,7 +70,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     /**
      * Get all commits of the pull request.
      * @return Commits
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#list-commits-on-a-pull-request">List Commits on a Pull Request</a>
      */
     @NotNull(message = "commits are never NULL")
@@ -79,7 +79,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     /**
      * List all files of the pull request.
      * @return Files
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests-files">List Pull Request Files</a>
      */
     @NotNull(message = "iterable of files is never NULL")
@@ -88,7 +88,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     /**
      * Merge it.
      * @param msg Commit message
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
      */
     void merge(@NotNull(message = "message can't be NULL") String msg)
@@ -116,7 +116,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Is it open?
          * @return TRUE if it's open
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public boolean isOpen() throws IOException {
             return Issue.OPEN_STATE.equals(this.state());
@@ -124,7 +124,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Get its state.
          * @return State of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String state() throws IOException {
             return new SmartJson(this).text("state");
@@ -132,7 +132,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Change its state.
          * @param state State of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public void state(final String state) throws IOException {
             this.pull.patch(
@@ -142,7 +142,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Get its body.
          * @return Body of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String title() throws IOException {
             return new SmartJson(this).text("title");
@@ -150,7 +150,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Change its state.
          * @param text Text of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public void title(final String text) throws IOException {
             this.pull.patch(
@@ -160,7 +160,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Get its title.
          * @return Title of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
             return new SmartJson(this).text("body");
@@ -168,7 +168,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Change its body.
          * @param text Body of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public void body(final String text) throws IOException {
             this.pull.patch(
@@ -178,7 +178,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Get its URL.
          * @return URL of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
             return new URL(new SmartJson(this).text("url"));
@@ -186,7 +186,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * Get its HTML URL.
          * @return URL of pull request
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
             return new URL(new SmartJson(this).text("html_url"));
@@ -194,7 +194,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * When this pull request was created.
          * @return Date of creation
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date createdAt() throws IOException {
             try {
@@ -208,7 +208,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * When this pull request was updated.
          * @return Date of update
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date updatedAt() throws IOException {
             try {
@@ -222,7 +222,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * When this pull request was closed.
          * @return Date of closing
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date closedAt() throws IOException {
             try {
@@ -236,7 +236,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * When this pull request was merged.
          * @return Date of merging
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Date mergedAt() throws IOException {
             try {

@@ -74,7 +74,7 @@ final class MkPulls implements Pulls {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     MkPulls(final MkStorage stg, final String login,
         final Coordinates rep) throws IOException {

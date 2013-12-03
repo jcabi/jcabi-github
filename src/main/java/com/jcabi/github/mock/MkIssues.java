@@ -76,7 +76,7 @@ final class MkIssues implements Issues {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     MkIssues(final MkStorage stg, final String login,
         final Coordinates rep) throws IOException {

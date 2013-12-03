@@ -27,17 +27,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Label;
+import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github limit rate.
+ * Mock Github label.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -45,53 +48,81 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry", "res" })
-final class GhLimit implements Limit {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "owner", "label" })
+final class MkLabel implements Label {
 
     /**
-     * API entry point.
+     * Storage.
      */
-    private final transient Request entry;
+    private final transient MkStorage storage;
 
     /**
-     * Github.
+     * Login of the user logged in.
      */
-    private final transient Github ghub;
+    private final transient String self;
 
     /**
-     * Name of resource.
+     * Repo name.
      */
-    private final transient String res;
+    private final transient Coordinates owner;
+
+    /**
+     * Name of the label.
+     */
+    private final transient String label;
 
     /**
      * Public ctor.
-     * @param github Github
-     * @param req Request
-     * @param name Name of resource
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @param name Label name
+     * @checkstyle ParameterNumber (5 lines)
      */
-    GhLimit(final Github github, final Request req, final String name) {
-        this.entry = req;
-        this.ghub = github;
-        this.res = name;
+    MkLabel(final MkStorage stg, final String login,
+        final Coordinates rep, final String name) {
+        this.storage = stg;
+        this.self = login;
+        this.owner = rep;
+        this.label = name;
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.owner);
+    }
+
+    @Override
+    public String name() {
+        return this.label;
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
     public JsonObject json() throws IOException {
-        final JsonObject json = new GhJson(this.entry)
-            .fetch()
-            .getJsonObject("resources");
-        if (!json.containsKey(this.res)) {
-            throw new IllegalStateException(
-                String.format(
-                    "'%s' is absent in JSON: %s", this.res, json
-                )
-            );
-        }
-        return json.getJsonObject(this.res);
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/owner[@coords='%s']/labels/label[name='%s']",
+            this.owner, this.label
+        );
+    }
+
+    @Override
+    public int compareTo(final Label lbl) {
+        return this.label.compareTo(lbl.name());
     }
 }

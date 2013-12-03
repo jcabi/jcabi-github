@@ -130,11 +130,7 @@ final class GhGist implements Gist {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.entry.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        return new GhJson(this.entry).fetch();
     }
 
 }

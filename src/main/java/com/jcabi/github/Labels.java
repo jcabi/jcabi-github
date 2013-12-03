@@ -30,8 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github labels.
@@ -45,13 +48,32 @@ import javax.validation.constraints.NotNull;
 public interface Labels {
 
     /**
-     * Add new labels.
-     * @param labels The labels to add
-     * @throws IOException If fails
+     * The repo we're in.
+     * @return Repo
+     */
+    @NotNull(message = "repo is never NULL")
+    Repo repo();
+
+    /**
+     * Create new label.
+     * @param name The name of it
+     * @param color Color of it
+     * @return The label created
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
      */
-    void add(@NotNull(message = "labels can't be NULL") Iterable<Label> labels)
+    Label create(
+        @NotNull(message = "label name can't be NULL") String name,
+        @NotNull(message = "label color can't be NULL") String color)
         throws IOException;
+
+    /**
+     * Get a label by name.
+     * @param name The name of it
+     * @return The label
+     * @see <a href="http://developer.github.com/v3/issues/labels/#get-a-single-label">Get a single label</a>
+     */
+    Label get(@NotNull(message = "label name can't be NULL") String name);
 
     /**
      * Iterate them all.
@@ -62,19 +84,85 @@ public interface Labels {
     Iterable<Label> iterate();
 
     /**
-     * Remove label by name.
+     * Delete label by name.
      * @param name Name of the label to remove
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
      */
-    void remove(@NotNull(message = "label name can't be NULL") String name)
+    void delete(@NotNull(message = "label name can't be NULL") String name)
         throws IOException;
 
     /**
-     * Remove all labels.
-     * @throws IOException If fails
-     * @see <a href=""></a>
+     * Smart Labels with extra features.
      */
-    void clear() throws IOException;
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "labels")
+    final class Smart implements Labels {
+        /**
+         * Encapsulated labels.
+         */
+        private final transient Labels labels;
+        /**
+         * Public ctor.
+         * @param lbl Labels
+         */
+        public Smart(final Labels lbl) {
+            this.labels = lbl;
+        }
+        /**
+         * Label exists?
+         * @param name Name of the label
+         * @return TRUE if it exists
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean contains(final String name) throws IOException {
+            boolean contains = false;
+            for (final Label label : this.labels.iterate()) {
+                if (label.name().equals(name)) {
+                    contains = true;
+                    break;
+                }
+            }
+            return contains;
+        }
+        /**
+         * Create or get label.
+         * @param name Name of the label
+         * @return Label found or created
+         * @throws IOException If there is any I/O problem
+         */
+        public Label createOrGet(final String name) throws IOException {
+            final Label label;
+            if (this.contains(name)) {
+                label = this.labels.get(name);
+            } else {
+                label = this.labels.create(name, "c0c0c0");
+            }
+            return label;
+        }
+        @Override
+        public Repo repo() {
+            return this.labels.repo();
+        }
+        @Override
+        public Label create(final String name, final String color)
+            throws IOException {
+            return this.labels.create(name, color);
+        }
+        @Override
+        public Label get(final String name) {
+            return this.labels.get(name);
+        }
+        @Override
+        public Iterable<Label> iterate() {
+            return this.labels.iterate();
+        }
+        @Override
+        public void delete(final String name) throws IOException {
+            this.labels.delete(name);
+        }
+    }
 
 }

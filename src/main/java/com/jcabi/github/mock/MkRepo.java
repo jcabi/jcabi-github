@@ -35,6 +35,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issues;
+import com.jcabi.github.Labels;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
 import java.io.IOException;
@@ -114,6 +115,15 @@ final class MkRepo implements Repo {
     @Override
     public Iterable<Event> events() {
         return null;
+    }
+
+    @Override
+    public Labels labels() {
+        try {
+            return new MkLabels(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

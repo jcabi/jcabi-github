@@ -31,16 +31,18 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
-import com.jcabi.github.User;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Label;
+import com.jcabi.github.Labels;
+import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github user.
+ * Mock Github labels.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -49,8 +51,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self" })
-final class MkUser implements User {
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+final class MkLabels implements Labels {
 
     /**
      * Storage.
@@ -63,41 +65,76 @@ final class MkUser implements User {
     private final transient String self;
 
     /**
+     * Repo name.
+     */
+    private final transient Coordinates coords;
+
+    /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
+     * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    MkUser(final MkStorage stg, final String login) throws IOException {
+    MkLabels(final MkStorage stg, final String login,
+        final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
+        this.coords = rep;
         this.storage.apply(
             new Directives().xpath(
-                String.format("/github/users[not(user[login='%s'])]", login)
-            ).add("user").add("login").set(login)
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("labels")
         );
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public String login() {
-        return this.self;
+    public Label get(final String name) {
+        return new MkLabel(this.storage, this.self, this.coords, name);
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
+    public Label create(final String name, final String color)
+        throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("label")
+                .add("name").set(name).up()
+                .add("color").set(color).up()
+        );
+        return this.get(name);
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
+    public Iterable<Label> iterate() {
+        return new MkIterable<Label>(
+            this.storage,
+            String.format("%s/label", this.xpath()),
+            new MkIterable.Mapping<Label>() {
+                @Override
+                public Label map(final XML xml) {
+                    return MkLabels.this.get(
+                        xml.xpath("name/text()").get(0)
+                    );
+                }
+            }
+        );
+    }
+
+    @Override
+    public void delete(final String name) throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).xpath(
+                String.format("label[name='%s']", name)
+            ).remove()
+        );
     }
 
     /**
@@ -105,7 +142,9 @@ final class MkUser implements User {
      * @return XPath
      */
     private String xpath() {
-        return String.format("/github/users/user[login='%s']", this.self);
+        return String.format(
+            "/github/repos/repo[@coords='%s']/labels",
+            this.coords
+        );
     }
-
 }

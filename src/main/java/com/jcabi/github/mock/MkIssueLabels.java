@@ -32,8 +32,9 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
-import com.jcabi.github.Labels;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -50,12 +51,17 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "repo", "ticket" })
-final class MkIssueLabels implements Labels {
+final class MkIssueLabels implements IssueLabels {
 
     /**
      * Storage.
      */
     private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
 
     /**
      * Repo name.
@@ -70,37 +76,68 @@ final class MkIssueLabels implements Labels {
     /**
      * Public ctor.
      * @param stg Storage
+     * @param login Login
      * @param rep Repo
      * @param issue Issue number
+     * @throws IOException If fails
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkIssueLabels(final MkStorage stg, final Coordinates rep, final int issue) {
+    MkIssueLabels(final MkStorage stg, final String login,
+        final Coordinates rep, final int issue) throws IOException {
         this.storage = stg;
+        this.self = login;
         this.repo = rep;
         this.ticket = issue;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    // @checkstyle LineLength (1 line)
+                    "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
+                    rep, this.ticket
+                )
+            ).addIf("labels")
+        );
     }
 
     @Override
-    public void add(final Iterable<Label> labels) throws IOException {
+    public void add(final Iterable<String> labels) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath());
-        for (final Label label : labels) {
-            dirs.add("label")
-                .add("name").set(label.name()).up()
-                .add("color").set(label.color()).up().up();
+        for (final String label : labels) {
+            dirs.add("label").set(label).up();
         }
         this.storage.apply(dirs);
     }
 
     @Override
+    public void replace(final Iterable<String> labels) throws IOException {
+        this.clear();
+        this.add(labels);
+    }
+
+    @Override
     public Iterable<Label> iterate() {
-        throw new UnsupportedOperationException("#iterate()");
+        return new MkIterable<Label>(
+            this.storage,
+            String.format("%s/*", this.xpath()),
+            new MkIterable.Mapping<Label>() {
+                @Override
+                public Label map(final XML xml) {
+                    return new MkLabel(
+                        MkIssueLabels.this.storage,
+                        MkIssueLabels.this.self,
+                        MkIssueLabels.this.repo,
+                        xml.xpath("./text()").get(0)
+                    );
+                }
+            }
+        );
     }
 
     @Override
     public void remove(final String name) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("label[name='%s']", name)
+                String.format("%s/label[.='%s']", this.xpath(), name)
             ).remove()
         );
     }
@@ -108,7 +145,9 @@ final class MkIssueLabels implements Labels {
     @Override
     public void clear() throws IOException {
         this.storage.apply(
-            new Directives().xpath("label[name]").remove()
+            new Directives().xpath(
+                String.format("%s/label", this.xpath())
+            ).remove()
         );
     }
 

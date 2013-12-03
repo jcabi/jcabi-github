@@ -29,69 +29,67 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
- * Github limit rate.
- *
+ * Integration case for {@link Labels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry", "res" })
-final class GhLimit implements Limit {
+public final class GhLabelsITCase {
 
     /**
-     * API entry point.
+     * GhLabels can list all labels.
+     * @throws Exception If some problem inside
      */
-    private final transient Request entry;
-
-    /**
-     * Github.
-     */
-    private final transient Github ghub;
-
-    /**
-     * Name of resource.
-     */
-    private final transient String res;
-
-    /**
-     * Public ctor.
-     * @param github Github
-     * @param req Request
-     * @param name Name of resource
-     */
-    GhLimit(final Github github, final Request req, final String name) {
-        this.entry = req;
-        this.ghub = github;
-        this.res = name;
-    }
-
-    @Override
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        final JsonObject json = new GhJson(this.entry)
-            .fetch()
-            .getJsonObject("resources");
-        if (!json.containsKey(this.res)) {
-            throw new IllegalStateException(
-                String.format(
-                    "'%s' is absent in JSON: %s", this.res, json
-                )
+    @Test
+    public void listsLabels() throws Exception {
+        final Labels labels = GhLabelsITCase.repo().labels();
+        final Iterable<Label.Smart> list =
+            new Smarts<Label.Smart>(labels.iterate());
+        for (final Label.Smart label : list) {
+            MatcherAssert.assertThat(
+                label.color(),
+                Matchers.not(Matchers.isEmptyString())
             );
         }
-        return json.getJsonObject(this.res);
     }
+
+    /**
+     * GhLabels can create a new label.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsNewLabel() throws Exception {
+        final Labels labels = GhLabelsITCase.repo().labels();
+        final Label label = new Labels.Smart(labels).createOrGet("test-3");
+        MatcherAssert.assertThat(
+            label,
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            labels.iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RexslGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
+    }
+
 }

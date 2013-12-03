@@ -67,7 +67,7 @@ final class MkUsers implements Users {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      */
     MkUsers(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;

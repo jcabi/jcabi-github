@@ -31,6 +31,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -44,65 +46,69 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
-public interface Label extends Comparable<Label> {
+public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
-     * Get it.
-     * @return Name of it
+     * The repo we're in.
+     * @return Issue
+     * @since 0.6
      */
+    @NotNull(message = "repo is never NULL")
+    Repo repo();
+
+    /**
+     * Name of it.
+     * @return Name
+     */
+    @NotNull(message = "label name is never NULL")
     String name();
 
     /**
-     * Its color (6 letters).
-     * @return Color of it
-     */
-    String color();
-
-    /**
-     * Rexsl implementation.
+     * Smart Label with extra features.
      */
     @Immutable
-    @Loggable(Loggable.DEBUG)
     @ToString
-    @EqualsAndHashCode(of = { "txt", "clr" })
-    final class Simple implements Label {
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "label")
+    final class Smart implements Label {
         /**
-         * Name of it.
+         * Encapsulated label.
          */
-        private final transient String txt;
-        /**
-         * Color of it.
-         */
-        private final transient String clr;
+        private final transient Label label;
         /**
          * Public ctor.
-         * @param name Name of it
+         * @param lbl Label
          */
-        public Simple(final String name) {
-            this(name, "000000");
+        public Smart(final Label lbl) {
+            this.label = lbl;
         }
         /**
-         * Public ctor.
-         * @param name Name of it
-         * @param color Color of it
+         * Get its color.
+         * @return Color of it
+         * @throws IOException If there is any I/O problem
          */
-        public Simple(
-            @NotNull(message = "label name can't be NULL") final String name,
-            @NotNull(message = "color can't be NULL") final String color) {
-            this.txt = name;
-            this.clr = color;
+        public String color() throws IOException {
+            return new SmartJson(this).text("color");
+        }
+        @Override
+        public Repo repo() {
+            return this.label.repo();
         }
         @Override
         public String name() {
-            return this.txt;
+            return this.label.name();
         }
         @Override
-        public String color() {
-            return this.clr;
+        public int compareTo(final Label lbl) {
+            return this.label.compareTo(lbl);
         }
         @Override
-        public int compareTo(final Label label) {
-            return this.txt.compareTo(label.name());
+        public void patch(final JsonObject json) throws IOException {
+            this.label.patch(json);
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.label.json();
         }
     }
 

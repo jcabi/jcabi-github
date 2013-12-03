@@ -32,12 +32,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -113,23 +110,13 @@ final class GhComment implements Comment {
 
     @Override
     public JsonObject json() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        return new GhJson(this.request).fetch();
     }
 
     @Override
     public void patch(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createWriter(post).writeObject(json);
-        this.request.method(Request.PATCH)
-            .body().set(post.toString()).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        new GhJson(this.request).patch(json);
     }
 
     @Override

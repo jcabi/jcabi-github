@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -66,27 +65,6 @@ public final class GhIssueITCase {
             )
         );
         comment.remove();
-    }
-
-    /**
-     * GhIssue can add and remove issue labels.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void addsAndRemovesIssueLabels() throws Exception {
-        final Issue issue = GhIssueITCase.issue();
-        final Label label = new Label.Simple("first");
-        issue.labels().add(Collections.singletonList(label));
-        MatcherAssert.assertThat(
-            issue.labels().iterate(),
-            Matchers.<Label>iterableWithSize(1)
-        );
-        issue.labels().remove(label.name());
-        MatcherAssert.assertThat(
-            issue.labels().iterate(),
-            Matchers.<Label>emptyIterable()
-        );
-        issue.labels().clear();
     }
 
     /**

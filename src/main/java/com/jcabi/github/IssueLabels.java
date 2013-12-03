@@ -31,25 +31,59 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
- * JSON readable.
+ * Github labels of an issue.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.4
+ * @since 0.1
+ * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
-public interface JsonReadable {
+public interface IssueLabels {
 
     /**
-     * Describe it in a JSON object.
-     * @return JSON object
+     * Add new labels.
+     * @param labels The labels to add
      * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/issues/labels/#add-labels-to-an-issue">Add labels to an issue</a>
      */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
+    void add(@NotNull(message = "iterable of label names can't be NULL")
+        Iterable<String> labels) throws IOException;
+
+    /**
+     * Replace all labels.
+     * @param labels The labels to save
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue">Replace all labels for an issue</a>
+     */
+    void replace(@NotNull(message = "iterable of label names can't be NULL")
+        Iterable<String> labels) throws IOException;
+
+    /**
+     * Iterate them all.
+     * @return Iterator of labels
+     * @see <a href="http://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Label> iterate();
+
+    /**
+     * Remove label by name.
+     * @param name Name of the label to remove
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue">Remove a Label from an Issue</a>
+     */
+    void remove(@NotNull(message = "label name can't be NULL") String name)
+        throws IOException;
+
+    /**
+     * Remove all labels.
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue">Remove all labels from an issue</a>
+     */
+    void clear() throws IOException;
 
 }

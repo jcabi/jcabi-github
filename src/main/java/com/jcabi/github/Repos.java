@@ -56,7 +56,7 @@ public interface Repos {
      * Create repository.
      * @param json Repository creation JSON
      * @return Repository
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @since 0.5
      * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
      */

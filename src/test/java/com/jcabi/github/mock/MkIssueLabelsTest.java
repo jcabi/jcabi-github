@@ -27,29 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Label;
+import com.jcabi.github.Repo;
+import java.util.Collections;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * JSON readable.
- *
+ * Test case for {@link MkIssueLabels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.4
  */
-@Immutable
-public interface JsonReadable {
+public final class MkIssueLabelsTest {
 
     /**
-     * Describe it in a JSON object.
-     * @return JSON object
-     * @throws IOException If there is any I/O problem
+     * MkIssueLabels can list labels.
+     * @throws Exception If some problem inside
      */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
+    @Test
+    public void iteratesIssues() throws Exception {
+        final Repo repo = this.repo();
+        final String name = "bug";
+        repo.labels().create(name, "c0c0c0");
+        final Issue issue = repo.issues().create("title", "body");
+        issue.labels().add(Collections.singletonList(name));
+        MatcherAssert.assertThat(
+            issue.labels().iterate(),
+            Matchers.<Label>iterableWithSize(1)
+        );
+    }
+
+    /**
+     * Create an repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 
 }

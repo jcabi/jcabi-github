@@ -72,7 +72,7 @@ public interface Comments {
      * Post new comment.
      * @param text Text of comment to post in Markdown format
      * @return Comment
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/comments/#create-a-comment">Create a Comment</a>
      */
     @NotNull(message = "comment is never NULL")

@@ -62,7 +62,7 @@ public interface Gist extends JsonReadable {
      * Read file content.
      * @param name Name of it
      * @return File content
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     @NotNull(message = "file content is never NULL")
@@ -73,7 +73,7 @@ public interface Gist extends JsonReadable {
      * Write file content.
      * @param name Name of it
      * @param content Content to write
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#edit-a-gist">Edit a Gist</a>
      */
     void write(
@@ -103,7 +103,7 @@ public interface Gist extends JsonReadable {
         /**
          * Get a list of all file names in the gist.
          * @return File names
-         * @throws IOException If fails
+         * @throws IOException If there is any I/O problem
          */
         public Iterable<String> files() throws IOException {
             final JsonObject array = this.gist.json().getJsonObject("files");

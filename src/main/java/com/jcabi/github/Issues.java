@@ -66,7 +66,7 @@ public interface Issues {
      * @param title Title
      * @param body Body of it
      * @return Issue just created
-     * @throws IOException If fails
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
      */
     @NotNull(message = "issue is never NULL")
