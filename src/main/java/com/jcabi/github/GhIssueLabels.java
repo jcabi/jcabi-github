@@ -122,7 +122,7 @@ final class GhIssueLabels implements Labels {
     @Override
     public Iterable<Label> iterate() {
         return new GhPagination<Label>(
-            GhIssueLabels.this.entry,
+            this.entry,
             new GhPagination.Mapping<Label>() {
                 @Override
                 public Label map(final JsonObject object) {
