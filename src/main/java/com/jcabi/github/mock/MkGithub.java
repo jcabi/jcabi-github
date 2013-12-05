@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
+import com.jcabi.github.Markdown;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Users;
 import java.io.IOException;
@@ -125,6 +126,18 @@ public final class MkGithub implements Github {
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @todo #6:30min Markdown rendering mechanism should be mocked
+     *  and implemented in MkMarkdown class, in a primitive way, of course.
+     *  We don't need to do a real rendering, but at least return the
+     *  same text back. When done, just remote this entire JavaDoc block.
+     */
+    @Override
+    public Markdown markdown() {
+        throw new UnsupportedOperationException("#markdown()");
     }
 
 }
