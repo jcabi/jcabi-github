@@ -34,6 +34,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.manifests.Manifests;
 import com.rexsl.test.Request;
 import com.rexsl.test.request.ApacheRequest;
+import com.rexsl.test.response.JsonResponse;
+import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -169,6 +172,13 @@ public final class RexslGithub implements Github {
     @Override
     public Limits limits() {
         return new GhLimits(this, this.request);
+    }
+
+    @Override
+    public JsonObject meta() throws IOException {
+        return this.request.uri().path("meta").back().fetch()
+            .as(JsonResponse.class)
+            .json().readObject();
     }
 
     @Override
