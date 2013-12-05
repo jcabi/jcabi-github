@@ -73,6 +73,19 @@ public final class RexslGithubITCase {
     }
 
     /**
+     * RexslGithub can fetch meta information.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchesMeta() throws Exception {
+        final Github github = new RexslGithub();
+        MatcherAssert.assertThat(
+            github.meta().getJsonArray("hooks"),
+            Matchers.not(Matchers.empty())
+        );
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside

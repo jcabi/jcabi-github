@@ -30,12 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -100,6 +102,16 @@ public interface Github {
      */
     @NotNull(message = "rate limit API is never NULL")
     Limits limits();
+
+    /**
+     * Get meta information.
+     * @return JSON with meta
+     * @throws IOException If there is any I/O problem
+     * @since 0.6
+     * @see <a href="http://developer.github.com/v3/meta/">Meta API</a>
+     */
+    @NotNull(message = "meta JSON is never NULL")
+    JsonObject meta() throws IOException;
 
     /**
      * Time in Github JSON.

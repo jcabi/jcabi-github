@@ -38,6 +38,8 @@ import com.jcabi.github.Markdown;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Users;
 import java.io.IOException;
+import javax.json.Json;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -132,6 +134,14 @@ public final class MkGithub implements Github {
     @Override
     public Limits limits() {
         return new MkLimits(this.storage, this.self);
+    }
+
+    @Override
+    public JsonObject meta() {
+        return Json.createObjectBuilder()
+            .add("hooks", Json.createArrayBuilder().build())
+            .add("git", Json.createArrayBuilder().build())
+            .build();
     }
 
     /**
