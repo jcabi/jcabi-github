@@ -89,6 +89,11 @@ final class GhIssueLabels implements IssueLabels {
     }
 
     @Override
+    public Issue issue() {
+        return this.owner;
+    }
+
+    @Override
     public void add(@NotNull(message = "iterable of labels can't be NULL")
         final Iterable<String> labels) throws IOException {
         final StringWriter post = new StringWriter();

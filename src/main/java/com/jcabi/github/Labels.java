@@ -115,9 +115,8 @@ public interface Labels {
          * Label exists?
          * @param name Name of the label
          * @return TRUE if it exists
-         * @throws IOException If there is any I/O problem
          */
-        public boolean contains(final String name) throws IOException {
+        public boolean contains(final String name) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
                 if (label.name().equals(name)) {

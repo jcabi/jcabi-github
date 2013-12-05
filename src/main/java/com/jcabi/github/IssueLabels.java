@@ -30,8 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.util.Collections;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github labels of an issue.
@@ -42,7 +46,15 @@ import javax.validation.constraints.NotNull;
  * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface IssueLabels {
+
+    /**
+     * The issue we're in.
+     * @return Issue
+     */
+    @NotNull(message = "issue is never NULL")
+    Issue issue();
 
     /**
      * Add new labels.
@@ -86,4 +98,81 @@ public interface IssueLabels {
      */
     void clear() throws IOException;
 
+    /**
+     * Smart IssueLabels with extra features.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "labels")
+    final class Smart implements IssueLabels {
+        /**
+         * Encapsulated labels.
+         */
+        private final transient IssueLabels labels;
+        /**
+         * Public ctor.
+         * @param lbl Labels
+         */
+        public Smart(final IssueLabels lbl) {
+            this.labels = lbl;
+        }
+        /**
+         * Label exists?
+         * @param name Name of the label
+         * @return TRUE if it exists
+         */
+        public boolean contains(final String name) {
+            boolean contains = false;
+            for (final Label label : this.labels.iterate()) {
+                if (label.name().equals(name)) {
+                    contains = true;
+                    break;
+                }
+            }
+            return contains;
+        }
+        /**
+         * Add label if it is absent.
+         * @param name Name of the label
+         * @return TRUE if it was added
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean addIfAbsent(final String name) throws IOException {
+            final boolean added;
+            if (this.contains(name)) {
+                added = false;
+            } else {
+                new Labels.Smart(this.labels.issue().repo().labels())
+                    .createOrGet(name);
+                this.labels.add(Collections.singletonList(name));
+                added = true;
+            }
+            return added;
+        }
+        @Override
+        public Issue issue() {
+            return this.labels.issue();
+        }
+        @Override
+        public void add(final Iterable<String> names) throws IOException {
+            this.labels.add(names);
+        }
+        @Override
+        public void replace(final Iterable<String> names) throws IOException {
+            this.labels.replace(names);
+        }
+        @Override
+        public Iterable<Label> iterate() {
+            return this.labels.iterate();
+        }
+        @Override
+        public void remove(final String name) throws IOException {
+            this.labels.remove(name);
+        }
+        @Override
+        public void clear() throws IOException {
+            this.labels.clear();
+        }
+    }
 }

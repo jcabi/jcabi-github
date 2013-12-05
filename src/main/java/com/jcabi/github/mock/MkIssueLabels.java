@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.xml.XML;
@@ -97,6 +98,11 @@ final class MkIssueLabels implements IssueLabels {
                 )
             ).addIf("labels")
         );
+    }
+
+    @Override
+    public Issue issue() {
+        return new MkIssue(this.storage, this.self, this.repo, this.ticket);
     }
 
     @Override
