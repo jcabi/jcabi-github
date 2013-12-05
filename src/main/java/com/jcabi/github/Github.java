@@ -86,6 +86,14 @@ public interface Github {
     Users users();
 
     /**
+     * Get Markdown API entry point.
+     * @return Markdown API entry point
+     * @since 0.6
+     */
+    @NotNull(message = "markdown API is never NULL")
+    Markdown markdown();
+
+    /**
      * Time in Github JSON.
      *
      * @since 0.2

@@ -166,4 +166,9 @@ public final class RexslGithub implements Github {
         return new GhUsers(this, this.request);
     }
 
+    @Override
+    public Markdown markdown() {
+        return new GhMarkdown(this, this.request);
+    }
+
 }
