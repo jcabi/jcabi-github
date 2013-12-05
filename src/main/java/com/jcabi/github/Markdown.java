@@ -29,37 +29,47 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
- * Test case for {@link Github}.
+ * Markdown API.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.6
+ * @see <a href="http://developer.github.com/v3/markdown/">Markdown API</a>
  */
-public final class GithubTest {
+@Immutable
+public interface Markdown {
 
     /**
-     * Github.Throttled can throttle.
-     * @throws Exception If some problem inside
+     * Get its owner.
+     * @return Github
      */
-    @Test
-    @org.junit.Ignore
-    public void throttlesRequests() throws Exception {
-        final Github github = new Github.Throttled(new MkGithub("jeff"), 1);
-        final Coordinates coords = new Coordinates.Simple("jeff/test");
-        github.repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-        MatcherAssert.assertThat(
-            new Limit.Smart(
-                github.repos().get(coords).github().limits().get(Limits.CORE)
-            ).remaining(),
-            Matchers.equalTo(1)
-        );
-    }
+    @NotNull(message = "github is never NULL")
+    Github github();
+
+    /**
+     * Render.
+     * @param json JSON parameters
+     * @return HTML
+     * @throws IOException If it fails due to I/O problem
+     */
+    @NotNull(message = "HTML object is never NULL")
+    String render(@NotNull(message = "JSON can't be NULL") JsonObject json)
+        throws IOException;
+
+    /**
+     * Raw rendering.
+     * @param text Text in Markdown format
+     * @return HTML
+     * @throws IOException If it fails due to I/O problem
+     */
+    @NotNull(message = "HTML of issues is never NULL")
+    String raw(@NotNull(message = "Markdown can't be NULL") String text)
+        throws IOException;
 
 }

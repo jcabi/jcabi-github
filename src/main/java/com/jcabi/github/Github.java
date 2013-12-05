@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,8 +37,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Github client, starting point to the entire library.
@@ -62,10 +59,8 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Github {
 
     /**
@@ -89,6 +84,14 @@ public interface Github {
      */
     @NotNull(message = "users is never NULL")
     Users users();
+
+    /**
+     * Get Markdown API entry point.
+     * @return Markdown API entry point
+     * @since 0.6
+     */
+    @NotNull(message = "markdown API is never NULL")
+    Markdown markdown();
 
     /**
      * Rate limit API entry point.
@@ -164,55 +167,4 @@ public interface Github {
         }
     }
 
-    /**
-     * Throttled Github client, that always says that there are no more
-     * remaining requests left.
-     * @since 0.6
-     */
-    @Immutable
-    @ToString
-    @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "origin")
-    final class Throttled implements Github {
-        /**
-         * Original.
-         */
-        private final transient Github origin;
-        /**
-         * Maximum allowed, instead of default 5000.
-         */
-        private final transient int max;
-        /**
-         * Public ctor.
-         * @param ghub Original github
-         */
-        public Throttled(final Github ghub) {
-            this(ghub, 1);
-        }
-        /**
-         * Public ctor.
-         * @param ghub Original github
-         * @param allowed Maximum allowed
-         */
-        public Throttled(final Github ghub, final int allowed) {
-            this.origin = ghub;
-            this.max = allowed;
-        }
-        @Override
-        public Repos repos() {
-            return this.origin.repos();
-        }
-        @Override
-        public Gists gists() {
-            return this.origin.gists();
-        }
-        @Override
-        public Users users() {
-            return this.origin.users();
-        }
-        @Override
-        public Limits limits() {
-            return new Limits.Throttled(this.origin.limits(), this.max);
-        }
-    }
 }
