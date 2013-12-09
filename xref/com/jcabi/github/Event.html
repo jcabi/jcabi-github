@@ -140,7 +140,7 @@
 <a class="jxr_linenumber" name="130" href="#130">130</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="131" href="#131">131</a> <em class="jxr_javadoccomment">         * Get its author.</em>
 <a class="jxr_linenumber" name="132" href="#132">132</a> <em class="jxr_javadoccomment">         * @return Author of comment</em>
-<a class="jxr_linenumber" name="133" href="#133">133</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="133" href="#133">133</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="134" href="#134">134</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="135" href="#135">135</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> author() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="136" href="#136">136</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.repo().github().users().get(
@@ -150,28 +150,28 @@
 <a class="jxr_linenumber" name="140" href="#140">140</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="141" href="#141">141</a> <em class="jxr_javadoccomment">         * Get its type.</em>
 <a class="jxr_linenumber" name="142" href="#142">142</a> <em class="jxr_javadoccomment">         * @return State of issue</em>
-<a class="jxr_linenumber" name="143" href="#143">143</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="143" href="#143">143</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="144" href="#144">144</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="145" href="#145">145</a>         <strong class="jxr_keyword">public</strong> String type() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="146" href="#146">146</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"event"</span>);
+<a class="jxr_linenumber" name="146" href="#146">146</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"event"</span>);
 <a class="jxr_linenumber" name="147" href="#147">147</a>         }
 <a class="jxr_linenumber" name="148" href="#148">148</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="149" href="#149">149</a> <em class="jxr_javadoccomment">         * Get its URL.</em>
 <a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_javadoccomment">         * @return URL of issue</em>
-<a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="152" href="#152">152</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="153" href="#153">153</a>         <strong class="jxr_keyword">public</strong> URL url() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="154" href="#154">154</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> URL(<strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"url"</span>));
+<a class="jxr_linenumber" name="154" href="#154">154</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> URL(<strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"url"</span>));
 <a class="jxr_linenumber" name="155" href="#155">155</a>         }
 <a class="jxr_linenumber" name="156" href="#156">156</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">         * When this issue was created.</em>
 <a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">         * @return Date of creation</em>
-<a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="160" href="#160">160</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="161" href="#161">161</a>         <strong class="jxr_keyword">public</strong> Date createdAt() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="162" href="#162">162</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="163" href="#163">163</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(
-<a class="jxr_linenumber" name="164" href="#164">164</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"created_at"</span>)
+<a class="jxr_linenumber" name="164" href="#164">164</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"created_at"</span>)
 <a class="jxr_linenumber" name="165" href="#165">165</a>                 ).date();
 <a class="jxr_linenumber" name="166" href="#166">166</a>             } <strong class="jxr_keyword">catch</strong> (ParseException ex) {
 <a class="jxr_linenumber" name="167" href="#167">167</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);

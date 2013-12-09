@@ -86,7 +86,7 @@
 <a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment">     * @param stg Storage</em>
 <a class="jxr_linenumber" name="77" href="#77">77</a>  <em class="jxr_javadoccomment">     * @param login User to login</em>
 <a class="jxr_linenumber" name="78" href="#78">78</a>  <em class="jxr_javadoccomment">     * @param rep Repo</em>
-<a class="jxr_linenumber" name="79" href="#79">79</a>  <em class="jxr_javadoccomment">     * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="79" href="#79">79</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="80" href="#80">80</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="81" href="#81">81</a>      <a href="../../../../com/jcabi/github/mock/MkIssues.html">MkIssues</a>(<strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/mock/MkStorage.html">MkStorage</a> stg, <strong class="jxr_keyword">final</strong> String login,
 <a class="jxr_linenumber" name="82" href="#82">82</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Coordinates.html">Coordinates</a> rep) <strong class="jxr_keyword">throws</strong> IOException {
@@ -128,45 +128,47 @@
 <a class="jxr_linenumber" name="118" href="#118">118</a>                     .add(<span class="jxr_string">"state"</span>).set(Issue.OPEN_STATE).up()
 <a class="jxr_linenumber" name="119" href="#119">119</a>                     .add(<span class="jxr_string">"title"</span>).set(title).up()
 <a class="jxr_linenumber" name="120" href="#120">120</a>                     .add(<span class="jxr_string">"body"</span>).set(body).up()
-<a class="jxr_linenumber" name="121" href="#121">121</a>             );
-<a class="jxr_linenumber" name="122" href="#122">122</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="123" href="#123">123</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
-<a class="jxr_linenumber" name="124" href="#124">124</a>         }
-<a class="jxr_linenumber" name="125" href="#125">125</a>         Logger.info(
-<a class="jxr_linenumber" name="126" href="#126">126</a>             <strong class="jxr_keyword">this</strong>, <span class="jxr_string">"issue #%d created in %s by %s: %[text]s"</span>,
-<a class="jxr_linenumber" name="127" href="#127">127</a>             number, <strong class="jxr_keyword">this</strong>.repo().coordinates(), <strong class="jxr_keyword">this</strong>.self, title
-<a class="jxr_linenumber" name="128" href="#128">128</a>         );
-<a class="jxr_linenumber" name="129" href="#129">129</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(number);
-<a class="jxr_linenumber" name="130" href="#130">130</a>     }
-<a class="jxr_linenumber" name="131" href="#131">131</a> 
-<a class="jxr_linenumber" name="132" href="#132">132</a>     @Override
-<a class="jxr_linenumber" name="133" href="#133">133</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Issue&gt; iterate(<strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; params) {
-<a class="jxr_linenumber" name="134" href="#134">134</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;Issue&gt;(
-<a class="jxr_linenumber" name="135" href="#135">135</a>             <strong class="jxr_keyword">this</strong>.storage,
-<a class="jxr_linenumber" name="136" href="#136">136</a>             String.format(<span class="jxr_string">"%s/issue"</span>, <strong class="jxr_keyword">this</strong>.xpath()),
-<a class="jxr_linenumber" name="137" href="#137">137</a>             <strong class="jxr_keyword">new</strong> MkIterable.Mapping&lt;Issue&gt;() {
-<a class="jxr_linenumber" name="138" href="#138">138</a>                 @Override
-<a class="jxr_linenumber" name="139" href="#139">139</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/Issue.html">Issue</a> map(<strong class="jxr_keyword">final</strong> XML xml) {
-<a class="jxr_linenumber" name="140" href="#140">140</a>                     <strong class="jxr_keyword">return</strong> MkIssues.<strong class="jxr_keyword">this</strong>.get(
-<a class="jxr_linenumber" name="141" href="#141">141</a>                         Integer.parseInt(xml.xpath(<span class="jxr_string">"number/text()"</span>).get(0))
-<a class="jxr_linenumber" name="142" href="#142">142</a>                     );
-<a class="jxr_linenumber" name="143" href="#143">143</a>                 }
-<a class="jxr_linenumber" name="144" href="#144">144</a>             }
-<a class="jxr_linenumber" name="145" href="#145">145</a>         );
-<a class="jxr_linenumber" name="146" href="#146">146</a>     }
-<a class="jxr_linenumber" name="147" href="#147">147</a> 
-<a class="jxr_linenumber" name="148" href="#148">148</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="149" href="#149">149</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="152" href="#152">152</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="153" href="#153">153</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="154" href="#154">154</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/issues"</span>,
-<a class="jxr_linenumber" name="155" href="#155">155</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="156" href="#156">156</a>         );
-<a class="jxr_linenumber" name="157" href="#157">157</a>     }
-<a class="jxr_linenumber" name="158" href="#158">158</a> 
-<a class="jxr_linenumber" name="159" href="#159">159</a> }
+<a class="jxr_linenumber" name="121" href="#121">121</a>                     .add(<span class="jxr_string">"url"</span>).set(<span class="jxr_string">"http://localhost/1"</span>).up()
+<a class="jxr_linenumber" name="122" href="#122">122</a>                     .add(<span class="jxr_string">"html_url"</span>).set(<span class="jxr_string">"http://localhost/2"</span>).up()
+<a class="jxr_linenumber" name="123" href="#123">123</a>             );
+<a class="jxr_linenumber" name="124" href="#124">124</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="125" href="#125">125</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
+<a class="jxr_linenumber" name="126" href="#126">126</a>         }
+<a class="jxr_linenumber" name="127" href="#127">127</a>         Logger.info(
+<a class="jxr_linenumber" name="128" href="#128">128</a>             <strong class="jxr_keyword">this</strong>, <span class="jxr_string">"issue #%d created in %s by %s: %[text]s"</span>,
+<a class="jxr_linenumber" name="129" href="#129">129</a>             number, <strong class="jxr_keyword">this</strong>.repo().coordinates(), <strong class="jxr_keyword">this</strong>.self, title
+<a class="jxr_linenumber" name="130" href="#130">130</a>         );
+<a class="jxr_linenumber" name="131" href="#131">131</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(number);
+<a class="jxr_linenumber" name="132" href="#132">132</a>     }
+<a class="jxr_linenumber" name="133" href="#133">133</a> 
+<a class="jxr_linenumber" name="134" href="#134">134</a>     @Override
+<a class="jxr_linenumber" name="135" href="#135">135</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Issue&gt; iterate(<strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; params) {
+<a class="jxr_linenumber" name="136" href="#136">136</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;Issue&gt;(
+<a class="jxr_linenumber" name="137" href="#137">137</a>             <strong class="jxr_keyword">this</strong>.storage,
+<a class="jxr_linenumber" name="138" href="#138">138</a>             String.format(<span class="jxr_string">"%s/issue"</span>, <strong class="jxr_keyword">this</strong>.xpath()),
+<a class="jxr_linenumber" name="139" href="#139">139</a>             <strong class="jxr_keyword">new</strong> MkIterable.Mapping&lt;Issue&gt;() {
+<a class="jxr_linenumber" name="140" href="#140">140</a>                 @Override
+<a class="jxr_linenumber" name="141" href="#141">141</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/Issue.html">Issue</a> map(<strong class="jxr_keyword">final</strong> XML xml) {
+<a class="jxr_linenumber" name="142" href="#142">142</a>                     <strong class="jxr_keyword">return</strong> MkIssues.<strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="143" href="#143">143</a>                         Integer.parseInt(xml.xpath(<span class="jxr_string">"number/text()"</span>).get(0))
+<a class="jxr_linenumber" name="144" href="#144">144</a>                     );
+<a class="jxr_linenumber" name="145" href="#145">145</a>                 }
+<a class="jxr_linenumber" name="146" href="#146">146</a>             }
+<a class="jxr_linenumber" name="147" href="#147">147</a>         );
+<a class="jxr_linenumber" name="148" href="#148">148</a>     }
+<a class="jxr_linenumber" name="149" href="#149">149</a> 
+<a class="jxr_linenumber" name="150" href="#150">150</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="152" href="#152">152</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="153" href="#153">153</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="154" href="#154">154</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="155" href="#155">155</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="156" href="#156">156</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/issues"</span>,
+<a class="jxr_linenumber" name="157" href="#157">157</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="158" href="#158">158</a>         );
+<a class="jxr_linenumber" name="159" href="#159">159</a>     }
+<a class="jxr_linenumber" name="160" href="#160">160</a> 
+<a class="jxr_linenumber" name="161" href="#161">161</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

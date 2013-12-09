@@ -80,7 +80,7 @@
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
 <a class="jxr_linenumber" name="71" href="#71">71</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">     * Delete the comment.</em>
-<a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment">     * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/comments/" target="alexandria_uri">http://developer.github.com/v3/issues/comments/</a>#delete-a-comment"&gt;Delete a Comment&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="75" href="#75">75</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="76" href="#76">76</a>      <strong class="jxr_keyword">void</strong> remove() <strong class="jxr_keyword">throws</strong> IOException;
@@ -107,7 +107,7 @@
 <a class="jxr_linenumber" name="97" href="#97">97</a>          <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="98" href="#98">98</a>  <em class="jxr_javadoccomment">         * Get its author.</em>
 <a class="jxr_linenumber" name="99" href="#99">99</a>  <em class="jxr_javadoccomment">         * @return Author of comment</em>
-<a class="jxr_linenumber" name="100" href="#100">100</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="100" href="#100">100</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="101" href="#101">101</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="102" href="#102">102</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> author() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="103" href="#103">103</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.comment.issue().repo().github().users().get(
@@ -117,15 +117,15 @@
 <a class="jxr_linenumber" name="107" href="#107">107</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="108" href="#108">108</a> <em class="jxr_javadoccomment">         * Get its body.</em>
 <a class="jxr_linenumber" name="109" href="#109">109</a> <em class="jxr_javadoccomment">         * @return Body of comment</em>
-<a class="jxr_linenumber" name="110" href="#110">110</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="110" href="#110">110</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="111" href="#111">111</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="112" href="#112">112</a>         <strong class="jxr_keyword">public</strong> String body() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="113" href="#113">113</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"body"</span>);
+<a class="jxr_linenumber" name="113" href="#113">113</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"body"</span>);
 <a class="jxr_linenumber" name="114" href="#114">114</a>         }
 <a class="jxr_linenumber" name="115" href="#115">115</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="116" href="#116">116</a> <em class="jxr_javadoccomment">         * Change comment body.</em>
 <a class="jxr_linenumber" name="117" href="#117">117</a> <em class="jxr_javadoccomment">         * @param text Body of comment</em>
-<a class="jxr_linenumber" name="118" href="#118">118</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="118" href="#118">118</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="119" href="#119">119</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="120" href="#120">120</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> body(<strong class="jxr_keyword">final</strong> String text) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="121" href="#121">121</a>             <strong class="jxr_keyword">this</strong>.comment.patch(
@@ -135,20 +135,20 @@
 <a class="jxr_linenumber" name="125" href="#125">125</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="126" href="#126">126</a> <em class="jxr_javadoccomment">         * Get its URL.</em>
 <a class="jxr_linenumber" name="127" href="#127">127</a> <em class="jxr_javadoccomment">         * @return URL of comment</em>
-<a class="jxr_linenumber" name="128" href="#128">128</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="128" href="#128">128</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="129" href="#129">129</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="130" href="#130">130</a>         <strong class="jxr_keyword">public</strong> URL url() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="131" href="#131">131</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> URL(<strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"url"</span>));
+<a class="jxr_linenumber" name="131" href="#131">131</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> URL(<strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"url"</span>));
 <a class="jxr_linenumber" name="132" href="#132">132</a>         }
 <a class="jxr_linenumber" name="133" href="#133">133</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="134" href="#134">134</a> <em class="jxr_javadoccomment">         * When this comment was created.</em>
 <a class="jxr_linenumber" name="135" href="#135">135</a> <em class="jxr_javadoccomment">         * @return Date of creation</em>
-<a class="jxr_linenumber" name="136" href="#136">136</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="136" href="#136">136</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="137" href="#137">137</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="138" href="#138">138</a>         <strong class="jxr_keyword">public</strong> Date createdAt() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="139" href="#139">139</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="140" href="#140">140</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(
-<a class="jxr_linenumber" name="141" href="#141">141</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"created_at"</span>)
+<a class="jxr_linenumber" name="141" href="#141">141</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"created_at"</span>)
 <a class="jxr_linenumber" name="142" href="#142">142</a>                 ).date();
 <a class="jxr_linenumber" name="143" href="#143">143</a>             } <strong class="jxr_keyword">catch</strong> (ParseException ex) {
 <a class="jxr_linenumber" name="144" href="#144">144</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);
@@ -157,12 +157,12 @@
 <a class="jxr_linenumber" name="147" href="#147">147</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="148" href="#148">148</a> <em class="jxr_javadoccomment">         * When this comment was updated last time.</em>
 <a class="jxr_linenumber" name="149" href="#149">149</a> <em class="jxr_javadoccomment">         * @return Date of update</em>
-<a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_javadoccomment">         * @throws IOException If fails</em>
+<a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="152" href="#152">152</a>         <strong class="jxr_keyword">public</strong> Date updatedAt() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="153" href="#153">153</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="154" href="#154">154</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(
-<a class="jxr_linenumber" name="155" href="#155">155</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).read(<span class="jxr_string">"updated_at"</span>)
+<a class="jxr_linenumber" name="155" href="#155">155</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"updated_at"</span>)
 <a class="jxr_linenumber" name="156" href="#156">156</a>                 ).date();
 <a class="jxr_linenumber" name="157" href="#157">157</a>             } <strong class="jxr_keyword">catch</strong> (ParseException ex) {
 <a class="jxr_linenumber" name="158" href="#158">158</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);
