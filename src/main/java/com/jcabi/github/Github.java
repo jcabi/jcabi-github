@@ -114,6 +114,16 @@ public interface Github {
     JsonObject meta() throws IOException;
 
     /**
+     * Get emojis.
+     * @return JSON with emojis
+     * @throws IOException If there is any I/O problem
+     * @since 0.6
+     * @see <a href="http://developer.github.com/v3/emojis/">Emojis API</a>
+     */
+    @NotNull(message = "emojis JSON is never NULL")
+    JsonObject emojis() throws IOException;
+
+    /**
      * Time in Github JSON.
      *
      * @since 0.2

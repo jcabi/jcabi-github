@@ -144,6 +144,14 @@ public final class MkGithub implements Github {
             .build();
     }
 
+    @Override
+    public JsonObject emojis() {
+        return Json.createObjectBuilder()
+            .add("+1", "http://locahost/up")
+            .add("-1", "http://locahost/down")
+            .build();
+    }
+
     /**
      * {@inheritDoc}
      * @todo #6:30min Markdown rendering mechanism should be mocked

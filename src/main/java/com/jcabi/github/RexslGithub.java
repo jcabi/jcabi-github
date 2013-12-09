@@ -182,6 +182,13 @@ public final class RexslGithub implements Github {
     }
 
     @Override
+    public JsonObject emojis() throws IOException {
+        return this.request.uri().path("emojis").back().fetch()
+            .as(JsonResponse.class)
+            .json().readObject();
+    }
+
+    @Override
     public Markdown markdown() {
         return new GhMarkdown(this, this.request);
     }

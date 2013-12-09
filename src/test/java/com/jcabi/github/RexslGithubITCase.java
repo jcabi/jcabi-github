@@ -86,6 +86,19 @@ public final class RexslGithubITCase {
     }
 
     /**
+     * RexslGithub can fetch emojis.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchesEmojis() throws Exception {
+        final Github github = new RexslGithub();
+        MatcherAssert.assertThat(
+            github.emojis().getString("+1"),
+            Matchers.startsWith("https://")
+        );
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside
