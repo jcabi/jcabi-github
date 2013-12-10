@@ -89,6 +89,18 @@ public final class MkIssueTest {
     }
 
     /**
+     * MkIssue can expose all properties.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void exponsesProperties() throws Exception {
+        final Issue.Smart issue = new Issue.Smart(this.issue());
+        MatcherAssert.assertThat(issue.createdAt(), Matchers.notNullValue());
+        MatcherAssert.assertThat(issue.updatedAt(), Matchers.notNullValue());
+        MatcherAssert.assertThat(issue.htmlUrl(), Matchers.notNullValue());
+    }
+
+    /**
      * Create an issue to work with.
      * @return Issue just created
      * @throws Exception If some problem inside

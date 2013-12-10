@@ -248,6 +248,20 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             }
         }
         /**
+         * When this issue was updated.
+         * @return Date of update
+         * @throws IOException If there is any I/O problem
+         */
+        public Date updatedAt() throws IOException {
+            try {
+                return new Github.Time(
+                    new SmartJson(this).text("updated_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
          * Is it a pull requests?
          * @return TRUE if it is a pull request
          * @throws IOException If there is any I/O problem
