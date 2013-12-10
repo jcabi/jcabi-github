@@ -64,7 +64,7 @@ public final class GhGistITCase {
     private static Gist gist() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RexslGithub(key).gists().iterate().iterator().next();
+        return new DefaultGithub(key).gists().iterate().iterator().next();
     }
 
 }

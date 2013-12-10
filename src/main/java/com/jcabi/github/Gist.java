@@ -47,6 +47,22 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
+ * @todo #1:1hr New method star() and starred() for a single gist. Let's
+ *  add these methods as explained in
+ *  http://developer.github.com/v3/gists/
+ *  The method should be tested by integration and unit tests, and implemented
+ *  in MkGist as well. When done, remove this comment.
+ * @todo #1:1hr New method fork() to fork a gist. Let's introduce
+ *  a new method, as explained in
+ *  http://developer.github.com/v3/gists/#fork-a-gist. The method should
+ *  be tested in a unit and integration tests. When done, remove this comment.
+ * @todo #1:1hr Gist comments. Let's add new method comments() to this
+ *  interface, returning an instance of interface GistComments. This new
+ *  interface should implement methods do iterate, post, delete and read
+ *  comments, as explained in
+ *  http://developer.github.com/v3/gists/comments/. New interface should
+ *  be implemented by GhGistComments class and tested with unit and
+ *  integration tests.
  */
 @Immutable
 public interface Gist extends JsonReadable {

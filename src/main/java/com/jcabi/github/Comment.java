@@ -141,7 +141,7 @@ public interface Comment
                     new SmartJson(this).text("created_at")
                 ).date();
             } catch (ParseException ex) {
-                throw new IllegalStateException(ex);
+                throw new IOException(ex);
             }
         }
         /**
@@ -155,7 +155,7 @@ public interface Comment
                     new SmartJson(this).text("updated_at")
                 ).date();
             } catch (ParseException ex) {
-                throw new IllegalStateException(ex);
+                throw new IOException(ex);
             }
         }
         @Override

@@ -40,15 +40,15 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class RexslGithubITCase {
+public final class DefaultGithubITCase {
 
     /**
-     * RexslGithub can authenticate itself.
+     * DefaultGithub can authenticate itself.
      * @throws Exception If some problem inside
      */
     @Test
     public void authenticatesItself() throws Exception {
-        final Github github = RexslGithubITCase.github();
+        final Github github = DefaultGithubITCase.github();
         MatcherAssert.assertThat(
             github.users().self(),
             Matchers.notNullValue()
@@ -56,12 +56,12 @@ public final class RexslGithubITCase {
     }
 
     /**
-     * RexslGithub can connect anonymously.
+     * DefaultGithub can connect anonymously.
      * @throws Exception If some problem inside
      */
     @Test
     public void connectsAnonymously() throws Exception {
-        final Github github = new RexslGithub();
+        final Github github = new DefaultGithub();
         MatcherAssert.assertThat(
             new Issue.Smart(
                 github.repos().get(
@@ -73,12 +73,12 @@ public final class RexslGithubITCase {
     }
 
     /**
-     * RexslGithub can fetch meta information.
+     * DefaultGithub can fetch meta information.
      * @throws Exception If some problem inside
      */
     @Test
     public void fetchesMeta() throws Exception {
-        final Github github = new RexslGithub();
+        final Github github = new DefaultGithub();
         MatcherAssert.assertThat(
             github.meta().getJsonArray("hooks"),
             Matchers.not(Matchers.empty())
@@ -86,12 +86,12 @@ public final class RexslGithubITCase {
     }
 
     /**
-     * RexslGithub can fetch emojis.
+     * DefaultGithub can fetch emojis.
      * @throws Exception If some problem inside
      */
     @Test
     public void fetchesEmojis() throws Exception {
-        final Github github = new RexslGithub();
+        final Github github = new DefaultGithub();
         MatcherAssert.assertThat(
             github.emojis().getString("+1"),
             Matchers.startsWith("https://")
@@ -106,7 +106,7 @@ public final class RexslGithubITCase {
     private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RexslGithub(key);
+        return new DefaultGithub(key);
     }
 
 }

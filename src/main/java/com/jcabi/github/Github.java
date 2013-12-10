@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -45,7 +46,7 @@ import javax.validation.constraints.NotNull;
  *
  * <p>This is how you start communicating with Github API:
  *
- * <pre> Github github = new RexslGithub(oauthKey);
+ * <pre> Github github = new DefaultGithub(oauthKey);
  * Repo repo = github.repo("jcabi/jcabi-github");
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
@@ -54,16 +55,44 @@ import javax.validation.constraints.NotNull;
  * {@link com.rexsl.test.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
- * <pre> Github github = new RexslGithub(
- *   new RexslGithub(oauthKey).entry().through(RetryWire.class)
+ * <pre> Github github = new DefaultGithub(
+ *   new DefaultGithub(oauthKey)
+ *     .entry()
+ *     .through(RetryWire.class)
  * );</pre>
+ *
+ * <p>The interfaces in this packages are trying to cover as much
+ * as possible of Github API. However, there are parts of API that are
+ * rarely used and making Java classes for them is not an effective
+ * idea. That's why {@code Github} class has {@link #entry()} method,
+ * which returns an entry point to the RESTful API. For example, you
+ * want to use
+ * <a href="http://developer.github.com/v3/search/#search-repositories">"Search
+ * Repositories"</a> feature of Github:
+ *
+ * <pre> Github github = new DefaultGithub(oauthKey);
+ * int found = github.entry()
+ *   .uri().path("/search/repositories").back()
+ *   .method(Request.GET)
+ *   .as(JsonResponse.class)
+ *   .getJsonObject()
+ *   .getNumber("total_count")
+ *   .intValue();</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Github {
+
+    /**
+     * RESTful request, an entry point to the Github API.
+     * @return Request
+     */
+    @NotNull(message = "request is never NULL")
+    Request entry();
 
     /**
      * Get repositories.

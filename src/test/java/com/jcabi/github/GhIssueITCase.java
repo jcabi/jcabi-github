@@ -156,7 +156,7 @@ public final class GhIssueITCase {
     private static Issue issue() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RexslGithub(key);
+        final Github github = new DefaultGithub(key);
         return github.repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         ).issues().create("test issue title", "test issue body");

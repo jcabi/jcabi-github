@@ -49,6 +49,13 @@ import lombok.ToString;
  * @since 0.3
  * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #1:1hr Pull request comments. Let's add new method comments() to this
+ *  interface, returning an instance of interface PullComments. This new
+ *  interface should implement methods do iterate, post, delete and read
+ *  comments, as explained in
+ *  http://developer.github.com/v3/pulls/comments/. New interface should
+ *  be implemented by GhPullComments class and tested with unit and
+ *  integration tests.
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")

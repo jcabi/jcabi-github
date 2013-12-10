@@ -48,7 +48,7 @@ import lombok.ToString;
  *
  * <p>This is how you start communicating with Github API:
  *
- * <pre> Github github = new RexslGithub(oauthKey);
+ * <pre> Github github = new DefaultGithub(oauthKey);
  * Repo repo = github.repo("jcabi/jcabi-github");
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
@@ -57,8 +57,8 @@ import lombok.ToString;
  * {@link com.rexsl.test.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
- * <pre> Github github = new RexslGithub(
- *   new RexslGithub(oauthKey).entry().through(RetryWire.class)
+ * <pre> Github github = new DefaultGithub(
+ *   new DefaultGithub(oauthKey).entry().through(RetryWire.class)
  * );</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
@@ -69,7 +69,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = "request")
-public final class RexslGithub implements Github {
+public final class DefaultGithub implements Github {
 
     /**
      * Version of us.
@@ -86,7 +86,7 @@ public final class RexslGithub implements Github {
      */
     private static final Request REQUEST =
         new ApacheRequest("https://api.github.com")
-            .header(HttpHeaders.USER_AGENT, RexslGithub.USER_AGENT)
+            .header(HttpHeaders.USER_AGENT, DefaultGithub.USER_AGENT)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 
@@ -99,8 +99,8 @@ public final class RexslGithub implements Github {
      * Public ctor, for anonymous access to Github.
      * @since 0.4
      */
-    public RexslGithub() {
-        this(RexslGithub.REQUEST);
+    public DefaultGithub() {
+        this(DefaultGithub.REQUEST);
     }
 
     /**
@@ -109,11 +109,11 @@ public final class RexslGithub implements Github {
      * @param pwd Password
      * @since 0.4
      */
-    public RexslGithub(
+    public DefaultGithub(
         @NotNull(message = "user name can't be NULL") final String user,
         @NotNull(message = "password can't be NULL") final String pwd) {
         this(
-            RexslGithub.REQUEST.uri().userInfo(
+            DefaultGithub.REQUEST.uri().userInfo(
                 String.format("%s:%s", user, pwd)
             ).back()
         );
@@ -123,10 +123,10 @@ public final class RexslGithub implements Github {
      * Public ctor, for authentication with OAuth2 token.
      * @param token OAuth token
      */
-    public RexslGithub(
+    public DefaultGithub(
         @NotNull(message = "token can't be NULL") final String token) {
         this(
-            RexslGithub.REQUEST.header(
+            DefaultGithub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
                 String.format("token %s", token)
             )
@@ -138,15 +138,12 @@ public final class RexslGithub implements Github {
      * @param req Request to start from
      * @since 0.4
      */
-    public RexslGithub(
+    public DefaultGithub(
         @NotNull(message = "request can't be NULL") final Request req) {
         this.request = req;
     }
 
-    /**
-     * Get entry point request.
-     * @return Request
-     */
+    @Override
     public Request entry() {
         return this.request;
     }

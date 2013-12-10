@@ -82,7 +82,7 @@ public final class GhMarkdownITCase {
     private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RexslGithub(key);
+        return new DefaultGithub(key);
     }
 
 }

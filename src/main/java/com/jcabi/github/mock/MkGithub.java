@@ -37,7 +37,10 @@ import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Users;
+import com.rexsl.test.Request;
+import com.rexsl.test.request.FakeRequest;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -102,6 +105,13 @@ public final class MkGithub implements Github {
     @Override
     public String toString() {
         return this.storage.toString();
+    }
+
+    @Override
+    public Request entry() {
+        return new FakeRequest()
+            .withBody("{}")
+            .withStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override

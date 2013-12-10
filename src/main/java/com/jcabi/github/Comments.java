@@ -36,6 +36,12 @@ import javax.validation.constraints.NotNull;
 /**
  * Github comments.
  *
+ * <p>Use this class to get access to all comments in an issue, for example:
+ *
+ * <pre> issue = // ... get it somewhere
+ * Comments comments = issue.comments();
+ * Comment comment = comments.post("Hi, how are you?");</pre>
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1

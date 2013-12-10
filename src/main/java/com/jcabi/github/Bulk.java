@@ -48,7 +48,7 @@ import lombok.EqualsAndHashCode;
  *   new HashMap&lt;String, String&gt;()
  * );
  * for (Issue issue : issues) {
- *     System.out.println(new Issue.Smart(issue).title());
+ *   System.out.println(new Issue.Smart(issue).title());
  * }</pre>
  *
  * <p>Let's say, there are 50 issues in Github's repo. This code will

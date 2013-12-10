@@ -43,5 +43,10 @@
  * @version $Id$
  * @since 0.1
  * @see <a href="http://github.jcabi.com/">project website</a>
+ * @todo #1:1hr Use RequestBody#set(JsonValue) as soon as it is introduced
+ *  in rexsl-test. Let's use this new method as soon as it becomes
+ *  available. Instead of building objects using JsonGenerator (for example,
+ *  see GhComments#post), let's use JsonObjectBuilder. See
+ *  https://github.com/yegor256/rexsl/issues/740
  */
 package com.jcabi.github;
