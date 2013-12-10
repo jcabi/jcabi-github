@@ -8,7 +8,7 @@ is an object oriented API of Github:
 ```java
 public class Main {
   public static void main(String[] args) {
-    Github github = new Github.Simple(".. your OAuth token ..");
+    Github github = new DefaultGithub(".. your OAuth token ..");
     Repo repo = github.repo("jcabi/jcabi-github");
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
     issue.post("My first comment!");
@@ -22,7 +22,7 @@ You need just this dependency:
 <dependency>
   <groupId>com.jcabi</groupId>
   <artifactId>jcabi-github</artifactId>
-  <version>0.6</version>
+  <version>0.7</version>
 </dependency>
 ```
 

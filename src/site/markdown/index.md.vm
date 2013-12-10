@@ -5,9 +5,13 @@ is an object oriented Java adapter of
 [Github API](http://developer.github.com/v3/):
 
 ```java
+import com.jcabi.github.DefaultGithub;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Github;
+import com.jcabi.github.Repo;
 public class Main {
   public static void main(String[] args) {
-    Github github = new Github.Simple(".. your OAuth token ..");
+    Github github = new DefaultGithub(".. your OAuth token ..");
     Repo repo = github.repo("jcabi/jcabi-github");
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
     issue.post("My first comment!");
@@ -24,13 +28,15 @@ implementation has its advantages, including:
 
  * All classes are private and implement public interfaces
 
- * Out-of-the-box in-memory mock of Github server side
+ * Out-of-the-box in-memory mock of Github server
 
  * All classes are truly immutable and thread-safe
 
  * Every Github object gives GET/PATCH access to its raw JSON
 
  * HTTP request is accessible for modifications
+
+ * Entire Github API is available, at least through a configurable HTTP request
 
 The only dependency you need is
 (you can also download
