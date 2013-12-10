@@ -151,7 +151,7 @@
 <a class="jxr_linenumber" name="141" href="#141">141</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"created_at"</span>)
 <a class="jxr_linenumber" name="142" href="#142">142</a>                 ).date();
 <a class="jxr_linenumber" name="143" href="#143">143</a>             } <strong class="jxr_keyword">catch</strong> (ParseException ex) {
-<a class="jxr_linenumber" name="144" href="#144">144</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);
+<a class="jxr_linenumber" name="144" href="#144">144</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(ex);
 <a class="jxr_linenumber" name="145" href="#145">145</a>             }
 <a class="jxr_linenumber" name="146" href="#146">146</a>         }
 <a class="jxr_linenumber" name="147" href="#147">147</a>         <em class="jxr_javadoccomment">/**</em>
@@ -165,7 +165,7 @@
 <a class="jxr_linenumber" name="155" href="#155">155</a>                     <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).text(<span class="jxr_string">"updated_at"</span>)
 <a class="jxr_linenumber" name="156" href="#156">156</a>                 ).date();
 <a class="jxr_linenumber" name="157" href="#157">157</a>             } <strong class="jxr_keyword">catch</strong> (ParseException ex) {
-<a class="jxr_linenumber" name="158" href="#158">158</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);
+<a class="jxr_linenumber" name="158" href="#158">158</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(ex);
 <a class="jxr_linenumber" name="159" href="#159">159</a>             }
 <a class="jxr_linenumber" name="160" href="#160">160</a>         }
 <a class="jxr_linenumber" name="161" href="#161">161</a>         @Override

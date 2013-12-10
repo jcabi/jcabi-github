@@ -1,2 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type='text/xsl' href='puzzles.xsl'?><puzzles/>
+<?xml-stylesheet type='text/xsl' href='puzzles.xsl'?><puzzles>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/GhRepos.java</file>
+      <prefix>     * </prefix>
+      <body>Implement GhRepos.create() method. Let's implement this method and test is in unit and integration tests.</body>
+      <estimate>60</estimate>
+      <lines>90-91</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/Gist.java</file>
+      <prefix> * </prefix>
+      <body>New method star() and starred() for a single gist. Let's add these methods as explained in http://developer.github.com/v3/gists/ The method should be tested by integration and unit tests, and implemented in MkGist as well. When done, remove this comment.</body>
+      <estimate>60</estimate>
+      <lines>50-50</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/Gist.java</file>
+      <prefix> * </prefix>
+      <body>New method fork() to fork a gist. Let's introduce a new method, as explained in http://developer.github.com/v3/gists/#fork-a-gist. The method should be tested in a unit and integration tests. When done, remove this comment.</body>
+      <estimate>60</estimate>
+      <lines>55-55</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/Gist.java</file>
+      <prefix> * </prefix>
+      <body>Gist comments. Let's add new method comments() to this interface, returning an instance of interface GistComments. This new interface should implement methods do iterate, post, delete and read comments, as explained in http://developer.github.com/v3/gists/comments/. New interface should be implemented by GhGistComments class and tested with unit and integration tests.</body>
+      <estimate>60</estimate>
+      <lines>59-65</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/Gists.java</file>
+      <prefix> * </prefix>
+      <body>New method remove() to delete a gist. Let's add a new method to remove a gist by name, as explained in http://developer.github.com/v3/gists/#delete-a-gist. The method should be tested by unit and integration tests.</body>
+      <estimate>60</estimate>
+      <lines>43-46</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/Pull.java</file>
+      <prefix> * </prefix>
+      <body>Pull request comments. Let's add new method comments() to this interface, returning an instance of interface PullComments. This new interface should implement methods do iterate, post, delete and read comments, as explained in http://developer.github.com/v3/pulls/comments/. New interface should be implemented by GhPullComments class and tested with unit and integration tests.</body>
+      <estimate>60</estimate>
+      <lines>52-58</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/Repo.java</file>
+      <prefix> * </prefix>
+      <body>Assignees API should be implemented. Let's add a method assignees() to this class returning an instance of interface Assignees. This interface should have at least two methods: 1) iterate() returning a list of Users and 2) check(String) returning TRUE if provided login can be used as an assignee in repository. New interface should be implemented by GhAssignees class and tested in unit and integration tests. Moreover, we should implement MkAssignees class. See http://developer.github.com/v3/issues/assignees/</body>
+      <estimate>60</estimate>
+      <lines>46-53</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/User.java</file>
+      <prefix> * </prefix>
+      <body>Fetch list of emails of a user. Let's implement a new method emails() that returns an instance of class UserEmails with a few methods: 1) iterate() returning a list of strings, 2) add(String), and 3) remove(String). Let's use the new response format suggested by Github: http://developer.github.com/v3/users/emails/#list-email-addresses-for-a-user This new UserEmails interface should be implemented by GhUserEmails, tested in a unit and integration tests. Besides that, we should implement MkUserEmails class.</body>
+      <estimate>60</estimate>
+      <lines>48-48</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/User.java</file>
+      <prefix> * </prefix>
+      <body>Public keys of a user. Let's implement a new method keys(), which should return an instance of interface PublicKeys. This interface should have at least methods 1) iterate() to list all public keys of a user, 2) get(String) to get a single public key, 3) remove(String) to remove a key. Every key should be an instance of interface PublicKey, extending JsonReadable and JsonPatchable. All of the new classes should be implemented with GhPublicKeys and GhPublicKey classes. We should create integration and unit tests, and implement MkPublicKeys and MkPublicKey classes.</body>
+      <estimate>60</estimate>
+      <lines>57-65</lines>
+      <owner>someone</owner>
+   </puzzle>
+   <puzzle>
+      <ticket>1</ticket>
+      <file>src/main/java/com/jcabi/github/package-info.java</file>
+      <prefix> * </prefix>
+      <body>Use RequestBody#set(JsonValue) as soon as it is introduced in rexsl-test. Let's use this new method as soon as it becomes available. Instead of building objects using JsonGenerator (for example, see GhComments#post), let's use JsonObjectBuilder. See https://github.com/yegor256/rexsl/issues/740</body>
+      <estimate>60</estimate>
+      <lines>46-50</lines>
+      <owner>someone</owner>
+   </puzzle>
+</puzzles>

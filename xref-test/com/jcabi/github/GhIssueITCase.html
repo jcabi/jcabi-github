@@ -166,7 +166,7 @@
 <a class="jxr_linenumber" name="156" href="#156">156</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Issue issue() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="157" href="#157">157</a>         <strong class="jxr_keyword">final</strong> String key = System.getProperty(<span class="jxr_string">"failsafe.github.key"</span>);
 <a class="jxr_linenumber" name="158" href="#158">158</a>         Assume.assumeThat(key, Matchers.notNullValue());
-<a class="jxr_linenumber" name="159" href="#159">159</a>         <strong class="jxr_keyword">final</strong> Github github = <strong class="jxr_keyword">new</strong> RexslGithub(key);
+<a class="jxr_linenumber" name="159" href="#159">159</a>         <strong class="jxr_keyword">final</strong> Github github = <strong class="jxr_keyword">new</strong> DefaultGithub(key);
 <a class="jxr_linenumber" name="160" href="#160">160</a>         <strong class="jxr_keyword">return</strong> github.repos().get(
 <a class="jxr_linenumber" name="161" href="#161">161</a>             <strong class="jxr_keyword">new</strong> Coordinates.Simple(System.getProperty(<span class="jxr_string">"failsafe.github.repo"</span>))
 <a class="jxr_linenumber" name="162" href="#162">162</a>         ).issues().create(<span class="jxr_string">"test issue title"</span>, <span class="jxr_string">"test issue body"</span>);

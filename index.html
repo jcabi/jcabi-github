@@ -60,7 +60,7 @@
                                                     </ul>
                                     </li>
                                                                                         <li>
-                                                                    <a href="apidocs-0.6/index.html" title="API 0.6 (JavaDoc)">API 0.6 (JavaDoc)</a>
+                                                                    <a href="apidocs-0.6.1/index.html" title="API 0.6.1 (JavaDoc)">API 0.6.1 (JavaDoc)</a>
                                                                                                                         <ul>
                                                     </ul>
                                     </li>
@@ -70,7 +70,7 @@
                                                     </ul>
                                     </li>
                                                                                         <li>
-                                                                    <a href="changes-report.html" title="Release History">Release History</a>
+                                                                    <a href="https://github.com/jcabi/jcabi-github/releases" title="Release History">Release History</a>
                                                                                                                         <ul>
                                                     </ul>
                                     </li>
@@ -103,24 +103,28 @@
             </a>
                         <p>
                 
-                09-Dec-2013
-                0.6
+                10-Dec-2013
+                0.6.1
             </p>
             <article>
                 <h1>Object Oriented Github API</h1>
 <p>Set of classes in <tt>com.jcabi.github</tt> package is an object oriented Java adapter of <a class="externalLink" href="http://developer.github.com/v3/">Github API</a>:</p>
 
 <div class="source">
-<pre>public class Main {
+<pre>import com.jcabi.github.DefaultGithub;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Github;
+import com.jcabi.github.Repo;
+public class Main {
   public static void main(String[] args) {
-    Github github = new Github.Simple(&quot;.. your OAuth token ..&quot;);
+    Github github = new DefaultGithub(&quot;.. your OAuth token ..&quot;);
     Repo repo = github.repo(&quot;jcabi/jcabi-github&quot;);
     Issue issue = repo.issues().create(&quot;How are you?&quot;, &quot;Please tell me...&quot;);
     issue.post(&quot;My first comment!&quot;);
   }
 }
 </pre></div>
-<p>Read <a href="./apidocs-0.6/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
+<p>Read <a href="./apidocs-0.6.1/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
 <p>There are <a class="externalLink" href="http://developer.github.com/libraries/">a few other Java adapters</a> of Github API, but our implementation has its advantages, including:</p>
 
 <ul>
@@ -129,7 +133,7 @@
 <p>All classes are private and implement public interfaces</p></li>
   
 <li>
-<p>Out-of-the-box in-memory mock of Github server side</p></li>
+<p>Out-of-the-box in-memory mock of Github server</p></li>
   
 <li>
 <p>All classes are truly immutable and thread-safe</p></li>
@@ -139,14 +143,17 @@
   
 <li>
 <p>HTTP request is accessible for modifications</p></li>
+  
+<li>
+<p>Entire Github API is available, at least through a configurable HTTP request</p></li>
 </ul>
-<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.6/jcabi-github-0.6.jar"><tt>jcabi-github-0.6.jar</tt></a> and add it to the classpath):</p>
+<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.6.1/jcabi-github-0.6.1.jar"><tt>jcabi-github-0.6.1.jar</tt></a> and add it to the classpath):</p>
 
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.6&lt;/version&gt;
+  &lt;version&gt;0.6.1&lt;/version&gt;
 &lt;/dependency&gt;
 </pre></div>
 <p>If you want to use current version of the product, you can do it with this configuration in your <tt>pom.xml</tt>:</p>
