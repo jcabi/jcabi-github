@@ -96,10 +96,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     /**
      * Get all events of the issue.
      * @return Events
+     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-an-issue">List Events for an Issue</a>
      */
     @NotNull(message = "iterable of events is never NULL")
-    Iterable<Event> events();
+    Iterable<Event> events() throws IOException;
 
     /**
      * Smart Issue with extra features.
@@ -313,7 +314,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             return this.issue.labels();
         }
         @Override
-        public Iterable<Event> events() {
+        public Iterable<Event> events() throws IOException {
             return this.issue.events();
         }
         @Override

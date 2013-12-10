@@ -31,32 +31,26 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
-import com.jcabi.github.Issue;
-import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Repo;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github issue.
+ * Mock Github event.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.5
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @since 0.6.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
-final class MkIssue implements Issue {
+@EqualsAndHashCode(of = "type")
+final class MkEvent implements Event {
 
     /**
      * Storage.
@@ -74,24 +68,24 @@ final class MkIssue implements Issue {
     private final transient Coordinates coords;
 
     /**
-     * Issue number.
+     * Type of event.
      */
-    private final transient int num;
+    private final transient String type;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @param number Issue number
+     * @param tpe Type
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkIssue(final MkStorage stg, final String login,
-        final Coordinates rep, final int number) {
+    MkEvent(final MkStorage stg, final String login,
+        final Coordinates rep, final String tpe) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.num = number;
+        this.type = tpe;
     }
 
     @Override
@@ -101,71 +95,18 @@ final class MkIssue implements Issue {
 
     @Override
     public int number() {
-        return this.num;
+        return 0;
     }
 
     @Override
-    public Comments comments() {
-        try {
-            return new MkComments(
-                this.storage, this.self, this.coords, this.num
-            );
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public int compareTo(final Event event) {
+        throw new UnsupportedOperationException("#compareTo()");
     }
 
     @Override
-    public IssueLabels labels() {
-        try {
-            return new MkIssueLabels(
-                this.storage, this.self, this.coords, this.num
-            );
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public JsonObject json() {
+        return Json.createObjectBuilder().add("event", this.type).add(
+            "actor", Json.createObjectBuilder().add("login", "test").build()
+        ).build();
     }
-
-    @Override
-    public Iterable<Event> events() throws IOException {
-        final Collection<Event> events = new LinkedList<Event>();
-        if (!new Issue.Smart(this).isOpen()) {
-            events.add(
-                new MkEvent(
-                    this.storage, this.self, this.coords,
-                    Event.CLOSED
-                )
-            );
-        }
-        return events;
-    }
-
-    @Override
-    public int compareTo(final Issue issue) {
-        return new Integer(this.num).compareTo(issue.number());
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-    }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
-            this.coords, this.num
-        );
-    }
-
 }
