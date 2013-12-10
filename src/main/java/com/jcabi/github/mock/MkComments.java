@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
@@ -140,7 +141,9 @@ final class MkComments implements Comments {
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Integer.toString(number)).up()
                     .add("body").set(text).up()
-                    .add("user").add("login").set(this.self)
+                    .add("user").add("login").set(this.self).up()
+                    .add("created_at").set(new Github.Time().toString()).up()
+                    .add("updated_at").set(new Github.Time().toString())
             );
         } finally {
             this.storage.unlock();

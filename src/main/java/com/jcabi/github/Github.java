@@ -174,6 +174,12 @@ public interface Github {
         private final transient long msec;
         /**
          * Ctor.
+         */
+        public Time() {
+            this(new Date());
+        }
+        /**
+         * Ctor.
          * @param text ISO date/time
          * @throws ParseException If fails
          */

@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Repo;
@@ -118,6 +119,8 @@ final class MkIssues implements Issues {
                     .add("state").set(Issue.OPEN_STATE).up()
                     .add("title").set(title).up()
                     .add("body").set(body).up()
+                    .add("created_at").set(new Github.Time().toString()).up()
+                    .add("updated_at").set(new Github.Time().toString()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("html_url").set("http://localhost/2").up()
             );
