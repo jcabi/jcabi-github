@@ -85,6 +85,11 @@ final class GhRepos implements Repos {
         return this.ghub;
     }
 
+    /**
+     * {@inheritDoc}
+     * @todo #1:1hr Implement GhRepos.create() method. Let's implement
+     *  this method and test is in unit and integration tests.
+     */
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {

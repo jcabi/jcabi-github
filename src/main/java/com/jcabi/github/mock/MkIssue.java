@@ -38,6 +38,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import java.util.Collections;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -123,9 +124,12 @@ final class MkIssue implements Issue {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterable<Event> events() {
-        throw new UnsupportedOperationException("#iterate()");
+        return Collections.emptyList();
     }
 
     @Override
