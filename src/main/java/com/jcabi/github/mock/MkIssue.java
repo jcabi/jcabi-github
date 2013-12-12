@@ -36,11 +36,17 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
+import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Map;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -152,9 +158,20 @@ final class MkIssue implements Issue {
 
     @Override
     public JsonObject json() throws IOException {
-        return new JsonNode(
+        final JsonObject obj = new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
+        final JsonObjectBuilder json = Json.createObjectBuilder();
+        for (final Map.Entry<String, JsonValue> val: obj.entrySet()) {
+            json.add(val.getKey(), val.getValue());
+        }
+        final JsonArrayBuilder array = Json.createArrayBuilder();
+        for (final Label label : this.labels().iterate()) {
+            array.add(
+                Json.createObjectBuilder().add("name", label.name()).build()
+            );
+        }
+        return json.add("labels", array).build();
     }
 
     /**

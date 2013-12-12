@@ -34,8 +34,11 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -43,6 +46,14 @@ import lombok.ToString;
 
 /**
  * Github issue.
+ *
+ * <p>Use a supplementary "smart" decorator to get other properties
+ * from an issue, for example:
+ *
+ * <pre> Issue.Smart issue = new Issue.Smart(origin);
+ * if (issue.isOpen()) {
+ *   issue.close();
+ * }</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -128,7 +139,9 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          */
         public User author() throws IOException {
             return this.issue.repo().github().users().get(
-                this.issue.json().getJsonObject("user").getString("login")
+                new SmartJson(this).value(
+                    "user", JsonObject.class
+                ).getString("login")
             );
         }
         /**
@@ -267,9 +280,9 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean isPull() throws IOException {
-            return !this.issue.json()
-                .getJsonObject("pull_request")
-                .isNull("html_url");
+            return !new SmartJson(this).value(
+                "pull_request", JsonObject.class
+            ).isNull("html_url");
         }
         /**
          * Get pull request.
@@ -277,9 +290,9 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public Pull pull() throws IOException {
-            final String url = this.issue.json()
-                .getJsonObject("pull_request")
-                .getString("html_url");
+            final String url = new SmartJson(this).value(
+                "pull_request", JsonObject.class
+            ).getString("html_url");
             return this.issue.repo().pulls().get(
                 Integer.parseInt(url.substring(url.lastIndexOf('/') + 1))
             );
@@ -310,6 +323,46 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 );
             }
             return found;
+        }
+        /**
+         * Get read-only labels.
+         * @return Collection of labels
+         * @throws IOException If there is any I/O problem
+         * @since 0.6.2
+         */
+        public Collection<Label> roLabels() throws IOException {
+            final Collection<JsonObject> array =
+                new SmartJson(this).value("labels", JsonArray.class)
+                    .getValuesAs(JsonObject.class);
+            final Collection<Label> labels = new ArrayList<Label>(array.size());
+            for (final JsonObject obj : array) {
+                labels.add(
+                    // @checkstyle AnonInnerLength (50 lines)
+                    new Label() {
+                        @Override
+                        public Repo repo() {
+                            return Issue.Smart.this.repo();
+                        }
+                        @Override
+                        public String name() {
+                            return obj.getString("name");
+                        }
+                        @Override
+                        public int compareTo(final Label label) {
+                            return this.name().compareTo(label.name());
+                        }
+                        @Override
+                        public void patch(final JsonObject json) {
+                            throw new UnsupportedOperationException("#patch()");
+                        }
+                        @Override
+                        public JsonObject json() {
+                            return obj;
+                        }
+                    }
+                );
+            }
+            return labels;
         }
         @Override
         public Repo repo() {

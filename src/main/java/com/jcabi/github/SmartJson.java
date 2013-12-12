@@ -72,7 +72,7 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      */
     public String text(final String name) throws IOException {
-        return JsonString.class.cast(this.value(name)).getString();
+        return this.value(name, JsonString.class).getString();
     }
 
     /**
@@ -82,16 +82,19 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      */
     public int number(final String name) throws IOException {
-        return JsonNumber.class.cast(this.value(name)).intValue();
+        return this.value(name, JsonNumber.class).intValue();
     }
 
     /**
-     * Get its property as string.
+     * Get its property as custom type.
      * @param name Name of the property
+     * @param type Type of result expected
      * @return Value
      * @throws IOException If there is any I/O problem
+     * @param <T> Type expected
      */
-    public JsonValue value(final String name) throws IOException {
+    public <T> T value(final String name, final Class<T> type)
+        throws IOException {
         final JsonObject json = this.object.json();
         if (!json.containsKey(name)) {
             throw new IllegalStateException(
@@ -108,7 +111,14 @@ final class SmartJson {
                 )
             );
         }
-        return value;
+        if (value.getClass().isAssignableFrom(type)) {
+            throw new IllegalStateException(
+                String.format(
+                    "'%s' is not of type %s", name, type
+                )
+            );
+        }
+        return type.cast(value);
     }
 
 }

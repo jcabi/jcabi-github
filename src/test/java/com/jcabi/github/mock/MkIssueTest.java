@@ -30,7 +30,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Issue;
+import com.jcabi.github.Label;
+import java.util.Collections;
 import javax.json.Json;
+import org.hamcrest.CustomMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -98,6 +101,29 @@ public final class MkIssueTest {
         MatcherAssert.assertThat(issue.createdAt(), Matchers.notNullValue());
         MatcherAssert.assertThat(issue.updatedAt(), Matchers.notNullValue());
         MatcherAssert.assertThat(issue.htmlUrl(), Matchers.notNullValue());
+    }
+
+    /**
+     * MkIssue can list its labels.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void listsReadOnlyLabels() throws Exception {
+        final Issue issue = this.issue();
+        final String tag = "test-tag";
+        issue.repo().labels().create(tag, "c0c0c0");
+        issue.labels().add(Collections.singletonList(tag));
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).roLabels(),
+            Matchers.<Label>hasItem(
+                new CustomMatcher<Label>("label just created") {
+                    @Override
+                    public boolean matches(final Object item) {
+                        return Label.class.cast(item).name().equals(tag);
+                    }
+                }
+            )
+        );
     }
 
     /**
