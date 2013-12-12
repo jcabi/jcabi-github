@@ -171,7 +171,10 @@ final class MkIssue implements Issue {
                 Json.createObjectBuilder().add("name", label.name()).build()
             );
         }
-        return json.add("labels", array).build();
+        return json.add("labels", array).add(
+            "pull_request",
+            Json.createObjectBuilder().addNull("html_url").build()
+        ).build();
     }
 
     /**

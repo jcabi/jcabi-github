@@ -64,6 +64,19 @@ public final class MkIssueTest {
     }
 
     /**
+     * MkIssue can point to an absent pull request.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void pointsToAnEmptyPullRequest() throws Exception {
+        final Issue issue = this.issue();
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).isPull(),
+            Matchers.is(false)
+        );
+    }
+
+    /**
      * MkIssue can change title.
      * @throws Exception If some problem inside
      */
