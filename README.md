@@ -2,8 +2,8 @@
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/)
 
-Set of classes in `com.jcabi.github` package
-is an object oriented API of Github:
+Set of classes in `com.jcabi.github` package is
+an object oriented API of Github:
 
 ```java
 public class Main {
@@ -12,6 +12,25 @@ public class Main {
     Repo repo = github.repo("jcabi/jcabi-github");
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
     issue.post("My first comment!");
+  }
+}
+```
+
+We also provide `MkGithub`, a mock version of Github server, which
+you can use in unit tests, for example:
+
+```java
+public class FooTest {
+  public void submitsCommentToGithubIssue() {
+    final Repo repo = new MkGithub().repos().create(
+      Json.createObjectBuilder().add("name", "test").build()
+    );
+    final Issue issue = repo.issues().create("how are you?", "");
+    new Foo(issue).doSomething(); // should post a message to the issue
+    MasterAssert.assertThat(
+      issue.comments().iterate(),
+      Matchers.iterableWithSize(1)
+    );
   }
 }
 ```
