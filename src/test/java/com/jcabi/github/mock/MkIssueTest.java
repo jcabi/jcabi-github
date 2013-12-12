@@ -77,6 +77,19 @@ public final class MkIssueTest {
     }
 
     /**
+     * MkIssue can show an issue author.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void showsIssueAuthor() throws Exception {
+        final Issue issue = this.issue();
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).author().login(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * MkIssue can change title.
      * @throws Exception If some problem inside
      */
