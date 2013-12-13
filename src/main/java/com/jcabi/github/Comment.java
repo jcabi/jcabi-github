@@ -44,6 +44,19 @@ import lombok.ToString;
 /**
  * Github issue comment.
  *
+ * <p>Comment implements {@link JsonReadable}, that's how you can get its full
+ * details in JSON format. For example, to get its author's Github login
+ * you get the entire JSON and then gets its element:
+ *
+ * <pre>String login = comment.json()
+ *   .getJsonObject("user")
+ *   .getString("login");</pre>
+ *
+ * <p>However, it's better to use a supplementary "smart" decorator, which
+ * automates most of these operations:
+ *
+ * <pre>String login = new Comment.Smart(comment).author().login();</pre>
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
