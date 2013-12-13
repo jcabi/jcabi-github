@@ -95,6 +95,7 @@ public interface MkStorage {
          */
         public InFile() throws IOException {
             this(File.createTempFile("jcabi-github", ".xml"));
+            new File(this.name).deleteOnExit();
         }
         /**
          * Public ctor.

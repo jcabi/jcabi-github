@@ -56,6 +56,11 @@ import lombok.EqualsAndHashCode;
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
  *
+ * <p>By default, it works with a temporary file, which will be deleted
+ * on JVM exit:
+ *
+ * <pre> Github github = new MkGithub("jeff");</pre>
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
