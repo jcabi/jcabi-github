@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -44,6 +45,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
@@ -89,6 +91,16 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          */
         public String color() throws IOException {
             return new SmartJson(this).text("color");
+        }
+        /**
+         * Set its color.
+         * @param color Color to set
+         * @throws IOException If there is any I/O problem
+         */
+        public void color(final String color) throws IOException {
+            this.label.patch(
+                Json.createObjectBuilder().add("color", color).build()
+            );
         }
         @Override
         public Repo repo() {

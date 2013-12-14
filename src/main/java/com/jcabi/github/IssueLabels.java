@@ -139,12 +139,23 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          */
         public boolean addIfAbsent(final String name) throws IOException {
+            return this.addIfAbsent(name, "c0c0c0");
+        }
+        /**
+         * Add label if it is absent, and set its color.
+         * @param name Name of the label
+         * @param color Color to set
+         * @return TRUE if it was added
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean addIfAbsent(final String name, final String color)
+            throws IOException {
             final boolean added;
             if (this.contains(name)) {
                 added = false;
             } else {
                 new Labels.Smart(this.labels.issue().repo().labels())
-                    .createOrGet(name);
+                    .createOrGet(name, color);
                 this.labels.add(Collections.singletonList(name));
                 added = true;
             }

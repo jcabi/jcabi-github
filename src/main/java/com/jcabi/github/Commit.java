@@ -41,6 +41,13 @@ import lombok.ToString;
 /**
  * Github commit.
  *
+ * <p>The commit exposes all available properties through its
+ * {@code json()} method. However, it is recommended to use its
+ * "smart" decorator, which helps you to get access to all JSON properties,
+ * for example:
+ *
+ * <pre> URL url = new Commit.Smart(commit).url();</pre>
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.3

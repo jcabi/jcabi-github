@@ -45,6 +45,7 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Labels {
 
     /**
@@ -133,11 +134,26 @@ public interface Labels {
          * @throws IOException If there is any I/O problem
          */
         public Label createOrGet(final String name) throws IOException {
-            final Label label;
+            return this.createOrGet(name, "c0c0c0");
+        }
+        /**
+         * Create or get label (with this explicit color).
+         * @param name Name of the label
+         * @param color Color to set (or modify)
+         * @return Label found or created
+         * @throws IOException If there is any I/O problem
+         * @since 0.7
+         */
+        public Label createOrGet(final String name,
+            final String color) throws IOException {
+            final Label.Smart label;
             if (this.contains(name)) {
-                label = this.labels.get(name);
+                label = new Label.Smart(this.labels.get(name));
+                if (!label.color().equals(color)) {
+                    label.color(color);
+                }
             } else {
-                label = this.labels.create(name, "c0c0c0");
+                label = new Label.Smart(this.labels.create(name, color));
             }
             return label;
         }
