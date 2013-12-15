@@ -32,7 +32,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -133,33 +135,93 @@ public interface IssueLabels {
             return contains;
         }
         /**
-         * Add label if it is absent.
+         * Get label by name (runtime exception if absent).
+         * @param name Name of the label
+         * @return Label found (exception if not found)
+         * @since 0.7
+         */
+        public Label get(final String name) {
+            Label label = null;
+            int count = 0;
+            for (final Label opt : this.labels.iterate()) {
+                if (opt.name().equals(name)) {
+                    label = opt;
+                    break;
+                }
+                ++count;
+            }
+            if (label == null) {
+                throw new IllegalArgumentException(
+                    String.format(
+                        // @checkstyle LineLength (1 line)
+                        "label '%s' not found among %d others, use #contains() first",
+                        name, count
+                    )
+                );
+            }
+            return label;
+        }
+        /**
+         * Add label if it is absent, don't touch its color if exists.
          * @param name Name of the label
          * @return TRUE if it was added
          * @throws IOException If there is any I/O problem
          */
         public boolean addIfAbsent(final String name) throws IOException {
-            return this.addIfAbsent(name, "c0c0c0");
-        }
-        /**
-         * Add label if it is absent, and set its color.
-         * @param name Name of the label
-         * @param color Color to set
-         * @return TRUE if it was added
-         * @throws IOException If there is any I/O problem
-         */
-        public boolean addIfAbsent(final String name, final String color)
-            throws IOException {
             final boolean added;
             if (this.contains(name)) {
                 added = false;
             } else {
                 new Labels.Smart(this.labels.issue().repo().labels())
-                    .createOrGet(name, color);
+                    .createOrGet(name);
                 this.labels.add(Collections.singletonList(name));
                 added = true;
             }
             return added;
+        }
+        /**
+         * Add label if it is absent, and set its color in any case.
+         * @param name Name of the label
+         * @param color Color to set
+         * @return TRUE if it was added
+         * @throws IOException If there is any I/O problem
+         * @since 0.7
+         */
+        public boolean addIfAbsent(final String name, final String color)
+            throws IOException {
+            final boolean added;
+            final Label label;
+            if (this.contains(name)) {
+                label = this.get(name);
+                added = false;
+            } else {
+                label = new Labels.Smart(this.labels.issue().repo().labels())
+                    .createOrGet(name, color);
+                this.labels.add(Collections.singletonList(name));
+                added = true;
+            }
+            final Label.Smart smart = new Label.Smart(label);
+            if (!smart.color().equals(color)) {
+                smart.color(color);
+            }
+            return added;
+        }
+        /**
+         * Select all labels with the given color.
+         * @param color Color
+         * @return Collection of labels with the provided color
+         * @throws IOException If there is any I/O problem
+         * @since 0.7
+         */
+        public Collection<Label> findByColor(final String color)
+            throws IOException {
+            final Collection<Label> found = new LinkedList<Label>();
+            for (final Label label : this.labels.iterate()) {
+                if (new Label.Smart(label).color().equals(color)) {
+                    found.add(label);
+                }
+            }
+            return found;
         }
         @Override
         public Issue issue() {
