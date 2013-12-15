@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Issue;
+import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import java.util.Collections;
@@ -56,6 +57,22 @@ public final class MkIssueLabelsTest {
         repo.labels().create(name, "c0c0c0");
         final Issue issue = repo.issues().create("title", "body");
         issue.labels().add(Collections.singletonList(name));
+        MatcherAssert.assertThat(
+            issue.labels().iterate(),
+            Matchers.<Label>iterableWithSize(1)
+        );
+    }
+
+    /**
+     * MkIssueLabels can create labels through Smart decorator.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsLabelsThroughDecorator() throws Exception {
+        final Repo repo = this.repo();
+        final Issue issue = repo.issues().create("how are you?", "");
+        final String name = "task";
+        new IssueLabels.Smart(issue.labels()).addIfAbsent(name, "f0f0f0");
         MatcherAssert.assertThat(
             issue.labels().iterate(),
             Matchers.<Label>iterableWithSize(1)

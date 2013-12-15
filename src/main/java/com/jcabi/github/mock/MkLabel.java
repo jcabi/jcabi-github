@@ -116,7 +116,7 @@ final class MkLabel implements Label {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/owner[@coords='%s']/labels/label[name='%s']",
+            "/github/repos/repo[@coords='%s']/labels/label[name='%s']",
             this.owner, this.label
         );
     }

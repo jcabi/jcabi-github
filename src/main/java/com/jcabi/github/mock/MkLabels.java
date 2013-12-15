@@ -104,6 +104,14 @@ final class MkLabels implements Labels {
     @Override
     public Label create(final String name, final String color)
         throws IOException {
+        if (!color.matches("[0-9a-f]{6}")) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "color '%s' is in wrong format, six hex letters expected",
+                    color
+                )
+            );
+        }
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("label")
                 .add("name").set(name).up()
@@ -131,9 +139,13 @@ final class MkLabels implements Labels {
     @Override
     public void delete(final String name) throws IOException {
         this.storage.apply(
-            new Directives().xpath(this.xpath()).xpath(
-                String.format("label[name='%s']", name)
-            ).remove()
+            new Directives().xpath(this.xpath())
+                .xpath(String.format("label[name='%s']", name))
+                .remove()
+                .xpath("/github/repos")
+                .xpath(String.format("repo[@coords='%s']", this.coords))
+                .xpath(String.format("issues/issue/labels/label[.='%s']", name))
+                .remove()
         );
     }
 
