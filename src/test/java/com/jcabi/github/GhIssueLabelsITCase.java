@@ -35,61 +35,45 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Labels}.
+ * Integration case for {@link IssueLabels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class GhLabelsITCase {
+public final class GhIssueLabelsITCase {
 
     /**
-     * GhLabels can list all labels.
+     * GhIssueLabels can list all labels in an issue.
      * @throws Exception If some problem inside
      */
     @Test
     public void listsLabels() throws Exception {
-        final Labels labels = GhLabelsITCase.repo().labels();
-        final Iterable<Label.Smart> list =
-            new Smarts<Label.Smart>(labels.iterate());
-        for (final Label.Smart label : list) {
-            MatcherAssert.assertThat(
-                label.color(),
-                Matchers.not(Matchers.isEmptyString())
-            );
-        }
+        final IssueLabels.Smart labels = new IssueLabels.Smart(
+            GhIssueLabelsITCase.issue().labels()
+        );
+        final String name = "test-label";
+        final String color = "cfcfcf";
+        labels.addIfAbsent(name, color);
+        MatcherAssert.assertThat(
+            new Label.Smart(labels.get(name)).color(),
+            Matchers.equalTo(color)
+        );
+        labels.remove(name);
     }
 
     /**
-     * GhLabels can create a new label.
+     * Create and return issue to test.
+     * @return Issue
      * @throws Exception If some problem inside
      */
-    @Test
-    public void createsNewLabel() throws Exception {
-        final Labels labels = GhLabelsITCase.repo().labels();
-        final Label label = new Labels.Smart(labels).createOrGet("test-3");
-        MatcherAssert.assertThat(
-            new Label.Smart(label).color(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            labels.iterate(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
+    private static Issue issue() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new DefaultGithub(key);
         return github.repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        ).issues().create("test issue title", "test issue body");
     }
 
 }

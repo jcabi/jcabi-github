@@ -61,6 +61,11 @@ final class GhIssueLabels implements IssueLabels {
     private final transient Request entry;
 
     /**
+     * RESTful entry.
+     */
+    private final transient Request request;
+
+    /**
      * Which issue we belong to.
      */
     private final transient Issue owner;
@@ -73,7 +78,8 @@ final class GhIssueLabels implements IssueLabels {
     GhIssueLabels(final Request req, final Issue issue) {
         this.owner = issue;
         final Coordinates coords = issue.repo().coordinates();
-        this.entry = req.uri()
+        this.entry = req;
+        this.request = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -85,7 +91,7 @@ final class GhIssueLabels implements IssueLabels {
 
     @Override
     public String toString() {
-        return this.entry.uri().get().toString();
+        return this.request.uri().get().toString();
     }
 
     @Override
@@ -103,7 +109,7 @@ final class GhIssueLabels implements IssueLabels {
             json.write(label);
         }
         json.writeEnd().close();
-        this.entry.method(Request.POST)
+        this.request.method(Request.POST)
             .body().set(post.toString()).back()
             .fetch()
             .as(RestResponse.class)
@@ -122,7 +128,7 @@ final class GhIssueLabels implements IssueLabels {
             json.write(label);
         }
         json.writeEnd().close();
-        this.entry.method(Request.PUT)
+        this.request.method(Request.PUT)
             .body().set(post.toString()).back()
             .fetch()
             .as(RestResponse.class)
@@ -134,7 +140,7 @@ final class GhIssueLabels implements IssueLabels {
     @Override
     public void remove(@NotNull(message = "label name can't be NULL")
         final String name) throws IOException {
-        this.entry.method(Request.DELETE)
+        this.request.method(Request.DELETE)
             .uri().path(name).back()
             .fetch()
             .as(RestResponse.class)
@@ -143,7 +149,7 @@ final class GhIssueLabels implements IssueLabels {
 
     @Override
     public void clear() throws IOException {
-        this.entry.method(Request.DELETE)
+        this.request.method(Request.DELETE)
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
@@ -152,7 +158,7 @@ final class GhIssueLabels implements IssueLabels {
     @Override
     public Iterable<Label> iterate() {
         return new GhPagination<Label>(
-            this.entry,
+            this.request,
             new GhPagination.Mapping<Label>() {
                 @Override
                 public Label map(final JsonObject object) {
