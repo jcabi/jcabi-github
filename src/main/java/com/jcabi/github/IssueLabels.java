@@ -189,16 +189,19 @@ public interface IssueLabels {
          */
         public boolean addIfAbsent(final String name, final String color)
             throws IOException {
-            final boolean added;
-            final Label label;
-            if (this.contains(name)) {
-                label = this.get(name);
-                added = false;
-            } else {
+            Label label = null;
+            for (final Label opt : new Bulk<Label>(this.labels.iterate())) {
+                if (opt.name().equals(name)) {
+                    label = opt;
+                    break;
+                }
+            }
+            boolean added = false;
+            if (label == null) {
+                added = true;
                 label = new Labels.Smart(this.labels.issue().repo().labels())
                     .createOrGet(name, color);
                 this.labels.add(Collections.singletonList(name));
-                added = true;
             }
             final Label.Smart smart = new Label.Smart(label);
             if (!smart.color().equals(color)) {
