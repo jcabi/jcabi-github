@@ -226,6 +226,25 @@ public interface IssueLabels {
             }
             return found;
         }
+        /**
+         * Remove label if it exists (do nothing otherwise).
+         * @param name Label to remove
+         * @return TRUE if it was removed, FALSE otherwise
+         * @throws IOException If there is any I/O problem
+         * @since 0.7
+         */
+        public boolean removeIfExists(final String name)
+            throws IOException {
+            boolean removed = false;
+            for (final Label label : this.labels.iterate()) {
+                if (label.name().equals(name)) {
+                    this.remove(name);
+                    removed = true;
+                    break;
+                }
+            }
+            return removed;
+        }
         @Override
         public Issue issue() {
             return this.labels.issue();
