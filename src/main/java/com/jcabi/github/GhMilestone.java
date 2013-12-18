@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
- *
+ * <p/>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met: 1) Redistributions of source code must retain the above
@@ -13,7 +13,7 @@
  * the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written
  * permission.
- *
+ * <p/>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
  * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -32,30 +32,26 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+
 /**
- * Github repository.
+ * Github milestone.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry", "coords" })
-final class GhRepo implements Repo {
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
+public class GhMilestone implements Milestone {
 
     /**
-     * Github.
-     */
-    private final transient Github ghub;
-
-    /**
-     * RESTful entry.
+     * API entry point.
      */
     private final transient Request entry;
 
@@ -65,88 +61,64 @@ final class GhRepo implements Repo {
     private final transient Request request;
 
     /**
-     * Repository coordinates.
+     * Repository.
      */
-    private final transient Coordinates coords;
+    private final transient Repo owner;
+
+    /**
+     * Milestone number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param github Github
      * @param req Request
-     * @param crd Coordinate of the repo
+     * @param repo Repository
+     * @param number Number of the get
      */
-    GhRepo(final Github github, final Request req, final Coordinates crd) {
-        this.ghub = github;
+    GhMilestone(final Request req, final Repo repo, final int number) {
         this.entry = req;
-        this.coords = crd;
+        final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
-            .path("/repos")
-            .path(this.coords.user())
-            .path(this.coords.repo())
-            .back();
+                .path("/repos")
+                .path(coords.user())
+                .path(coords.repo())
+                .path("/milestones")
+                .path(Integer.toString(number))
+                .back();
+        this.owner = repo;
+        this.num = number;
     }
 
     @Override
     public String toString() {
-        return this.coords.toString();
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public Repo repo() {
+        return this.owner;
     }
 
     @Override
-    public Coordinates coordinates() {
-        return this.coords;
-    }
-
-    @Override
-    public Issues issues() {
-        return new GhIssues(this.entry, this);
-    }
-
-    @Override
-    public Milestones milestones() {
-        return new GhMilestones(this.entry, this);
-    }
-
-    @Override
-    public Pulls pulls() {
-        return new GhPulls(this.entry, this);
-    }
-
-    @Override
-    public Iterable<Event> events() {
-        return new GhPagination<Event>(
-            this.request.uri().path("/issues/events").back(),
-            new GhPagination.Mapping<Event>() {
-                @Override
-                public Event map(final JsonObject object) {
-                    return new GhEvent(
-                        GhRepo.this.entry,
-                        GhRepo.this,
-                        object.getInt("id")
-                    );
-                }
-            }
-        );
-    }
-
-    @Override
-    public Labels labels() {
-        return new GhLabels(this.entry, this);
-    }
-
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        new GhJson(this.request).patch(json);
+    public int number() {
+        return this.num;
     }
 
     @Override
     public JsonObject json() throws IOException {
         return new GhJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(@NotNull(message = "JSON object can't be NULL")
+                      final JsonObject json) throws IOException {
+        new GhJson(this.request).patch(json);
+    }
+
+    @Override
+    public int compareTo(@NotNull(message = "Milestone object can't be NULL")
+                         final Milestone milestone) {
+        return new Integer(this.number()).compareTo(milestone.number());
     }
 }

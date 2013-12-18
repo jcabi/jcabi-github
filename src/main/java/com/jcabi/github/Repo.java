@@ -78,6 +78,13 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Issues issues();
 
     /**
+     * Iterate milestones.
+     * @return Milestones
+     */
+    @NotNull(message = "iterator of milestones is never NULL")
+    Milestones milestones();
+
+    /**
      * Pull requests.
      * @return Pulls
      */
@@ -139,6 +146,12 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public Issues issues() {
             return this.repo.issues();
         }
+
+        @Override
+        public Milestones milestones() {
+            return this.repo.milestones();
+        }
+
         @Override
         public Pulls pulls() {
             return this.repo.pulls();

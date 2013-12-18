@@ -31,13 +31,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Event;
-import com.jcabi.github.Github;
-import com.jcabi.github.Issues;
-import com.jcabi.github.Labels;
-import com.jcabi.github.Pulls;
-import com.jcabi.github.Repo;
+import com.jcabi.github.*;
+
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -101,6 +96,12 @@ final class MkRepo implements Repo {
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public Milestones milestones() {
+        // @todo #9 Mocks for Milestones and Milestone entities should be created
+        throw new IllegalStateException("Not implemented");
     }
 
     @Override
