@@ -45,7 +45,7 @@ import org.junit.Test;
 public final class MkIssuesTest {
 
     /**
-     * MkIssue can list issues.
+     * MkIssues can list issues.
      * @throws Exception If some problem inside
      */
     @Test
@@ -55,6 +55,22 @@ public final class MkIssuesTest {
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<String, String>()),
             Matchers.<Issue>iterableWithSize(1)
+        );
+    }
+
+    /**
+     * MkIssues can create a new issue with correct author.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsNewIssueWithCorrectAuthor() throws Exception {
+        final Repo repo = this.repo();
+        final Issue.Smart issue = new Issue.Smart(
+            repo.issues().create("hello", "the body")
+        );
+        MatcherAssert.assertThat(
+            issue.author().login(),
+            Matchers.equalTo(repo.github().users().self().login())
         );
     }
 
