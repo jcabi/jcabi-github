@@ -35,10 +35,10 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -106,15 +106,12 @@ final class GhComments implements Comments {
     @Override
     public Comment post(@NotNull(message = "post text can't be NULL")
         final String text) throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("body", text)
-            .writeEnd()
-            .close();
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("body", text)
+            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(post.toString()).back()
+                .body().set(json).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)

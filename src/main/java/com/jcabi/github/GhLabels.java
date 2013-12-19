@@ -35,10 +35,10 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -104,16 +104,13 @@ final class GhLabels implements Labels {
         @NotNull(message = "label name can't be NULL") final String name,
         @NotNull(message = "label color can't be NULL") final String color)
         throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
+        final JsonStructure json = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
-            .write("name", name)
-            .write("color", color)
-            .writeEnd()
-            .close();
+            .add("name", name)
+            .add("color", color)
+            .build();
         this.request.method(Request.POST)
-            .body().set(post.toString()).back()
+            .body().set(json).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)

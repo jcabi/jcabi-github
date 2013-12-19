@@ -35,10 +35,10 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -111,17 +111,14 @@ final class GhPulls implements Pulls {
         @NotNull(message = "head is never NULL") final String head,
         @NotNull(message = "base is never NULL") final String base)
         throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("title", title)
-            .write("head", head)
-            .write("base", base)
-            .writeEnd()
-            .close();
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("title", title)
+            .add("head", head)
+            .add("base", base)
+            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(post.toString()).back()
+                .body().set(json).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)

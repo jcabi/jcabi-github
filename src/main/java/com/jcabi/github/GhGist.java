@@ -36,11 +36,12 @@ import com.rexsl.test.Response;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -118,18 +119,13 @@ final class GhGist implements Gist {
         @NotNull(message = "file name can't be NULL") final String file,
         @NotNull(message = "file content can't be NULL") final String content)
         throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .writeStartObject("files")
-            .writeStartObject(file)
-            .write("content", content)
-            .writeEnd()
-            .writeEnd()
-            .writeEnd()
-            .close();
+        final JsonObjectBuilder builder = Json.createObjectBuilder()
+            .add("content", content);
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("files", Json.createObjectBuilder().add(file, builder))
+            .build();
         this.entry.method(Request.PATCH)
-            .body().set(post.toString()).back().fetch()
+            .body().set(json).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
