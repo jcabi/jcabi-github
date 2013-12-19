@@ -38,7 +38,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -102,15 +104,13 @@ final class GhIssueLabels implements IssueLabels {
     @Override
     public void add(@NotNull(message = "iterable of labels can't be NULL")
         final Iterable<String> labels) throws IOException {
-        final StringWriter post = new StringWriter();
-        final JsonGenerator json = Json.createGenerator(post)
-            .writeStartArray();
+        JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final String label : labels) {
-            json.write(label);
+            builder = builder.add(label);
         }
-        json.writeEnd().close();
+        final JsonStructure json = builder.build();
         this.request.method(Request.POST)
-            .body().set(post.toString()).back()
+            .body().set(json).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
@@ -121,15 +121,15 @@ final class GhIssueLabels implements IssueLabels {
     @Override
     public void replace(@NotNull(message = "iterable of labels can't be NULL")
         final Iterable<String> labels) throws IOException {
-        final StringWriter post = new StringWriter();
-        final JsonGenerator json = Json.createGenerator(post)
-            .writeStartArray();
+        JsonArrayBuilder builder = Json.createArrayBuilder();
+
         for (final String label : labels) {
-            json.write(label);
+            builder = builder.add(label);
         }
-        json.writeEnd().close();
+        final JsonStructure json = builder.build();
+
         this.request.method(Request.PUT)
-            .body().set(post.toString()).back()
+            .body().set(json).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)

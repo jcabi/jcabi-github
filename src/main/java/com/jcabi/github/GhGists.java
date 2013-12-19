@@ -39,6 +39,8 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
 import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -101,19 +103,20 @@ final class GhGists implements Gists {
     @Override
     public Gist create(@NotNull(message = "list of files can't be NULL")
         final Iterable<String> files) throws IOException {
-        final StringWriter post = new StringWriter();
-        final JsonGenerator json = Json.createGenerator(post)
-            .writeStartObject()
-            .writeStartObject("files");
+        JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final String file : files) {
-            json.writeStartObject(file)
-                .write("content", "")
-                .writeEnd();
+            builder = builder.add(file, Json.createObjectBuilder()
+                    .add("content", ""));
         }
-        json.writeEnd().writeEnd().close();
+
+        final JsonStructure json = Json.createObjectBuilder()
+                .add("files", builder)
+                .build();
+
+
         return this.get(
             this.request.method(Request.POST)
-                .body().set(post.toString()).back()
+                .body().set(json).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)

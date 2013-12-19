@@ -35,11 +35,11 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -111,16 +111,14 @@ final class GhIssues implements Issues {
         @NotNull(message = "title can't be NULL") final String title,
         @NotNull(message = "body can't be NULL")final String body)
         throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("title", title)
-            .write("body", body)
-            .writeEnd()
-            .close();
+        final JsonStructure json = Json.createObjectBuilder()
+                .add("title", title)
+                .add("body", body)
+                .build();
+
         return this.get(
             this.request.method(Request.POST)
-                .body().set(post.toString()).back()
+                .body().set(json).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)

@@ -35,10 +35,10 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -144,15 +144,13 @@ final class GhPull implements Pull {
     public void merge(
         @NotNull(message = "message can't be NULL") final String msg)
         throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("commit_message", msg)
-            .writeEnd()
-            .close();
+        final JsonStructure json = Json.createObjectBuilder()
+                .add("commit_message", msg)
+                .build();
+
         this.request
             .uri().path("/merge").back()
-            .body().set(post.toString()).back()
+            .body().set(json).back()
             .method(Request.PUT)
             .fetch()
             .as(RestResponse.class)
