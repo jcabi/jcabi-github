@@ -42,6 +42,9 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
+ * @todo #1 Unit test for GhLimit is required. Let's create a simple one,
+ *  to check that the class implements key functions correctly. The most
+ *  important method to test is json()
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

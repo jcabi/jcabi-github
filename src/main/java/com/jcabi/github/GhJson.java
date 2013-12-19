@@ -47,6 +47,9 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
+ * @todo #1 Unit test for GhJson is required. Let's create a simple one,
+ *  to check that the class implements its fetching and pathing features
+ *  correctly.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

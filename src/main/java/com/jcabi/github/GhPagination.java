@@ -51,6 +51,9 @@ import lombok.EqualsAndHashCode;
  * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
+ * @todo #1:1hr Unit test for GhPagination is required. Let's mock
+ *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
+ *  sure that the class can jump through pages collecting data.
  */
 @Immutable
 @EqualsAndHashCode(of = { "entry", "map" })

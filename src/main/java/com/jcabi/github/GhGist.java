@@ -51,6 +51,12 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #1 Unit test for GhGist is required. At the moment we have
+ *  only an integration test, which works only with real Github login/pwd
+ *  credentials. Let's create a unit test, which will mock the request
+ *  (probably using com.rexsl.test.request.FakeRequest) and check that
+ *  the class really does what it has to do. Main focus, of course, on
+ *  methods read() and write()
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
