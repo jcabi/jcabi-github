@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -60,7 +59,8 @@ import java.util.Date;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatchable {
+public interface Milestone extends Comparable<Milestone>,
+        JsonReadable, JsonPatchable {
 
     /**
      * Milestone state.
@@ -85,7 +85,6 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
      */
     int number();
 
-
     /**
      * Smart Milestone with extra features.
      */
@@ -94,16 +93,22 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "milestone")
     final class Smart implements Milestone {
+
+        private static final String STATE = "state";
+        private static final String DESCRIPTION = "description";
+        private static final String TITLE = "title";
+        private static final String DUE_ON = "due_on";
+
         /**
          * Encapsulated milestone.
          */
         private final transient Milestone milestone;
         /**
          * Public ctor.
-         * @param milestone Issue
+         * @param mls Issue
          */
-        public Smart(final Milestone milestone) {
-            this.milestone = milestone;
+        public Smart(final Milestone mls) {
+            this.milestone = mls;
         }
         /**
          * Get its creator.
@@ -145,7 +150,7 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
          * @throws IOException If there is any I/O problem
          */
         public String state() throws IOException {
-            return new SmartJson(this).text("state");
+            return new SmartJson(this).text(STATE);
         }
         /**
          * Change its state.
@@ -154,7 +159,7 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
          */
         public void state(final String state) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add("state", state).build()
+                    Json.createObjectBuilder().add(STATE, state).build()
             );
         }
         /**
@@ -163,7 +168,7 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
          * @throws IOException If there is any I/O problem
          */
         public String title() throws IOException {
-            return new SmartJson(this).text("title");
+            return new SmartJson(this).text(TITLE);
         }
         /**
          * Change its title.
@@ -172,7 +177,7 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
          */
         public void title(final String title) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add("title", title).build()
+                    Json.createObjectBuilder().add(TITLE, title).build()
             );
         }
         /**
@@ -181,7 +186,7 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
          * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
-            return new SmartJson(this).text("description");
+            return new SmartJson(this).text(DESCRIPTION);
         }
         /**
          * Change its description.
@@ -190,7 +195,8 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
          */
         public void description(final String description) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add("description", description).build()
+                    Json.createObjectBuilder()
+                            .add(DESCRIPTION, description).build()
             );
         }
         /**
@@ -224,16 +230,21 @@ public interface Milestone extends Comparable<Milestone>, JsonReadable, JsonPatc
         public Date dueOn() throws IOException {
             try {
                 return new Github.Time(
-                        new SmartJson(this).text("due_on")
+                        new SmartJson(this).text(DUE_ON)
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
 
-        public void dueOn(Date dueOn) throws IOException {
+        /**
+         * Change milestone due date.
+         * @param dueon new milestone due date
+         * @throws IOException If there is any I/O problem
+         */
+        public void dueOn(final Date dueon) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add("due_on", new Github.Time(dueOn).toString()).build()
+                    Json.createObjectBuilder().add(DUE_ON, new Github.Time(dueon).toString()).build()
             );
         }
 

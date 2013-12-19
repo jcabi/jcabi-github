@@ -1,7 +1,6 @@
 /**
  * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
- * <p/>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met: 1) Redistributions of source code must retain the above
@@ -13,7 +12,6 @@
  * the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written
  * permission.
- * <p/>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
  * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -35,7 +33,6 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import lombok.EqualsAndHashCode;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -55,6 +52,8 @@ import java.util.Map;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
 public class GhMilestones implements Milestones {
+
+    private static final String NUMBER = "number";
 
     /**
      * API entry point.
@@ -89,17 +88,17 @@ public class GhMilestones implements Milestones {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    public Repo repo() {
+    public final Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Milestone create(
+    public final Milestone create(
             @NotNull(message = "title can't be NULL") final String title)
             throws IOException {
         final StringWriter post = new StringWriter();
@@ -114,17 +113,17 @@ public class GhMilestones implements Milestones {
                         .fetch().as(RestResponse.class)
                         .assertStatus(HttpURLConnection.HTTP_CREATED)
                         .as(JsonResponse.class)
-                        .json().readObject().getInt("number")
+                        .json().readObject().getInt(NUMBER)
         );
     }
 
     @Override
-    public Milestone get(int number) {
+    public final Milestone get(final int number) {
         return new GhMilestone(this.entry, this.owner, number);
     }
 
     @Override
-    public Iterable<Milestone> iterate(
+    public final Iterable<Milestone> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
             return new GhPagination<Milestone>(
@@ -132,7 +131,7 @@ public class GhMilestones implements Milestones {
                     new GhPagination.Mapping<Milestone>() {
                         @Override
                         public Milestone map(final JsonObject object) {
-                            return GhMilestones.this.get(object.getInt("number"));
+                            return GhMilestones.this.get(object.getInt(NUMBER));
                         }
                     }
             );

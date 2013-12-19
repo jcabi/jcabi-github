@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
- * <p/>
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met: 1) Redistributions of source code must retain the above
@@ -13,7 +13,7 @@
  * the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written
  * permission.
- * <p/>
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
  * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import lombok.EqualsAndHashCode;
-
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -47,7 +46,7 @@ import java.io.IOException;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "request", "owner" })
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
 public class GhMilestone implements Milestone {
 
     /**
@@ -72,8 +71,9 @@ public class GhMilestone implements Milestone {
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
+     *
+     * @param req    Request
+     * @param repo   Repository
      * @param number Number of the get
      */
     GhMilestone(final Request req, final Repo repo, final int number) {
@@ -91,34 +91,36 @@ public class GhMilestone implements Milestone {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    public Repo repo() {
+    public final Repo repo() {
         return this.owner;
     }
 
     @Override
-    public int number() {
+    public final int number() {
         return this.num;
     }
 
     @Override
-    public JsonObject json() throws IOException {
+    public final JsonObject json() throws IOException {
         return new GhJson(this.request).fetch();
     }
 
     @Override
-    public void patch(@NotNull(message = "JSON object can't be NULL")
-                      final JsonObject json) throws IOException {
+    public final void patch(
+            @NotNull(message = "JSON object can't be NULL")
+            final JsonObject json) throws IOException {
         new GhJson(this.request).patch(json);
     }
 
     @Override
-    public int compareTo(@NotNull(message = "Milestone object can't be NULL")
-                         final Milestone milestone) {
+    public final int compareTo(
+            @NotNull(message = "Milestone object can't be NULL")
+            final Milestone milestone) {
         return new Integer(this.number()).compareTo(milestone.number());
     }
 }

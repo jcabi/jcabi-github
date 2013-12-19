@@ -30,8 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-
-import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Map;
@@ -82,6 +80,7 @@ public interface Milestones {
      * @see <a href="http://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Milestone> iterate(@NotNull(message = "map of params can't be NULL")
+    Iterable<Milestone> iterate(
+            @NotNull(message = "map of params can't be NULL")
                             Map<String, String> params);
 }
