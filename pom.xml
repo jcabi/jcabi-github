@@ -216,4 +216,52 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>pdd-deploy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.gmaven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <classpath>
+                                        <element>
+                                            <groupId>com.jcabi</groupId>
+                                            <artifactId>jcabi-s3</artifactId>
+                                            <version>0.4</version>
+                                        </element>
+                                        <element>
+                                            <groupId>com.amazonaws</groupId>
+                                            <artifactId>aws-java-sdk</artifactId>
+                                            <version>1.6.3</version>
+                                        </element>
+                                    </classpath>
+                                    <source><![CDATA[
+                                        import com.jcabi.s3.Bucket
+                                        import com.jcabi.s3.Ocket
+                                        import com.jcabi.s3.Region
+                                        log.info('Uploading PDD report to S3...')
+                                        def file = new File(project.basedir, 'target/site/rempl/com.rempl.pdd.SummaryReport/index.xml')
+                                        def region = new Region.Simple(project.properties['pdd.s3.key'], project.properties['pdd.s3.secret'])
+                                        def bucket = region.bucket(project.properties['pdd.s3.bucket'])
+                                        def ocket = bucket.ocket('jcabi-github.xml')
+                                        new Ocket.Text(ocket).write(file.text)
+                                        log.info('Uploaded successfully')
+                                    ]]></source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
