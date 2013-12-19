@@ -105,10 +105,10 @@ final class GhLabels implements Labels {
         @NotNull(message = "label color can't be NULL") final String color)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add("name", name)
-                .add("color", color)
-                .build();
-
+            // @checkstyle MultipleStringLiterals (1 line)
+            .add("name", name)
+            .add("color", color)
+            .build();
         this.request.method(Request.POST)
             .body().set(json).back()
             .fetch()

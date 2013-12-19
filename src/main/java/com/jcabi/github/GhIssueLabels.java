@@ -35,13 +35,11 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -122,12 +120,10 @@ final class GhIssueLabels implements IssueLabels {
     public void replace(@NotNull(message = "iterable of labels can't be NULL")
         final Iterable<String> labels) throws IOException {
         JsonArrayBuilder builder = Json.createArrayBuilder();
-
         for (final String label : labels) {
             builder = builder.add(label);
         }
         final JsonStructure json = builder.build();
-
         this.request.method(Request.PUT)
             .body().set(json).back()
             .fetch()

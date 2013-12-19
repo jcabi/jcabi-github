@@ -107,8 +107,8 @@ final class GhComments implements Comments {
     public Comment post(@NotNull(message = "post text can't be NULL")
         final String text) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add("body", text)
-                .build();
+            .add("body", text)
+            .build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()

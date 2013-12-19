@@ -112,11 +112,10 @@ final class GhPulls implements Pulls {
         @NotNull(message = "base is never NULL") final String base)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add("title", title)
-                .add("head", head)
-                .add("base", base)
-                .build();
-
+            .add("title", title)
+            .add("head", head)
+            .add("base", base)
+            .build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()

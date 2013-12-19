@@ -145,9 +145,8 @@ final class GhPull implements Pull {
         @NotNull(message = "message can't be NULL") final String msg)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add("commit_message", msg)
-                .build();
-
+            .add("commit_message", msg)
+            .build();
         this.request
             .uri().path("/merge").back()
             .body().set(json).back()

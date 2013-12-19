@@ -35,13 +35,11 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
-import javax.json.stream.JsonGenerator;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -105,15 +103,12 @@ final class GhGists implements Gists {
         final Iterable<String> files) throws IOException {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final String file : files) {
-            builder = builder.add(file, Json.createObjectBuilder()
-                    .add("content", ""));
+            builder = builder
+                .add(file, Json.createObjectBuilder().add("content", ""));
         }
-
         final JsonStructure json = Json.createObjectBuilder()
-                .add("files", builder)
-                .build();
-
-
+            .add("files", builder)
+            .build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()

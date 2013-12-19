@@ -112,10 +112,9 @@ final class GhIssues implements Issues {
         @NotNull(message = "body can't be NULL")final String body)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add("title", title)
-                .add("body", body)
-                .build();
-
+            .add("title", title)
+            .add("body", body)
+            .build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()
