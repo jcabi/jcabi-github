@@ -49,6 +49,9 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #1 Unit test for GhPulls is required. Let's mock
+ *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
+ *  sure that the class can do its key operations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

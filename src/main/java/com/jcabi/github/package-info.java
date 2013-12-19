@@ -48,5 +48,9 @@
  *  available. Instead of building objects using JsonGenerator (for example,
  *  see GhComments#post), let's use JsonObjectBuilder. See
  *  https://github.com/yegor256/rexsl/issues/740
+ * @todo #1 Change class prefixes from Gh to Rt. Let's rename all classes
+ *  by changing their prefixes. Now we're using Gh, which is semantically
+ *  not correct. Rt will stand for REST. Also, let's rename DefaultGithub
+ *  to RtGithub. Let's not forget to update Maven documentation and README.md.
  */
 package com.jcabi.github;
