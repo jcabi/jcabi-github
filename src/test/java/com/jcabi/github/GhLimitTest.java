@@ -50,9 +50,11 @@ public final class GhLimitTest {
      */
     @Test
     public void describeAsJson() throws Exception {
-        final Github github = github();
-        final GhLimit limit = new GhLimit(github,
-            new FakeRequest().withBody(body()), "core");
+        final GhLimit limit = new GhLimit(
+            Mockito.mock(Github.class),
+            new FakeRequest().withBody(body()),
+            "core"
+        );
         MatcherAssert.assertThat(
             limit.json().toString(),
             Matchers.equalTo(
@@ -68,22 +70,15 @@ public final class GhLimitTest {
      */
     @Test(expected = IllegalStateException.class)
     public void throwsWhenResourceIsAbsent() throws Exception {
-        final Github github = github();
-        final GhLimit limit = new GhLimit(github,
-            new FakeRequest().withBody(body()), "absent");
+        final GhLimit limit = new GhLimit(
+            Mockito.mock(Github.class),
+            new FakeRequest().withBody(body()),
+            "absent"
+        );
         MatcherAssert.assertThat(
             limit.json().toString(),
             Matchers.equalTo("{}")
         );
-    }
-
-    /**
-     * Return github to test.
-     * @return Github
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        return Mockito.mock(Github.class);
     }
 
     /**
