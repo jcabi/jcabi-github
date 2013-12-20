@@ -29,7 +29,11 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.request.FakeRequest;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -49,13 +53,15 @@ public final class GhJsonTest {
      */
     @Test
     public void sendHttpRequest() throws Exception {
-        final GhJson json = new GhJson(
-            new FakeRequest().withBody("{\"body\":\"hey you\"}")
-        );
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hi\"}")
+        ).start();
+        final GhJson json = new GhJson(new ApacheRequest(container.home()));
         MatcherAssert.assertThat(
             json.fetch().getString("body"),
-            Matchers.equalTo("hey you")
+            Matchers.equalTo("hi")
         );
+        container.stop();
     }
 
     /**
@@ -65,17 +71,19 @@ public final class GhJsonTest {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final GhJson json = new GhJson(
-            new FakeRequest().withBody("{\"body\":\"hi\"}")
-        );
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hj\"}")
+        ).start();
+        final GhJson json = new GhJson(new ApacheRequest(container.home()));
         json.patch(
             Json.createObjectBuilder()
                 .add("content", "hi you!")
                 .build()
         );
         MatcherAssert.assertThat(
-            json.fetch().toString(),
-            Matchers.containsString("hi")
+            container.take().method(),
+            Matchers.equalTo("PATCH")
         );
+        container.stop();
     }
 }
