@@ -29,19 +29,24 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
+import com.rexsl.test.Request;
+import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Limit}.
+ * Test case for {@link GhLimit}.
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class LimitTest {
+public final class GhLimitTest {
+    /**
+     * Rate limit uri.
+     */
+    private static final String RATE_URI = "/rate_limit";
 
     /**
      * Describe Limit in a JSON object.
@@ -50,24 +55,57 @@ public final class LimitTest {
      */
     @Test
     public void json() throws Exception {
-        final Limit limit = Mockito.mock(Limit.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("limit", "5")
-                .add("remaining", "3")
-                .add("reset", "123")
-                .build()
-        ).when(limit).json();
-        final Limit.Smart smart = new Limit.Smart(limit);
-        MatcherAssert.assertThat(
-            limit.json(),
-            Matchers.equalTo(smart.json())
-        );
+        final Github github = GhLimitTest.github();
+        final Request request = new FakeRequest()
+            .withBody(body());
+        final GhLimit limit = new GhLimit(github, request, "core");
         MatcherAssert.assertThat(
             limit.json().toString(),
             Matchers.equalTo(
-                "{\"limit\":\"5\",\"remaining\":\"3\",\"reset\":\"123\"}"
+                "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
             )
         );
+    }
+
+    /**
+     * Test resources is not absent in JSON.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test(expected = IllegalStateException.class)
+    public void absent() throws Exception {
+        final Github github = GhLimitTest.github();
+        final Request request = new FakeRequest()
+            .withBody(body());
+        final GhLimit limit = new GhLimit(github, request, "absent");
+        MatcherAssert.assertThat(
+            limit.json().toString(),
+            Matchers.equalTo("{}")
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Github github() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new DefaultGithub(key);
+    }
+
+    /**
+     * Example response from rate API.
+     * @return Body string.
+     */
+    private String body() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("{\"resources\":{\"core\":{\"limit\":5000,");
+        builder.append("\"remaining\":4999,\"reset\":1372700873},");
+        builder.append("\"search\":{\"limit\":20,\"remaining\":18,");
+        builder.append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,");
+        builder.append("\"remaining\":4999,\"reset\":1372700873}}");
+        return builder.toString();
     }
 }
