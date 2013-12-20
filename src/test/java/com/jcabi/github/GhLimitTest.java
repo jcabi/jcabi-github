@@ -33,8 +33,8 @@ import com.rexsl.test.Request;
 import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link GhLimit}.
@@ -43,10 +43,6 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class GhLimitTest {
-    /**
-     * Rate limit uri.
-     */
-    private static final String RATE_URI = "/rate_limit";
 
     /**
      * Describe Limit in a JSON object.
@@ -55,7 +51,7 @@ public final class GhLimitTest {
      */
     @Test
     public void json() throws Exception {
-        final Github github = GhLimitTest.github();
+        final Github github = Mockito.mock(Github.class);
         final Request request = new FakeRequest()
             .withBody(body());
         final GhLimit limit = new GhLimit(github, request, "core");
@@ -74,7 +70,7 @@ public final class GhLimitTest {
      */
     @Test(expected = IllegalStateException.class)
     public void absent() throws Exception {
-        final Github github = GhLimitTest.github();
+        final Github github = Mockito.mock(Github.class);
         final Request request = new FakeRequest()
             .withBody(body());
         final GhLimit limit = new GhLimit(github, request, "absent");
@@ -82,17 +78,6 @@ public final class GhLimitTest {
             limit.json().toString(),
             Matchers.equalTo("{}")
         );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new DefaultGithub(key);
     }
 
     /**
