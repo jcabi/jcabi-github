@@ -30,58 +30,74 @@
 package com.jcabi.github;
 
 import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Created with IntelliJ IDEA.
+ * Test case for Markdown.
  * @author Pavel Danilchenko (mits0908@gmail.com)
  * @version $Id$
- * Date: 12/20/13
  */
 public final class GhMarkdownTest {
 
     /**
-     * Verify returns value for render() method if pass null.
+     * Markdown can return string when pass null to render method parameter.
      * @throws Exception If some problem inside
      */
     @Test
-    public void renderNullReturnsString() throws Exception {
+    public void returnStringWhenPassNullToRender() throws Exception {
+        final String notNull = "JSON can't be NULL";
         final Markdown markdown = Mockito.mock(Markdown.class);
-        Mockito.doReturn("JSON can't be NULL").when(markdown).render(null);
+        Mockito.when(markdown.render(null)).thenReturn(notNull);
+        MatcherAssert.assertThat(
+            markdown.render(null), Matchers.containsString(notNull)
+        );
+        Mockito.verify(markdown).render(null);
     }
 
     /**
-     * Verify returns value for raw() method if pass null.
+     * Markdown can return string when pass null to raw method parameter.
      * @throws Exception If some problem inside
      */
     @Test
-    public void rawNullReturnsString() throws Exception {
+    public void returnStringWhenPassNullToRaw() throws Exception {
+        final String nutNull = "Markdown can't be NULL";
         final Markdown markdown = Mockito.mock(Markdown.class);
-        Mockito.doReturn("Markdown can't be NULL").when(markdown).raw(null);
+        Mockito.when(markdown.raw(null)).thenReturn(nutNull);
+        MatcherAssert.assertThat(
+            markdown.raw(null), Matchers.containsString(nutNull)
+        );
+        Mockito.verify(markdown).raw(null);
     }
 
     /**
-     * Verify return string.
-     * @todo #32:15min add verification that render() returns correct string
+     * Markdown can return string when invoke render method.
+     * @todo #32:0.2hr add verification that render() returns correct string
      * @throws Exception If some problem inside
      */
     @Test
-    public void checkRender() throws Exception {
+    public void returnStringWhenInvokeRender() throws Exception {
+        final String first = "color";
+        final String second = "bla";
         final Markdown markdown = Mockito.mock(Markdown.class);
-        Mockito.doReturn("string1").when(markdown).render(
-            Json.createObjectBuilder().add("bla1", "bla2").build()
+        markdown.render(Json.createObjectBuilder().add(first, second).build());
+        Mockito.verify(markdown).render(
+            Json.createObjectBuilder().add(first, second).build()
         );
     }
 
     /**
-     * Verify return string.
-     * @todo #32:15min add verification that raw() returns correct string
+     * Markdown can return string when invoke raw method.
+     * @todo #32:0.2hr add verification that raw() returns correct string
      * @throws Exception If some problem inside
      */
     @Test
-    public void checkRaw() throws Exception {
+    public void returnStringWhenInvokeRaw() throws Exception {
+        final String dump = "some string";
         final Markdown markdown = Mockito.mock(Markdown.class);
-        Mockito.doReturn("string2").when(markdown).raw("bla3");
+        markdown.raw(dump);
+        Mockito.verify(markdown).raw(dump);
     }
 }
