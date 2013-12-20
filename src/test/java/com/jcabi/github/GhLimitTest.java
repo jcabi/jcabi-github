@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
 import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,16 +44,15 @@ import org.mockito.Mockito;
 public final class GhLimitTest {
 
     /**
-     * Describe Limit in a JSON object.
+     * GhLimit can describe as a JSON object.
      *
      * @throws Exception if there is any problem
      */
     @Test
     public void json() throws Exception {
         final Github github = Mockito.mock(Github.class);
-        final Request request = new FakeRequest()
-            .withBody(body());
-        final GhLimit limit = new GhLimit(github, request, "core");
+        final GhLimit limit = new GhLimit(github,
+            new FakeRequest().withBody(body()), "core");
         MatcherAssert.assertThat(
             limit.json().toString(),
             Matchers.equalTo(
@@ -64,16 +62,15 @@ public final class GhLimitTest {
     }
 
     /**
-     * Test resources is not absent in JSON.
+     * GhLimit can throw exception when resource is absent.
      *
      * @throws Exception if some problem inside
      */
     @Test(expected = IllegalStateException.class)
     public void absent() throws Exception {
         final Github github = Mockito.mock(Github.class);
-        final Request request = new FakeRequest()
-            .withBody(body());
-        final GhLimit limit = new GhLimit(github, request, "absent");
+        final GhLimit limit = new GhLimit(github,
+            new FakeRequest().withBody(body()), "absent");
         MatcherAssert.assertThat(
             limit.json().toString(),
             Matchers.equalTo("{}")
