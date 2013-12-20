@@ -46,7 +46,7 @@ public final class LimitTest {
     /**
      * Describe Limit in a JSON object.
      *
-     * @throws Exception ff there is any problem
+     * @throws Exception if there is any problem
      */
     @Test
     public void json() throws Exception {
