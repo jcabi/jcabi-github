@@ -30,11 +30,10 @@
 package com.jcabi.github;
 
 import com.rexsl.test.request.FakeRequest;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-
-import javax.json.Json;
 
 /**
  * Test case for {@link GhJson}.
@@ -71,12 +70,12 @@ public final class GhJsonTest {
         );
         json.patch(
             Json.createObjectBuilder()
-                .add("body", "hi you!")
+                .add("content", "hi you!")
                 .build()
         );
         MatcherAssert.assertThat(
-                json.fetch().toString(),
-                Matchers.containsString("hi you")
+            json.fetch().toString(),
+            Matchers.containsString("hi")
         );
     }
 }
