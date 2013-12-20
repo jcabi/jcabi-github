@@ -31,15 +31,15 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github Milestone.
@@ -51,16 +51,15 @@ import java.util.Date;
  * if (milestone.isOpen()) {
  *   milestone.close();
  * }</pre>
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.5
  * @see <a href="http://developer.github.com/v3/issues/milestones/">Milestones API</a>
+ * @since 0.5
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
 public interface Milestone extends Comparable<Milestone>,
-        JsonReadable, JsonPatchable {
+    JsonReadable, JsonPatchable {
 
     /**
      * Milestone state.
@@ -94,15 +93,31 @@ public interface Milestone extends Comparable<Milestone>,
     @EqualsAndHashCode(of = "milestone")
     final class Smart implements Milestone {
 
+        /**
+         * Name of mailestone state attribute.
+         */
         private static final String STATE = "state";
+
+        /**
+         * Name of mailestone description attribute.
+         */
         private static final String DESCRIPTION = "description";
+
+        /**
+         * Name of mailestone title attribute.
+         */
         private static final String TITLE = "title";
+
+        /**
+         * Name of mailestone due_on attribute.
+         */
         private static final String DUE_ON = "due_on";
 
         /**
          * Encapsulated milestone.
          */
         private final transient Milestone milestone;
+
         /**
          * Public ctor.
          * @param mls Issue
@@ -110,6 +125,7 @@ public interface Milestone extends Comparable<Milestone>,
         public Smart(final Milestone mls) {
             this.milestone = mls;
         }
+
         /**
          * Get its creator.
          * @return Creator of milestone (who submitted it)
@@ -117,11 +133,12 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public User creator() throws IOException {
             return this.milestone.repo().github().users().get(
-                    new SmartJson(this).value(
-                            "creator", JsonObject.class
-                    ).getString("login")
+                new SmartJson(this).value(
+                    "creator", JsonObject.class
+                ).getString("login")
             );
         }
+
         /**
          * Is it open?
          * @return TRUE if it's open
@@ -130,6 +147,7 @@ public interface Milestone extends Comparable<Milestone>,
         public boolean isOpen() throws IOException {
             return Milestone.OPEN_STATE.equals(this.state());
         }
+
         /**
          * Open it (make sure it's open).
          * @throws IOException If there is any I/O problem
@@ -137,6 +155,7 @@ public interface Milestone extends Comparable<Milestone>,
         public void open() throws IOException {
             this.state(Milestone.OPEN_STATE);
         }
+
         /**
          * Close it (make sure it's closed).
          * @throws IOException If there is any I/O problem
@@ -144,6 +163,7 @@ public interface Milestone extends Comparable<Milestone>,
         public void close() throws IOException {
             this.state(Milestone.CLOSED_STATE);
         }
+
         /**
          * Get its state.
          * @return State of milestone
@@ -152,6 +172,7 @@ public interface Milestone extends Comparable<Milestone>,
         public String state() throws IOException {
             return new SmartJson(this).text(STATE);
         }
+
         /**
          * Change its state.
          * @param state State of milestone
@@ -159,9 +180,10 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public void state(final String state) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add(STATE, state).build()
+                Json.createObjectBuilder().add(STATE, state).build()
             );
         }
+
         /**
          * Get its title.
          * @return Title of milestone
@@ -170,6 +192,7 @@ public interface Milestone extends Comparable<Milestone>,
         public String title() throws IOException {
             return new SmartJson(this).text(TITLE);
         }
+
         /**
          * Change its title.
          * @param title Title of milestone
@@ -177,9 +200,10 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public void title(final String title) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add(TITLE, title).build()
+                Json.createObjectBuilder().add(TITLE, title).build()
             );
         }
+
         /**
          * Get its description.
          * @return Title of milestone
@@ -188,6 +212,7 @@ public interface Milestone extends Comparable<Milestone>,
         public String description() throws IOException {
             return new SmartJson(this).text(DESCRIPTION);
         }
+
         /**
          * Change its description.
          * @param description Description of milestone
@@ -195,10 +220,11 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public void description(final String description) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder()
-                            .add(DESCRIPTION, description).build()
+                Json.createObjectBuilder()
+                    .add(DESCRIPTION, description).build()
             );
         }
+
         /**
          * Get its URL.
          * @return URL of milestone
@@ -207,6 +233,7 @@ public interface Milestone extends Comparable<Milestone>,
         public URL url() throws IOException {
             return new URL(new SmartJson(this).text("url"));
         }
+
         /**
          * When this milestone was created.
          * @return Date of creation
@@ -215,7 +242,7 @@ public interface Milestone extends Comparable<Milestone>,
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                        new SmartJson(this).text("created_at")
+                    new SmartJson(this).text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -230,7 +257,7 @@ public interface Milestone extends Comparable<Milestone>,
         public Date dueOn() throws IOException {
             try {
                 return new Github.Time(
-                        new SmartJson(this).text(DUE_ON)
+                    new SmartJson(this).text(DUE_ON)
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -239,18 +266,19 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Change milestone due date.
-         * @param dueon new milestone due date
+         * @param dueon New milestone due date
          * @throws IOException If there is any I/O problem
          */
         public void dueOn(final Date dueon) throws IOException {
             this.milestone.patch(
-                    Json.createObjectBuilder().add(DUE_ON, new Github.Time(dueon).toString()).build()
+                Json.createObjectBuilder()
+                    .add(DUE_ON, new Github.Time(dueon).toString()).build()
             );
         }
 
         /**
          * Get number of open issues.
-         * @return number of open issues
+         * @return Number of open issues
          * @throws IOException If there is any I/O problem
          */
         public int openIssues() throws IOException {
@@ -259,7 +287,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get number of closed issues.
-         * @return number of closed issues
+         * @return Number of closed issues
          * @throws IOException If there is any I/O problem
          */
         public int closedIssues() throws IOException {
@@ -270,6 +298,7 @@ public interface Milestone extends Comparable<Milestone>,
         public Repo repo() {
             return this.milestone.repo();
         }
+
         @Override
         public int number() {
             return this.milestone.number();
@@ -279,10 +308,12 @@ public interface Milestone extends Comparable<Milestone>,
         public JsonObject json() throws IOException {
             return this.milestone.json();
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.milestone.patch(json);
         }
+
         @Override
         public int compareTo(final Milestone obj) {
             return this.milestone.compareTo(obj);

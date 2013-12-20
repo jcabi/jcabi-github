@@ -30,17 +30,16 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github Milestones.
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.5
  * @see <a href="http://developer.github.com/v3/issues/milestones/">Milestones API</a>
+ * @since 0.5
  */
 @Immutable
 public interface Milestones {
@@ -57,12 +56,12 @@ public interface Milestones {
      * @param title Milestone creation JSON
      * @return Milestone
      * @throws java.io.IOException If there is any I/O problem
-     * @since 0.5
      * @see <a href="http://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
+     * @since 0.5
      */
     @NotNull(message = "repository is never NULL")
     Milestone create(@NotNull(message = "Title can't be NULL") String title)
-            throws IOException;
+        throws IOException;
 
     /**
      * Get specific milestone by number.
@@ -81,6 +80,6 @@ public interface Milestones {
      */
     @NotNull(message = "iterable is never NULL")
     Iterable<Milestone> iterate(
-            @NotNull(message = "map of params can't be NULL")
-                            Map<String, String> params);
+        @NotNull(message = "map of params can't be NULL")
+        Map<String, String> params);
 }

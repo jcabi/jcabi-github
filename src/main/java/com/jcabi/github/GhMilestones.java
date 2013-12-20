@@ -1,6 +1,7 @@
 /**
  * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met: 1) Redistributions of source code must retain the above
@@ -12,6 +13,7 @@
  * the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written
  * permission.
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
  * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -32,27 +34,29 @@ import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
-import lombok.EqualsAndHashCode;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github milestones.
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "request", "owner" })
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
 public class GhMilestones implements Milestones {
 
+    /**
+     * Name of mailestones number attribute.
+     */
     private static final String NUMBER = "number";
 
     /**
@@ -79,11 +83,11 @@ public class GhMilestones implements Milestones {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
-                .path("/repos")
-                .path(coords.user())
-                .path(coords.repo())
-                .path("/milestones")
-                .back();
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/milestones")
+            .back();
         this.owner = repo;
     }
 
@@ -99,21 +103,21 @@ public class GhMilestones implements Milestones {
 
     @Override
     public final Milestone create(
-            @NotNull(message = "title can't be NULL") final String title)
-            throws IOException {
+        @NotNull(message = "title can't be NULL") final String title)
+        throws IOException {
         final StringWriter post = new StringWriter();
         Json.createGenerator(post)
-                .writeStartObject()
-                .write("title", title)
-                .writeEnd()
-                .close();
+            .writeStartObject()
+            .write("title", title)
+            .writeEnd()
+            .close();
         return this.get(
-                this.request.method(Request.POST)
-                        .body().set(post.toString()).back()
-                        .fetch().as(RestResponse.class)
-                        .assertStatus(HttpURLConnection.HTTP_CREATED)
-                        .as(JsonResponse.class)
-                        .json().readObject().getInt(NUMBER)
+            this.request.method(Request.POST)
+                .body().set(post.toString()).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt(NUMBER)
         );
     }
 
@@ -126,14 +130,14 @@ public class GhMilestones implements Milestones {
     public final Iterable<Milestone> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
-            return new GhPagination<Milestone>(
-                    this.request.uri().queryParams(params).back(),
-                    new GhPagination.Mapping<Milestone>() {
-                        @Override
-                        public Milestone map(final JsonObject object) {
-                            return GhMilestones.this.get(object.getInt(NUMBER));
-                        }
-                    }
-            );
+        return new GhPagination<Milestone>(
+            this.request.uri().queryParams(params).back(),
+            new GhPagination.Mapping<Milestone>() {
+                @Override
+                public Milestone map(final JsonObject object) {
+                    return GhMilestones.this.get(object.getInt(NUMBER));
+                }
+            }
+        );
     }
 }

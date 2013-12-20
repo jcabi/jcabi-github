@@ -107,11 +107,6 @@ final class GhRepo implements Repo {
     }
 
     @Override
-    public Milestones milestones() {
-        return new GhMilestones(this.entry, this);
-    }
-
-    @Override
     public Pulls pulls() {
         return new GhPulls(this.entry, this);
     }

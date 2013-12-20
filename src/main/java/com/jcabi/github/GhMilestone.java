@@ -32,27 +32,21 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import lombok.EqualsAndHashCode;
+import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github milestone.
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = {"entry", "request", "owner" })
+@EqualsAndHashCode(of = {"request", "owner" })
 public class GhMilestone implements Milestone {
-
-    /**
-     * API entry point.
-     */
-    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -71,21 +65,19 @@ public class GhMilestone implements Milestone {
 
     /**
      * Public ctor.
-     *
-     * @param req    Request
-     * @param repo   Repository
+     * @param req Request
+     * @param repo Repository
      * @param number Number of the get
      */
     GhMilestone(final Request req, final Repo repo, final int number) {
-        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-                .path("/repos")
-                .path(coords.user())
-                .path(coords.repo())
-                .path("/milestones")
-                .path(Integer.toString(number))
-                .back();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/milestones")
+            .path(Integer.toString(number))
+            .back();
         this.owner = repo;
         this.num = number;
     }
@@ -112,15 +104,15 @@ public class GhMilestone implements Milestone {
 
     @Override
     public final void patch(
-            @NotNull(message = "JSON object can't be NULL")
-            final JsonObject json) throws IOException {
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
         new GhJson(this.request).patch(json);
     }
 
     @Override
     public final int compareTo(
-            @NotNull(message = "Milestone object can't be NULL")
-            final Milestone milestone) {
+        @NotNull(message = "Milestone object can't be NULL")
+        final Milestone milestone) {
         return new Integer(this.number()).compareTo(milestone.number());
     }
 }

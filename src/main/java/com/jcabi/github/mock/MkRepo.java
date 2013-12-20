@@ -31,22 +31,20 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.io.IOException;
-import javax.json.JsonObject;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
-import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
+import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * Mock Github repo.
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
@@ -54,7 +52,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
+@EqualsAndHashCode(of = {"storage", "self", "coords" })
 final class MkRepo implements Repo {
 
     /**
@@ -102,11 +100,6 @@ final class MkRepo implements Repo {
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
-    }
-
-    @Override
-    public Milestones milestones() {
-        throw new IllegalStateException("Not implemented");
     }
 
     @Override
