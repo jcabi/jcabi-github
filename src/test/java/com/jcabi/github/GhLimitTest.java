@@ -49,7 +49,7 @@ public final class GhLimitTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void json() throws Exception {
+    public void describeAsJson() throws Exception {
         final Github github = Mockito.mock(Github.class);
         final GhLimit limit = new GhLimit(github,
             new FakeRequest().withBody(body()), "core");
