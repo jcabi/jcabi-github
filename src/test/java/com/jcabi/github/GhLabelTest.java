@@ -60,7 +60,7 @@ public final class GhLabelTest {
         ).start();
         final GhLabel label = new GhLabel(
             new ApacheRequest(container.home()),
-            getRepo(),
+            GhLabelTest.repo(),
             "bug"
         );
         MatcherAssert.assertThat(
@@ -82,7 +82,7 @@ public final class GhLabelTest {
         ).start();
         final GhLabel label = new GhLabel(
             new ApacheRequest(container.home()),
-            getRepo(),
+            GhLabelTest.repo(),
             "enhance"
         );
         label.patch(
@@ -102,7 +102,7 @@ public final class GhLabelTest {
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private Repo getRepo() throws Exception {
+    private static Repo repo() throws Exception {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
             .when(repo).coordinates();
