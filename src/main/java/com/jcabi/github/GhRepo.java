@@ -39,14 +39,14 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github repository.
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry", "coords" })
+@EqualsAndHashCode(of = {"ghub", "entry", "coords" })
 final class GhRepo implements Repo {
 
     /**
@@ -104,6 +104,11 @@ final class GhRepo implements Repo {
     @Override
     public Issues issues() {
         return new GhIssues(this.entry, this);
+    }
+
+    @Override
+    public Milestones milestones() {
+        return new GhMilestones(this.entry, this);
     }
 
     @Override

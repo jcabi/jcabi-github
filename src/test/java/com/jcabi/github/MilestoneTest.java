@@ -27,37 +27,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link Repo}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link Milestone}.
+ * @author Paul Polischuk (ppol@ua.fm)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkRepoTest {
-
+public class MilestoneTest {
     /**
-     * Repo can work.
+     * Milestone.Smart can fetch key properties of an Milestone.
      * @throws Exception If some problem inside
      */
     @Test
-    public void works() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
+    public final void fetchesProperties() throws Exception {
+        final Milestone milestone = Mockito.mock(Milestone.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("title", "this is some text \u20ac")
+                .add("description", "description of the milestone")
+                .add("state", "state of the milestone")
+                .build()
+        ).when(milestone).json();
+        final Milestone.Smart smart = new Milestone.Smart(milestone);
+        MatcherAssert.assertThat(
+            smart.title(),
+            Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.hasToString("jeff/test")
+            smart.description(),
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            smart.state(),
+            Matchers.notNullValue()
         );
     }
-
 
 }

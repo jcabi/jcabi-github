@@ -36,6 +36,7 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
+import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
 import java.io.IOException;
@@ -100,6 +101,11 @@ final class MkRepo implements Repo {
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public Milestones milestones() {
+        return null;
     }
 
     @Override
