@@ -29,106 +29,95 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.RequestURI;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.rexsl.test.Request;
-import com.rexsl.test.RequestURI;
 
 /**
  * Test case for {@link GhIssue}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #42? I assumed that the JSON methods json() and fetch() are not
- * 	covered by this test suite, since they are covered by GhJson tests.
+ * @todo #42 I assumed that the JSON methods json() and fetch() are not
+ *  covered by this test suite, since they are covered by GhJson tests.
  *  GhIssue just creates a GhJson using its own request object. I'm
  *  not entirely sure whether we should test it again here or not.
  */
 public final class GhIssueTest {
 
-	/**
-	 * GhIssue should be able to fetch its comments.
-	 *
-	 * @throws Exception if a problem occurs.
-	 */
-	@Test
-	public void fetchesComments() throws Exception {
+    /**
+     * GhIssue should be able to fetch its comments.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchesComments() throws Exception {
         final Repo repo = repo();
-
         final Request req = request();
+        final GhIssue ghIssue = new GhIssue(req, repo, 1);
+        MatcherAssert.assertThat(
+            ghIssue.comments(),
+            Matchers.notNullValue()
+        );
+    }
 
-		final GhIssue ghIssue = new GhIssue(req, repo, 1);
-
-		MatcherAssert.assertThat(
-			ghIssue.comments(),
-			Matchers.notNullValue()
-		);
-	}
-
-	/**
-	 * GhIssue should be able to fetch its labels.
-	 *
-	 * @throws Exception if a problem occurs.
-	 */
-	@Test
-	public void fetchesLabels() throws Exception {
+    /**
+     * GhIssue should be able to fetch its labels.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchesLabels() throws Exception {
         final Repo repo = repo();
-
         final Request req = request();
+        final GhIssue ghIssue = new GhIssue(req, repo, 1);
+        MatcherAssert.assertThat(
+            ghIssue.labels(),
+            Matchers.notNullValue()
+        );
+    }
 
-		final GhIssue ghIssue = new GhIssue(req, repo, 1);
-
-		MatcherAssert.assertThat(
-			ghIssue.labels(),
-			Matchers.notNullValue()
-		);
-	}
-
-	/**
-	 * GhIssue should be able to fetch its events.
-	 *
-	 * @throws Exception if a problem occurs.
-	 */
-	@Test
-	public void fetchesEvents() throws Exception {
+    /**
+     * GhIssue should be able to fetch its events.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchesEvents() throws Exception {
         final Repo repo = repo();
-
         final Request req = request();
+        final GhIssue ghIssue = new GhIssue(req, repo, 1);
+        MatcherAssert.assertThat(
+            ghIssue.events(),
+            Matchers.notNullValue()
+        );
+    }
 
-		final GhIssue ghIssue = new GhIssue(req, repo, 1);
-
-		MatcherAssert.assertThat(
-			ghIssue.events(),
-			Matchers.notNullValue()
-		);
-	}
-
-	/**
-	 * Mock request for GhIssue creation.
-	 * @return The mock request.
-	 */
-	private Request request() {
-		final Request req = Mockito.mock(Request.class);
+    /**
+     * Mock request for GhIssue creation.
+     * @return The mock request.
+     */
+    private Request request() {
+        final Request req = Mockito.mock(Request.class);
         final RequestURI uri = Mockito.mock(RequestURI.class);
         Mockito.doReturn(uri).when(req).uri();
         Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
         Mockito.doReturn(req).when(uri).back();
+        return req;
+    }
 
-		return req;
-	}
-
-	/**
-	 * Mock repo for GhIssue creation.
-	 * @return The mock repo.
-	 */
-	private Repo repo() {
-		final Repo repo = Mockito.mock(Repo.class);
+    /**
+     * Mock repo for GhIssue creation.
+     * @return The mock repo.
+     */
+    private Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();
-		return repo;
-	}
+        return repo;
+    }
 
 }
