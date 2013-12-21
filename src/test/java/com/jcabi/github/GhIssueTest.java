@@ -42,14 +42,17 @@ import com.rexsl.test.RequestURI;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @todo #42? I assumed that the JSON methods json() and fetch() are not
+ * 	covered by this test suite, since they are covered by GhJson tests.
+ *  GhIssue just creates a GhJson using its own request object. I'm
+ *  not entirely sure whether we should test it again here or not.
  */
 public final class GhIssueTest {
-
 
 	/**
 	 * GhIssue should be able to fetch its comments.
 	 *
-	 * @throws Exception
+	 * @throws Exception if a problem occurs.
 	 */
 	@Test
 	public void fetchesComments() throws Exception {
@@ -66,6 +69,44 @@ public final class GhIssueTest {
 	}
 
 	/**
+	 * GhIssue should be able to fetch its labels.
+	 *
+	 * @throws Exception if a problem occurs.
+	 */
+	@Test
+	public void fetchesLabels() throws Exception {
+        final Repo repo = repo();
+
+        final Request req = request();
+
+		final GhIssue ghIssue = new GhIssue(req, repo, 1);
+
+		MatcherAssert.assertThat(
+			ghIssue.labels(),
+			Matchers.notNullValue()
+		);
+	}
+
+	/**
+	 * GhIssue should be able to fetch its events.
+	 *
+	 * @throws Exception if a problem occurs.
+	 */
+	@Test
+	public void fetchesEvents() throws Exception {
+        final Repo repo = repo();
+
+        final Request req = request();
+
+		final GhIssue ghIssue = new GhIssue(req, repo, 1);
+
+		MatcherAssert.assertThat(
+			ghIssue.events(),
+			Matchers.notNullValue()
+		);
+	}
+
+	/**
 	 * Mock request for GhIssue creation.
 	 * @return The mock request.
 	 */
@@ -75,6 +116,7 @@ public final class GhIssueTest {
         Mockito.doReturn(uri).when(req).uri();
         Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
         Mockito.doReturn(req).when(uri).back();
+
 		return req;
 	}
 
