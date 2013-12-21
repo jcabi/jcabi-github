@@ -59,6 +59,7 @@ public final class OrganizationTest {
                 .add("blog", "https://github.com/blog")
                 .add("location", "San Francisco")
                 .add("email", "octocat@github.com")
+                .add("billing_email", "octocat_billing@github.com")
                 .add("public_repos", defaultint)
                 .add("public_gists", defaultint)
                 .add("followers", defaultint)
@@ -95,6 +96,10 @@ public final class OrganizationTest {
         );
         MatcherAssert.assertThat(
             smart.email(),
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            smart.billingEmail(),
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
