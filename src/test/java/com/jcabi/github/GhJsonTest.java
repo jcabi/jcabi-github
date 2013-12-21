@@ -29,68 +29,61 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
-import java.io.IOException;
-import java.io.StringWriter;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github JSON item.
+ * Test case for {@link GhJson}.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @since 0.6
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-final class GhJson {
-
+public final class GhJsonTest {
     /**
-     * RESTful request.
+     * GhJson can fetch HTTP request.
+     *
+     * @throws Exception if there is any problem
      */
-    private final transient Request request;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     */
-    GhJson(final Request req) {
-        this.request = req;
+    @Test
+    public void sendHttpRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hi\"}")
+        ).start();
+        final GhJson json = new GhJson(new ApacheRequest(container.home()));
+        MatcherAssert.assertThat(
+            json.fetch().getString("body"),
+            Matchers.equalTo("hi")
+        );
+        container.stop();
     }
 
     /**
-     * Fetch JSON object.
-     * @return JSON object
-     * @throws IOException If fails
+     * GhJson can execute PATCH request.
+     *
+     * @throws Exception if there is any problem
      */
-    public JsonObject fetch() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+    @Test
+    public void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hj\"}")
+        ).start();
+        final GhJson json = new GhJson(new ApacheRequest(container.home()));
+        json.patch(
+            Json.createObjectBuilder()
+                .add("content", "hi you!")
+                .build()
+        );
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo("PATCH")
+        );
+        container.stop();
     }
-
-    /**
-     * Patch it.
-     * @param json JSON to use for patching
-     * @throws IOException If fails
-     */
-    public void patch(final JsonObject json) throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createWriter(post).writeObject(json);
-        this.request.body().set(post.toString()).back()
-            .method(Request.PATCH)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
-    }
-
 }
