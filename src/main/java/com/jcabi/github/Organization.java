@@ -51,7 +51,7 @@ import lombok.ToString;
  * if (org.name == null) {
  *   name = "new_name";
  * }</pre>
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
@@ -63,16 +63,11 @@ public interface Organization extends Comparable<Organization>,
     JsonReadable, JsonPatchable {
 
     /**
-     * Issue state.
+     * User we're in.
+     * @return User
      */
-    String CLOSED_STATE = "closed";
-
-    /**
-     * Repository we're in.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @NotNull(message = "user is never NULL")
+    User user();
 
     /**
      * Get its id.
@@ -326,8 +321,8 @@ public interface Organization extends Comparable<Organization>,
         }
 
         @Override
-        public Repo repo() {
-            return this.org.repo();
+        public User user() {
+            return this.org.user();
         }
 
         @Override

@@ -44,11 +44,11 @@ import javax.validation.constraints.NotNull;
 public interface Organizations {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * Get its owner.
+     * @return Github
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @NotNull(message = "github is never NULL")
+    Github github();
 
     /**
      * Get specific organization by id.
