@@ -53,15 +53,9 @@ public final class GhIssueTest {
 	 */
 	@Test
 	public void fetchesComments() throws Exception {
-        final Repo repo = Mockito.mock(Repo.class);
-        final Coordinates coords = Mockito.mock(Coordinates.class);
-        Mockito.doReturn(coords).when(repo).coordinates();
+        final Repo repo = repo();
 
-        final Request req = Mockito.mock(Request.class);
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        Mockito.doReturn(req).when(uri).back();
+        final Request req = request();
 
 		final GhIssue ghIssue = new GhIssue(req, repo, 1);
 
@@ -69,6 +63,30 @@ public final class GhIssueTest {
 			ghIssue.comments(),
 			Matchers.notNullValue()
 		);
+	}
+
+	/**
+	 * Mock request for GhIssue creation.
+	 * @return The mock request.
+	 */
+	private Request request() {
+		final Request req = Mockito.mock(Request.class);
+        final RequestURI uri = Mockito.mock(RequestURI.class);
+        Mockito.doReturn(uri).when(req).uri();
+        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
+        Mockito.doReturn(req).when(uri).back();
+		return req;
+	}
+
+	/**
+	 * Mock repo for GhIssue creation.
+	 * @return The mock repo.
+	 */
+	private Repo repo() {
+		final Repo repo = Mockito.mock(Repo.class);
+        final Coordinates coords = Mockito.mock(Coordinates.class);
+        Mockito.doReturn(coords).when(repo).coordinates();
+		return repo;
 	}
 
 }
