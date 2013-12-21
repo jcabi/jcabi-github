@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
@@ -38,6 +39,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link GhLabel}.
@@ -58,8 +60,7 @@ public final class GhLabelTest {
         ).start();
         final GhLabel label = new GhLabel(
             new ApacheRequest(container.home()),
-            new DefaultGithub()
-                .repos().get(new Coordinates.Simple("mark", "test")),
+            getRepo(),
             "bug"
         );
         MatcherAssert.assertThat(
@@ -70,7 +71,7 @@ public final class GhLabelTest {
     }
 
     /**
-     * GhJson can execute PATCH request.
+     * GhLabel can execute PATCH request.
      *
      * @throws Exception if there is any problem
      */
@@ -81,8 +82,7 @@ public final class GhLabelTest {
         ).start();
         final GhLabel label = new GhLabel(
             new ApacheRequest(container.home()),
-            new DefaultGithub()
-                .repos().get(new Coordinates.Simple("jeff", "patch")),
+            getRepo(),
             "enhance"
         );
         label.patch(
@@ -92,8 +92,20 @@ public final class GhLabelTest {
         );
         MatcherAssert.assertThat(
             container.take().method(),
-            Matchers.equalTo("PATCH")
+            Matchers.equalTo(Request.PATCH)
         );
         container.stop();
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private Repo getRepo() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("mark", "test"))
+            .when(repo).coordinates();
+        return repo;
     }
 }
