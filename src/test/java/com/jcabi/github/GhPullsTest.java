@@ -79,16 +79,28 @@ public final class GhPullsTest {
 
     /**
      * GhPulls can return Pull when invoke get(int number).
-     * @todo #31:0.2hr add test for get(int number) method
      * @throws Exception If some problem inside
      */
     @Test
     public void returnPullWhenInvokeGet() throws Exception {
+        final int number = 10;
+        final Pulls mock = Mockito.mock(Pulls.class);
+        final Pull pullMock = Mockito.mock(Pull.class);
+        Mockito.when(mock.get(number)).thenAnswer(
+            new Answer<Object>() {
+                @Override
+                public Object answer(
+                    final InvocationOnMock invocationOnMock) throws Exception {
+                    return pullMock;
+                }
+            });
+        MatcherAssert.assertThat(mock.get(number), Matchers.equalTo(pullMock));
+        Mockito.verify(mock).get(number);
     }
 
     /**
      * GhPulls can return Pull when invoke create().
-     * @todo #31:0.2hr add test for create() method
+     * @todo #31:0.15hr add tests for create() method
      * @throws Exception If some problem inside
      */
     @Test
@@ -97,7 +109,7 @@ public final class GhPullsTest {
 
     /**
      * GhPulls can return Iterable<Pull> when invoke iterate().
-     * @todo #31:0.2hr add test for iterate() method
+     * @todo #31:0.15hr add tests for iterate() method
      * @throws Exception If some problem inside
      */
     @Test
