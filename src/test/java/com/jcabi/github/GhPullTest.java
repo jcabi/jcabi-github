@@ -34,7 +34,6 @@ import com.rexsl.test.RequestURI;
 import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -81,7 +80,25 @@ public final class GhPullTest {
      */
     @Test
     public void fetchesFiles() throws Exception {
-        Assert.fail("Not implemented!");
+        final Repo repo = Mockito.mock(Repo.class);
+        final Request req = Mockito.mock(Request.class);
+        final Coordinates coords = Mockito.mock(Coordinates.class);
+        Mockito.doReturn(coords).when(repo).coordinates();
+        Mockito.doReturn("fileUser").when(coords).user();
+        Mockito.doReturn("fileRepo").when(coords).repo();
+        final RequestURI uri = Mockito.mock(RequestURI.class);
+        Mockito.doReturn(uri).when(req).uri();
+        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
+        Mockito.doReturn(req).when(uri).back();
+        final GhPull pull = new GhPull(req, repo, 1);
+        final Request fakereq = new FakeRequest().withBody(
+            "[{\"file1\":\"testFile\"}]"
+        );
+        Mockito.doReturn(fakereq).when(uri).back();
+        MatcherAssert.assertThat(
+            pull.files().iterator().next().getString("file1"),
+            Matchers.equalTo("testFile")
+        );
     }
 
     /**
@@ -91,7 +108,21 @@ public final class GhPullTest {
      */
     @Test
     public void executeMerge() throws Exception {
-        Assert.fail("Not implemented!");
+        final Repo repo = Mockito.mock(Repo.class);
+        final Request req = Mockito.mock(Request.class);
+        final Coordinates coords = Mockito.mock(Coordinates.class);
+        Mockito.doReturn(coords).when(repo).coordinates();
+        Mockito.doReturn("mergeUser").when(coords).user();
+        Mockito.doReturn("mergeRepo").when(coords).repo();
+        final RequestURI uri = Mockito.mock(RequestURI.class);
+        Mockito.doReturn(uri).when(req).uri();
+        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
+        Mockito.doReturn(req).when(uri).back();
+        final GhPull pull = new GhPull(req, repo, 1);
+        final Request fakereq = new FakeRequest();
+        Mockito.doReturn(fakereq).when(uri).back();
+        pull.merge("Test commit.");
+        Mockito.verify(uri).path("/merge");
     }
 
 }
