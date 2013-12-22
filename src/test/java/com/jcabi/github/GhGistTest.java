@@ -59,10 +59,10 @@ public final class GhGistTest {
         final RequestURI uri = Mockito.mock(RequestURI.class);
         Mockito.doReturn(uri).when(req).uri();
         Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        final Request fakeReq = new FakeRequest().withBody(
+        final Request fakereq = new FakeRequest().withBody(
             "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
         );
-        Mockito.doReturn(fakeReq).when(uri).back();
+        Mockito.doReturn(fakereq).when(uri).back();
         final GhGist gist = new GhGist(new MkGithub(), req, "test");
         MatcherAssert.assertThat(
             gist.read("hello"),
@@ -92,8 +92,8 @@ public final class GhGistTest {
         gist.write("testFile", "testContent");
         Mockito.verify(req).method(Request.PATCH);
         MatcherAssert.assertThat(
-           fakereq.body(),
-           Matchers.notNullValue()
+            fakereq.body(),
+            Matchers.notNullValue()
         );
     }
 
