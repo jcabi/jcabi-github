@@ -58,6 +58,11 @@ public final class GhGistTest {
      * GhGist should be able to do reads.
      *
      * @throws Exception if there is a problem.
+     * @todo #44 I used a Request mock in conjunction with a custom dummy
+     *  response object for this test. The reason is that FakeRequest throws
+     *  a NullPointerException when GhGist attempts to resolve the /gists
+     *  location. Not sure if I was using it wrong, or whether we should
+     *  generalize DummyRequest instead.
      */
     @Test
     public void executeRead() throws Exception {
