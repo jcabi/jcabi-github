@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
 import com.rexsl.test.Request;
+import com.rexsl.test.RequestBody;
 import com.rexsl.test.RequestURI;
 import com.rexsl.test.Response;
 import com.rexsl.test.response.JsonResponse;
@@ -40,9 +41,9 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import javax.json.JsonStructure;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,6 +52,11 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @todo #44 I used a Request mock in conjunction with a custom dummy
+ *  response object for this test. The reason is that FakeRequest throws
+ *  a NullPointerException when GhGist attempts to resolve the /gists
+ *  location. Not sure if I was using it wrong, or whether we should
+ *  generalize DummyRequest instead.
  */
 public final class GhGistTest {
 
@@ -58,11 +64,6 @@ public final class GhGistTest {
      * GhGist should be able to do reads.
      *
      * @throws Exception if there is a problem.
-     * @todo #44 I used a Request mock in conjunction with a custom dummy
-     *  response object for this test. The reason is that FakeRequest throws
-     *  a NullPointerException when GhGist attempts to resolve the /gists
-     *  location. Not sure if I was using it wrong, or whether we should
-     *  generalize DummyRequest instead.
      */
     @Test
     public void executeRead() throws Exception {
@@ -89,7 +90,22 @@ public final class GhGistTest {
      */
     @Test
     public void executeWrite() throws Exception {
-        Assert.fail("Not yet implemented");
+        final Github github = new MkGithub();
+        final Request req = Mockito.mock(Request.class);
+        final RequestURI uri = Mockito.mock(RequestURI.class);
+        Mockito.doReturn(uri).when(req).uri();
+        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
+        Mockito.doReturn(req).when(uri).back();
+        Mockito.doReturn(req).when(req).method(Request.PATCH);
+        final RequestBody body = Mockito.mock(RequestBody.class);
+        Mockito.doReturn(body).when(req).body();
+        Mockito.doReturn(body).when(body).set(Mockito.any(JsonStructure.class));
+        Mockito.doReturn(req).when(body).back();
+        Mockito.doReturn(new DummyResponse(req)).when(req).fetch();
+        final GhGist gist = new GhGist(github, req, "testWrite");
+        gist.write("testFile", "testContent");
+        Mockito.verify(req).method(Request.PATCH);
+        Mockito.verify(req).fetch();
     }
 
     /**
