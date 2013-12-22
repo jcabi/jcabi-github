@@ -29,51 +29,70 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Milestone}.
- * @author Paul Polischuk (ppol@ua.fm)
+ * Integration case for {@link Milestone}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MilestoneTest {
+public final class GhMilestoneITCase {
+
     /**
-     * Milestone.Smart can fetch key properties of an Milestone.
+     * GhMilestone can change title and description.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesProperties() throws Exception {
-        final Milestone milestone = Mockito.mock(Milestone.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("title", "this is some text \u20ac")
-                .add("description", "description of the milestone")
-                .add("state", "state of the milestone")
-                .add("due_on", "2011-04-10T20:09:31Z")
-                .build()
-        ).when(milestone).json();
+    public void changesTitleAndDescription() throws Exception {
+        final Milestone milestone = GhMilestoneITCase.milestone();
         final Milestone.Smart smart = new Milestone.Smart(milestone);
+        smart.title("test one more time");
+        smart.description("test description more time");
         MatcherAssert.assertThat(
             smart.title(),
-            Matchers.notNullValue()
+            Matchers.startsWith("test o")
         );
         MatcherAssert.assertThat(
             smart.description(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.state(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.dueOn(),
-            Matchers.notNullValue()
+            Matchers.startsWith("test d")
         );
     }
 
+    /**
+     * Milestone can change it's state.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void changesMilestoneState() throws Exception {
+        final Milestone milestone = GhMilestoneITCase.milestone();
+        new Milestone.Smart(milestone).close();
+        MatcherAssert.assertThat(
+            new Milestone.Smart(milestone).isOpen(),
+            Matchers.is(false)
+        );
+        new Milestone.Smart(milestone).open();
+        MatcherAssert.assertThat(
+            new Milestone.Smart(milestone).isOpen(),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * Create and return milestone to test.
+     * @return Milestone
+     * @throws Exception If some problem inside
+     */
+    private static Milestone milestone() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new DefaultGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).milestones().create("test milestone title");
+    }
+
 }
+

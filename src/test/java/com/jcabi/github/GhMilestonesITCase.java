@@ -29,51 +29,38 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Milestone}.
- * @author Paul Polischuk (ppol@ua.fm)
+ * Integration case for {@link Milestones}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
+ *
+ * @todo #1:30min Implement integration tests for Milestones.
+ *  Now these tests are ignored
  */
-public class MilestoneTest {
+public final class GhMilestonesITCase {
+
     /**
-     * Milestone.Smart can fetch key properties of an Milestone.
+     * GhMilestones can iterate milestones.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesProperties() throws Exception {
-        final Milestone milestone = Mockito.mock(Milestone.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("title", "this is some text \u20ac")
-                .add("description", "description of the milestone")
-                .add("state", "state of the milestone")
-                .add("due_on", "2011-04-10T20:09:31Z")
-                .build()
-        ).when(milestone).json();
-        final Milestone.Smart smart = new Milestone.Smart(milestone);
-        MatcherAssert.assertThat(
-            smart.title(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.description(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.state(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.dueOn(),
-            Matchers.notNullValue()
-        );
+    @Ignore
+    public void iteratesIssues() throws Exception {
+        //
+    }
+
+    /**
+     * GhMilestones can create a new milestone.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void createsNewMilestone() throws Exception {
+        //
     }
 
 }
+
