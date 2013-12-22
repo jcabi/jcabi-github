@@ -29,8 +29,7 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.RequestURI;
+import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -55,11 +54,9 @@ public final class GhIssueTest {
      */
     @Test
     public void fetchesComments() throws Exception {
-        final Repo repo = repo();
-        final Request req = request();
-        final GhIssue ghIssue = new GhIssue(req, repo, 1);
+        final GhIssue issue = new GhIssue(new FakeRequest(), repo(), 1);
         MatcherAssert.assertThat(
-            ghIssue.comments(),
+            issue.comments(),
             Matchers.notNullValue()
         );
     }
@@ -71,11 +68,9 @@ public final class GhIssueTest {
      */
     @Test
     public void fetchesLabels() throws Exception {
-        final Repo repo = repo();
-        final Request req = request();
-        final GhIssue ghIssue = new GhIssue(req, repo, 1);
+        final GhIssue issue = new GhIssue(new FakeRequest(), repo(), 1);
         MatcherAssert.assertThat(
-            ghIssue.labels(),
+            issue.labels(),
             Matchers.notNullValue()
         );
     }
@@ -87,26 +82,11 @@ public final class GhIssueTest {
      */
     @Test
     public void fetchesEvents() throws Exception {
-        final Repo repo = repo();
-        final Request req = request();
-        final GhIssue ghIssue = new GhIssue(req, repo, 1);
+        final GhIssue issue = new GhIssue(new FakeRequest(), repo(), 1);
         MatcherAssert.assertThat(
-            ghIssue.events(),
+            issue.events(),
             Matchers.notNullValue()
         );
-    }
-
-    /**
-     * Mock request for GhIssue creation.
-     * @return The mock request.
-     */
-    private Request request() {
-        final Request req = Mockito.mock(Request.class);
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        Mockito.doReturn(req).when(uri).back();
-        return req;
     }
 
     /**
@@ -117,6 +97,8 @@ public final class GhIssueTest {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();
+        Mockito.doReturn("user").when(coords).user();
+        Mockito.doReturn("repo").when(coords).repo();
         return repo;
     }
 
