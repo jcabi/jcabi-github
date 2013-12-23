@@ -37,6 +37,7 @@ import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,11 +51,6 @@ import org.junit.Test;
  */
 public final class GhPaginationTest {
     /**
-     * HTTP Status-Code 200: OK.
-     */
-    private static final int HTTP_OK = HttpURLConnection.HTTP_OK;
-
-    /**
      * GhPagination can jump to next page of results.
      *
      * @throws Exception if there is any problem
@@ -62,10 +58,9 @@ public final class GhPaginationTest {
     @Test
     public void jumpNextPage() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HTTP_OK, "[{\"body\":\"hey Jeff\"}]"
-            ).withHeader("Link", "</repos?page=3&per_page=100>; rel=\"next\"")
-        ).next(new MkAnswer.Simple(HTTP_OK, "[{\"body\":\"hi\"}]")).start();
+            GhPaginationTest.simple("Hi Jeff")
+                .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"")
+        ).next(GhPaginationTest.simple("Hi Mark")).start();
         final Request request = new ApacheRequest(container.home());
         final GhPagination<JsonObject> page = new GhPagination<JsonObject>(
             request, new GhPagination.Mapping<JsonObject>() {
@@ -81,8 +76,8 @@ public final class GhPaginationTest {
             Matchers.containsString("Jeff")
         );
         MatcherAssert.assertThat(
-            iterator.next().getString("body"),
-            Matchers.equalTo("hi")
+            iterator.next().toString(),
+            Matchers.containsString("Mark")
         );
         container.stop();
     }
@@ -94,27 +89,39 @@ public final class GhPaginationTest {
      */
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HTTP_OK, "[{\"body\":\"hi jeff\"}]")
-        ).start();
-        final Request request = new ApacheRequest(container.home());
-        final GhPagination<JsonObject> page = new GhPagination<JsonObject>(
-            request, new GhPagination.Mapping<JsonObject>() {
-                @Override
-                public JsonObject map(final JsonObject object) {
-                    return object;
+        final MkContainer container = new MkGrizzlyContainer()
+            .next(simple("Hi there")).start();
+        try {
+            final Request request = new ApacheRequest(container.home());
+            final GhPagination<JsonObject> page = new GhPagination<JsonObject>(
+                request, new GhPagination.Mapping<JsonObject>() {
+                    @Override
+                    public JsonObject map(final JsonObject object) {
+                        return object;
+                    }
                 }
-            }
-        );
-        final Iterator<JsonObject> iterator = page.iterator();
-        MatcherAssert.assertThat(
-            iterator.next().toString(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            iterator.next(),
-            Matchers.notNullValue()
-        );
-        container.stop();
+            );
+            final Iterator<JsonObject> iterator = page.iterator();
+            iterator.next();
+            MatcherAssert.assertThat(
+                iterator.next(),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * Create and return MkAnswer.Simple to test.
+     * @param msg Message to build MkAnswer.Simple
+     * @return MkAnswer.Simple
+     * @throws Exception If some problem inside
+     */
+    private static  MkAnswer.Simple simple(final String msg) throws Exception {
+        final String message = Json.createArrayBuilder()
+            .add(Json.createObjectBuilder().add("msg", msg))
+            .build().toString();
+        return new MkAnswer.Simple(HttpURLConnection.HTTP_OK, message);
     }
 }
