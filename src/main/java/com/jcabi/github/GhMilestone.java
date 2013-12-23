@@ -41,7 +41,7 @@ import lombok.EqualsAndHashCode;
  * Github milestone.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.5
+ * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
