@@ -54,7 +54,7 @@ public final class GhGistTest {
      * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
-    public void executeRead() throws Exception {
+    public void readsFileWithContents() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -83,8 +83,10 @@ public final class GhGistTest {
      * @throws Exception if there is a problem.
      */
     @Test
-    public void executeWrite() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().start();
+    public void writesFileContents() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
+        ).start();
         final GhGist gist = new GhGist(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -94,7 +96,9 @@ public final class GhGistTest {
         try {
             MatcherAssert.assertThat(
                 container.take().body(),
-                Matchers.containsString("\"testFile\":\"testContent\"")
+                Matchers.containsString(
+                    "\"testFile\":{\"content\":\"testContent\"}"
+                )
             );
         } finally {
             container.stop();
