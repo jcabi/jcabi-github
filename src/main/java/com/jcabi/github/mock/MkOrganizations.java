@@ -31,9 +31,9 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
 import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
+import com.jcabi.github.User;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
 import lombok.ToString;
@@ -44,7 +44,7 @@ import lombok.ToString;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2:1h Mock for user's Organizations.
+ * @todo #2 Mock for user's Organizations.
  *  Let's implements Mock for user's organizations using MkStorage.
  *  Don't forget about @EqualsAndHashCode.
  */
@@ -54,7 +54,7 @@ import lombok.ToString;
 final class MkOrganizations implements Organizations {
 
     @Override
-    public Github github() {
+    public User user() {
         return null;
     }
 

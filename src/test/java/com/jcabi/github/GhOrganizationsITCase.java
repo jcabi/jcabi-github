@@ -35,7 +35,7 @@ package com.jcabi.github;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2:1h Integration tests for Organizations.
+ * @todo #2 Integration tests for Organizations.
  *  Let's implements integration tests for user's organizations.
  *  Please, test all public methods
  */

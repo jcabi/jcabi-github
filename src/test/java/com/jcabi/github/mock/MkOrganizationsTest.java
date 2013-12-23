@@ -35,7 +35,7 @@ package com.jcabi.github.mock;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2:1h Integration tests for MkOrganizations.
+ * @todo #2 Integration tests for MkOrganizations.
  *  Let's implements integration tests for organizations mock.
  *  Please, test all public methods
  */

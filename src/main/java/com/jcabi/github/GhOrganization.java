@@ -39,7 +39,7 @@ import javax.validation.constraints.NotNull;
  * Github organization.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2:1h Default implementation for user's Organization.
+ * @todo #2 Default implementation for user's Organization.
  *  Provide default implementation for user's organization.
  *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>

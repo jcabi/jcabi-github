@@ -38,7 +38,7 @@ import javax.validation.constraints.NotNull;
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2:1h Default implementation for user's Organizations.
+ * @todo #2 Default implementation for user's Organizations.
  *  Provide default implementation for user's organizations.
  *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
@@ -49,7 +49,7 @@ import javax.validation.constraints.NotNull;
 final class GhOrganizations implements Organizations {
 
     @Override
-    public Github github() {
+    public User user() {
         return null;
     }
 

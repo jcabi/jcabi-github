@@ -93,7 +93,7 @@ final class MkUser implements User {
     }
 
     @Override
-    public Organizations organizations() throws IOException {
+    public Organizations organizations() {
         return null;
     }
 

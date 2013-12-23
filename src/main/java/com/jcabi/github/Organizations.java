@@ -45,10 +45,10 @@ public interface Organizations {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return User
      */
-    @NotNull(message = "github is never NULL")
-    Github github();
+    @NotNull(message = "user is never NULL")
+    User user();
 
     /**
      * Get specific organization by id.

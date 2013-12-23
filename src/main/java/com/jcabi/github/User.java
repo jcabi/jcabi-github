@@ -87,10 +87,9 @@ public interface User extends JsonReadable, JsonPatchable {
     /**
      * Get his organizations.
      * @return Organizations organizations
-     * @throws IOException If it fails
      */
     @NotNull(message = "organizations is never NULL")
-    Organizations organizations() throws IOException;
+    Organizations organizations();
 
     /**
      * Smart user with extra features.
@@ -185,7 +184,7 @@ public interface User extends JsonReadable, JsonPatchable {
             return this.user.login();
         }
         @Override
-        public Organizations organizations() throws IOException {
+        public Organizations organizations() {
             return this.user.organizations();
         }
         @Override
