@@ -32,8 +32,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.jcabi</groupId>
-        <artifactId>parent</artifactId>
-        <version>0.13.1</version>
+        <artifactId>jcabi</artifactId>
+        <version>1.0.1</version>
     </parent>
     <artifactId>jcabi-github</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -114,7 +114,7 @@
         <dependency>
             <groupId>com.rexsl</groupId>
             <artifactId>rexsl-test</artifactId>
-            <version>0.10</version>
+            <version>0.11</version>
         </dependency>
         <dependency>
             <groupId>javax.json</groupId>
@@ -175,6 +175,12 @@
             <classifier>dom</classifier>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sun.grizzly</groupId>
+            <artifactId>grizzly-servlet-webserver</artifactId>
+            <version>1.9.59</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -186,18 +192,6 @@
                             <failsafe.github.key>${failsafe.github.key}</failsafe.github.key>
                             <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
                         </systemPropertyVariables>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <configuration combine.children="append">
-                        <archive>
-                            <manifestEntries>
-                                <JCabi-Revision>${build.number}</JCabi-Revision>
-                                <JCabi-Version>${project.version}</JCabi-Version>
-                                <JCabi-Date>${maven.build.timestamp}</JCabi-Date>
-                            </manifestEntries>
-                        </archive>
                     </configuration>
                 </plugin>
             </plugins>

@@ -64,6 +64,10 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @todo #1 Unit test for DefaultGithub is required. Let's mock
+ *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
+ *  sure that the class can do its key operations. Let's also check
+ *  emojis() and meta().
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

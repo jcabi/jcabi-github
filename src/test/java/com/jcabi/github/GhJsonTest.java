@@ -27,62 +27,63 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Issue;
-import com.jcabi.github.Repo;
-import com.jcabi.immutable.ArrayMap;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkIssues}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link GhJson}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class MkIssuesTest {
-
+public final class GhJsonTest {
     /**
-     * MkIssues can list issues.
-     * @throws Exception If some problem inside
+     * GhJson can fetch HTTP request.
+     *
+     * @throws Exception if there is any problem
      */
     @Test
-    public void iteratesIssues() throws Exception {
-        final Repo repo = this.repo();
-        repo.issues().create("hey, you", "body of issue");
+    public void sendHttpRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hi\"}")
+        ).start();
+        final GhJson json = new GhJson(new ApacheRequest(container.home()));
         MatcherAssert.assertThat(
-            repo.issues().iterate(new ArrayMap<String, String>()),
-            Matchers.<Issue>iterableWithSize(1)
+            json.fetch().getString("body"),
+            Matchers.equalTo("hi")
         );
+        container.stop();
     }
 
     /**
-     * MkIssues can create a new issue with correct author.
-     * @throws Exception If some problem inside
+     * GhJson can execute PATCH request.
+     *
+     * @throws Exception if there is any problem
      */
     @Test
-    public void createsNewIssueWithCorrectAuthor() throws Exception {
-        final Repo repo = this.repo();
-        final Issue.Smart issue = new Issue.Smart(
-            repo.issues().create("hello", "the body")
+    public void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hj\"}")
+        ).start();
+        final GhJson json = new GhJson(new ApacheRequest(container.home()));
+        json.patch(
+            Json.createObjectBuilder()
+                .add("content", "hi you!")
+                .build()
         );
         MatcherAssert.assertThat(
-            issue.author().login(),
-            Matchers.equalTo(repo.github().users().self().login())
+            container.take().method(),
+            Matchers.equalTo("PATCH")
         );
+        container.stop();
     }
-
-    /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-    }
-
 }

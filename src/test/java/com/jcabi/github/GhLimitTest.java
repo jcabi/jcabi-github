@@ -27,62 +27,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Issue;
-import com.jcabi.github.Repo;
-import com.jcabi.immutable.ArrayMap;
-import javax.json.Json;
+import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link MkIssues}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link GhLimit}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class MkIssuesTest {
+public final class GhLimitTest {
 
     /**
-     * MkIssues can list issues.
-     * @throws Exception If some problem inside
+     * GhLimit can describe as a JSON object.
+     *
+     * @throws Exception if there is any problem
      */
     @Test
-    public void iteratesIssues() throws Exception {
-        final Repo repo = this.repo();
-        repo.issues().create("hey, you", "body of issue");
+    public void describeAsJson() throws Exception {
+        final GhLimit limit = new GhLimit(
+            Mockito.mock(Github.class),
+            new FakeRequest().withBody(body()),
+            "core"
+        );
         MatcherAssert.assertThat(
-            repo.issues().iterate(new ArrayMap<String, String>()),
-            Matchers.<Issue>iterableWithSize(1)
+            limit.json().toString(),
+            Matchers.equalTo(
+                "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
+            )
         );
     }
 
     /**
-     * MkIssues can create a new issue with correct author.
-     * @throws Exception If some problem inside
+     * GhLimit can throw exception when resource is absent.
+     *
+     * @throws Exception if some problem inside
      */
-    @Test
-    public void createsNewIssueWithCorrectAuthor() throws Exception {
-        final Repo repo = this.repo();
-        final Issue.Smart issue = new Issue.Smart(
-            repo.issues().create("hello", "the body")
+    @Test(expected = IllegalStateException.class)
+    public void throwsWhenResourceIsAbsent() throws Exception {
+        final GhLimit limit = new GhLimit(
+            Mockito.mock(Github.class),
+            new FakeRequest().withBody(body()),
+            "absent"
         );
         MatcherAssert.assertThat(
-            issue.author().login(),
-            Matchers.equalTo(repo.github().users().self().login())
+            limit.json().toString(),
+            Matchers.equalTo("{}")
         );
     }
 
     /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * Example response from rate API.
+     * @return Body string.
      */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+    private String body() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("{\"resources\":{\"core\":{\"limit\":5000,");
+        builder.append("\"remaining\":4999,\"reset\":1372700873},");
+        builder.append("\"search\":{\"limit\":20,\"remaining\":18,");
+        builder.append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,");
+        builder.append("\"remaining\":4999,\"reset\":1372700873}}");
+        return builder.toString();
     }
-
 }
