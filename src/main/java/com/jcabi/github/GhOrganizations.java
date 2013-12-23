@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
 
@@ -37,37 +38,30 @@ import javax.validation.constraints.NotNull;
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
+ * @todo #2:1h Default implementation for user's Organizations.
+ *  Provide default implementation for user's organizations.
+ *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
 @Immutable
-public interface Organizations {
+@Loggable(Loggable.DEBUG)
+final class GhOrganizations implements Organizations {
 
-    /**
-     * Get its owner.
-     * @return Github
-     */
-    @NotNull(message = "github is never NULL")
-    Github github();
+    @Override
+    public Github github() {
+        return null;
+    }
 
-    /**
-     * Get specific organization by id.
-     * @param orgid Organization number
-     * @return Organization
-     * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
-     */
-    @NotNull(message = "issue is never NULL")
-    Organization get(int orgid);
+    @Override
+    public Organization get(final int orgid) {
+        return null;
+    }
 
-    /**
-     * Iterate them all.
-     * @param params Iterating parameters, as requested by API
-     * @return Iterator of Organizations
-     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List Organizations</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Organization> iterate(
+    @Override
+    public Iterable<Organization> iterate(
         @NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
-
+        final Map<String, String> params) {
+        return null;
+    }
 }

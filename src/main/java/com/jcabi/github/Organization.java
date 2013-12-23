@@ -48,14 +48,14 @@ import lombok.ToString;
  * from an organization, for example:
  *
  * <pre> Organization.Smart org = new Organization.Smart(origin);
- * if (org.name == null) {
+ * if (org.name() == null) {
  *   name = "new_name";
  * }</pre>
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
- * @since 0.1
+ * @since 0.7
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -85,31 +85,6 @@ public interface Organization extends Comparable<Organization>,
     final class Smart implements Organization {
 
         /**
-         * Organization company attribute.
-         */
-        private static final String COMPANY = "company";
-
-        /**
-         * Organization name attribute.
-         */
-        private static final String NAME = "name";
-
-        /**
-         * Organization email attribute.
-         */
-        private static final String EMAIL = "email";
-
-        /**
-         * Organization email attribute.
-         */
-        private static final String BILLING_EMAIL = "billing_email";
-
-        /**
-         * Organization location attribute.
-         */
-        private static final String LOCATION = "location";
-
-        /**
          * Encapsulated org.
          */
         private final transient Organization org;
@@ -128,7 +103,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String company() throws IOException {
-            return new SmartJson(this).text(COMPANY);
+            return new SmartJson(this).text("company");
         }
 
         /**
@@ -138,7 +113,7 @@ public interface Organization extends Comparable<Organization>,
          */
         public void company(final String company) throws IOException {
             this.org.patch(
-                Json.createObjectBuilder().add(COMPANY, company).build()
+                Json.createObjectBuilder().add("company", company).build()
             );
         }
 
@@ -148,7 +123,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String location() throws IOException {
-            return new SmartJson(this).text(LOCATION);
+            return new SmartJson(this).text("location");
         }
 
         /**
@@ -158,7 +133,7 @@ public interface Organization extends Comparable<Organization>,
          */
         public void location(final String location) throws IOException {
             this.org.patch(
-                Json.createObjectBuilder().add(LOCATION, location).build()
+                Json.createObjectBuilder().add("location", location).build()
             );
         }
 
@@ -168,7 +143,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
-            return new SmartJson(this).text(NAME);
+            return new SmartJson(this).text("name");
         }
 
         /**
@@ -178,7 +153,7 @@ public interface Organization extends Comparable<Organization>,
          */
         public void name(final String name) throws IOException {
             this.org.patch(
-                Json.createObjectBuilder().add(NAME, name).build()
+                Json.createObjectBuilder().add("name", name).build()
             );
         }
 
@@ -188,7 +163,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String email() throws IOException {
-            return new SmartJson(this).text(EMAIL);
+            return new SmartJson(this).text("email");
         }
 
         /**
@@ -198,7 +173,7 @@ public interface Organization extends Comparable<Organization>,
          */
         public void email(final String email) throws IOException {
             this.org.patch(
-                Json.createObjectBuilder().add(EMAIL, email).build()
+                Json.createObjectBuilder().add("email", email).build()
             );
         }
 
@@ -208,7 +183,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String billingEmail() throws IOException {
-            return new SmartJson(this).text(BILLING_EMAIL);
+            return new SmartJson(this).text("billing_email");
         }
 
         /**
@@ -220,7 +195,7 @@ public interface Organization extends Comparable<Organization>,
             throws IOException {
             this.org.patch(
                 Json.createObjectBuilder()
-                    .add(BILLING_EMAIL, billingemail).build()
+                    .add("billing_email", billingemail).build()
             );
         }
 

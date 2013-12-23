@@ -29,45 +29,15 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.util.Map;
-import javax.validation.constraints.NotNull;
-
 /**
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @todo #2:1h Integration tests for Organizations.
+ *  Let's implements integration tests for user's organizations.
+ *  Please, test all public methods
  */
-@Immutable
-public interface Organizations {
-
-    /**
-     * Get its owner.
-     * @return Github
-     */
-    @NotNull(message = "github is never NULL")
-    Github github();
-
-    /**
-     * Get specific organization by id.
-     * @param orgid Organization number
-     * @return Organization
-     * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
-     */
-    @NotNull(message = "issue is never NULL")
-    Organization get(int orgid);
-
-    /**
-     * Iterate them all.
-     * @param params Iterating parameters, as requested by API
-     * @return Iterator of Organizations
-     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List Organizations</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Organization> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
-
+public class GhOrganizationsITCase {
 }

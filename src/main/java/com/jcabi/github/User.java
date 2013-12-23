@@ -85,6 +85,14 @@ public interface User extends JsonReadable, JsonPatchable {
     String login() throws IOException;
 
     /**
+     * Get his organizations.
+     * @return Organizations organizations
+     * @throws IOException If it fails
+     */
+    @NotNull(message = "organizations is never NULL")
+    Organizations organizations() throws IOException;
+
+    /**
      * Smart user with extra features.
      * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      * @todo #1:30min Implement methods to retrieve all values provided
@@ -175,6 +183,10 @@ public interface User extends JsonReadable, JsonPatchable {
         @Override
         public String login() throws IOException {
             return this.user.login();
+        }
+        @Override
+        public Organizations organizations() throws IOException {
+            return this.user.organizations();
         }
         @Override
         public JsonObject json() throws IOException {

@@ -27,11 +27,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
+import com.jcabi.github.Organization;
+import com.jcabi.github.Organizations;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
+import lombok.ToString;
 
 /**
  * Github organizations.
@@ -39,35 +44,29 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @todo #2:1h Mock for user's Organizations.
+ *  Let's implements Mock for user's organizations using MkStorage.
+ *  Don't forget about @EqualsAndHashCode.
  */
 @Immutable
-public interface Organizations {
+@Loggable(Loggable.DEBUG)
+@ToString
+final class MkOrganizations implements Organizations {
 
-    /**
-     * Get its owner.
-     * @return Github
-     */
-    @NotNull(message = "github is never NULL")
-    Github github();
+    @Override
+    public Github github() {
+        return null;
+    }
 
-    /**
-     * Get specific organization by id.
-     * @param orgid Organization number
-     * @return Organization
-     * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
-     */
-    @NotNull(message = "issue is never NULL")
-    Organization get(int orgid);
+    @Override
+    public Organization get(final int orgid) {
+        return null;
+    }
 
-    /**
-     * Iterate them all.
-     * @param params Iterating parameters, as requested by API
-     * @return Iterator of Organizations
-     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List Organizations</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Organization> iterate(
+    @Override
+    public Iterable<Organization> iterate(
         @NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
-
+        final Map<String, String> params) {
+        return null;
+    }
 }

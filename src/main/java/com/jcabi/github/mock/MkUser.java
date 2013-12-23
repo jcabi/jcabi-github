@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
+import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -45,6 +46,9 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @todo #2:30min Organizations of a user.
+ *  Let's implements a new method organizations(),
+ *  which should return a mock instance of interface Organisations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -86,6 +90,11 @@ final class MkUser implements User {
     @Override
     public String login() {
         return this.self;
+    }
+
+    @Override
+    public Organizations organizations() throws IOException {
+        return null;
     }
 
     @Override
