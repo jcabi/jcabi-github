@@ -30,8 +30,12 @@
 package com.jcabi.github;
 
 import com.rexsl.test.Request;
-import com.rexsl.test.RequestURI;
-import com.rexsl.test.request.FakeRequest;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -52,25 +56,25 @@ public final class GhPullTest {
      */
     @Test
     public void fetchesCommits() throws Exception {
-        final Repo repo = Mockito.mock(Repo.class);
-        final Request req = Mockito.mock(Request.class);
-        final Coordinates coords = Mockito.mock(Coordinates.class);
-        Mockito.doReturn(coords).when(repo).coordinates();
-        Mockito.doReturn("testUser").when(coords).user();
-        Mockito.doReturn("testRepo").when(coords).repo();
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        Mockito.doReturn(req).when(uri).back();
-        final GhPull pull = new GhPull(req, repo, 1);
-        final Request fakereq = new FakeRequest().withBody(
-            "[{\"commits\":\"test\"}]"
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "[{\"commits\":\"test\"}]"
+            )
+        ).start();
+        final GhPull pull = new GhPull(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            1
         );
-        Mockito.doReturn(fakereq).when(uri).back();
-        MatcherAssert.assertThat(
-            pull.commits(),
-            Matchers.notNullValue()
-        );
+        try {
+            MatcherAssert.assertThat(
+                pull.commits(),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -80,25 +84,25 @@ public final class GhPullTest {
      */
     @Test
     public void fetchesFiles() throws Exception {
-        final Repo repo = Mockito.mock(Repo.class);
-        final Request req = Mockito.mock(Request.class);
-        final Coordinates coords = Mockito.mock(Coordinates.class);
-        Mockito.doReturn(coords).when(repo).coordinates();
-        Mockito.doReturn("fileUser").when(coords).user();
-        Mockito.doReturn("fileRepo").when(coords).repo();
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        Mockito.doReturn(req).when(uri).back();
-        final GhPull pull = new GhPull(req, repo, 1);
-        final Request fakereq = new FakeRequest().withBody(
-            "[{\"file1\":\"testFile\"}]"
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "[{\"file1\":\"testFile\"}]"
+            )
+        ).start();
+        final GhPull pull = new GhPull(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            2
         );
-        Mockito.doReturn(fakereq).when(uri).back();
-        MatcherAssert.assertThat(
-            pull.files().iterator().next().getString("file1"),
-            Matchers.equalTo("testFile")
-        );
+        try {
+            MatcherAssert.assertThat(
+                pull.files().iterator().next().getString("file1"),
+                Matchers.equalTo("testFile")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -108,21 +112,42 @@ public final class GhPullTest {
      */
     @Test
     public void executeMerge() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
+        ).start();
+        final GhPull pull = new GhPull(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            3
+        );
+        pull.merge("Test commit.");
+        try {
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.equalTo("{\"commit_message\":\"Test commit.\"}")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * Mock repository for testing purposes.
+     * @return Repo the mock repository.
+     */
+    private Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
-        final Request req = Mockito.mock(Request.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();
-        Mockito.doReturn("mergeUser").when(coords).user();
-        Mockito.doReturn("mergeRepo").when(coords).repo();
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        Mockito.doReturn(req).when(uri).back();
-        final GhPull pull = new GhPull(req, repo, 1);
-        final Request fakereq = new FakeRequest();
-        Mockito.doReturn(fakereq).when(uri).back();
-        pull.merge("Test commit.");
-        Mockito.verify(uri).path("/merge");
+        Mockito.doReturn("/user").when(coords).user();
+        Mockito.doReturn("/repo").when(coords).repo();
+        return repo;
     }
 
 }
+
