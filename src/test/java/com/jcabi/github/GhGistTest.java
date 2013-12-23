@@ -30,15 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import com.rexsl.test.Request;
-import com.rexsl.test.RequestBody;
-import com.rexsl.test.RequestURI;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonStructure;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
  * Test case for {@link GhGist}.
@@ -52,22 +51,30 @@ public final class GhGistTest {
      * GhGist should be able to do reads.
      *
      * @throws Exception if there is a problem.
+     * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
     public void executeRead() throws Exception {
-        final Request req = Mockito.mock(Request.class);
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        final Request fakereq = new FakeRequest().withBody(
-            "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+            )
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
+            .start();
+        final GhGist gist = new GhGist(
+            new MkGithub(),
+            new ApacheRequest(container.home()),
+            "test"
         );
-        Mockito.doReturn(fakereq).when(uri).back();
-        final GhGist gist = new GhGist(new MkGithub(), req, "test");
-        MatcherAssert.assertThat(
-            gist.read("hello"),
-            Matchers.containsString("world")
-        );
+        try {
+            MatcherAssert.assertThat(
+                gist.read("hello"),
+                Matchers.equalTo("success!")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -77,24 +84,21 @@ public final class GhGistTest {
      */
     @Test
     public void executeWrite() throws Exception {
-        final Request req = Mockito.mock(Request.class);
-        final RequestURI uri = Mockito.mock(RequestURI.class);
-        Mockito.doReturn(uri).when(req).uri();
-        Mockito.doReturn(uri).when(uri).path(Mockito.anyString());
-        Mockito.doReturn(req).when(uri).back();
-        Mockito.doReturn(req).when(req).method(Request.PATCH);
-        final RequestBody body = Mockito.mock(RequestBody.class);
-        Mockito.doReturn(body).when(req).body();
-        Mockito.doReturn(body).when(body).set(Mockito.any(JsonStructure.class));
-        final Request fakereq = new FakeRequest();
-        Mockito.doReturn(fakereq).when(body).back();
-        final GhGist gist = new GhGist(new MkGithub(), req, "testWrite");
-        gist.write("testFile", "testContent");
-        Mockito.verify(req).method(Request.PATCH);
-        MatcherAssert.assertThat(
-            fakereq.body(),
-            Matchers.notNullValue()
+        final MkContainer container = new MkGrizzlyContainer().start();
+        final GhGist gist = new GhGist(
+            new MkGithub(),
+            new ApacheRequest(container.home()),
+            "testWrite"
         );
+        gist.write("testFile", "testContent");
+        try {
+            MatcherAssert.assertThat(
+                container.take().body(),
+                Matchers.containsString("\"testFile\":\"testContent\"")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
 }
