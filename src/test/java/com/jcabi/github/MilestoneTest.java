@@ -43,37 +43,74 @@ import org.mockito.Mockito;
  */
 public class MilestoneTest {
     /**
-     * Milestone.Smart can fetch key properties of an Milestone.
+     * Milestone.Smart can fetch title property from Milestone.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesProperties() throws Exception {
+    public final void fetchesTitle() throws Exception {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("title", "this is some text \u20ac")
-                .add("description", "description of the milestone")
-                .add("state", "state of the milestone")
-                .add("due_on", "2011-04-10T20:09:31Z")
+                .add("title", "this is some title")
                 .build()
         ).when(milestone).json();
-        final Milestone.Smart smart = new Milestone.Smart(milestone);
         MatcherAssert.assertThat(
-            smart.title(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.description(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.state(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            smart.dueOn(),
+            new Milestone.Smart(milestone).title(),
             Matchers.notNullValue()
         );
     }
 
+    /**
+     * Milestone.Smart can fetch description property from Milestone.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesDescription() throws Exception {
+        final Milestone milestone = Mockito.mock(Milestone.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("description", "description of the milestone")
+                .build()
+        ).when(milestone).json();
+        MatcherAssert.assertThat(
+            new Milestone.Smart(milestone).description(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Milestone.Smart can fetch state property from Milestone.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesState() throws Exception {
+        final Milestone milestone = Mockito.mock(Milestone.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("state", "state of the milestone")
+                .build()
+        ).when(milestone).json();
+        MatcherAssert.assertThat(
+            new Milestone.Smart(milestone).state(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Milestone.Smart can fetch due_on property from Milestone.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesDueOn() throws Exception {
+        final Milestone milestone = Mockito.mock(Milestone.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("due_on", "2011-04-10T20:09:31Z")
+                .build()
+        ).when(milestone).json();
+        MatcherAssert.assertThat(
+            new Milestone.Smart(milestone).dueOn(),
+            Matchers.notNullValue()
+        );
+    }
 }

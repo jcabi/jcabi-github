@@ -47,18 +47,13 @@ import lombok.EqualsAndHashCode;
  * Github milestones.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.5
+ * @since 0.7
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
 public class GhMilestones implements Milestones {
-
-    /**
-     * Name of mailestones number attribute.
-     */
-    private static final String NUMBER = "number";
-
     /**
      * API entry point.
      */
@@ -117,7 +112,7 @@ public class GhMilestones implements Milestones {
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt(NUMBER)
+                .json().readObject().getInt("number")
         );
     }
 
@@ -135,7 +130,7 @@ public class GhMilestones implements Milestones {
             new GhPagination.Mapping<Milestone>() {
                 @Override
                 public Milestone map(final JsonObject object) {
-                    return GhMilestones.this.get(object.getInt(NUMBER));
+                    return GhMilestones.this.get(object.getInt("number"));
                 }
             }
         );

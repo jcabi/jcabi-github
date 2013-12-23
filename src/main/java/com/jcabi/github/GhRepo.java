@@ -46,7 +46,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = {"ghub", "entry", "coords" })
+@EqualsAndHashCode(of = { "ghub", "entry", "coords" })
 final class GhRepo implements Repo {
 
     /**

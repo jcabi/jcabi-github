@@ -51,10 +51,11 @@ import lombok.ToString;
  * if (milestone.isOpen()) {
  *   milestone.close();
  * }</pre>
+ *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/issues/milestones/">Milestones API</a>
- * @since 0.5
+ * @since 0.7
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")

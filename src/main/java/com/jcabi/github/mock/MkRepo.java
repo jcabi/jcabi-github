@@ -49,6 +49,9 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @todo #9 Implement milestones() method.
+ *  Please, implement milestones() method to return
+ *  MkMilestones. Don't forget about unit tests
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

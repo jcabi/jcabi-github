@@ -35,7 +35,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Milestone}.
+ * Integration case for {@link GhMilestone}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
@@ -47,8 +47,8 @@ public final class GhMilestoneITCase {
      */
     @Test
     public void changesTitleAndDescription() throws Exception {
-        final Milestone milestone = GhMilestoneITCase.milestone();
-        final Milestone.Smart smart = new Milestone.Smart(milestone);
+        final Milestone.Smart smart =
+            new Milestone.Smart(GhMilestoneITCase.milestone());
         smart.title("test one more time");
         smart.description("test description more time");
         MatcherAssert.assertThat(
@@ -67,15 +67,16 @@ public final class GhMilestoneITCase {
      */
     @Test
     public void changesMilestoneState() throws Exception {
-        final Milestone milestone = GhMilestoneITCase.milestone();
-        new Milestone.Smart(milestone).close();
+        final Milestone.Smart smart =
+            new Milestone.Smart(GhMilestoneITCase.milestone());
+        smart.close();
         MatcherAssert.assertThat(
-            new Milestone.Smart(milestone).isOpen(),
+            smart.isOpen(),
             Matchers.is(false)
         );
-        new Milestone.Smart(milestone).open();
+        smart.open();
         MatcherAssert.assertThat(
-            new Milestone.Smart(milestone).isOpen(),
+            smart.isOpen(),
             Matchers.is(true)
         );
     }

@@ -79,6 +79,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
     /**
      * Iterate milestones.
      * @return Milestones
+     * @since 0.7
      */
     @NotNull(message = "iterator of milestones is never NULL")
     Milestones milestones();

@@ -39,7 +39,7 @@ import javax.validation.constraints.NotNull;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/issues/milestones/">Milestones API</a>
- * @since 0.5
+ * @since 0.7
  * @todo #1:1hr New method remove() to delete a Milestone. Let's add a new
  *  method to remove a milestone by id, as explained in
  *  http://developer.github.com/v3/issues/milestones/#delete-a-milestone.
