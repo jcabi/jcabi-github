@@ -175,7 +175,7 @@ final class MkIssue implements Issue {
             .add("labels", array)
             .add(
                 "user",
-                Json.createObjectBuilder().add("login", "test").build()
+                Json.createObjectBuilder().add("login", this.self).build()
             )
             .add(
                 "pull_request",

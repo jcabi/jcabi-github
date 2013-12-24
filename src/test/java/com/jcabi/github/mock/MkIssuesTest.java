@@ -59,6 +59,22 @@ public final class MkIssuesTest {
     }
 
     /**
+     * MkIssues can create a new issue with correct author.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsNewIssueWithCorrectAuthor() throws Exception {
+        final Repo repo = this.repo();
+        final Issue.Smart issue = new Issue.Smart(
+            repo.issues().create("hello", "the body")
+        );
+        MatcherAssert.assertThat(
+            issue.author().login(),
+            Matchers.equalTo(repo.github().users().self().login())
+        );
+    }
+
+    /**
      * Create an repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
