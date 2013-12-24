@@ -29,48 +29,76 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
+import java.io.IOException;
 import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link Bulk}.
+ * Github repositories.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.1
  */
-public final class BulkTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "ghub", "entry" })
+final class RtRepos implements Repos {
 
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * Github.
      */
-    @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
-        );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+    private final transient Github ghub;
+
+    /**
+     * RESTful entry.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     */
+    RtRepos(final Github github, final Request req) {
+        this.ghub = github;
+        this.entry = req;
+        this.request = this.entry.uri().path("/repos").back();
     }
 
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @todo #1:1hr Implement GhRepos.create() method. Let's implement
+     *  this method and test is in unit and integration tests.
+     */
+    @Override
+    public Repo create(@NotNull(message = "JSON can't be NULL")
+        final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("#create()");
+    }
+
+    @Override
+    public Repo get(@NotNull(message = "coordinates can't be NULL")
+        final Coordinates name) {
+        return new RtRepo(this.ghub, this.entry, name);
+    }
 }

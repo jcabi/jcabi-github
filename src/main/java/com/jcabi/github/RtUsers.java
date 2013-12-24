@@ -29,48 +29,84 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
 import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link Bulk}.
+ * Github users.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.4
  */
-public final class BulkTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "ghub", "request" })
+final class RtUsers implements Users {
 
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * API entry point.
      */
-    @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     */
+    RtUsers(final Github github, final Request req) {
+        this.entry = req;
+        this.ghub = github;
+        this.request = this.entry.uri().path("/users").back();
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public User self() {
+        return new RtUser(this.ghub, this.entry, "");
+    }
+
+    @Override
+    public User get(@NotNull(message = "login can't be NULL")
+        final String login) {
+        return new RtUser(this.ghub, this.entry, login);
+    }
+
+    @Override
+    public Iterable<User> iterate(@NotNull(message = "login is never NULL")
+        final String login) {
+        return new RtPagination<User>(
+            this.request.uri().queryParam("since", login).back(),
+            new RtPagination.Mapping<User>() {
+                @Override
+                public User map(final JsonObject object) {
+                    return RtUsers.this.get(object.getString("login"));
                 }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+            }
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
     }
 
 }
