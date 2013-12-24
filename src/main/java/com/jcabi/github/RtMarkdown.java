@@ -50,11 +50,6 @@ import org.hamcrest.Matchers;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
- * @todo #1 Unit test for RtMarkdown is required. Let's create a simple one,
- *  to check that the class implements key functions correctly. I think
- *  we should mock Request using Mockito or com.rexsl.test.request.FakeRequest,
- *  and make sure that the class sends correct HTTP requests and parses
- *  results correctly.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -73,7 +73,7 @@ public final class RtGithubITCase {
     }
 
     /**
-     * DefaultGithub can fetch meta information.
+     * RtGithub can fetch meta information.
      * @throws Exception If some problem inside
      */
     @Test
@@ -86,7 +86,7 @@ public final class RtGithubITCase {
     }
 
     /**
-     * DefaultGithub can fetch emojis.
+     * RtGithub can fetch emojis.
      * @throws Exception If some problem inside
      */
     @Test

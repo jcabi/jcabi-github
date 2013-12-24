@@ -48,7 +48,7 @@ import lombok.ToString;
  *
  * <p>This is how you start communicating with Github API:
  *
- * <pre> Github github = new DefaultGithub(oauthKey);
+ * <pre> Github github = new RtGithub(oauthKey);
  * Repo repo = github.repo("jcabi/jcabi-github");
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
@@ -57,14 +57,14 @@ import lombok.ToString;
  * {@link com.rexsl.test.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
- * <pre> Github github = new DefaultGithub(
- *   new DefaultGithub(oauthKey).entry().through(RetryWire.class)
+ * <pre> Github github = new RtGithub(
+ *   new RtGithub(oauthKey).entry().through(RetryWire.class)
  * );</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @todo #1 Unit test for DefaultGithub is required. Let's mock
+ * @todo #1 Unit test for RtGithub is required. Let's mock
  *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
  *  sure that the class can do its key operations. Let's also check
  *  emojis() and meta().
