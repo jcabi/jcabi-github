@@ -50,7 +50,8 @@ import lombok.ToString;
  * <pre> Milestone.Smart milestone = new Milestone.Smart(origin);
  * if (milestone.isOpen()) {
  *   milestone.close();
- * }</pre>
+ * }
+ * </pre>
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
