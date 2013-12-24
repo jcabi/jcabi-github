@@ -50,12 +50,8 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #1 Unit test for GhGists is required. Let's create a simple one,
- *  to check that the class implements key functions correctly. At the moment
- *  we don't have any tests for this class, neither a unit test nor
- *  integration. Let's mock the request (using Mockito or just a class
- *  com.rexsl.test.request.FakeRequest), and check that create(), get(),
- *  and iterate() work.
+ * @todo #64 An integration test is still lacking for this class,
+ *  although a unit test has already been created.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
