@@ -48,9 +48,6 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
- * @todo #1 Unit test for GhLabels is required. Let's mock
- *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
- *  sure that the class can do its key operations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
