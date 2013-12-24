@@ -43,6 +43,7 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @todo #1 Unit test for RtRepo is required. Let's mock
  *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
  *  sure that the class can do its key operations.
@@ -111,7 +112,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Milestones milestones() {
-        return new GhMilestones(this.entry, this);
+        return new RtMilestones(this.entry, this);
     }
 
     @Override
@@ -152,4 +153,5 @@ final class RtRepo implements Repo {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
+
 }

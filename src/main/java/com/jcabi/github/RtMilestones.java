@@ -35,11 +35,11 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -100,15 +100,12 @@ public class RtMilestones implements Milestones {
     public final Milestone create(
         @NotNull(message = "title can't be NULL") final String title)
         throws IOException {
-        final StringWriter post = new StringWriter();
-        Json.createGenerator(post)
-            .writeStartObject()
-            .write("title", title)
-            .writeEnd()
-            .close();
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("title", title)
+            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(post.toString()).back()
+                .body().set(json).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -125,9 +122,9 @@ public class RtMilestones implements Milestones {
     public final Iterable<Milestone> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
-        return new GhPagination<Milestone>(
+        return new RtPagination<Milestone>(
             this.request.uri().queryParams(params).back(),
-            new GhPagination.Mapping<Milestone>() {
+            new RtPagination.Mapping<Milestone>() {
                 @Override
                 public Milestone map(final JsonObject object) {
                     return RtMilestones.this.get(object.getInt("number"));

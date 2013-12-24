@@ -99,14 +99,14 @@ public class RtMilestone implements Milestone {
 
     @Override
     public final JsonObject json() throws IOException {
-        return new GhJson(this.request).fetch();
+        return new RtJson(this.request).fetch();
     }
 
     @Override
     public final void patch(
         @NotNull(message = "JSON object can't be NULL")
         final JsonObject json) throws IOException {
-        new GhJson(this.request).patch(json);
+        new RtJson(this.request).patch(json);
     }
 
     @Override
