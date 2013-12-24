@@ -138,7 +138,7 @@ public final class GhPullsTest {
     private static JsonObject pull(final String title) throws Exception {
         return Json.createObjectBuilder()
             .add("number", new Random().nextInt())
-            .add("state", "open")
+            .add("state", Issue.OPEN_STATE)
             .add("title", title)
             .build();
     }
