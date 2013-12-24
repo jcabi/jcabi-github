@@ -101,6 +101,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Labels labels();
 
     /**
+     * Get all available assignees to which issues may be assigned.
+     * @return Assignees
+     * @see @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
+     */
+    @NotNull(message = "labels are never NULL")
+    Assignees assignees();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -150,6 +158,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Labels labels() {
             return this.repo.labels();
+        }
+        @Override
+        public Assignees assignees() {
+            return this.repo.assignees();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {
