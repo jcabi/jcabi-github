@@ -45,7 +45,7 @@ import org.junit.Test;
 public final class MkIssuesTest {
 
     /**
-     * MkIssue can list issues.
+     * MkIssues can list issues.
      * @throws Exception If some problem inside
      */
     @Test
