@@ -79,4 +79,55 @@ public final class GhGistsTest {
         }
     }
 
+    /**
+     * GhGists can retrieve a specific Gist.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void canRetrieveSpecificGist() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
+        ).start();
+        final GhGists gists = new GhGists(
+            new MkGithub(),
+            new ApacheRequest(container.home())
+        );
+        try {
+            MatcherAssert.assertThat(
+                gists.get("gist"),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * GhGists can iterate through its contents.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void canIterateThroughGists() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "[{\"id\":\"hello\"}]"
+            )
+        ).start();
+        final GhGists gists = new GhGists(
+            new MkGithub(),
+            new ApacheRequest(container.home())
+        );
+        try {
+            MatcherAssert.assertThat(
+                gists.iterate().iterator().next(),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
 }
