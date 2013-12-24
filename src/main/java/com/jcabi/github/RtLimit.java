@@ -29,48 +29,69 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
+import java.io.IOException;
 import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link Bulk}.
+ * Github limit rate.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.6
  */
-public final class BulkTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "ghub", "entry", "res" })
+final class RtLimit implements Limit {
 
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * API entry point.
      */
-    @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
-        );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * Name of resource.
+     */
+    private final transient String res;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     * @param name Name of resource
+     */
+    RtLimit(final Github github, final Request req, final String name) {
+        this.entry = req;
+        this.ghub = github;
+        this.res = name;
     }
 
+    @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        final JsonObject json = new RtJson(this.entry)
+            .fetch()
+            .getJsonObject("resources");
+        if (!json.containsKey(this.res)) {
+            throw new IllegalStateException(
+                String.format(
+                    "'%s' is absent in JSON: %s", this.res, json
+                )
+            );
+        }
+        return json.getJsonObject(this.res);
+    }
 }

@@ -29,48 +29,51 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Bulk}.
+ * Integration case for {@link IssueLabels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.6
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class BulkTest {
+public final class RtIssueLabelsITCase {
 
     /**
-     * Bulk can cache JSON data.
+     * RtIssueLabels can list all labels in an issue.
      * @throws Exception If some problem inside
      */
     @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+    public void listsLabels() throws Exception {
+        final IssueLabels.Smart labels = new IssueLabels.Smart(
+            RtIssueLabelsITCase.issue().labels()
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+        final String name = "test-label";
+        final String color = "cfcfcf";
+        labels.addIfAbsent(name, color);
+        MatcherAssert.assertThat(
+            new Label.Smart(labels.get(name)).color(),
+            Matchers.equalTo(color)
+        );
+        labels.remove(name);
+    }
+
+    /**
+     * Create and return issue to test.
+     * @return Issue
+     * @throws Exception If some problem inside
+     */
+    private static Issue issue() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).issues().create("test issue title", "test issue body");
     }
 
 }

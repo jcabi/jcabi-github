@@ -29,48 +29,67 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Bulk}.
+ * Integration case for {@link Labels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.6
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class BulkTest {
+public final class RtLabelsITCase {
 
     /**
-     * Bulk can cache JSON data.
+     * RtLabels can list all labels.
      * @throws Exception If some problem inside
      */
     @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
+    public void listsLabels() throws Exception {
+        final Labels labels = RtLabelsITCase.repo().labels();
+        final Iterable<Label.Smart> list =
+            new Smarts<Label.Smart>(labels.iterate());
+        for (final Label.Smart label : list) {
+            MatcherAssert.assertThat(
+                label.color(),
+                Matchers.not(Matchers.isEmptyString())
+            );
+        }
+    }
+
+    /**
+     * RtLabels can create a new label.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsNewLabel() throws Exception {
+        final Labels labels = RtLabelsITCase.repo().labels();
+        final Label label = new Labels.Smart(labels).createOrGet("test-3");
         MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+            new Label.Smart(label).color(),
+            Matchers.notNullValue()
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+        MatcherAssert.assertThat(
+            labels.iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
     }
 
 }

@@ -46,7 +46,7 @@ import javax.validation.constraints.NotNull;
  *
  * <p>This is how you start communicating with Github API:
  *
- * <pre> Github github = new DefaultGithub(oauthKey);
+ * <pre> Github github = new RtGithub(oauthKey);
  * Repo repo = github.repo("jcabi/jcabi-github");
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
@@ -55,8 +55,8 @@ import javax.validation.constraints.NotNull;
  * {@link com.rexsl.test.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
- * <pre> Github github = new DefaultGithub(
- *   new DefaultGithub(oauthKey)
+ * <pre> Github github = new RtGithub(
+ *   new RtGithub(oauthKey)
  *     .entry()
  *     .through(RetryWire.class)
  * );</pre>
@@ -70,7 +70,7 @@ import javax.validation.constraints.NotNull;
  * <a href="http://developer.github.com/v3/search/#search-repositories">"Search
  * Repositories"</a> feature of Github:
  *
- * <pre> Github github = new DefaultGithub(oauthKey);
+ * <pre> Github github = new RtGithub(oauthKey);
  * int found = github.entry()
  *   .uri().path("/search/repositories").back()
  *   .method(Request.GET)
