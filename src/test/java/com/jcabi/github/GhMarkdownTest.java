@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
@@ -63,10 +62,9 @@ public final class GhMarkdownTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
         ).start();
-        final Request req = new ApacheRequest(container.home());
         final GhMarkdown markdown = new GhMarkdown(
             new MkGithub(),
-            req
+            new ApacheRequest(container.home())
         );
         try {
             MatcherAssert.assertThat(
@@ -95,8 +93,10 @@ public final class GhMarkdownTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
         ).start();
-        final Request req = new ApacheRequest(container.home());
-        final GhMarkdown markdown = new GhMarkdown(new MkGithub(), req);
+        final GhMarkdown markdown = new GhMarkdown(
+            new MkGithub(),
+            new ApacheRequest(container.home())
+        );
         try {
             MatcherAssert.assertThat(
                 markdown.raw("Hello World!"),
