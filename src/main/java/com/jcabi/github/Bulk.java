@@ -89,12 +89,12 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     public Bulk(final Iterable<T> items) {
-        if (items instanceof GhPagination) {
-            final GhPagination<T> page = GhPagination.class.cast(items);
-            final GhPagination.Mapping<T> mapping = page.mapping();
-            this.origin = new GhPagination<T>(
+        if (items instanceof RtPagination) {
+            final RtPagination<T> page = RtPagination.class.cast(items);
+            final RtPagination.Mapping<T> mapping = page.mapping();
+            this.origin = new RtPagination<T>(
                 page.request(),
-                new GhPagination.Mapping<T>() {
+                new RtPagination.Mapping<T>() {
                     @Override
                     public T map(final JsonObject object) {
                         final T item = mapping.map(object);

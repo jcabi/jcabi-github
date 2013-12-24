@@ -29,48 +29,69 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
 import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link Bulk}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtLimit}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class BulkTest {
+public final class RtLimitTest {
 
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * RtLimit can describe as a JSON object.
+     *
+     * @throws Exception if there is any problem
      */
     @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+    public void describeAsJson() throws Exception {
+        final RtLimit limit = new RtLimit(
+            Mockito.mock(Github.class),
+            new FakeRequest().withBody(body()),
+            "core"
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+        MatcherAssert.assertThat(
+            limit.json().toString(),
+            Matchers.equalTo(
+                "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
+            )
+        );
     }
 
+    /**
+     * RtLimit can throw exception when resource is absent.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test(expected = IllegalStateException.class)
+    public void throwsWhenResourceIsAbsent() throws Exception {
+        final RtLimit limit = new RtLimit(
+            Mockito.mock(Github.class),
+            new FakeRequest().withBody(body()),
+            "absent"
+        );
+        MatcherAssert.assertThat(
+            limit.json().toString(),
+            Matchers.equalTo("{}")
+        );
+    }
+
+    /**
+     * Example response from rate API.
+     * @return Body string.
+     */
+    private String body() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("{\"resources\":{\"core\":{\"limit\":5000,");
+        builder.append("\"remaining\":4999,\"reset\":1372700873},");
+        builder.append("\"search\":{\"limit\":20,\"remaining\":18,");
+        builder.append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,");
+        builder.append("\"remaining\":4999,\"reset\":1372700873}}");
+        return builder.toString();
+    }
 }

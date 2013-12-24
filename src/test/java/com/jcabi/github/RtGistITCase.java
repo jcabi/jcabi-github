@@ -29,48 +29,42 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Bulk}.
+ * Integration case for {@link Gist}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class BulkTest {
+public final class RtGistITCase {
 
     /**
-     * Bulk can cache JSON data.
+     * RtGist can text and write files.
      * @throws Exception If some problem inside
      */
     @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
+    public void readsAndWritesGists() throws Exception {
+        final Gist gist = RtGistITCase.gist();
+        final String file = new Gist.Smart(gist).files().iterator().next();
+        gist.write(file, "hey, works for you this way?");
         MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+            gist.read(file),
+            Matchers.startsWith("hey, works for ")
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+    }
+
+    /**
+     * Return gist to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Gist gist() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).gists().iterate().iterator().next();
     }
 
 }
