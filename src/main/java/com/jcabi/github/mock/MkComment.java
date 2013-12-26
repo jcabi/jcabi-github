@@ -115,7 +115,7 @@ final class MkComment implements Comment {
 
     @Override
     public int compareTo(final Comment comment) {
-        return new Integer(this.num).compareTo(comment.number());
+        return this.number() - comment.number();
     }
 
     @Override

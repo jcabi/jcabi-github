@@ -148,7 +148,7 @@ final class MkIssue implements Issue {
 
     @Override
     public int compareTo(final Issue issue) {
-        return new Integer(this.num).compareTo(issue.number());
+        return this.number() - issue.number();
     }
 
     @Override

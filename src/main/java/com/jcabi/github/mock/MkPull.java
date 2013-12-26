@@ -117,7 +117,7 @@ final class MkPull implements Pull {
 
     @Override
     public int compareTo(final Pull pull) {
-        return new Integer(this.num).compareTo(pull.number());
+        return this.number() - pull.number();
     }
 
     @Override

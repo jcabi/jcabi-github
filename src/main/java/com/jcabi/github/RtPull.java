@@ -166,7 +166,7 @@ final class RtPull implements Pull {
 
     @Override
     public int compareTo(final Pull pull) {
-        return new Integer(this.number()).compareTo(pull.number());
+        return this.number() - pull.number();
     }
 
 }
