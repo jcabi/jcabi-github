@@ -69,7 +69,7 @@ public final class RtRepoTest {
         final RtRepo repo = new RtRepo(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home()),
-            simple()
+            new Coordinates.Simple("octocat", "master")
         );
         MatcherAssert.assertThat(
             repo.events(),
@@ -88,7 +88,7 @@ public final class RtRepoTest {
         final RtRepo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
-            simple()
+            new Coordinates.Simple("jeff", "jeff-branch")
         );
         MatcherAssert.assertThat(
             repo.labels(),
@@ -106,7 +106,7 @@ public final class RtRepoTest {
         final RtRepo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
-            simple()
+            new Coordinates.Simple("mark", "mark-branch")
         );
         MatcherAssert.assertThat(
             repo.issues(),
@@ -124,7 +124,7 @@ public final class RtRepoTest {
         final RtRepo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
-            simple()
+            new Coordinates.Simple("kendy", "kendy-branch")
         );
         MatcherAssert.assertThat(
             repo.pulls(),
@@ -138,7 +138,7 @@ public final class RtRepoTest {
      */
     @Test
     public void identifiesItself() throws Exception {
-        final Coordinates coords = simple();
+        final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final RtRepo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
@@ -166,7 +166,7 @@ public final class RtRepoTest {
         final RtRepo repo = new RtRepo(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home()),
-            simple()
+            new Coordinates.Simple("test", "test-branch")
         );
         repo.patch(event(Event.ASSIGNED));
         MatcherAssert.assertThat(
@@ -192,7 +192,7 @@ public final class RtRepoTest {
                     .build()
                     .toString()
             ),
-            simple()
+            new Coordinates.Simple("oct", "oct-branch")
         );
         MatcherAssert.assertThat(
             repo.json().toString(),
@@ -213,14 +213,5 @@ public final class RtRepoTest {
             .add("id", 1)
             .add("event", event)
             .build();
-    }
-
-    /**
-     * Create and return Coordinates.Simple to test.
-     * @return Coordinates.Simple
-     * @throws Exception if some problem inside
-     */
-    private static Coordinates simple() throws Exception {
-        return new Coordinates.Simple("octocat", "master");
     }
 }
