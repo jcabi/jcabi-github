@@ -75,7 +75,7 @@ public final class RtEventTest {
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
             event.number(),
-            Matchers.sameInstance(2)
+            Matchers.equalTo(2)
         );
     }
 
