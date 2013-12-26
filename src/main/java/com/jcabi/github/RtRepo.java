@@ -134,6 +134,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Assignees assignees() {
+        return null;
+    }
+
+    @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
