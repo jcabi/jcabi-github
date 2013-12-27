@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Github;
@@ -132,6 +133,11 @@ final class MkRepo implements Repo {
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public Assignees assignees() {
+        return null;
     }
 
     @Override

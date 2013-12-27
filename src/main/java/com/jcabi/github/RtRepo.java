@@ -43,10 +43,6 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @todo #1 Unit test for RtRepo is required. Let's mock
- *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
- *  sure that the class can do its key operations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -143,6 +139,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Assignees assignees() {
+        return null;
+    }
+
+    @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
@@ -153,5 +154,4 @@ final class RtRepo implements Repo {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
-
 }
