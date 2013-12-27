@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 /**
- * Github organizations.
+ * Test case for {@link RtOrganizations}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
