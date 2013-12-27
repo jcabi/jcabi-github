@@ -43,9 +43,5 @@
  * @version $Id$
  * @since 0.1
  * @see <a href="http://github.jcabi.com/">project website</a>
- * @todo #1 Change class prefixes from Gh to Rt. Let's rename all classes
- *  by changing their prefixes. Now we're using Gh, which is semantically
- *  not correct. Rt will stand for REST. Also, let's rename DefaultGithub
- *  to RtGithub. Let's not forget to update Maven documentation and README.md.
  */
 package com.jcabi.github;

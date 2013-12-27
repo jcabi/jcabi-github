@@ -5,13 +5,13 @@ is an object oriented Java adapter of
 [Github API](http://developer.github.com/v3/):
 
 ```java
-import com.jcabi.github.DefaultGithub;
+import com.jcabi.github.RtGithub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 public class Main {
   public static void main(String[] args) {
-    Github github = new DefaultGithub(".. your OAuth token ..");
+    Github github = new RtGithub(".. your OAuth token ..");
     Repo repo = github.repo("jcabi/jcabi-github");
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
     issue.post("My first comment!");

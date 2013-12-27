@@ -29,48 +29,51 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link Bulk}.
+ * Github limit rate.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.6
  */
-public final class BulkTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "ghub", "entry" })
+final class RtLimits implements Limits {
 
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * API entry point.
      */
-    @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
-        );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     */
+    RtLimits(final Github github, final Request req) {
+        this.entry = req.uri().path("rate_limit").back();
+        this.ghub = github;
+    }
+
+    @Override
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public Limit get(final String resource) {
+        return new RtLimit(this.ghub, this.entry, resource);
     }
 
 }

@@ -8,7 +8,7 @@ an object oriented API of Github:
 ```java
 public class Main {
   public static void main(String[] args) {
-    Github github = new DefaultGithub(".. your OAuth token ..");
+    Github github = new RtGithub(".. your OAuth token ..");
     Repo repo = github.repo("jcabi/jcabi-github");
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
     issue.post("My first comment!");

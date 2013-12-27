@@ -43,14 +43,6 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @todo #1:1hr Assignees API should be implemented. Let's add a method
- *  assignees() to this class returning an instance of interface Assignees.
- *  This interface should have at least two methods: 1) iterate() returning
- *  a list of Users and 2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. New interface should
- *  be implemented by GhAssignees class and tested in unit and integration
- *  tests. Moreover, we should implement MkAssignees class. See
- *  http://developer.github.com/v3/issues/assignees/
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -99,6 +91,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "labels are never NULL")
     Labels labels();
+
+    /**
+     * Get all available assignees to which issues may be assigned.
+     * @return Assignees
+     * @see @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
+     */
+    @NotNull(message = "labels are never NULL")
+    Assignees assignees();
 
     /**
      * Smart Repo with extra features.
@@ -150,6 +150,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Labels labels() {
             return this.repo.labels();
+        }
+        @Override
+        public Assignees assignees() {
+            return this.repo.assignees();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {

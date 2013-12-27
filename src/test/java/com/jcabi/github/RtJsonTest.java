@@ -29,48 +29,61 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Bulk}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtJson}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class BulkTest {
-
+public final class RtJsonTest {
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * RtJson can fetch HTTP request.
+     *
+     * @throws Exception if there is any problem
      */
     @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
+    public void sendHttpRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hi\"}")
+        ).start();
+        final RtJson json = new RtJson(new ApacheRequest(container.home()));
         MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+            json.fetch().getString("body"),
+            Matchers.equalTo("hi")
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+        container.stop();
     }
 
+    /**
+     * RtJson can execute PATCH request.
+     *
+     * @throws Exception if there is any problem
+     */
+    @Test
+    public void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hj\"}")
+        ).start();
+        final RtJson json = new RtJson(new ApacheRequest(container.home()));
+        json.patch(
+            Json.createObjectBuilder()
+                .add("content", "hi you!")
+                .build()
+        );
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo("PATCH")
+        );
+        container.stop();
+    }
 }

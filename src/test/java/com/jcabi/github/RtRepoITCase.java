@@ -29,48 +29,60 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link Bulk}.
+ * Integration case for {@link Github}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @todo #16 Add test iterateAssignees() to check that
+ *  assignees actually fetched.
+ *  See http://developer.github.com/v3/issues/assignees/
  */
-public final class BulkTest {
+public final class RtRepoITCase {
 
     /**
-     * Bulk can cache JSON data.
+     * RtRepo can identify itself.
      * @throws Exception If some problem inside
      */
     @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
+    public void identifiesItself() throws Exception {
+        final Repo repo = RtRepoITCase.repo();
         MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
+            repo.coordinates(),
+            Matchers.notNullValue()
         );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+    }
+
+    /**
+     * RtRepo can fetch events.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iteratesEvents() throws Exception {
+        final Repo repo = RtRepoITCase.repo();
+        MatcherAssert.assertThat(
+            repo.events(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
     }
 
 }

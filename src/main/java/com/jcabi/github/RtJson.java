@@ -29,48 +29,68 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link Bulk}.
+ * Github JSON item.
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.6
  */
-public final class BulkTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+final class RtJson {
 
     /**
-     * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
+     * RESTful request.
      */
-    @Test
-    public void cachesJsonData() throws Exception {
-        final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
-            new RtPagination<Comment>(
-                request,
-                new RtPagination.Mapping<Comment>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
-            )
-        ).iterator().next();
-        MatcherAssert.assertThat(
-            new Comment.Smart(comment).body(),
-            Matchers.equalTo("hey you")
-        );
-        comment.number();
-        Mockito.verify(origin).number();
-        Mockito.verify(origin, Mockito.never()).json();
+    private final transient Request request;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     */
+    RtJson(final Request req) {
+        this.request = req;
+    }
+
+    /**
+     * Fetch JSON object.
+     * @return JSON object
+     * @throws IOException If fails
+     */
+    public JsonObject fetch() throws IOException {
+        return this.request.fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().readObject();
+    }
+
+    /**
+     * Patch it.
+     * @param json JSON to use for patching
+     * @throws IOException If fails
+     */
+    public void patch(final JsonObject json) throws IOException {
+        final StringWriter post = new StringWriter();
+        Json.createWriter(post).writeObject(json);
+        this.request.body().set(post.toString()).back()
+            .method(Request.PATCH)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
 }
