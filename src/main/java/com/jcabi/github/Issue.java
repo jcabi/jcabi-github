@@ -344,6 +344,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                             return Issue.Smart.this.repo();
                         }
                         @Override
+                        public String name() {
+                            return obj.getString("name");
+                        }
+                        @Override
                         public boolean equals(final Object other) {
                             boolean result = false;
                             if (other instanceof Label) {
@@ -356,10 +360,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                         public int hashCode() {
                             final int hash = 41;
                             return hash * (hash + this.name().hashCode());
-                        }
-                        @Override
-                        public String name() {
-                            return obj.getString("name");
                         }
                         @Override
                         public int compareTo(final Label label) {
