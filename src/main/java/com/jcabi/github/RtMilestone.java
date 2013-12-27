@@ -38,24 +38,15 @@ import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github milestone.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @todo #1 Unit test for GhUser is required. Let's mock
- *  request using Mockito or com.rexsl.test.request.FakeRequest, and make
- *  sure that the class can do its key operations.
+ * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "request" })
-final class RtUser implements User {
-
-    /**
-     * Github.
-     */
-    private final transient Github ghub;
+@EqualsAndHashCode(of = {"request", "owner" })
+public class RtMilestone implements Milestone {
 
     /**
      * RESTful request.
@@ -63,66 +54,65 @@ final class RtUser implements User {
     private final transient Request request;
 
     /**
-     * Login of the user.
+     * Repository.
      */
-    private final transient String self;
+    private final transient Repo owner;
+
+    /**
+     * Milestone number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param github Github
      * @param req Request
+     * @param repo Repository
+     * @param number Number of the get
      */
-    RtUser(final Github github, final Request req) {
-        this(github, req, "");
-    }
-
-    /**
-     * Public ctor.
-     * @param github Github
-     * @param req Request
-     * @param login User identity/identity
-     */
-    RtUser(final Github github, final Request req, final String login) {
-        this.ghub = github;
-        if (login.isEmpty()) {
-            this.request = req.uri().path("/user").back();
-        } else {
-            this.request = req.uri().path("/users").path(login).back();
-        }
-        this.self = login;
+    RtMilestone(final Request req, final Repo repo, final int number) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/milestones")
+            .path(Integer.toString(number))
+            .back();
+        this.owner = repo;
+        this.num = number;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public final Repo repo() {
+        return this.owner;
     }
 
     @Override
-    public String login() throws IOException {
-        final String login;
-        if (this.self.isEmpty()) {
-            login = this.json().getString("login");
-        } else {
-            login = this.self;
-        }
-        return login;
+    public final int number() {
+        return this.num;
     }
 
     @Override
-    public JsonObject json() throws IOException {
+    public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
+    public final void patch(
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
+    @Override
+    public final int compareTo(
+        @NotNull(message = "Milestone object can't be NULL")
+        final Milestone milestone) {
+        return new Integer(this.number()).compareTo(milestone.number());
+    }
 }
