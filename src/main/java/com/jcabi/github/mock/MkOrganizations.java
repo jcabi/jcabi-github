@@ -31,90 +31,42 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Github user.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github organizations.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.5
- * @todo #2:30min Organizations of a user.
- *  Let's implements a new method organizations(),
- *  which should return a mock instance of interface Organisations.
+ * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @since 0.7
+ * @todo #2 Mock for user's Organizations.
+ *  Let's implements Mock for user's organizations using MkStorage.
+ *  Don't forget about @EqualsAndHashCode.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self" })
-final class MkUser implements User {
-
-    /**
-     * Storage.
-     */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @throws IOException If there is any I/O problem
-     */
-    MkUser(final MkStorage stg, final String login) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/users[not(user[login='%s'])]", login)
-            ).add("user").add("login").set(login)
-        );
-    }
+final class MkOrganizations implements Organizations {
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
-    }
-
-    @Override
-    public String login() {
-        return this.self;
-    }
-
-    @Override
-    public Organizations organizations() {
+    public User user() {
         return null;
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
+    public Organization get(final int orgid) {
+        return null;
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
+    public Iterable<Organization> iterate(
+        @NotNull(message = "map of params can't be NULL")
+        final Map<String, String> params) {
+        return null;
     }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format("/github/users/user[login='%s']", this.self);
-    }
-
 }
