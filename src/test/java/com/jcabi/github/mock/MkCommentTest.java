@@ -30,10 +30,12 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
+import com.jcabi.github.Coordinates;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkComment}.
@@ -53,6 +55,37 @@ public final class MkCommentTest {
         MatcherAssert.assertThat(
             new Comment.Smart(comment).body(),
             Matchers.startsWith("hello, this ")
+        );
+    }
+
+    /**
+     * MkComment should be able to compare different instances.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canCompareInstances() throws Exception {
+        final MkComment less = new MkComment(
+            new MkStorage.InFile(),
+            "login-less",
+            Mockito.mock(Coordinates.class),
+            1,
+            1
+        );
+        final MkComment greater = new MkComment(
+            new MkStorage.InFile(),
+            "login-greater",
+            Mockito.mock(Coordinates.class),
+            2,
+            2
+        );
+        MatcherAssert.assertThat(
+            less.compareTo(greater),
+            Matchers.lessThan(0)
+        );
+        MatcherAssert.assertThat(
+            greater.compareTo(less),
+            Matchers.greaterThan(0)
         );
     }
 

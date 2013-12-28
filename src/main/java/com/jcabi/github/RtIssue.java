@@ -145,7 +145,7 @@ final class RtIssue implements Issue {
 
     @Override
     public int compareTo(final Issue issue) {
-        return new Integer(this.number()).compareTo(issue.number());
+        return this.number() - issue.number();
     }
 
 }
