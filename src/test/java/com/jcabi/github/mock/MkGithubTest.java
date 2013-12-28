@@ -34,6 +34,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -51,9 +52,7 @@ public final class MkGithubTest {
      */
     @Test
     public void worksWithMockedData() throws Exception {
-        final Repo repo = new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+        final Repo repo = new MkGithub().repos().create(MkGithubTest.json());
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -72,4 +71,47 @@ public final class MkGithubTest {
         );
     }
 
+    /**
+     * MkGithub can relogin.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canRelogin() throws Exception {
+        final String login = "mark";
+        final MkGithub github = new MkGithub();
+        final Repo repo = github.repos().create(MkGithubTest.json());
+        final Issue issue = repo.issues().create("title", "Found a bug");
+        final Comment comment = github
+            .relogin(login)
+            .repos()
+            .get(repo.coordinates())
+            .issues()
+            .get(issue.number())
+            .comments()
+            .post("Nice change");
+        MatcherAssert.assertThat(
+            new User.Smart(new Comment.Smart(comment).author()).login(),
+            Matchers.not(
+                Matchers.equalTo(
+                    new User.Smart(repo.github().users().self()).login()
+                )
+            )
+        );
+        MatcherAssert.assertThat(
+            new User.Smart(new Comment.Smart(comment).author()).login(),
+            Matchers.equalTo(login)
+        );
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @return JsonObject
+     * @throws Exception If some problem inside
+     */
+    private static JsonObject json() throws Exception {
+        return Json.createObjectBuilder()
+            .add("name", "test")
+            .build();
+    }
 }
