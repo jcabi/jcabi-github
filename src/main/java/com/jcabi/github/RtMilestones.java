@@ -32,101 +32,104 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.Response;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
+import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github gist.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github milestones.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry" })
-final class RtGist implements Gist {
-
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
+public class RtMilestones implements Milestones {
     /**
-     * Github.
-     */
-    private final transient Github ghub;
-
-    /**
-     * RESTful entry.
+     * API entry point.
      */
     private final transient Request entry;
 
     /**
-     * Public ctor.
-     * @param github Github
-     * @param req Request
-     * @param name Name of gist
+     * RESTful request.
      */
-    RtGist(final Github github, final Request req, final String name) {
-        this.ghub = github;
-        this.entry = req.uri().path("/gists").path(name).back();
+    private final transient Request request;
+
+    /**
+     * Repository.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     * @param repo Repository
+     */
+    RtMilestones(final Request req, final Repo repo) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/milestones")
+            .back();
+        this.owner = repo;
     }
 
     @Override
-    public String toString() {
-        return this.entry.uri().get().toString();
+    public final String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public final Repo repo() {
+        return this.owner;
     }
 
     @Override
-    public String read(@NotNull(message = "file name can't be NULL")
-        final String file) throws IOException {
-        final Response response = this.entry.fetch();
-        final String url = response
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject().getJsonObject("files")
-            .getJsonObject(file).getString("raw_url");
-        return response
-            .as(RestResponse.class)
-            .jump(URI.create(url))
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .body();
-    }
-
-    @Override
-    public void write(
-        @NotNull(message = "file name can't be NULL") final String file,
-        @NotNull(message = "file content can't be NULL") final String content)
+    public final Milestone create(
+        @NotNull(message = "title can't be NULL") final String title)
         throws IOException {
-        final JsonObjectBuilder builder = Json.createObjectBuilder()
-            .add("content", content);
         final JsonStructure json = Json.createObjectBuilder()
-            .add("files", Json.createObjectBuilder().add(file, builder))
+            .add("title", title)
             .build();
-        this.entry.method(Request.PATCH)
-            .body().set(json).back().fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("number")
+        );
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.entry).fetch();
+    public final Milestone get(final int number) {
+        return new RtMilestone(this.entry, this.owner, number);
     }
 
+    @Override
+    public final Iterable<Milestone> iterate(
+        @NotNull(message = "map or params can't be NULL")
+        final Map<String, String> params) {
+        return new RtPagination<Milestone>(
+            this.request.uri().queryParams(params).back(),
+            new RtPagination.Mapping<Milestone>() {
+                @Override
+                public Milestone map(final JsonObject object) {
+                    return RtMilestones.this.get(object.getInt("number"));
+                }
+            }
+        );
+    }
 }

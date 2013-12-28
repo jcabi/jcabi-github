@@ -39,6 +39,9 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @todo #16 Add test iterateAssignees() to check that
+ *  assignees actually fetched.
+ *  See http://developer.github.com/v3/issues/assignees/
  */
 public final class RtRepoITCase {
 
