@@ -348,6 +348,20 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                             return obj.getString("name");
                         }
                         @Override
+                        public boolean equals(final Object other) {
+                            boolean result = false;
+                            if (other instanceof Label) {
+                                final Label that = (Label) other;
+                                result = this.name().equals(that.name());
+                            }
+                            return result;
+                        }
+                        @Override
+                        public int hashCode() {
+                            final int hash = 41;
+                            return hash * (hash + this.name().hashCode());
+                        }
+                        @Override
                         public int compareTo(final Label label) {
                             return this.name().compareTo(label.name());
                         }
