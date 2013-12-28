@@ -37,6 +37,7 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
+import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
 import java.io.IOException;
@@ -46,15 +47,17 @@ import lombok.ToString;
 
 /**
  * Mock Github repo.
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @todo #9 Implement milestones() method.
+ *  Please, implement milestones() method to return
+ *  MkMilestones. Don't forget about unit tests
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
+@EqualsAndHashCode(of = {"storage", "self", "coords" })
 final class MkRepo implements Repo {
 
     /**
@@ -102,6 +105,11 @@ final class MkRepo implements Repo {
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public Milestones milestones() {
+        return null;
     }
 
     @Override

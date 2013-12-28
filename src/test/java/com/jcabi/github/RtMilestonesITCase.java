@@ -27,21 +27,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Object Oriented Github API.
- *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Integration case for {@link Milestones}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ *
+ * @todo #1:30min Implement integration tests for Milestones.
+ *  Now these tests are ignored
  */
-package com.jcabi.github;
+public final class RtMilestonesITCase {
+
+    /**
+     * RtMilestones can iterate milestones.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void iteratesIssues() throws Exception {
+        //
+    }
+
+    /**
+     * RtMilestones can create a new milestone.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void createsNewMilestone() throws Exception {
+        //
+    }
+
+}
+

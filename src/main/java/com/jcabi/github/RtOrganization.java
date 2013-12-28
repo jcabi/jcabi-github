@@ -27,21 +27,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
+
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
- * Object Oriented Github API.
- *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github organization.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ * @todo #2 Default implementation for user's Organization.
+ *  Provide default implementation for user's organization.
+ *  Don't forget about @EqualsAndHashCode.
+ * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @since 0.7
  */
-package com.jcabi.github;
+@Immutable
+@Loggable(Loggable.DEBUG)
+final class RtOrganization implements Organization {
+
+    @Override
+    public User user() {
+        return null;
+    }
+
+    @Override
+    public int orgId() {
+        return 0;
+    }
+
+    @Override
+    public int compareTo(final Organization org) {
+        return 0;
+    }
+
+    @Override
+    public void patch(
+        @NotNull(message = "JSON is never NULL")
+        final JsonObject json) throws IOException {
+        // to be implemented
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return null;
+    }
+}
