@@ -27,21 +27,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
+
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
- * Object Oriented Github API.
+ * Github Assignees.
  *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ * @since 0.7
  */
-package com.jcabi.github;
+public interface Assignees {
+
+    /**
+     * Iterate all available assignees.
+     * @param params Iterating parameters, as requested by API
+     * @return Iterator of available assignees to which issues may be assigned
+     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<User> iterate(
+        @NotNull(message = "map of params can't be NULL")
+        Map<String, String> params);
+
+    /**
+     * Check check if a particular user is an assignee for a repository.
+     * @param login Login of user to be checked
+     * @return True if given assignee login belongs to an assignee for the repository
+     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
+     */
+    @NotNull(message = "check is never NULL")
+    boolean check(String login);
+}

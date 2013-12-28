@@ -27,21 +27,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
+
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
- * Object Oriented Github API.
- *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github organizations.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ * @todo #2 Default implementation for user's Organizations.
+ *  Provide default implementation for user's organizations.
+ *  Don't forget about @EqualsAndHashCode.
+ * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @since 0.7
  */
-package com.jcabi.github;
+@Immutable
+@Loggable(Loggable.DEBUG)
+final class RtOrganizations implements Organizations {
+
+    @Override
+    public User user() {
+        return null;
+    }
+
+    @Override
+    public Organization get(final int orgid) {
+        return null;
+    }
+
+    @Override
+    public Iterable<Organization> iterate(
+        @NotNull(message = "map of params can't be NULL")
+        final Map<String, String> params) {
+        return null;
+    }
+}

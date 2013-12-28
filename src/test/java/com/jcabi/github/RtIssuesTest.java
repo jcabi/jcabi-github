@@ -29,10 +29,12 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.immutable.ArrayMap;
+import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.ApacheRequest;
+import com.rexsl.test.request.JdkRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -42,98 +44,114 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtUsers}.
+ * Test case for {@link RtIssues}.
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtUsersTest {
+public final class RtIssuesTest {
     /**
-     * RtUsers can iterate users.
+     * RtIssues can create an issue.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void createIssue() throws Exception {
+        final String title = "Found a bug";
+        final String body = issue(title).toString();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
+        final RtIssues issues = new RtIssues(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        final Issue issue = issues.create(title, "having a problem with it.");
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.POST)
+        );
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).title(),
+            Matchers.equalTo(title)
+        );
+        container.stop();
+    }
+
+    /**
+     * RtIssues can get a single issue.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void getSingleIssue() throws Exception {
+        final String title = "Unit test";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                issue(title).toString()
+            )
+        ).start();
+        final RtIssues issues = new RtIssues(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        final Issue issue = issues.get(1);
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).title(),
+            Matchers.equalTo(title)
+        );
+        container.stop();
+    }
+
+    /**
+     * RtIssues can iterate issues.
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateUsers() throws Exception {
-        final String login = "octocat";
+    public void iterateIssues() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(json(login))
-                    .add(json("dummy"))
+                    .add(issue("new issue"))
+                    .add(issue("code issue"))
                     .build().toString()
             )
         ).start();
-        final RtUsers users = new RtUsers(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home())
+        final RtIssues issues = new RtIssues(
+            new JdkRequest(container.home()),
+            repo()
         );
         MatcherAssert.assertThat(
-            users.iterate(login),
-            Matchers.<User>iterableWithSize(2)
-        );
-        container.stop();
-    }
-
-    /**
-     * RtUsers can get a single user.
-     *
-     * @throws Exception  if there is any error
-     */
-    @Test
-    public void getSingleUser() throws Exception {
-        final String login = "mark";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                json(login).toString()
-            )
-        ).start();
-        final RtUsers users = new RtUsers(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home())
-        );
-        MatcherAssert.assertThat(
-            users.get(login).login(),
-            Matchers.equalTo(login)
-        );
-        container.stop();
-    }
-
-    /**
-     * RtUsers can get a current  user.
-     *
-     * @throws Exception  if there is any error
-     */
-    @Test
-    public void getCurrentUser() throws Exception {
-        final String login = "kendy";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                json(login).toString()
-            )
-        ).start();
-        final RtUsers users = new RtUsers(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home())
-        );
-        MatcherAssert.assertThat(
-            users.self().login(),
-            Matchers.equalTo(login)
+            issues.iterate(new ArrayMap<String, String>()),
+            Matchers.<Issue>iterableWithSize(2)
         );
         container.stop();
     }
 
     /**
      * Create and return JsonObject to test.
-     * @param login Username to login
+     * @param title The title of the issue
      * @return JsonObject
      * @throws Exception If some problem inside
      */
-    private static JsonObject json(final String login) throws Exception {
+    private static JsonObject issue(final String title) throws Exception {
         return Json.createObjectBuilder()
-            .add("login", login)
+            .add("number", 1)
+            .add("state", Issue.OPEN_STATE)
+            .add("title", title)
             .build();
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("mark", "test"))
+            .when(repo).coordinates();
+        return repo;
     }
 }

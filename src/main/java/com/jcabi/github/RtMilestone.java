@@ -32,34 +32,21 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Map;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github issues.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github milestone.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "request", "owner" })
-final class RtIssues implements Issues {
-
-    /**
-     * API entry point.
-     */
-    private final transient Request entry;
+@EqualsAndHashCode(of = {"request", "owner" })
+public class RtMilestone implements Milestone {
 
     /**
      * RESTful request.
@@ -72,69 +59,60 @@ final class RtIssues implements Issues {
     private final transient Repo owner;
 
     /**
+     * Milestone number.
+     */
+    private final transient int num;
+
+    /**
      * Public ctor.
      * @param req Request
      * @param repo Repository
+     * @param number Number of the get
      */
-    RtIssues(final Request req, final Repo repo) {
-        this.entry = req;
+    RtMilestone(final Request req, final Repo repo, final int number) {
         final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
+        this.request = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/issues")
+            .path("/milestones")
+            .path(Integer.toString(number))
             .back();
         this.owner = repo;
+        this.num = number;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    public Repo repo() {
+    public final Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Issue get(final int number) {
-        return new RtIssue(this.entry, this.owner, number);
+    public final int number() {
+        return this.num;
     }
 
     @Override
-    public Issue create(
-        @NotNull(message = "title can't be NULL") final String title,
-        @NotNull(message = "body can't be NULL")final String body)
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("title", title)
-            .add("body", body)
-            .build();
-        return this.get(
-            this.request.method(Request.POST)
-                .body().set(json).back()
-                .fetch().as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                .json().readObject().getInt("number")
-        );
+    public final JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 
     @Override
-    public Iterable<Issue> iterate(
-        @NotNull(message = "map or params can't be NULL")
-        final Map<String, String> params) {
-        return new RtPagination<Issue>(
-            this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<Issue>() {
-                @Override
-                public Issue map(final JsonObject object) {
-                    return RtIssues.this.get(object.getInt("number"));
-                }
-            }
-        );
+    public final void patch(
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
 
+    @Override
+    public final int compareTo(
+        @NotNull(message = "Milestone object can't be NULL")
+        final Milestone milestone) {
+        return new Integer(this.number()).compareTo(milestone.number());
+    }
 }

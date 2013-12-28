@@ -27,21 +27,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Object Oriented Github API.
- *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtAssignees}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ * @since 0.7
+ * @todo #16 Implement integrations tests for {@link RtAssignees}
+ *  See http://developer.github.com/v3/issues/assignees/
  */
-package com.jcabi.github;
+public final class RtAssigneesITCase {
+
+    /**
+     * RtAssignees can iterate over assignees.
+     * @throws Exception Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void iteratesAssignees() throws Exception {
+        // To be implemented
+    }
+
+    /**
+     * RtAssignees can check if user is assignee for this repo.
+     * @throws Exception Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void checkUserIsAssigneeForRepo() throws Exception {
+        // To be implemented
+    }
+}

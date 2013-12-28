@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -179,4 +180,14 @@ public final class MkGithub implements Github {
         throw new UnsupportedOperationException("#markdown()");
     }
 
+    /**
+     * Relogin.
+     * @param login User to login
+     * @return Github
+     * @throws IOException If there is any I/O problem
+     */
+    public Github relogin(@NotNull(message = "login is never NULL")
+        final String login) throws IOException {
+        return new MkGithub(this.storage, login);
+    }
 }
