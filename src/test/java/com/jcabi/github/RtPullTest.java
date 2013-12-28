@@ -35,6 +35,7 @@ import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
+import com.rexsl.test.request.FakeRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -134,6 +135,23 @@ public final class RtPullTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * RtPull should be able to compare different instances.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canCompareInstances() throws Exception {
+        final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
+        final RtPull greater = new RtPull(new FakeRequest(), this.repo(), 2);
+        MatcherAssert.assertThat(
+            less.compareTo(greater), Matchers.lessThan(0)
+        );
+        MatcherAssert.assertThat(
+            greater.compareTo(less), Matchers.greaterThan(0)
+        );
     }
 
     /**
