@@ -32,11 +32,8 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
-
 import java.util.Collections;
-
 import javax.json.Json;
-
 import org.hamcrest.CustomMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
