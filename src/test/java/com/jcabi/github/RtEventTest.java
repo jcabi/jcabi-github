@@ -29,11 +29,9 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import com.rexsl.test.request.FakeRequest;
 import java.net.HttpURLConnection;
@@ -43,94 +41,66 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtPull}.
+ * Test case for {@link RtEvent}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtPullTest {
+public final class RtEventTest {
 
     /**
-     * RtPull should be able to retrieve commits.
+     * RtEvent can retrieve its own repo.
      *
-     * @throws Exception when a problem occurs.
+     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesCommits() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "[{\"commits\":\"test\"}]"
-            )
-        ).start();
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            1
+    public void canRetrieveOwnRepo() throws Exception {
+        final Repo repo = this.repo();
+        final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
+        MatcherAssert.assertThat(
+            event.repo(),
+            Matchers.sameInstance(repo)
         );
-        try {
-            MatcherAssert.assertThat(
-                pull.commits(),
-                Matchers.notNullValue()
-            );
-        } finally {
-            container.stop();
-        }
     }
 
     /**
-     * RtPull should be able to retrieve files.
+     * RtEvent can retrieve its own number.
      *
-     * @throws Exception when a problem occurs.
+     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesFiles() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "[{\"file1\":\"testFile\"}]"
-            )
-        ).start();
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            2
+    public void canRetrieveOwnNumber() throws Exception {
+        final Repo repo = this.repo();
+        final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
+        MatcherAssert.assertThat(
+            event.number(),
+            Matchers.equalTo(2)
         );
-        try {
-            MatcherAssert.assertThat(
-                pull.files().iterator().next().getString("file1"),
-                Matchers.equalTo("testFile")
-            );
-        } finally {
-            container.stop();
-        }
     }
 
     /**
-     * RtPull should be able to perform a merge.
+     * RtEvent can be retrieved in JSON form.
      *
-     * @throws Exception when a problem occurs.
+     * @throws Exception If a problem occurs.
      */
     @Test
-    public void executeMerge() throws Exception {
+    public void retrieveEventAsJson() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"test\":\"events\"}"
+            )
         ).start();
-        final RtPull pull = new RtPull(
+        final RtEvent event = new RtEvent(
             new ApacheRequest(container.home()),
             this.repo(),
             3
         );
-        pull.merge("Test commit.");
         try {
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
-                query.method(),
-                Matchers.equalTo(Request.PUT)
-            );
-            MatcherAssert.assertThat(
-                query.body(),
-                Matchers.equalTo("{\"commit_message\":\"Test commit.\"}")
+                event.json().getString("test"),
+                Matchers.equalTo("events")
             );
         } finally {
             container.stop();
@@ -138,14 +108,14 @@ public final class RtPullTest {
     }
 
     /**
-     * RtPull should be able to compare different instances.
+     * RtEvent should be able to compare different instances.
      *
      * @throws Exception when a problem occurs.
      */
     @Test
     public void canCompareInstances() throws Exception {
-        final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
-        final RtPull greater = new RtPull(new FakeRequest(), this.repo(), 2);
+        final RtEvent less = new RtEvent(new FakeRequest(), this.repo(), 1);
+        final RtEvent greater = new RtEvent(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(
             less.compareTo(greater), Matchers.lessThan(0)
         );
@@ -155,15 +125,13 @@ public final class RtPullTest {
     }
 
     /**
-     * Mock repository for testing purposes.
-     * @return Repo the mock repository.
+     * Create and return repo for testing.
+     * @return Repo
      */
     private Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
-        final Coordinates coords = Mockito.mock(Coordinates.class);
-        Mockito.doReturn(coords).when(repo).coordinates();
-        Mockito.doReturn("/user").when(coords).user();
-        Mockito.doReturn("/repo").when(coords).repo();
+        Mockito.doReturn(new Coordinates.Simple("test", "event"))
+            .when(repo).coordinates();
         return repo;
     }
 

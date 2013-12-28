@@ -29,59 +29,40 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.rexsl.test.request.FakeRequest;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtComment}.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @todo #16 Add test iterateAssignees() to check that
- *  assignees actually fetched.
- *  See http://developer.github.com/v3/issues/assignees/
+ * @todo #56 This class only tests the compareTo method so far. Test for the
+ *  other operations should also be implemented.
  */
-public final class RtRepoITCase {
+public final class RtCommentTest {
 
     /**
-     * RtRepo can identify itself.
-     * @throws Exception If some problem inside
+     * RtComment should be able to compare different instances.
+     *
+     * @throws Exception when a problem occurs.
      */
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+    public void canCompareInstances() throws Exception {
+        final Issue issue = new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).issues().create("testing", "issue");
+        final RtComment less = new RtComment(new FakeRequest(), issue, 1);
+        final RtComment greater = new RtComment(new FakeRequest(), issue, 2);
         MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.notNullValue()
+            less.compareTo(greater), Matchers.lessThan(0)
         );
-    }
-
-    /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
         MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+            greater.compareTo(less), Matchers.greaterThan(0)
         );
     }
 

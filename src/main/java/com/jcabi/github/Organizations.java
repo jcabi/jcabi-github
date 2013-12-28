@@ -27,21 +27,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
+
+import com.jcabi.aspects.Immutable;
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
- * Object Oriented Github API.
- *
- * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
- *
- * <pre>&lt;depedency&gt;
- *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
- *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
- * &lt;/dependency&gt;</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github organizations.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://github.jcabi.com/">project website</a>
+ * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @since 0.7
  */
-package com.jcabi.github;
+@Immutable
+public interface Organizations {
+
+    /**
+     * Get its owner.
+     * @return User
+     */
+    @NotNull(message = "user is never NULL")
+    User user();
+
+    /**
+     * Get specific organization by id.
+     * @param orgid Organization number
+     * @return Organization
+     * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
+     */
+    @NotNull(message = "issue is never NULL")
+    Organization get(int orgid);
+
+    /**
+     * Iterate them all.
+     * @param params Iterating parameters, as requested by API
+     * @return Iterator of Organizations
+     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List Organizations</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Organization> iterate(
+        @NotNull(message = "map of params can't be NULL")
+        Map<String, String> params);
+
+}

@@ -145,6 +145,23 @@ public final class RtIssueTest {
     }
 
     /**
+     * RtIssue should be able to compare different instances.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canCompareInstances() throws Exception {
+        final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
+        final RtIssue greater = new RtIssue(new FakeRequest(), this.repo(), 2);
+        MatcherAssert.assertThat(
+            less.compareTo(greater), Matchers.lessThan(0)
+        );
+        MatcherAssert.assertThat(
+            greater.compareTo(less), Matchers.greaterThan(0)
+        );
+    }
+
+    /**
      * Mock repo for GhIssue creation.
      * @return The mock repo.
      */

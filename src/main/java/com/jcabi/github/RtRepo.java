@@ -43,10 +43,12 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtRepo implements Repo {
 
     /**
@@ -107,6 +109,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Milestones milestones() {
+        return new RtMilestones(this.entry, this);
+    }
+
+    @Override
     public Pulls pulls() {
         return new RtPulls(this.entry, this);
     }
@@ -131,6 +138,11 @@ final class RtRepo implements Repo {
     @Override
     public Labels labels() {
         return new RtLabels(this.entry, this);
+    }
+
+    @Override
+    public Assignees assignees() {
+        return null;
     }
 
     @Override

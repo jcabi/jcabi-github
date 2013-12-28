@@ -27,61 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Coordinates;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link MkPull}.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @todo #16 Add test iterateAssignees() to check that
- *  assignees actually fetched.
- *  See http://developer.github.com/v3/issues/assignees/
+ * @todo #56 This class only tests the compareTo method so far. Test for the
+ *  other operations should also be implemented.
  */
-public final class RtRepoITCase {
+public final class MkPullTest {
 
     /**
-     * RtRepo can identify itself.
-     * @throws Exception If some problem inside
+     * MkPull should be able to compare different instances.
+     *
+     * @throws Exception when a problem occurs.
      */
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.notNullValue()
+    public void canCompareInstances() throws Exception {
+        final MkPull less = new MkPull(
+            new MkStorage.InFile(),
+            "login-less",
+            Mockito.mock(Coordinates.class),
+            1
         );
-    }
-
-    /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
+        final MkPull greater = new MkPull(
+            new MkStorage.InFile(),
+            "login-greater",
+            Mockito.mock(Coordinates.class),
+            2
         );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        MatcherAssert.assertThat(
+            less.compareTo(greater),
+            Matchers.lessThan(0)
+        );
+        MatcherAssert.assertThat(
+            greater.compareTo(less),
+            Matchers.greaterThan(0)
         );
     }
 
