@@ -336,31 +336,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     .getValuesAs(JsonObject.class);
             final Collection<Label> labels = new ArrayList<Label>(array.size());
             for (final JsonObject obj : array) {
-                labels.add(
-                    // @checkstyle AnonInnerLength (50 lines)
-                    new Label() {
-                        @Override
-                        public Repo repo() {
-                            return Issue.Smart.this.repo();
-                        }
-                        @Override
-                        public String name() {
-                            return obj.getString("name");
-                        }
-                        @Override
-                        public int compareTo(final Label label) {
-                            return this.name().compareTo(label.name());
-                        }
-                        @Override
-                        public void patch(final JsonObject json) {
-                            throw new UnsupportedOperationException("#patch()");
-                        }
-                        @Override
-                        public JsonObject json() {
-                            return obj;
-                        }
-                    }
-                );
+                labels.add(new Label.Unmodified(Issue.Smart.this.repo(), obj));
             }
             return labels;
         }

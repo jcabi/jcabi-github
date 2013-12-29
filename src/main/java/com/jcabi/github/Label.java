@@ -48,6 +48,7 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
@@ -123,5 +124,49 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
             return this.label.json();
         }
     }
-
+    /**
+     * Unmodified Label with extra features.
+     */
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "repo", "obj" })
+    final class Unmodified implements Label {
+        /**
+         * Encapsulated Repo.
+         */
+        private final transient Repo repo;
+        /**
+         * Encapsulated JsonObject.
+         */
+        private final transient JsonObject obj;
+        /**
+         * Public ctor.
+         * @param rep Repo
+         * @param object JsonObject
+         */
+        public Unmodified(final Repo rep, final JsonObject object) {
+            this.repo = rep;
+            this.obj = object;
+        }
+        @Override
+        public Repo repo() {
+            return this.repo;
+        }
+        @Override
+        public String name() {
+            return this.obj.getString("name");
+        }
+        @Override
+        public int compareTo(final Label label) {
+            return this.name().compareTo(label.name());
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            throw new UnsupportedOperationException("#patch()");
+        }
+        @Override
+        public JsonObject json() throws IOException {
+            return this.obj;
+        }
+    }
 }
