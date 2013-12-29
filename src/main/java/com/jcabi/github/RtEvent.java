@@ -108,7 +108,7 @@ final class RtEvent implements Event {
 
     @Override
     public int compareTo(final Event event) {
-        return new Integer(this.number()).compareTo(event.number());
+        return this.number() - event.number();
     }
 
 }

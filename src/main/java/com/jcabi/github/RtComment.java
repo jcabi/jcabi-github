@@ -121,6 +121,6 @@ final class RtComment implements Comment {
 
     @Override
     public int compareTo(final Comment comment) {
-        return new Integer(this.number()).compareTo(comment.number());
+        return this.number() - comment.number();
     }
 }
