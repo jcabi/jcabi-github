@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -48,6 +49,7 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
@@ -123,5 +125,50 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
             return this.label.json();
         }
     }
-
+    /**
+     * Unmodified Label with extra features.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "repo", "obj" })
+    final class Unmodified implements Label {
+        /**
+         * Encapsulated Repo.
+         */
+        private final transient Repo repo;
+        /**
+         * Encapsulated String.
+         */
+        private final transient String obj;
+        /**
+         * Public ctor.
+         * @param rep Repo
+         * @param object String
+         */
+        public Unmodified(final Repo rep, final String object) {
+            this.repo = rep;
+            this.obj = object;
+        }
+        @Override
+        public Repo repo() {
+            return this.repo;
+        }
+        @Override
+        public String name() {
+            return this.json().getString("name");
+        }
+        @Override
+        public int compareTo(final Label label) {
+            return this.name().compareTo(label.name());
+        }
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            throw new UnsupportedOperationException("#patch()");
+        }
+        @Override
+        public JsonObject json() {
+            return Json.createReader(new StringReader(this.obj)).readObject();
+        }
+    }
 }
