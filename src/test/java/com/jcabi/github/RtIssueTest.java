@@ -29,7 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
+import com.rexsl.test.request.ApacheRequest;
 import com.rexsl.test.request.FakeRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -40,10 +48,6 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #42 I assumed that the JSON methods json() and fetch() are not
- *  covered by this test suite, since they are covered by GhJson tests.
- *  GhIssue just creates a GhJson using its own request object. I'm
- *  not entirely sure whether we should test it again here or not.
  */
 public final class RtIssueTest {
 
@@ -76,7 +80,7 @@ public final class RtIssueTest {
     }
 
     /**
-     * GhIssue should be able to fetch its events.
+     * RtIssue should be able to fetch its events.
      *
      * @throws Exception if a problem occurs.
      */
@@ -87,6 +91,57 @@ public final class RtIssueTest {
             issue.events(),
             Matchers.notNullValue()
         );
+    }
+
+    /**
+     * RtIssue should be able to describe itself in JSON format.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchIssueAsJson() throws Exception {
+        final RtIssue issue = new RtIssue(
+            new FakeRequest().withBody("{\"issue\":\"json\"}"),
+            this.repo(),
+            1
+        );
+        MatcherAssert.assertThat(
+            issue.json().getString("issue"),
+            Matchers.equalTo("json")
+        );
+    }
+
+    /**
+     * RtIssue should be able to perform a patch request.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void patchWithJson() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
+        ).start();
+        final RtIssue issue = new RtIssue(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            1
+        );
+        issue.patch(
+            Json.createObjectBuilder().add("patch", "test").build()
+        );
+        final MkQuery query = container.take();
+        try {
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.equalTo("{\"patch\":\"test\"}")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
