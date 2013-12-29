@@ -156,9 +156,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
         @Override
         public String name() {
-            return Json.createReader(new StringReader(this.obj))
-                .readObject()
-                .getString("name");
+            return this.json().getString("name");
         }
         @Override
         public int compareTo(final Label label) {
@@ -169,7 +167,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
             throw new UnsupportedOperationException("#patch()");
         }
         @Override
-        public JsonObject json() throws IOException {
+        public JsonObject json() {
             return Json.createReader(new StringReader(this.obj)).readObject();
         }
     }
