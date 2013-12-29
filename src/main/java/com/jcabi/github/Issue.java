@@ -336,7 +336,12 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     .getValuesAs(JsonObject.class);
             final Collection<Label> labels = new ArrayList<Label>(array.size());
             for (final JsonObject obj : array) {
-                labels.add(new Label.Unmodified(Issue.Smart.this.repo(), obj));
+                labels.add(
+                    new Label.Unmodified(
+                        Issue.Smart.this.repo(),
+                        obj.toString()
+                    )
+                );
             }
             return labels;
         }

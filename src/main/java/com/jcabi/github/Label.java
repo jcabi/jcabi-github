@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -127,6 +128,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
     /**
      * Unmodified Label with extra features.
      */
+    @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "repo", "obj" })
@@ -136,15 +138,15 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          */
         private final transient Repo repo;
         /**
-         * Encapsulated JsonObject.
+         * Encapsulated String.
          */
-        private final transient JsonObject obj;
+        private final transient String obj;
         /**
          * Public ctor.
          * @param rep Repo
-         * @param object JsonObject
+         * @param object String
          */
-        public Unmodified(final Repo rep, final JsonObject object) {
+        public Unmodified(final Repo rep, final String object) {
             this.repo = rep;
             this.obj = object;
         }
@@ -154,7 +156,9 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
         @Override
         public String name() {
-            return this.obj.getString("name");
+            return Json.createReader(new StringReader(this.obj))
+                .readObject()
+                .getString("name");
         }
         @Override
         public int compareTo(final Label label) {
@@ -166,7 +170,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
         @Override
         public JsonObject json() throws IOException {
-            return this.obj;
+            return Json.createReader(new StringReader(this.obj)).readObject();
         }
     }
 }
