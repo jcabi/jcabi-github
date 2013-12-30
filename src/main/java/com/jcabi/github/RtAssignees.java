@@ -31,7 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.immutable.ArrayMap;
 import com.rexsl.test.Request;
+import java.io.IOException;
 import java.util.Map;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -43,13 +45,9 @@ import lombok.EqualsAndHashCode;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Assignees API should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of Users and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository.
- *  Also should be implemented method assignees() in RtRepo
- *  and MkRepo. Don't forget about @EqualsAndHashCode and other
- *  annotations
+ * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #94 Assignees API should be implemented. Let's implement
+ *  method assignees() in RtRepo and MkRepo.
  *  See http://developer.github.com/v3/issues/assignees/
  */
 @Immutable
@@ -109,8 +107,22 @@ final class RtAssignees implements Assignees {
     }
 
     @Override
-    public boolean check(final String login) {
-        return false;
+    public boolean check(final String login) throws IOException {
+        final Iterable<User> assignees = new Smarts<User>(
+            new Bulk<User>(
+                this.iterate(
+                    new ArrayMap<String, String>().with("sort", "login")
+                )
+            )
+        );
+        boolean found = false;
+        for (final User assignee : assignees) {
+            if (login.equals(assignee.login())) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
     @Override

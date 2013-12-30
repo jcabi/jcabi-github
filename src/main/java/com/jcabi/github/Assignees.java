@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
 
@@ -56,8 +57,9 @@ public interface Assignees {
      * Check check if a particular user is an assignee for a repository.
      * @param login Login of user to be checked
      * @return True if given assignee login belongs to an assignee for the repository
+     * @throws IOException If it fails
      * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
      */
     @NotNull(message = "check is never NULL")
-    boolean check(String login);
+    boolean check(String login) throws IOException;
 }
