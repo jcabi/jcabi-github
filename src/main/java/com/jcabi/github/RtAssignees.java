@@ -29,8 +29,13 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.util.Map;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github Assignees.
@@ -47,17 +52,69 @@ import javax.validation.constraints.NotNull;
  *  annotations
  *  See http://developer.github.com/v3/issues/assignees/
  */
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
 final class RtAssignees implements Assignees {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repository we're in.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Public ctor.
+     * @param repo Repo
+     * @param req Request
+     */
+    RtAssignees(final Repo repo, final Request req) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/assignees")
+            .back();
+        this.owner = repo;
+    }
 
     @Override
     public Iterable<User> iterate(
         @NotNull(message = "map of params can't be NULL")
         final Map<String, String> params) {
-        return null;
+        return new RtPagination<User>(
+            this.request,
+            new RtPagination.Mapping<User>() {
+                @Override
+                public User map(final JsonObject object) {
+                    return new RtUser(
+                        RtAssignees.this.owner.github(),
+                        RtAssignees.this.entry,
+                        object.getString("login")
+                    );
+                }
+            }
+        );
     }
 
     @Override
     public boolean check(final String login) {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 }
