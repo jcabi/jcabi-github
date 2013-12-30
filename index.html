@@ -44,7 +44,7 @@
                     Parent Project
                                             <ul>
                                                                             <li>
-                                                                    <a href="../parent.jcabi.com/index.html" title="parent">parent</a>
+                                                                    <a href="../www.jcabi.com/index.html" title="jcabi">jcabi</a>
                                                                                                                         <ul>
                                                     </ul>
                                     </li>
@@ -60,7 +60,7 @@
                                                     </ul>
                                     </li>
                                                                                         <li>
-                                                                    <a href="apidocs-0.6.1/index.html" title="API 0.6.1 (JavaDoc)">API 0.6.1 (JavaDoc)</a>
+                                                                    <a href="apidocs-0.7/index.html" title="API 0.7 (JavaDoc)">API 0.7 (JavaDoc)</a>
                                                                                                                         <ul>
                                                     </ul>
                                     </li>
@@ -94,7 +94,7 @@
                         src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"
                         alt="Fork me on GitHub" />
                 </a>
-                        <a href="../../" title="${decoration.bannerLeft.title}">
+                        <a href="../" title="${decoration.bannerLeft.title}">
                 <img src="http://img.jcabi.com/logo.png"
                     alt="jcabi"
                                             width="200"
@@ -103,28 +103,28 @@
             </a>
                         <p>
                 
-                10-Dec-2013
-                0.6.1
+                30-Dec-2013
+                0.7
             </p>
             <article>
                 <h1>Object Oriented Github API</h1>
 <p>Set of classes in <tt>com.jcabi.github</tt> package is an object oriented Java adapter of <a class="externalLink" href="http://developer.github.com/v3/">Github API</a>:</p>
 
 <div class="source">
-<pre>import com.jcabi.github.DefaultGithub;
+<pre>import com.jcabi.github.RtGithub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 public class Main {
   public static void main(String[] args) {
-    Github github = new DefaultGithub(&quot;.. your OAuth token ..&quot;);
+    Github github = new RtGithub(&quot;.. your OAuth token ..&quot;);
     Repo repo = github.repo(&quot;jcabi/jcabi-github&quot;);
     Issue issue = repo.issues().create(&quot;How are you?&quot;, &quot;Please tell me...&quot;);
     issue.post(&quot;My first comment!&quot;);
   }
 }
 </pre></div>
-<p>Read <a href="./apidocs-0.6.1/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
+<p>Read <a href="./apidocs-0.7/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
 <p>There are <a class="externalLink" href="http://developer.github.com/libraries/">a few other Java adapters</a> of Github API, but our implementation has its advantages, including:</p>
 
 <ul>
@@ -147,13 +147,13 @@ public class Main {
 <li>
 <p>Entire Github API is available, at least through a configurable HTTP request</p></li>
 </ul>
-<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.6.1/jcabi-github-0.6.1.jar"><tt>jcabi-github-0.6.1.jar</tt></a> and add it to the classpath):</p>
+<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.7/jcabi-github-0.7.jar"><tt>jcabi-github-0.7.jar</tt></a> and add it to the classpath):</p>
 
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.6.1&lt;/version&gt;
+  &lt;version&gt;0.7&lt;/version&gt;
 &lt;/dependency&gt;
 </pre></div>
 <p>If you want to use current version of the product, you can do it with this configuration in your <tt>pom.xml</tt>:</p>

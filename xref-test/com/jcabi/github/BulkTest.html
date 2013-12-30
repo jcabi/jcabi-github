@@ -64,9 +64,9 @@
 <a class="jxr_linenumber" name="54" href="#54">54</a>          <strong class="jxr_keyword">final</strong> Request request = <strong class="jxr_keyword">new</strong> FakeRequest()
 <a class="jxr_linenumber" name="55" href="#55">55</a>              .withBody(<span class="jxr_string">"[{\&quot;body\&quot;: \&quot;hey you\&quot;}]"</span>);
 <a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">final</strong> Comment comment = <strong class="jxr_keyword">new</strong> Bulk&lt;Comment&gt;(
-<a class="jxr_linenumber" name="57" href="#57">57</a>              <strong class="jxr_keyword">new</strong> GhPagination&lt;Comment&gt;(
+<a class="jxr_linenumber" name="57" href="#57">57</a>              <strong class="jxr_keyword">new</strong> RtPagination&lt;Comment&gt;(
 <a class="jxr_linenumber" name="58" href="#58">58</a>                  request,
-<a class="jxr_linenumber" name="59" href="#59">59</a>                  <strong class="jxr_keyword">new</strong> GhPagination.Mapping&lt;Comment&gt;() {
+<a class="jxr_linenumber" name="59" href="#59">59</a>                  <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Comment&gt;() {
 <a class="jxr_linenumber" name="60" href="#60">60</a>                      @Override
 <a class="jxr_linenumber" name="61" href="#61">61</a>                      <strong class="jxr_keyword">public</strong> Comment map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="62" href="#62">62</a>                          <strong class="jxr_keyword">return</strong> origin;
