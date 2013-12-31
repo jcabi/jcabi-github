@@ -45,8 +45,6 @@ import org.mockito.Mockito;
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- *
- * @todo #0:30min Implement unit tests for RtMilestones
  */
 public final class RtMilestonesTest {
     /**

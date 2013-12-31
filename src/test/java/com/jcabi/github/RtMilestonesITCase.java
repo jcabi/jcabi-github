@@ -73,11 +73,15 @@ public final class RtMilestonesITCase {
     @Test
     public void deleteMilestone() throws Exception {
         final Milestones milestones = milestones();
-        final int number = milestones.create("first milestones").number();
-        milestones.remove(number);
+        final Milestone milestone = milestones.create("a milestones");
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<String, String>()),
-            Matchers.notNullValue()
+            Matchers.hasItem(milestone)
+        );
+        milestones.remove(milestone.number());
+        MatcherAssert.assertThat(
+            milestones.iterate(new ArrayMap<String, String>()),
+            Matchers.not(Matchers.hasItem(milestone))
         );
     }
     /**
