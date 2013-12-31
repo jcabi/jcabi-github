@@ -68,7 +68,7 @@ public final class RtAssigneesTest {
             )
         ).start();
         final Assignees users = new RtAssignees(
-            Mockito.mock(Repo.class),
+            repo(),
             new JdkRequest(container.home())
         );
         MatcherAssert.assertThat(
@@ -95,7 +95,7 @@ public final class RtAssigneesTest {
             )
         ).start();
         final Assignees users = new RtAssignees(
-            Mockito.mock(Repo.class),
+            repo(),
             new JdkRequest(container.home())
         );
         MatcherAssert.assertThat(
@@ -119,5 +119,16 @@ public final class RtAssigneesTest {
         return Json.createObjectBuilder()
             .add("login", login)
             .build();
+    }
+
+    /**
+     * Create and return repo for testing.
+     * @return Repo
+     */
+    private Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "assignee"))
+            .when(repo).coordinates();
+        return repo;
     }
 }
