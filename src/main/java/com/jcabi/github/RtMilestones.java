@@ -119,8 +119,7 @@ public class RtMilestones implements Milestones {
     }
 
     @Override
-    public final void remove(@NotNull(message = "milestone id can't be NULL")
-        final int number) throws IOException {
+    public final void remove(final int number) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(Integer.toString(number)).back()
             .fetch()

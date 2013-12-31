@@ -89,6 +89,6 @@ public interface Milestones {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>
      */
-    void remove(@NotNull(message = "milestone id can't be NULL") int number)
+    void remove(@NotNull(message = "int can never be NULL") int number)
         throws IOException;
 }
