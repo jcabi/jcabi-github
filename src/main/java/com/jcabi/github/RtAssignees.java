@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import java.io.IOException;
 
 /**
  * Github Assignees.
@@ -68,7 +69,7 @@ final class RtAssignees implements Assignees {
     }
 
     @Override
-    public boolean check(final String login) {
+    public boolean check(final String login) throws IOException {
         return false;
     }
 }
