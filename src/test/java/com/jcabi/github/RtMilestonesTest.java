@@ -29,73 +29,53 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.immutable.ArrayMap;
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Integration case for {@link Milestones}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
+ * Test case for {@link RtMilestones}.
  *
- * @todo #1:30min Implement integration tests for Milestones.
- *  Now these tests are ignored
+ * @author Giang Le (giang@vn-smartsolutions.com)
+ * @version $Id$
  */
-public final class RtMilestonesITCase {
-
-    /**
-     * RtMilestones can iterate milestones.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    @Ignore
-    public void iteratesIssues() throws Exception {
-        //
-    }
-
-    /**
-     * RtMilestones can create a new milestone.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    @Ignore
-    public void createsNewMilestone() throws Exception {
-        //
-    }
-
+public final class RtMilestonesTest {
     /**
      * RtMilestones can remove a milestone.
      * @throws Exception if some problem inside
      */
     @Test
     public void deleteMilestone() throws Exception {
-        final Milestones milestones = milestones();
-        final Milestone milestone = milestones.create("a milestones");
-        MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
-            Matchers.hasItem(milestone)
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final RtMilestones milestones = new RtMilestones(
+            new ApacheRequest(container.home()),
+            repo()
         );
-        milestones.remove(milestone.number());
+        milestones.remove(1);
         MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
-            Matchers.not(Matchers.hasItem(milestone))
+            container.take().method(),
+            Matchers.equalTo(Request.DELETE)
         );
     }
+
     /**
-     * Create and return milestones to test.
-     * @return Milestones
+     * Create and return repo to test.
+     * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Milestones milestones() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).milestones();
+    private static Repo repo() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("mark", "test"))
+            .when(repo).coordinates();
+        return repo;
     }
 }
-
