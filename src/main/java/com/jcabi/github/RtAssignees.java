@@ -31,12 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.immutable.ArrayMap;
 import com.rexsl.test.Request;
 import java.io.IOException;
-import java.util.Map;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -88,9 +85,7 @@ final class RtAssignees implements Assignees {
     }
 
     @Override
-    public Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
+    public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,
             new RtPagination.Mapping<User>() {
@@ -110,9 +105,7 @@ final class RtAssignees implements Assignees {
     public boolean check(final String login) throws IOException {
         final Iterable<User> assignees = new Smarts<User>(
             new Bulk<User>(
-                this.iterate(
-                    new ArrayMap<String, String>().with("sort", "login")
-                )
+                this.iterate()
             )
         );
         boolean found = false;

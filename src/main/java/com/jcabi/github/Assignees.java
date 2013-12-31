@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import java.io.IOException;
-import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -44,14 +43,11 @@ public interface Assignees {
 
     /**
      * Iterate all available assignees.
-     * @param params Iterating parameters, as requested by API
      * @return Iterator of available assignees to which issues may be assigned
      * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
+    Iterable<User> iterate();
 
     /**
      * Check check if a particular user is an assignee for a repository.
