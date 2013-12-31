@@ -31,12 +31,11 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
  * Github Gitignore.
- * Defines storage of .gitignore templates
+ * <p>Defines storage of .gitignore templates
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
@@ -54,14 +53,11 @@ public interface Gitignores {
 
     /**
      * Iterate them all.
-     * @param params Iterating parameters, as requested by API
      * @return Iterator of Gitignote template names
      * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<String> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
+    Iterable<String> iterate();
 
     /**
      * Gets raw gitignore template.
