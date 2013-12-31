@@ -119,6 +119,16 @@ public class RtMilestones implements Milestones {
     }
 
     @Override
+    public final void remove(@NotNull(message = "milestone id can't be NULL")
+        final int number) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(Integer.toString(number)).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
     public final Iterable<Milestone> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {

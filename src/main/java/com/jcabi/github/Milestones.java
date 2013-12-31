@@ -40,10 +40,6 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/issues/milestones/">Milestones API</a>
  * @since 0.7
- * @todo #1:1hr New method remove() to delete a Milestone. Let's add a new
- *  method to remove a milestone by id, as explained in
- *  http://developer.github.com/v3/issues/milestones/#delete-a-milestone.
- *  The method should be tested by unit and integration tests.
  */
 @Immutable
 public interface Milestones {
@@ -86,4 +82,13 @@ public interface Milestones {
     Iterable<Milestone> iterate(
         @NotNull(message = "map of params can't be NULL")
         Map<String, String> params);
+
+    /**
+     * Remove milestone by number.
+     * @param number Milestone number
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>
+     */
+    void remove(@NotNull(message = "milestone id can't be NULL") int number)
+        throws IOException;
 }
