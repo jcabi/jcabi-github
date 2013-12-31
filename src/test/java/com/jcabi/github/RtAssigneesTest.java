@@ -29,16 +29,25 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.JdkRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtAssignees}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Implement unit tests for {@link RtAssignees}
- *  See http://developer.github.com/v3/issues/assignees/
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtAssigneesTest {
 
@@ -49,7 +58,24 @@ public final class RtAssigneesTest {
     @Test
     @Ignore
     public void iteratesAssignees() throws Exception {
-        // To be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(json("octocat"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Assignees users = new RtAssignees(
+            Mockito.mock(Repo.class),
+            new JdkRequest(container.home())
+        );
+        MatcherAssert.assertThat(
+            users.iterate(),
+            Matchers.<User>iterableWithSize(2)
+        );
+        container.stop();
     }
 
     /**
@@ -59,6 +85,39 @@ public final class RtAssigneesTest {
     @Test
     @Ignore
     public void checkUserIsAssigneeForRepo() throws Exception {
-        // To be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(json("octocat"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Assignees users = new RtAssignees(
+            Mockito.mock(Repo.class),
+            new JdkRequest(container.home())
+        );
+        MatcherAssert.assertThat(
+            users.check("octocat"),
+            Matchers.equalTo(true)
+        );
+        MatcherAssert.assertThat(
+            users.check("octocat52"),
+            Matchers.equalTo(false)
+        );
+        container.stop();
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param login Username to login
+     * @return JsonObject
+     * @throws Exception If some problem inside
+     */
+    private static JsonObject json(final String login) throws Exception {
+        return Json.createObjectBuilder()
+            .add("login", login)
+            .build();
     }
 }

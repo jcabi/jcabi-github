@@ -29,8 +29,9 @@
  */
 package com.jcabi.github;
 
-import java.util.Map;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 
 /**
  * Github Assignees.
@@ -47,12 +48,22 @@ import javax.validation.constraints.NotNull;
  *  annotations
  *  See http://developer.github.com/v3/issues/assignees/
  */
+@Immutable
+@Loggable(Loggable.DEBUG)
 final class RtAssignees implements Assignees {
 
+    /**
+     * Public ctor.
+     * @param repo Repo
+     * @param req Request
+     */
+    RtAssignees(final Repo repo, final Request req) {
+        repo.github();
+        req.body();
+    }
+
     @Override
-    public Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
+    public Iterable<User> iterate() {
         return null;
     }
 
