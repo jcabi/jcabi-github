@@ -30,47 +30,37 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github Gitignore API.
- * Defines storage of .gitignore templates
+ * Unit tests for {@link RtGitignores}.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
- * @since 0.7
+ * @todo #7 Let's implement unit tests for RtGitignores
  */
 @Immutable
-public interface Gitignore {
-    /**
-     * Get its owner.
-     * @return Github
-     */
-    @NotNull(message = "github is never NULL")
-    Github github();
+public class RtGitignoresTest {
 
     /**
-     * Gets rendered gitignore template.
-     * @param name Name of the template
-     * @return rendered template
-     * @throws IOException If it fails due to I/O problem
+     * RtGitignores can iterate template names.
+     * @throws Exception if there is any error
      */
-    @NotNull(message = "Rendered template is never NULL")
-    String rendered(
-        @NotNull(message = "Template name can't be NULL") String name)
-        throws IOException;
+    @Test
+    @Ignore
+    public void iterateTemplateNames() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Gets raw gitignore template..
-     * @param name Name of the template
-     * @return raw template
-     * @throws IOException If it fails due to I/O problem
+     * RtGitignores can get raw template by name.
+     * @throws Exception if there is any error
      */
-    @NotNull(message = "Raw template is never NULL")
-    String raw(
-        @NotNull(message = "Template name can't be NULL") String name)
-        throws IOException;
+    @Test
+    @Ignore
+    public void getRawTemplateByName() throws Exception {
+        // to be implemented
+    }
+
 }
