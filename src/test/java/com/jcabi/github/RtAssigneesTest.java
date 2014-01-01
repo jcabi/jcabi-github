@@ -89,7 +89,7 @@ public final class RtAssigneesTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(json("octocat"))
+                    .add(json("octocat2"))
                     .add(json("dummy"))
                     .build().toString()
             )
@@ -99,7 +99,7 @@ public final class RtAssigneesTest {
             new JdkRequest(container.home())
         );
         MatcherAssert.assertThat(
-            users.check("octocat"),
+            users.check("octocat2"),
             Matchers.equalTo(true)
         );
         container.stop();
@@ -116,7 +116,7 @@ public final class RtAssigneesTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(json("octocat"))
+                    .add(json("octocat3"))
                     .add(json("dummy"))
                     .build().toString()
             )
@@ -126,7 +126,7 @@ public final class RtAssigneesTest {
             new JdkRequest(container.home())
         );
         MatcherAssert.assertThat(
-            users.check("octocat52"),
+            users.check("octocat33"),
             Matchers.equalTo(false)
         );
         container.stop();
