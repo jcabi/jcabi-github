@@ -102,6 +102,29 @@ public final class RtAssigneesTest {
             users.check("octocat"),
             Matchers.equalTo(true)
         );
+        container.stop();
+    }
+
+    /**
+     * RtAssignees can check if user is NOT assignee for this repo.
+     * @throws Exception Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void checkUserIsNotAssigneeForRepo() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(json("octocat"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Assignees users = new RtAssignees(
+            repo(),
+            new JdkRequest(container.home())
+        );
         MatcherAssert.assertThat(
             users.check("octocat52"),
             Matchers.equalTo(false)
