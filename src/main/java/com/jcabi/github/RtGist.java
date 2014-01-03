@@ -35,15 +35,16 @@ import com.rexsl.test.Request;
 import com.rexsl.test.Response;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
+import lombok.EqualsAndHashCode;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
 
 /**
  * Github gist.
@@ -58,6 +59,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = { "ghub", "entry" })
 final class RtGist implements Gist {
 
+    public static final String PATH_ELEMENT_STAR = "star";
     /**
      * Github.
      */
@@ -74,7 +76,7 @@ final class RtGist implements Gist {
      * @param req Request
      * @param name Name of gist
      */
-    RtGist(final Github github, final Request req, final String name) {
+    RtGist(final Github github, final Request req, final String name /*@todo #19 this parameter is Git specs is named id, should it be renamed?*/) {
         this.ghub = github;
         this.entry = req.uri().path("/gists").path(name).back();
     }
@@ -122,6 +124,23 @@ final class RtGist implements Gist {
             .body().set(json).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public void star() throws IOException {
+        Request request = entry.uri().path(PATH_ELEMENT_STAR).back().method("PUT");
+        request.fetch().as(RestResponse.class).assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public boolean starred() throws IOException {
+        Request request = entry.uri().path(PATH_ELEMENT_STAR).back().method("GET");
+        Response response = request.fetch();
+        if (response.status() == HttpURLConnection.HTTP_NO_CONTENT || response.status() == HttpURLConnection.HTTP_NOT_FOUND) {
+            return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
+        }
+        // @todo #19 maybe another exception
+        throw new AssertionError("HTTP status " + response.status());
     }
 
     @Override
