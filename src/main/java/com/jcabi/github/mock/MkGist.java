@@ -57,7 +57,7 @@ final class MkGist implements Gist {
     /**
      * Value for starred attribute indicating gist is starred.
      */
-    private static final String STARRED_VALUE = "true";
+    private static final String STARRED_VALUE = Boolean.toString(true);
 
     /**
      * Storage.
@@ -132,7 +132,7 @@ final class MkGist implements Gist {
         );
         final Directives attributelocation = gistlocation.attr(
             "starred",
-            STARRED_VALUE
+            MkGist.STARRED_VALUE
         );
         this.storage.apply(
             attributelocation
@@ -150,7 +150,7 @@ final class MkGist implements Gist {
             .format("%s/@starred", this.xpath())
         );
         return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
-            STARRED_VALUE,
+            MkGist.STARRED_VALUE,
             xpath.get(0)
         );
     }

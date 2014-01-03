@@ -57,6 +57,17 @@ public final class MkGistsTest {
             gist.read(file),
             Matchers.startsWith("hello, ")
         );
+    }
+
+    /**
+     * Test starring and star-checking of a gist.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void testStar() throws Exception {
+        final Gist gist = new MkGithub().gists().create(
+            Collections.singletonList("file-name.txt")
+        );
         MatcherAssert.assertThat(
             gist.starred(),
             Matchers.equalTo(false)

@@ -44,6 +44,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github gist.
@@ -133,27 +134,23 @@ final class RtGist implements Gist {
 
     @Override
     public void star() throws IOException {
-        final Request request = this.entry.uri()
-            .path(RtGist.PATH_ELEMENT_STAR).back().method("PUT");
-        request.fetch().as(RestResponse.class)
+        this.entry.uri()
+            .path(RtGist.PATH_ELEMENT_STAR).back().method("PUT")
+            .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
     public boolean starred() throws IOException {
-        final Request request = this.entry.uri().path(RtGist.PATH_ELEMENT_STAR)
-            .back().method("GET");
-        final Response response = request.fetch();
-        if (response.status() == HttpURLConnection.HTTP_NO_CONTENT
-            || response.status() == HttpURLConnection.HTTP_NOT_FOUND) {
-            return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
-        }
-        throw new AssertionError(
-            String.format(
-                "HTTP status %s",
-                response.status()
-            )
-        );
+        final RestResponse response = this.entry.uri()
+            .path(RtGist.PATH_ELEMENT_STAR).back().method("GET").fetch()
+            .as(RestResponse.class).assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+                )
+            );
+        return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override

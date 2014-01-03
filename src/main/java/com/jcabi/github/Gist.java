@@ -52,7 +52,6 @@ import lombok.ToString;
  *  http://developer.github.com/v3/gists/
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
- * @todo #19:1hr Should there be unstar method for a gist?
  * @todo #19 Getting "Too many methods" error message. Does this class need
  *  refactoring?
  * @todo #1:1hr New method fork() to fork a gist. Let's introduce
@@ -68,6 +67,7 @@ import lombok.ToString;
  *  integration tests.
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Gist extends JsonReadable {
 
     /**
