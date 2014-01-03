@@ -34,11 +34,11 @@ import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import java.net.HttpURLConnection;
-import java.util.Collections;
 
 /**
  * Test case for {@link RtGists}.

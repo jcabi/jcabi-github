@@ -36,9 +36,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github gist.

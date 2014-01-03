@@ -33,11 +33,11 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Github;
+import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
-import javax.json.JsonObject;
-import java.io.IOException;
 
 /**
  * Mock Github gist.

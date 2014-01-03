@@ -35,15 +35,15 @@ import com.rexsl.test.Request;
 import com.rexsl.test.Response;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
-import lombok.EqualsAndHashCode;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github gist.
