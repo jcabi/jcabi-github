@@ -40,7 +40,7 @@ import javax.validation.constraints.NotNull;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
- * @since 0.7
+ * @since 0.8
  */
 @Immutable
 public interface Gitignores {

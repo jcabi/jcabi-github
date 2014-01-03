@@ -38,7 +38,13 @@ import org.junit.Test;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #7 Let's implement unit tests for RtGitignores
+ * @todo #7 Let's implement unit tests for RtGitignores:
+ *  1) iterateTemplateNames() to iteration over all available
+ *  gitignore templates
+ *  2) getRawTemplateByName() to test retrieving template
+ *  in raw format by it's name
+ *  Use <code>MkContainer</code> to mock templates to iterate
+ * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
 @Immutable
 public class RtGitignoresTest {

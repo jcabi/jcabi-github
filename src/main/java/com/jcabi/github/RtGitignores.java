@@ -39,20 +39,19 @@ import javax.validation.constraints.NotNull;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #7 Let's implement methods iterate() and template()
+ * @since 0.8
  */
 @Immutable
 public class RtGitignores implements Gitignores {
 
     @Override
     public final Github github() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public final Iterable<String> iterate() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -60,6 +59,6 @@ public class RtGitignores implements Gitignores {
         @NotNull(message = "Template name can't be NULL")
         final String name)
         throws IOException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
