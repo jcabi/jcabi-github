@@ -32,13 +32,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -97,7 +96,7 @@ final class RtRepos implements Repos {
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
-        String coordinates = this.request.method(Request.POST)
+        final String coordinates = this.request.method(Request.POST)
             .body().set(json).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)

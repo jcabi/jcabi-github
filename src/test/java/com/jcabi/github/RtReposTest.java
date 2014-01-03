@@ -34,14 +34,13 @@ import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import java.net.HttpURLConnection;
 
 /**
  * Test case for {@link com.jcabi.github.Repos}.
@@ -49,6 +48,15 @@ import java.net.HttpURLConnection;
  * @version $Id$
  */
 public final class RtReposTest {
+    /**
+     * The key for name in JSON.
+     */
+    private static final String NAME_KEY = "name";
+    /**
+     * The key for description in JSON.
+     */
+    private static final String DESCRIPTION_KEY = "description";
+
     /**
      * RtRepos can create a repo.
      * @throws Exception if some problem inside
@@ -59,17 +67,16 @@ public final class RtReposTest {
         final String name = "test-repo";
         final String description = "The description";
         final JsonObject createRequest = createRequest(name, description);
-        final JsonObject createResponse = createResponse(owner, name, description);
-
+        final String createResponse =
+            createResponse(owner, name, description).toString();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, createResponse.toString())
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, createResponse.toString())).start();
-
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, createResponse)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, createResponse))
+            .start();
         final RtRepos repos = new RtRepos(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
         );
-
         final Repo repo = repos.create(createRequest);
         MatcherAssert.assertThat(
             container.take().method(),
@@ -94,11 +101,11 @@ public final class RtReposTest {
      * @throws Exception If some problem inside
      */
     private static JsonObject createRequest(
-            final String name, final String description) throws Exception {
+        final String name, final String description) throws Exception {
         return Json.createObjectBuilder()
-                .add("name", name)
-                .add("description", description)
-                .build();
+            .add(NAME_KEY, name)
+            .add(DESCRIPTION_KEY, description)
+            .build();
     }
 
     /**
@@ -110,13 +117,17 @@ public final class RtReposTest {
      * @throws Exception If some problem inside
      */
     private static JsonObject createResponse(
-            final String owner, final String name, final String description) throws Exception {
+        final String owner, final String name, final String description)
+        throws Exception {
         return Json.createObjectBuilder()
-                .add("name", name)
-                .add("description", description)
-                .add("full_name", owner + "/" + name)
-                .add("owner", Json.createObjectBuilder().add("login", owner).build())
-                .build();
+            .add(NAME_KEY, name)
+            .add(DESCRIPTION_KEY, description)
+            .add("full_name", owner + "/" + name)
+            .add(
+                "owner",
+                Json.createObjectBuilder().add("login", owner).build()
+            )
+            .build();
     }
 
 }

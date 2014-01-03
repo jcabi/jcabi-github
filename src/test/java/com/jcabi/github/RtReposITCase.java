@@ -29,13 +29,12 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Test;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 
 /**
  * Integration case for {@link com.jcabi.github.Repos}.
@@ -53,11 +52,9 @@ public final class RtReposITCase {
     public void createsNewRepo() throws Exception {
         final String name = "test-repo";
         final String description = "The description";
-
         final Repos repos = RtReposITCase.repos();
         final JsonObject createRequest = createRequest(name, description);
         final Repo repo = repos.create(createRequest);
-
         MatcherAssert.assertThat(
             repo,
             Matchers.notNullValue()
@@ -76,11 +73,11 @@ public final class RtReposITCase {
      * @throws Exception If some problem inside
      */
     private static JsonObject createRequest(
-            final String name, final String description) throws Exception {
+        final String name, final String description) throws Exception {
         return Json.createObjectBuilder()
-                .add("name", name)
-                .add("description", description)
-                .build();
+            .add("name", name)
+            .add("description", description)
+            .build();
     }
 
     /**
