@@ -106,7 +106,7 @@ public interface Gist extends JsonReadable {
 
     /**
      * Checks if Gist is starred.
-     * @return
+     * @return true if gist is starred
      */
     boolean starred() throws IOException;
 
