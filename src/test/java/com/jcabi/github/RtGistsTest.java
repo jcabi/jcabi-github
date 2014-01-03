@@ -36,19 +36,23 @@ import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.request.ApacheRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
-
 import java.net.HttpURLConnection;
 import java.util.Collections;
 
 /**
  * Test case for {@link RtGists}.
+ * @todo #19 Implement test for starring after implementing them in MkGist.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
 public final class RtGistsTest {
+
+    /**
+     * Response body.
+     */
+    private static final String BODY = "{\"id\":\"1\"}";
 
     /**
      * RtGists can create new files.
@@ -59,8 +63,7 @@ public final class RtGistsTest {
     public void canCreateFiles() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"id\":\"1\"}"
+                HttpURLConnection.HTTP_CREATED, BODY
             )
         ).start();
         final RtGists gists = new RtGists(
@@ -76,32 +79,6 @@ public final class RtGistsTest {
                 container.take().body(),
                 Matchers.startsWith("{\"files\":{\"test\":{\"content\":")
             );
-        } finally {
-            container.stop();
-        }
-    }
-
-
-    /**
-     * RtGists can be starred and checked if they are starred
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    @Ignore
-    public void canBeStarred() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_CREATED,
-                        "{\"id\":\"1\"}"
-                )
-        ).start();
-        final RtGists gists = new RtGists(
-                new MkGithub(),
-                new ApacheRequest(container.home())
-        );
-        try {
-            // @todo #19 here should be testing logic for starred/cehcking for starred
         } finally {
             container.stop();
         }

@@ -31,15 +31,14 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github gist.
@@ -53,7 +52,7 @@ import java.util.Collection;
  *  http://developer.github.com/v3/gists/
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
- *  @todo #19? should there be unstar method for a gist?
+ * @todo #19:1hr Should there be unstar method for a gist?
  * @todo #1:1hr New method fork() to fork a gist. Let's introduce
  *  a new method, as explained in
  *  http://developer.github.com/v3/gists/#fork-a-gist. The method should
@@ -100,13 +99,15 @@ public interface Gist extends JsonReadable {
         throws IOException;
 
     /**
-     * Star a gist;
+     * Star a gist.
+     * @throws IOException If there is any I/O problem
      */
     void star() throws IOException;
 
     /**
      * Checks if Gist is starred.
-     * @return true if gist is starred
+     * @throws IOException If there is any I/O problem
+     * @return True if gist is starred
      */
     boolean starred() throws IOException;
 

@@ -36,7 +36,6 @@ import com.jcabi.github.Github;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
-
 import javax.json.JsonObject;
 import java.io.IOException;
 
@@ -115,14 +114,23 @@ final class MkGist implements Gist {
         );
     }
 
+    /**
+     * Stars.
+     * @todo #19:30min Have no idea in mkstorage format
+     * @throws IOException If there is any I/O problem
+     */
     @Override
     public void star() throws IOException {
-        // @todo #19 have no idea in mkstorage format
     }
 
+    /**
+     * Checks if starred.
+     * @todo #19:30min Have no idea in mkstorage format
+     * @return True if gist is starred
+     * @throws IOException If there is any I/O problem
+     */
     @Override
     public boolean starred() throws IOException {
-        // @todo #19 have no idea in mkstorage format
         return false;
     }
 

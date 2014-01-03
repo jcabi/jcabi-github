@@ -36,7 +36,6 @@ import com.rexsl.test.Response;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import lombok.EqualsAndHashCode;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -59,7 +58,12 @@ import java.net.URI;
 @EqualsAndHashCode(of = { "ghub", "entry" })
 final class RtGist implements Gist {
 
-    public static final String PATH_ELEMENT_STAR = "star";
+    /**
+     * URL path element used for starring, unstarring and checking if
+     * gist is starred.
+     */
+    private static final String PATH_ELEMENT_STAR = "star";
+
     /**
      * Github.
      */
@@ -72,11 +76,12 @@ final class RtGist implements Gist {
 
     /**
      * Public ctor.
+     * @todo #19:5min This parameter is Git specs is named id, should it be renamed?
      * @param github Github
      * @param req Request
      * @param name Name of gist
      */
-    RtGist(final Github github, final Request req, final String name /*@todo #19 this parameter is Git specs is named id, should it be renamed?*/) {
+    RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req.uri().path("/gists").path(name).back();
     }
@@ -128,19 +133,27 @@ final class RtGist implements Gist {
 
     @Override
     public void star() throws IOException {
-        Request request = entry.uri().path(PATH_ELEMENT_STAR).back().method("PUT");
-        request.fetch().as(RestResponse.class).assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+        final Request request = this.entry.uri()
+            .path(RtGist.PATH_ELEMENT_STAR).back().method("PUT");
+        request.fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
     public boolean starred() throws IOException {
-        Request request = entry.uri().path(PATH_ELEMENT_STAR).back().method("GET");
-        Response response = request.fetch();
-        if (response.status() == HttpURLConnection.HTTP_NO_CONTENT || response.status() == HttpURLConnection.HTTP_NOT_FOUND) {
+        final Request request = this.entry.uri().path(RtGist.PATH_ELEMENT_STAR)
+            .back().method("GET");
+        final Response response = request.fetch();
+        if (response.status() == HttpURLConnection.HTTP_NO_CONTENT
+            || response.status() == HttpURLConnection.HTTP_NOT_FOUND) {
             return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
         }
-        // @todo #19 maybe another exception
-        throw new AssertionError("HTTP status " + response.status());
+        throw new AssertionError(
+            String.format(
+                "HTTP status %s",
+                response.status()
+            )
+        );
     }
 
     @Override
