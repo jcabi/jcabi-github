@@ -58,18 +58,18 @@ final class RtAssignees implements Assignees {
      * @param repo Repo
      * @param req Request
      */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     RtAssignees(final Repo repo, final Request req) {
-        repo.github();
-        req.body();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Iterable<User> iterate() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean check(final String login) throws IOException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 }
