@@ -36,7 +36,6 @@ import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -142,8 +141,7 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
-    public Iterable<Organization> iterate(
-        final Map<String, String> params) {
+    public Iterable<Organization> iterate() {
         return new MkIterable<Organization>(
             this.storage,
             String.format("%s/org", this.xpath()),
