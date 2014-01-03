@@ -34,9 +34,11 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Github;
 import java.io.IOException;
+import java.util.List;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
@@ -51,6 +53,11 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "name" })
 final class MkGist implements Gist {
+
+    /**
+     * Value for starred attribute indicating gist is starred.
+     */
+    private static final String STARRED_VALUE = "true";
 
     /**
      * Storage.
@@ -116,22 +123,36 @@ final class MkGist implements Gist {
 
     /**
      * Stars.
-     * @todo #19:30min Have no idea in mkstorage format
      * @throws IOException If there is any I/O problem
      */
     @Override
     public void star() throws IOException {
+        final Directives gistlocation = new Directives().xpath(
+            this.xpath()
+        );
+        final Directives attributelocation = gistlocation.attr(
+            "starred",
+            STARRED_VALUE
+        );
+        this.storage.apply(
+            attributelocation
+        );
     }
 
     /**
      * Checks if starred.
-     * @todo #19:30min Have no idea in mkstorage format
      * @return True if gist is starred
      * @throws IOException If there is any I/O problem
      */
     @Override
     public boolean starred() throws IOException {
-        return false;
+        final List<String> xpath = this.storage.xml().xpath(String
+            .format("%s/@starred", this.xpath())
+        );
+        return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
+            STARRED_VALUE,
+            xpath.get(0)
+        );
     }
 
     @Override

@@ -53,6 +53,8 @@ import lombok.ToString;
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
  * @todo #19:1hr Should there be unstar method for a gist?
+ * @todo #19 Getting "Too many methods" error message. Does this class need
+ *  refactoring?
  * @todo #1:1hr New method fork() to fork a gist. Let's introduce
  *  a new method, as explained in
  *  http://developer.github.com/v3/gists/#fork-a-gist. The method should

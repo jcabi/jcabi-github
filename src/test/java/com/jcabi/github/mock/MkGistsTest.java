@@ -57,6 +57,15 @@ public final class MkGistsTest {
             gist.read(file),
             Matchers.startsWith("hello, ")
         );
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(false)
+        );
+        gist.star();
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(true)
+        );
     }
 
 }
