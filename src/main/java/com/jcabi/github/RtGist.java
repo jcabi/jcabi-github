@@ -66,6 +66,11 @@ final class RtGist implements Gist {
     private static final String PATH_ELEMENT_STAR = "star";
 
     /**
+     * Inner request for starring/checking if starred.
+     */
+    private final transient Request request;
+
+    /**
      * Github.
      */
     private final transient Github ghub;
@@ -77,7 +82,7 @@ final class RtGist implements Gist {
 
     /**
      * Public ctor.
-     * @todo #19:5min This parameter is Git specs is named id, should it be renamed?
+     * @todo #19:5min This parameter at Git specs is named id, should it be renamed?
      * @param github Github
      * @param req Request
      * @param name Name of gist
@@ -85,6 +90,7 @@ final class RtGist implements Gist {
     RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req.uri().path("/gists").path(name).back();
+        this.request = this.entry.uri().path(RtGist.PATH_ELEMENT_STAR).back();
     }
 
     @Override
@@ -134,22 +140,20 @@ final class RtGist implements Gist {
 
     @Override
     public void star() throws IOException {
-        this.entry.uri()
-            .path(RtGist.PATH_ELEMENT_STAR).back().method("PUT")
+        this.request.method("PUT")
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
     public boolean starred() throws IOException {
-        final RestResponse response = this.entry.uri()
-            .path(RtGist.PATH_ELEMENT_STAR).back().method("GET").fetch()
+        final RestResponse response = this.request.method("GET").fetch()
             .as(RestResponse.class).assertStatus(
                 Matchers.isOneOf(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     HttpURLConnection.HTTP_NOT_FOUND
-                )
-            );
+            )
+        );
         return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 

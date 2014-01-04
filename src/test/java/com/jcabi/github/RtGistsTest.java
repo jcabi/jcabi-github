@@ -50,11 +50,6 @@ import org.junit.Test;
 public final class RtGistsTest {
 
     /**
-     * Response body.
-     */
-    private static final String BODY = "{\"id\":\"1\"}";
-
-    /**
      * RtGists can create new files.
      *
      * @throws Exception if a problem occurs.
@@ -63,7 +58,7 @@ public final class RtGistsTest {
     public void canCreateFiles() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED, BODY
+                HttpURLConnection.HTTP_CREATED, "{\"id\":\"1\"}"
             )
         ).start();
         final RtGists gists = new RtGists(
