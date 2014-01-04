@@ -29,6 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
@@ -40,4 +43,23 @@ package com.jcabi.github.mock;
  *  Please, test all public methods
  */
 public class MkOrganizationsTest {
+    /**
+     * MkOrganizations can list organizations.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void iteratesOrganizations() throws Exception {
+        // To be implemented
+    }
+
+    /**
+     * MkOrganizations can get specific organization.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void getSingleOrganization() throws Exception {
+        // To be implemented
+    }
 }
