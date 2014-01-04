@@ -45,7 +45,8 @@ import lombok.EqualsAndHashCode;
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.8
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -90,6 +91,8 @@ final class RtRepos implements Repos {
 
     /**
      * {@inheritDoc}
+     * @todo #23:1hr Create integration test case to create random repo,
+     *  ensure success, create again, ensure failure, delete.
      */
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")

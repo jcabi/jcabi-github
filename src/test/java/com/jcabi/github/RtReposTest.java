@@ -46,6 +46,8 @@ import org.mockito.Mockito;
  * Test case for {@link com.jcabi.github.Repos}.
  * @author Gena Svarovski (g.svarovski@gmail.com)
  * @version $Id$
+ * @since 0.8
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 public final class RtReposTest {
     /**
