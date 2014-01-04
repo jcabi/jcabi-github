@@ -27,39 +27,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import org.junit.Ignore;
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link RtMilestones}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
  */
-public class MkOrganizationsTest {
+public final class RtMilestonesTest {
     /**
-     * MkOrganizations can list organizations.
-     * @throws Exception If some problem inside
+     * RtMilestones can remove a milestone.
+     * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
-    public void iteratesOrganizations() throws Exception {
-        // To be implemented
+    public void deleteMilestone() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final RtMilestones milestones = new RtMilestones(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        milestones.remove(1);
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.DELETE)
+        );
     }
 
     /**
-     * MkOrganizations can get specific organization.
+     * Create and return repo to test.
+     * @return Repo
      * @throws Exception If some problem inside
      */
-    @Test
-    @Ignore
-    public void getSingleOrganization() throws Exception {
-        // To be implemented
+    private static Repo repo() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("mark", "test"))
+            .when(repo).coordinates();
+        return repo;
     }
 }

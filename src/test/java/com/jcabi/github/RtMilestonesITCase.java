@@ -29,6 +29,10 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.immutable.ArrayMap;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -62,5 +66,36 @@ public final class RtMilestonesITCase {
         //
     }
 
+    /**
+     * RtMilestones can remove a milestone.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void deleteMilestone() throws Exception {
+        final Milestones milestones = milestones();
+        final Milestone milestone = milestones.create("a milestones");
+        MatcherAssert.assertThat(
+            milestones.iterate(new ArrayMap<String, String>()),
+            Matchers.hasItem(milestone)
+        );
+        milestones.remove(milestone.number());
+        MatcherAssert.assertThat(
+            milestones.iterate(new ArrayMap<String, String>()),
+            Matchers.not(Matchers.hasItem(milestone))
+        );
+    }
+    /**
+     * Create and return milestones to test.
+     * @return Milestones
+     * @throws Exception If some problem inside
+     */
+    private static Milestones milestones() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).milestones();
+    }
 }
 
