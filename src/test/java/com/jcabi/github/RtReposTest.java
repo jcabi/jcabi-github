@@ -77,7 +77,7 @@ public final class RtReposTest {
         );
         MatcherAssert.assertThat(
             repo.coordinates(),
-            Matchers.equalTo((Coordinates)new Coordinates.Simple(owner, name))
+            Matchers.equalTo((Coordinates) new Coordinates.Simple(owner, name))
         );
         container.stop();
     }
