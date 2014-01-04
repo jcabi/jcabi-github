@@ -51,14 +51,7 @@ public final class RtReposITCase {
     @Test
     public void createsNewRepo() throws Exception {
         final String name = "test-repo";
-        final String description = "The description";
-        final Repos repos = RtReposITCase.repos();
-        final JsonObject createRequest = createRequest(name, description);
-        final Repo repo = repos.create(createRequest);
-        MatcherAssert.assertThat(
-            repo,
-            Matchers.notNullValue()
-        );
+        final Repo repo = repos().create(request(name));
         MatcherAssert.assertThat(
             repo.coordinates().repo(),
             Matchers.equalTo(name)
@@ -68,15 +61,13 @@ public final class RtReposITCase {
     /**
      * Create and return JsonObject to test.
      * @param name Repo name
-     * @param description Repo description
      * @return JsonObject
      * @throws Exception If some problem inside
      */
-    private static JsonObject createRequest(
-        final String name, final String description) throws Exception {
+    private static JsonObject request(
+        final String name) throws Exception {
         return Json.createObjectBuilder()
             .add("name", name)
-            .add("description", description)
             .build();
     }
 

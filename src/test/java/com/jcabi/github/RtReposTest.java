@@ -52,10 +52,6 @@ public final class RtReposTest {
      * The key for name in JSON.
      */
     private static final String NAME_KEY = "name";
-    /**
-     * The key for description in JSON.
-     */
-    private static final String DESCRIPTION_KEY = "description";
 
     /**
      * RtRepos can create a repo.
@@ -65,64 +61,55 @@ public final class RtReposTest {
     public void createRepo() throws Exception {
         final String owner = "test-owner";
         final String name = "test-repo";
-        final String description = "The description";
-        final JsonObject createRequest = createRequest(name, description);
-        final String createResponse =
-            createResponse(owner, name, description).toString();
+        final String response = response(owner, name).toString();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, createResponse)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, createResponse))
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
             .start();
         final RtRepos repos = new RtRepos(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
         );
-        final Repo repo = repos.create(createRequest);
+        final Repo repo = repos.create(request(name));
         MatcherAssert.assertThat(
             container.take().method(),
             Matchers.equalTo(Request.POST)
         );
         MatcherAssert.assertThat(
-            repo.coordinates().repo(),
-            Matchers.equalTo(name)
-        );
-        MatcherAssert.assertThat(
-            repo.coordinates().user(),
-            Matchers.equalTo(owner)
+            repo.coordinates(),
+            Matchers.equalTo((Coordinates)new Coordinates.Simple(owner, name))
         );
         container.stop();
     }
 
     /**
-     * Create and return JsonObject to test.
+     * Create and return JsonObject to test request.
+     *
      * @param name Repo name
-     * @param description Repo description
      * @return JsonObject
      * @throws Exception If some problem inside
      */
-    private static JsonObject createRequest(
-        final String name, final String description) throws Exception {
+    private static JsonObject request(
+        final String name) throws Exception {
         return Json.createObjectBuilder()
             .add(NAME_KEY, name)
-            .add(DESCRIPTION_KEY, description)
             .build();
     }
 
     /**
-     * Create and return JsonObject to test.
+     * Create and return JsonObject to test response.
+     *
      * @param owner Owner name
      * @param name Repo name
-     * @param description Repo description
      * @return JsonObject
      * @throws Exception If some problem inside
      */
-    private static JsonObject createResponse(
-        final String owner, final String name, final String description)
+    private static JsonObject response(
+        final String owner, final String name)
         throws Exception {
         return Json.createObjectBuilder()
             .add(NAME_KEY, name)
-            .add(DESCRIPTION_KEY, description)
-            .add("full_name", owner + "/" + name)
+            .add("full_name", String.format("%s/%s", owner, name))
             .add(
                 "owner",
                 Json.createObjectBuilder().add("login", owner).build()
