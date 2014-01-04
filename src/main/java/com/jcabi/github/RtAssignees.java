@@ -32,9 +32,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github Assignees.
@@ -43,9 +46,6 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #94 Assignees API should be implemented. Let's implement
- *  method assignees() in RtRepo and MkRepo.
- *  See http://developer.github.com/v3/issues/assignees/
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -103,19 +103,17 @@ final class RtAssignees implements Assignees {
 
     @Override
     public boolean check(final String login) throws IOException {
-        final Iterable<User> assignees = new Smarts<User>(
-            new Bulk<User>(
-                this.iterate()
-            )
-        );
-        boolean found = false;
-        for (final User assignee : assignees) {
-            if (login.equals(assignee.login())) {
-                found = true;
-                break;
-            }
-        }
-        return found;
+        return this.request
+            .method(Request.GET)
+            .uri().path(login).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+                )
+            ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override
