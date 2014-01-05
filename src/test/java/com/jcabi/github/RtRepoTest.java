@@ -151,6 +151,24 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch its releases.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchReleases() throws Exception {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("phil", "phil-branch")
+        );
+        MatcherAssert.assertThat(
+            repo.releases(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * RtRepo can identify itself.
      * @throws Exception If some problem inside
      */

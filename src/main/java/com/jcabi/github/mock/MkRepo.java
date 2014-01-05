@@ -40,6 +40,7 @@ import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
+import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -51,6 +52,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @todo #9 Implement milestones() method.
  *  Please, implement milestones() method to return
  *  MkMilestones. Don't forget about unit tests
@@ -149,6 +151,15 @@ final class MkRepo implements Repo {
     @Override
     public Assignees assignees() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Releases releases() {
+        try {
+            return new MkReleases(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
