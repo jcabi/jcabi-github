@@ -29,8 +29,10 @@
  */
 package com.jcabi.github;
 
-import java.util.Map;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
 
 /**
  * Github Assignees.
@@ -47,17 +49,27 @@ import javax.validation.constraints.NotNull;
  *  annotations
  *  See http://developer.github.com/v3/issues/assignees/
  */
+@Immutable
+@Loggable(Loggable.DEBUG)
 final class RtAssignees implements Assignees {
 
-    @Override
-    public Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
-        return null;
+    /**
+     * Public ctor.
+     * @param repo Repo
+     * @param req Request
+     */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
+    RtAssignees(final Repo repo, final Request req) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean check(final String login) {
-        return false;
+    public Iterable<User> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean check(final String login) throws IOException {
+        throw new UnsupportedOperationException();
     }
 }
