@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Github;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.List;
 import javax.json.JsonObject;
@@ -90,14 +91,21 @@ final class MkGist implements Gist {
 
     @Override
     public String read(final String file) throws IOException {
-        final List<String> contents = this.storage.xml().xpath(
+        final List<XML> files = this.storage.xml().nodes(
             String.format(
-                "%s/files/file[filename='%s']/raw_content/text()",
+                "%s/files/file[filename='%s']",
                 this.xpath(), file
             )
         );
+        if (files.isEmpty()) {
+            throw new IOException(
+                String.format("Couldn't find file with the name %s.", file)
+            );
+        }
+        final List<String> contents = files.get(0)
+            .xpath("raw_content/text()");
         String content = "";
-        if (contents.size() == 1) {
+        if (!contents.isEmpty()) {
             content = contents.get(0);
         }
         return content;
