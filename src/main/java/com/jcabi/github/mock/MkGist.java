@@ -127,15 +127,10 @@ final class MkGist implements Gist {
      */
     @Override
     public void star() throws IOException {
-        final Directives gistlocation = new Directives().xpath(
-            this.xpath()
-        );
-        final Directives attributelocation = gistlocation.attr(
-            "starred",
-            MkGist.STARRED_VALUE
-        );
         this.storage.apply(
-            attributelocation
+            new Directives()
+                .xpath(this.xpath())
+                .attr("starred", MkGist.STARRED_VALUE)
         );
     }
 
