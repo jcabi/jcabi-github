@@ -42,7 +42,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtGists}.
- * @todo #19 Implement test for starring after implementing them in MkGist.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
