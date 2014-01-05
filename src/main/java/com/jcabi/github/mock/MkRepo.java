@@ -35,6 +35,7 @@ import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Github;
+import com.jcabi.github.Hooks;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Milestones;
@@ -58,6 +59,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkRepo implements Repo {
 
     /**
@@ -116,6 +118,15 @@ final class MkRepo implements Repo {
     public Pulls pulls() {
         try {
             return new MkPulls(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
+    public Hooks hooks() {
+        try {
+            return new MkHooks(this.storage, this.self, this.coords);
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
