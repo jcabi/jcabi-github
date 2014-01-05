@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -80,7 +82,9 @@ public final class RtAssigneesITCase {
     @Test
     public void checkUserIsNotAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
-            RtAssigneesITCase.repo().assignees().check("octocat"),
+            RtAssigneesITCase.repo()
+                .assignees()
+                .check(RandomStringUtils.randomAlphabetic(Tv.TEN)),
             Matchers.is(false)
         );
     }
@@ -103,6 +107,7 @@ public final class RtAssigneesITCase {
      */
     private static Coordinates coordinates() {
         return new Coordinates.Simple(
-            System.getProperty("failsafe.github.repo"));
+            System.getProperty("failsafe.github.repo")
+        );
     }
 }
