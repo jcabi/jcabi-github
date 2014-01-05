@@ -37,55 +37,17 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkGists}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link MkGist}.
+ * @author Sinyagin Alexander (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public final class MkGistsTest {
-
+public final class MkGistTest {
     /**
-     * MkGists can work with gists.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void worksWithMockedGists() throws Exception {
-        final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList("test-file-name.txt")
-        );
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hello, ")
-        );
-    }
-
-    /**
-     * Test starring and star-checking of a gist.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void testStar() throws Exception {
-        final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList("file-name.txt")
-        );
-        MatcherAssert.assertThat(
-            gist.starred(),
-            Matchers.equalTo(false)
-        );
-        gist.star();
-        MatcherAssert.assertThat(
-            gist.starred(),
-            Matchers.equalTo(true)
-        );
-    }
-
-    /**
-     * MkGists can create gists with empty files.
+     * MkGist can read empty file.
      * @throws IOException If some problem inside
      */
     @Test
-    public void createGistWithEmptyFile() throws IOException {
+    public void readEmptyGistFile() throws IOException {
         final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonList(filename)
@@ -95,5 +57,4 @@ public final class MkGistsTest {
             Matchers.isEmptyString()
         );
     }
-
 }

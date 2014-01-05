@@ -97,7 +97,9 @@ final class MkGists implements Gists {
                 .add("id").set(number).up()
                 .add("files");
             for (final String file : files) {
-                dirs.add("file").add("filename").set(file).up().up();
+                dirs.add("file")
+                    .add("filename").set(file).up()
+                    .add("raw_content").up().up();
             }
             this.storage.apply(dirs);
         } finally {
