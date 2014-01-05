@@ -30,30 +30,30 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Gist;
+import java.io.IOException;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.Collections;
 
 /**
  * Test case for {@link MkGist}.
  * @author Sinyagin Alexander (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public class MkGistTest {
+public final class MkGistTest {
     /**
      * MkGist can read empty file.
-     * @throws IOException
+     * @throws IOException If some problem inside
      */
     @Test
     public void readEmptyGistFile() throws IOException {
+        final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList("file.txt")
+            Collections.singletonList(filename)
         );
         MatcherAssert.assertThat(
-            gist.read("file.txt"),
+            gist.read(filename),
             Matchers.isEmptyString()
         );
     }

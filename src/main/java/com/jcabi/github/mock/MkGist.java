@@ -96,8 +96,11 @@ final class MkGist implements Gist {
                 this.xpath(), file
             )
         );
-
-        return contents.size() == 0 ? "" : contents.get(0);
+        String content = "";
+        if (contents.size() == 1) {
+            content = contents.get(0);
+        }
+        return content;
     }
 
     @Override

@@ -82,16 +82,16 @@ public final class MkGistsTest {
 
     /**
      * MkGists can create gists with empty files.
-     * @throws IOException
+     * @throws IOException If some problem inside
      */
     @Test
     public void createGistWithEmptyFile() throws IOException {
+        final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList("file.txt")
+            Collections.singletonList(filename)
         );
-
         MatcherAssert.assertThat(
-            gist.read("file.txt"),
+            gist.read(filename),
             Matchers.isEmptyString()
         );
     }
