@@ -55,11 +55,6 @@ import org.xembly.Directives;
 final class MkGist implements Gist {
 
     /**
-     * Value for starred attribute indicating gist is starred.
-     */
-    private static final String STARRED_VALUE = Boolean.toString(true);
-
-    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -130,7 +125,7 @@ final class MkGist implements Gist {
         this.storage.apply(
             new Directives()
                 .xpath(this.xpath())
-                .attr("starred", MkGist.STARRED_VALUE)
+                .attr("starred", Boolean.toString(true))
         );
     }
 
@@ -145,7 +140,7 @@ final class MkGist implements Gist {
             String.format("%s/@starred", this.xpath())
         );
         return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
-            MkGist.STARRED_VALUE,
+            Boolean.toString(true),
             xpath.get(0)
         );
     }
