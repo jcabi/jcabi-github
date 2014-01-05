@@ -72,6 +72,20 @@ public final class RtRepoITCase {
     }
 
     /**
+     * RtRepo can fetch assignees
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iterateAssignees() throws Exception {
+        final Repo repo = RtRepoITCase.repo();
+        Assume.assumeThat(repo, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+          repo.assignees().iterate(),
+          Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside
