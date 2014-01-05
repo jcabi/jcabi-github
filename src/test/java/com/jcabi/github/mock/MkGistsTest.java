@@ -30,15 +30,19 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Gist;
+import com.jcabi.github.Gists;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Test case for {@link MkGists}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * TODO #20 method remove() in MkGists class has to be implemented.
+ * The test for this method is currently ignored.
  */
 public final class MkGistsTest {
 
@@ -59,4 +63,25 @@ public final class MkGistsTest {
         );
     }
 
+    /**
+     * This tests that the remove() method in MkGists is working fine.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
+    @Ignore
+    public void removesMkGistByName() throws Exception {
+        final Gists gists = new MkGithub().gists();
+        final Gist createdGist = gists.create(
+            Collections.singletonList("fileName.txt")
+        );
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.hasItem(createdGist)
+        );
+        gists.remove("gist");
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.not(Matchers.hasItem(createdGist))
+        );
+    }
 }

@@ -136,7 +136,7 @@ public final class RtGistsTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void canRemoveGistByName() throws Exception {
+    public void removesGistByName() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,

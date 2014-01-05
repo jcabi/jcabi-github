@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -51,9 +52,11 @@ public final class RtGistsITCase {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void canRemoveGistByName() throws Exception {
-        final Gists gists = makeGists();
-        final Gist gist = gists.get(GIST_NAME);
+    public void removesGistByName() throws Exception {
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonList("fileName.txt")
+        );
         MatcherAssert.assertThat(
             gists.iterate(),
             Matchers.hasItem(
@@ -71,7 +74,7 @@ public final class RtGistsITCase {
      * @return Gists
      * @throws Exception If some problem inside
      */
-    private static Gists makeGists() throws Exception {
+    private static Gists gists() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(
             key,

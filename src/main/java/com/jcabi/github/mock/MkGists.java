@@ -46,7 +46,6 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * TODO #20 method remove() in this class has to be implemented
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -136,6 +135,8 @@ final class MkGists implements Gists {
 
     @Override
     public void remove(final String name) throws IOException {
-        //
+        throw new UnsupportedOperationException(
+            "This operation is not implemented yet."
+        );
     }
 }
