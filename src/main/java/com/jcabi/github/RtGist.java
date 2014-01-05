@@ -58,13 +58,6 @@ import org.hamcrest.Matchers;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry" })
 final class RtGist implements Gist {
-
-    /**
-     * URL path element used for starring, unstarring and checking if
-     * gist is starred.
-     */
-    private static final String PATH_ELEMENT_STAR = "star";
-
     /**
      * Inner request for starring/checking if starred.
      */
@@ -90,7 +83,7 @@ final class RtGist implements Gist {
     RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req.uri().path("/gists").path(name).back();
-        this.request = this.entry.uri().path(RtGist.PATH_ELEMENT_STAR).back();
+        this.request = this.entry.uri().path("star").back();
     }
 
     @Override
