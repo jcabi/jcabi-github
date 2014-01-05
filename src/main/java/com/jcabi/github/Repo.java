@@ -84,6 +84,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Pulls pulls();
 
     /**
+     * Hooks.
+     * @return Hooks
+     * @since 0.8
+     */
+    @NotNull(message = "hooks are never NULL")
+    Hooks hooks();
+
+    /**
      * Get all events for the repository.
      * @return Events
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
@@ -154,6 +162,12 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public Pulls pulls() {
             return this.repo.pulls();
         }
+
+        @Override
+        public Hooks hooks() {
+            return this.repo.hooks();
+        }
+
         @Override
         public Iterable<Event> events() {
             return this.repo.events();

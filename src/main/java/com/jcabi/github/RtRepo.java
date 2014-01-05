@@ -119,6 +119,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Hooks hooks() {
+        return new RtHooks(this);
+    }
+
+    @Override
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/issues/events").back(),
