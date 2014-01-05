@@ -32,7 +32,6 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -48,7 +47,6 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesAssignees() throws Exception {
         final Iterable<User> users = new Smarts<User>(
             new Bulk<User>(
@@ -68,9 +66,23 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkUserIsAssigneeForRepo() throws Exception {
-        // To be implemented
+        MatcherAssert.assertThat(
+            RtAssigneesITCase.repo().assignees().check(coordinates().user()),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * RtAssignees can check if user is NOT assignee for this repo.
+     * @throws Exception Exception If some problem inside
+     */
+    @Test
+    public void checkUserIsNotAssigneeForRepo() throws Exception {
+        MatcherAssert.assertThat(
+            RtAssigneesITCase.repo().assignees().check("octocat"),
+            Matchers.is(false)
+        );
     }
 
     /**
@@ -82,8 +94,15 @@ public final class RtAssigneesITCase {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        return github.repos().get(RtAssigneesITCase.coordinates());
+    }
+
+    /**
+     * Create and return repo coordinates to test on.
+     * @return Coordinates
+     */
+    private static Coordinates coordinates() {
+        return new Coordinates.Simple(
+            System.getProperty("failsafe.github.repo"));
     }
 }
