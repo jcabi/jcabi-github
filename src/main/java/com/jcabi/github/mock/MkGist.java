@@ -90,12 +90,14 @@ final class MkGist implements Gist {
 
     @Override
     public String read(final String file) throws IOException {
-        return this.storage.xml().xpath(
+        final List<String> contents = this.storage.xml().xpath(
             String.format(
                 "%s/files/file[filename='%s']/raw_content/text()",
                 this.xpath(), file
             )
-        ).get(0);
+        );
+
+        return contents.size() == 0 ? "" : contents.get(0);
     }
 
     @Override
