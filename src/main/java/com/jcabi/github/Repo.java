@@ -112,8 +112,16 @@ public interface Repo extends JsonReadable, JsonPatchable {
      * @return Assignees
      * @see @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
      */
-    @NotNull(message = "labels are never NULL")
+    @NotNull(message = "assignees are never NULL")
     Assignees assignees();
+
+    /**
+     * Get all releases of the repo.
+     * @return Releases
+     * @see @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     */
+    @NotNull(message = "releases are never NULL")
+    Releases releases();
 
     /**
      * Smart Repo with extra features.
@@ -179,6 +187,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Assignees assignees() {
             return this.repo.assignees();
+        }
+        @Override
+        public Releases releases() {
+            return this.repo.releases();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {
