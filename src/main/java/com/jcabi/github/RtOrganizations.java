@@ -31,11 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-
-import lombok.EqualsAndHashCode;
-
 import java.util.Collection;
 import java.util.LinkedList;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organizations.
@@ -46,52 +44,55 @@ import java.util.LinkedList;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "user", "organizations" })
+@EqualsAndHashCode(of = { "userobj", "organizations" })
 final class RtOrganizations implements Organizations {
 
     /**
-     * user
+     * User.
      */
-    private final transient User user;
+    private final transient User userobj;
 
     /**
-     * organizations
+     * Organizations.
      */
     private final transient Collection<Organization> organizations;
 
     /**
-     * Public constructor
-     * @param user User
+     * Public constructor.
+     * @param usr User
      * @param orgs A java.util.Collection of Organization objects
      */
-    public RtOrganizations(final User u, final Collection<Organization> orgs) {
-        this.user = u;
+    public RtOrganizations(final User usr,
+        final Collection<Organization> orgs) {
+        this.userobj = usr;
         this.organizations = orgs;
     }
 
     @Override
     public User user() {
-      return this.user;
+        return this.userobj;
     }
 
     @Override
     public Organization get(final int orgid) {
-      if (organizations != null)
-      {
-        for(Organization o : organizations)
-        {
-          if (o.orgId() == orgid)
-          {
-            return o;
-          }
+        Organization return_org = null;
+        if (this.organizations != null) {
+            for (Organization org : this.organizations) {
+                if (org.orgId() == orgid) {
+                    return_org = org;
+                    break;
+                }
+            }
         }
-      }
-      return null;
+        return return_org;
     }
 
     @Override
     public Iterable<Organization> iterate() {
-      if (this.organizations == null) { return new LinkedList<Organization>(); }
-      return this.organizations;
+        Collection<Organization> returnit = this.organizations;
+        if (this.organizations == null) {
+            returnit = new LinkedList<Organization>();
+        }
+        return returnit;
     }
 }

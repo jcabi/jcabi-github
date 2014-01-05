@@ -29,14 +29,12 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Organization;
+import com.jcabi.github.Organizations;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import com.jcabi.github.Organization;
-import com.jcabi.github.Organizations;
 
 /**
  * Github organizations.
@@ -51,8 +49,9 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesOrganizations() throws Exception {
-      Organizations orgs = getOrganizations();
+    public final void iteratesOrganizations() throws Exception {
+        final Organizations orgs = getOrganizations();
+        MatcherAssert.assertThat(orgs, Matchers.notNullValue());
     }
 
     /**
@@ -60,38 +59,30 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void getSingleOrganization() throws Exception {
-      Organizations orgs = getOrganizations();
-      //get the first org, which we already now the orgs isn't empty
-      Organization org = orgs.iterate().iterator().next();
-      //assume the org isnt null
-      Assume.assumeThat(org, Matchers.notNullValue());
-      //make sure we have a valid id
-      MatcherAssert.assertThat(org.orgId(), Matchers.greaterThan(0));
-      //get the org via the get method
-      Organization o = orgs.get(org.orgId());
-      //assert they are the same
-      MatcherAssert.assertThat(org.orgId(), Matchers.equalTo(o.orgId()));
+    public final void getSingleOrganization() throws Exception {
+        final Organizations orgs = getOrganizations();
+        final Organization org = orgs.iterate().iterator().next();
+        Assume.assumeThat(org, Matchers.notNullValue());
+        MatcherAssert.assertThat(org.orgId(), Matchers.greaterThan(0));
+        final Organization lookup = orgs.get(org.orgId());
+        MatcherAssert.assertThat(org.orgId(), Matchers.equalTo(lookup.orgId()));
     }
 
     /**
-     * @return a mock organizations object
+     * Convenience method to return the mock organizations.
+     * @return A mock organizations object
+     * @throws Exception If some problem inside
      */
-    private static Organizations getOrganizations() throws Exception
-    {
-      //create a new mock organizations object
-      final Organizations orgs = new MkOrganizations(
-        new MkStorage.InFile(),"login-less"
-      );
-      //put a dummy object into the orgs
-      Organization o = orgs.get(1);
-      //this should pretty much be impossible since we just added an org
-      MatcherAssert.assertThat(
-          orgs.iterate(),
-          Matchers.not(Matchers.emptyIterable())
-      );
-      //make sure we have a valid user
-      MatcherAssert.assertThat(orgs.user(), Matchers.notNullValue());
-      return orgs;
+    private static Organizations getOrganizations() throws Exception {
+        final Organizations orgs = new MkOrganizations(
+            new MkStorage.InFile(), "login-less"
+        );
+        final Organization org = orgs.get(1);
+        MatcherAssert.assertThat(org, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            orgs.iterate(), Matchers.not(Matchers.emptyIterable())
+        );
+        MatcherAssert.assertThat(orgs.user(), Matchers.notNullValue());
+        return orgs;
     }
 }
