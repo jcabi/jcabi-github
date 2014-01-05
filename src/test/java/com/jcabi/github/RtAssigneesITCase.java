@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,8 +40,6 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Implement integrations tests for {@link RtAssignees}
- *  See http://developer.github.com/v3/issues/assignees/
  */
 public final class RtAssigneesITCase {
 
@@ -49,7 +50,17 @@ public final class RtAssigneesITCase {
     @Test
     @Ignore
     public void iteratesAssignees() throws Exception {
-        // To be implemented
+        final Iterable<User> users = new Smarts<User>(
+            new Bulk<User>(
+                RtAssigneesITCase.repo().assignees().iterate()
+            )
+        );
+        for (final User user : users) {
+            MatcherAssert.assertThat(
+                user.login(),
+                Matchers.notNullValue()
+            );
+        }
     }
 
     /**
@@ -60,5 +71,19 @@ public final class RtAssigneesITCase {
     @Ignore
     public void checkUserIsAssigneeForRepo() throws Exception {
         // To be implemented
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
     }
 }

@@ -50,9 +50,7 @@ import javax.validation.constraints.NotNull;
 final class RtAssignees implements Assignees {
 
     @Override
-    public Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
+    public Iterable<User> iterate() {
         return null;
     }
 
