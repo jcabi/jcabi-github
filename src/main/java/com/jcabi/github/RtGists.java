@@ -34,16 +34,13 @@ import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 
 /**
@@ -137,15 +134,12 @@ final class RtGists implements Gists {
         );
     }
 
-	@Override
-	public void remove(
-			@NotNull(message = "gist name can't be NULL") final String name)
-			throws IOException {
-
-		this.request.method(Request.DELETE).uri().path(name).back().fetch()
-				.as(RestResponse.class)
-				.assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-
-	}
-
+    @Override
+    public void remove(@NotNull(message = "gist name can't be NULL")
+        final String name)throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(name).back().fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }

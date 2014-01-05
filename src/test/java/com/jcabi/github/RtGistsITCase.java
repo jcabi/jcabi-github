@@ -38,36 +38,45 @@ import org.junit.Test;
  * Integration case for {@link Gists}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @todo other integration tests have to be written for RtGists.
+ * TODO #20 other integration tests have to be written for RtGists.
  */
 public final class RtGistsITCase {
 
-	@Test
-	public void canRemoveGistByName() throws Exception{
-		final Gists gists = makeGists();
-		final Gist gist = gists.get("gist");
-		MatcherAssert.assertThat(
-	            gists.iterate(),
-	            Matchers.hasItem(gist)
-	    );
-		gists.remove("gist");
+    /**
+     * Name of the gist to be deleted.
+     */
+    private static final String GIST_NAME = "gist";
+    /**
+     * This tests that RtGists can remove a gist by name.
+     * @throws Exception - if something goes wrong.
+     */
+    @Test
+    public void canRemoveGistByName() throws Exception {
+        final Gists gists = makeGists();
+        final Gist gist = gists.get(GIST_NAME);
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.hasItem(
+                gist
+            )
+        );
+        gists.remove(GIST_NAME);
         MatcherAssert.assertThat(
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))
         );
-	}
-	
-	
-	/**
+    }
+    /**
      * Return gists to test.
      * @return Gists
      * @throws Exception If some problem inside
      */
     private static Gists makeGists() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
+        Assume.assumeThat(
+            key,
+            Matchers.notNullValue()
+        );
         return new RtGithub(key).gists();
     }
-	
-	
 }

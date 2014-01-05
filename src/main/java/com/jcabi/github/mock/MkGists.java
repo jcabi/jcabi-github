@@ -35,12 +35,9 @@ import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.xml.XML;
-
 import java.io.IOException;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 import org.xembly.Directives;
 
 /**
@@ -49,7 +46,7 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * @todo method remove() in this class has to be implemented
+ * TODO #20 method remove() in this class has to be implemented
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -137,10 +134,8 @@ final class MkGists implements Gists {
         return "/github/gists";
     }
 
-	@Override
-	public void remove(String name) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
+    @Override
+    public void remove(final String name) throws IOException {
+        //
+    }
 }
