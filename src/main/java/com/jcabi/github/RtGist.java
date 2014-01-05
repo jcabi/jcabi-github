@@ -75,7 +75,6 @@ final class RtGist implements Gist {
 
     /**
      * Public ctor.
-     * @todo #19:5min This parameter at Git specs is named id, should it be renamed?
      * @param github Github
      * @param req Request
      * @param name Name of gist
