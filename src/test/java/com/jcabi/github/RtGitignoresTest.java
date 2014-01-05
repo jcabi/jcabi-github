@@ -27,39 +27,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Github organizations.
+ * Unit tests for {@link RtGitignores}.
+ *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
+ * @todo #7 Let's implement unit tests for RtGitignores:
+ *  1) iterateTemplateNames() to iteration over all available
+ *  gitignore templates
+ *  2) getRawTemplateByName() to test retrieving template
+ *  in raw format by it's name
+ *  Use <code>MkContainer</code> to mock templates to iterate
+ * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
-public class MkOrganizationsTest {
+@Immutable
+public class RtGitignoresTest {
+
     /**
-     * MkOrganizations can list organizations.
-     * @throws Exception If some problem inside
+     * RtGitignores can iterate template names.
+     * @throws Exception if there is any error
      */
     @Test
     @Ignore
-    public void iteratesOrganizations() throws Exception {
-        // To be implemented
+    public void iterateTemplateNames() throws Exception {
+        // to be implemented
     }
 
     /**
-     * MkOrganizations can get specific organization.
-     * @throws Exception If some problem inside
+     * RtGitignores can get raw template by name.
+     * @throws Exception if there is any error
      */
     @Test
     @Ignore
-    public void getSingleOrganization() throws Exception {
-        // To be implemented
+    public void getRawTemplateByName() throws Exception {
+        // to be implemented
     }
+
 }

@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -61,13 +60,10 @@ public interface Organizations {
 
     /**
      * Iterate them all.
-     * @param params Iterating parameters, as requested by API
      * @return Iterator of Organizations
      * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List Organizations</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Organization> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
+    Iterable<Organization> iterate();
 
 }

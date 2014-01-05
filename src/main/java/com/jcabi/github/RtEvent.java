@@ -43,8 +43,6 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #1 Unit test for RtEvent is required. Let's create a simple one,
- *  to check that the class implements key functions correctly.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -31,8 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github organizations.
@@ -59,9 +57,7 @@ final class RtOrganizations implements Organizations {
     }
 
     @Override
-    public Iterable<Organization> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
+    public Iterable<Organization> iterate() {
         return null;
     }
 }
