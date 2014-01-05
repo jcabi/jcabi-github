@@ -29,33 +29,44 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github Assignees.
+ * Github Gitignore.
+ * <p>Defines storage of .gitignore templates
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
+ * @see <a href="http://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
+ * @since 0.8
  */
-public interface Assignees {
+@Immutable
+public interface Gitignores {
+    /**
+     * Get its owner.
+     * @return Github
+     */
+    @NotNull(message = "github is never NULL")
+    Github github();
 
     /**
-     * Iterate all available assignees.
-     * @return Iterator of available assignees to which issues may be assigned
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
+     * Iterate them all.
+     * @return Iterator of Gitignote template names
+     * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate();
+    Iterable<String> iterate();
 
     /**
-     * Check check if a particular user is an assignee for a repository.
-     * @param login Login of user to be checked
-     * @return True if given assignee login belongs to an assignee for the repository
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
+     * Gets raw gitignore template.
+     * @param name Name of the template
+     * @return Raw template
+     * @throws IOException If it fails due to I/O problem
      */
-    @NotNull(message = "check is never NULL")
-    boolean check(String login) throws IOException;
+    @NotNull(message = "Raw template is never NULL")
+    String template(
+        @NotNull(message = "Template name can't be NULL") String name)
+        throws IOException;
 }

@@ -29,33 +29,36 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github Assignees.
+ * Github Gitignore.
+ * <p>Defines storage of .gitignore templates
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
+ * @since 0.8
  */
-public interface Assignees {
+@Immutable
+public class RtGitignores implements Gitignores {
 
-    /**
-     * Iterate all available assignees.
-     * @return Iterator of available assignees to which issues may be assigned
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate();
+    @Override
+    public final Github github() {
+        throw new UnsupportedOperationException();
+    }
 
-    /**
-     * Check check if a particular user is an assignee for a repository.
-     * @param login Login of user to be checked
-     * @return True if given assignee login belongs to an assignee for the repository
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
-     */
-    @NotNull(message = "check is never NULL")
-    boolean check(String login) throws IOException;
+    @Override
+    public final Iterable<String> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public final String template(
+        @NotNull(message = "Template name can't be NULL")
+        final String name)
+        throws IOException {
+        throw new UnsupportedOperationException();
+    }
 }

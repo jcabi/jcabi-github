@@ -29,33 +29,44 @@
  */
 package com.jcabi.github;
 
-import java.io.IOException;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Immutable;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github Assignees.
+ * Unit tests for {@link RtGitignores}.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
+ * @todo #7 Let's implement unit tests for RtGitignores:
+ *  1) iterateTemplateNames() to iteration over all available
+ *  gitignore templates
+ *  2) getRawTemplateByName() to test retrieving template
+ *  in raw format by it's name
+ *  Use <code>MkContainer</code> to mock templates to iterate
+ * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
-public interface Assignees {
+@Immutable
+public class RtGitignoresTest {
 
     /**
-     * Iterate all available assignees.
-     * @return Iterator of available assignees to which issues may be assigned
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
+     * RtGitignores can iterate template names.
+     * @throws Exception if there is any error
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate();
+    @Test
+    @Ignore
+    public void iterateTemplateNames() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Check check if a particular user is an assignee for a repository.
-     * @param login Login of user to be checked
-     * @return True if given assignee login belongs to an assignee for the repository
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
+     * RtGitignores can get raw template by name.
+     * @throws Exception if there is any error
      */
-    @NotNull(message = "check is never NULL")
-    boolean check(String login) throws IOException;
+    @Test
+    @Ignore
+    public void getRawTemplateByName() throws Exception {
+        // to be implemented
+    }
+
 }
