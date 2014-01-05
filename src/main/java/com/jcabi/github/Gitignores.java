@@ -27,32 +27,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.validation.constraints.NotNull;
 
 /**
- * Mock for Github Assignees.
+ * Github Gitignore.
+ * <p>Defines storage of .gitignore templates
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @see <a href="http://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
+ * @since 0.8
  */
-final class MkAssignees implements Assignees {
+@Immutable
+public interface Gitignores {
+    /**
+     * Get its owner.
+     * @return Github
+     */
+    @NotNull(message = "github is never NULL")
+    Github github();
 
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
-    }
+    /**
+     * Iterate them all.
+     * @return Iterator of Gitignote template names
+     * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<String> iterate();
 
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
-    }
+    /**
+     * Gets raw gitignore template.
+     * @param name Name of the template
+     * @return Raw template
+     * @throws IOException If it fails due to I/O problem
+     */
+    @NotNull(message = "Raw template is never NULL")
+    String template(
+        @NotNull(message = "Template name can't be NULL") String name)
+        throws IOException;
 }
