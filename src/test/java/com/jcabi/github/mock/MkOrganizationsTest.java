@@ -29,8 +29,14 @@
  */
 package com.jcabi.github.mock;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.jcabi.github.Organization;
+import com.jcabi.github.Organizations;
 
 /**
  * Github organizations.
@@ -38,9 +44,6 @@ import org.junit.Test;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
  */
 public class MkOrganizationsTest {
     /**
@@ -48,9 +51,8 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesOrganizations() throws Exception {
-        // To be implemented
+      Organizations orgs = getOrganizations();
     }
 
     /**
@@ -58,8 +60,38 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void getSingleOrganization() throws Exception {
-        // To be implemented
+      Organizations orgs = getOrganizations();
+      //get the first org, which we already now the orgs isn't empty
+      Organization org = orgs.iterate().iterator().next();
+      //assume the org isnt null
+      Assume.assumeThat(org, Matchers.notNullValue());
+      //make sure we have a valid id
+      MatcherAssert.assertThat(org.orgId(), Matchers.greaterThan(0));
+      //get the org via the get method
+      Organization o = orgs.get(org.orgId());
+      //assert they are the same
+      MatcherAssert.assertThat(org.orgId(), Matchers.equalTo(o.orgId()));
+    }
+
+    /**
+     * @return a mock organizations object
+     */
+    private static Organizations getOrganizations() throws Exception
+    {
+      //create a new mock organizations object
+      final Organizations orgs = new MkOrganizations(
+        new MkStorage.InFile(),"login-less"
+      );
+      //put a dummy object into the orgs
+      Organization o = orgs.get(1);
+      //this should pretty much be impossible since we just added an org
+      MatcherAssert.assertThat(
+          orgs.iterate(),
+          Matchers.not(Matchers.emptyIterable())
+      );
+      //make sure we have a valid user
+      MatcherAssert.assertThat(orgs.user(), Matchers.notNullValue());
+      return orgs;
     }
 }
