@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Gist;
+import com.jcabi.github.Gists;
 import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -40,6 +41,7 @@ import org.junit.Test;
  * Test case for {@link MkGists}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkGistsTest {
 
@@ -57,6 +59,33 @@ public final class MkGistsTest {
         MatcherAssert.assertThat(
             gist.read(file),
             Matchers.startsWith("hello, ")
+        );
+    }
+
+    /**
+     * MkGists can work several gists.
+     * Test to check issue #128
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void worksWithSeveralGists() throws Exception {
+        final Gists gists = new MkGithub().gists();
+        final Gist gist = gists.create(
+            Collections.singletonList("test-file-name.txt")
+        );
+        final Gist othergist = gists.create(
+            Collections.singletonList("test-file-name2.txt")
+        );
+        final String file = "t.txt";
+        gist.write(file, "hello, everybody!");
+        othergist.write(file, "bye, everybody!");
+        MatcherAssert.assertThat(
+            gist.read(file),
+            Matchers.startsWith("hello, ")
+        );
+        MatcherAssert.assertThat(
+            othergist.read(file),
+            Matchers.startsWith("bye, ")
         );
     }
 
