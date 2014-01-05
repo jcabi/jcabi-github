@@ -48,11 +48,11 @@ final class MkAssignees implements Assignees {
 
     @Override
     public Iterable<User> iterate() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean check(final String login) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 }

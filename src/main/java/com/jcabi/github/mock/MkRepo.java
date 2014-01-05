@@ -137,7 +137,7 @@ final class MkRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        return new MkAssignees();
+        throw new UnsupportedOperationException();
     }
 
     @Override
