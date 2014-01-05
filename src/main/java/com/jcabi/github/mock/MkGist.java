@@ -141,8 +141,8 @@ final class MkGist implements Gist {
      */
     @Override
     public boolean starred() throws IOException {
-        final List<String> xpath = this.storage.xml().xpath(String
-            .format("%s/@starred", this.xpath())
+        final List<String> xpath = this.storage.xml().xpath(
+            String.format("%s/@starred", this.xpath())
         );
         return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
             MkGist.STARRED_VALUE,
