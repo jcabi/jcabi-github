@@ -56,7 +56,6 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesAssignees() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -83,11 +82,10 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkUserIsAssigneeForRepo() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
+                HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
                     .add(json("octocat2"))
                     .add(json("dummy"))
@@ -114,7 +112,7 @@ public final class RtAssigneesTest {
     public void checkUserIsNotAssigneeForRepo() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
+                HttpURLConnection.HTTP_NOT_FOUND,
                 Json.createArrayBuilder()
                     .add(json("octocat3"))
                     .add(json("dummy"))
