@@ -34,9 +34,11 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Github;
 import java.io.IOException;
+import java.util.List;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
@@ -111,6 +113,35 @@ final class MkGist implements Gist {
                     file
                 )
             ).set(content)
+        );
+    }
+
+    /**
+     * Stars.
+     * @throws IOException If there is any I/O problem
+     */
+    @Override
+    public void star() throws IOException {
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .attr("starred", Boolean.toString(true))
+        );
+    }
+
+    /**
+     * Checks if starred.
+     * @return True if gist is starred
+     * @throws IOException If there is any I/O problem
+     */
+    @Override
+    public boolean starred() throws IOException {
+        final List<String> xpath = this.storage.xml().xpath(
+            String.format("%s/@starred", this.xpath())
+        );
+        return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
+            Boolean.toString(true),
+            xpath.get(0)
         );
     }
 

@@ -44,6 +44,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github gist.
@@ -57,6 +58,10 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry" })
 final class RtGist implements Gist {
+    /**
+     * Inner request for starring/checking if starred.
+     */
+    private final transient Request request;
 
     /**
      * Github.
@@ -77,6 +82,7 @@ final class RtGist implements Gist {
     RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req.uri().path("/gists").path(name).back();
+        this.request = this.entry.uri().path("star").back();
     }
 
     @Override
@@ -122,6 +128,25 @@ final class RtGist implements Gist {
             .body().set(json).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public void star() throws IOException {
+        this.request.method("PUT")
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public boolean starred() throws IOException {
+        final RestResponse response = this.request.method("GET").fetch()
+            .as(RestResponse.class).assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+            )
+        );
+        return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override
