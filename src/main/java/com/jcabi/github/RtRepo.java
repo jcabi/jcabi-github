@@ -142,7 +142,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        return null;
+        return new RtAssignees(this, this.entry);
     }
 
     @Override

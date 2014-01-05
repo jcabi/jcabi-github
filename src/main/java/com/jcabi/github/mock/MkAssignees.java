@@ -31,8 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Assignees;
 import com.jcabi.github.User;
-import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Mock for Github Assignees.
@@ -49,14 +47,12 @@ import javax.validation.constraints.NotNull;
 final class MkAssignees implements Assignees {
 
     @Override
-    public Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
-        return null;
+    public Iterable<User> iterate() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean check(final String login) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 }

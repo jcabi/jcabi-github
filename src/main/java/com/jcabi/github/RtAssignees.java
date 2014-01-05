@@ -29,8 +29,15 @@
  */
 package com.jcabi.github;
 
-import java.util.Map;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github Assignees.
@@ -38,26 +45,79 @@ import javax.validation.constraints.NotNull;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Assignees API should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of Users and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository.
- *  Also should be implemented method assignees() in RtRepo
- *  and MkRepo. Don't forget about @EqualsAndHashCode and other
- *  annotations
- *  See http://developer.github.com/v3/issues/assignees/
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
 final class RtAssignees implements Assignees {
 
-    @Override
-    public Iterable<User> iterate(
-        @NotNull(message = "map of params can't be NULL")
-        final Map<String, String> params) {
-        return null;
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repository we're in.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Public ctor.
+     * @param repo Repo
+     * @param req Request
+     */
+    RtAssignees(final Repo repo, final Request req) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/assignees")
+            .back();
+        this.owner = repo;
     }
 
     @Override
-    public boolean check(final String login) {
-        return false;
+    public Iterable<User> iterate() {
+        return new RtPagination<User>(
+            this.request,
+            new RtPagination.Mapping<User>() {
+                @Override
+                public User map(final JsonObject object) {
+                    return new RtUser(
+                        RtAssignees.this.owner.github(),
+                        RtAssignees.this.entry,
+                        object.getString("login")
+                    );
+                }
+            }
+        );
+    }
+
+    @Override
+    public boolean check(final String login) throws IOException {
+        return this.request
+            .method(Request.GET)
+            .uri().path(login).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+                )
+            ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 }

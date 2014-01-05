@@ -29,7 +29,11 @@
  */
 package com.jcabi.github;
 
-import org.junit.Ignore;
+import com.jcabi.aspects.Tv;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -37,8 +41,6 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Implement integrations tests for {@link RtAssignees}
- *  See http://developer.github.com/v3/issues/assignees/
  */
 public final class RtAssigneesITCase {
 
@@ -47,9 +49,18 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesAssignees() throws Exception {
-        // To be implemented
+        final Iterable<User> users = new Smarts<User>(
+            new Bulk<User>(
+                RtAssigneesITCase.repo().assignees().iterate()
+            )
+        );
+        for (final User user : users) {
+            MatcherAssert.assertThat(
+                user.login(),
+                Matchers.notNullValue()
+            );
+        }
     }
 
     /**
@@ -57,8 +68,46 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkUserIsAssigneeForRepo() throws Exception {
-        // To be implemented
+        MatcherAssert.assertThat(
+            RtAssigneesITCase.repo().assignees().check(coordinates().user()),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * RtAssignees can check if user is NOT assignee for this repo.
+     * @throws Exception Exception If some problem inside
+     */
+    @Test
+    public void checkUserIsNotAssigneeForRepo() throws Exception {
+        MatcherAssert.assertThat(
+            RtAssigneesITCase.repo()
+                .assignees()
+                .check(RandomStringUtils.randomAlphabetic(Tv.TEN)),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(RtAssigneesITCase.coordinates());
+    }
+
+    /**
+     * Create and return repo coordinates to test on.
+     * @return Coordinates
+     */
+    private static Coordinates coordinates() {
+        return new Coordinates.Simple(
+            System.getProperty("failsafe.github.repo")
+        );
     }
 }

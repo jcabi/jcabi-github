@@ -27,39 +27,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github organizations.
+ * Github Gitignore.
+ * <p>Defines storage of .gitignore templates
+ *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
+ * @since 0.8
  */
-public class MkOrganizationsTest {
-    /**
-     * MkOrganizations can list organizations.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    @Ignore
-    public void iteratesOrganizations() throws Exception {
-        // To be implemented
+@Immutable
+public class RtGitignores implements Gitignores {
+
+    @Override
+    public final Github github() {
+        throw new UnsupportedOperationException();
     }
 
-    /**
-     * MkOrganizations can get specific organization.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    @Ignore
-    public void getSingleOrganization() throws Exception {
-        // To be implemented
+    @Override
+    public final Iterable<String> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public final String template(
+        @NotNull(message = "Template name can't be NULL")
+        final String name)
+        throws IOException {
+        throw new UnsupportedOperationException();
     }
 }

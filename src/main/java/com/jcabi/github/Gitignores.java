@@ -27,39 +27,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github organizations.
+ * Github Gitignore.
+ * <p>Defines storage of .gitignore templates
+ *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
+ * @see <a href="http://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
+ * @since 0.8
  */
-public class MkOrganizationsTest {
+@Immutable
+public interface Gitignores {
     /**
-     * MkOrganizations can list organizations.
-     * @throws Exception If some problem inside
+     * Get its owner.
+     * @return Github
      */
-    @Test
-    @Ignore
-    public void iteratesOrganizations() throws Exception {
-        // To be implemented
-    }
+    @NotNull(message = "github is never NULL")
+    Github github();
 
     /**
-     * MkOrganizations can get specific organization.
-     * @throws Exception If some problem inside
+     * Iterate them all.
+     * @return Iterator of Gitignote template names
+     * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
      */
-    @Test
-    @Ignore
-    public void getSingleOrganization() throws Exception {
-        // To be implemented
-    }
+    @NotNull(message = "iterable is never NULL")
+    Iterable<String> iterate();
+
+    /**
+     * Gets raw gitignore template.
+     * @param name Name of the template
+     * @return Raw template
+     * @throws IOException If it fails due to I/O problem
+     */
+    @NotNull(message = "Raw template is never NULL")
+    String template(
+        @NotNull(message = "Template name can't be NULL") String name)
+        throws IOException;
 }
