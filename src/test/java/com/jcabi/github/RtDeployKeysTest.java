@@ -29,16 +29,17 @@
  */
 package com.jcabi.github;
 
+import java.net.HttpURLConnection;
+
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
-import java.net.HttpURLConnection;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtDeployKeys}.
