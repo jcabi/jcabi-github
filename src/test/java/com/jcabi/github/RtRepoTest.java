@@ -49,6 +49,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtRepoTest {
     /**
      * RtRepo can fetch events.
@@ -149,7 +150,7 @@ public final class RtRepoTest {
             Matchers.notNullValue()
         );
     }
-    
+
     /**
      * RtRepo can fetch its keys.
      *

@@ -29,18 +29,16 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.DeployKeys;
+import com.jcabi.github.Repo;
 import javax.json.Json;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Repo;
-
 /**
  * Test case for {@link MkDeployKeys}.
- * @author Andres Candal (andres.candal@rollasolution.com) 
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
@@ -51,9 +49,9 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canFetchEmptyListOfDeployKeys() throws Exception {
-        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKeys deployKeys = MkDeployKeysTest.repo().keys();
         MatcherAssert.assertThat(
-            keys.iterate(),
+            deployKeys.iterate(),
             Matchers.emptyIterable()
         );
     }

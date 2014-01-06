@@ -29,16 +29,13 @@
  */
 package com.jcabi.github;
 
-import java.io.IOException;
-
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github repository.
@@ -125,7 +122,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "releases are never NULL")
     Releases releases();
-    
+
     /**
      * Get all deploy keys of the repo.
      * @return DeployKeys
@@ -204,9 +201,9 @@ public interface Repo extends JsonReadable, JsonPatchable {
             return this.repo.releases();
         }
         @Override
-		public DeployKeys keys() {
-			return this.repo.keys();
-		}
+        public DeployKeys keys() {
+            return this.repo.keys();
+        }
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.repo.patch(json);

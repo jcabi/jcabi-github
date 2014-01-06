@@ -27,68 +27,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.DeployKey;
-import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Repo;
-import java.io.IOException;
-import java.util.Collections;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock Github deploy keys.
- *
+ * Test case for {@link RtDeployKeys}.
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @todo #119 RtDeployKeys should be able to fetch a list of deploy keys from
+ *  a real Github repository, a single deploy key, create, edit and remove
+ *  deploy keys.
+ *  When done, remove this puzzle and Ignore annotation from the method.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkDeployKeys implements DeployKeys {
+public class RtDeployKeysITCase {
 
     /**
-     * Storage.
+     * RtDeployKeys can iterate deploy keys.
+     * @throws Exception If some problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Repo name.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
-     */
-    public MkDeployKeys(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
-    }
-
-    @Override
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
-    }
-
-    @Override
-    public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
+    @Test
+    @Ignore
+    public void canFetchAllDeployKeys() throws Exception {
+        // to be implemented
     }
 }

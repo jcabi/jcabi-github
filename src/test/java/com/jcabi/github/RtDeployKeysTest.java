@@ -29,17 +29,16 @@
  */
 package com.jcabi.github;
 
-import java.net.HttpURLConnection;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import java.net.HttpURLConnection;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtDeployKeys}.
@@ -51,24 +50,83 @@ import com.rexsl.test.mock.MkGrizzlyContainer;
 public final class RtDeployKeysTest {
 
     /**
-     * RtDeployKeys can fetch empty list of keys.
+     * RtDeployKeys can fetch empty list of deploy keys.
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfKeys() throws Exception {
+    public void canFetchEmptyListOfDeployKeys() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
         ).start();
-        final DeployKeys keys = new RtDeployKeys(
+        final DeployKeys deployKeys = new RtDeployKeys(
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
-            keys.iterate(),
+            deployKeys.iterate(),
             Matchers.emptyIterable()
         );
         container.stop();
     }
 
+    /**
+     * RtDeployKeys can fetch non empty list of deploy keys.
+     *
+     * @todo #119 RtDepoyKeys should iterate multiple deploy keys. Let's
+     *  implement a test here and a method of RtDeployKeys. The method should
+     *  iterate multiple deploy keys.
+     *  See how it's done in other classes with GhPagination.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canFetchNonEmptyListOfDeployKeys() {
+        // to be implemented
+    }
+
+    /**
+     * RtDeployKeys can fetch single deploy key.
+     *
+     * @todo #119 RtDepoyKeys should be able to get a single key.
+     *  Let's implement a test here and a method get() of RtDeployKeys.
+     *  The method should fetch a single deploy key.
+     *  See how it's done in other classes, using Rexsl request/response.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canFetchSingleDeployKey() {
+        // to be implemented
+    }
+
+    /**
+     * RtDeployKeys can create a key.
+     *
+     * @todo #119 RtDeployKeys should be able to create a DeployKey. Let's implement
+     *  a test here and a method create() of RtDeployKeys.
+     *  The method should create a deploy key.
+     *  See how it's done in other classes, using Rexsl request/response.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canCreateDeployKey() {
+        // to be implemented
+    }
+
+    /**
+     * RtDeployKeys can delete a deploy key.
+     *
+     * @todo #119 RtDeployKeys should be able to delete a DeployKey. Let's implement
+     *  a test here and a method remove() of RtDeployKeys.
+     *  The method should remove a deploy key by it's id.
+     *  See how it's done in other classes, using Rexsl request/response.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canDeleteDeployKey() {
+        // to be implemented
+    }
 
     /**
      * Create and return repo for testing.
