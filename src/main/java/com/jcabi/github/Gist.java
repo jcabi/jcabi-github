@@ -65,6 +65,7 @@ import lombok.ToString;
  *  integration tests.
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Gist extends JsonReadable {
 
     /**
@@ -96,6 +97,19 @@ public interface Gist extends JsonReadable {
         @NotNull(message = "file name can't be NULL") String name,
         @NotNull(message = "file content can't be NULL") String content)
         throws IOException;
+
+    /**
+     * Star a gist.
+     * @throws IOException If there is any I/O problem
+     */
+    void star() throws IOException;
+
+    /**
+     * Checks if Gist is starred.
+     * @throws IOException If there is any I/O problem
+     * @return True if gist is starred
+     */
+    boolean starred() throws IOException;
 
     /**
      * Smart Gist with extra features.
@@ -143,6 +157,17 @@ public interface Gist extends JsonReadable {
             throws IOException {
             this.gist.write(name, content);
         }
+
+        @Override
+        public void star() throws IOException {
+            this.gist.star();
+        }
+
+        @Override
+        public boolean starred() throws IOException {
+            return this.gist.starred();
+        }
+
         @Override
         public JsonObject json() throws IOException {
             return this.gist.json();

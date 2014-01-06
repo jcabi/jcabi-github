@@ -33,10 +33,13 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Github;
+import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.List;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
@@ -88,12 +91,24 @@ final class MkGist implements Gist {
 
     @Override
     public String read(final String file) throws IOException {
-        return this.storage.xml().xpath(
+        final List<XML> files = this.storage.xml().nodes(
             String.format(
-                "%s/files/file[filename='%s']/raw_content/text()",
+                "%s/files/file[filename='%s']",
                 this.xpath(), file
             )
-        ).get(0);
+        );
+        if (files.isEmpty()) {
+            throw new IOException(
+                String.format("Couldn't find file with the name %s.", file)
+            );
+        }
+        final List<String> contents = files.get(0)
+            .xpath("raw_content/text()");
+        String content = "";
+        if (!contents.isEmpty()) {
+            content = contents.get(0);
+        }
+        return content;
     }
 
     @Override
@@ -111,6 +126,35 @@ final class MkGist implements Gist {
                     file
                 )
             ).set(content)
+        );
+    }
+
+    /**
+     * Stars.
+     * @throws IOException If there is any I/O problem
+     */
+    @Override
+    public void star() throws IOException {
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .attr("starred", Boolean.toString(true))
+        );
+    }
+
+    /**
+     * Checks if starred.
+     * @return True if gist is starred
+     * @throws IOException If there is any I/O problem
+     */
+    @Override
+    public boolean starred() throws IOException {
+        final List<String> xpath = this.storage.xml().xpath(
+            String.format("%s/@starred", this.xpath())
+        );
+        return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
+            Boolean.toString(true),
+            xpath.get(0)
         );
     }
 

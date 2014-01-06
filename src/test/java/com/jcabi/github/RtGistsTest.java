@@ -57,8 +57,7 @@ public final class RtGistsTest {
     public void canCreateFiles() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"id\":\"1\"}"
+                HttpURLConnection.HTTP_CREATED, "{\"id\":\"1\"}"
             )
         ).start();
         final RtGists gists = new RtGists(

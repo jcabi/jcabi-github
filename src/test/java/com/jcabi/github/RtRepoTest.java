@@ -66,7 +66,7 @@ public final class RtRepoTest {
                     .build().toString()
             )
         ).start();
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home()),
             new Coordinates.Simple("octocat", "master")
@@ -85,7 +85,7 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchesLabels() throws Exception {
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
             new Coordinates.Simple("jeff", "jeff-branch")
@@ -103,7 +103,7 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchesIssues() throws Exception {
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
             new Coordinates.Simple("mark", "mark-branch")
@@ -121,7 +121,7 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchesPulls() throws Exception {
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
             new Coordinates.Simple("kendy", "kendy-branch")
@@ -133,13 +133,49 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch its hooks.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchHooks() throws Exception {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("paul", "paul-branch")
+        );
+        MatcherAssert.assertThat(
+            repo.hooks(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * RtRepo can fetch its releases.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchReleases() throws Exception {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("phil", "phil-branch")
+        );
+        MatcherAssert.assertThat(
+            repo.releases(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * RtRepo can identify itself.
      * @throws Exception If some problem inside
      */
     @Test
     public void identifiesItself() throws Exception {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
             coords
@@ -163,7 +199,7 @@ public final class RtRepoTest {
                 event(Event.ASSIGNED).toString()
             )
         ).start();
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home()),
             new Coordinates.Simple("test", "test-branch")
@@ -183,7 +219,7 @@ public final class RtRepoTest {
      */
     @Test
     public void describeAsJson() throws Exception {
-        final RtRepo repo = new RtRepo(
+        final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
