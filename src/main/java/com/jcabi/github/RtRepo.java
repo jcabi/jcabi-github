@@ -156,6 +156,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public DeployKeys keys() {
+        return new RtDeployKeys(this);
+    }
+
+    @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
