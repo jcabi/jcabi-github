@@ -149,6 +149,24 @@ public final class RtRepoTest {
             Matchers.notNullValue()
         );
     }
+    
+    /**
+     * RtRepo can fetch its keys.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchKeys() throws Exception {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("andres", "andres-branch")
+        );
+        MatcherAssert.assertThat(
+            repo.keys(),
+            Matchers.notNullValue()
+        );
+    }
 
     /**
      * RtRepo can fetch its releases.
