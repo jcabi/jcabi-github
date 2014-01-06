@@ -154,6 +154,11 @@ final class RtRepo implements Repo {
     public Releases releases() {
         return new RtReleases(this);
     }
+    
+    @Override
+    public DeployKeys keys() {
+        return new RtDeployKeys(this);
+    }
 
     @Override
     public void patch(

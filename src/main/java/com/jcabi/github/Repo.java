@@ -29,13 +29,16 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 
 /**
  * Github repository.
@@ -122,6 +125,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "releases are never NULL")
     Releases releases();
+    
+    /**
+     * Get all deploy keys of the repo.
+     * @return DeployKeys
+     * @see @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+     */
+    @NotNull(message = "deploy keys are never NULL")
+    DeployKeys keys();
 
     /**
      * Smart Repo with extra features.
@@ -192,6 +203,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public Releases releases() {
             return this.repo.releases();
         }
+        @Override
+		public DeployKeys keys() {
+			return this.repo.keys();
+		}
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.repo.patch(json);
