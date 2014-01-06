@@ -34,6 +34,7 @@ import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -79,7 +80,6 @@ public final class RtGistTest {
 
     /**
      * RtGist should be able to do writes.
-     *
      * @throws Exception if there is a problem.
      */
     @Test
@@ -105,4 +105,54 @@ public final class RtGistTest {
         }
     }
 
+    /**
+     * RtGist can fork itself.
+     *
+     * @throws IOException If there is a problem.
+     */
+    @Test
+    public void fork() throws IOException {
+        final String fileContent = "success";
+        final MkContainer container = new MkGrizzlyContainer();
+        container.next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+            )
+        );
+        container.next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
+        );
+        container.next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED,
+                "{\"id\": \"forked\"}"
+            )
+        );
+        container.next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+            )
+        );
+        container.next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
+        );
+        container.start();
+        final Gist gist = new RtGist(
+            new MkGithub(),
+            new ApacheRequest(container.home()),
+            "test"
+        );
+        final String content = gist.read("hello");
+        final Gist forkedGist = gist.fork();
+        try {
+            MatcherAssert.assertThat(
+                forkedGist.read("hello"),
+                Matchers.equalTo(content)
+            );
+        } finally {
+            container.stop();
+        }
+    }
 }
