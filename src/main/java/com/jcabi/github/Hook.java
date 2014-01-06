@@ -27,32 +27,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
-
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+package com.jcabi.github;
 
 /**
- * Mock for Github Assignees.
+ * Github hook.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
+ * @see <a href="http://developer.github.com/v3/repos/hooks/">Hooks API</a>
  */
-final class MkAssignees implements Assignees {
-
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
-    }
+public interface Hook {
 }

@@ -119,6 +119,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Hooks hooks() {
+        return new RtHooks(this);
+    }
+
+    @Override
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/issues/events").back(),
@@ -142,7 +147,12 @@ final class RtRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        return null;
+        return new RtAssignees(this, this.entry);
+    }
+
+    @Override
+    public Releases releases() {
+        return new RtReleases(this);
     }
 
     @Override

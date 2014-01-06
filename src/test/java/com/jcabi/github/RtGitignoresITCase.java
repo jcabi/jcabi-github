@@ -27,32 +27,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import com.jcabi.aspects.Immutable;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock for Github Assignees.
+ * Integration case for {@link RtGitignores}.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @todo #7 Let's implement integration tests for RtGitignores:
+ *  1) iterateTemplateNames() to iteration over all available
+ *  gitignore templates
+ *  2) getRawTemplateByName() to test retrieving template
+ *  in raw format by it's name
+ * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
+ *
  */
-final class MkAssignees implements Assignees {
+@Immutable
+public class RtGitignoresITCase {
 
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
+    /**
+     * RtGitignores can iterate template names.
+     * @throws Exception if there is any error
+     */
+    @Test
+    @Ignore
+    public void iterateTemplateNames() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+    /**
+     * RtGitignores can get raw template by name.
+     * @throws Exception if there is any error
+     */
+    @Test
+    @Ignore
+    public void getRawTemplateByName() throws Exception {
+        // to be implemented
     }
+
 }

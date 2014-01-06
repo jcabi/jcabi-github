@@ -27,32 +27,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock for Github Assignees.
- *
+ * Test case for {@link RtReleases}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
+ * @todo #123 RtReleases should be able to fetch a list of releases from a real
+ *  Github repository, a single release, create, edit and remove release.
+ *  When done, remove this puzzle and Ignore annotation from the method.
  */
-final class MkAssignees implements Assignees {
+public class RtReleasesITCase {
 
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+    /**
+     * RtReleases can iterate releases.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void canFetchAllReleases() throws Exception {
+        // to be implemented
     }
 }

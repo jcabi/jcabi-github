@@ -27,32 +27,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import javax.validation.constraints.NotNull;
 
 /**
- * Mock for Github Assignees.
+ * Github Releases.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
  */
-final class MkAssignees implements Assignees {
+public interface Releases {
+    /**
+     * Owner of them.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
 
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
-    }
+    /**
+     * Iterate them all.
+     * @return Iterator of releases
+     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Release> iterate();
 }

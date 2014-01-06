@@ -27,32 +27,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.validation.constraints.NotNull;
 
 /**
- * Mock for Github Assignees.
+ * Github Gitignore.
+ * <p>Defines storage of .gitignore templates
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
  */
-final class MkAssignees implements Assignees {
+@Immutable
+public class RtGitignores implements Gitignores {
 
     @Override
-    public Iterable<User> iterate() {
+    public final Github github() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean check(final String login) {
+    public final Iterable<String> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public final String template(
+        @NotNull(message = "Template name can't be NULL")
+        final String name)
+        throws IOException {
         throw new UnsupportedOperationException();
     }
 }

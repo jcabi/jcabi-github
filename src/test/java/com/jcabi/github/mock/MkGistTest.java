@@ -29,30 +29,32 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import com.jcabi.github.Gist;
+import java.io.IOException;
+import java.util.Collections;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mock for Github Assignees.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link MkGist}.
+ * @author Sinyagin Alexander (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
  */
-final class MkAssignees implements Assignees {
-
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+public final class MkGistTest {
+    /**
+     * MkGist can read empty file.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void readEmptyGistFile() throws IOException {
+        final String filename = "file.txt";
+        final Gist gist = new MkGithub().gists().create(
+            Collections.singletonList(filename)
+        );
+        MatcherAssert.assertThat(
+            gist.read(filename),
+            Matchers.isEmptyString()
+        );
     }
 }

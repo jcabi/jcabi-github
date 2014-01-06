@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -43,6 +44,7 @@ import org.junit.Test;
  * @version $Id$
  * TODO #20 method remove() in MkGists class has to be implemented.
  * The test for this method is currently ignored.
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkGistsTest {
 
@@ -84,4 +86,67 @@ public final class MkGistsTest {
             Matchers.not(Matchers.hasItem(createdGist))
         );
     }
+    /**
+     * MkGists can work several gists.
+     * Test to check issue #128
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void worksWithSeveralGists() throws Exception {
+        final Gists gists = new MkGithub().gists();
+        final Gist gist = gists.create(
+            Collections.singletonList("test-file-name.txt")
+        );
+        final Gist othergist = gists.create(
+            Collections.singletonList("test-file-name2.txt")
+        );
+        final String file = "t.txt";
+        gist.write(file, "hello, everybody!");
+        othergist.write(file, "bye, everybody!");
+        MatcherAssert.assertThat(
+            gist.read(file),
+            Matchers.startsWith("hello, ")
+        );
+        MatcherAssert.assertThat(
+            othergist.read(file),
+            Matchers.startsWith("bye, ")
+        );
+    }
+
+    /**
+     * Test starring and star-checking of a gist.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void testStar() throws Exception {
+        final Gist gist = new MkGithub().gists().create(
+            Collections.singletonList("file-name.txt")
+        );
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(false)
+        );
+        gist.star();
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(true)
+        );
+    }
+
+    /**
+     * MkGists can create gists with empty files.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void createGistWithEmptyFile() throws IOException {
+        final String filename = "file.txt";
+        final Gist gist = new MkGithub().gists().create(
+            Collections.singletonList(filename)
+        );
+        MatcherAssert.assertThat(
+            gist.read(filename),
+            Matchers.isEmptyString()
+        );
+    }
+
 }

@@ -72,6 +72,7 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-xml</artifactId>
+            <version>0.7.1</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi.incubator</groupId>
@@ -163,17 +164,16 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.saxon</groupId>
-            <artifactId>saxon</artifactId>
-            <version>${saxon.version}</version>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.saxon</groupId>
-            <artifactId>saxon</artifactId>
-            <version>${saxon.version}</version>
-            <classifier>dom</classifier>
-            <scope>test</scope>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.grizzly</groupId>
@@ -210,4 +210,47 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>cobertura</id>
+            <activation>
+                <!--
+                @todo #1 Enable Cobertura profile by default.
+                 This code coverage check doesn't work due to some
+                 problem with Cobertura plugin. It always reports zero coverage
+                 for all classes. I was trying to run it without AspectJ
+                 weavling using "mvn clean install -Pcobertura -P\!aspectj",
+                 but it doesn't help. Let's fix it and enable by default.
+                -->
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                            <check>
+                                <haltOnFailure>true</haltOnFailure>
+                                <branchRate>85</branchRate>
+                                <lineRate>85</lineRate>
+                                <totalBranchRate>85</totalBranchRate>
+                                <totalLineRate>85</totalLineRate>
+                                <packageLineRate>85</packageLineRate>
+                                <packageBranchRate>85</packageBranchRate>
+                            </check>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

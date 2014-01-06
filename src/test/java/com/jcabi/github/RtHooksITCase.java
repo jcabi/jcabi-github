@@ -27,32 +27,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock for Github Assignees.
- *
+ * Test case for {@link RtHooks}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
+ * @todo #122 RtHooks should be able to fetch a list of hooks from a real
+ *  Github repository, a single Hook, remove hook.
+ *  When done, remove this puzzle and Ignore annotation from the method.
  */
-final class MkAssignees implements Assignees {
+public class RtHooksITCase {
 
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+    /**
+     * RtHooks can iterate hooks.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void canFetchAllHooks() throws Exception {
+        // to be implemented
     }
 }

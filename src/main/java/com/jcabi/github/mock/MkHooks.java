@@ -29,30 +29,66 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Hook;
+import com.jcabi.github.Hooks;
+import com.jcabi.github.Repo;
+import java.io.IOException;
+import java.util.Collections;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Mock for Github Assignees.
+ * Mock Github hooks.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
  */
-final class MkAssignees implements Assignees {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+public final class MkHooks implements Hooks {
 
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates coords;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @throws IOException If there is any I/O problem
+     */
+    public MkHooks(final MkStorage stg, final String login,
+        final Coordinates rep) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
     }
 
     @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public Iterable<Hook> iterate() {
+        return Collections.emptyList();
     }
 }

@@ -29,30 +29,41 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Assignees;
-import com.jcabi.github.User;
+import com.jcabi.github.Releases;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mock for Github Assignees.
- *
+ * Test case for {@link MkReleases}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
+ * @since 0.8
  */
-final class MkAssignees implements Assignees {
-
-    @Override
-    public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
+public final class MkReleasesTest {
+    /**
+     * MkReleases can fetch empty list of releases.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canFetchEmptyListOfReleases() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.emptyIterable()
+        );
     }
 
-    @Override
-    public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+    /**
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 }
