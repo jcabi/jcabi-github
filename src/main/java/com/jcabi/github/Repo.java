@@ -124,6 +124,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Releases releases();
 
     /**
+     * Get all forks of the repo.
+     * @return Forks
+     * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
+     */
+    @NotNull(message = "Forks are never NULL")
+    Forks forks();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -191,6 +199,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Releases releases() {
             return this.repo.releases();
+        }
+        @Override
+        public Forks forks() {
+            return this.repo.forks();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {

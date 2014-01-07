@@ -156,6 +156,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Forks forks() {
+        return new RtForks(this);
+    }
+
+    @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
