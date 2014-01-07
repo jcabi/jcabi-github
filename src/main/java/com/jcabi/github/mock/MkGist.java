@@ -33,10 +33,13 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Github;
+import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.List;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
@@ -88,18 +91,31 @@ final class MkGist implements Gist {
 
     @Override
     public String read(final String file) throws IOException {
-        return this.storage.xml().xpath(
+        final List<XML> files = this.storage.xml().nodes(
             String.format(
-                "%s/files/file[filename='%s']/raw_content/text()",
+                "%s/files/file[filename='%s']",
                 this.xpath(), file
             )
-        ).get(0);
+        );
+        if (files.isEmpty()) {
+            throw new IOException(
+                String.format("Couldn't find file with the name %s.", file)
+            );
+        }
+        final List<String> contents = files.get(0)
+            .xpath("raw_content/text()");
+        String content = "";
+        if (!contents.isEmpty()) {
+            content = contents.get(0);
+        }
+        return content;
     }
 
     @Override
     public void write(final String file, final String content)
         throws IOException {
         this.storage.apply(
+            // @checkstyle MultipleStringLiterals (3 lines)
             new Directives().xpath(this.xpath()).xpath(
                 String.format("files[not(file[filename='%s'])]", file)
             ).add("file").add("filename").set(file).up().add("raw_content")
@@ -112,6 +128,65 @@ final class MkGist implements Gist {
                 )
             ).set(content)
         );
+    }
+
+    /**
+     * Stars.
+     * @throws IOException If there is any I/O problem
+     */
+    @Override
+    public void star() throws IOException {
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .attr("starred", Boolean.toString(true))
+        );
+    }
+
+    /**
+     * Checks if starred.
+     * @return True if gist is starred
+     * @throws IOException If there is any I/O problem
+     */
+    @Override
+    public boolean starred() throws IOException {
+        final List<String> xpath = this.storage.xml().xpath(
+            String.format("%s/@starred", this.xpath())
+        );
+        return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
+            Boolean.toString(true),
+            xpath.get(0)
+        );
+    }
+
+    @Override
+    public Gist fork() throws IOException {
+        this.storage.lock();
+        final String number;
+        try {
+            final XML xml = this.storage.xml();
+            number = Integer.toString(
+                1 + xml.xpath("/github/gists/gist/id/text()").size()
+            );
+            final Directives dirs = new Directives().xpath("/github/gists")
+                .add("gist")
+                .add("id").set(number).up()
+                .add("files");
+            final List<XML> files = xml.nodes(
+                String.format("%s/files/file", this.xpath())
+            );
+            for (final XML file : files) {
+                final String filename = file.xpath("filename/text()").get(0);
+                // @checkstyle MultipleStringLiterals (3 lines)
+                dirs.add("file")
+                    .add("filename").set(filename).up()
+                    .add("raw_content").set(this.read(filename)).up().up();
+            }
+            this.storage.apply(dirs);
+        } finally {
+            this.storage.unlock();
+        }
+        return new MkGist(this.storage, this.self, number);
     }
 
     @Override

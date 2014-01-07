@@ -84,6 +84,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Pulls pulls();
 
     /**
+     * Hooks.
+     * @return Hooks
+     * @since 0.8
+     */
+    @NotNull(message = "hooks are never NULL")
+    Hooks hooks();
+
+    /**
      * Get all events for the repository.
      * @return Events
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
@@ -104,8 +112,16 @@ public interface Repo extends JsonReadable, JsonPatchable {
      * @return Assignees
      * @see @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
      */
-    @NotNull(message = "labels are never NULL")
+    @NotNull(message = "assignees are never NULL")
     Assignees assignees();
+
+    /**
+     * Get all releases of the repo.
+     * @return Releases
+     * @see @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     */
+    @NotNull(message = "releases are never NULL")
+    Releases releases();
 
     /**
      * Smart Repo with extra features.
@@ -154,6 +170,12 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public Pulls pulls() {
             return this.repo.pulls();
         }
+
+        @Override
+        public Hooks hooks() {
+            return this.repo.hooks();
+        }
+
         @Override
         public Iterable<Event> events() {
             return this.repo.events();
@@ -165,6 +187,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Assignees assignees() {
             return this.repo.assignees();
+        }
+        @Override
+        public Releases releases() {
+            return this.repo.releases();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {

@@ -52,10 +52,6 @@ import lombok.ToString;
  *  http://developer.github.com/v3/gists/
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
- * @todo #1:1hr New method fork() to fork a gist. Let's introduce
- *  a new method, as explained in
- *  http://developer.github.com/v3/gists/#fork-a-gist. The method should
- *  be tested in a unit and integration tests. When done, remove this comment.
  * @todo #1:1hr Gist comments. Let's add new method comments() to this
  *  interface, returning an instance of interface GistComments. This new
  *  interface should implement methods do iterate, post, delete and read
@@ -63,8 +59,11 @@ import lombok.ToString;
  *  http://developer.github.com/v3/gists/comments/. New interface should
  *  be implemented by GhGistComments class and tested with unit and
  *  integration tests.
+ * @todo #1:0.5hr Integration test for fork() method is required.
+ *  Need to fork some gist and check the forked gist.
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Gist extends JsonReadable {
 
     /**
@@ -96,6 +95,27 @@ public interface Gist extends JsonReadable {
         @NotNull(message = "file name can't be NULL") String name,
         @NotNull(message = "file content can't be NULL") String content)
         throws IOException;
+
+    /**
+     * Star a gist.
+     * @throws IOException If there is any I/O problem
+     */
+    void star() throws IOException;
+
+    /**
+     * Checks if Gist is starred.
+     * @throws IOException If there is any I/O problem
+     * @return True if gist is starred
+     */
+    boolean starred() throws IOException;
+
+    /**
+     * Fork the gist.
+     * @return Forked gist
+     * @throws IOException If there is any I/O problem
+     */
+    @NotNull(message = "gist is never NULL")
+    Gist fork() throws IOException;
 
     /**
      * Smart Gist with extra features.
@@ -143,6 +163,22 @@ public interface Gist extends JsonReadable {
             throws IOException {
             this.gist.write(name, content);
         }
+
+        @Override
+        public void star() throws IOException {
+            this.gist.star();
+        }
+
+        @Override
+        public boolean starred() throws IOException {
+            return this.gist.starred();
+        }
+
+        @Override
+        public Gist fork() throws IOException {
+            return this.gist.fork();
+        }
+
         @Override
         public JsonObject json() throws IOException {
             return this.gist.json();

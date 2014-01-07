@@ -44,6 +44,7 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github gist.
@@ -55,8 +56,12 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class RtGist implements Gist {
+    /**
+     * RESTful request for the gist.
+     */
+    private final transient Request request;
 
     /**
      * Github.
@@ -76,7 +81,8 @@ final class RtGist implements Gist {
      */
     RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
-        this.entry = req.uri().path("/gists").path(name).back();
+        this.entry = req;
+        this.request = req.uri().path("/gists").path(name).back();
     }
 
     @Override
@@ -122,6 +128,38 @@ final class RtGist implements Gist {
             .body().set(json).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public void star() throws IOException {
+        this.request.uri().path("star").back()
+            .method("PUT")
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public boolean starred() throws IOException {
+        final RestResponse response = this.request.uri().path("star").back()
+            .method("GET").fetch()
+            .as(RestResponse.class).assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+            )
+        );
+        return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
+    }
+
+    @Override
+    public Gist fork() throws IOException {
+        final String name = this.request.uri().path("/forks").back()
+            .method(Request.POST)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_CREATED)
+            .as(JsonResponse.class)
+            .json().readObject().getString("id");
+        return new RtGist(this.ghub, this.entry, name);
     }
 
     @Override
