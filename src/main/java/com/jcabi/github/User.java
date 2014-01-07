@@ -45,6 +45,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/users/">User API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  * @todo #1:1hr Fetch list of emails of a user. Let's implement
  *  a new method emails() that returns an instance of class UserEmails with
  *  a few methods: 1) iterate() returning a list of strings, 2) add(String),
@@ -150,6 +151,14 @@ public interface User extends JsonReadable, JsonPatchable {
          */
         public String name() throws IOException {
             return new SmartJson(this).text("name");
+        }
+        /**
+         * Check if user has name.
+         * @return True if user has name
+         * @throws IOException If it fails
+         */
+        public boolean hasName() throws IOException {
+            return new SmartJson(this).exist("name");
         }
         /**
          * Get his company.

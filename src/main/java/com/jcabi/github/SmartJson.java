@@ -121,4 +121,13 @@ final class SmartJson {
         return type.cast(value);
     }
 
+    /**
+     * Check that property is exist in JSON.
+     * @param name Name of the property
+     * @return True if property is exist
+     * @throws IOException If there is any I/O problem
+     */
+    public boolean exist(final String name) throws IOException {
+        return this.object.json().containsKey(name);
+    }
 }

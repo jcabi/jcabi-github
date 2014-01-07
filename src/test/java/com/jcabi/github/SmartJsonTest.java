@@ -41,6 +41,7 @@ import org.junit.Test;
  * Test case for {@link SmartJsonTest}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class SmartJsonTest {
 
@@ -97,6 +98,34 @@ public final class SmartJsonTest {
                 SmartJsonTest.json("{\"o\": {\"foo\": [1]}}")
             ).value("o", JsonObject.class).getJsonArray("foo"),
             Matchers.hasSize(1)
+        );
+    }
+
+    /**
+     * SmartJson can that property exists in JSON.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checkIfPropertyExist() throws Exception {
+        MatcherAssert.assertThat(
+            new SmartJson(
+                SmartJsonTest.json("{\"first\": \"a\"}")
+            ).exist("first"),
+            Matchers.equalTo(true)
+        );
+    }
+
+    /**
+     * SmartJson can that property not exist in JSON.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checkIfPropertyNotExist() throws Exception {
+        MatcherAssert.assertThat(
+            new SmartJson(
+                SmartJsonTest.json("{\"first\": \"a\"}")
+            ).exist("second"),
+            Matchers.equalTo(false)
         );
     }
 
