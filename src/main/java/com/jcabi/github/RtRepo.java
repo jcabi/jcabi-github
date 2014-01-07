@@ -156,6 +156,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public DeployKeys keys() {
+        return new RtDeployKeys(this);
+    }
+
+    @Override
     public Forks forks() {
         return new RtForks(this);
     }
