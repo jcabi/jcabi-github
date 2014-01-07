@@ -150,7 +150,16 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String name() throws IOException {
-            return new SmartJson(this).text("name");
+            try {
+                return new SmartJson(this).text("name");
+            } catch (IllegalStateException ex) {
+                throw new IllegalStateException(
+                    String.format("User %s doesn't have a name specified in" +
+                        " his/her Github account; use hasName() first.",
+                        this.login()),
+                    ex
+                );
+            }
         }
         /**
          * Check if user has name.
