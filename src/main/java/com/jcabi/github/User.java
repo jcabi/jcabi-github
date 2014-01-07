@@ -148,13 +148,13 @@ public interface User extends JsonReadable, JsonPatchable {
          * Get his name.
          * @return User name
          * @throws IOException If it fails
-         * @checkstyle StringLiteralsConcatenationCheck (15 lines)
          */
         public String name() throws IOException {
             try {
                 return new SmartJson(this).text("name");
             } catch (IllegalStateException ex) {
                 throw new IllegalStateException(
+                    // @checkstyle StringLiteralsConcatenationCheck (3 lines)
                     String.format(
                         "User %s doesn't have a name specified in"
                         + " his/her Github account; use hasName() first.",
