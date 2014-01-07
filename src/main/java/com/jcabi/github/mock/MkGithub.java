@@ -36,6 +36,7 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
 import com.jcabi.github.Repos;
+import com.jcabi.github.Search;
 import com.jcabi.github.Users;
 import com.rexsl.test.Request;
 import com.rexsl.test.request.FakeRequest;
@@ -124,7 +125,7 @@ public final class MkGithub implements Github {
     public Repos repos() {
         try {
             return new MkRepos(this.storage, this.self);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -133,7 +134,7 @@ public final class MkGithub implements Github {
     public Gists gists() {
         try {
             return new MkGists(this.storage, this.self);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -142,7 +143,7 @@ public final class MkGithub implements Github {
     public Users users() {
         try {
             return new MkUsers(this.storage, this.self);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -158,6 +159,11 @@ public final class MkGithub implements Github {
             .add("hooks", Json.createArrayBuilder().build())
             .add("git", Json.createArrayBuilder().build())
             .build();
+    }
+
+    @Override
+    public Search search() {
+        return new MkSearch(this.storage, this.self);
     }
 
     @Override

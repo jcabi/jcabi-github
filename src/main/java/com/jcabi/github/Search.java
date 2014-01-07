@@ -48,6 +48,7 @@ public interface Search {
 
     /**
      * Github we're in.
+     *
      * @return Github
      */
     @NotNull(message = "Github is never NULL")
@@ -55,6 +56,7 @@ public interface Search {
 
     /**
      * Search repositories.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -71,6 +73,7 @@ public interface Search {
 
     /**
      * Search issues.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -87,6 +90,7 @@ public interface Search {
 
     /**
      * Search users.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
