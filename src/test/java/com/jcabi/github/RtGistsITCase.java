@@ -44,10 +44,6 @@ import org.junit.Test;
 public final class RtGistsITCase {
 
     /**
-     * Name of the gist to be deleted.
-     */
-    private static final String GIST_NAME = "gist";
-    /**
      * This tests that RtGists can remove a gist by name.
      * @throws Exception - if something goes wrong.
      */
@@ -63,7 +59,7 @@ public final class RtGistsITCase {
                 gist
             )
         );
-        gists.remove(GIST_NAME);
+        gists.remove(gist.json().getString("id"));
         MatcherAssert.assertThat(
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))

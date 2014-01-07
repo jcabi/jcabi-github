@@ -42,8 +42,6 @@ import org.junit.Test;
  * Test case for {@link MkGists}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * TODO #20 method remove() in MkGists class has to be implemented.
- * The test for this method is currently ignored.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkGistsTest {
@@ -68,6 +66,8 @@ public final class MkGistsTest {
     /**
      * This tests that the remove() method in MkGists is working fine.
      * @throws Exception - if anything goes wrong.
+     * @todo #20 Method remove() in MkGists class has to be implemented.
+     *  The test for this method is currently ignored.
      */
     @Test
     @Ignore
