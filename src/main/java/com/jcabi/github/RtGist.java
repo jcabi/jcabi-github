@@ -56,10 +56,10 @@ import org.hamcrest.Matchers;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class RtGist implements Gist {
     /**
-     * Inner request for starring/checking if starred.
+     * RESTful request for the gist.
      */
     private final transient Request request;
 
@@ -81,8 +81,8 @@ final class RtGist implements Gist {
      */
     RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
-        this.entry = req.uri().path("/gists").path(name).back();
-        this.request = this.entry.uri().path("star").back();
+        this.entry = req;
+        this.request = req.uri().path("/gists").path(name).back();
     }
 
     @Override
@@ -132,14 +132,16 @@ final class RtGist implements Gist {
 
     @Override
     public void star() throws IOException {
-        this.request.method("PUT")
+        this.request.uri().path("star").back()
+            .method("PUT")
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
     public boolean starred() throws IOException {
-        final RestResponse response = this.request.method("GET").fetch()
+        final RestResponse response = this.request.uri().path("star").back()
+            .method("GET").fetch()
             .as(RestResponse.class).assertStatus(
                 Matchers.isOneOf(
                     HttpURLConnection.HTTP_NO_CONTENT,
@@ -147,6 +149,17 @@ final class RtGist implements Gist {
             )
         );
         return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
+    }
+
+    @Override
+    public Gist fork() throws IOException {
+        final String name = this.request.uri().path("/forks").back()
+            .method(Request.POST)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_CREATED)
+            .as(JsonResponse.class)
+            .json().readObject().getString("id");
+        return new RtGist(this.ghub, this.entry, name);
     }
 
     @Override
