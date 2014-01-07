@@ -66,6 +66,6 @@ public interface Forks {
      * @return The new fork
      * @see @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">List forks</a>
      */
-    Fork create(@NotNull(message = "map of params can't be NULL")
+    Fork create(@NotNull(message = "organization can't be NULL")
         String organization);
 }
