@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
+import com.jcabi.github.Forks;
 import com.jcabi.github.Github;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Issues;
@@ -106,7 +107,7 @@ final class MkRepo implements Repo {
     public Issues issues() {
         try {
             return new MkIssues(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -120,7 +121,7 @@ final class MkRepo implements Repo {
     public Pulls pulls() {
         try {
             return new MkPulls(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -129,7 +130,7 @@ final class MkRepo implements Repo {
     public Hooks hooks() {
         try {
             return new MkHooks(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -143,7 +144,7 @@ final class MkRepo implements Repo {
     public Labels labels() {
         try {
             return new MkLabels(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -157,7 +158,16 @@ final class MkRepo implements Repo {
     public Releases releases() {
         try {
             return new MkReleases(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
+    public Forks forks() {
+        try {
+            return new MkForks(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }

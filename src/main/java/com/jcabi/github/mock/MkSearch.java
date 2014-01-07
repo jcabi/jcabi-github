@@ -27,88 +27,85 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.Github;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Repo;
+import com.jcabi.github.Search;
+import com.jcabi.github.User;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github repositories.
+ * Mock Github search.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @todo #124 Search mock should be implemented. Implement methods
+ *  repos(), issues(), and users() which should return lists of repositories,
+ *  issues, and users, respectively. See http://developer.github.com/v3/search/
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry" })
-final class RtRepos implements Repos {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self" })
+final class MkSearch implements Search {
 
     /**
-     * Github.
+     * Storage.
      */
-    private final transient Github ghub;
+    private final transient MkStorage storage;
 
     /**
-     * RESTful entry.
+     * Login of the user logged in.
      */
-    private final transient Request entry;
-
-    /**
-     * RESTful request.
-     */
-    private final transient Request request;
+    private final transient String self;
 
     /**
      * Public ctor.
-     * @param github Github
-     * @param req Request
+     *
+     * @param stg Storage
+     * @param login User to login
      */
-    RtRepos(final Github github, final Request req) {
-        this.ghub = github;
-        this.entry = req;
-        this.request = this.entry.uri().path("/repos").back();
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    MkSearch(final MkStorage stg, final String login) {
+        this.storage = stg;
+        this.self = login;
     }
 
     @Override
     public Github github() {
-        return this.ghub;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @todo #23:1hr Create integration test case to create random repo,
-     *  ensure success, create again, ensure failure, delete.
-     */
-    @Override
-    public Repo create(@NotNull(message = "JSON can't be NULL")
-        final JsonObject json) throws IOException {
-        final String coordinates = this.request.method(Request.POST)
-            .body().set(json).back()
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_CREATED)
-            .as(JsonResponse.class)
-            .json().readObject().getString("full_name");
-        return this.get(new Coordinates.Simple(coordinates));
+        return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    public Repo get(@NotNull(message = "coordinates can't be NULL")
-        final Coordinates name) {
-        return new RtRepo(this.ghub, this.entry, name);
+    public Iterable<Repo> repos(
+        final String keywords,
+        final String sort,
+        final String order)
+        throws IOException {
+        throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Iterable<Issue> issues(
+        final String keywords,
+        final String sort,
+        final String order)
+        throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Iterable<User> users(
+        final String keywords,
+        final String sort,
+        final String order)
+        throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
 }
