@@ -212,6 +212,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public DeployKeys keys() {
             return this.repo.keys();
         }
+        @Override
         public Forks forks() {
             return this.repo.forks();
         }
