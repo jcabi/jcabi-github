@@ -32,7 +32,10 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -42,7 +45,8 @@ import lombok.EqualsAndHashCode;
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
+ * @since 0.8
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -87,13 +91,19 @@ final class RtRepos implements Repos {
 
     /**
      * {@inheritDoc}
-     * @todo #1:1hr Implement GhRepos.create() method. Let's implement
-     *  this method and test is in unit and integration tests.
+     * @todo #23:1hr Create integration test case to create random repo,
+     *  ensure success, create again, ensure failure, delete.
      */
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("#create()");
+        final String coordinates = this.request.method(Request.POST)
+            .body().set(json).back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_CREATED)
+            .as(JsonResponse.class)
+            .json().readObject().getString("full_name");
+        return this.get(new Coordinates.Simple(coordinates));
     }
 
     @Override
