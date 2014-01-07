@@ -133,6 +133,14 @@ public interface Github {
     Limits limits();
 
     /**
+     * Search API entry point.
+     * @return Search API
+     * @since 0.8
+     */
+    @NotNull(message = "rate limit API is never NULL")
+    Search search();
+
+    /**
      * Get meta information.
      * @return JSON with meta
      * @throws IOException If there is any I/O problem
