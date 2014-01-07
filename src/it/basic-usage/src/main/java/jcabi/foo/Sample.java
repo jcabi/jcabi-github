@@ -27,53 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.foo;
 
-import com.jcabi.github.Gist;
-import java.io.IOException;
-import java.util.Collections;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
-/**
- * Test case for {@link MkGist}.
- * @author Sinyagin Alexander (sinyagin.alexander@gmail.com)
- * @version $Id$
- */
-public final class MkGistTest {
-    /**
-     * MkGist can read empty file.
-     * @throws IOException If some problem inside
-     */
-    @Test
-    public void readEmptyGistFile() throws IOException {
-        // @checkstyle MultipleStringLiterals (1 lines)
-        final String filename = "file.txt";
-        final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList(filename)
-        );
-        MatcherAssert.assertThat(
-            gist.read(filename),
-            Matchers.isEmptyString()
-        );
-    }
-
-    /**
-     * MkGist can fork itself.
-     * @throws IOException If some problem inside
-     */
-    @Test
-    public void fork() throws IOException {
-        final String filename = "file.txt";
-        final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList(filename)
-        );
-        gist.write(filename, "Hello, github!");
-        final Gist forkedGist = gist.fork();
-        MatcherAssert.assertThat(
-            forkedGist.read(filename),
-            Matchers.equalTo(gist.read(filename))
-        );
-    }
+final class Sample {
 }

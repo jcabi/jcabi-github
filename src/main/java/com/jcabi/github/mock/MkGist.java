@@ -115,6 +115,7 @@ final class MkGist implements Gist {
     public void write(final String file, final String content)
         throws IOException {
         this.storage.apply(
+            // @checkstyle MultipleStringLiterals (3 lines)
             new Directives().xpath(this.xpath()).xpath(
                 String.format("files[not(file[filename='%s'])]", file)
             ).add("file").add("filename").set(file).up().add("raw_content")
@@ -156,6 +157,36 @@ final class MkGist implements Gist {
             Boolean.toString(true),
             xpath.get(0)
         );
+    }
+
+    @Override
+    public Gist fork() throws IOException {
+        this.storage.lock();
+        final String number;
+        try {
+            final XML xml = this.storage.xml();
+            number = Integer.toString(
+                1 + xml.xpath("/github/gists/gist/id/text()").size()
+            );
+            final Directives dirs = new Directives().xpath("/github/gists")
+                .add("gist")
+                .add("id").set(number).up()
+                .add("files");
+            final List<XML> files = xml.nodes(
+                String.format("%s/files/file", this.xpath())
+            );
+            for (final XML file : files) {
+                final String filename = file.xpath("filename/text()").get(0);
+                // @checkstyle MultipleStringLiterals (3 lines)
+                dirs.add("file")
+                    .add("filename").set(filename).up()
+                    .add("raw_content").set(this.read(filename)).up().up();
+            }
+            this.storage.apply(dirs);
+        } finally {
+            this.storage.unlock();
+        }
+        return new MkGist(this.storage, this.self, number);
     }
 
     @Override
