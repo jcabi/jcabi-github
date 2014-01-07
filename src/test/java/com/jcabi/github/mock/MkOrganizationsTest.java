@@ -29,7 +29,11 @@
  */
 package com.jcabi.github.mock;
 
-import org.junit.Ignore;
+import com.jcabi.github.Organization;
+import com.jcabi.github.Organizations;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -38,9 +42,6 @@ import org.junit.Test;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
  */
 public class MkOrganizationsTest {
     /**
@@ -48,9 +49,9 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void iteratesOrganizations() throws Exception {
-        // To be implemented
+    public final void iteratesOrganizations() throws Exception {
+        final Organizations orgs = getOrganizations();
+        MatcherAssert.assertThat(orgs, Matchers.notNullValue());
     }
 
     /**
@@ -58,8 +59,30 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void getSingleOrganization() throws Exception {
-        // To be implemented
+    public final void getSingleOrganization() throws Exception {
+        final Organizations orgs = getOrganizations();
+        final Organization org = orgs.iterate().iterator().next();
+        Assume.assumeThat(org, Matchers.notNullValue());
+        MatcherAssert.assertThat(org.orgId(), Matchers.greaterThan(0));
+        final Organization lookup = orgs.get(org.orgId());
+        MatcherAssert.assertThat(org.orgId(), Matchers.equalTo(lookup.orgId()));
+    }
+
+    /**
+     * Convenience method to return the mock organizations.
+     * @return A mock organizations object
+     * @throws Exception If some problem inside
+     */
+    private static Organizations getOrganizations() throws Exception {
+        final Organizations orgs = new MkOrganizations(
+            new MkStorage.InFile(), "login-less"
+        );
+        final Organization org = orgs.get(1);
+        MatcherAssert.assertThat(org, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            orgs.iterate(), Matchers.not(Matchers.emptyIterable())
+        );
+        MatcherAssert.assertThat(orgs.user(), Matchers.notNullValue());
+        return orgs;
     }
 }
