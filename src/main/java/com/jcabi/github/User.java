@@ -154,14 +154,14 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String name() throws IOException {
-            if (this.hasName()) {
-                return new SmartJson(this).text("name");
+            final SmartJson json = new SmartJson(this);
+            if (json.exist("name")) {
+                return json.text("name");
             }
             throw new IllegalStateException(
-                // @checkstyle StringLiteralsConcatenationCheck (3 lines)
                 String.format(
-                    "User %s doesn't have a name specified in"
-                        + " his/her Github account; use hasName() first.",
+                    // @checkstyle LineLength (1 line)
+                    "User %s doesn't have a name specified in his/her Github account; use #hasName() first.",
                     this.login()
                 )
             );
