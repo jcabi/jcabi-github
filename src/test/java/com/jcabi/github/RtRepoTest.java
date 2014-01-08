@@ -49,6 +49,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtRepoTest {
     /**
      * RtRepo can fetch events.
@@ -146,6 +147,24 @@ public final class RtRepoTest {
         );
         MatcherAssert.assertThat(
             repo.hooks(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * RtRepo can fetch its keys.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchKeys() throws Exception {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("andres", "andres-branch")
+        );
+        MatcherAssert.assertThat(
+            repo.keys(),
             Matchers.notNullValue()
         );
     }
