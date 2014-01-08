@@ -62,7 +62,7 @@ public interface Hook extends JsonReadable {
     int number();
 
     /**
-     * Smart Issue with extra features.
+     * Smart Hook with extra features.
      */
     @Immutable
     @ToString
@@ -70,7 +70,7 @@ public interface Hook extends JsonReadable {
     @EqualsAndHashCode(of = "hook")
     final class Smart implements Hook {
         /**
-         * Encapsulated issue.
+         * Encapsulated Hook.
          */
         private final transient Hook hook;
         /**
