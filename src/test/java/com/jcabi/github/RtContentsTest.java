@@ -36,6 +36,7 @@ import com.rexsl.test.mock.MkGrizzlyContainer;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -63,6 +64,72 @@ public final class RtContentsTest {
             Matchers.notNullValue()
         );
         container.stop();
+    }
+
+    /**
+     * RtContents can fetch the readme file from the specified branch.
+     *
+     * @todo #119 RtContents should fetch the readme file for any branch.
+     *  Let's implement a test here and a method of RtContents. The method should
+     *  receive the branch name as a parameter.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canFetchReadmeFileFromSpecifiedBranch() {
+        // to be implemented
+    }
+
+    /**
+     * RtContents can fetch files from the repository
+     *
+     * @todo #119 RtContents should be able to fetch files from the repository.
+     *  Let's implement a test here and a method of RtContents.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canFetchFilesFromRepository() {
+        // to be implemented
+    }
+
+    /**
+     * RtContents can create a file in the repository
+     *
+     * @todo #119 RtContents should be able to create files in the repository.
+     *  Let's implement a test here and a method of RtContents.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canCreateFilesFromRepository() {
+        // to be implemented
+    }
+
+    /**
+     * RtContents can delete files from the repository
+     *
+     * @todo #119 RtContents should be able to delete files from the repository.
+     *  Let's implement a test here and a method of RtContents.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canDeleteFilesFromRepository() {
+        // to be implemented
+    }
+
+    /**
+     * RtContents can update files into the repository
+     *
+     * @todo #119 RtContents should be able to update files into the repository.
+     *  Let's implement a test here and a method of RtContents.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     */
+    @Test
+    @Ignore
+    public void canUpdateFilesInRepository() {
+        // to be implemented
     }
 
     /**
