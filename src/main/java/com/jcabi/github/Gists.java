@@ -66,7 +66,7 @@ public interface Gists {
      */
     @NotNull(message = "gist is never NULL")
     Gist create(@NotNull(message = "list of files can't be NULL")
-                Map<String, String> files) throws IOException;
+        Map<String, String> files) throws IOException;
 
     /**
      * Get gist by name.
