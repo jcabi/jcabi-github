@@ -102,34 +102,6 @@ public final class SmartJsonTest {
     }
 
     /**
-     * SmartJson can that property exists in JSON.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void checkIfPropertyExist() throws Exception {
-        MatcherAssert.assertThat(
-            new SmartJson(
-                SmartJsonTest.json("{\"first\": \"a\"}")
-            ).exist("first"),
-            Matchers.equalTo(true)
-        );
-    }
-
-    /**
-     * SmartJson can that property not exist in JSON.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void checkIfPropertyNotExist() throws Exception {
-        MatcherAssert.assertThat(
-            new SmartJson(
-                SmartJsonTest.json("{\"first\": \"a\"}")
-            ).exist("second"),
-            Matchers.equalTo(false)
-        );
-    }
-
-    /**
      * Make a readable with this JSON content.
      * @param txt JSON content
      * @return Readable

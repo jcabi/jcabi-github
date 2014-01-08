@@ -154,17 +154,17 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String name() throws IOException {
-            final SmartJson json = new SmartJson(this);
-            if (json.exist("name")) {
-                return json.text("name");
+            final JsonObject json = this.json();
+            if (!json.containsKey("name")) {
+                throw new IllegalStateException(
+                    String.format(
+                        // @checkstyle LineLength (1 line)
+                        "User %s doesn't have a name specified in his/her Github account; use #hasName() first.",
+                        this.login()
+                    )
+                );
             }
-            throw new IllegalStateException(
-                String.format(
-                    // @checkstyle LineLength (1 line)
-                    "User %s doesn't have a name specified in his/her Github account; use #hasName() first.",
-                    this.login()
-                )
-            );
+            return json.getString("name");
         }
 
         /**
@@ -173,7 +173,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public boolean hasName() throws IOException {
-            return new SmartJson(this).exist("name");
+            return this.json().containsKey("name");
         }
 
         /**
