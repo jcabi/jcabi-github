@@ -36,7 +36,6 @@ import com.jcabi.aspects.Immutable;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @todo #118 This class needs to test all RtContent class operations.
  */
 @Immutable
 public final class RtContentTest {
