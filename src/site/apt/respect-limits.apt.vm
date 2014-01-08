@@ -1,10 +1,10 @@
-------
-Respect Limits
-------
-Alexander Sinyagin
-------
-2014-01-08
-------
+ ------
+ Respect Limits
+ ------
+ Alexander Sinyagin
+ ------
+ 2014-01-08
+ ------
 
 ~~
 ~~ Copyright (c) 2014, jcabi.com
@@ -41,14 +41,20 @@ Respect Limits
   Github has limits for number of request per hour. It
   sets following headers describing current state of rate limit in each
   response: <<<X-RateLimit-Limit>>>, <<<X-RateLimit-Remaining>>>, and
-  <<<X-RateLimit-Reset>>>. For further information see {{{http://developer.github.com/v3/#rate-limiting}} API Documentation}).
+  <<<X-RateLimit-Reset>>>. For further information see
+  {{{http://developer.github.com/v3/#rate-limiting} API Documentation}}.
 
-  If you want to control limits, you can use {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWare.html}}<<<CarefulWare>>>} class for it.
-  If <<<X-RateLimit-Remaining>>> is less than a given threshold, on next request
-  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWare.html}}<<<CarefulWare>>>}
+  If you want to control limits, you can use
+  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWare.html}<<<CarefulWare>>>}}
+  class for it. If <<<X-RateLimit-Remaining>>> of received response is less than
+  a given threshold,
+  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWare.html}<<<CarefulWare>>>}}
   will sleep until a time specified in the <<<X-RateLimit-Reset>>> header.
 
-  You can use {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWare.html}}<<<CarefulWare>>>} with {{{./apidocs-${project.version}/com/github/jcabi/Github.html}}Github}:
+  You can use
+  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWare.html}<<<CarefulWare>>>}}
+  with
+  {{{./apidocs-${project.version}/com/github/jcabi/Github.html}<<<Github>>>}}:
 
 +--
 Github github = new RtGithub(

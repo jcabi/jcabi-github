@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.wire;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.log.Logger;
 import com.rexsl.test.Request;
 import com.rexsl.test.Response;
@@ -66,8 +67,9 @@ import lombok.ToString;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
+@Immutable
 @ToString
-@EqualsAndHashCode(of = "origin")
+@EqualsAndHashCode(of = { "origin", "threshold" })
 public final class CarefulWire implements Wire {
 
     /**
@@ -77,32 +79,21 @@ public final class CarefulWire implements Wire {
 
     /**
      * Threshold of number of remaining requests, below which requests are
-     * blocked before reset.
+     * blocked until reset.
      */
     private final transient int threshold;
-
-    /**
-     * Time of limit resetting. If it's 0, there is no need to block requests.
-     */
-    private transient long resetTime;
-
-    /**
-     * Monitor for the resetTime.
-     */
-    private final transient Object resetTimeMonitor = new Object();
 
     /**
      * Public ctor.
      *
      * @param wire Original wire
-     * @param threshold Threshold of number of remaining requests, below which
-     *  requests are blocked before reset
-     * @checkstyle HiddenField (3 lines)
+     * @param thrshld Threshold of number of remaining requests, below which
+     *  requests are blocked util reset
      */
     public CarefulWire(@NotNull(message = "wire can't be NULL")
-        final Wire wire, final int threshold) {
+        final Wire wire, final int thrshld) {
         this.origin = wire;
-        this.threshold = threshold;
+        this.threshold = thrshld;
     }
 
     /**
@@ -114,40 +105,30 @@ public final class CarefulWire implements Wire {
         final String method,
         final Collection<Map.Entry<String, String>> headers,
         final byte[] content) throws IOException {
-        synchronized (this.resetTimeMonitor) {
-            if (this.resetTime != 0) {
-                // @checkstyle MagicNumber (1 line)
-                final long now = System.currentTimeMillis() / 1000L;
-                if (this.resetTime > now) {
-                    final long length = this.resetTime - now;
-                    Logger.info(
-                        this,
-                        // @checkstyle LineLength (1 line)
-                        "Remaining number of requests per hour is less than %d. Waiting for %d seconds.",
-                        this.threshold, length
-                    );
-                    try {
-                        // @checkstyle MagicNumber (1 line)
-                        Thread.sleep(length * 1000L);
-                    } catch (final InterruptedException ex) {
-                        throw new IOException(ex);
-                    }
-                }
-                this.resetTime = 0L;
-            }
-        }
         final Response resp = this.origin
             .send(req, home, method, headers, content);
-        final String remainingHeader = "X-RateLimit-Remaining";
-        if (resp.headers().containsKey(remainingHeader)) {
-            final int remaining = Integer.parseInt(
-                resp.headers().get(remainingHeader).get(0)
+        final int remaining = Integer.parseInt(
+            resp.headers().get("X-RateLimit-Remaining").get(0)
+        );
+        if (remaining < this.threshold) {
+            final long reset = Long.parseLong(
+                resp.headers().get("X-RateLimit-Reset").get(0)
             );
-            if (remaining < this.threshold) {
-                synchronized (this.resetTimeMonitor) {
-                    this.resetTime = Long.parseLong(
-                        resp.headers().get("X-RateLimit-Reset").get(0)
-                    );
+            // @checkstyle MagicNumber (1 line)
+            final long now = System.currentTimeMillis() / 1000L;
+            if (reset > now) {
+                final long length = reset - now;
+                Logger.info(
+                    this,
+                    // @checkstyle LineLength (1 line)
+                    "Remaining number of requests per hour is less than %d. Waiting for %d seconds.",
+                    this.threshold, length
+                );
+                try {
+                    // @checkstyle MagicNumber (1 line)
+                    Thread.sleep(length * 1000L);
+                } catch (final InterruptedException ex) {
+                    throw new IOException(ex);
                 }
             }
         }

@@ -29,20 +29,12 @@
  */
 package com.jcabi.github.wire;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.Response;
-import com.rexsl.test.Wire;
-import com.rexsl.test.request.ApacheRequest;
+import com.rexsl.test.request.FakeRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
  * Test case for {@link CarefulWire}.
@@ -53,45 +45,23 @@ import org.mockito.Mockito;
 public final class CarefulWireTest {
 
     /**
-     * CarefulWire can wait before the limit reset.
+     * CarefulWire can wait until the limit reset.
      * @throws IOException If some problem inside
      */
     @Test
     public void waitBeforeReset() throws IOException {
-        final Response resp = Mockito.mock(Response.class);
+        final int threshold = 10;
         // @checkstyle MagicNumber (1 line)
-        final long resetTime = System.currentTimeMillis() / 1000L + 5L;
-        final ConcurrentHashMap<String, List<String>> headers =
-            new ConcurrentHashMap<String, List<String>>(1);
-        final List<String> remainingval = new ArrayList<String>(1);
-        remainingval.add("9");
-        headers.put("X-RateLimit-Remaining", remainingval);
-        final List<String> resetval = new ArrayList<String>(1);
-        resetval.add(String.valueOf(resetTime));
-        headers.put("X-RateLimit-Reset", resetval);
-        Mockito.when(resp.headers()).thenReturn(headers);
-        final long[] requestTime = new long[1];
-        final Wire origin = new Wire() {
-            // @checkstyle ParameterNumber (5 lines)
-            @Override
-            public Response send(final Request req, final String home,
-                final String method,
-                final Collection<Map.Entry<String, String>> headers,
-                final byte[] content) {
-                // @checkstyle MagicNumber (1 line)
-                requestTime[0] = System.currentTimeMillis() / 1000L;
-                return resp;
-            }
-        };
-        final Wire wire = new CarefulWire(origin, 10);
-        final Request req = new ApacheRequest("");
-        final Collection<Map.Entry<String, String>> reqHeaders =
-            new ArrayList<Map.Entry<String, String>>(0);
-        final byte[] content = new byte[1];
-        wire.send(req, "", "", reqHeaders, content);
-        wire.send(req, "", "", reqHeaders, content);
-        MatcherAssert.assertThat(
-            requestTime[0], Matchers.greaterThanOrEqualTo(resetTime)
-        );
+        final long reset = System.currentTimeMillis() / 1000L + 5L;
+        new FakeRequest()
+            .withStatus(HttpURLConnection.HTTP_OK)
+            .withReason("OK")
+            .withHeader("X-RateLimit-Remaining", "9")
+            .withHeader("X-RateLimit-Reset", String.valueOf(reset))
+            .through(CarefulWire.class, threshold)
+            .fetch();
+        // @checkstyle MagicNumber (1 line)
+        final long now = System.currentTimeMillis() / 1000L;
+        MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
     }
 }
