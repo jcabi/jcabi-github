@@ -129,6 +129,7 @@ public final class CarefulWire implements Wire {
                     TimeUnit.SECONDS.sleep(length);
                 } catch (final InterruptedException ex) {
                     Thread.currentThread().interrupt();
+                    throw new IllegalStateException(ex);
                 }
             }
         }
