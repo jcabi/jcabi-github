@@ -45,11 +45,8 @@ import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
-
 import java.io.IOException;
-
 import javax.json.JsonObject;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

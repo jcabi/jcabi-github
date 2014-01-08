@@ -197,7 +197,7 @@ public final class RtRepoTest {
         final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
-            new Coordinates.Simple("andres", "andres-branch")
+            new Coordinates.Simple("andres-contents", "contents-branch")
         );
         MatcherAssert.assertThat(
             repo.contents(),

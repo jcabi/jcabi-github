@@ -60,7 +60,7 @@ public final class RtContentsTest {
         ).start();
         final Contents contents = new RtContents(RtContentsTest.repo());
         MatcherAssert.assertThat(
-                contents.getReadme(),
+            contents.getReadme(),
             Matchers.notNullValue()
         );
         container.stop();
@@ -70,8 +70,8 @@ public final class RtContentsTest {
      * RtContents can fetch the readme file from the specified branch.
      *
      * @todo #119 RtContents should fetch the readme file for any branch.
-     *  Let's implement a test here and a method of RtContents. The method should
-     *  receive the branch name as a parameter.
+     *  Let's implement a test here and a method of RtContents.
+     *  The method should receive the branch name as a parameter.
      *  When done, remove this puzzle and Ignore annotation from the method.
      */
     @Test
@@ -81,7 +81,7 @@ public final class RtContentsTest {
     }
 
     /**
-     * RtContents can fetch files from the repository
+     * RtContents can fetch files from the repository.
      *
      * @todo #119 RtContents should be able to fetch files from the repository.
      *  Let's implement a test here and a method of RtContents.
@@ -94,7 +94,7 @@ public final class RtContentsTest {
     }
 
     /**
-     * RtContents can create a file in the repository
+     * RtContents can create a file in the repository.
      *
      * @todo #119 RtContents should be able to create files in the repository.
      *  Let's implement a test here and a method of RtContents.
@@ -107,7 +107,7 @@ public final class RtContentsTest {
     }
 
     /**
-     * RtContents can delete files from the repository
+     * RtContents can delete files from the repository.
      *
      * @todo #119 RtContents should be able to delete files from the repository.
      *  Let's implement a test here and a method of RtContents.
@@ -120,7 +120,7 @@ public final class RtContentsTest {
     }
 
     /**
-     * RtContents can update files into the repository
+     * RtContents can update files into the repository.
      *
      * @todo #119 RtContents should be able to update files into the repository.
      *  Let's implement a test here and a method of RtContents.

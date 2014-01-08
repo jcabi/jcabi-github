@@ -39,5 +39,5 @@ import com.jcabi.aspects.Immutable;
  */
 @Immutable
 public final class RtContentTest {
-    
+
 }
