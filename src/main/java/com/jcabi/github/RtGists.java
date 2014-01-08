@@ -36,6 +36,7 @@ import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -96,11 +97,13 @@ final class RtGists implements Gists {
 
     @Override
     public Gist create(@NotNull(message = "list of files can't be NULL")
-        final Iterable<String> files) throws IOException {
+        final Map<String, String> files) throws IOException {
         JsonObjectBuilder builder = Json.createObjectBuilder();
-        for (final String file : files) {
-            builder = builder
-                .add(file, Json.createObjectBuilder().add("content", ""));
+        for (final Map.Entry<String, String> file : files.entrySet()) {
+            builder = builder.add(
+                file.getKey(),
+                Json.createObjectBuilder().add("content", file.getValue())
+            );
         }
         final JsonStructure json = Json.createObjectBuilder()
             .add("files", builder)
