@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import java.io.IOException;
-
 import javax.validation.constraints.NotNull;
 
 /**
