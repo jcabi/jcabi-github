@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Event;
@@ -44,8 +45,11 @@ import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
+
 import java.io.IOException;
+
 import javax.json.JsonObject;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -183,6 +187,15 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    public Contents contents() {
+        try {
+            return new MkContents(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
     public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
@@ -204,4 +217,5 @@ final class MkRepo implements Repo {
             this.coords
         );
     }
+
 }
