@@ -37,6 +37,7 @@ import com.rexsl.test.Wire;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -114,8 +115,8 @@ public final class CarefulWire implements Wire {
             final long reset = Long.parseLong(
                 resp.headers().get("X-RateLimit-Reset").get(0)
             );
-            // @checkstyle MagicNumber (1 line)
-            final long now = System.currentTimeMillis() / 1000L;
+            final long now = TimeUnit.MILLISECONDS
+                .toSeconds(System.currentTimeMillis());
             if (reset > now) {
                 final long length = reset - now;
                 Logger.info(
@@ -125,10 +126,9 @@ public final class CarefulWire implements Wire {
                     this.threshold, length
                 );
                 try {
-                    // @checkstyle MagicNumber (1 line)
-                    Thread.sleep(length * 1000L);
+                    TimeUnit.SECONDS.sleep(length);
                 } catch (final InterruptedException ex) {
-                    throw new IOException(ex);
+                    Thread.currentThread().interrupt();
                 }
             }
         }

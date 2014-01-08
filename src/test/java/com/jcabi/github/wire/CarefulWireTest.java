@@ -32,6 +32,7 @@ package com.jcabi.github.wire;
 import com.rexsl.test.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -49,10 +50,11 @@ public final class CarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void waitBeforeReset() throws IOException {
+    public void waitUntilReset() throws IOException {
         final int threshold = 10;
-        // @checkstyle MagicNumber (1 line)
-        final long reset = System.currentTimeMillis() / 1000L + 5L;
+        // @checkstyle MagicNumber (2 lines)
+        final long reset = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis()) + 5L;
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
             .withReason("OK")
@@ -60,8 +62,8 @@ public final class CarefulWireTest {
             .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             .through(CarefulWire.class, threshold)
             .fetch();
-        // @checkstyle MagicNumber (1 line)
-        final long now = System.currentTimeMillis() / 1000L;
+        final long now = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis());
         MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
     }
 }
