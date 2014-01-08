@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<!--
- *
+/**
  * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
  *
@@ -28,34 +26,12 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
- -->
-<project xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0     http://maven.apache.org/xsd/decoration-1.0.0.xsd" name="jcabi-github">
-    <skin>
-        <groupId>com.jcabi</groupId>
-        <artifactId>jcabi-maven-skin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </skin>
-    <bannerLeft>
-        <name>jcabi</name>
-        <src>http://img.jcabi.com/logo.png</src>
-        <href>http://www.jcabi.com/</href>
-        <width>200</width>
-        <height>48</height>
-    </bannerLeft>
-    <googleAnalyticsAccountId>UA-1963507-23</googleAnalyticsAccountId>
-    <body>
-        <head>
-            <link href="http://img.jcabi.com/favicon.ico" rel="shortcut icon"/>
-            <link href="https://plus.google.com/u/0/114792568016408327418?rel=author" rel="author"/>
-        </head>
-        <menu ref="parent"/>
-        <menu name="Overview">
-            <item name="Introduction" href="index.html"/>
-            <item name="Respect limits" href="respect-limits.html"/>
-            <item name="API ${project.version} (JavaDoc)" href="./apidocs-${project.version}/index.html"/>
-            <item name="Test coverage" href="./cobertura/index.html"/>
-            <item name="Release History" href="https://github.com/jcabi/jcabi-github/releases"/>
-        </menu>
-        <menu ref="reports"/>
-    </body>
-</project>
+ */
+
+/**
+ * Tests for wires.
+ *
+ * @author Alexander Sinygain (sinyagin.alexander@gmail.com)
+ * @version $Id$
+ */
+package com.jcabi.github.wire;
