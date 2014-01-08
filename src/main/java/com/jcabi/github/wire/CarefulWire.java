@@ -44,10 +44,10 @@ import lombok.ToString;
  * Wire that waits if number of remaining request per hour is less than
  * a given threshold.
  *
- * <p>Github sets following headers in every response:
- * {@code X-RateLimit-Limit}, {@code X-RateLimit-Remaining} and
+ * <p>Github sets following headers in each response:
+ * {@code X-RateLimit-Limit}, {@code X-RateLimit-Remaining}, and
  * {@code X-RateLimit-Reset}. If {@code X-RateLimit-Remaining} is
- * less than a given threshold, {@code CarefulWire} will sleep before a time
+ * less than a given threshold, {@code CarefulWire} will sleep until a time
  * specified in the {@code X-RateLimit-Reset} header. For further information
  * about the Github rate limiting see
  * <a href="http://developer.github.com/v3/#rate-limiting">API
