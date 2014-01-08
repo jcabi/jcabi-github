@@ -91,4 +91,10 @@ public final class MkHooks implements Hooks {
     public Iterable<Hook> iterate() {
         return Collections.emptyList();
     }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
 }
