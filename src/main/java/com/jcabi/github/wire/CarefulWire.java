@@ -79,17 +79,17 @@ public final class CarefulWire implements Wire {
      * Threshold of number of remaining requests, below which requests are
      * blocked before reset.
      */
-    private final int threshold;
+    private final transient int threshold;
 
     /**
      * Time of limit resetting. If it's 0, there is no need to block requests.
      */
-    private long resetTime;
+    private transient long resetTime;
 
     /**
      * Monitor for the resetTime.
      */
-    private final Object resetTimeMonitor = new Object();
+    private final transient Object resetTimeMonitor = new Object();
 
     /**
      * Public ctor.

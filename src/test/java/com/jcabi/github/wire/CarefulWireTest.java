@@ -36,9 +36,9 @@ import com.rexsl.test.request.ApacheRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -61,8 +61,8 @@ public final class CarefulWireTest {
         final Response resp = Mockito.mock(Response.class);
         // @checkstyle MagicNumber (1 line)
         final long resetTime = System.currentTimeMillis() / 1000L + 5L;
-        final Map<String, List<String>> headers =
-            new HashMap<String, List<String>>(1);
+        final ConcurrentHashMap<String, List<String>> headers =
+            new ConcurrentHashMap<String, List<String>>(1);
         final List<String> remainingval = new ArrayList<String>(1);
         remainingval.add("9");
         headers.put("X-RateLimit-Remaining", remainingval);
