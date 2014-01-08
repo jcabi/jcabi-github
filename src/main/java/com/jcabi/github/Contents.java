@@ -49,7 +49,7 @@ public interface Contents {
     Repo repo();
 
     /**
-     * Get the Readme file of the default branch (usually master).
+     * Get the Readme file of the default brach (usually master).
      *
      * @return The Content of the readme file.
      * @see @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>

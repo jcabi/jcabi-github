@@ -38,7 +38,7 @@ import com.jcabi.aspects.Loggable;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @todo #56 Operations should be implemented for this class as well as unit tests @see {@link RtContentTest}.
+ * @todo #56 Operations should be implemented for this class as long as unit tests @see {@link RtContentTest}.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
