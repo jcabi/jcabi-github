@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.util.Collections;
 import lombok.EqualsAndHashCode;
 
@@ -43,8 +44,12 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = { "entry", "owner" })
 public final class RtHooks implements Hooks {
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * Repository.
@@ -53,9 +58,11 @@ public final class RtHooks implements Hooks {
 
     /**
      * Public ctor.
+     * @param req Request
      * @param repo Repository
      */
-    public RtHooks(final Repo repo) {
+    RtHooks(final Request req, final Repo repo) {
+        this.entry = req;
         this.owner = repo;
     }
 
@@ -67,5 +74,10 @@ public final class RtHooks implements Hooks {
     @Override
     public Iterable<Hook> iterate() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Hook get(final int number) {
+        return new RtHook(this.entry, this.owner, number);
     }
 }

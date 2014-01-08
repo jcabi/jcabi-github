@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -39,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/hooks/">Hooks API</a>
  */
+@Immutable
 public interface Hooks {
 
     /**
@@ -55,4 +57,18 @@ public interface Hooks {
      */
     @NotNull(message = "iterable is never NULL")
     Iterable<Hook> iterate();
+
+    /**
+     * Iterate them all.
+     * @return Iterator of hooks
+     * @see <a href="http://developer.github.com/v3/repos/hooks/#list">List</a>
+     */
+    /**
+     * Get specific hook by number.
+     * @param number Hook number
+     * @return Hook
+     * @see <a href="http://developer.github.com/v3/repos/hooks/#get-single-hook">Get single hook</a>
+     */
+    @NotNull(message = "hook is never NULL")
+    Hook get(int number);
 }

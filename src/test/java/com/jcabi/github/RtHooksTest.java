@@ -33,7 +33,10 @@ import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.JdkRequest;
 import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -60,6 +63,7 @@ public final class RtHooksTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
         ).start();
         final Hooks hooks = new RtHooks(
+            new JdkRequest(container.home()),
             RtHooksTest.repo()
         );
         MatcherAssert.assertThat(
@@ -85,17 +89,27 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can fetch single hook.
-     *
-     * @todo #122 RtHooks should be able to get a single Hook. Let's implement
-     *  a test here and a method get() of RtHooks.
-     *  The method should fetch a single hook.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchSingleHook() {
-        // to be implemented
+    public void canFetchSingleHook() throws Exception {
+        final String name = "hook name";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                RtHooksTest.hook(name).toString()
+            )
+        ).start();
+        final Hooks hooks = new RtHooks(
+            new JdkRequest(container.home()),
+            RtHooksTest.repo()
+        );
+        final Hook hook = hooks.get(1);
+        MatcherAssert.assertThat(
+            new Hook.Smart(hook).name(),
+            Matchers.equalTo(name)
+        );
+        container.stop();
     }
 
     /**
@@ -118,7 +132,7 @@ public final class RtHooksTest {
      *
      * @todo #122 RtHooks should be able to delete a Hook. Let's implement
      *  a test here and a method remove() of RtHooks. The method should remove
-     *  a hook by it's id.
+     *  a hook by it's number.
      *  See how it's done in other classes, using Rexsl request/response.
      *  When done, remove this puzzle and Ignore annotation from the method.
      */
@@ -126,6 +140,18 @@ public final class RtHooksTest {
     @Ignore
     public void canDeleteHook() {
         // to be implemented
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param name Name of the hook
+     * @return JsonObject
+     * @throws Exception If some problem inside
+     */
+    private static JsonObject hook(final String name) throws Exception {
+        return Json.createObjectBuilder()
+            .add("name", name)
+            .build();
     }
 
     /**

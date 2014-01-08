@@ -27,87 +27,73 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Hook;
-import com.jcabi.github.Hooks;
-import com.jcabi.github.Repo;
+import com.rexsl.test.Request;
 import java.io.IOException;
-import java.util.Collections;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Mock Github hooks.
+ * Github hooks.
+ *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #166 Hooks mock should be implemented.
- *  Need to implement the methods of MkHooks: 1) iterate, returning
- *  a list of hooks, 2) create, which will create a new hook and
- *  3) get, which will fetch hook by id
- *  Don't forget to update the unit test class {@link MkHooks}.
- *  See http://developer.github.com/v3/repos/hooks/
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkHooks implements Hooks {
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtHook implements Hook {
 
     /**
-     * Storage.
+     * RESTful request.
      */
-    private final transient MkStorage storage;
+    private final transient Request request;
 
     /**
-     * Login of the user logged in.
+     * Repository we're in.
      */
-    private final transient String self;
+    private final transient Repo owner;
 
     /**
-     * Repo name.
+     * Issue number.
      */
-    private final transient Coordinates coords;
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * @param req Request
+     * @param repo Repository
+     * @param number Id of the get
      */
-    public MkHooks(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("hooks")
-        );
+    RtHook(final Request req, final Repo repo, final int number) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/hook")
+            .path(Integer.toString(number))
+            .back();
+        this.owner = repo;
+        this.num = number;
     }
 
     @Override
     public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
+        return this.owner;
     }
 
     @Override
-    public Iterable<Hook> iterate() {
-        return Collections.emptyList();
+    public int number() {
+        return this.num;
     }
 
     @Override
-    public Hook get(final int number) {
-        return new MkHook(this.storage, this.self, this.coords, number);
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 }
