@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -55,4 +56,12 @@ public interface Hooks {
      */
     @NotNull(message = "iterable is never NULL")
     Iterable<Hook> iterate();
+
+    /**
+     * Remove hook by ID.
+     * @param number ID of the label to remove
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/hooks/#delete-a-hook">List</a>
+     */
+    void remove(int number) throws IOException;
 }
