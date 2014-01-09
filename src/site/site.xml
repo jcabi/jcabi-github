@@ -51,6 +51,7 @@
         <menu ref="parent"/>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
+            <item name="Respect limits" href="respect-limits.html"/>
             <item name="API ${project.version} (JavaDoc)" href="./apidocs-${project.version}/index.html"/>
             <item name="Test coverage" href="./cobertura/index.html"/>
             <item name="Release History" href="https://github.com/jcabi/jcabi-github/releases"/>

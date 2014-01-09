@@ -47,7 +47,9 @@ import org.mockito.Mockito;
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtUserTest {
     /**
      * RtUser can understand who am I.
@@ -67,6 +69,53 @@ public final class RtUserTest {
         MatcherAssert.assertThat(
             user.login(),
             Matchers.equalTo(login)
+        );
+    }
+
+    /**
+     * RtUser can check if he has a name.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checksIfHeHasAName() throws Exception {
+        final User.Smart smart = new User.Smart(
+            new RtUser(
+                Mockito.mock(Github.class),
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("name", "octoc")
+                        .build()
+                        .toString()
+                ),
+                "octoc"
+            )
+        );
+        MatcherAssert.assertThat(
+            smart.hasName(),
+            Matchers.equalTo(true)
+        );
+    }
+
+    /**
+     * RtUser can check if he has NO name.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checksIfHeHasNoName() throws Exception {
+        final User.Smart smart = new User.Smart(
+            new RtUser(
+                Mockito.mock(Github.class),
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .build()
+                        .toString()
+                ),
+                "octoc"
+            )
+        );
+        MatcherAssert.assertThat(
+            smart.hasName(),
+            Matchers.equalTo(false)
         );
     }
 
