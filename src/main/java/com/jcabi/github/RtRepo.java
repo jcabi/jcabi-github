@@ -44,6 +44,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle ClassFanOutComplexity (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
