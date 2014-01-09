@@ -47,8 +47,12 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = { "entry", "owner", "request" })
 public final class RtHooks implements Hooks {
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -66,8 +70,9 @@ public final class RtHooks implements Hooks {
      * @param repo Repository
      */
     public RtHooks(final Request req, final Repo repo) {
+        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -93,5 +98,10 @@ public final class RtHooks implements Hooks {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public Hook get(final int number) {
+        return new RtHook(this.entry, this.owner, number);
     }
 }

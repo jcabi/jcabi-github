@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -40,6 +41,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/hooks/">Hooks API</a>
  */
+@Immutable
 public interface Hooks {
 
     /**
@@ -64,4 +66,13 @@ public interface Hooks {
      * @see <a href="http://developer.github.com/v3/repos/hooks/#delete-a-hook">List</a>
      */
     void remove(int number) throws IOException;
+
+    /**
+     * Get specific hook by number.
+     * @param number Hook number
+     * @return Hook
+     * @see <a href="http://developer.github.com/v3/repos/hooks/#get-single-hook">Get single hook</a>
+     */
+    @NotNull(message = "hook is never NULL")
+    Hook get(int number);
 }
