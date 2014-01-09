@@ -78,7 +78,6 @@ public final class RtRepoITCase {
     @Test
     public void iterateAssignees() throws Exception {
         final Repo repo = RtRepoITCase.repo();
-        Assume.assumeThat(repo, Matchers.notNullValue());
         MatcherAssert.assertThat(
           repo.assignees().iterate(),
           Matchers.not(Matchers.emptyIterable())
