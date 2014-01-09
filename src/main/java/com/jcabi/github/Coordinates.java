@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Repository coordinates.
@@ -41,7 +42,7 @@ import lombok.EqualsAndHashCode;
  * @since 0.1
  */
 @Immutable
-public interface Coordinates {
+public interface Coordinates extends Comparable<Coordinates> {
 
     /**
      * Get usr name.
@@ -109,6 +110,12 @@ public interface Coordinates {
         public String repo() {
             return this.rpo;
         }
+        @Override
+        public int compareTo(final Coordinates other) {
+            return new CompareToBuilder()
+                .append(this.usr, other.user())
+                .append(this.rpo, other.repo())
+                .build();
+        }
     }
-
 }
