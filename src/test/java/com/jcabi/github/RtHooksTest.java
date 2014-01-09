@@ -30,9 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.JdkRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -66,11 +68,14 @@ public final class RtHooksTest {
             new JdkRequest(container.home()),
             RtHooksTest.repo()
         );
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.emptyIterable()
-        );
-        container.stop();
+        try {
+            MatcherAssert.assertThat(
+                hooks.iterate(),
+                Matchers.emptyIterable()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -130,16 +135,31 @@ public final class RtHooksTest {
     /**
      * RtHooks can delete a hook.
      *
-     * @todo #122 RtHooks should be able to delete a Hook. Let's implement
-     *  a test here and a method remove() of RtHooks. The method should remove
-     *  a hook by it's number.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if something goes wrong.
      */
     @Test
-    @Ignore
-    public void canDeleteHook() {
-        // to be implemented
+    public void canDeleteHook() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final Hooks hooks = new RtHooks(
+            new JdkRequest(container.home()),
+            RtHooksTest.repo()
+        );
+        hooks.remove(1);
+        try {
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.isEmptyString()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -153,7 +173,7 @@ public final class RtHooksTest {
             .add("name", name)
             .build();
     }
-
+    
     /**
      * Create and return repo for testing.
      * @return Repo

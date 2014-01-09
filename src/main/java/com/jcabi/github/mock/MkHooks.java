@@ -110,4 +110,10 @@ public final class MkHooks implements Hooks {
     public Hook get(final int number) {
         return new MkHook(this.storage, this.self, this.coords, number);
     }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
 }
