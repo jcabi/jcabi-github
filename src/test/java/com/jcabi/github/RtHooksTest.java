@@ -173,7 +173,7 @@ public final class RtHooksTest {
             .add("name", name)
             .build();
     }
-    
+
     /**
      * Create and return repo for testing.
      * @return Repo

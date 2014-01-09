@@ -35,7 +35,6 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import com.rexsl.test.Request;
 import java.util.Collections;
 import lombok.EqualsAndHashCode;
 
@@ -71,8 +70,9 @@ public final class RtHooks implements Hooks {
      * @param repo Repository
      */
     public RtHooks(final Request req, final Repo repo) {
+        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
