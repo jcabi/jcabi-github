@@ -58,12 +58,21 @@ public final class RtIssueITCase {
             issue.comments().iterate(),
             Matchers.<Comment>iterableWithSize(1)
         );
-        MatcherAssert.assertThat(
-            new User.Smart(new Comment.Smart(comment).author()).name(),
-            Matchers.equalTo(
-                new User.Smart(issue.repo().github().users().self()).name()
-            )
+        final User.Smart author = new User.Smart(
+            new Comment.Smart(comment)
+                .author()
         );
+        final User.Smart self = new User.Smart(
+            issue.repo().github().users().self()
+        );
+        if (author.hasName() && self.hasName()) {
+            MatcherAssert.assertThat(
+                author.name(),
+                Matchers.equalTo(
+                    self.name()
+                )
+            );
+        }
         comment.remove();
     }
 

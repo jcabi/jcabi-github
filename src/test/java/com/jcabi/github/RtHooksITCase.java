@@ -37,6 +37,8 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
+ * @todo #165 RtHooks should be able to create a hook in real repository
+ *  When done, remove this puzzle and Ignore annotation from the method.
  * @todo #122 RtHooks should be able to fetch a list of hooks from a real
  *  Github repository, a single Hook, remove hook.
  *  When done, remove this puzzle and Ignore annotation from the method.
@@ -50,6 +52,16 @@ public class RtHooksITCase {
     @Test
     @Ignore
     public void canFetchAllHooks() throws Exception {
+        // to be implemented
+    }
+
+    /**
+     * RtHooks can create a hook.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void canCreateAHook() throws Exception {
         // to be implemented
     }
 }

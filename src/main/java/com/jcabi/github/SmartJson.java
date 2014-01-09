@@ -120,5 +120,4 @@ final class SmartJson {
         }
         return type.cast(value);
     }
-
 }
