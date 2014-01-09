@@ -51,11 +51,6 @@ import lombok.EqualsAndHashCode;
 public final class RtHooks implements Hooks {
 
     /**
-     * API entry point.
-     */
-    private final transient Request entry;
-
-    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -71,9 +66,8 @@ public final class RtHooks implements Hooks {
      * @param repo Repository
      */
     public RtHooks(final Request req, final Repo repo) {
-        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
+        this.request = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
