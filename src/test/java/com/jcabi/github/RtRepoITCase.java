@@ -39,8 +39,6 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @todo #16 Add test iterateAssignees() to check that
- *  assignees actually fetched.
  *  See http://developer.github.com/v3/issues/assignees/
  */
 public final class RtRepoITCase {
@@ -67,6 +65,20 @@ public final class RtRepoITCase {
         final Repo repo = RtRepoITCase.repo();
         MatcherAssert.assertThat(
             repo.events(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * RtRepo can fetch assignees.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iterateAssignees() throws Exception {
+        final Repo repo = RtRepoITCase.repo();
+        Assume.assumeThat(repo, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            repo.assignees().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
     }

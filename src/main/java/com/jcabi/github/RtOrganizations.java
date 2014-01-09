@@ -31,33 +31,68 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.util.Collection;
+import java.util.LinkedList;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "userobj", "organizations" })
 final class RtOrganizations implements Organizations {
+
+    /**
+     * User.
+     */
+    private final transient User userobj;
+
+    /**
+     * Organizations.
+     */
+    private final transient Collection<Organization> organizations;
+
+    /**
+     * Public constructor.
+     * @param usr User
+     * @param orgs A java.util.Collection of Organization objects
+     */
+    public RtOrganizations(final User usr,
+        final Collection<Organization> orgs) {
+        this.userobj = usr;
+        this.organizations = orgs;
+    }
 
     @Override
     public User user() {
-        return null;
+        return this.userobj;
     }
 
     @Override
     public Organization get(final int orgid) {
-        return null;
+        Organization return_org = null;
+        if (this.organizations != null) {
+            for (Organization org : this.organizations) {
+                if (org.orgId() == orgid) {
+                    return_org = org;
+                    break;
+                }
+            }
+        }
+        return return_org;
     }
 
     @Override
     public Iterable<Organization> iterate() {
-        return null;
+        Collection<Organization> returnit = this.organizations;
+        if (this.organizations == null) {
+            returnit = new LinkedList<Organization>();
+        }
+        return returnit;
     }
 }
