@@ -27,41 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.wire;
 
+import com.rexsl.test.request.FakeRequest;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
+import java.net.HttpURLConnection;
+import java.util.concurrent.TimeUnit;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github hooks.
+ * Test case for {@link CarefulWire}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/hooks/">Hooks API</a>
  */
-public interface Hooks {
+public final class CarefulWireTest {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * CarefulWire can wait until the limit reset.
+     * @throws IOException If some problem inside
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Iterate them all.
-     * @return Iterator of hooks
-     * @see <a href="http://developer.github.com/v3/repos/hooks/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Hook> iterate();
-
-    /**
-     * Remove hook by ID.
-     * @param number ID of the label to remove
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/hooks/#delete-a-hook">List</a>
-     */
-    void remove(int number) throws IOException;
+    @Test
+    public void waitUntilReset() throws IOException {
+        final int threshold = 10;
+        // @checkstyle MagicNumber (2 lines)
+        final long reset = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis()) + 5L;
+        new FakeRequest()
+            .withStatus(HttpURLConnection.HTTP_OK)
+            .withReason("OK")
+            .withHeader("X-RateLimit-Remaining", "9")
+            .withHeader("X-RateLimit-Reset", String.valueOf(reset))
+            .through(CarefulWire.class, threshold)
+            .fetch();
+        final long now = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis());
+        MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
+    }
 }

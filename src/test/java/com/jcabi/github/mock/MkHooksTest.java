@@ -34,6 +34,7 @@ import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,21 @@ public final class MkHooksTest {
             hooks.iterate(),
             Matchers.emptyIterable()
         );
+    }
+
+    /**
+     * MkHooks can delete a single hook by ID.
+     *
+     * @throws Exception if something goes wrong.
+     * @todo #158 MkHooks should be able to delete individual hooks by name.
+     *  Let's implement a test here and the method remove(int id) from MkHooks.
+     *  When done, remove this puzzle and the Ignore annotation from this
+     *  method.
+     */
+    @Test
+    @Ignore
+    public void canDeleteSingleHook() throws Exception {
+        //To be implemented.
     }
 
     /**

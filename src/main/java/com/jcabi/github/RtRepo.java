@@ -121,7 +121,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Hooks hooks() {
-        return new RtHooks(this);
+        return new RtHooks(this.entry, this);
     }
 
     @Override

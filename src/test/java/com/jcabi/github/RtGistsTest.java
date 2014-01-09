@@ -66,7 +66,7 @@ public final class RtGistsTest {
         );
         try {
             MatcherAssert.assertThat(
-                gists.create(Collections.singleton("test")),
+                gists.create(Collections.singletonMap("test", "")),
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
