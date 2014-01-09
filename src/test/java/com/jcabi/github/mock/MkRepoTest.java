@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import javax.json.Json;
@@ -40,6 +41,7 @@ import org.junit.Test;
  * Test case for {@link Repo}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkRepoTest {
 
@@ -59,4 +61,20 @@ public final class MkRepoTest {
         );
     }
 
+    /**
+     * This tests that the milestones() method in MkRepo is working fine.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
+    public void returnsMkMilestones() throws Exception {
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add("name", "test1").build()
+        );
+        final Milestones milestones = repo.milestones();
+        MatcherAssert.assertThat(
+            milestones,
+            Matchers.notNullValue()
+        );
+    }
 }
