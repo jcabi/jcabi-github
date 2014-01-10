@@ -51,7 +51,7 @@ public final class MkGistTest {
         // @checkstyle MultipleStringLiterals (1 lines)
         final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList(filename)
+            Collections.singletonMap(filename, "")
         );
         MatcherAssert.assertThat(
             gist.read(filename),
@@ -67,7 +67,7 @@ public final class MkGistTest {
     public void fork() throws IOException {
         final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList(filename)
+            Collections.singletonMap(filename, "")
         );
         gist.write(filename, "Hello, github!");
         final Gist forkedGist = gist.fork();

@@ -31,6 +31,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Collections;
 import lombok.EqualsAndHashCode;
 
@@ -43,8 +47,17 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = { "entry", "owner", "request" })
 public final class RtHooks implements Hooks {
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
 
     /**
      * Repository.
@@ -53,9 +66,18 @@ public final class RtHooks implements Hooks {
 
     /**
      * Public ctor.
+     * @param req Request
      * @param repo Repository
      */
-    public RtHooks(final Repo repo) {
+    public RtHooks(final Request req, final Repo repo) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/hooks")
+            .back();
         this.owner = repo;
     }
 
@@ -67,5 +89,19 @@ public final class RtHooks implements Hooks {
     @Override
     public Iterable<Hook> iterate() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(Integer.toString(number)).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public Hook get(final int number) {
+        return new RtHook(this.entry, this.owner, number);
     }
 }

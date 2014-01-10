@@ -27,59 +27,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
-
-import java.util.Collections;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Ignore;
-import org.junit.Test;
 
 /**
- * Integration case for {@link Gists}.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Wires.
+ *
+ * @author Alexander Sinygain (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #20 Other integration tests have to be written for RtGists.
  */
-public final class RtGistsITCase {
-
-    /**
-     * This tests that RtGists can remove a gist by name.
-     * @throws Exception - if something goes wrong.
-     * @todo #20 At the moment the test is ignored
-     *  because it fails.
-     */
-    @Test
-    @Ignore
-    public void removesGistByName() throws Exception {
-        final Gists gists = gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap("fileName.txt", "content of test file")
-        );
-        MatcherAssert.assertThat(
-            gists.iterate(),
-            Matchers.hasItem(
-                gist
-            )
-        );
-        gists.remove(gist.json().getString("id"));
-        MatcherAssert.assertThat(
-            gists.iterate(),
-            Matchers.not(Matchers.hasItem(gist))
-        );
-    }
-    /**
-     * Return gists to test.
-     * @return Gists
-     * @throws Exception If some problem inside
-     */
-    private static Gists gists() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(
-            key,
-            Matchers.notNullValue()
-        );
-        return new RtGithub(key).gists();
-    }
-}
+package com.jcabi.github.wire;

@@ -53,7 +53,7 @@ public final class MkGistsTest {
     @Test
     public void worksWithMockedGists() throws Exception {
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList("test-file-name.txt")
+            Collections.singletonMap("test-file-name.txt", "none")
         );
         final String file = "t.txt";
         gist.write(file, "hello, everybody!");
@@ -74,7 +74,7 @@ public final class MkGistsTest {
     public void removesMkGistByName() throws Exception {
         final Gists gists = new MkGithub().gists();
         final Gist createdGist = gists.create(
-            Collections.singletonList("fileName.txt")
+            Collections.singletonMap("fileName.txt", "content")
         );
         MatcherAssert.assertThat(
             gists.iterate(),
@@ -95,10 +95,10 @@ public final class MkGistsTest {
     public void worksWithSeveralGists() throws Exception {
         final Gists gists = new MkGithub().gists();
         final Gist gist = gists.create(
-            Collections.singletonList("test-file-name.txt")
+            Collections.singletonMap("test-file-name.txt", "none")
         );
         final Gist othergist = gists.create(
-            Collections.singletonList("test-file-name2.txt")
+            Collections.singletonMap("test-file-name2.txt", "")
         );
         final String file = "t.txt";
         gist.write(file, "hello, everybody!");
@@ -120,7 +120,7 @@ public final class MkGistsTest {
     @Test
     public void testStar() throws Exception {
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList("file-name.txt")
+            Collections.singletonMap("file-name.txt", "")
         );
         MatcherAssert.assertThat(
             gist.starred(),
@@ -141,7 +141,7 @@ public final class MkGistsTest {
     public void createGistWithEmptyFile() throws IOException {
         final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
-            Collections.singletonList(filename)
+            Collections.singletonMap(filename, "")
         );
         MatcherAssert.assertThat(
             gist.read(filename),

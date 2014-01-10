@@ -36,6 +36,7 @@ import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -83,7 +84,7 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public Gist create(final Iterable<String> files) throws IOException {
+    public Gist create(final Map<String, String> files) throws IOException {
         this.storage.lock();
         final String number;
         try {
@@ -96,10 +97,10 @@ final class MkGists implements Gists {
                 .add("gist")
                 .add("id").set(number).up()
                 .add("files");
-            for (final String file : files) {
+            for (final Map.Entry<String, String> file : files.entrySet()) {
                 dirs.add("file")
-                    .add("filename").set(file).up()
-                    .add("raw_content").up().up();
+                    .add("filename").set(file.getKey()).up()
+                    .add("raw_content").set(file.getValue()).up().up();
             }
             this.storage.apply(dirs);
         } finally {
