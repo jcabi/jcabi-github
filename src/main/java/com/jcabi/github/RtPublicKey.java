@@ -30,9 +30,9 @@
 package com.jcabi.github;
 
 import com.rexsl.test.Request;
-
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github public key.
@@ -71,11 +71,6 @@ public final class RtPublicKey implements PublicKey {
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
     public User user() {
         return this.owner;
     }
@@ -83,6 +78,18 @@ public final class RtPublicKey implements PublicKey {
     @Override
     public int number() {
         return this.num;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        throws IOException {
+        new RtJson(this.request).patch(json);
     }
 
 }

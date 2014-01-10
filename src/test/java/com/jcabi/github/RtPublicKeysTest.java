@@ -29,70 +29,96 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.request.FakeRequest;
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtPublicKey}.
+ * Test case for {@link RtPublicKeys}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtPublicKeyTest {
+public final class RtPublicKeysTest {
 
     /**
-     * RtPublicKey can be described as a JSON object.
+     * RtPublicKeys should be able to iterate its keys.
      *
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
-        final RtPublicKey key = new RtPublicKey(
-            new FakeRequest().withBody("{}"),
-            Mockito.mock(User.class),
-            1
-        );
-        MatcherAssert.assertThat(
-            key.json(),
-            Matchers.notNullValue()
-        );
+    @Ignore
+    public void retrievesKeys() throws Exception {
+        //to be implemented.
     }
 
     /**
-     * RtPublicKey can obtain its own user.
+     * RtPublicKeys should be able to obtain a single key.
      *
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainUser() throws Exception {
-        final User user = Mockito.mock(User.class);
-        final RtPublicKey key = new RtPublicKey(new FakeRequest(), user, 2);
-        MatcherAssert.assertThat(
-            key.user(),
-            Matchers.sameInstance(user)
+    public void canFetchSingleKey() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                ""
+            )
+        ).start();
+        final RtPublicKeys keys = new RtPublicKeys(
+            new ApacheRequest(container.home()),
+            Mockito.mock(User.class)
         );
+        try {
+            MatcherAssert.assertThat(
+                keys.get(1),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
-     * RtPublicKey can obtain its own number.
+     * RtPublicKeys should be able to remove a key.
      *
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainNumber() throws Exception {
-        final int number = 39;
-        final RtPublicKey key = new RtPublicKey(
-            new FakeRequest(),
-            Mockito.mock(User.class),
-            number
+    public void canRemoveKey() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                ""
+            )
+        ).start();
+        final RtPublicKeys keys = new RtPublicKeys(
+            new ApacheRequest(container.home()),
+            Mockito.mock(User.class)
         );
-        MatcherAssert.assertThat(
-            key.number(),
-            Matchers.equalTo(number)
-        );
+        try {
+            keys.remove(1);
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/user/keys/1")
+            );
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
 }

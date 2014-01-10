@@ -29,34 +29,52 @@
  */
 package com.jcabi.github;
 
-import javax.validation.constraints.NotNull;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github public key.
+ * Test case for {@link RtPublicKeys}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
- * @todo #24 Implement a Smart decorator for PublicKey for the purposes of
- *  JSON parsing. This class should be able to return the various attributes of
- *  the JSON response for fetching public keys, such as the ID, key, URL, and
- *  title. Include an example of how to do this in the Javadoc comment above
- *  (see other classes/interfaces for how they describe it).
+ * @todo #24 Implement an integration test for RtPublicKeys that operates
+ *  against a real Github repository. The test should exercise the iteration of
+ *  existing keys, the retrieval of a single key, and the removal of an existing
+ *  key.
  */
-public interface PublicKey extends JsonReadable, JsonPatchable {
+public class RtPublicKeysITCase {
 
     /**
-     * User we're in.
+     * RtPublicKeys should be able to retrieve its keys.
      *
-     * @return User
+     * @throws Exception If a problem occurs.
      */
-    @NotNull(message = "user is never NULL")
-    User user();
+    @Test
+    @Ignore
+    public void retrievesKeys() throws Exception {
+        //To be implemented.
+    }
 
     /**
-     * ID Number of this public key.
-     * @return Public key ID number
+     * RtPublicKeys should be able to retrieve a single key.
+     *
+     * @throws Exception If a problem occurs.
      */
-    int number();
+    @Test
+    @Ignore
+    public void retrievesSingleKey() throws Exception {
+        //To be implemented.
+    }
+
+    /**
+     * RtPublicKeys should be able to remove a ey.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    @Ignore
+    public void removesKey() throws Exception {
+        //To be implemented.
+    }
 
 }

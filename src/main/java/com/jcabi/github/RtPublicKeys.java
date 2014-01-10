@@ -29,34 +29,71 @@
  */
 package com.jcabi.github;
 
-import javax.validation.constraints.NotNull;
+import com.rexsl.test.Request;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 
 /**
- * Github public key.
+ * Github public keys.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
- * @todo #24 Implement a Smart decorator for PublicKey for the purposes of
- *  JSON parsing. This class should be able to return the various attributes of
- *  the JSON response for fetching public keys, such as the ID, key, URL, and
- *  title. Include an example of how to do this in the Javadoc comment above
- *  (see other classes/interfaces for how they describe it).
+ * @todo #24 Implement the iterate() method of RtPublicKeys. Don't forget to
+ *  implement the test {@link RtPublicKeysTest#retrievesKeys()} class when done.
  */
-public interface PublicKey extends JsonReadable, JsonPatchable {
+public final class RtPublicKeys implements PublicKeys {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
 
     /**
      * User we're in.
-     *
-     * @return User
      */
-    @NotNull(message = "user is never NULL")
-    User user();
+    private final transient User owner;
 
     /**
-     * ID Number of this public key.
-     * @return Public key ID number
+     * Public ctor.
+     *
+     * @param req Request
+     * @param user User
      */
-    int number();
+    public RtPublicKeys(final Request req, final User user) {
+        this.entry = req;
+        this.owner = user;
+        this.request = this.entry.uri().path("/user").path("/keys").back();
+    }
+
+    @Override
+    public User user() {
+        return this.owner;
+    }
+
+    @Override
+    public Iterable<PublicKey> iterate() {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    @Override
+    public PublicKey get(final int number) {
+        return new RtPublicKey(this.entry, this.owner, number);
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(Integer.toString(number)).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 
 }

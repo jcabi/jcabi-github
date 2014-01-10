@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -69,8 +70,9 @@ public interface PublicKeys {
     /**
      * Remove a public key.
      *
-     * @see <a href="http://developer.github.com/v3/users/keys/#delete-a-public-key/">Delete a public key.</a>
      * @param number ID of the public key to remove.
+     * @throws IOException If an IO problem occurs.
+     * @see <a href="http://developer.github.com/v3/users/keys/#delete-a-public-key/">Delete a public key.</a>
      */
-    void remove(int number);
+    void remove(int number) throws IOException;
 }
