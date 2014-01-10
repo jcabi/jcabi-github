@@ -50,9 +50,10 @@ public final class IssueTest {
 
     /**
      * Rule for checking thrown exception.
+     * @checkstyle VisibilityModifier (3 lines)
      */
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public transient ExpectedException thrown = ExpectedException.none();
 
     /**
      * Issue.Smart can fetch key properties of an Issue.
@@ -139,7 +140,7 @@ public final class IssueTest {
                     Json.createObjectBuilder()
                         .add("name", name)
                         .add("color", "f29513")
-               )
+                )
             ).build()
         );
         final IssueLabels labels = new Issue.Smart(issue).roLabels();

@@ -142,7 +142,7 @@ public final class MkIssueTest {
         issue.repo().labels().create(tag, "c0c0c0");
         issue.labels().add(Collections.singletonList(tag));
         MatcherAssert.assertThat(
-            new Issue.Smart(issue).roLabels(),
+            new Issue.Smart(issue).roLabels().iterate(),
             Matchers.<Label>hasItem(
                 new CustomMatcher<Label>("label just created") {
                     @Override
