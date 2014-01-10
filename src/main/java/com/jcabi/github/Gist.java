@@ -125,10 +125,10 @@ public interface Gist extends JsonReadable {
     Gist fork() throws IOException;
 
     /**
-     * Get all comments of the issue.
-     * @return Comments
+     * Get all comments of the gist.
+     * @return GistComments
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/comments/">Issue Comments API</a>
+     * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
      */
     @NotNull(message = "comments are never NULL")
     GistComments comments() throws IOException;
