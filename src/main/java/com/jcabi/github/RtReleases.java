@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.util.Collections;
 import lombok.EqualsAndHashCode;
 
@@ -43,8 +44,14 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = "owner")
 public final class RtReleases implements Releases {
+
+    /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
+
     /**
      * Repository.
      */
@@ -52,9 +59,11 @@ public final class RtReleases implements Releases {
 
     /**
      * Public ctor.
+     * @param req RESTful API entry point
      * @param repo Repository
      */
-    public RtReleases(final Repo repo) {
+    public RtReleases(final Request req, final Repo repo) {
+        this.entry = req;
         this.owner = repo;
     }
 
@@ -67,4 +76,10 @@ public final class RtReleases implements Releases {
     public Iterable<Release> iterate() {
         return Collections.emptyList();
     }
+
+    @Override
+    public Release get(final int release) {
+        return new RtRelease(this.entry, this.owner.coordinates(), release);
+    }
+
 }

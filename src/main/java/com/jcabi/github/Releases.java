@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -38,6 +39,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  */
+@Immutable
 public interface Releases {
     /**
      * Owner of them.
@@ -53,4 +55,14 @@ public interface Releases {
      */
     @NotNull(message = "iterable is never NULL")
     Iterable<Release> iterate();
+
+    /**
+     * Get a single release.
+     * @param release Release id
+     * @return Release
+     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     */
+    @NotNull(message = "release is never NULL")
+    Release get(int release);
+
 }

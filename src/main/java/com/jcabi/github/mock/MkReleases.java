@@ -91,4 +91,10 @@ public final class MkReleases implements Releases {
     public Iterable<Release> iterate() {
         return Collections.emptyList();
     }
+
+    @Override
+    public Release get(final int release) {
+        return new MkRelease(this.storage, this.coords, release);
+    }
+
 }

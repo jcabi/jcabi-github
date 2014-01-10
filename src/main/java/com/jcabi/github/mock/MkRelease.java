@@ -27,21 +27,76 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
+
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Release;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github release.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Mock Github release.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  */
-public interface Release extends JsonReadable {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords", "release" })
+public final class MkRelease implements Release {
+
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Repository coordinates.
+     */
+    private final transient Coordinates coords;
 
     /**
      * Release id.
-     * @return Id
      */
-    int getId();
+    private final transient int release;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param crds Repository coordinates
+     * @param rls Release id
+     */
+    MkRelease(final MkStorage stg, final Coordinates crds, final int rls) {
+        this.storage = stg;
+        this.coords = crds;
+        this.release = rls;
+    }
+
+    @Override
+    public int getId() {
+        return this.release;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/%s/%s/releases/%d",
+            this.coords.user(), this.coords.repo(), this.release
+        );
+    }
+
 }

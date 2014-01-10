@@ -152,7 +152,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Releases releases() {
-        return new RtReleases(this);
+        return new RtReleases(this.entry, this);
     }
 
     @Override

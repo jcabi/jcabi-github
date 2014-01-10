@@ -29,19 +29,62 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+
 /**
  * Github release.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  */
-public interface Release extends JsonReadable {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+public final class RtRelease implements Release {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
 
     /**
      * Release id.
-     * @return Id
      */
-    int getId();
+    private final transient int release;
+
+    /**
+     * Public ctor.
+     * @param req RESTful API entry point
+     * @param coords Repository coordinates
+     * @param rls Release id
+     */
+    RtRelease(final Request req, final Coordinates coords, final int rls) {
+        this.release = rls;
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/releases")
+            .path(String.valueOf(this.release))
+            .back();
+    }
+
+    @Override
+    public int getId() {
+        return this.release;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 }
