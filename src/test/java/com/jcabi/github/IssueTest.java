@@ -29,10 +29,15 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 /**
@@ -42,6 +47,12 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class IssueTest {
+
+    /**
+     * Rule for checking thrown exception.
+     */
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     /**
      * Issue.Smart can fetch key properties of an Issue.
@@ -113,4 +124,36 @@ public final class IssueTest {
         );
     }
 
+    /**
+     * Issue.Smart can fetch issue's labels in read-only mode.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void fetchLabelsRO() throws IOException {
+        final String name = "bug";
+        final Issue issue = Mockito.mock(Issue.class);
+        Mockito.when(issue.json()).thenReturn(
+            Json.createObjectBuilder().add(
+                "labels",
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder()
+                        .add("name", name)
+                        .add("color", "f29513")
+               )
+            ).build()
+        );
+        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        this.thrown.expect(UnsupportedOperationException.class);
+        labels.add(new ArrayList<String>(0));
+        this.thrown.expect(UnsupportedOperationException.class);
+        labels.replace(new ArrayList<String>(0));
+        this.thrown.expect(UnsupportedOperationException.class);
+        labels.remove(name);
+        this.thrown.expect(UnsupportedOperationException.class);
+        labels.clear();
+        final Label label = labels.iterate().iterator().next();
+        MatcherAssert.assertThat(label, Matchers.notNullValue());
+        this.thrown.expect(UnsupportedOperationException.class);
+        label.patch(Mockito.mock(JsonObject.class));
+    }
 }
