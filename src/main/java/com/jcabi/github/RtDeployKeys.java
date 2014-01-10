@@ -27,69 +27,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Hooks;
-import com.jcabi.github.Repo;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.util.Collections;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link MkHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github deploy keys.
+ *
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
-public final class MkHooksTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "owner" })
+public final class RtDeployKeys implements DeployKeys {
     /**
-     * MkHooks can fetch empty list of hooks.
-     * @throws Exception if some problem inside
+     * Repository.
      */
-    @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.emptyIterable()
-        );
-    }
+    private final transient Repo owner;
 
     /**
-     * MkHooks can delete a single hook by ID.
-     *
-     * @throws Exception if something goes wrong.
-     * @todo #158 MkHooks should be able to delete individual hooks by name.
-     *  Let's implement a test here and the method remove(int id) from MkHooks.
-     *  When done, remove this puzzle and the Ignore annotation from this
-     *  method.
+     * Public ctor.
+     * @param repo Repository
      */
-    @Test
-    @Ignore
-    public void canDeleteSingleHook() throws Exception {
-        //To be implemented.
+    public RtDeployKeys(final Repo repo) {
+        this.owner = repo;
     }
 
-    /**
-     * MkHooks can fetch single hook.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchSingleHook() throws Exception {
-        // to be implemented
+    @Override
+    public Repo repo() {
+        return this.owner;
     }
 
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+    @Override
+    public Iterable<DeployKey> iterate() {
+        return Collections.emptyList();
     }
 }

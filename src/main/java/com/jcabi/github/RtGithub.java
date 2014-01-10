@@ -172,6 +172,11 @@ public final class RtGithub implements Github {
     }
 
     @Override
+    public Search search() {
+        return new RtSearch(this);
+    }
+
+    @Override
     public JsonObject meta() throws IOException {
         return this.request.uri().path("meta").back().fetch()
             .as(JsonResponse.class)

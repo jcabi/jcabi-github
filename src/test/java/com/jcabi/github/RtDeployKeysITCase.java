@@ -27,69 +27,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Hooks;
-import com.jcabi.github.Repo;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link RtDeployKeys}.
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @todo #119 RtDeployKeys should be able to fetch a list of deploy keys from
+ *  a real Github repository, a single deploy key, create, edit and remove
+ *  deploy keys.
+ *  When done, remove this puzzle and Ignore annotation from the method.
  */
-public final class MkHooksTest {
-    /**
-     * MkHooks can fetch empty list of hooks.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.emptyIterable()
-        );
-    }
+public class RtDeployKeysITCase {
 
     /**
-     * MkHooks can delete a single hook by ID.
-     *
-     * @throws Exception if something goes wrong.
-     * @todo #158 MkHooks should be able to delete individual hooks by name.
-     *  Let's implement a test here and the method remove(int id) from MkHooks.
-     *  When done, remove this puzzle and the Ignore annotation from this
-     *  method.
-     */
-    @Test
-    @Ignore
-    public void canDeleteSingleHook() throws Exception {
-        //To be implemented.
-    }
-
-    /**
-     * MkHooks can fetch single hook.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchSingleHook() throws Exception {
-        // to be implemented
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
+     * RtDeployKeys can iterate deploy keys.
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+    @Test
+    @Ignore
+    public void canFetchAllDeployKeys() throws Exception {
+        // to be implemented
     }
 }

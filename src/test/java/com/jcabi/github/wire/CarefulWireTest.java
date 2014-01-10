@@ -27,69 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github.wire;
 
-import com.jcabi.github.Hooks;
-import com.jcabi.github.Repo;
-import javax.json.Json;
+import com.rexsl.test.request.FakeRequest;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link CarefulWire}.
+ *
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-public final class MkHooksTest {
-    /**
-     * MkHooks can fetch empty list of hooks.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.emptyIterable()
-        );
-    }
+public final class CarefulWireTest {
 
     /**
-     * MkHooks can delete a single hook by ID.
-     *
-     * @throws Exception if something goes wrong.
-     * @todo #158 MkHooks should be able to delete individual hooks by name.
-     *  Let's implement a test here and the method remove(int id) from MkHooks.
-     *  When done, remove this puzzle and the Ignore annotation from this
-     *  method.
+     * CarefulWire can wait until the limit reset.
+     * @throws IOException If some problem inside
      */
     @Test
-    @Ignore
-    public void canDeleteSingleHook() throws Exception {
-        //To be implemented.
-    }
-
-    /**
-     * MkHooks can fetch single hook.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchSingleHook() throws Exception {
-        // to be implemented
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+    public void waitUntilReset() throws IOException {
+        final int threshold = 10;
+        // @checkstyle MagicNumber (2 lines)
+        final long reset = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis()) + 5L;
+        new FakeRequest()
+            .withStatus(HttpURLConnection.HTTP_OK)
+            .withReason("OK")
+            .withHeader("X-RateLimit-Remaining", "9")
+            .withHeader("X-RateLimit-Reset", String.valueOf(reset))
+            .through(CarefulWire.class, threshold)
+            .fetch();
+        final long now = TimeUnit.MILLISECONDS
+            .toSeconds(System.currentTimeMillis());
+        MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
     }
 }

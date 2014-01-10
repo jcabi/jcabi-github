@@ -29,67 +29,66 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Hooks;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.DeployKey;
+import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Repo;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Test;
+import java.io.IOException;
+import java.util.Collections;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Test case for {@link MkHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Mock Github deploy keys.
+ *
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
-public final class MkHooksTest {
-    /**
-     * MkHooks can fetch empty list of hooks.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.emptyIterable()
-        );
-    }
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+public final class MkDeployKeys implements DeployKeys {
 
     /**
-     * MkHooks can delete a single hook by ID.
-     *
-     * @throws Exception if something goes wrong.
-     * @todo #158 MkHooks should be able to delete individual hooks by name.
-     *  Let's implement a test here and the method remove(int id) from MkHooks.
-     *  When done, remove this puzzle and the Ignore annotation from this
-     *  method.
+     * Storage.
      */
-    @Test
-    @Ignore
-    public void canDeleteSingleHook() throws Exception {
-        //To be implemented.
-    }
+    private final transient MkStorage storage;
 
     /**
-     * MkHooks can fetch single hook.
-     * @throws Exception if some problem inside
+     * Login of the user logged in.
      */
-    @Test
-    @Ignore
-    public void canFetchSingleHook() throws Exception {
-        // to be implemented
-    }
+    private final transient String self;
 
     /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * Repo name.
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+    private final transient Coordinates coords;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @throws IOException If there is any I/O problem
+     */
+    public MkDeployKeys(final MkStorage stg, final String login,
+        final Coordinates rep) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
+    }
+
+    @Override
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public Iterable<DeployKey> iterate() {
+        return Collections.emptyList();
     }
 }

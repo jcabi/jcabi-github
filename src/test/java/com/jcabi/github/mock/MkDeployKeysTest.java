@@ -29,57 +29,31 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Hooks;
+import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link MkDeployKeys}.
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
-public final class MkHooksTest {
+public final class MkDeployKeysTest {
     /**
-     * MkHooks can fetch empty list of hooks.
+     * MkDeployKeys can fetch empty list of deploy keys.
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
+    public void canFetchEmptyListOfDeployKeys() throws Exception {
+        final DeployKeys deployKeys = MkDeployKeysTest.repo().keys();
         MatcherAssert.assertThat(
-            hooks.iterate(),
+            deployKeys.iterate(),
             Matchers.emptyIterable()
         );
-    }
-
-    /**
-     * MkHooks can delete a single hook by ID.
-     *
-     * @throws Exception if something goes wrong.
-     * @todo #158 MkHooks should be able to delete individual hooks by name.
-     *  Let's implement a test here and the method remove(int id) from MkHooks.
-     *  When done, remove this puzzle and the Ignore annotation from this
-     *  method.
-     */
-    @Test
-    @Ignore
-    public void canDeleteSingleHook() throws Exception {
-        //To be implemented.
-    }
-
-    /**
-     * MkHooks can fetch single hook.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchSingleHook() throws Exception {
-        // to be implemented
     }
 
     /**

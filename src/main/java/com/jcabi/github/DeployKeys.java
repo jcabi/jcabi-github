@@ -29,76 +29,30 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import java.io.IOException;
-import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Github hook.
+ * Github deploy keys.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/hooks/">Hooks API</a>
+ * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  */
-@Immutable
-public interface Hook extends JsonReadable {
+public interface DeployKeys {
 
     /**
-     * Repository we're in.
+     * Owner of them.
      * @return Repo
      */
     @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
-     * Get its number.
-     * @return Hook number
+     * Iterate them all.
+     * @return Iterator of deploy keys
+     * @see <a href="http://developer.github.com/v3/repos/keys/#list">List</a>
      */
-    int number();
-
-    /**
-     * Smart Hook with extra features.
-     */
-    @Immutable
-    @ToString
-    @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "hook")
-    final class Smart implements Hook {
-        /**
-         * Encapsulated Hook.
-         */
-        private final transient Hook hook;
-        /**
-         * Public ctor.
-         * @param hoo Hook
-         */
-        public Smart(final Hook hoo) {
-            this.hook = hoo;
-        }
-        /**
-         * Get its name.
-         * @return Name of hook
-         * @throws IOException If there is any I/O problem
-         */
-        public String name() throws IOException {
-            return new SmartJson(this).text("name");
-        }
-        @Override
-        public Repo repo() {
-            return this.hook.repo();
-        }
-        @Override
-        public int number() {
-            return this.hook.number();
-        }
-        @Override
-        public JsonObject json() throws IOException {
-            return this.hook.json();
-        }
-    }
+    @NotNull(message = "iterable is never NULL")
+    Iterable<DeployKey> iterate();
 }

@@ -120,7 +120,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Hooks hooks() {
-        return new RtHooks(this);
+        return new RtHooks(this.entry, this);
     }
 
     @Override
@@ -153,6 +153,16 @@ final class RtRepo implements Repo {
     @Override
     public Releases releases() {
         return new RtReleases(this);
+    }
+
+    @Override
+    public DeployKeys keys() {
+        return new RtDeployKeys(this);
+    }
+
+    @Override
+    public Forks forks() {
+        return new RtForks(this);
     }
 
     @Override
