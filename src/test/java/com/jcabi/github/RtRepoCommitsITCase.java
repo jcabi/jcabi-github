@@ -29,37 +29,15 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
-
 /**
- * Commits of a Github repository.
+ * Integration case for {@link RepoCommits}.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
- * @todo #117 RtRepoCommits should be able to compare two commits. Let's
- *  add a test, declare a method here and implement it. See
- *  http://developer.github.com/v3/repos/commits/#compare-two-commits. When
- *  done, remove this puzzle.
+ * @todo #117 Add test fetchCommits() to check that commits actually fetched.
+ *  See
+ *  http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository.
+ * @todo #117 Add test getCommit() to check that commit actually got.
+ *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
-@Immutable
-public interface RepoCommits extends JsonReadable {
-
-    /**
-     * Iterate all repository's commits.
-     * @return All commits
-     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Commit> iterate();
-
-    /**
-     * Get single repository's commits.
-     * @param sha SHA of a commit
-     * @return Commit
-     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
-     */
-    @NotNull(message = "Commit is never NULL")
-    Commit get(String sha);
-
+public class RtRepoCommitsITCase {
 }

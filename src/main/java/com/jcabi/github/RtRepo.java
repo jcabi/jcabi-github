@@ -175,7 +175,7 @@ final class RtRepo implements Repo {
 
     @Override
     public RepoCommits commits() {
-        return new RtRepoCommits(this.entry, this);
+        return new RtRepoCommits(this.entry, this.coords);
     }
 
     @Override

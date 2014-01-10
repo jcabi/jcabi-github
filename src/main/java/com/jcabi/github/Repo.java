@@ -140,7 +140,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Forks forks();
 
     /**
-     * Get repo's commits.
+     * Get repository's commits.
      * @return Commits
      * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
      */

@@ -38,9 +38,14 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Commits of a Github repository.
- *
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
+ * @todo #117 RtRepoCommits should be able to fetch commits. Let's
+ *  implement this method. When done, remove this puzzle and
+ *  Ignore annotation from a test for the method.
+ * @todo #117 RtRepoCommits should be able to get commit. Let's implement
+ *  this method. When done, remove this puzzle and Ignore annotation
+ *  from a test for the method.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -54,18 +59,26 @@ final class RtRepoCommits implements RepoCommits {
 
     /**
      * Public ctor.
-     *
      * @param req Entry point of API
-     * @param repo Repo
+     * @param repo Repository coordinates
      */
-    RtRepoCommits(final Request req, final Repo repo) {
-        final Coordinates coords = repo.coordinates();
+    RtRepoCommits(final Request req, final Coordinates repo) {
         this.request = req.uri()
             .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
+            .path(repo.user())
+            .path(repo.repo())
             .path("/commits")
             .back();
+    }
+
+    @Override
+    public Iterable<Commit> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Commit get(final String sha) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

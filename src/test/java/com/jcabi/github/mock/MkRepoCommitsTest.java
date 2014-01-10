@@ -29,78 +29,48 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.RepoCommits;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock commits of a Github repository.
+ * Test case for {@link MkRepoCommits).
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 MkRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
- * @todo #117 MkRepoCommits should be able to get commit. Let's implement
- *  this method. When done, remove this puzzle and Ignore annotation
- *  from a test for the method.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "coords" })
-final class MkRepoCommits implements RepoCommits {
+public final class MkRepoCommitsTest {
 
     /**
-     * Storage.
+     * MkRepoCommits can return commits' iterator.
+     * @throws IOException If some problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Repo coordinates.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param repo Repository coordinates
-     */
-    MkRepoCommits(final MkStorage stg, final Coordinates repo) {
-        this.storage = stg;
-        this.coords = repo;
-    }
-
-    @Override
-    public Iterable<Commit> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Commit get(final String sha) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-    }
-
-    /**
-     * Xpath of this element in XML tree.
-     * @return Xpath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/commits",
-            this.coords
+    @Ignore
+    @Test
+    public void returnIterator() throws IOException {
+        final RepoCommits commits = new MkRepoCommits(
+            new MkStorage.InFile(),
+            new Coordinates.Simple("testuser1", "testrepo1")
         );
+        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
     }
+
+    /**
+     * MkRepoCommits can get a commit.
+     * @throws IOException if some problem inside
+     */
+    @Ignore
+    @Test
+    public void getCommit() throws IOException {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
+        final RepoCommits commits = new MkRepoCommits(
+            new MkStorage.InFile(),
+            new Coordinates.Simple("testuser2", "testrepo2")
+        );
+        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
+    }
+
 }
