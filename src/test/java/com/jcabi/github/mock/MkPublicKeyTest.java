@@ -27,80 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github public key.
+ * Test case for {@link MkPublicKey}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtPublicKey implements PublicKey {
+public final class MkPublicKeyTest {
 
     /**
-     * RESTful request.
-     */
-    private final transient Request request;
-
-    /**
-     * User we're in.
-     */
-    private final transient User owner;
-
-    /**
-     * Public key ID number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
+     * MkHooks can be represented as JSON.
      *
-     * @param req RESTful request
-     * @param user Owner of this comment
-     * @param number Number of the get
+     * @throws Exception If a problem occurs.
+     * @todo #24 Implement the Json() method of MkPublicKey. Implement this unit
+     *  test method and remove the Ignore annotation when done.
      */
-    public RtPublicKey(final Request req, final User user, final int number) {
-        this.request = req.uri().path("/user").path("/keys").back();
-        this.owner = user;
-        this.num = number;
+    @Test
+    @Ignore
+    public void canRetrieveAsJson() throws Exception {
+        //To be implemented.
     }
 
-    @Override
-    public User user() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        new RtJson(this.request).patch(json);
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    /**
+     * MkHooks can accept a PATCH request.
+     *
+     * @throws Exception If a problem occurs.
+     * @todo #24 Implement the patch() method of MkPublicKey. Implement this
+     *  unit test method and remove the Ignore annotation when done.
+     */
+    @Test
+    @Ignore
+    public void canBePatched() throws Exception {
+        //To be implemented.
     }
 
 }

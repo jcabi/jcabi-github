@@ -27,84 +27,76 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.PublicKey;
+import com.jcabi.github.User;
 import java.io.IOException;
-import java.net.HttpURLConnection;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github public keys.
- *
+ * Mock Github public key.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
- * @todo #24 Implement the iterate() method of RtPublicKeys. Don't forget to
- *  implement the test {@link RtPublicKeysTest#retrievesKeys()} class when done.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "request", "owner" })
-public final class RtPublicKeys implements PublicKeys {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "num" })
+final class MkPublicKey implements PublicKey {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
 
     /**
-     * API entry point.
+     * Login of the user logged in.
      */
-    private final transient Request entry;
+    private final transient String self;
 
     /**
-     * RESTful request.
+     * Issue number.
      */
-    private final transient Request request;
-
-    /**
-     * User we're in.
-     */
-    private final transient User owner;
+    private final transient int num;
 
     /**
      * Public ctor.
-     *
-     * @param req Request
-     * @param user User
+     * @param stg Storage
+     * @param login User to login
+     * @param number Key number
      */
-    public RtPublicKeys(final Request req, final User user) {
-        this.entry = req;
-        this.owner = user;
-        this.request = this.entry.uri().path("/user").path("/keys").back();
+    MkPublicKey(final MkStorage stg, final String login, final int number) {
+        this.storage = stg;
+        this.self = login;
+        this.num = number;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("JSON not yet implemented.");
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("Patch not yet implemented.");
     }
 
     @Override
     public User user() {
-        return this.owner;
+        try {
+            return new MkUser(this.storage, this.self);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
-    public Iterable<PublicKey> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
-    }
-
-    @Override
-    public PublicKey get(final int number) {
-        return new RtPublicKey(this.entry, this.owner, number);
-    }
-
-    @Override
-    public void remove(final int number) throws IOException {
-        this.request.method(Request.DELETE)
-            .uri().path(Integer.toString(number)).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public int number() {
+        return this.num;
     }
 
 }

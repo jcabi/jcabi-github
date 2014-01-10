@@ -27,80 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
+import com.jcabi.github.PublicKeys;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github public key.
+ * Test case for {@link MkPublicKeys}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtPublicKey implements PublicKey {
+public final class MkPublicKeysTest {
 
     /**
-     * RESTful request.
-     */
-    private final transient Request request;
-
-    /**
-     * User we're in.
-     */
-    private final transient User owner;
-
-    /**
-     * Public key ID number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
+     * MkPublicKeys should be able to iterate its keys.
      *
-     * @param req RESTful request
-     * @param user Owner of this comment
-     * @param number Number of the get
+     * @throws Exception if a problem occurs.
+     * @todo #24 Implement the iterate() method of MkPublicKeys. Implement this
+     *  unit test method and remove the Ignore annotation when done.
      */
-    public RtPublicKey(final Request req, final User user, final int number) {
-        this.request = req.uri().path("/user").path("/keys").back();
-        this.owner = user;
-        this.num = number;
+    @Test
+    @Ignore
+    public void retrievesKeys() throws Exception {
+        //To be implemented.
     }
 
-    @Override
-    public User user() {
-        return this.owner;
+    /**
+     * MkPublicKeys should be able to retrieve a single key.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void canFetchSingleKey() throws Exception {
+        final PublicKeys keys = new MkGithub().users().get("jeff").keys();
+        MatcherAssert.assertThat(
+            keys.get(1),
+            Matchers.notNullValue()
+        );
     }
 
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        new RtJson(this.request).patch(json);
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    /**
+     * MkPublicKeys should be able to remove a key.
+     *
+     * @throws Exception if a problem occurs.
+     * @todo #24 Implement the remove() method of MkPublicKey. Implement this
+     *  unit test method and remove the Ignore annotation when done.
+     */
+    @Test
+    @Ignore
+    public void canRemoveKey() throws Exception {
+        //To be implemented.
     }
 
 }
