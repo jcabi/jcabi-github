@@ -41,7 +41,7 @@ import org.junit.Test;
  *  Github repository, a single release, create, edit and remove release.
  *  When done, remove this puzzle and Ignore annotation from the method.
  */
-public class RtReleasesITCase {
+public final class RtReleasesITCase {
 
     /**
      * RtReleases can iterate releases.
@@ -52,4 +52,18 @@ public class RtReleasesITCase {
     public void canFetchAllReleases() throws Exception {
         // to be implemented
     }
+
+    /**
+     * RtReleases can fetch a single release.
+     * @todo #180 Integration test for RtReleases.get() should be implemented.
+     *  Looks like it depends on RtReleases.iterate(), so it can be implemented
+     *  only after the iterate() implementation. When done, remove this puzzle
+     *  and Ignore annotation from this method.
+     */
+    @Test
+    @Ignore
+    public void canFetchRelease() {
+        // to be implemented
+    }
+
 }
