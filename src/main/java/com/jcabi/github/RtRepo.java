@@ -44,6 +44,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle ClassFanOutComplexity (5 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -170,6 +171,11 @@ final class RtRepo implements Repo {
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
         new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public RepoCommits commits() {
+        return new RtRepoCommits(this.entry, this.coords);
     }
 
     @Override

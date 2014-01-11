@@ -27,72 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Milestones;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
-import java.io.IOException;
+import com.rexsl.test.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link Repo}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtRepoCommits}.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkRepoTest {
+public final class RtRepoCommitsTest {
 
     /**
-     * Repo can work.
-     * @throws Exception If some problem inside
+     * RtRepoCommits can return commits' iterator.
      */
+    @Ignore
     @Test
-    public void works() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
+    public void returnIterator() {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody(
+                Json.createArrayBuilder().add(
+                    // @checkstyle MultipleStringLiterals (1 line)
+                    Json.createObjectBuilder().add("sha", sha)
+                ).build().toString()
+            ),
+            new Coordinates.Simple("testuser1", "testrepo1")
         );
         MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.hasToString("jeff/test")
+            commits.iterate().iterator().next().sha(),
+            Matchers.equalTo(sha)
         );
     }
 
     /**
-     * This tests that the milestones() method in MkRepo is working fine.
-     * @throws Exception - if anything goes wrong.
+     * RtRepoCommits can get commit.
      */
+    @Ignore
     @Test
-    public void returnsMkMilestones() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test1").build()
+    public void getCommit() {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("sha", sha)
+                    .build()
+                    .toString()
+            ),
+            new Coordinates.Simple("testuser2", "testrepo2")
         );
-        final Milestones milestones = repo.milestones();
-        MatcherAssert.assertThat(
-            milestones,
-            Matchers.notNullValue()
-        );
-    }
-
-    /**    
-     * Repo can fetch its commits.
-     *
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void fetchCommits() throws IOException {
-        final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+        MatcherAssert.assertThat(commits.get(sha).sha(), Matchers.equalTo(sha));
     }
 }

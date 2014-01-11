@@ -110,7 +110,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
     /**
      * Get all available assignees to which issues may be assigned.
      * @return Assignees
-     * @see @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
+     * @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
      */
     @NotNull(message = "assignees are never NULL")
     Assignees assignees();
@@ -118,7 +118,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
     /**
      * Get all releases of the repo.
      * @return Releases
-     * @see @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
      */
     @NotNull(message = "releases are never NULL")
     Releases releases();
@@ -126,7 +126,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
     /**
      * Get all deploy keys of the repo.
      * @return DeployKeys
-     * @see @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+     * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
      */
     @NotNull(message = "deploy keys are never NULL")
     DeployKeys keys();
@@ -138,6 +138,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "Forks are never NULL")
     Forks forks();
+
+    /**
+     * Get repository's commits.
+     * @return Commits
+     * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+     */
+    @NotNull(message = "RepoCommits are never NULL")
+    RepoCommits commits();
 
     /**
      * Smart Repo with extra features.
@@ -219,6 +227,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.repo.patch(json);
+        }
+        @Override
+        public RepoCommits commits() {
+            return this.repo.commits();
         }
         @Override
         public JsonObject json() throws IOException {
