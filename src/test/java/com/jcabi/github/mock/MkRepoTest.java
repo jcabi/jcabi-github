@@ -29,8 +29,8 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Milestones;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import java.io.IOException;
@@ -80,7 +80,7 @@ public final class MkRepoTest {
         );
     }
 
-    /**    
+    /**
      * Repo can fetch its commits.
      *
      * @throws IOException if some problem inside

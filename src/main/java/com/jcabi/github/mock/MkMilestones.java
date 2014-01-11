@@ -67,17 +67,15 @@ public final class MkMilestones implements Milestones {
      * @param rep Repo
      * @throws IOException - if any I/O problem occurs
      */
-    MkMilestones(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkMilestones(
+        final MkStorage stg, final String login, final Coordinates rep)
+        throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
         this.storage.apply(
         new Directives().xpath(
-            String.format(
-                "/github/repos/repo[@coords='%s']",
-                this.coords
-            )
+            String.format("/github/repos/repo[@coords='%s']", this.coords)
         ).addIf("milestones")
         );
     }
