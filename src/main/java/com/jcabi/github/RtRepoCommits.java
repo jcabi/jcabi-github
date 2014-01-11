@@ -27,53 +27,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link Repo}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Commits of a Github repository.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
+ * @todo #117 RtRepoCommits should be able to fetch commits. Let's
+ *  implement this method. When done, remove this puzzle and
+ *  Ignore annotation from a test for the method.
+ * @todo #117 RtRepoCommits should be able to get commit. Let's implement
+ *  this method. When done, remove this puzzle and Ignore annotation
+ *  from a test for the method.
  */
-public final class MkRepoTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+final class RtRepoCommits implements RepoCommits {
 
     /**
-     * Repo can work.
-     * @throws Exception If some problem inside
+     * RESTful request for the commits.
      */
-    @Test
-    public void works() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.hasToString("jeff/test")
-        );
+    private final transient Request request;
+
+    /**
+     * Public ctor.
+     * @param req Entry point of API
+     * @param repo Repository coordinates
+     */
+    RtRepoCommits(final Request req, final Coordinates repo) {
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.user())
+            .path(repo.repo())
+            .path("/commits")
+            .back();
     }
 
-    /**
-     * Repo can fetch its commits.
-     *
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void fetchCommits() throws IOException {
-        final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+    @Override
+    public Iterable<Commit> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Commit get(final String sha) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 }
