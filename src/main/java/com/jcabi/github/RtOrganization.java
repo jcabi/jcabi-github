@@ -31,9 +31,11 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organization.
@@ -47,32 +49,61 @@ import javax.validation.constraints.NotNull;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "userobj", "organizationId" })
 final class RtOrganization implements Organization {
+
+    /**
+     * User.
+     */
+    private final transient User userobj;
+
+    /**
+     * Organization Id.
+     */
+    private final transient int organizationId;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Public constructor.
+     * @param req Request
+     * @param usr User
+     * @param orgid Organization id
+     */
+    public RtOrganization(final Request req, final User usr,
+        final int orgid) {
+        this.request = req;
+        this.userobj = usr;
+        this.organizationId = orgid;
+    }
 
     @Override
     public User user() {
-        return null;
+        return this.userobj;
     }
 
     @Override
     public int orgId() {
-        return 0;
+        return this.organizationId;
     }
 
     @Override
     public int compareTo(final Organization org) {
-        return 0;
+        return new Integer(org.orgId()).compareTo(this.orgId());
     }
 
     @Override
     public void patch(
         @NotNull(message = "JSON is never NULL")
         final JsonObject json) throws IOException {
-        // to be implemented
+        new RtJson(this.request).patch(json);
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return null;
+        return new RtJson(this.request).fetch();
     }
 }
