@@ -74,46 +74,32 @@ public final class RtCommentTest {
     }
 
     /**
-     * This tests that RtComment can properly return its issue (owner).
+     * RtComment can return its issue (owner).
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void returnsIssue() throws Exception {
+    public void returnsItsIssue() throws Exception {
         final Issue issue = new MkGithub().repos().create(
-            Json.createObjectBuilder()
-                .add("name", "test2").build()
+            Json.createObjectBuilder().add("name", "test2").build()
         ).issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
-        MatcherAssert.assertThat(
-            comment.issue(),
-            Matchers.is(issue)
-        );
+        MatcherAssert.assertThat(comment.issue(), Matchers.is(issue));
     }
 
     /**
-     * This tests that RtComment can properly return its number.
+     * RtComment can return its number.
      * @throws Exception - in case something goes wrong.
      */
     @Test
-    public void returnsNumber() throws Exception {
+    public void returnsItsNumber() throws Exception {
         final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder()
-                .add(
-                    "name",
-                    "test3"
-                ).build()
-            )
-                .issues().create("testing2", "issue2");
-        final int cNumber = 10;
+            .create(Json.createObjectBuilder().add("name", "test3").build())
+            .issues().create("testing2", "issue2");
+        final int num = 10;
         final RtComment comment = new RtComment(
-            new FakeRequest(),
-            issue,
-            cNumber
+            new FakeRequest(), issue, num
         );
-        MatcherAssert.assertThat(
-            comment.number(),
-            Matchers.is(cNumber)
-        );
+        MatcherAssert.assertThat(comment.number(), Matchers.is(num));
     }
 
     /**
@@ -123,19 +109,10 @@ public final class RtCommentTest {
     @Test
     public void removesComment() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                ""
-            )
-        )
-            .start();
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
         final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder()
-                .add(
-                    "name",
-                    "test4"
-                ).build()
-            )
+            .create(Json.createObjectBuilder().add("name", "test4").build())
             .issues().create("testing3", "issue3");
         final RtComment comment = new RtComment(new ApacheRequest(
             container.home()), issue, 10);
@@ -152,31 +129,17 @@ public final class RtCommentTest {
     }
 
     /**
-     * This tests that the json() method is working properly.
+     * RtComment can return its JSon description.
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void returnsJSon() throws Exception {
-        final StringBuilder body = new StringBuilder();
-        body.append('{');
-        body.append('"');
-        body.append("name");
-        body.append('"');
-        body.append(':');
-        body.append('"');
-        body.append("test5");
-        body.append('"');
-        body.append('}');
+    public void returnsItsJSon() throws Exception {
+        final String body = "{\"name\":\"test5\"}";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK, body.toString())).start();
+                HttpURLConnection.HTTP_OK, body)).start();
         final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder()
-                .add(
-                    "name",
-                    "test5"
-                ).build()
-            )
+            .create(Json.createObjectBuilder().add("name", "test5").build())
             .issues().create("testing4", "issue4");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10);
@@ -192,21 +155,16 @@ public final class RtCommentTest {
     }
 
     /**
-     * This tests that the patch() method is functioning properly.
+     * RtComment can patch a comment.
      * @throws Exception - if anything goes wrong.
      */
     @Test
     public void patchesComment() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                ""
-            )
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
         final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder()
-                .add("name", "test6").build()
-            )
+            .create(Json.createObjectBuilder().add("name", "test6").build())
             .issues().create("testing5", "issue5");
         final RtComment comment = new RtComment(new ApacheRequest(
             container.home()), issue, 10);
@@ -231,18 +189,10 @@ public final class RtCommentTest {
     @Test
     public void givesToString() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                ""
-            )
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
         final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder()
-                .add(
-                    "name",
-                    "test7"
-                ).build()
-            )
+            .create(Json.createObjectBuilder().add("name", "test7").build())
             .issues().create("testing6", "issue6");
         final RtComment comment = new RtComment(new ApacheRequest(
             container.home()), issue, 10);
