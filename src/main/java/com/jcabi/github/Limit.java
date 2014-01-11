@@ -141,7 +141,6 @@ public interface Limit extends JsonReadable {
         }
         @Override
         public JsonObject json() throws IOException {
-            final JsonObject json = this.origin.json();
             final int limit = new SmartJson(this.origin).number("limit");
             final int remaining = this.max - (
                 limit - new SmartJson(this.origin).number("remaining")
@@ -149,7 +148,7 @@ public interface Limit extends JsonReadable {
             return Json.createObjectBuilder()
                 .add("limit", limit)
                 .add("remaining", remaining)
-                .add("reset", json.getInt("reset"))
+                .add("reset", new SmartJson(this.origin).number("reset"))
                 .build();
         }
         @Override
