@@ -27,53 +27,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
-
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
-import java.io.IOException;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+package com.jcabi.github;
 
 /**
- * Test case for {@link Repo}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Integration case for {@link RepoCommits}.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
+ * @todo #117 Add test fetchCommits() to check that commits actually fetched.
+ *  See
+ *  http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository.
+ * @todo #117 Add test getCommit() to check that commit actually got.
+ *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
-public final class MkRepoTest {
-
-    /**
-     * Repo can work.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void works() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.hasToString("jeff/test")
-        );
-    }
-
-    /**
-     * Repo can fetch its commits.
-     *
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void fetchCommits() throws IOException {
-        final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
+public class RtRepoCommitsITCase {
 }

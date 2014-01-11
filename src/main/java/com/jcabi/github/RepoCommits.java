@@ -27,53 +27,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
-import java.io.IOException;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import javax.validation.constraints.NotNull;
 
 /**
- * Test case for {@link Repo}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Commits of a Github repository.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
+ * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @todo #117 RtRepoCommits should be able to compare two commits. Let's
+ *  add a test, declare a method here and implement it. See
+ *  http://developer.github.com/v3/repos/commits/#compare-two-commits. When
+ *  done, remove this puzzle.
  */
-public final class MkRepoTest {
+@Immutable
+public interface RepoCommits extends JsonReadable {
 
     /**
-     * Repo can work.
-     * @throws Exception If some problem inside
+     * Iterate all repository's commits.
+     * @return All commits
+     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
-    @Test
-    public void works() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.hasToString("jeff/test")
-        );
-    }
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Commit> iterate();
 
     /**
-     * Repo can fetch its commits.
-     *
-     * @throws IOException if some problem inside
+     * Get single repository's commits.
+     * @param sha SHA of a commit
+     * @return Commit
+     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
      */
-    @Test
-    public void fetchCommits() throws IOException {
-        final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
+    @NotNull(message = "Commit is never NULL")
+    Commit get(String sha);
+
 }
