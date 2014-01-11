@@ -27,72 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.RepoCommits;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link MkRepoCommits).
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @todo #16 Add test iterateAssignees() to check that
- *  assignees actually fetched.
- *  See http://developer.github.com/v3/issues/assignees/
  */
-public final class RtRepoITCase {
+public final class MkRepoCommitsTest {
 
     /**
-     * RtRepo can identify itself.
-     * @throws Exception If some problem inside
+     * MkRepoCommits can return commits' iterator.
+     * @throws IOException If some problem inside
      */
+    @Ignore
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.notNullValue()
+    public void returnIterator() throws IOException {
+        final RepoCommits commits = new MkRepoCommits(
+            new MkStorage.InFile(),
+            new Coordinates.Simple("testuser1", "testrepo1")
         );
+        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
     }
 
     /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
+     * MkRepoCommits can get a commit.
+     * @throws IOException if some problem inside
      */
+    @Ignore
     @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
+    public void getCommit() throws IOException {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
+        final RepoCommits commits = new MkRepoCommits(
+            new MkStorage.InFile(),
+            new Coordinates.Simple("testuser2", "testrepo2")
         );
-    }
-
-    /**
-     * RtRepo can fetch its commits.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
     }
 
 }

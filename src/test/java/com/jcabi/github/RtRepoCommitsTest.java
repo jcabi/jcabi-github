@@ -29,70 +29,58 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.request.FakeRequest;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtRepoCommits}.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @todo #16 Add test iterateAssignees() to check that
- *  assignees actually fetched.
- *  See http://developer.github.com/v3/issues/assignees/
  */
-public final class RtRepoITCase {
+public final class RtRepoCommitsTest {
 
     /**
-     * RtRepo can identify itself.
-     * @throws Exception If some problem inside
+     * RtRepoCommits can return commits' iterator.
      */
+    @Ignore
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+    public void returnIterator() {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody(
+                Json.createArrayBuilder().add(
+                    // @checkstyle MultipleStringLiterals (1 line)
+                    Json.createObjectBuilder().add("sha", sha)
+                ).build().toString()
+            ),
+            new Coordinates.Simple("testuser1", "testrepo1")
+        );
         MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.notNullValue()
+            commits.iterate().iterator().next().sha(),
+            Matchers.equalTo(sha)
         );
     }
 
     /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
+     * RtRepoCommits can get commit.
      */
+    @Ignore
     @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
+    public void getCommit() {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("sha", sha)
+                    .build()
+                    .toString()
+            ),
+            new Coordinates.Simple("testuser2", "testrepo2")
         );
+        MatcherAssert.assertThat(commits.get(sha).sha(), Matchers.equalTo(sha));
     }
-
-    /**
-     * RtRepo can fetch its commits.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
-    }
-
 }
