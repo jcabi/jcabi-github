@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -43,6 +44,7 @@ import javax.validation.constraints.NotNull;
  *  title. Include an example of how to do this in the Javadoc comment above
  *  (see other classes/interfaces for how they describe it).
  */
+@Immutable
 public interface PublicKey extends JsonReadable, JsonPatchable {
 
     /**

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
  */
+@Immutable
 public interface PublicKeys {
 
     /**
