@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -75,4 +76,16 @@ public interface Hooks {
      */
     @NotNull(message = "hook is never NULL")
     Hook get(int number);
+
+
+    /**
+     * Create new hook.
+     * @param name Hook name
+     * @param config Configuration for the hook
+     * @return Hook
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/hooks/#create-a-hook">Create a hook</a>
+     */
+    @NotNull(message = "hook is never NULL")
+    Hook create(String name, Map<String, String> config)throws IOException;
 }

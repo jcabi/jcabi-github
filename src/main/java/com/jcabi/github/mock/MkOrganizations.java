@@ -36,6 +36,7 @@ import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -55,6 +56,12 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
 final class MkOrganizations implements Organizations {
+
+    /**
+     * Random generator.
+     */
+    private static final Random RAND = new SecureRandom();
+
     /**
      * Storage.
      */
@@ -119,10 +126,10 @@ final class MkOrganizations implements Organizations {
                     .add("blog", "https://github.com/blog")
                     .add("location", "San Francisco")
                     .add("email", "octocat@github.com")
-                    .add("public_repos", new Random().nextInt())
-                    .add("public_gists", new Random().nextInt())
-                    .add("followers", new Random().nextInt())
-                    .add("following", new Random().nextInt())
+                    .add("public_repos", MkOrganizations.RAND.nextInt())
+                    .add("public_gists", MkOrganizations.RAND.nextInt())
+                    .add("followers", MkOrganizations.RAND.nextInt())
+                    .add("following", MkOrganizations.RAND.nextInt())
                     .add("html_url", "https://github.com/octocat")
                     .add("created_at", "2008-01-14T04:33:35Z")
                     .add("type", "Organization")

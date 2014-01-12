@@ -29,11 +29,8 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import java.net.HttpURLConnection;
+import com.rexsl.test.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -47,7 +44,6 @@ import org.mockito.Mockito;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
 public final class RtReleasesTest {
 
     /**
@@ -56,17 +52,14 @@ public final class RtReleasesTest {
      */
     @Test
     public void canFetchEmptyListOfReleases() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
-        ).start();
         final Releases releases = new RtReleases(
+            new FakeRequest().withBody("[]"),
             RtReleasesTest.repo()
         );
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.emptyIterable()
         );
-        container.stop();
     }
 
     /**
@@ -84,18 +77,15 @@ public final class RtReleasesTest {
     }
 
     /**
-     * RtReleases can fetch single release.
-     *
-     * @todo #123 RtReleases should be able to get a single release.
-     *  Let's implement a test here and a method get() of RtReleases.
-     *  The method should fetch a single release.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * RtReleases can fetch a single release.
+     * @throws IOException If some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchSingleRelease() {
-        // to be implemented
+    public void canFetchSingleRelease() throws IOException {
+        final Releases releases = new RtReleases(
+            new FakeRequest(), RtReleasesTest.repo()
+        );
+        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
     }
 
     /**

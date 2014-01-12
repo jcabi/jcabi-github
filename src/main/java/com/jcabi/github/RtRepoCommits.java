@@ -30,39 +30,64 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Commits of a Github repository.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @todo #117 RtRepoCommits should be able to fetch commits. Let's
+ *  implement this method. When done, remove this puzzle and
+ *  Ignore annotation from a test for the method.
+ * @todo #117 RtRepoCommits should be able to get commit. Let's implement
+ *  this method. When done, remove this puzzle and Ignore annotation
+ *  from a test for the method.
  */
 @Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+final class RtRepoCommits implements RepoCommits {
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * RESTful request for the commits.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    private final transient Request request;
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * Public ctor.
+     * @param req Entry point of API
+     * @param repo Repository coordinates
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    RtRepoCommits(final Request req, final Coordinates repo) {
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.user())
+            .path(repo.repo())
+            .path("/commits")
+            .back();
+    }
 
+    @Override
+    public Iterable<Commit> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Commit get(final String sha) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 }

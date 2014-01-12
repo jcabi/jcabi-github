@@ -27,42 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.RepoCommits;
+import java.io.IOException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link MkRepoCommits).
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+public final class MkRepoCommitsTest {
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * MkRepoCommits can return commits' iterator.
+     * @throws IOException If some problem inside
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    @Ignore
+    @Test
+    public void returnIterator() throws IOException {
+        final RepoCommits commits = new MkRepoCommits(
+            new MkStorage.InFile(),
+            new Coordinates.Simple("testuser1", "testrepo1")
+        );
+        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
+    }
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * MkRepoCommits can get a commit.
+     * @throws IOException if some problem inside
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    @Ignore
+    @Test
+    public void getCommit() throws IOException {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
+        final RepoCommits commits = new MkRepoCommits(
+            new MkStorage.InFile(),
+            new Coordinates.Simple("testuser2", "testrepo2")
+        );
+        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
+    }
 
 }

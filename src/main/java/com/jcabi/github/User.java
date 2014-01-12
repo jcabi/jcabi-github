@@ -52,15 +52,6 @@ import lombok.ToString;
  *  This new UserEmails interface should be implemented by GhUserEmails,
  *  tested in a unit and integration tests. Besides that, we should
  *  implement MkUserEmails class.
- * @todo #1:1hr Public keys of a user. Let's implement a new method
- *  keys(), which should return an instance of interface PublicKeys. This
- *  interface should have at least methods 1) iterate() to list all public
- *  keys of a user, 2) get(String) to get a single public key, 3) remove(String)
- *  to remove a key. Every key should be an instance of interface PublicKey,
- *  extending JsonReadable and JsonPatchable. All of the new classes should
- *  be implemented with GhPublicKeys and GhPublicKey classes. We should
- *  create integration and unit tests, and implement MkPublicKeys
- *  and MkPublicKey classes.
  * @see <a href="http://developer.github.com/v3/users/">User API</a>
  * @since 0.1
  */
@@ -90,6 +81,13 @@ public interface User extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "organizations is never NULL")
     Organizations organizations();
+
+    /**
+     * Get his keys.
+     * @return PublicKeys keys
+     */
+    @NotNull(message = "keys is never NULL")
+    PublicKeys keys();
 
     /**
      * Smart user with extra features.
@@ -218,6 +216,12 @@ public interface User extends JsonReadable, JsonPatchable {
             return this.user.organizations();
         }
 
+
+        @Override
+        public PublicKeys keys() {
+            return this.user.keys();
+        }
+
         @Override
         public JsonObject json() throws IOException {
             return this.user.json();
@@ -227,6 +231,7 @@ public interface User extends JsonReadable, JsonPatchable {
         public void patch(final JsonObject json) throws IOException {
             this.user.patch(json);
         }
+
     }
 
 }

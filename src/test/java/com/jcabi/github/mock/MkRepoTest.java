@@ -29,8 +29,10 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -59,4 +61,19 @@ public final class MkRepoTest {
         );
     }
 
+    /**
+     * Repo can fetch its commits.
+     *
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void fetchCommits() throws IOException {
+        final String user = "testuser";
+        final Repo repo = new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo")
+        );
+        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+    }
 }

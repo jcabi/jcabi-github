@@ -30,22 +30,31 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Commit;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.RepoCommits;
 import java.io.IOException;
-import java.util.Map;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
-import org.apache.commons.lang3.StringUtils;
-import org.xembly.Directives;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Json patch.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Mock commits of a Github repository.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.5
+ * @todo #117 MkRepoCommits should be able to fetch commits. Let's
+ *  implement this method. When done, remove this puzzle and
+ *  Ignore annotation from a test for the method.
+ * @todo #117 MkRepoCommits should be able to get commit. Let's implement
+ *  this method. When done, remove this puzzle and Ignore annotation
+ *  from a test for the method.
  */
 @Immutable
-final class JsonPatch {
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords" })
+final class MkRepoCommits implements RepoCommits {
 
     /**
      * Storage.
@@ -53,27 +62,45 @@ final class JsonPatch {
     private final transient MkStorage storage;
 
     /**
-     * Public ctor.
-     * @param stg Storage to use
+     * Repo coordinates.
      */
-    JsonPatch(final MkStorage stg) {
+    private final transient Coordinates coords;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param repo Repository coordinates
+     */
+    MkRepoCommits(final MkStorage stg, final Coordinates repo) {
         this.storage = stg;
+        this.coords = repo;
+    }
+
+    @Override
+    public Iterable<Commit> iterate() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Commit get(final String sha) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     /**
-     * Patch an XML object/element.
-     * @param xpath XPath to locate the node to patch
-     * @param obj Object to apply
-     * @throws IOException If there is any I/O problem
+     * Xpath of this element in XML tree.
+     * @return Xpath
      */
-    public void patch(final String xpath, final JsonObject obj)
-        throws IOException {
-        final Directives dirs = new Directives().xpath(xpath);
-        for (final Map.Entry<String, JsonValue> entry : obj.entrySet()) {
-            dirs.addIf(entry.getKey())
-                .set(StringUtils.strip(entry.getValue().toString(), "\""))
-                .up();
-        }
-        this.storage.apply(dirs);
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/commits",
+            this.coords
+        );
     }
 }

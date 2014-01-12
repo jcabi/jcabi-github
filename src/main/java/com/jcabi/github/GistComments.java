@@ -30,39 +30,57 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github Releases.
+ * Gist Comments.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * <p>Use this class to get access to all comments in a gist, for example:
+ *
+ * <pre> gist = // ... get it somewhere
+ * GistComments comments = gist.comments();
+ * GistComment comment = comments.post("Hi, how are you?");</pre>
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @since 0.8
+ * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  */
 @Immutable
-public interface Releases {
+public interface GistComments {
     /**
-     * Owner of them.
-     * @return Repo
+     * The gist we're in.
+     * @return Issue
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @NotNull(message = "gist is never NULL")
+    Gist gist();
+
+    /**
+     * Get comment by number.
+     * @param number Comment number
+     * @return Comment
+     * @see <a href="http://developer.github.com/v3/gists/comments/#get-a-single-comment">Get a Single Comment</a>
+     */
+    @NotNull(message = "comment is never NULL")
+    GistComment get(int number);
 
     /**
      * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * @return All comments
+     * @see <a href="http://developer.github.com/v3/gists/comments/#list-comments-on-a-gist">List Comments on an Gist</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    Iterable<GistComment> iterate();
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * Post new comment.
+     * @param text Text of comment to post in Markdown format
+     * @return Comment
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/gists/comments/#create-a-comment">Create a Comment</a>
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
-
+    @NotNull(message = "comment is never NULL")
+    GistComment post(@NotNull(message = "text can't be NULL") String text)
+        throws IOException;
 }

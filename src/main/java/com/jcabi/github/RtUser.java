@@ -119,6 +119,11 @@ final class RtUser implements User {
     }
 
     @Override
+    public PublicKeys keys() {
+        return new RtPublicKeys(this.request, this);
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
