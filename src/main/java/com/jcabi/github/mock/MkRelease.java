@@ -68,16 +68,16 @@ public final class MkRelease implements Release {
      * Public ctor.
      * @param stg Storage
      * @param crds Repository coordinates
-     * @param rls Release id
+     * @param nmbr Release id
      */
-    MkRelease(final MkStorage stg, final Coordinates crds, final int rls) {
+    MkRelease(final MkStorage stg, final Coordinates crds, final int nmbr) {
         this.storage = stg;
         this.coords = crds;
-        this.release = rls;
+        this.release = nmbr;
     }
 
     @Override
-    public int getId() {
+    public int number() {
         return this.release;
     }
 

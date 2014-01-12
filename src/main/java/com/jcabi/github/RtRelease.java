@@ -60,10 +60,10 @@ public final class RtRelease implements Release {
      * Public ctor.
      * @param req RESTful API entry point
      * @param coords Repository coordinates
-     * @param rls Release id
+     * @param nmbr Release id
      */
-    RtRelease(final Request req, final Coordinates coords, final int rls) {
-        this.release = rls;
+    RtRelease(final Request req, final Coordinates coords, final int nmbr) {
+        this.release = nmbr;
         this.request = req.uri()
             .path("/repos")
             .path(coords.user())
@@ -74,7 +74,7 @@ public final class RtRelease implements Release {
     }
 
     @Override
-    public int getId() {
+    public int number() {
         return this.release;
     }
 
@@ -87,4 +87,5 @@ public final class RtRelease implements Release {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
+
 }

@@ -44,7 +44,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "owner")
+@EqualsAndHashCode(of = { "entry", "owner" })
 public final class RtReleases implements Releases {
 
     /**
@@ -78,8 +78,8 @@ public final class RtReleases implements Releases {
     }
 
     @Override
-    public Release get(final int release) {
-        return new RtRelease(this.entry, this.owner.coordinates(), release);
+    public Release get(final int number) {
+        return new RtRelease(this.entry, this.owner.coordinates(), number);
     }
 
 }

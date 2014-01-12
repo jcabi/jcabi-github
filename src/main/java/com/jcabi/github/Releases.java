@@ -58,11 +58,11 @@ public interface Releases {
 
     /**
      * Get a single release.
-     * @param release Release id
+     * @param number Release id
      * @return Release
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
      */
     @NotNull(message = "release is never NULL")
-    Release get(int release);
+    Release get(int number);
 
 }

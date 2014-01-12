@@ -93,8 +93,8 @@ public final class MkReleases implements Releases {
     }
 
     @Override
-    public Release get(final int release) {
-        return new MkRelease(this.storage, this.coords, release);
+    public Release get(final int number) {
+        return new MkRelease(this.storage, this.coords, number);
     }
 
 }
