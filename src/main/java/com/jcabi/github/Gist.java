@@ -74,6 +74,13 @@ public interface Gist extends JsonReadable {
     Github github();
 
     /**
+     * Get gist id.
+     * @return Gist id
+     */
+    @NotNull(message = "String is never NULL")
+    String name();
+
+    /**
      * Read file content.
      * @param name Name of it
      * @return File content
@@ -118,6 +125,15 @@ public interface Gist extends JsonReadable {
     Gist fork() throws IOException;
 
     /**
+     * Get all comments of the gist.
+     * @return GistComments
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+     */
+    @NotNull(message = "comments are never NULL")
+    GistComments comments() throws IOException;
+
+    /**
      * Smart Gist with extra features.
      */
     @Immutable
@@ -136,6 +152,15 @@ public interface Gist extends JsonReadable {
         public Smart(final Gist gst) {
             this.gist = gst;
         }
+
+        /**
+         * Get gist id.
+         * @return Gist id
+         */
+        public String name() {
+            return this.gist.name();
+        }
+
         /**
          * Get a list of all file names in the gist.
          * @return File names
@@ -177,6 +202,11 @@ public interface Gist extends JsonReadable {
         @Override
         public Gist fork() throws IOException {
             return this.gist.fork();
+        }
+
+        @Override
+        public GistComments comments() throws IOException {
+            return this.gist.comments();
         }
 
         @Override

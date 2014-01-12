@@ -57,6 +57,16 @@ public final class MkReleasesTest {
     }
 
     /**
+     * MkReleases can fetch a single release.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canFetchSingleRelease() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
+    }
+
+    /**
      * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
