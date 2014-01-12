@@ -36,24 +36,22 @@ import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
-import java.util.Map;
 import javax.json.Json;
-import javax.json.JsonObjectBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github hooks.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github comments.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "owner", "request" })
-public final class RtHooks implements Hooks {
+@EqualsAndHashCode(of = { "request", "owner" })
+final class RtGistComments implements GistComments {
     /**
      * API entry point.
      */
@@ -65,71 +63,67 @@ public final class RtHooks implements Hooks {
     private final transient Request request;
 
     /**
-     * Repository.
+     * Owner of comments.
      */
-    private final transient Repo owner;
+    private final transient Gist owner;
 
     /**
      * Public ctor.
      * @param req Request
-     * @param repo Repository
+     * @param gist Gist
      */
-    public RtHooks(final Request req, final Repo repo) {
+    RtGistComments(final Request req, final Gist gist) {
         this.entry = req;
-        final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
+            .path("/gists")
+            .path(gist.name())
+            .path("/comments")
             .back();
-        this.owner = repo;
+        this.owner = gist;
     }
 
     @Override
-    public Repo repo() {
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Gist gist() {
         return this.owner;
     }
 
     @Override
-    public Iterable<Hook> iterate() {
-        return Collections.emptyList();
+    public GistComment get(final int number) {
+        return new RtGistComment(this.entry, this.owner, number);
     }
 
     @Override
-    public void remove(final int number) throws IOException {
-        this.request.method(Request.DELETE)
-            .uri().path(Integer.toString(number)).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-    }
-
-    @Override
-    public Hook get(final int number) {
-        return new RtHook(this.entry, this.owner, number);
-    }
-
-    @Override
-    public Hook create(
-        @NotNull(message = "name can't be NULL") final String name,
-        @NotNull(message = "config can't be NULL")
-        final Map<String, String> config) throws IOException {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : config.entrySet()) {
-            builder.add(entr.getKey(), entr.getValue());
-        }
+    public GistComment post(final String text) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-            .add("name", name)
-            .add("config", builder)
+            .add("body", text)
             .build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()
-                .fetch().as(RestResponse.class)
+                .fetch()
+                .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
+                // @checkstyle MultipleStringLiterals (1 line)
                 .json().readObject().getInt("id")
+        );
+    }
+
+    @Override
+    public Iterable<GistComment> iterate() {
+        return new RtPagination<GistComment>(
+            this.request,
+            new RtPagination.Mapping<GistComment>() {
+                @Override
+                public GistComment map(final JsonObject object) {
+                    return RtGistComments.this.get(object.getInt("id"));
+                }
+            }
         );
     }
 }
