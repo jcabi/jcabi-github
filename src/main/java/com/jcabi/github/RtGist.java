@@ -93,7 +93,7 @@ final class RtGist implements Gist {
 
     @Override
     public String toString() {
-        return this.entry.uri().get().toString();
+        return this.request.uri().get().toString();
     }
 
     @Override
@@ -175,7 +175,7 @@ final class RtGist implements Gist {
 
     @Override
     public JsonObject json() throws IOException {
-        return new RtJson(this.entry).fetch();
+        return new RtJson(this.request).fetch();
     }
 
     @Override
