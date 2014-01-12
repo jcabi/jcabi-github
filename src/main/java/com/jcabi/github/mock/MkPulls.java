@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
@@ -107,9 +108,8 @@ final class MkPulls implements Pulls {
         this.storage.lock();
         final int number;
         try {
-            number = 1 + this.storage.xml().xpath(
-                String.format("%s/pull/number", this.xpath())
-            ).size();
+            final Issue issue = this.repo().issues().create(title, "some body");
+            number = issue.number();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("pull")
                     .add("number").set(Integer.toString(number)).up()
