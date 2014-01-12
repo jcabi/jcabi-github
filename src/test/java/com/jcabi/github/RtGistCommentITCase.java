@@ -29,40 +29,15 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
-
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Integration test for {@link RtGistComment}.
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
+ * @todo #18 Integration tests for RtGistComment.
+ *  Let's implements integration tests for gist's comments.
+ *  Please, test all public methods
  */
-@Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
-
-    /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
-
+public final class RtGistCommentITCase {
 }

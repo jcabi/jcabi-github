@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Map;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import org.apache.commons.lang3.StringUtils;
@@ -68,11 +69,11 @@ final class JsonPatch {
     public void patch(final String xpath, final JsonObject obj)
         throws IOException {
         final Directives dirs = new Directives().xpath(xpath);
-        for (final String key : obj.keySet()) {
-            final JsonValue value = obj.get(key);
-            dirs.addIf(key).set(StringUtils.strip(value.toString(), "\"")).up();
+        for (final Map.Entry<String, JsonValue> entry : obj.entrySet()) {
+            dirs.addIf(entry.getKey())
+                .set(StringUtils.strip(entry.getValue().toString(), "\""))
+                .up();
         }
         this.storage.apply(dirs);
     }
-
 }

@@ -30,39 +30,62 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github release.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+public final class RtRelease implements Release {
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * RESTful request.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    private final transient Request request;
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * Release id.
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    private final transient int release;
+
+    /**
+     * Public ctor.
+     * @param req RESTful API entry point
+     * @param coords Repository coordinates
+     * @param nmbr Release id
+     */
+    RtRelease(final Request req, final Coordinates coords, final int nmbr) {
+        this.release = nmbr;
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/releases")
+            .path(String.valueOf(this.release))
+            .back();
+    }
+
+    @Override
+    public int number() {
+        return this.release;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 
 }

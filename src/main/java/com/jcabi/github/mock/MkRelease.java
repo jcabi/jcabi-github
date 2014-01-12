@@ -27,42 +27,76 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Release;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Mock Github release.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords", "release" })
+public final class MkRelease implements Release {
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * Storage.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    private final transient MkStorage storage;
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * Repository coordinates.
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    private final transient Coordinates coords;
+
+    /**
+     * Release id.
+     */
+    private final transient int release;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param crds Repository coordinates
+     * @param nmbr Release id
+     */
+    MkRelease(final MkStorage stg, final Coordinates crds, final int nmbr) {
+        this.storage = stg;
+        this.coords = crds;
+        this.release = nmbr;
+    }
+
+    @Override
+    public int number() {
+        return this.release;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/%s/%s/releases/%d",
+            this.coords.user(), this.coords.repo(), this.release
+        );
+    }
 
 }

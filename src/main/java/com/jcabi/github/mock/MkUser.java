@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.Organizations;
+import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -95,6 +96,15 @@ final class MkUser implements User {
     @Override
     public Organizations organizations() {
         return null;
+    }
+
+    @Override
+    public PublicKeys keys() {
+        try {
+            return new MkPublicKeys(this.storage, this.self);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
