@@ -31,11 +31,15 @@ package com.jcabi.github;
 
 import com.rexsl.test.request.FakeRequest;
 import java.io.IOException;
+import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import javax.json.Json;
+import javax.json.JsonArray;
 
 /**
  * Test case for {@link RtReleases}.
@@ -64,16 +68,26 @@ public final class RtReleasesTest {
 
     /**
      * RtReleases can fetch non empty list of releases.
-     *
-     * @todo #123 RtReleases should iterate multiple releases. Let's implement
-     *  a test here and a method of RtReleases. The method should iterate
-     *  multiple releases. See how it's done in other classes with GhPagination.
-     *  When done, remove this puzzle and Ignore annotation from the method.
      */
     @Test
-    @Ignore
     public void canFetchNonEmptyListOfReleases() {
-        // to be implemented
+        final int number = 1;
+        final Releases releases = new RtReleases(
+            new FakeRequest().withBody(
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder()
+                        .add("id", number)
+                        .add("tag_name", "v1.0.0")
+                        .add("name", "v1.0.0")
+                        .add("body", "Release")
+                ).build().toString()
+            ),
+            RtReleasesTest.repo()
+        );
+        MatcherAssert.assertThat(
+            releases.iterate().iterator().next().number(),
+            Matchers.equalTo(number)
+        );
     }
 
     /**
