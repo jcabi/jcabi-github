@@ -59,10 +59,7 @@ public final class MkMilestonesTest {
         final Repo repo = this.repo();
         final Milestones milestones = repo.milestones();
         final Repo owner = milestones.repo();
-        MatcherAssert.assertThat(
-            repo,
-            Matchers.is(owner)
-        );
+        MatcherAssert.assertThat(repo, Matchers.is(owner));
     }
 
     /**
@@ -76,10 +73,7 @@ public final class MkMilestonesTest {
     public void createsMilestone() throws Exception {
         final Milestones milestones = this.repo().milestones();
         final Milestone milestone = milestones.create("test milestone");
-        MatcherAssert.assertThat(
-            milestone,
-            Matchers.notNullValue()
-        );
+        MatcherAssert.assertThat(milestone, Matchers.notNullValue());
     }
 
     /**

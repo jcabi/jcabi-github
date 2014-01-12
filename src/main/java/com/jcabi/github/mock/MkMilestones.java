@@ -38,7 +38,7 @@ import java.util.Map;
 import org.xembly.Directives;
 
 /**
- * MkMilestones class.
+ * Mock Github milestones.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -68,8 +68,8 @@ public final class MkMilestones implements Milestones {
      * @throws IOException - if any I/O problem occurs
      */
     MkMilestones(
-        final MkStorage stg, final String login, final Coordinates rep)
-        throws IOException {
+        final MkStorage stg, final String login, final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;

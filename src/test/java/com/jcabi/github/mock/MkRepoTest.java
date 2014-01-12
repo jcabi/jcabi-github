@@ -74,10 +74,7 @@ public final class MkRepoTest {
             Json.createObjectBuilder().add("name", "test1").build()
         );
         final Milestones milestones = repo.milestones();
-        MatcherAssert.assertThat(
-            milestones,
-            Matchers.notNullValue()
-        );
+        MatcherAssert.assertThat(milestones, Matchers.notNullValue());
     }
 
     /**
