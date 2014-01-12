@@ -29,7 +29,8 @@
  */
 package com.jcabi.github;
 
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -47,16 +48,22 @@ public final class LabelTest {
      */
     @Test
     public void canBeComparedProperly() throws Exception {
-        final Label.Unmodified one =
-            new Label.Unmodified(
-                LabelTest.repo("jef", "jef_repo"),
-                "{\"name\":\"paul\"}");
-        final Label.Unmodified other =
-            new Label.Unmodified(
-                LabelTest.repo("stan", "stan_repo"),
-                "{\"name\":\"paul\"}");
-        Assert.assertFalse(one.equals(other));
-        Assert.assertFalse(one.compareTo(other) == 0);
+        final Label.Unmodified one = new Label.Unmodified(
+            LabelTest.repo("jef", "jef_repo"),
+            "{\"name\":\"paul\"}"
+        );
+        final Label.Unmodified other = new Label.Unmodified(
+            LabelTest.repo("stan", "stan_repo"),
+            "{\"name\":\"paul\"}"
+        );
+        MatcherAssert.assertThat(
+            one.equals(other),
+            Matchers.is(false)
+        );
+        MatcherAssert.assertThat(
+            one.compareTo(other),
+            Matchers.not(0)
+        );
     }
 
     /**
