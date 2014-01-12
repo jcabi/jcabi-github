@@ -96,9 +96,7 @@ public final class RtCommentTest {
             .create(Json.createObjectBuilder().add("name", "test3").build())
             .issues().create("testing2", "issue2");
         final int num = 10;
-        final RtComment comment = new RtComment(
-            new FakeRequest(), issue, num
-        );
+        final RtComment comment = new RtComment(new FakeRequest(), issue, num);
         MatcherAssert.assertThat(comment.number(), Matchers.is(num));
     }
 
@@ -114,8 +112,9 @@ public final class RtCommentTest {
         final Issue issue = new MkGithub().repos()
             .create(Json.createObjectBuilder().add("name", "test4").build())
             .issues().create("testing3", "issue3");
-        final RtComment comment = new RtComment(new ApacheRequest(
-            container.home()), issue, 10);
+        final RtComment comment = new RtComment(
+            new ApacheRequest(container.home()), issue, 10
+        );
         try {
             comment.remove();
             final MkQuery query = container.take();
@@ -136,13 +135,14 @@ public final class RtCommentTest {
     public void returnsItsJSon() throws Exception {
         final String body = "{\"name\":\"test5\"}";
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK, body)).start();
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
+        ).start();
         final Issue issue = new MkGithub().repos()
             .create(Json.createObjectBuilder().add("name", "test5").build())
             .issues().create("testing4", "issue4");
         final RtComment comment = new RtComment(
-            new ApacheRequest(container.home()), issue, 10);
+            new ApacheRequest(container.home()), issue, 10
+        );
         try {
             final JsonObject json = comment.json();
             MatcherAssert.assertThat(
@@ -166,16 +166,16 @@ public final class RtCommentTest {
         final Issue issue = new MkGithub().repos()
             .create(Json.createObjectBuilder().add("name", "test6").build())
             .issues().create("testing5", "issue5");
-        final RtComment comment = new RtComment(new ApacheRequest(
-            container.home()), issue, 10);
+        final RtComment comment = new RtComment(
+            new ApacheRequest(container.home()), issue, 10
+        );
         final JsonObject jsonPatch = Json.createObjectBuilder()
             .add("title", "test comment").build();
         try {
             comment.patch(jsonPatch);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
-                query.method(),
-                Matchers.equalTo(Request.PATCH)
+                query.method(), Matchers.equalTo(Request.PATCH)
             );
         } finally {
             container.stop();
@@ -194,13 +194,13 @@ public final class RtCommentTest {
         final Issue issue = new MkGithub().repos()
             .create(Json.createObjectBuilder().add("name", "test7").build())
             .issues().create("testing6", "issue6");
-        final RtComment comment = new RtComment(new ApacheRequest(
-            container.home()), issue, 10);
+        final RtComment comment = new RtComment(
+            new ApacheRequest(container.home()), issue, 10
+        );
         try {
             final String stringComment = comment.toString();
             MatcherAssert.assertThat(
-                stringComment,
-                Matchers.not(Matchers.isEmptyOrNullString())
+                stringComment, Matchers.not(Matchers.isEmptyOrNullString())
             );
             MatcherAssert.assertThat(stringComment, Matchers.endsWith("10"));
         } finally {
