@@ -31,15 +31,12 @@ package com.jcabi.github;
 
 import com.rexsl.test.request.FakeRequest;
 import java.io.IOException;
-import java.util.Iterator;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import javax.json.Json;
-import javax.json.JsonArray;
 
 /**
  * Test case for {@link RtReleases}.

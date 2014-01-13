@@ -32,7 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import java.util.Collections;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -53,6 +53,11 @@ public final class RtReleases implements Releases {
     private final transient Request entry;
 
     /**
+     * RESTful API releases request.
+     */
+    private final transient Request request;
+
+    /**
      * Repository.
      */
     private final transient Repo owner;
@@ -65,6 +70,12 @@ public final class RtReleases implements Releases {
     public RtReleases(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/releases")
+            .back();
     }
 
     @Override
@@ -74,7 +85,19 @@ public final class RtReleases implements Releases {
 
     @Override
     public Iterable<Release> iterate() {
-        return Collections.emptyList();
+        return new RtPagination<Release>(
+            this.request,
+            new RtPagination.Mapping<Release>() {
+                @Override
+                public Release map(final JsonObject object) {
+                    return new RtRelease(
+                        RtReleases.this.entry,
+                        RtReleases.this.owner.coordinates(),
+                        object.getInt("id")
+                    );
+                }
+            }
+        );
     }
 
     @Override
