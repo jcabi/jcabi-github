@@ -94,8 +94,8 @@ public final class MkRelease implements Release {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/%s/%s/releases/%d",
-            this.coords.user(), this.coords.repo(), this.release
+            "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
+            this.coords, this.release
         );
     }
 
