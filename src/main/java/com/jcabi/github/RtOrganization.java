@@ -31,48 +31,85 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organization.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2 Default implementation for user's Organization.
- *  Provide default implementation for user's organization.
- *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "num" })
 final class RtOrganization implements Organization {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * User we're in.
+     */
+    private final transient User owner;
+
+    /**
+     * Public key ID number.
+     */
+    private final transient int num;
+
+    /**
+     * Public ctor.
+     *
+     * @param req RESTful request
+     * @param user Owner of this organization
+     * @param number ID of the organization
+     */
+    public RtOrganization(
+        final Request req,
+        final User user,
+        final int number
+    ) {
+        this.request = req.uri().path("/user").path("/orgs").back();
+        this.owner = user;
+        this.num = number;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
 
     @Override
     public User user() {
-        return null;
+        return this.owner;
     }
 
     @Override
     public int orgId() {
-        return 0;
+        return this.num;
     }
 
     @Override
-    public int compareTo(final Organization org) {
-        return 0;
+    public int compareTo(final Organization other) {
+        return this.orgId() - other.orgId();
     }
 
     @Override
     public void patch(
         @NotNull(message = "JSON is never NULL")
         final JsonObject json) throws IOException {
-        // to be implemented
+        new RtJson(this.request).patch(json);
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return null;
+        return new RtJson(this.request).fetch();
     }
 }
