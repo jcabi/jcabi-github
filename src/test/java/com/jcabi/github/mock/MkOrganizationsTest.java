@@ -29,7 +29,8 @@
  */
 package com.jcabi.github.mock;
 
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -38,19 +39,24 @@ import org.junit.Test;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2 Integration tests for MkOrganizations.
- *  Let's implements integration tests for organizations mock.
- *  Please, test all public methods
  */
-public class MkOrganizationsTest {
+public final class MkOrganizationsTest {
+
     /**
      * MkOrganizations can list organizations.
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesOrganizations() throws Exception {
-        // To be implemented
+        final MkOrganizations orgs = new MkOrganizations(
+            new MkStorage.InFile(),
+            "orgTestIterate"
+        );
+        orgs.get(1);
+        MatcherAssert.assertThat(
+            orgs.iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
     }
 
     /**
@@ -58,8 +64,15 @@ public class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void getSingleOrganization() throws Exception {
-        // To be implemented
+        final MkOrganizations orgs = new MkOrganizations(
+            new MkStorage.InFile(),
+            "orgTestGet"
+        );
+        MatcherAssert.assertThat(
+            orgs.get(2),
+            Matchers.notNullValue()
+        );
     }
+
 }
