@@ -145,12 +145,12 @@ public final class RtOrganizationTest {
         final RtOrganization org = new RtOrganization(
             new ApacheRequest(container.home()),
             this.user(),
-            1
+            13
         );
         try {
             MatcherAssert.assertThat(
                 org.toString(),
-                Matchers.endsWith("/user/orgs")
+                Matchers.endsWith("/orgs/13")
             );
         } finally {
             container.stop();

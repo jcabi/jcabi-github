@@ -76,7 +76,10 @@ final class RtOrganization implements Organization {
         final User user,
         final int number
     ) {
-        this.request = req.uri().path("/user").path("/orgs").back();
+        this.request = req.uri()
+            .path("/orgs")
+            .path(Integer.toString(number))
+            .back();
         this.owner = user;
         this.num = number;
     }
