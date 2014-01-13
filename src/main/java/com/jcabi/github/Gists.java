@@ -85,4 +85,10 @@ public interface Gists {
     @NotNull(message = "iterable is never NULL")
     Iterable<Gist> iterate();
 
+    /**
+     * Removes a gist by name
+     * @param name Name of the gist to be removed.
+     * @throws IOException
+     */
+    void remove(@NotNull(message = "name is never NULL") String name) throws IOException;
 }

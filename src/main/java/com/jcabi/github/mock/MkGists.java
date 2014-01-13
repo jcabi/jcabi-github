@@ -35,10 +35,16 @@ import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.xml.XML;
+
 import java.io.IOException;
+<<<<<<< HEAD
 import java.util.Map;
+=======
+
+>>>>>>> #20 Added remove() method to Gists
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
 import org.xembly.Directives;
 
 /**
@@ -47,6 +53,7 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @todo method remove() in this class has to be implemented
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -135,5 +142,11 @@ final class MkGists implements Gists {
     private String xpath() {
         return "/github/gists";
     }
+
+	@Override
+	public void remove(String name) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
