@@ -51,8 +51,6 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #64 An integration test is still lacking for this class,
- *  although a unit test has already been created.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
