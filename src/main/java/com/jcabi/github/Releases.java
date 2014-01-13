@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -65,4 +66,15 @@ public interface Releases {
     @NotNull(message = "release is never NULL")
     Release get(int number);
 
+    /**
+     * Create new release.
+     * @param tag The name of the tag
+     * @return Release just created
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
+     */
+    @NotNull(message = "release is never NULL")
+    Release create(
+        @NotNull(message = "release tag is never NULL") String tag)
+        throws IOException;
 }
