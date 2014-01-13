@@ -31,48 +31,48 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github repository collaborators.
+ * Implementation of Collaborators.
+ * @todo #116 Implement methods.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 1.0
  */
 @Immutable
-public interface Collaborators {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+@Loggable(Loggable.DEBUG)
+public final class RtCollaborators implements Collaborators {
 
     /**
-     * Check if a user is collaborator.
-     * @param user User
-     * @return True is a user is a collaborator, otherwise returns false
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">Check if a user is collaborator</a>
+     * Temporary constant for error message.
      */
-    boolean isCollabborator(@NotNull(message = "User is never null")User user);
+    private  static final String MESSAGE = "Operation not implemented";
 
-    /**
-     * Add user as a collaborator.
-     * @param user User
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
-     */
-    void add(@NotNull(message = "User is never null")User user);
+    @Override
+    public Repo repo() {
+        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    }
 
-    /**
-     * Remove user as a collaborator.
-     * @param user User
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
-     */
-    void remove(User user);
+    @Override
+    public boolean isCollabborator(
+        @NotNull(message = "User is never null") final User user) {
+        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    }
 
-    /**
-     * Iterates over repo collaborators.
-     * @return Iterator on repo collaborators.
-     */
-    Iterable<User> iterate();
+    @Override
+    public void add(@NotNull(message = "User is never null") final User user) {
+        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    }
+
+    @Override
+    public void remove(final User user) {
+        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    }
+
+    @Override
+    public Iterable<User> iterate() {
+        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    }
 }

@@ -30,49 +30,48 @@
 
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import org.junit.Test;
 
 /**
- * Github repository collaborators.
+ * Tests for {@link RtCollaborators}.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 1.0
+ * @todo #116 Implement tests.
  */
-@Immutable
-public interface Collaborators {
+public class RtCollaboratorsTest {
     /**
-     * Owner of them.
-     * @return Repo
+     * RtCollaborators can iterate over a list of collaborators.
+     * @throws Exception if any error occurs.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @Test
+    public void canIterate() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Check if a user is collaborator.
-     * @param user User
-     * @return True is a user is a collaborator, otherwise returns false
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">Check if a user is collaborator</a>
+     * User can be added to a repo as a collaborator.
+     * @throws Exception if any error occurs.
      */
-    boolean isCollabborator(@NotNull(message = "User is never null")User user);
+    @Test
+    public void userCanBeAddedAsCollaborator() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Add user as a collaborator.
-     * @param user User
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
+     * User can be checked for being a collaborator.
+     * @throws Exception if any error occurs.
      */
-    void add(@NotNull(message = "User is never null")User user);
+    @Test
+    public void userCanBeTestForBeingCollaborator() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Remove user as a collaborator.
-     * @param user User
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
+     * User can be removed from a list of collaborators.
+     * @throws Exception if any error occurs.
      */
-    void remove(User user);
-
-    /**
-     * Iterates over repo collaborators.
-     * @return Iterator on repo collaborators.
-     */
-    Iterable<User> iterate();
+    @Test
+    public void userCanBeRemoved() throws Exception {
+        // to be implemented
+    }
 }
