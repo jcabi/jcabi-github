@@ -29,40 +29,14 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
-
 /**
- * Github Releases.
+ * Test case for {@link RtGistComment}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @since 0.8
+ * @todo #18 Unit test for RtGistComment is required. Let's create a simple one,
+ *  to check that the class implements key functions correctly.
+ *  The most important methods to test are remove(), json(), and patch()
  */
-@Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
-
-    /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
-
+public class RtGistCommentTest {
 }

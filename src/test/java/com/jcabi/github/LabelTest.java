@@ -29,40 +29,53 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github Releases.
- *
+ * Tests for {@link Label}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Releases {
+public final class LabelTest {
+
     /**
-     * Owner of them.
+     * Label.Unmodified can be compared properly.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canBeComparedProperly() throws Exception {
+        final Label.Unmodified one = new Label.Unmodified(
+            LabelTest.repo("jef", "jef_repo"),
+            "{\"name\":\"paul\"}"
+        );
+        final Label.Unmodified other = new Label.Unmodified(
+            LabelTest.repo("stan", "stan_repo"),
+            "{\"name\":\"paul\"}"
+        );
+        MatcherAssert.assertThat(
+            one.equals(other),
+            Matchers.is(false)
+        );
+        MatcherAssert.assertThat(
+            one.compareTo(other),
+            Matchers.not(0)
+        );
+    }
+
+    /**
+     * Create and return repo for testing.
+     * @param user User name
+     * @param rpo Repo name
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
-
-    /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
-
+    private static Repo repo(final String user, final String rpo) {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple(user, rpo))
+            .when(repo).coordinates();
+        return repo;
+    }
 }

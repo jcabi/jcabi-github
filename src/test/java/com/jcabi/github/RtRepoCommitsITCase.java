@@ -29,40 +29,15 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
-
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Integration case for {@link RepoCommits}.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @todo #117 Add test fetchCommits() to check that commits actually fetched.
+ *  See
+ *  http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository.
+ * @todo #117 Add test getCommit() to check that commit actually got.
+ *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
-@Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
-
-    /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
-
+public class RtRepoCommitsITCase {
 }

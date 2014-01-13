@@ -72,6 +72,16 @@ public final class RtRepoITCase {
     }
 
     /**
+     * RtRepo can fetch its commits.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchCommits() throws Exception {
+        final Repo repo = RtRepoITCase.repo();
+        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside

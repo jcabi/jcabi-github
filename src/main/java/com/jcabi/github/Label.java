@@ -38,15 +38,15 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Github label.
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -79,6 +79,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Encapsulated label.
          */
         private final transient Label label;
+
         /**
          * Public ctor.
          * @param lbl Label
@@ -86,6 +87,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         public Smart(final Label lbl) {
             this.label = lbl;
         }
+
         /**
          * Get its color.
          * @return Color of it
@@ -94,6 +96,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         public String color() throws IOException {
             return new SmartJson(this).text("color");
         }
+
         /**
          * Set its color.
          * @param color Color to set
@@ -104,27 +107,33 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("color", color).build()
             );
         }
+
         @Override
         public Repo repo() {
             return this.label.repo();
         }
+
         @Override
         public String name() {
             return this.label.name();
         }
+
         @Override
         public int compareTo(final Label lbl) {
             return this.label.compareTo(lbl);
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.label.patch(json);
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.label.json();
         }
     }
+
     /**
      * Unmodified Label with extra features.
      */
@@ -141,6 +150,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Encapsulated String.
          */
         private final transient String obj;
+
         /**
          * Public ctor.
          * @param rep Repo
@@ -150,22 +160,30 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
             this.repo = rep;
             this.obj = object;
         }
+
         @Override
         public Repo repo() {
             return this.repo;
         }
+
         @Override
         public String name() {
             return this.json().getString("name");
         }
+
         @Override
         public int compareTo(final Label label) {
-            return this.name().compareTo(label.name());
+            return new CompareToBuilder()
+                .append(this.repo().coordinates(), label.repo().coordinates())
+                .append(this.obj, label.name())
+                .build();
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             throw new UnsupportedOperationException("#patch()");
         }
+
         @Override
         public JsonObject json() {
             return Json.createReader(new StringReader(this.obj)).readObject();

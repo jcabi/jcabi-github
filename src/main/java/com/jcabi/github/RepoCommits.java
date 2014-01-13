@@ -33,36 +33,33 @@ import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Commits of a Github repository.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @todo #117 RtRepoCommits should be able to compare two commits. Let's
+ *  add a test, declare a method here and implement it. See
+ *  http://developer.github.com/v3/repos/commits/#compare-two-commits. When
+ *  done, remove this puzzle.
  */
 @Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+public interface RepoCommits extends JsonReadable {
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * Iterate all repository's commits.
+     * @return All commits
+     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    Iterable<Commit> iterate();
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * Get single repository's commits.
+     * @param sha SHA of a commit
+     * @return Commit
+     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    @NotNull(message = "Commit is never NULL")
+    Commit get(String sha);
 
 }

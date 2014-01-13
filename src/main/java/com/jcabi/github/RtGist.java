@@ -74,6 +74,11 @@ final class RtGist implements Gist {
     private final transient Request entry;
 
     /**
+     * Gist id.
+     */
+    private final transient String gist;
+
+    /**
      * Public ctor.
      * @param github Github
      * @param req Request
@@ -82,17 +87,23 @@ final class RtGist implements Gist {
     RtGist(final Github github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req;
+        this.gist = name;
         this.request = req.uri().path("/gists").path(name).back();
     }
 
     @Override
     public String toString() {
-        return this.entry.uri().get().toString();
+        return this.request.uri().get().toString();
     }
 
     @Override
     public Github github() {
         return this.ghub;
+    }
+
+    @Override
+    public String name() {
+        return this.gist;
     }
 
     @Override
@@ -164,7 +175,12 @@ final class RtGist implements Gist {
 
     @Override
     public JsonObject json() throws IOException {
-        return new RtJson(this.entry).fetch();
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public GistComments comments() throws IOException {
+        return new RtGistComments(this.entry, this);
     }
 
 }
