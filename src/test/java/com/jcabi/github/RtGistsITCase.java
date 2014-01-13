@@ -39,7 +39,6 @@ import org.junit.Test;
  * Integration case for {@link Gists}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @todo #20 Other integration tests have to be written for RtGists.
  */
 public final class RtGistsITCase {
 
