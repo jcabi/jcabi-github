@@ -31,19 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Assignees;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Event;
-import com.jcabi.github.Forks;
-import com.jcabi.github.Github;
-import com.jcabi.github.Hooks;
-import com.jcabi.github.Issues;
-import com.jcabi.github.Labels;
-import com.jcabi.github.Milestones;
-import com.jcabi.github.Pulls;
-import com.jcabi.github.Releases;
-import com.jcabi.github.Repo;
+import com.jcabi.github.*;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -56,6 +44,7 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @todo #9 Implement milestones() method.
+ * @todo #116 Implement collabborators() method.
  *  Please, implement milestones() method to return
  *  MkMilestones. Don't forget about unit tests
  */
@@ -171,6 +160,11 @@ final class MkRepo implements Repo {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public Collaborators collaborators() {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
