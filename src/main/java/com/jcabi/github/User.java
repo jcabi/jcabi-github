@@ -216,7 +216,6 @@ public interface User extends JsonReadable, JsonPatchable {
             return this.user.organizations();
         }
 
-
         @Override
         public PublicKeys keys() {
             return this.user.keys();

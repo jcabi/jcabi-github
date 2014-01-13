@@ -77,7 +77,6 @@ public interface Hooks {
     @NotNull(message = "hook is never NULL")
     Hook get(int number);
 
-
     /**
      * Create new hook.
      * @param name Hook name

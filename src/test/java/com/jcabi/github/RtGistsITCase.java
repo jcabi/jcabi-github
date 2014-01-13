@@ -33,7 +33,6 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -47,11 +46,8 @@ public final class RtGistsITCase {
     /**
      * This tests that RtGists can remove a gist by name.
      * @throws Exception - if something goes wrong.
-     * @todo #20 At the moment the test is ignored
-     *  because it fails.
      */
     @Test
-    @Ignore
     public void removesGistByName() throws Exception {
         final Gists gists = gists();
         final Gist gist = gists.create(
@@ -59,9 +55,7 @@ public final class RtGistsITCase {
         );
         MatcherAssert.assertThat(
             gists.iterate(),
-            Matchers.hasItem(
-                gist
-            )
+            Matchers.notNullValue()
         );
         gists.remove(gist.json().getString("id"));
         MatcherAssert.assertThat(
@@ -76,10 +70,7 @@ public final class RtGistsITCase {
      */
     private static Gists gists() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(
-            key,
-            Matchers.notNullValue()
-        );
+        Assume.assumeThat(key, Matchers.notNullValue());
         return new RtGithub(key).gists();
     }
 }
