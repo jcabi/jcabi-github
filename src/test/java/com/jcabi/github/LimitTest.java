@@ -30,9 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.Limit.Throttled;
-
 import javax.json.Json;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -41,10 +39,10 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Limit}.
  *
- * @author Tomás Colombo (tomas.colombo@rollasolution.com)
+ * @author Tomas Colombo (tomas.colombo@rollasolution.com)
  * @version $Id$
  */
-public class LimitTest {
+public final class LimitTest {
 
     /**
      * Limit can throw exception when resource is absent.
@@ -52,16 +50,17 @@ public class LimitTest {
      * @throws Exception if some problem inside
      */
     @Test(expected = IllegalStateException.class)
-    public void throwsWhenResourceIsAbsent() throws Exception{
-        
-        Limit limit = Mockito.mock(Limit.class);
-        final Throttled throttled = new Throttled(limit,23);
-        Mockito.when(limit.json()).thenReturn(Json.createObjectBuilder().add("absent", "absentValue").build());
+    public void throwsWhenResourceIsAbsent() throws Exception {
+        final Limit limit = Mockito.mock(Limit.class);
+        final Throttled throttled = new Throttled(limit, 23);
+        Mockito.when(limit.json()).thenReturn(
+            Json.createObjectBuilder().add("absent", "absentValue").build()
+        );
         throttled.json();
-            MatcherAssert.assertThat(
-                limit.json().toString(),
-                Matchers.equalTo("{}")
-            );
+        MatcherAssert.assertThat(
+            limit.json().toString(),
+            Matchers.equalTo("{}")
+        );
     }
 
 }
