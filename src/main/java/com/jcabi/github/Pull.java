@@ -254,6 +254,15 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+        /**
+         * Get comments count.
+         * @return Count of comments
+         * @throws IOException If there is any I/O problem
+         * @since 1.0.1
+         */
+        public int comments() throws IOException {
+            return new SmartJson(this).number("comments");
+        }
         @Override
         public Repo repo() {
             return this.pull.repo();
