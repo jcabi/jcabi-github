@@ -36,8 +36,8 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Collections;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -99,7 +99,18 @@ public final class MkReleases implements Releases {
 
     @Override
     public Iterable<Release> iterate() {
-        return Collections.emptyList();
+        return new MkIterable<Release>(
+            this.storage,
+            String.format("%s/release", this.xpath()),
+            new MkIterable.Mapping<Release>() {
+                @Override
+                public Release map(final XML xml) {
+                    return MkReleases.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
