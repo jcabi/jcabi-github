@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import javax.json.Json;
@@ -53,6 +54,31 @@ public final class MkReleasesTest {
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * MkReleases can fetch a single release.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canFetchSingleRelease() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
+    }
+
+    /**
+     * MkReleases can create a release.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canCreateRelease() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        final String tag = "v1.0.0";
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            release.json().getString("tag_name"),
+            Matchers.equalTo(tag)
         );
     }
 

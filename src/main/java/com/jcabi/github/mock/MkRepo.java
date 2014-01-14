@@ -45,6 +45,7 @@ import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -192,6 +193,11 @@ final class MkRepo implements Repo {
     @Override
     public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public RepoCommits commits() {
+        return new MkRepoCommits(this.storage, this.coordinates());
     }
 
     @Override
