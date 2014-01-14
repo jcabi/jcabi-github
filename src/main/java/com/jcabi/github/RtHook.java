@@ -75,7 +75,7 @@ public final class RtHook implements Hook {
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/hook")
+            .path("/hooks")
             .path(Integer.toString(number))
             .back();
         this.owner = repo;
