@@ -27,76 +27,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Release;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.util.Collections;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
- * Mock Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Integration case for {@link Gists}.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "coords", "release" })
-public final class MkRelease implements Release {
+public final class RtGistsITCase {
 
     /**
-     * Storage.
+     * This tests that RtGists can remove a gist by name.
+     * @throws Exception - if something goes wrong.
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Repository coordinates.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Release id.
-     */
-    private final transient int release;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param crds Repository coordinates
-     * @param nmbr Release id
-     */
-    MkRelease(final MkStorage stg, final Coordinates crds, final int nmbr) {
-        this.storage = stg;
-        this.coords = crds;
-        this.release = nmbr;
-    }
-
-    @Override
-    public int number() {
-        return this.release;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-    }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
-            this.coords, this.release
+    @Test
+    public void removesGistByName() throws Exception {
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap("fileName.txt", "content of test file")
+        );
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.notNullValue()
+        );
+        gists.remove(gist.json().getString("id"));
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.not(Matchers.hasItem(gist))
         );
     }
-
+    /**
+     * Return gists to test.
+     * @return Gists
+     * @throws Exception If some problem inside
+     */
+    private static Gists gists() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).gists();
+    }
 }
