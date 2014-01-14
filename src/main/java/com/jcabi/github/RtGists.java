@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -42,6 +43,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
+
 import lombok.EqualsAndHashCode;
 
 /**

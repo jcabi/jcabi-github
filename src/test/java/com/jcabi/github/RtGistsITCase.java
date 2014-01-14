@@ -39,6 +39,7 @@ import org.junit.Test;
  * Integration case for {@link Gists}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
+<<<<<<< HEAD
  */
 public final class RtGistsITCase {
 
@@ -62,7 +63,9 @@ public final class RtGistsITCase {
             Matchers.not(Matchers.hasItem(gist))
         );
     }
-    /**
+
+	
+	/**
      * Return gists to test.
      * @return Gists
      * @throws Exception If some problem inside
