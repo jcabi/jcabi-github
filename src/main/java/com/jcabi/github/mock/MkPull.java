@@ -37,12 +37,16 @@ import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github issue.
+ * Mock Github pull.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
@@ -127,9 +131,18 @@ final class MkPull implements Pull {
 
     @Override
     public JsonObject json() throws IOException {
-        return new JsonNode(
+        final JsonObject obj = new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
+        final JsonObjectBuilder json = Json.createObjectBuilder();
+        for (final Map.Entry<String, JsonValue> val: obj.entrySet()) {
+            json.add(val.getKey(), val.getValue());
+        }
+        final int number = this.storage.xml()
+            .nodes("//comment/number").size();
+        return json
+            .add("comments", number)
+            .build();
     }
 
     /**
@@ -138,7 +151,7 @@ final class MkPull implements Pull {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
             this.coords, this.num
         );
     }
