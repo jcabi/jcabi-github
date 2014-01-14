@@ -36,10 +36,9 @@ import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
-import javax.json.JsonStructure;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -51,7 +50,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "owner" })
+@EqualsAndHashCode(of = "request")
 public final class RtReleases implements Releases {
 
     /**
@@ -100,6 +99,7 @@ public final class RtReleases implements Releases {
                     return new RtRelease(
                         RtReleases.this.entry,
                         RtReleases.this.owner.coordinates(),
+                        // @checkstyle MultipleStringLiterals (1 line)
                         object.getInt("id")
                     );
                 }
