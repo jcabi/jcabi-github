@@ -35,7 +35,6 @@ import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -60,17 +59,18 @@ public final class MkReleasesTest {
 
     /**
      * MkReleases can fetch non-empty list of releases.
-     * @todo #181 MkReleases should be able to fetch non-empty list of releases.
-     *  MkReleases.create() method is necessary for this test, so the test
-     *  should be implemented after the create() method. See
-     *  http://developer.github.com/v3/repos/releases/#create-a-release.
-     *  Let's implement this test and MkReleases.iterate(). When done, remove
-     *  this puzzle and Ignore annotation from this method.
+     * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchNonEmptyListOfReleases() {
-        // To be implemented
+    public void canFetchNonEmptyListOfReleases() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        final String tag = "v1.0";
+        releases.create(tag);
+        MatcherAssert.assertThat(
+            // @checkstyle MultipleStringLiterals (1 line)
+            releases.iterate().iterator().next().json().getString("tag_name"),
+            Matchers.equalTo(tag)
+        );
     }
 
     /**
