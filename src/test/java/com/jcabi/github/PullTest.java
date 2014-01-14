@@ -50,16 +50,16 @@ public final class PullTest {
      */
     @Test
     public void canFetchCommentsCount() throws Exception {
+        final int number = 1;
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
-                // @checkstyle MagicNumberCheck (1 line)
-                .add("comments", 5)
+                .add("comments", number)
                 .build()
         ).when(pull).json();
         MatcherAssert.assertThat(
             new Pull.Smart(pull).comments(),
-            Matchers.notNullValue()
+            Matchers.is(number)
         );
     }
 }
