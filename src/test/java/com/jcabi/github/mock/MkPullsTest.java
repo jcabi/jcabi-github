@@ -29,8 +29,8 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Release;
-import com.jcabi.github.Releases;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -39,63 +39,50 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkReleases}.
+ * Test case for {@link MkPulls}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.8
+ * @since 1.0
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkReleasesTest {
+public final class MkPullsTest {
+
     /**
-     * MkReleases can fetch empty list of releases.
+     * MkPulls can create a pull.
+     * It should create an issue first, and then pull with the same number
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfReleases() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
+    public void canCreateAPull() throws Exception {
+        final Repo repo = MkPullsTest.repo();
+        final Pull pull = repo.pulls().create("hello", "", "");
+        final Issue.Smart issue = new Issue.Smart(
+            repo.issues().get(pull.number())
+        );
         MatcherAssert.assertThat(
-            releases.iterate(),
-            Matchers.emptyIterable()
+            issue.title(),
+            Matchers.is("hello")
         );
     }
 
     /**
-     * MkReleases can fetch non-empty list of releases.
-     * @todo #181 MkReleases should be able to fetch non-empty list of releases.
-     *  MkReleases.create() method is necessary for this test, so the test
-     *  should be implemented after the create() method. See
-     *  http://developer.github.com/v3/repos/releases/#create-a-release.
-     *  Let's implement this test and MkReleases.iterate(). When done, remove
-     *  this puzzle and Ignore annotation from this method.
+     * MkPulls can fetch empty list of pulls.
+     * @throws Exception if some problem inside
      */
     @Test
     @Ignore
-    public void canFetchNonEmptyListOfReleases() {
-        // To be implemented
+    public void canFetchEmptyListOfPulls() throws Exception {
+        // to be implemented
     }
 
     /**
-     * MkReleases can fetch a single release.
-     * @throws Exception If some problem inside
+     * MkPulls can fetch single pull.
+     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchSingleRelease() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
-        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
-    }
-
-    /**
-     * MkReleases can create a release.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void canCreateRelease() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
-        final String tag = "v1.0.0";
-        final Release release = releases.create(tag);
-        MatcherAssert.assertThat(
-            release.json().getString("tag_name"),
-            Matchers.equalTo(tag)
-        );
+    @Ignore
+    public void canFetchSinglePull() throws Exception {
+        // to be implemented
     }
 
     /**

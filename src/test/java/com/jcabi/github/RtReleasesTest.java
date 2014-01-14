@@ -29,9 +29,16 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.request.FakeRequest;
+import com.rexsl.test.request.JdkRequest;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -102,16 +109,29 @@ public final class RtReleasesTest {
     /**
      * RtReleases can create a release.
      *
-     * @todo #123 RtReleases should be able to create a Release. Let's implement
-     *  a test here and a method create() of RtReleases.
-     *  The method should create a release.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void canCreateRelease() {
-        // to be implemented
+    public void canCreateRelease() throws Exception {
+        final String tag = "v1.0.0";
+        final String rel = release(tag).toString();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel)).start();
+        final RtReleases releases = new RtReleases(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.POST)
+        );
+        MatcherAssert.assertThat(
+            release.json().getString("tag_name"),
+            Matchers.equalTo(tag)
+        );
+        container.stop();
     }
 
     /**
@@ -138,5 +158,18 @@ public final class RtReleasesTest {
         Mockito.doReturn(new Coordinates.Simple("test", "releases"))
             .when(repo).coordinates();
         return repo;
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param tag The tag name of the release
+     * @return JsonObject
+     * @throws Exception If some problem inside
+     */
+    private static JsonObject release(final String tag) throws Exception {
+        return Json.createObjectBuilder()
+            .add("id", 1)
+            .add("tag_name", tag)
+            .build();
     }
 }
