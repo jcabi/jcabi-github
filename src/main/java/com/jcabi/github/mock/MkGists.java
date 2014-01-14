@@ -47,7 +47,6 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * @todo method remove() in this class has to be implemented
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
