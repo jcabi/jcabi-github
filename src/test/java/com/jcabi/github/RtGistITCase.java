@@ -57,6 +57,24 @@ public final class RtGistITCase {
     }
 
     /**
+     * RtGist can fork a gist.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void forkGist() throws Exception {
+        final String key = System.getProperty("failsafe.github.key.second");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Gist gist = new RtGithub(key).gists().get(
+            RtGistITCase.gist().name()
+        );
+        final String file = new Gist.Smart(gist).files().iterator().next();
+        MatcherAssert.assertThat(
+            gist.fork().read(file),
+            Matchers.equalTo(gist.read(file))
+        );
+    }
+
+    /**
      * Return gist to test.
      * @return Repo
      * @throws Exception If some problem inside
