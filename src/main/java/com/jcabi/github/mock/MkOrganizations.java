@@ -91,32 +91,33 @@ final class MkOrganizations implements Organizations {
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
 
     @Override
-    public Organization get(final int orgid) {
+    public Organization get(final String name) {
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath())
                     .add("org")
                     .add("id")
-                    .set(Integer.toString(orgid))
+                    .set(Integer.toString(RAND.nextInt()))
             );
-        } catch (IOException ex) {
+            this.storage.apply(
+                new Directives().xpath(
+                    String.format("/github/org[not(org[login='%s'])]", name)
+                ).add("org").add("login").set(name)
+            );
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
         // @checkstyle AnonInnerLength (50 lines)
         return new Organization() {
             @Override
-            public User user() {
-                return MkOrganizations.this.user();
-            }
-            @Override
-            public int orgId() {
-                return orgid;
+            public String login() {
+                return name;
             }
             @Override
             public JsonObject json() {
@@ -137,7 +138,7 @@ final class MkOrganizations implements Organizations {
             }
             @Override
             public int compareTo(final Organization obj) {
-                return this.orgId() - obj.orgId();
+                return this.login().compareTo(obj.login());
             }
             @Override
             public void patch(final JsonObject json) throws IOException {
@@ -156,7 +157,7 @@ final class MkOrganizations implements Organizations {
                 @Override
                 public Organization map(final XML xml) {
                     return MkOrganizations.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                        xml.xpath("login/text()").get(0)
                     );
                 }
             }

@@ -50,13 +50,13 @@ public interface Organizations {
     User user();
 
     /**
-     * Get specific organization by id.
-     * @param orgid Organization number
+     * Get specific organization by name.
+     * @param name Name of the organization.
      * @return Organization
      * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
      */
     @NotNull(message = "issue is never NULL")
-    Organization get(int orgid);
+    Organization get(String name);
 
     /**
      * Iterate them all.
