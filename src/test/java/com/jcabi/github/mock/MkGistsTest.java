@@ -134,6 +134,31 @@ public final class MkGistsTest {
     }
 
     /**
+     * Test unstarring and star-checking of a gist.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void testUnstar() throws Exception {
+        final Gist gist = new MkGithub().gists().create(
+            Collections.singletonMap("file-name.txt", "")
+        );
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(false)
+        );
+        gist.star();
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(true)
+        );
+        gist.unstar();
+        MatcherAssert.assertThat(
+            gist.starred(),
+            Matchers.equalTo(false)
+        );
+    }
+
+    /**
      * MkGists can create gists with empty files.
      * @throws IOException If some problem inside
      */
