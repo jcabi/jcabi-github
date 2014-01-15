@@ -52,7 +52,7 @@ final class RtOrganizations implements Organizations {
     }
 
     @Override
-    public Organization get(final int orgid) {
+    public Organization get(final String login) {
         return null;
     }
 

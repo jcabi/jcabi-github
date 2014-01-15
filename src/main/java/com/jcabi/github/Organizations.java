@@ -51,12 +51,12 @@ public interface Organizations {
 
     /**
      * Get specific organization by name.
-     * @param name Name of the organization.
+     * @param login Login name of the organization.
      * @return Organization
      * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
      */
-    @NotNull(message = "issue is never NULL")
-    Organization get(String name);
+    @NotNull(message = "organization is never NULL")
+    Organization get(String login);
 
     /**
      * Iterate them all.

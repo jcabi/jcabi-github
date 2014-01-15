@@ -50,6 +50,7 @@ import org.xembly.Directives;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -97,7 +98,7 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
-    public Organization get(final String name) {
+    public Organization get(final String login) {
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath())
@@ -107,8 +108,8 @@ final class MkOrganizations implements Organizations {
             );
             this.storage.apply(
                 new Directives().xpath(
-                    String.format("/github/org[not(org[login='%s'])]", name)
-                ).add("org").add("login").set(name)
+                    String.format("/github/orgs[not(org[login='%s'])]", login)
+                ).add("org").add("login").set(login)
             );
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
@@ -117,7 +118,7 @@ final class MkOrganizations implements Organizations {
         return new Organization() {
             @Override
             public String login() {
-                return name;
+                return login;
             }
             @Override
             public JsonObject json() {
