@@ -27,73 +27,72 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Pull;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github hooks.
- *
+ * Test case for {@link MkPulls}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.8
+ * @since 1.0
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public final class MkPullsTest {
 
     /**
-     * RESTful request.
+     * MkPulls can create a pull.
+     * It should create an issue first, and then pull with the same number
+     * @throws Exception if some problem inside
      */
-    private final transient Request request;
-
-    /**
-     * Repository we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    @Test
+    public void canCreateAPull() throws Exception {
+        final Repo repo = MkPullsTest.repo();
+        final Pull pull = repo.pulls().create("hello", "", "");
+        final Issue.Smart issue = new Issue.Smart(
+            repo.issues().get(pull.number())
+        );
+        MatcherAssert.assertThat(
+            issue.title(),
+            Matchers.is("hello")
+        );
     }
 
-    @Override
-    public Repo repo() {
-        return this.owner;
+    /**
+     * MkPulls can fetch empty list of pulls.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    @Ignore
+    public void canFetchEmptyListOfPulls() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public int number() {
-        return this.num;
+    /**
+     * MkPulls can fetch single pull.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    @Ignore
+    public void canFetchSinglePull() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    /**
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 }

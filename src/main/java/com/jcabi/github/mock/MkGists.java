@@ -136,4 +136,10 @@ final class MkGists implements Gists {
         return "/github/gists";
     }
 
+    @Override
+    public void remove(final String name) throws IOException {
+        throw new UnsupportedOperationException(
+            "This operation is not implemented yet."
+        );
+    }
 }

@@ -33,98 +33,95 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Integration case for {@link Gists}.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #165 RtHooks should be able to create a hook in real repository
- *  When done, remove this puzzle and Ignore annotation from the method.
- * @todo #159 Need to implement integration test case where RtHooks can obtain
- *  a list of hooks from a real repository. Add the implementation in
- *  canFetchAllHooks(). When done, remove this puzzle and Ignore annotation from
- *  the method.
  */
-public final class RtHooksITCase {
-
+public final class RtGistsITCase {
     /**
-     * RtHooks can iterate hooks.
+     * RtGists can create a gist.
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchAllHooks() throws Exception {
-        // to be implemented
-    }
-
-    /**
-     * RtHooks can create a hook.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    @Ignore
-    public void canCreateAHook() throws Exception {
-        // to be implemented
-    }
-
-    /**
-     * RtHooks can fetch a single hook.
-     *
-     * @throws Exception If some problem inside.
-     */
-    @Test
-    public void canFetchSingleHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        int number = 0;
-        try {
-            final Hook hook = hooks.create(
-                "geocommit",
-                Collections.singletonMap("active", "true")
-            );
-            number = hook.number();
-            MatcherAssert.assertThat(
-                hooks.get(number).json().getInt("id"),
-                Matchers.equalTo(number)
-            );
-        } finally {
-            hooks.remove(number);
-        }
-    }
-
-    /**
-     * RtHooks can remove a hook by ID.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void canRemoveHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        final Hook hook = hooks.create(
-            "geocommit",
-            Collections.<String, String>emptyMap()
+    public void createGist() throws Exception {
+        final String filename = "filename.txt";
+        final String content = "content of file";
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap(filename, content)
         );
-        hooks.remove(hook.number());
         MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.not(Matchers.hasItem(hook))
+            new Gist.Smart(gist).read(filename),
+            Matchers.equalTo(content)
         );
+        gists.remove(gist.name());
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
+     * RtGists can iterate all gists.
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    @Test
+    public void iterateGists() throws Exception {
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap("test.txt", "content")
+        );
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.hasItem(gist)
+        );
+        gists.remove(gist.name());
+    }
+    /**
+     * RtGists can get a single gist.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void singleGist() throws Exception {
+        final String filename = "single-name.txt";
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap(filename, "body")
+        );
+        MatcherAssert.assertThat(
+            gists.get(gist.name()),
+            Matchers.sameInstance(gist)
+        );
+        gists.remove(gist.name());
+    }
+
+    /**
+     * This tests that RtGists can remove a gist by name.
+     * @throws Exception - if something goes wrong.
+     */
+    @Test
+    public void removesGistByName() throws Exception {
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap("fileName.txt", "content of test file")
+        );
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.notNullValue()
+        );
+        gists.remove(gist.json().getString("id"));
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.not(Matchers.hasItem(gist))
+        );
+    }
+    /**
+     * Return gists to test.
+     * @return Gists
+     * @throws Exception If some problem inside
+     */
+    private static Gists gists() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        return new RtGithub(key).gists();
     }
 }

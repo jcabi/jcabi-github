@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -211,5 +212,15 @@ public final class RtGistTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * RtGist can unstar a starred Gist.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    @Ignore
+    public void canUnstarAGist() throws Exception {
+        //to implement
     }
 }
