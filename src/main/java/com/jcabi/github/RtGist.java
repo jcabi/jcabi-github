@@ -53,10 +53,13 @@ import org.hamcrest.Matchers;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #114 RtGist.unstar() method as long as unit test have to be
+ *  implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "request" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtGist implements Gist {
     /**
      * RESTful request for the gist.
@@ -147,6 +150,11 @@ final class RtGist implements Gist {
             .method("PUT")
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public void unstar() throws IOException {
+        throw new UnsupportedOperationException("unstar not yet implemented.");
     }
 
     @Override
