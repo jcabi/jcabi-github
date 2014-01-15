@@ -54,6 +54,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "gist" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkGist implements Gist {
 
     /**
@@ -139,6 +140,7 @@ final class MkGist implements Gist {
     /**
      * Stars.
      * @throws IOException If there is any I/O problem
+     * @checkstyle MultipleStringLiterals (10 lines)
      */
     @Override
     public void star() throws IOException {
@@ -146,6 +148,20 @@ final class MkGist implements Gist {
             new Directives()
                 .xpath(this.xpath())
                 .attr("starred", Boolean.toString(true))
+        );
+    }
+
+    /**
+     * Unstars.
+     * @throws IOException If there is any I/O problem
+     * @checkstyle MultipleStringLiterals (10 lines)
+     */
+    @Override
+    public void unstar() throws IOException {
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .attr("starred", Boolean.toString(false))
         );
     }
 
