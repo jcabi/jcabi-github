@@ -29,15 +29,72 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
+
 /**
  * Integration test for {@link RtGistComments}.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
- * @todo #18 Integration tests for RtGistComments.
- *  Let's implements integration tests for gist's comments.
- *  Please, test all public methods
  */
 public final class RtGistCommentsITCase {
+    /**
+     * RtGistComments can create a comment.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void createComment() throws Exception {
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post("gist comment");
+        MatcherAssert.assertThat(
+            new GistComment.Smart(comment).body(),
+            Matchers.startsWith("gist")
+        );
+        comment.remove();
+    }
+
+    /**
+     * RtGistComments can get a comment.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void getComment() throws Exception {
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post("test comment");
+        MatcherAssert.assertThat(
+            comments.get(comment.number()),
+            Matchers.equalTo(comment)
+        );
+        comment.remove();
+    }
+
+    /**
+     * RtGistComments can iterate all gist comments.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void iterateComments() throws Exception {
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post("comment");
+        MatcherAssert.assertThat(
+            comments.iterate(),
+            Matchers.hasItem(comment)
+        );
+        comment.remove();
+    }
+
+    /**
+     * Return gist to test.
+     * @return Gist
+     * @throws Exception If some problem inside
+     */
+    private static Gist gist() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).gists().iterate().iterator().next();
+    }
 }
