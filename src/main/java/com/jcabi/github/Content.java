@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+
 /**
  * Github content.
  *
@@ -37,5 +39,6 @@ package com.jcabi.github;
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
+@Immutable
 public interface Content {
 }
