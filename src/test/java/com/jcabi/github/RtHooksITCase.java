@@ -29,6 +29,10 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,13 +41,15 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @todo #165 RtHooks should be able to create a hook in real repository
  *  When done, remove this puzzle and Ignore annotation from the method.
- * @todo #122 RtHooks should be able to fetch a list of hooks from a real
- *  Github repository, a single Hook, remove hook.
- *  When done, remove this puzzle and Ignore annotation from the method.
+ * @todo #159 Need to implement integration test case where RtHooks can obtain
+ *  a list of hooks from a real repository. Add the implementation in
+ *  canFetchAllHooks(). When done, remove this puzzle and Ignore annotation from
+ *  the method.
  */
-public class RtHooksITCase {
+public final class RtHooksITCase {
 
     /**
      * RtHooks can iterate hooks.
@@ -63,5 +69,62 @@ public class RtHooksITCase {
     @Ignore
     public void canCreateAHook() throws Exception {
         // to be implemented
+    }
+
+    /**
+     * RtHooks can fetch a single hook.
+     *
+     * @throws Exception If some problem inside.
+     */
+    @Test
+    public void canFetchSingleHook() throws Exception {
+        final Hooks hooks = repo().hooks();
+        int number = 0;
+        try {
+            final Hook hook = hooks.create(
+                "geocommit",
+                Collections.singletonMap("active", "true")
+            );
+            number = hook.number();
+            MatcherAssert.assertThat(
+                hooks.get(number).json().getInt("id"),
+                Matchers.equalTo(number)
+            );
+        } finally {
+            hooks.remove(number);
+        }
+    }
+
+    /**
+     * RtHooks can remove a hook by ID.
+     *
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void canRemoveHook() throws Exception {
+        final Hooks hooks = repo().hooks();
+        final Hook hook = hooks.create(
+            "geocommit",
+            Collections.<String, String>emptyMap()
+        );
+        hooks.remove(hook.number());
+        MatcherAssert.assertThat(
+            hooks.iterate(),
+            Matchers.not(Matchers.hasItem(hook))
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
     }
 }

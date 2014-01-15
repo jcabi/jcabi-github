@@ -123,6 +123,7 @@ final class MkIssues implements Issues {
                     .add("updated_at").set(new Github.Time().toString()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("html_url").set("http://localhost/2").up()
+                    .add("user").add("login").set(this.self).up().up()
             );
         } finally {
             this.storage.unlock();
