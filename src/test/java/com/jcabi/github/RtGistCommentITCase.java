@@ -29,19 +29,15 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-
 /**
- * Github content.
- *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * Integration test for {@link RtGistComment}.
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
- * @todo #56 Operations should be implemented for this class as long as unit tests @see {@link RtContentTest} and mocks.
+ * @todo #18 Integration tests for RtGistComment.
+ *  Let's implements integration tests for gist's comments.
+ *  Please, test all public methods
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-final class RtContent implements Content {
-
+public final class RtGistCommentITCase {
 }

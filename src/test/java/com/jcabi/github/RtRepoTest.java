@@ -276,6 +276,19 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch commits.
+     */
+    @Test
+    public void fetchCommits() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("testuser", "testrepo")
+        );
+        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+    }
+
+    /**
      * Create and return JsonObject to test.
      * @param event Event type
      * @return JsonObject

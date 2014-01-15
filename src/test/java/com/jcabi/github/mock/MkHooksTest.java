@@ -45,7 +45,7 @@ import org.junit.Test;
  */
 public final class MkHooksTest {
     /**
-     * RtHooks can fetch empty list of hooks.
+     * MkHooks can fetch empty list of hooks.
      * @throws Exception if some problem inside
      */
     @Test
@@ -70,6 +70,16 @@ public final class MkHooksTest {
     @Ignore
     public void canDeleteSingleHook() throws Exception {
         //To be implemented.
+    }
+
+    /**
+     * MkHooks can fetch single hook.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    @Ignore
+    public void canFetchSingleHook() throws Exception {
+        // to be implemented
     }
 
     /**

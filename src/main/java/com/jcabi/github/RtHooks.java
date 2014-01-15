@@ -32,23 +32,32 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
+import java.util.Map;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
  * Github hooks.
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = { "entry", "owner", "request" })
 public final class RtHooks implements Hooks {
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -66,8 +75,9 @@ public final class RtHooks implements Hooks {
      * @param repo Repository
      */
     public RtHooks(final Request req, final Repo repo) {
+        this.entry = req;
         final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
@@ -93,5 +103,33 @@ public final class RtHooks implements Hooks {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public Hook get(final int number) {
+        return new RtHook(this.entry, this.owner, number);
+    }
+
+    @Override
+    public Hook create(
+        @NotNull(message = "name can't be NULL") final String name,
+        @NotNull(message = "config can't be NULL")
+        final Map<String, String> config) throws IOException {
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        for (final Map.Entry<String, String> entr : config.entrySet()) {
+            builder.add(entr.getKey(), entr.getValue());
+        }
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("name", name)
+            .add("config", builder)
+            .build();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
     }
 }

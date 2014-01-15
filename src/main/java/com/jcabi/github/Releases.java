@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -38,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  */
+@Immutable
 public interface Releases {
     /**
      * Owner of them.
@@ -53,4 +56,25 @@ public interface Releases {
      */
     @NotNull(message = "iterable is never NULL")
     Iterable<Release> iterate();
+
+    /**
+     * Get a single release.
+     * @param number Release id
+     * @return Release
+     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     */
+    @NotNull(message = "release is never NULL")
+    Release get(int number);
+
+    /**
+     * Create new release.
+     * @param tag The name of the tag
+     * @return Release just created
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
+     */
+    @NotNull(message = "release is never NULL")
+    Release create(
+        @NotNull(message = "release tag is never NULL") String tag)
+        throws IOException;
 }

@@ -37,6 +37,12 @@ import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.JdkRequest;
 import java.net.HttpURLConnection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -92,32 +98,65 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can fetch single hook.
-     *
-     * @todo #122 RtHooks should be able to get a single Hook. Let's implement
-     *  a test here and a method get() of RtHooks.
-     *  The method should fetch a single hook.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchSingleHook() {
-        // to be implemented
+    public void canFetchSingleHook() throws Exception {
+        final String name = "hook name";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                RtHooksTest.hook(
+                    name,
+                    Collections.<String, String>emptyMap()
+                ).toString()
+            )
+        ).start();
+        final Hooks hooks = new RtHooks(
+            new JdkRequest(container.home()),
+            RtHooksTest.repo()
+        );
+        final Hook hook = hooks.get(1);
+        MatcherAssert.assertThat(
+            new Hook.Smart(hook).name(),
+            Matchers.equalTo(name)
+        );
+        container.stop();
     }
 
     /**
      * RtHooks can create a hook.
      *
-     * @todo #122 RtHooks should be able to create a Hook. Let's implement
-     *  a test here and a method create() of RtHooks. The method should create
-     *  a hook on some event for some service.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if something goes wrong.
      */
     @Test
-    @Ignore
-    public void canCreateHook() {
-        // to be implemented
+    public void canCreateHook() throws Exception {
+        final String name = "hook name";
+        final ConcurrentHashMap<String, String> config =
+            new ConcurrentHashMap<String, String>(2);
+        config.put("url", "http://example.com");
+        config.put("content_type", "json");
+        final String body = RtHooksTest.hook(name, config).toString();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
+        final Hooks hooks = new RtHooks(
+            new JdkRequest(container.home()),
+            RtHooksTest.repo()
+        );
+        try {
+            final Hook hook = hooks.create(name, config);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new Hook.Smart(hook).name(),
+                Matchers.equalTo(name)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -148,6 +187,27 @@ public final class RtHooksTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param name Name of the hook
+     * @param config Config of hook
+     * @return JsonObject
+     * @throws Exception If some problem inside
+     */
+    private static JsonObject hook(final String name,
+        final Map<String, String> config)
+        throws Exception {
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        for (final Map.Entry<String, String> entry : config.entrySet()) {
+            builder.add(entry.getKey(), entry.getValue());
+        }
+        return Json.createObjectBuilder()
+            .add("id", 1)
+            .add("name", name)
+            .add("config", builder)
+            .build();
     }
 
     /**
