@@ -63,8 +63,8 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public Content getReadme() {
-        return new RtContent();
+    public Content readme() {
+        throw new UnsupportedOperationException("Create not yet implemented.");
     }
 
 }

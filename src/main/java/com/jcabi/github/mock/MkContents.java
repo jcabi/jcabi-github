@@ -87,7 +87,7 @@ public final class MkContents implements Contents {
     }
 
     @Override
-    public Content getReadme() {
+    public Content readme() {
         return new MkContent();
     }
 }

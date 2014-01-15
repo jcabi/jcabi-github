@@ -51,7 +51,7 @@ public final class MkContentsTest {
     public void canFetchReadmeFile() throws Exception {
         final Contents contents = MkContentsTest.repo().contents();
         MatcherAssert.assertThat(
-            contents.getReadme(),
+            contents.readme(),
             Matchers.notNullValue()
         );
     }
