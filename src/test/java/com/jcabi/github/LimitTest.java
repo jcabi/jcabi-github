@@ -31,8 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.github.Limit.Throttled;
 import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -57,10 +55,6 @@ public final class LimitTest {
             Json.createObjectBuilder().add("absent", "absentValue").build()
         );
         throttled.json();
-        MatcherAssert.assertThat(
-            limit.json().toString(),
-            Matchers.equalTo("{}")
-        );
     }
 
 }
