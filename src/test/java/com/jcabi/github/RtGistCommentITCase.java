@@ -29,15 +29,104 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
+
 /**
  * Integration test for {@link RtGistComment}.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
- * @todo #18 Integration tests for RtGistComment.
- *  Let's implements integration tests for gist's comments.
- *  Please, test all public methods
  */
 public final class RtGistCommentITCase {
+
+    /**
+     * RtGistComment can remove itself.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void removeItself() throws Exception {
+        final String body = "comment body";
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post(body);
+        MatcherAssert.assertThat(
+            comments.iterate(),
+            Matchers.hasItem(comment)
+        );
+        comment.remove();
+        MatcherAssert.assertThat(
+            comments.iterate(),
+            Matchers.not(Matchers.hasItem(comment))
+        );
+    }
+
+    /**
+     * RtGistComment can fetch as JSON object.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void fetchAsJSON() throws Exception {
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post("comment");
+        MatcherAssert.assertThat(
+            comment.json().getInt("id"),
+            Matchers.equalTo(comment.number())
+        );
+        comment.remove();
+    }
+
+    /**
+     * RtGistComment can execute patch request.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void executePatchRequest() throws Exception {
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post("test comment");
+        MatcherAssert.assertThat(
+            new GistComment.Smart(comment).body(),
+            Matchers.startsWith("test")
+        );
+        comment.patch(Json.createObjectBuilder().add("body", "hi!").build());
+        MatcherAssert.assertThat(
+            new GistComment.Smart(comment).body(),
+            Matchers.startsWith("hi")
+        );
+        comment.remove();
+    }
+
+    /**
+     * RtGistComment can change comment body.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void changeCommentBody() throws Exception {
+        final GistComments comments = gist().comments();
+        final GistComment comment = comments.post("hi there");
+        MatcherAssert.assertThat(
+            new GistComment.Smart(comment).body(),
+            Matchers.endsWith("there")
+        );
+        new GistComment.Smart(comment).body("hello there");
+        MatcherAssert.assertThat(
+            new GistComment.Smart(comment).body(),
+            Matchers.startsWith("hello")
+        );
+        comment.remove();
+    }
+
+    /**
+     * Return gist to test.
+     * @return Gist
+     * @throws Exception If some problem inside
+     */
+    private static Gist gist() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).gists().iterate().iterator().next();
+    }
 }
