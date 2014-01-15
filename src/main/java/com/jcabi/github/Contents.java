@@ -30,70 +30,33 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github hooks.
+ * Github contents.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public interface Contents {
 
     /**
-     * RESTful request.
+     * Owner of them.
+     * @return Repo
      */
-    private final transient Request request;
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
 
     /**
-     * Repository we're in.
+     * Get the Readme file of the default branch (usually master).
+     *
+     * @return The Content of the readme file.
+     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
-    private final transient Repo owner;
+    @NotNull(message = "Content is never NULL")
+    Content readme();
 
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
 }

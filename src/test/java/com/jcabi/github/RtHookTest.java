@@ -29,43 +29,65 @@
  */
 package com.jcabi.github;
 
-import javax.validation.constraints.NotNull;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github forks.
+ * Test case for {@link RtHook}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
  */
-public interface Forks {
+public final class RtHookTest {
 
     /**
-     * Owner of them.
+     * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void performsValidRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"test\":\"hook\"}"
+            )
+        ).start();
+        try {
+            final Hook hook = new RtHook(
+                new ApacheRequest(container.home()),
+                repo(),
+                1
+            );
+            MatcherAssert.assertThat(
+                hook.json(),
+                Matchers.notNullValue()
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/repos/test/repo/hooks/1")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * Create and return repo for testing.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private static Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "repo"))
+            .when(repo).coordinates();
+        return repo;
+    }
 
-    /**
-     * Iterate all forks.
-     *
-     * @param sort The sort order.
-     * @return All forks
-     * @see <a href="http://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
-     */
-    @NotNull(message = "Iterable of forks is never NULL")
-    Iterable<Fork> iterate(@NotNull(message = "Sort order can't be NULL")
-        String sort);
-
-    /**
-     * Create a fork for the authenticated user.
-     *
-     * @param organization The organization the repository will be forked into.
-     * @return The new fork
-     * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
-     */
-    Fork create(@NotNull(message = "organization can't be NULL")
-        String organization);
 }

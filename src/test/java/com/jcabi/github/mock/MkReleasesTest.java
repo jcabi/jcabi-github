@@ -58,6 +58,22 @@ public final class MkReleasesTest {
     }
 
     /**
+     * MkReleases can fetch non-empty list of releases.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canFetchNonEmptyListOfReleases() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        final String tag = "v1.0";
+        releases.create(tag);
+        MatcherAssert.assertThat(
+            // @checkstyle MultipleStringLiterals (1 line)
+            releases.iterate().iterator().next().json().getString("tag_name"),
+            Matchers.equalTo(tag)
+        );
+    }
+
+    /**
      * MkReleases can fetch a single release.
      * @throws Exception If some problem inside
      */
