@@ -33,17 +33,18 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Repo;
+import com.jcabi.log.Logger;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
+import org.xembly.Directives;
 
 /**
  * Mock Github forks.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #121 Need to implement the methods of MkForks: 1) iterate, returning
- *  a list of forks, and 2) create, which will create a new fork. Don't forget
- *  to update the unit test class {@link MkForksTest}.
+ * @todo #192 Implement {@link MkFork} and {@link MkForkTest}, update this class and {@link MkForksTest}
  */
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkForks implements Forks {
@@ -76,20 +77,54 @@ final class MkForks implements Forks {
         this.self = login;
         this.coords = rep;
     }
-
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
-
+    /**
+     * Creates a mocked Fork.
+     * @param org Organization
+     * @return Mocked Fork
+     */
+    public Fork get(final String org) {
+        return new MkFork();
+    }
     @Override
     public Iterable<Fork> iterate(final String sort) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<Fork>(
+            this.storage,
+            String.format("%s/fork", this.xpath()),
+            new MkIterable.Mapping<Fork>() {
+                @Override
+                public Fork map(final XML xml) {
+                    return MkForks.this.get("Test");
+                }
+            }
+        );
     }
 
     @Override
-    public Fork create(final String organization) {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Fork create(final String org) throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("fork")
+                .attr("organization", org)
+        );
+        final Fork fork = this.get(org);
+        Logger.info(
+            this, "fork %s created by %s",
+            this.coords, this.self
+        );
+        return fork;
+    }
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/forks",
+            this.coords
+        );
     }
 
 }

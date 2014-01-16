@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RtForks;
 import javax.json.Json;
@@ -68,7 +69,9 @@ public final class MkForksTest {
     @Test
     @Ignore
     public void createsFork() throws Exception {
-        final RtForks forks = new RtForks(this.repo());
+        final MkForks forks = new MkForks(new MkStorage.InFile(),
+            "Test", new Coordinates.Simple("tests", "forks")
+        );
         MatcherAssert.assertThat(
             forks.create("blah"),
             Matchers.notNullValue()
