@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
 import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
@@ -51,6 +52,7 @@ import org.xembly.Directives;
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCoupling (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -89,6 +91,11 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
+    }
+
+    @Override
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
@@ -116,6 +123,10 @@ final class MkOrganizations implements Organizations {
         }
         // @checkstyle AnonInnerLength (50 lines)
         return new Organization() {
+            @Override
+            public Github github() {
+                return new MkGithub(MkOrganizations.this.storage, login);
+            }
             @Override
             public String login() {
                 return login;

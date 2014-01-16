@@ -43,6 +43,13 @@ import javax.validation.constraints.NotNull;
 public interface Organizations {
 
     /**
+     * Github we're in.
+     * @return Github
+     */
+    @NotNull(message = "Github is never NULL")
+    Github github();
+
+    /**
      * Get its owner.
      * @return User
      */

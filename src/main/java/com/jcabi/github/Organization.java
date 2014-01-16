@@ -63,6 +63,13 @@ public interface Organization extends Comparable<Organization>,
     JsonReadable, JsonPatchable {
 
     /**
+     * Github we're in.
+     * @return Github
+     */
+    @NotNull(message = "Github is never NULL")
+    Github github();
+
+    /**
      * Get this organization's login.
      * @return Login name
      */
@@ -93,12 +100,12 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get this organization's ID.
-         * @return Unique user ID
+         * @return Unique organization ID
          * @throws IOException If it fails
          * @checkstyle MethodName (3 lines)
          */
         @SuppressWarnings("PMD.ShortMethodName")
-        public int id() throws IOException {
+        public int number() throws IOException {
             return this.org.json().getJsonNumber("id").intValue();
         }
 
@@ -303,6 +310,11 @@ public interface Organization extends Comparable<Organization>,
         @Override
         public String login() {
             return this.org.login();
+        }
+
+        @Override
+        public Github github() {
+            return this.org.github();
         }
 
         @Override
