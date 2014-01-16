@@ -27,73 +27,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.github.Content;
+import com.jcabi.github.Contents;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github hooks.
+ * Mock Github contents.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+public final class MkContents implements Contents {
 
     /**
-     * RESTful request.
+     * Storage.
      */
-    private final transient Request request;
+    private final transient MkStorage storage;
 
     /**
-     * Repository we're in.
+     * Login of the user logged in.
      */
-    private final transient Repo owner;
+    private final transient String self;
 
     /**
-     * Issue number.
+     * Repo name.
      */
-    private final transient int num;
+    private final transient Coordinates coords;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @throws IOException If there is any I/O problem
      */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    public MkContents(final MkStorage stg, final String login,
+        final Coordinates rep) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
     }
 
     @Override
     public Repo repo() {
-        return this.owner;
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    public Content readme() {
+        return new MkContent();
     }
 }
