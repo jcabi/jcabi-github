@@ -51,8 +51,6 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #64 An integration test is still lacking for this class,
- *  although a unit test has already been created.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -137,4 +135,12 @@ final class RtGists implements Gists {
         );
     }
 
+    @Override
+    public void remove(@NotNull(message = "gist name can't be NULL")
+        final String name) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(name).back().fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }

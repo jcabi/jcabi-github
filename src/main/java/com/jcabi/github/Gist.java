@@ -52,13 +52,6 @@ import lombok.ToString;
  *  http://developer.github.com/v3/gists/
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
- * @todo #1:1hr Gist comments. Let's add new method comments() to this
- *  interface, returning an instance of interface GistComments. This new
- *  interface should implement methods do iterate, post, delete and read
- *  comments, as explained in
- *  http://developer.github.com/v3/gists/comments/. New interface should
- *  be implemented by GhGistComments class and tested with unit and
- *  integration tests.
  * @todo #1:0.5hr Integration test for fork() method is required.
  *  Need to fork some gist and check the forked gist.
  */
@@ -72,6 +65,13 @@ public interface Gist extends JsonReadable {
      */
     @NotNull(message = "Github is never NULL")
     Github github();
+
+    /**
+     * Get gist id.
+     * @return Gist id
+     */
+    @NotNull(message = "String is never NULL")
+    String name();
 
     /**
      * Read file content.
@@ -103,6 +103,12 @@ public interface Gist extends JsonReadable {
     void star() throws IOException;
 
     /**
+     * Unstar a gist.
+     * @throws IOException If there is any I/O problem
+     */
+    void unstar() throws IOException;
+
+    /**
      * Checks if Gist is starred.
      * @throws IOException If there is any I/O problem
      * @return True if gist is starred
@@ -116,6 +122,15 @@ public interface Gist extends JsonReadable {
      */
     @NotNull(message = "gist is never NULL")
     Gist fork() throws IOException;
+
+    /**
+     * Get all comments of the gist.
+     * @return GistComments
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+     */
+    @NotNull(message = "comments are never NULL")
+    GistComments comments() throws IOException;
 
     /**
      * Smart Gist with extra features.
@@ -136,6 +151,15 @@ public interface Gist extends JsonReadable {
         public Smart(final Gist gst) {
             this.gist = gst;
         }
+
+        /**
+         * Get gist id.
+         * @return Gist id
+         */
+        public String name() {
+            return this.gist.name();
+        }
+
         /**
          * Get a list of all file names in the gist.
          * @return File names
@@ -170,6 +194,11 @@ public interface Gist extends JsonReadable {
         }
 
         @Override
+        public void unstar() throws IOException {
+            this.gist.unstar();
+        }
+
+        @Override
         public boolean starred() throws IOException {
             return this.gist.starred();
         }
@@ -177,6 +206,11 @@ public interface Gist extends JsonReadable {
         @Override
         public Gist fork() throws IOException {
             return this.gist.fork();
+        }
+
+        @Override
+        public GistComments comments() throws IOException {
+            return this.gist.comments();
         }
 
         @Override

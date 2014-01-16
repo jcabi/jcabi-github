@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Event;
@@ -44,6 +45,7 @@ import com.jcabi.github.Milestones;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -175,8 +177,13 @@ final class MkRepo implements Repo {
 
     @Override
     public DeployKeys keys() {
+        return new MkDeployKeys(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public Contents contents() {
         try {
-            return new MkDeployKeys(this.storage, this.self, this.coords);
+            return new MkContents(this.storage, this.self, this.coords);
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -185,6 +192,11 @@ final class MkRepo implements Repo {
     @Override
     public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public RepoCommits commits() {
+        return new MkRepoCommits(this.storage, this.coordinates());
     }
 
     @Override
@@ -204,4 +216,5 @@ final class MkRepo implements Repo {
             this.coords
         );
     }
+
 }

@@ -30,8 +30,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
+import com.jcabi.github.Repo;
 import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.CustomMatcher;
@@ -44,6 +46,7 @@ import org.mockito.Mockito;
  * Test case for {@link MkIssue}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkIssueTest {
 
@@ -142,7 +145,7 @@ public final class MkIssueTest {
         issue.repo().labels().create(tag, "c0c0c0");
         issue.labels().add(Collections.singletonList(tag));
         MatcherAssert.assertThat(
-            new Issue.Smart(issue).roLabels(),
+            new Issue.Smart(issue).roLabels().iterate(),
             Matchers.<Label>hasItem(
                 new CustomMatcher<Label>("label just created") {
                     @Override
@@ -180,6 +183,33 @@ public final class MkIssueTest {
         MatcherAssert.assertThat(
             greater.compareTo(less),
             Matchers.greaterThan(0)
+        );
+    }
+
+    /**
+     * MkIssue can remember it's author.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canRememberItsAuthor() throws Exception {
+        final MkGithub first = new MkGithub("first");
+        final Github second = first.relogin("second");
+        final Repo repo = first.repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+        final int number = second.repos()
+            .get(repo.coordinates())
+            .issues()
+            .create("", "")
+            .number();
+        final Issue issue = first.repos()
+            .get(repo.coordinates())
+            .issues()
+            .get(number);
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).author().login(),
+            Matchers.is("second")
         );
     }
 

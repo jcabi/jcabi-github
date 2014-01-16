@@ -30,9 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
+import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import java.util.Collections;
@@ -57,7 +59,8 @@ public final class RtGistsTest {
     public void canCreateFiles() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED, "{\"id\":\"1\"}"
+                HttpURLConnection.HTTP_CREATED,
+                "{\"id\":\"1\"}"
             )
         ).start();
         final RtGists gists = new RtGists(
@@ -128,5 +131,32 @@ public final class RtGistsTest {
             container.stop();
         }
     }
-
+    /**
+     * RtGists can remove a gist by name.
+     * @throws Exception - if something goes wrong.
+     */
+    @Test
+    public void removesGistByName() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                ""
+            )
+        )
+            .start();
+        final RtGists gists = new RtGists(
+            new MkGithub(),
+            new ApacheRequest(container.home())
+        );
+        try {
+            gists.remove("test_gist");
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
+    }
 }

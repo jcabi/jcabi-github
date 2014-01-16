@@ -37,6 +37,7 @@ import com.jcabi.github.Hooks;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -109,6 +110,11 @@ public final class MkHooks implements Hooks {
     @Override
     public Hook get(final int number) {
         return new MkHook(this.storage, this.self, this.coords, number);
+    }
+
+    @Override
+    public Hook create(final String name, final Map<String, String> config) {
+        throw new UnsupportedOperationException("Create not yet implemented.");
     }
 
     @Override

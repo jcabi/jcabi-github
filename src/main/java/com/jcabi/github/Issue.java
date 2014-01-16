@@ -330,7 +330,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.6.2
          */
-        public Collection<Label> roLabels() throws IOException {
+        public IssueLabels roLabels() throws IOException {
             final Collection<JsonObject> array =
                 new SmartJson(this).value("labels", JsonArray.class)
                     .getValuesAs(JsonObject.class);
@@ -343,7 +343,47 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return labels;
+            // @checkstyle AnonInnerLength (1 line)
+            return new IssueLabels() {
+                @Override
+                public Issue issue() {
+                    return Issue.Smart.this;
+                }
+                @Override
+                public void add(
+                    @NotNull(message = "iterable of label names can't be NULL")
+                    final Iterable<String> labels) throws IOException {
+                    throw new UnsupportedOperationException(
+                        "The issue is read-only."
+                    );
+                }
+                @Override
+                public void replace(
+                    @NotNull(message = "iterable of label names can't be NULL")
+                    final Iterable<String> labels) throws IOException {
+                    throw new UnsupportedOperationException(
+                        "The issue is read-only."
+                    );
+                }
+                @Override
+                public Iterable<Label> iterate() {
+                    return labels;
+                }
+                @Override
+                public void remove(
+                    @NotNull(message = "label name can't be NULL")
+                    final String name) throws IOException {
+                    throw new UnsupportedOperationException(
+                        "This issue is read-only."
+                    );
+                }
+                @Override
+                public void clear() throws IOException {
+                    throw new UnsupportedOperationException(
+                        "This issue is read-only."
+                    );
+                }
+            };
         }
         @Override
         public Repo repo() {

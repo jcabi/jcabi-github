@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
+import com.jcabi.github.GistComments;
 import com.jcabi.github.Github;
 import com.jcabi.xml.XML;
 import java.io.IOException;
@@ -52,7 +53,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "name" })
+@EqualsAndHashCode(of = { "storage", "self", "gist" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkGist implements Gist {
 
     /**
@@ -68,25 +70,30 @@ final class MkGist implements Gist {
     /**
      * Gist name.
      */
-    private final transient String name;
+    private final transient String gist;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @param gist Gist name
+     * @param name Gist name
      * @checkstyle ParameterNumber (5 lines)
      */
     MkGist(final MkStorage stg, final String login,
-        final String gist) {
+        final String name) {
         this.storage = stg;
         this.self = login;
-        this.name = gist;
+        this.gist = name;
     }
 
     @Override
     public Github github() {
         return new MkGithub(this.storage, this.self);
+    }
+
+    @Override
+    public String name() {
+        return this.gist;
     }
 
     @Override
@@ -133,6 +140,7 @@ final class MkGist implements Gist {
     /**
      * Stars.
      * @throws IOException If there is any I/O problem
+     * @checkstyle MultipleStringLiterals (10 lines)
      */
     @Override
     public void star() throws IOException {
@@ -140,6 +148,20 @@ final class MkGist implements Gist {
             new Directives()
                 .xpath(this.xpath())
                 .attr("starred", Boolean.toString(true))
+        );
+    }
+
+    /**
+     * Unstars.
+     * @throws IOException If there is any I/O problem
+     * @checkstyle MultipleStringLiterals (10 lines)
+     */
+    @Override
+    public void unstar() throws IOException {
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .attr("starred", Boolean.toString(false))
         );
     }
 
@@ -190,6 +212,11 @@ final class MkGist implements Gist {
     }
 
     @Override
+    public GistComments comments() throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -203,7 +230,7 @@ final class MkGist implements Gist {
     private String xpath() {
         return String.format(
             "/github/gists/gist[id='%s']",
-            this.name
+            this.gist
         );
     }
 

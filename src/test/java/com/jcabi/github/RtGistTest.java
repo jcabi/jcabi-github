@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -154,5 +155,72 @@ public final class RtGistTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * Gist.Smart can iterate through its files.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    public void canIterateFiles() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
+            )
+        ).start();
+        final Gist.Smart smart = new Gist.Smart(
+            new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "testGetFiles"
+            )
+        );
+        try {
+            MatcherAssert.assertThat(
+                smart.files(),
+                Matchers.notNullValue()
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/gists/testGetFiles")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtGist can return a String representation correctly reflecting its URI.
+     *
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void canRepresentAsString() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().start();
+        final RtGist gist = new RtGist(
+            new MkGithub(),
+            new ApacheRequest(container.home()),
+            "testToString"
+        );
+        try {
+            MatcherAssert.assertThat(
+                gist.toString(),
+                Matchers.endsWith("/gists/testToString")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtGist can unstar a starred Gist.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    @Ignore
+    public void canUnstarAGist() throws Exception {
+        //to implement
     }
 }

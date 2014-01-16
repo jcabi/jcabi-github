@@ -44,7 +44,8 @@ import org.xembly.Directives;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #192 Implement {@link MkFork} and {@link MkForkTest}, update this class and {@link MkForksTest}
+ * @todo #192 Need to implement {@link MkFork} and {@link MkForkTest},
+ *  then update this class and {@link MkForksTest}
  */
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkForks implements Forks {

@@ -188,6 +188,24 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch its contents.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchContents() throws Exception {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("andres-contents", "contents-branch")
+        );
+        MatcherAssert.assertThat(
+            repo.contents(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * RtRepo can identify itself.
      * @throws Exception If some problem inside
      */
@@ -255,6 +273,19 @@ public final class RtRepoTest {
                 "{\"full_name\":\"octocat/Hello-World\",\"fork\":true}"
             )
         );
+    }
+
+    /**
+     * RtRepo can fetch commits.
+     */
+    @Test
+    public void fetchCommits() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("testuser", "testrepo")
+        );
+        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
     }
 
     /**
