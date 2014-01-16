@@ -30,53 +30,61 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github deploy keys.
- *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * Github deploy key.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  */
 @Immutable
-public interface DeployKeys {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+public final class RtDeployKey implements DeployKey {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * RESTful API request for this deploy key.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private final transient Request request;
 
     /**
-     * Iterate them all.
-     * @return Iterator of deploy keys
-     * @see <a href="http://developer.github.com/v3/repos/keys/#list">List</a>
+     * Id.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<DeployKey> iterate();
+    private final transient int key;
 
     /**
-     * Get a single deploy key.
-     * @param number Id of a deploy key
-     * @return Deploy key
-     * @see <a href="http://developer.github.com/v3/repos/keys/#get">Get a deploy key</a>
+     * Public ctor.
+     * @param req RESTful API entry point
+     * @param number Id
+     * @param repo Repository
      */
-    @NotNull(message = "deploy key is never NULL")
-    DeployKey get(int number);
+    RtDeployKey(final Request req, final int number, final Repo repo) {
+        this.key = number;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/keys")
+            .path(String.valueOf(number))
+            .back();
+    }
 
-    /**
-     * Create a deploy key.
-     * @param title Title
-     * @param key Key
-     * @return A new deploy key
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
-     */
-    @NotNull(message = "deploy key is never NULL")
-    DeployKey create(String title, String key) throws IOException;
+    @Override
+    public int number() {
+        return this.key;
+    }
 
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 }

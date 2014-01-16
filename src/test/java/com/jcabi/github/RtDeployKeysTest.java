@@ -86,6 +86,7 @@ public final class RtDeployKeysTest {
     public void canFetchSingleDeployKey() throws IOException {
         final int number = 1;
         final DeployKeys keys = new RtDeployKeys(
+            // @checkstyle MultipleStringLiterals (1 line)
             new FakeRequest().withBody(String.format("{\"id\":%d}", number)),
             RtDeployKeysTest.repo()
         );
