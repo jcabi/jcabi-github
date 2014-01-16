@@ -40,7 +40,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github repository.
  *
- * @todo #116 Implement collabborators() method.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
@@ -169,7 +168,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Collaborators collaborators() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new RtCollaborators();
     }
 
     @Override

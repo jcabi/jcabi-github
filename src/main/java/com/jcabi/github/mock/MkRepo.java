@@ -58,7 +58,6 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @todo #9 Implement milestones() method.
- * @todo #116 Implement collabborators() method.
  *  Please, implement milestones() method to return
  *  MkMilestones. Don't forget about unit tests
  */

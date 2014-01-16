@@ -36,7 +36,6 @@ import org.junit.Test;
  * Tests for {@link RtCollaborators}.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @todo #116 Implement tests.
  */
 public class RtCollaboratorsTest {
     /**

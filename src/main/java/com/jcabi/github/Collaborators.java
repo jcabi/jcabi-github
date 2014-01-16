@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
  * Github repository collaborators.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 1.0
+ * @since 0.8
  */
 @Immutable
 public interface Collaborators {
@@ -50,25 +50,30 @@ public interface Collaborators {
 
     /**
      * Check if a user is collaborator.
+     *
      * @param user User
      * @return True is a user is a collaborator, otherwise returns false
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">Check if a user is collaborator</a>
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
+     *  Check if a user is collaborator</a>
      */
-    boolean isCollabborator(@NotNull(message = "User is never null")User user);
+    boolean isCollabborator(
+        @NotNull(message = "User is never null") String user);
 
     /**
      * Add user as a collaborator.
+     *
      * @param user User
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
      */
-    void add(@NotNull(message = "User is never null")User user);
+    void add(@NotNull(message = "User is never null") String user);
 
     /**
      * Remove user as a collaborator.
+     *
      * @param user User
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
      */
-    void remove(User user);
+    void remove(String user);
 
     /**
      * Iterates over repo collaborators.

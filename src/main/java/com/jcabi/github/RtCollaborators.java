@@ -36,43 +36,42 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Implementation of Collaborators.
- * @todo #116 Implement methods.
+ * @todo #116:1hr Implement methods. They should be implemented as described at
+ *  http://developer.github.com/v3/repos/collaborators/
+ *  and repo() method should return Repo instance it is created with.
+ *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 1.0
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 public final class RtCollaborators implements Collaborators {
 
-    /**
-     * Temporary constant for error message.
-     */
-    private  static final String MESSAGE = "Operation not implemented";
-
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean isCollabborator(
-        @NotNull(message = "User is never null") final User user) {
-        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void add(@NotNull(message = "User is never null") final User user) {
-        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    public void add(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void remove(final User user) {
-        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+    public void remove(final String user) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Iterable<User> iterate() {
-        throw new UnsupportedOperationException(RtCollaborators.MESSAGE);
+        throw new UnsupportedOperationException();
     }
 }
