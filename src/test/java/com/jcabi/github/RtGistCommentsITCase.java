@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -48,13 +49,15 @@ public final class RtGistCommentsITCase {
      */
     @Test
     public void createComment() throws Exception {
-        final GistComments comments = gist().comments();
+        final Gist gist = gist();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post("gist comment");
         MatcherAssert.assertThat(
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("gist")
         );
         comment.remove();
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -63,13 +66,15 @@ public final class RtGistCommentsITCase {
      */
     @Test
     public void getComment() throws Exception {
-        final GistComments comments = gist().comments();
+        final Gist gist = gist();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
             comments.get(comment.number()),
             Matchers.equalTo(comment)
         );
         comment.remove();
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -78,13 +83,15 @@ public final class RtGistCommentsITCase {
      */
     @Test
     public void iterateComments() throws Exception {
-        final GistComments comments = gist().comments();
+        final Gist gist = gist();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
             comments.iterate(),
             Matchers.hasItem(comment)
         );
         comment.remove();
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -95,6 +102,8 @@ public final class RtGistCommentsITCase {
     private static Gist gist() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).gists().iterate().iterator().next();
+        return new RtGithub(key)
+            .gists()
+            .create(Collections.singletonMap("file.txt",  "file content"));
     }
 }
