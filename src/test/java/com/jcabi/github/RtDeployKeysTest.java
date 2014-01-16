@@ -30,9 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -51,21 +50,17 @@ public final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can fetch empty list of deploy keys.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfDeployKeys() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
-        ).start();
+    public void canFetchEmptyListOfDeployKeys() {
         final DeployKeys deployKeys = new RtDeployKeys(
+            new FakeRequest().withBody("[]"),
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
             deployKeys.iterate(),
             Matchers.emptyIterable()
         );
-        container.stop();
     }
 
     /**
@@ -85,32 +80,38 @@ public final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can fetch single deploy key.
-     *
-     * @todo #119 RtDepoyKeys should be able to get a single key.
-     *  Let's implement a test here and a method get() of RtDeployKeys.
-     *  The method should fetch a single deploy key.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws IOException If some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchSingleDeployKey() {
-        // to be implemented
+    public void canFetchSingleDeployKey() throws IOException {
+        final int number = 1;
+        final DeployKeys keys = new RtDeployKeys(
+            new FakeRequest().withBody(String.format("{\"id\":%d}", number)),
+            RtDeployKeysTest.repo()
+        );
+        MatcherAssert.assertThat(
+            keys.get(number).json().getInt("id"),
+            Matchers.equalTo(number)
+        );
     }
 
     /**
      * RtDeployKeys can create a key.
-     *
-     * @todo #119 RtDeployKeys should be able to create a DeployKey. Let's implement
-     *  a test here and a method create() of RtDeployKeys.
-     *  The method should create a deploy key.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws IOException If some problem inside.
      */
     @Test
-    @Ignore
-    public void canCreateDeployKey() {
-        // to be implemented
+    public void canCreateDeployKey() throws IOException {
+        final int number = 2;
+        final DeployKeys keys = new RtDeployKeys(
+            new FakeRequest()
+                .withStatus(HttpURLConnection.HTTP_CREATED)
+                .withBody(String.format("{\"id\":%d}", number)),
+            RtDeployKeysTest.repo()
+        );
+        MatcherAssert.assertThat(
+            keys.create("Title", "Key").number(),
+            Matchers.equalTo(number)
+        );
     }
 
     /**
