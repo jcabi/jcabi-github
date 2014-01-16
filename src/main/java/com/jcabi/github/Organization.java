@@ -102,9 +102,7 @@ public interface Organization extends Comparable<Organization>,
          * Get this organization's ID.
          * @return Unique organization ID
          * @throws IOException If it fails
-         * @checkstyle MethodName (3 lines)
          */
-        @SuppressWarnings("PMD.ShortMethodName")
         public int number() throws IOException {
             return this.org.json().getJsonNumber("id").intValue();
         }
