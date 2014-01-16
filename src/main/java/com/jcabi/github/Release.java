@@ -30,6 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
+import java.util.Date;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github release.
@@ -40,7 +48,9 @@ import com.jcabi.aspects.Immutable;
  * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  */
 @Immutable
-public interface Release extends JsonReadable {
+@SuppressWarnings("PMD.TooManyMethods")
+public interface Release extends Comparable<Release>,
+    JsonReadable, JsonPatchable {
 
     /**
      * Release id.
@@ -48,4 +58,147 @@ public interface Release extends JsonReadable {
      */
     int number();
 
+    /**
+     * Delete the release.
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release</a>
+     */
+    void remove() throws IOException;
+
+    /**
+     * Smart pull request with extra features.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "release")
+    final class Smart implements Release {
+        /**
+         * Encapsulated release.
+         */
+        private final transient Release release;
+        /**
+         * Public ctor.
+         * @param rel Release
+         */
+        public Smart(final Release rel) {
+            this.release = rel;
+        }
+        /**
+         * Get the tag name of the release.
+         * @return The name of the tag
+         * @throws IOException If there is any I/O problem
+         */
+        public String tag() throws IOException {
+            return new SmartJson(this).text("tag_name");
+        }
+        /**
+         * Get target commitish of the release.
+         * @return Specifies the commitish value.
+         * @throws IOException If there is any I/O problem
+         */
+        public String commitish() throws IOException {
+            return new SmartJson(this).text("target_commitish");
+        }
+        /**
+         * Get the name of the release.
+         * @return Name of release
+         * @throws IOException If there is any I/O problem
+         */
+        public String name() throws IOException {
+            return new SmartJson(this).text("name");
+        }
+        /**
+         * Get its body.
+         * @return Body of release
+         * @throws IOException If there is any I/O problem
+         */
+        public String body() throws IOException {
+            return new SmartJson(this).text("body");
+        }
+        /**
+         * Get its URL.
+         * @return URL of release
+         * @throws IOException If there is any I/O problem
+         */
+        public URL url() throws IOException {
+            return new URL(new SmartJson(this).text("url"));
+        }
+        /**
+         * Get its HTML URL.
+         * @return HTML URL of release
+         * @throws IOException If there is any I/O problem
+         */
+        public URL htmlUrl() throws IOException {
+            return new URL(new SmartJson(this).text("html_url"));
+        }
+        /**
+         * Get its Assets URL.
+         * @return Assets URL of release
+         * @throws IOException If there is any I/O problem
+         */
+        public URL assetsUrl() throws IOException {
+            return new URL(new SmartJson(this).text("assets_url"));
+        }
+        /**
+         * Get its Upload URL.
+         * @return Upload URL of release
+         * @throws IOException If there is any I/O problem
+         */
+        public URL uploadUrl() throws IOException {
+            return new URL(new SmartJson(this).text("upload_url"));
+        }
+        /**
+         * When this release was created.
+         * @return Date of creation
+         * @throws IOException If there is any I/O problem
+         */
+        public Date createdAt() throws IOException {
+            try {
+                return new Github.Time(
+                    new SmartJson(this).text("created_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
+         * When this release was published.
+         * @return Date of published
+         * @throws IOException If there is any I/O problem
+         */
+        public Date publishedAt() throws IOException {
+            try {
+                return new Github.Time(
+                    new SmartJson(this).text("published_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        @Override
+        public int number() {
+            return this.release.number();
+        }
+
+        @Override
+        public void remove() throws IOException {
+            this.release.remove();
+        }
+
+        @Override
+        public int compareTo(final Release rel) {
+            return this.release.compareTo(rel);
+        }
+
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.release.patch(json);
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.release.json();
+        }
+    }
 }

@@ -32,7 +32,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -43,7 +45,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
+@EqualsAndHashCode(of = { "request", "release" })
 public final class RtRelease implements Release {
 
     /**
@@ -88,4 +90,20 @@ public final class RtRelease implements Release {
         return new RtJson(this.request).fetch();
     }
 
+    @Override
+    public void remove() throws IOException {
+        this.request.method(Request.DELETE).fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public int compareTo(final Release rel) {
+        return this.number() - rel.number();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
 }
