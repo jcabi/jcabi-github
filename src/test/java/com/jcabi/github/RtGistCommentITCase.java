@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,8 +51,9 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void removeItself() throws Exception {
+        final Gist gist = gist();
         final String body = "comment body";
-        final GistComments comments = gist().comments();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post(body);
         MatcherAssert.assertThat(
             comments.iterate(),
@@ -62,6 +64,7 @@ public final class RtGistCommentITCase {
             comments.iterate(),
             Matchers.not(Matchers.hasItem(comment))
         );
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -70,13 +73,15 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final GistComments comments = gist().comments();
+        final Gist gist = gist();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
             comment.json().getInt("id"),
             Matchers.equalTo(comment.number())
         );
         comment.remove();
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -85,7 +90,8 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final GistComments comments = gist().comments();
+        final Gist gist = gist();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
             new GistComment.Smart(comment).body(),
@@ -97,6 +103,7 @@ public final class RtGistCommentITCase {
             Matchers.startsWith("hi")
         );
         comment.remove();
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -105,7 +112,8 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void changeCommentBody() throws Exception {
-        final GistComments comments = gist().comments();
+        final Gist gist = gist();
+        final GistComments comments = gist.comments();
         final GistComment comment = comments.post("hi there");
         MatcherAssert.assertThat(
             new GistComment.Smart(comment).body(),
@@ -117,6 +125,7 @@ public final class RtGistCommentITCase {
             Matchers.startsWith("hello")
         );
         comment.remove();
+        gist.github().gists().remove(gist.name());
     }
 
     /**
@@ -127,6 +136,8 @@ public final class RtGistCommentITCase {
     private static Gist gist() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).gists().iterate().iterator().next();
+        return new RtGithub(key)
+            .gists()
+            .create(Collections.singletonMap("file.txt", "file content"));
     }
 }
