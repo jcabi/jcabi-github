@@ -29,6 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,7 +46,7 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public class RtReleaseTest {
+public final class RtReleaseTest {
 
     /**
      * RtRelease can edit a release.
@@ -111,4 +120,52 @@ public class RtReleaseTest {
         // to be implemented
     }
 
+    /**
+     * RtRelease can fetch as JSON object.
+     * @throws Exception if any error inside
+     */
+    @Test
+    public void fetchAsJson() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"tag_name\":\"v1.0.0\"}"
+            )
+        ).start();
+        final RtRelease release = new RtRelease(
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple("test", "repo"),
+            1
+        );
+        MatcherAssert.assertThat(
+            release.json().getString("tag_name"),
+            Matchers.equalTo("v1.0.0")
+        );
+        container.stop();
+    }
+
+    /**
+     * RtRelease can execute patch request.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"tag_name\":\"v1.1.0\"}"
+            )
+        ).start();
+        final RtRelease release = new RtRelease(
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple("coor", "rep"),
+            2
+        );
+        release.patch(Json.createObjectBuilder().add("name", "v1").build());
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.PATCH)
+        );
+        container.stop();
+    }
 }

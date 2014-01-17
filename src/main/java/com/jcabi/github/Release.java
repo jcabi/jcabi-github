@@ -59,13 +59,6 @@ public interface Release extends Comparable<Release>,
     int number();
 
     /**
-     * Delete the release.
-     * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release</a>
-     */
-    void remove() throws IOException;
-
-    /**
      * Smart pull request with extra features.
      */
     @Immutable
@@ -179,11 +172,6 @@ public interface Release extends Comparable<Release>,
         @Override
         public int number() {
             return this.release.number();
-        }
-
-        @Override
-        public void remove() throws IOException {
-            this.release.remove();
         }
 
         @Override
