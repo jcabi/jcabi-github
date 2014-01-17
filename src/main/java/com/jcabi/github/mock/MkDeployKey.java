@@ -31,28 +31,23 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKey;
-import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Repo;
 import java.io.IOException;
-import java.util.Collections;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Mock Github deploy keys.
- *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * Mock Github deploy key.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkDeployKeys implements DeployKeys {
+@EqualsAndHashCode(of = { "storage", "owner", "key" })
+public final class MkDeployKey implements DeployKey {
 
     /**
      * Storage.
@@ -60,63 +55,37 @@ public final class MkDeployKeys implements DeployKeys {
     private final transient MkStorage storage;
 
     /**
-     * Login of the user logged in.
+     * Repository.
      */
-    private final transient String self;
+    private final transient Repo owner;
 
     /**
-     * Repo name.
+     * Id.
      */
-    private final transient Coordinates coords;
+    private final transient int key;
 
     /**
      * Public ctor.
      * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
+     * @param number Id
+     * @param repo Repository
      */
-    MkDeployKeys(final MkStorage stg, final String login,
-        final Coordinates rep) {
+    MkDeployKey(final MkStorage stg, final int number, final Repo repo) {
         this.storage = stg;
-        this.self = login;
-        this.coords = rep;
+        this.key = number;
+        this.owner = repo;
     }
 
     @Override
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
+    public int number() {
+        return this.key;
     }
 
     @Override
-    public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public DeployKey get(final int number) {
-        return new MkDeployKey(this.storage, number, this.repo());
-    }
-
-    @Override
-    public DeployKey create(final String title, final String key)
-        throws IOException {
-        this.storage.lock();
-        final int number;
-        try {
-            number = 1 + this.storage.xml().xpath(
-                String.format("%s/deployKey/id/text()", this.xpath())
-            ).size();
-            this.storage.apply(
-                new Directives().xpath(this.xpath())
-                    .add("deployKey")
-                    .add("id").set(String.valueOf(number)).up()
-                    .add("title").set(title).up()
-                    .add("key").set(key)
-            );
-        } finally {
-            this.storage.unlock();
-        }
-        return this.get(number);
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     /**
@@ -125,7 +94,10 @@ public final class MkDeployKeys implements DeployKeys {
      */
     private String xpath() {
         return String.format(
-            "/repos/%s/%s/deployKeys", this.coords.user(), this.coords.repo()
+            "/repos/%s/%s/deployKeys/deployKey[id=%d]",
+            this.owner.coordinates().user(),
+            this.owner.coordinates().repo(),
+            this.key
         );
     }
 
