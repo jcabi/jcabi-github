@@ -29,81 +29,49 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
+import com.jcabi.github.Releases;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mock Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link MkRelease}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "coords", "release" })
-public final class MkRelease implements Release {
-
+public final class MkReleaseTest {
     /**
-     * Storage.
+     * MkRelease can remove a release.
+     * @throws Exception if any problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Repository coordinates.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Release id.
-     */
-    private final transient int release;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param crds Repository coordinates
-     * @param nmbr Release id
-     */
-    MkRelease(final MkStorage stg, final Coordinates crds, final int nmbr) {
-        this.storage = stg;
-        this.coords = crds;
-        this.release = nmbr;
-    }
-
-    @Override
-    public int number() {
-        return this.release;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-    }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
-            this.coords, this.release
+    @Test
+    public void removeRelease() throws Exception {
+        final Releases releases = MkReleaseTest.repo().releases();
+        final String tag = "v1.0.0";
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.hasItem(release)
+        );
+        release.remove();
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.not(Matchers.hasItem(release))
         );
     }
 
-    @Override
-    public void remove() throws IOException {
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).strict(1).remove()
+    /**
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
         );
     }
 }

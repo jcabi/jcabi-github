@@ -29,6 +29,14 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,7 +45,7 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public class RtReleaseTest {
+public final class RtReleaseTest {
 
     /**
      * RtRelease can edit a release.
@@ -55,16 +63,24 @@ public class RtReleaseTest {
 
     /**
      * RtRelease can delete a release.
-     * @todo #180 RtRelease should be able to delete a release. Let's implement
-     *  this method, add integration test, declare a method in Release
-     *  and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#delete-a-release. When
-     *  done, remove this puzzle and Ignore annotation from this method.
+     * @throws Exception if any problem inside
      */
     @Test
-    @Ignore
-    public void deleteRelease() {
-        // to be implemented
+    public void deleteRelease() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final RtRelease release = new RtRelease(
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple("coortest", "reptest"),
+            3
+        );
+        release.remove();
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.DELETE)
+        );
+        container.stop();
     }
 
     /**
