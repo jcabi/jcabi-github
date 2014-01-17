@@ -77,4 +77,13 @@ public interface Releases {
     Release create(
         @NotNull(message = "release tag is never NULL") String tag)
         throws IOException;
+
+    /**
+     * Remove a release.
+     *
+     * @param number ID of the release to remove.
+     * @throws IOException If an IO problem occurs.
+     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
+     */
+    void remove(int number) throws IOException;
 }
