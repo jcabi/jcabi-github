@@ -29,7 +29,13 @@
  */
 package com.jcabi.github.mock;
 
-import org.junit.Ignore;
+import com.jcabi.github.Github;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Repo;
+import com.jcabi.github.User;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -37,8 +43,6 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #124 Implement the test cases for {@link MkSearch}.
- *  See http://developer.github.com/v3/search/
  */
 public final class MkSearchTest {
 
@@ -48,9 +52,17 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForRepos() throws Exception {
-        //To be implemented.
+        final String name = "repo";
+        final Github github = new MkGithub();
+        final Repo repo = github.repos().create(
+            // @checkstyle MultipleStringLiterals (4 lines)
+            Json.createObjectBuilder().add("name", name).build()
+        );
+        MatcherAssert.assertThat(
+            github.search().repos(name, "stars", "desc").iterator().next(),
+            Matchers.equalTo(repo)
+        );
     }
 
     /**
@@ -59,9 +71,16 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForIssues() throws Exception {
-        //To be implemented.
+        final String name = "issue";
+        final Github github = new MkGithub();
+        final Issue issue = github.repos().create(
+            Json.createObjectBuilder().add("name", "repo1").build()
+        ).issues().create(name, "body");
+        MatcherAssert.assertThat(
+            github.search().issues(name, "created", "desc").iterator().next(),
+            Matchers.equalTo(issue)
+        );
     }
 
     /**
@@ -70,9 +89,14 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForUsers() throws Exception {
-        //To be implemented.
+        final Github github = new MkGithub();
+        final User user = github.users().self();
+        MatcherAssert.assertThat(
+            github.search().users(user.login(), "followers", "desc")
+                .iterator().next(),
+            Matchers.equalTo(user)
+        );
     }
 
 }
