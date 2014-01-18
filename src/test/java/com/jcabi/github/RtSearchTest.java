@@ -29,10 +29,10 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.rexsl.test.request.FakeRequest;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,12 +50,23 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForRepos() throws Exception {
-        final RtSearch search = new RtSearch(new MkGithub());
+        final String coords = "test/test";
+        final Search search = new RtGithub(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("total_count", 1)
+                    .add(
+                        "items", Json.createArrayBuilder().add(
+                            Json.createObjectBuilder().add("full_name", coords)
+                        )
+                    ).build().toString()
+            )
+        ).search();
         MatcherAssert.assertThat(
-            search.repos("repo", "indexed", "desc"),
-            Matchers.notNullValue()
+            search.repos("test", "stars", "desc").iterator().next()
+                .coordinates().toString(),
+            Matchers.equalTo(coords)
         );
     }
 
@@ -65,12 +76,28 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForIssues() throws Exception {
-        final RtSearch search = new RtSearch(new MkGithub());
+        final int number = 1;
+        final Search search = new RtGithub(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("total_count", 1)
+                    .add(
+                        "items", Json.createArrayBuilder().add(
+                            Json.createObjectBuilder().add(
+                                "url", String.format(
+                                    // @checkstyle LineLength (1 line)
+                                    "https://api.github.com/repos/user/repo/issues/%s",
+                                    number
+                                )
+                            ).add("number", number)
+                        )
+                    ).build().toString()
+            )
+        ).search();
         MatcherAssert.assertThat(
-            search.issues("issue", "created", "desc"),
-            Matchers.notNullValue()
+            search.issues("test", "created", "desc").iterator().next().number(),
+            Matchers.equalTo(number)
         );
     }
 
@@ -80,12 +107,22 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForUsers() throws Exception {
-        final RtSearch search = new RtSearch(new MkGithub());
+        final String login = "test-user";
+        final Search search = new RtGithub(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("total_count", 1)
+                    .add(
+                        "items", Json.createArrayBuilder().add(
+                            Json.createObjectBuilder().add("login", login)
+                        )
+                    ).build().toString()
+            )
+        ).search();
         MatcherAssert.assertThat(
-            search.repos("jeff", "repositories", "desc"),
-            Matchers.notNullValue()
+            search.users("test", "joined", "desc").iterator().next().login(),
+            Matchers.equalTo(login)
         );
     }
 
