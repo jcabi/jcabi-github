@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -43,7 +42,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 
 /**
@@ -53,6 +51,8 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #64 An integration test is still lacking for this class,
+ *  although a unit test has already been created.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
