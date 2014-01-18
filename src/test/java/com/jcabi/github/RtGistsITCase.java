@@ -41,6 +41,7 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtGistsITCase {
+
     /**
      * RtGists can create a gist.
      * @throws Exception If some problem inside
@@ -114,7 +115,6 @@ public final class RtGistsITCase {
             Matchers.not(Matchers.hasItem(gist))
         );
     }
-
     /**
      * Return gists to test.
      * @return Gists
