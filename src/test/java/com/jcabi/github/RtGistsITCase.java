@@ -29,80 +29,100 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Integration case for {@link Gists}.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class RtRepoITCase {
-
+public final class RtGistsITCase {
     /**
-     * RtRepo can identify itself.
+     * RtGists can create a gist.
      * @throws Exception If some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+    public void createGist() throws Exception {
+        final String filename = "filename.txt";
+        final String content = "content of file";
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap(filename, content)
+        );
         MatcherAssert.assertThat(
-            repo.coordinates(),
+            new Gist.Smart(gist).read(filename),
+            Matchers.equalTo(content)
+        );
+        gists.remove(gist.name());
+    }
+
+    /**
+     * RtGists can iterate all gists.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iterateGists() throws Exception {
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap("test.txt", "content")
+        );
+        MatcherAssert.assertThat(
+            gists.iterate(),
+            Matchers.hasItem(gist)
+        );
+        gists.remove(gist.name());
+    }
+    /**
+     * RtGists can get a single gist.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void singleGist() throws Exception {
+        final String filename = "single-name.txt";
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap(filename, "body")
+        );
+        MatcherAssert.assertThat(
+            gists.get(gist.name()),
+            Matchers.sameInstance(gist)
+        );
+        gists.remove(gist.name());
+    }
+
+    /**
+     * This tests that RtGists can remove a gist by name.
+     * @throws Exception - if something goes wrong.
+     */
+    @Test
+    public void removesGistByName() throws Exception {
+        final Gists gists = gists();
+        final Gist gist = gists.create(
+            Collections.singletonMap("fileName.txt", "content of test file")
+        );
+        MatcherAssert.assertThat(
+            gists.iterate(),
             Matchers.notNullValue()
         );
-    }
-
-    /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+        gists.remove(gist.json().getString("id"));
         MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
+            gists.iterate(),
+            Matchers.not(Matchers.hasItem(gist))
         );
     }
 
     /**
-     * RtRepo can fetch its commits.
+     * Return gists to test.
+     * @return Gists
      * @throws Exception If some problem inside
      */
-    @Test
-    public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * RtRepo can fetch assignees.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesAssignees() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.assignees().iterate(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
+    private static Gists gists() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        return new RtGithub(key).gists();
     }
-
 }

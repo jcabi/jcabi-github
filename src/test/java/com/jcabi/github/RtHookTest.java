@@ -29,71 +29,65 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github hooks.
+ * Test case for {@link RtHook}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public final class RtHookTest {
 
     /**
-     * RESTful request.
+     * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
+     *
+     * @throws Exception If a problem occurs.
      */
-    private final transient Request request;
+    @Test
+    public void performsValidRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"test\":\"hook\"}"
+            )
+        ).start();
+        try {
+            final Hook hook = new RtHook(
+                new ApacheRequest(container.home()),
+                repo(),
+                1
+            );
+            MatcherAssert.assertThat(
+                hook.json(),
+                Matchers.notNullValue()
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/repos/test/repo/hooks/1")
+            );
+        } finally {
+            container.stop();
+        }
+    }
 
     /**
-     * Repository we're in.
+     * Create and return repo for testing.
+     * @return Repo
      */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    private static Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "repo"))
+            .when(repo).coordinates();
+        return repo;
     }
 
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
 }

@@ -27,82 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Contents;
+import com.jcabi.github.Repo;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link MkContents}.
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @since 0.8
  */
-public final class RtRepoITCase {
-
+public final class MkContentsTest {
     /**
-     * RtRepo can identify itself.
-     * @throws Exception If some problem inside
+     * MkContents can fetch the default branch readme file.
+     * @throws Exception if some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+    public void canFetchReadmeFile() throws Exception {
+        final Contents contents = MkContentsTest.repo().contents();
         MatcherAssert.assertThat(
-            repo.coordinates(),
+            contents.readme(),
             Matchers.notNullValue()
         );
     }
 
     /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * RtRepo can fetch its commits.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * RtRepo can fetch assignees.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesAssignees() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.assignees().iterate(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * Create and return repo to test.
+     * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
         );
     }
-
 }

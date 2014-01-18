@@ -148,6 +148,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
     RepoCommits commits();
 
     /**
+     * Get all contents of the repo.
+     * @return Contents
+     * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+     */
+    @NotNull(message = "Contents are never NULL")
+    Contents contents();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -223,6 +231,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public Forks forks() {
             return this.repo.forks();
+        }
+        @Override
+        public Contents contents() {
+            return this.repo.contents();
         }
         @Override
         public void patch(final JsonObject json) throws IOException {

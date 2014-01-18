@@ -103,6 +103,12 @@ public interface Gist extends JsonReadable {
     void star() throws IOException;
 
     /**
+     * Unstar a gist.
+     * @throws IOException If there is any I/O problem
+     */
+    void unstar() throws IOException;
+
+    /**
      * Checks if Gist is starred.
      * @throws IOException If there is any I/O problem
      * @return True if gist is starred
@@ -185,6 +191,11 @@ public interface Gist extends JsonReadable {
         @Override
         public void star() throws IOException {
             this.gist.star();
+        }
+
+        @Override
+        public void unstar() throws IOException {
+            this.gist.unstar();
         }
 
         @Override

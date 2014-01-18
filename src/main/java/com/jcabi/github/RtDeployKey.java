@@ -32,99 +32,59 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github deploy key.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "request")
-public final class RtReleases implements Releases {
+public final class RtDeployKey implements DeployKey {
 
     /**
-     * RESTful API entry point.
-     */
-    private final transient Request entry;
-
-    /**
-     * RESTful API releases request.
+     * RESTful API request for this deploy key.
      */
     private final transient Request request;
 
     /**
-     * Repository.
+     * Id.
      */
-    private final transient Repo owner;
+    private final transient int key;
 
     /**
      * Public ctor.
      * @param req RESTful API entry point
+     * @param number Id
      * @param repo Repository
      */
-    public RtReleases(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-        this.request = this.entry.uri()
+    RtDeployKey(final Request req, final int number, final Repo repo) {
+        this.key = number;
+        this.request = req.uri()
             .path("/repos")
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
-            .path("/releases")
+            .path("/keys")
+            .path(String.valueOf(number))
             .back();
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
+    public int number() {
+        return this.key;
     }
 
     @Override
-    public Iterable<Release> iterate() {
-        return new RtPagination<Release>(
-            this.request,
-            new RtPagination.Mapping<Release>() {
-                @Override
-                public Release map(final JsonObject object) {
-                    return new RtRelease(
-                        RtReleases.this.entry,
-                        RtReleases.this.owner.coordinates(),
-                        // @checkstyle MultipleStringLiterals (1 line)
-                        object.getInt("id")
-                    );
-                }
-            }
-        );
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public Release get(final int number) {
-        return new RtRelease(this.entry, this.owner.coordinates(), number);
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
-
-    @Override
-    public Release create(final String tag) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("tag_name", tag)
-            .build();
-        return this.get(
-            this.request.method(Request.POST)
-                .body().set(json).back()
-                .fetch().as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                .json().readObject().getInt("id")
-        );
-    }
-
 }

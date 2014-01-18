@@ -82,21 +82,21 @@ public final class MkMilestones implements Milestones {
     @Override
     public Repo repo() {
         throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+            "Unsupported operation."
         );
     }
 
     @Override
     public Milestone create(final String title) throws IOException {
         throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+            "This method hasn't been implemented yet"
         );
     }
 
     @Override
     public Milestone get(final int number) {
         throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+            "This method has not been implemented yet."
         );
     }
 
@@ -110,7 +110,7 @@ public final class MkMilestones implements Milestones {
     @Override
     public void remove(final int number) throws IOException {
         throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+            "This operation is not available yet."
         );
     }
 }
