@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 
 /**
  * Github release.
@@ -48,4 +49,10 @@ public interface Release extends JsonReadable {
      */
     int number();
 
+    /**
+     * Delete the release.
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release</a>
+     */
+    void remove() throws IOException;
 }
