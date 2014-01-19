@@ -50,14 +50,15 @@ public class ContentTest {
     @Test
     public final void fetchesType() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        final String prop = "this is some type";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("type", "this is some type")
+                .add("type", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).type(),
-            Matchers.is("this is some type")
+            Matchers.is(prop)
         );
     }
 
@@ -68,16 +69,17 @@ public class ContentTest {
     @Test
     public final void fetchesSize() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        final int prop = 5555;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 // @checkstyle MagicNumber (1 line)
-                .add("size", 5555)
+                .add("size", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).size(),
             // @checkstyle MagicNumber (1 line)
-            Matchers.is(5555)
+            Matchers.is(prop)
         );
     }
 
@@ -88,14 +90,15 @@ public class ContentTest {
     @Test
     public final void fetchesName() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        final String prop = "this is some name";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("name", "this is some name")
+                .add("name", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).name(),
-            Matchers.is("this is some name")
+            Matchers.is(prop)
         );
     }
 
@@ -106,14 +109,15 @@ public class ContentTest {
     @Test
     public final void fetchesPath() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        final String prop = "this is some path";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("path", "this is some path")
+                .add("path", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).path(),
-            Matchers.is("this is some path")
+            Matchers.is(prop)
         );
     }
 
@@ -124,14 +128,15 @@ public class ContentTest {
     @Test
     public final void fetchesSha() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        final String prop = "this is some sha";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("sha", "this is some sha")
+                .add("sha", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).sha(),
-            Matchers.is("this is some sha")
+            Matchers.is(prop)
         );
     }
 
@@ -142,16 +147,16 @@ public class ContentTest {
     @Test
     public final void fetchesUrl() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        // @checkstyle LineLength (1 line)
+        final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                // @checkstyle LineLength (1 line)
-                .add("url", "https://api.github.com/repos/pengwynn/octokit/contents/README.md")
+                .add("url", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).url(),
-            // @checkstyle LineLength (1 line)
-            Matchers.is(new URL("https://api.github.com/repos/pengwynn/octokit/contents/README.md"))
+            Matchers.is(new URL(prop))
         );
     }
 
@@ -162,16 +167,16 @@ public class ContentTest {
     @Test
     public final void fetchesGitUrl() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        // @checkstyle LineLength (1 line)
+        final String prop = "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                // @checkstyle LineLength (1 line)
-                .add("git_url", "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1")
+                .add("git_url", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).gitUrl(),
-            // @checkstyle LineLength (1 line)
-            Matchers.is(new URL("https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1"))
+            Matchers.is(new URL(prop))
         );
     }
 
@@ -182,16 +187,16 @@ public class ContentTest {
     @Test
     public final void fetchesHtmlUrl() throws Exception {
         final Content content = Mockito.mock(Content.class);
+        // @checkstyle LineLength (1 line)
+        final String prop = "https://github.com/pengwynn/octokit/blob/master/README.md";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                // @checkstyle LineLength (1 line)
-                .add("html_url", "https://github.com/pengwynn/octokit/blob/master/README.md")
+                .add("html_url", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).htmlUrl(),
-            // @checkstyle LineLength (1 line)
-            Matchers.is(new URL("https://github.com/pengwynn/octokit/blob/master/README.md"))
+            Matchers.is(new URL(prop))
         );
     }
 }
