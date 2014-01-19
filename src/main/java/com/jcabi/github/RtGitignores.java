@@ -30,8 +30,16 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
+import javax.json.JsonString;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github Gitignore.
@@ -42,23 +50,55 @@ import javax.validation.constraints.NotNull;
  * @since 0.8
  */
 @Immutable
-public class RtGitignores implements Gitignores {
+@EqualsAndHashCode(of = "ghub")
+public final class RtGitignores implements Gitignores {
 
-    @Override
-    public final Github github() {
-        throw new UnsupportedOperationException();
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * Public CTOR.
+     * @param github Github
+     */
+    public RtGitignores(
+        @NotNull(message = "github can't be NULL") final Github github) {
+        this.ghub = github;
     }
 
     @Override
-    public final Iterable<String> iterate() {
-        throw new UnsupportedOperationException();
+    public Github github() {
+        return this.ghub;
     }
 
     @Override
-    public final String template(
+    public Iterable<String> iterate() throws IOException {
+        final RestResponse response = this.github().entry().uri()
+            .path("/gitignore/templates").back().fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
+        final List<JsonString> list = response.as(JsonResponse.class)
+            .json().readArray().getValuesAs(JsonString.class);
+        final List<String> templates = new ArrayList<String>(list.size());
+        for (JsonString value : list) {
+            templates.add(value.getString());
+        }
+        return templates;
+    }
+
+    @Override
+    public String template(
         @NotNull(message = "Template name can't be NULL")
         final String name)
         throws IOException {
-        throw new UnsupportedOperationException();
+        return this.github().entry().reset(HttpHeaders.ACCEPT)
+            .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw")
+            .uri().path(
+                new StringBuilder("/gitignore/templates/").append(name)
+                    .toString()
+        ).back().fetch().as(RestResponse.class)
+        .assertStatus(HttpURLConnection.HTTP_OK)
+        .body();
     }
 }
