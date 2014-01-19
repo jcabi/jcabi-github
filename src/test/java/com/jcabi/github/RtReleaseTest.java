@@ -131,13 +131,10 @@ public class RtReleaseTest {
         ).start();
         final RtRelease release = new RtRelease(
             new ApacheRequest(container.home()),
-            new Coordinates.Simple("test", "test-branch"),
-            2
+            new Coordinates.Simple("test", "test-branch"), 2
         );
-        release.patch(Json.createObjectBuilder().add(
-            "name",
-            "v1"
-        ).build()
+        release.patch(Json.createObjectBuilder().add("name", "v1")
+            .build()
         );
         MatcherAssert.assertThat(
             container.take().method(),
