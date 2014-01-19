@@ -95,6 +95,9 @@ public final class MkMilestones implements Milestones {
 
     @Override
     public Milestone get(final int number) {
+        assert this.self != null;
+        assert this.storage != null;
+        assert this.coords != null;
         throw new UnsupportedOperationException(
             "This method has not been implemented yet."
         );
