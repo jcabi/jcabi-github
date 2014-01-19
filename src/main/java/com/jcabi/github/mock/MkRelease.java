@@ -99,4 +99,13 @@ public final class MkRelease implements Release {
         );
     }
 
+    @Override
+    public int compareTo(final Release rel) {
+        return this.number() - rel.number();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
 }

@@ -27,74 +27,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import com.jcabi.github.Release;
+import com.jcabi.github.Releases;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link MkRelease}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "release" })
-public final class RtRelease implements Release {
+public final class MkReleaseTest {
+    /**
+     * MkRelease can fetch as json object.
+     * @throws Exception if any error inside
+     */
+    @Test
+    public void fetchAsJson() throws Exception {
+        final Releases releases = MkReleaseTest.repo().releases();
+        final String tag = "v1.0.0";
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            release.json().getString("tag_name"),
+            Matchers.equalTo(tag)
+        );
+    }
 
     /**
-     * RESTful request.
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
      */
-    private final transient Request request;
-
-    /**
-     * Release id.
-     */
-    private final transient int release;
-
-    /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param coords Repository coordinates
-     * @param nmbr Release id
-     */
-    RtRelease(final Request req, final Coordinates coords, final int nmbr) {
-        this.release = nmbr;
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/releases")
-            .path(String.valueOf(this.release))
-            .back();
-    }
-
-    @Override
-    public int number() {
-        return this.release;
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public int compareTo(final Release rel) {
-        return this.number() - rel.number();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new RtJson(this.request).patch(json);
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 }
