@@ -29,71 +29,32 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import com.jcabi.github.Limit.Throttled;
+import javax.json.Json;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github hooks.
+ * Test case for {@link Limit}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Tomas Colombo (tomas.colombo@rollasolution.com)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public final class LimitTest {
 
     /**
-     * RESTful request.
+     * Limit can throw exception when resource is absent.
+     *
+     * @throws Exception if some problem inside
      */
-    private final transient Request request;
-
-    /**
-     * Repository we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    @Test(expected = IllegalStateException.class)
+    public void throwsWhenResourceIsAbsent() throws Exception {
+        final Limit limit = Mockito.mock(Limit.class);
+        final Throttled throttled = new Throttled(limit, 23);
+        Mockito.when(limit.json()).thenReturn(
+            Json.createObjectBuilder().add("absent", "absentValue").build()
+        );
+        throttled.json();
     }
 
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
 }

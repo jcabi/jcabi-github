@@ -29,71 +29,28 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github hooks.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link RtContents}.
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @todo #119 RtContents should be able to get the readme file
+ *  from a real Github repository, fetch files, create, update and remove
+ *  files.
+ *  When done, remove this puzzle and Ignore annotation from the method.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public class RtContentsITCase {
 
     /**
-     * RESTful request.
+     * RtContents can fetch readme file.
+     * @throws Exception If some problem inside
      */
-    private final transient Request request;
-
-    /**
-     * Repository we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    @Test
+    @Ignore
+    public void canFetchReadmeFiles() throws Exception {
+        // to be implemented
     }
 }

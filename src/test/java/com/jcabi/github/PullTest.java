@@ -29,71 +29,37 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github hooks.
- *
+ * Tests for {@link Pull}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public final class PullTest {
 
     /**
-     * RESTful request.
+     * Pull.Smart can fetch comments count from Pull.
+     *
+     * @throws Exception If some problem inside
      */
-    private final transient Request request;
-
-    /**
-     * Repository we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    @Test
+    public void canFetchCommentsCount() throws Exception {
+        final int number = 1;
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("comments", number)
+                .build()
+        ).when(pull).json();
+        MatcherAssert.assertThat(
+            new Pull.Smart(pull).comments(),
+            Matchers.is(number)
+        );
     }
 }

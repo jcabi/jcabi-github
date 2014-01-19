@@ -37,59 +37,50 @@ import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github hooks.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github deploy key.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+@EqualsAndHashCode(of = "request")
+public final class RtDeployKey implements DeployKey {
 
     /**
-     * RESTful request.
+     * RESTful API request for this deploy key.
      */
     private final transient Request request;
 
     /**
-     * Repository we're in.
+     * Id.
      */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
+    private final transient int key;
 
     /**
      * Public ctor.
-     * @param req Request
+     * @param req RESTful API entry point
+     * @param number Id
      * @param repo Repository
-     * @param number Id of the get
      */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
+    RtDeployKey(final Request req, final int number, final Repo repo) {
+        this.key = number;
         this.request = req.uri()
             .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/keys")
+            .path(String.valueOf(number))
             .back();
-        this.owner = repo;
-        this.num = number;
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
     }
 
     @Override
     public int number() {
-        return this.num;
+        return this.key;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override

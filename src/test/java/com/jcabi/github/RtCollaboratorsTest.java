@@ -27,73 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import org.junit.Test;
 
 /**
- * Github hooks.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Tests for {@link RtCollaborators}.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
-
+public class RtCollaboratorsTest {
     /**
-     * RESTful request.
+     * RtCollaborators can iterate over a list of collaborators.
+     * @throws Exception if any error occurs.
      */
-    private final transient Request request;
-
-    /**
-     * Repository we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    @Test
+    public void canIterate() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public Repo repo() {
-        return this.owner;
+    /**
+     * User can be added to a repo as a collaborator.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void userCanBeAddedAsCollaborator() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public int number() {
-        return this.num;
+    /**
+     * User can be checked for being a collaborator.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void userCanBeTestForBeingCollaborator() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    /**
+     * User can be removed from a list of collaborators.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void userCanBeRemoved() throws Exception {
+        // to be implemented
     }
 }

@@ -27,73 +27,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github hooks.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github repository collaborators.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+public interface Collaborators {
+    /**
+     * Owner of them.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
 
     /**
-     * RESTful request.
+     * Check if a user is collaborator.
+     *
+     * @param user User
+     * @return True is a user is a collaborator, otherwise returns false
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
+     *  Check if a user is collaborator</a>
      */
-    private final transient Request request;
+    boolean isCollabborator(
+        @NotNull(message = "User is never null") String user);
 
     /**
-     * Repository we're in.
+     * Add user as a collaborator.
+     *
+     * @param user User
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
      */
-    private final transient Repo owner;
+    void add(@NotNull(message = "User is never null") String user);
 
     /**
-     * Issue number.
+     * Remove user as a collaborator.
+     *
+     * @param user User
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
      */
-    private final transient int num;
+    void remove(String user);
 
     /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
+     * Iterates over repo collaborators.
+     * @return Iterator on repo collaborators.
      */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
+    Iterable<User> iterate();
 }

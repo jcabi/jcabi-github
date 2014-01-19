@@ -27,73 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github hooks.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Implementation of Collaborators.
+ * @todo #116:1hr Implement methods. They should be implemented as described at
+ *  http://developer.github.com/v3/repos/collaborators/
+ *  and repo() method should return Repo instance it is created with.
+ *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
-
-    /**
-     * RESTful request.
-     */
-    private final transient Request request;
-
-    /**
-     * Repository we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Issue number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     * @param number Id of the get
-     */
-    RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
-    }
+public final class RtCollaborators implements Collaborators {
 
     @Override
     public Repo repo() {
-        return this.owner;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public int number() {
-        return this.num;
+    public boolean isCollabborator(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    public void add(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void remove(final String user) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Iterable<User> iterate() {
+        throw new UnsupportedOperationException();
     }
 }

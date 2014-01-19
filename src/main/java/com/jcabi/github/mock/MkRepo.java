@@ -32,6 +32,8 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Collaborators;
+import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Event;
@@ -175,9 +177,19 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    public Collaborators collaborators() {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    @Override
     public DeployKeys keys() {
+        return new MkDeployKeys(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public Contents contents() {
         try {
-            return new MkDeployKeys(this.storage, this.self, this.coords);
+            return new MkContents(this.storage, this.self, this.coords);
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -210,4 +222,5 @@ final class MkRepo implements Repo {
             this.coords
         );
     }
+
 }

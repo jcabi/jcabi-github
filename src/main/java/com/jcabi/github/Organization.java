@@ -63,17 +63,18 @@ public interface Organization extends Comparable<Organization>,
     JsonReadable, JsonPatchable {
 
     /**
-     * User we're in.
-     * @return User
+     * Github we're in.
+     * @return Github
      */
-    @NotNull(message = "user is never NULL")
-    User user();
+    @NotNull(message = "Github is never NULL")
+    Github github();
 
     /**
-     * Get its id.
-     * @return Organization id
+     * Get this organization's login.
+     * @return Login name
      */
-    int orgId();
+    @NotNull(message = "login is never NULL")
+    String login();
 
     /**
      * Smart Organization with extra features.
@@ -95,6 +96,15 @@ public interface Organization extends Comparable<Organization>,
          */
         public Smart(final Organization orgn) {
             this.org = orgn;
+        }
+
+        /**
+         * Get this organization's ID.
+         * @return Unique organization ID
+         * @throws IOException If it fails
+         */
+        public int number() throws IOException {
+            return this.org.json().getJsonNumber("id").intValue();
         }
 
         /**
@@ -245,7 +255,7 @@ public interface Organization extends Comparable<Organization>,
                 return new Github.Time(
                     new SmartJson(this).text("created_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -296,13 +306,13 @@ public interface Organization extends Comparable<Organization>,
         }
 
         @Override
-        public User user() {
-            return this.org.user();
+        public String login() {
+            return this.org.login();
         }
 
         @Override
-        public int orgId() {
-            return this.org.orgId();
+        public Github github() {
+            return this.org.github();
         }
 
         @Override

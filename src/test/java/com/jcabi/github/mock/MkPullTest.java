@@ -30,6 +30,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Pull;
+import com.jcabi.github.Repo;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -40,8 +44,9 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #56 This class only tests the compareTo method so far. Test for the
- *  other operations should also be implemented.
+ * @todo #56 This MkPullTest class only tests the compareTo
+ *  method so far. Test for the other operations should also be implemented.
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkPullTest {
 
@@ -74,4 +79,46 @@ public final class MkPullTest {
         );
     }
 
+    /**
+     * MkPull can get comments number if no comments.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canGetCommentsNumberIfZero() throws Exception {
+        final Pull pull = MkPullTest.repo().pulls().create("", "", "");
+        MatcherAssert.assertThat(
+            pull.json().getInt("comments"),
+            Matchers.is(0)
+        );
+    }
+
+    /**
+     * MkPull can get comments number if some comments exist.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canGetCommentsNumberIfNonZero() throws Exception {
+        final Repo repo =  MkPullTest.repo();
+        final Pull pull = repo.pulls().create("", "", "");
+        final Issue issue = repo.issues().get(pull.number());
+        issue.comments().post("how are you?");
+        issue.comments().post("how are you2?");
+        MatcherAssert.assertThat(
+            pull.json().getInt("comments"),
+            Matchers.is(2)
+        );
+    }
+
+    /**
+     * Create an repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 }

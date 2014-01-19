@@ -39,6 +39,7 @@ import org.junit.Test;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class MkOrganizationsTest {
 
@@ -52,7 +53,7 @@ public final class MkOrganizationsTest {
             new MkStorage.InFile(),
             "orgTestIterate"
         );
-        orgs.get(1);
+        orgs.get("orgTestIterate");
         MatcherAssert.assertThat(
             orgs.iterate(),
             Matchers.not(Matchers.emptyIterable())
@@ -70,7 +71,7 @@ public final class MkOrganizationsTest {
             "orgTestGet"
         );
         MatcherAssert.assertThat(
-            orgs.get(2),
+            orgs.get("orgTestGet"),
             Matchers.notNullValue()
         );
     }
