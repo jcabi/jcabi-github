@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.net.URL;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -56,7 +57,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).type(),
-            Matchers.notNullValue()
+            Matchers.is("this is some type")
         );
     }
 
@@ -75,7 +76,8 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).size(),
-            Matchers.notNullValue()
+            // @checkstyle MagicNumber (1 line)
+            Matchers.is(5555)
         );
     }
 
@@ -93,7 +95,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).name(),
-            Matchers.notNullValue()
+            Matchers.is("this is some name")
         );
     }
 
@@ -111,7 +113,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).path(),
-            Matchers.notNullValue()
+            Matchers.is("this is some path")
         );
     }
 
@@ -129,7 +131,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).sha(),
-            Matchers.notNullValue()
+            Matchers.is("this is some sha")
         );
     }
 
@@ -148,7 +150,8 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).url(),
-            Matchers.notNullValue()
+            // @checkstyle LineLength (1 line)
+            Matchers.is(new URL("https://api.github.com/repos/pengwynn/octokit/contents/README.md"))
         );
     }
 
@@ -167,7 +170,8 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).gitUrl(),
-            Matchers.notNullValue()
+            // @checkstyle LineLength (1 line)
+            Matchers.is(new URL("https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1"))
         );
     }
 
@@ -186,7 +190,8 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).htmlUrl(),
-            Matchers.notNullValue()
+            // @checkstyle LineLength (1 line)
+            Matchers.is(new URL("https://github.com/pengwynn/octokit/blob/master/README.md"))
         );
     }
 }

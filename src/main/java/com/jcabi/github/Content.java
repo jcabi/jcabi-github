@@ -58,7 +58,6 @@ public interface Content extends Comparable<Content>,
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "content")
-    @SuppressWarnings("PMD.TooManyMethods")
     final class Smart implements Content {
         /**
          * Encapsulated content.
@@ -68,7 +67,9 @@ public interface Content extends Comparable<Content>,
          * Public ctor.
          * @param cont Content
          */
-        public Smart(final Content cont) {
+        public Smart(
+            @NotNull(message = "content is never NULL")
+            final Content cont) {
             this.content = cont;
         }
         /**
