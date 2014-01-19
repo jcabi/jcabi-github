@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.rexsl.test.Request;
 import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
@@ -50,7 +51,7 @@ import lombok.EqualsAndHashCode;
  * @since 0.8
  */
 @Immutable
-@EqualsAndHashCode(of = "ghub")
+@EqualsAndHashCode(of = { "ghub" , "request" })
 public final class RtGitignores implements Gitignores {
 
     /**
@@ -59,12 +60,19 @@ public final class RtGitignores implements Gitignores {
     private final transient Github ghub;
 
     /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
      * Public CTOR.
      * @param github Github
      */
     public RtGitignores(
         @NotNull(message = "github can't be NULL") final Github github) {
         this.ghub = github;
+        this.request = github().entry().uri()
+            .path("/gitignore/templates").back();
     }
 
     @Override
@@ -74,8 +82,7 @@ public final class RtGitignores implements Gitignores {
 
     @Override
     public Iterable<String> iterate() throws IOException {
-        final RestResponse response = this.github().entry().uri()
-            .path("/gitignore/templates").back().fetch()
+        final RestResponse response = this.request.fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
         final List<JsonString> list = response.as(JsonResponse.class)
@@ -92,13 +99,11 @@ public final class RtGitignores implements Gitignores {
         @NotNull(message = "Template name can't be NULL")
         final String name)
         throws IOException {
-        return this.github().entry().reset(HttpHeaders.ACCEPT)
+        return this.request.reset(HttpHeaders.ACCEPT)
             .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw")
-            .uri().path(
-                new StringBuilder("/gitignore/templates/").append(name)
-                    .toString()
-        ).back().fetch().as(RestResponse.class)
-        .assertStatus(HttpURLConnection.HTTP_OK)
-        .body();
+            .uri().path(name).back().fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .body();
     }
 }
