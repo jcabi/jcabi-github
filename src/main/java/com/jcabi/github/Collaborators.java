@@ -27,42 +27,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github repository collaborators.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
+ * @since 0.8
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-final class RtOrganizations implements Organizations {
+public interface Collaborators {
+    /**
+     * Owner of them.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
 
-    @Override
-    public Github github() {
-        throw new UnsupportedOperationException("Github not yet implemented.");
-    }
+    /**
+     * Check if a user is collaborator.
+     *
+     * @param user User
+     * @return True is a user is a collaborator, otherwise returns false
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
+     *  Check if a user is collaborator</a>
+     */
+    boolean isCollabborator(
+        @NotNull(message = "User is never null") String user);
 
-    @Override
-    public User user() {
-        return null;
-    }
+    /**
+     * Add user as a collaborator.
+     *
+     * @param user User
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
+     */
+    void add(@NotNull(message = "User is never null") String user);
 
-    @Override
-    public Organization get(final String login) {
-        return null;
-    }
+    /**
+     * Remove user as a collaborator.
+     *
+     * @param user User
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
+     */
+    void remove(String user);
 
-    @Override
-    public Iterable<Organization> iterate() {
-        return null;
-    }
+    /**
+     * Iterates over repo collaborators.
+     * @return Iterator on repo collaborators.
+     */
+    Iterable<User> iterate();
 }

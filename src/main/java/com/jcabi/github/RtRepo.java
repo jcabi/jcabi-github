@@ -172,6 +172,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Collaborators collaborators() {
+        return new RtCollaborators();
+    }
+
+    @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
