@@ -27,63 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.validation.constraints.NotNull;
+import org.junit.Test;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Tests for {@link RtCollaborators}.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-public interface Releases {
+public class RtCollaboratorsTest {
     /**
-     * Owner of them.
-     * @return Repo
+     * RtCollaborators can iterate over a list of collaborators.
+     * @throws Exception if any error occurs.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @Test
+    public void canIterate() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * User can be added to a repo as a collaborator.
+     * @throws Exception if any error occurs.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    @Test
+    public void userCanBeAddedAsCollaborator() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * User can be checked for being a collaborator.
+     * @throws Exception if any error occurs.
      */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    @Test
+    public void userCanBeTestForBeingCollaborator() throws Exception {
+        // to be implemented
+    }
 
     /**
-     * Create new release.
-     * @param tag The name of the tag
-     * @return Release just created
-     * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
+     * User can be removed from a list of collaborators.
+     * @throws Exception if any error occurs.
      */
-    @NotNull(message = "release is never NULL")
-    Release create(
-        @NotNull(message = "release tag is never NULL") String tag)
-        throws IOException;
-
-    /**
-     * Remove a release.
-     *
-     * @param number ID of the release to remove.
-     * @throws IOException If an IO problem occurs.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
-     */
-    void remove(int number) throws IOException;
+    @Test
+    public void userCanBeRemoved() throws Exception {
+        // to be implemented
+    }
 }
