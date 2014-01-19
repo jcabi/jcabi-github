@@ -156,6 +156,13 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Contents contents();
 
     /**
+     * Gel all collaborators.
+     * @return Collaborators
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/">Collaborators API</a>
+     */
+    Collaborators collaborators();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -236,6 +243,12 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public Contents contents() {
             return this.repo.contents();
         }
+
+        @Override
+        public Collaborators collaborators() {
+            return this.repo.collaborators();
+        }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.repo.patch(json);
