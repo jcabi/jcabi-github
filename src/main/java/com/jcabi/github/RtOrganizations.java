@@ -47,12 +47,17 @@ import com.jcabi.aspects.Loggable;
 final class RtOrganizations implements Organizations {
 
     @Override
+    public Github github() {
+        throw new UnsupportedOperationException("Github not yet implemented.");
+    }
+
+    @Override
     public User user() {
         return null;
     }
 
     @Override
-    public Organization get(final int orgid) {
+    public Organization get(final String login) {
         return null;
     }
 
