@@ -46,8 +46,13 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class RtOrganization implements Organization {
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
 
     /**
      * RESTful request.
@@ -55,33 +60,27 @@ final class RtOrganization implements Organization {
     private final transient Request request;
 
     /**
-     * User we're in.
+     * Login of the organization.
      */
-    private final transient User owner;
-
-    /**
-     * Public key ID number.
-     */
-    private final transient int num;
+    private final transient String self;
 
     /**
      * Public ctor.
-     *
-     * @param req RESTful request
-     * @param user Owner of this organization
-     * @param number ID of the organization
+     * @param github Github
+     * @param req Request
+     * @param login Organization login name
      */
     public RtOrganization(
+        final Github github,
         final Request req,
-        final User user,
-        final int number
+        final String login
     ) {
+        this.ghub = github;
         this.request = req.uri()
             .path("/orgs")
-            .path(Integer.toString(number))
+            .path(login)
             .back();
-        this.owner = user;
-        this.num = number;
+        this.self = login;
     }
 
     @Override
@@ -91,12 +90,12 @@ final class RtOrganization implements Organization {
 
     @Override
     public Github github() {
-        throw new UnsupportedOperationException("Github not yet implemented.");
+        return this.ghub;
     }
 
     @Override
     public String login() {
-        throw new UnsupportedOperationException("Login Not yet implemented.");
+        return this.self;
     }
 
     @Override

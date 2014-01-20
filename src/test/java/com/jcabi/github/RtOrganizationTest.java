@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
@@ -36,13 +37,11 @@ import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import com.rexsl.test.request.FakeRequest;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtOrganization}.
@@ -60,9 +59,9 @@ public final class RtOrganizationTest {
     @Test
     public void canFetchIssueAsJson() throws Exception {
         final RtOrganization org = new RtOrganization(
+            new MkGithub(),
             new FakeRequest().withBody("{\"organization\":\"json\"}"),
-            this.user(),
-            1
+            "testJson"
         );
         MatcherAssert.assertThat(
             org.json().getString("organization"),
@@ -81,9 +80,9 @@ public final class RtOrganizationTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
         ).start();
         final RtOrganization org = new RtOrganization(
+            new MkGithub(),
             new ApacheRequest(container.home()),
-            this.user(),
-            1
+            "testPatch"
         );
         org.patch(
             Json.createObjectBuilder().add("patch", "test").build()
@@ -111,14 +110,14 @@ public final class RtOrganizationTest {
     @Test
     public void canCompareInstances() throws Exception {
         final RtOrganization less = new RtOrganization(
+            new MkGithub(),
             new FakeRequest(),
-            this.user(),
-            39
+            "abc"
         );
         final RtOrganization greater = new RtOrganization(
+            new MkGithub(),
             new FakeRequest(),
-            this.user(),
-            42
+            "def"
         );
         MatcherAssert.assertThat(
             less.compareTo(greater), Matchers.lessThan(0)
@@ -143,29 +142,18 @@ public final class RtOrganizationTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
         ).start();
         final RtOrganization org = new RtOrganization(
+            new MkGithub(),
             new ApacheRequest(container.home()),
-            this.user(),
-            13
+            "testToString"
         );
         try {
             MatcherAssert.assertThat(
                 org.toString(),
-                Matchers.endsWith("/orgs/13")
+                Matchers.endsWith("/orgs/testToString")
             );
         } finally {
             container.stop();
         }
-    }
-
-    /**
-     * Mock user for testing purposes.
-     * @return Mock user
-     * @throws IOException if an IO exception occurs.
-     */
-    private User user() throws IOException {
-        final User user = Mockito.mock(User.class);
-        Mockito.doReturn("testUser").when(user).login();
-        return user;
     }
 
 }
