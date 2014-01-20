@@ -93,60 +93,6 @@ public final class RtGistsITCase {
         );
         gists.remove(gist.name());
     }
-
-    /**
-     * RtGists can create a gist.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void createGist() throws Exception {
-        final String filename = "filename.txt";
-        final String content = "content of file";
-        final Gists gists = gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap(filename, content)
-        );
-        MatcherAssert.assertThat(
-            new Gist.Smart(gist).read(filename),
-            Matchers.equalTo(content)
-        );
-        gists.remove(gist.name());
-    }
-
-    /**
-     * RtGists can iterate all gists.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iterateGists() throws Exception {
-        final Gists gists = gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap("test.txt", "content")
-        );
-        MatcherAssert.assertThat(
-            gists.iterate(),
-            Matchers.hasItem(gist)
-        );
-        gists.remove(gist.name());
-    }
-    /**
-     * RtGists can get a single gist.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void singleGist() throws Exception {
-        final String filename = "single-name.txt";
-        final Gists gists = gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap(filename, "body")
-        );
-        MatcherAssert.assertThat(
-            gists.get(gist.name()),
-            Matchers.sameInstance(gist)
-        );
-        gists.remove(gist.name());
-    }
-
     /**
      * This tests that RtGists can remove a gist by name.
      * @throws Exception - if something goes wrong.
