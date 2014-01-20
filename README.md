@@ -62,3 +62,16 @@ Please run Maven build before submitting a pull request:
 ```
 $ mvn clean install -Pqulice
 ```
+
+There are many integration tests that check our classes against
+live Github accounts. In order to run them, you should create
+a new Github OAuth access token
+([how?](https://help.github.com/articles/creating-an-access-token-for-command-line-use)),
+and provide it in command line, like this:
+
+```
+$ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfailsafe.github.repo=<repo>
+```
+
+Replace `<token>` with the OAuth access token, and `<repo>` with the name of
+repository you create in your account (for test purposes only), for example `yegor256/test`.

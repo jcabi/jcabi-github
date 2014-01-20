@@ -32,19 +32,22 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Collections;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github releases.
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
+ * @todo #238 MkReleases should be able to remove Release.
+ *  Please, implement remove method. Don't forget about unit-tests
  * @since 0.8
  */
 @Immutable
@@ -80,6 +83,14 @@ public final class MkReleases implements Releases {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("releases")
+        );
     }
 
     @Override
@@ -89,7 +100,18 @@ public final class MkReleases implements Releases {
 
     @Override
     public Iterable<Release> iterate() {
-        return Collections.emptyList();
+        return new MkIterable<Release>(
+            this.storage,
+            String.format("%s/release", this.xpath()),
+            new MkIterable.Mapping<Release>() {
+                @Override
+                public Release map(final XML xml) {
+                    return MkReleases.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -97,4 +119,49 @@ public final class MkReleases implements Releases {
         return new MkRelease(this.storage, this.coords, number);
     }
 
+    @Override
+    public Release create(final String tag) throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/release/id", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("release")
+                    .add("id").set(Integer.toString(number)).up()
+                    .add("tag_name").set(tag).up()
+                    .add("target_commitish").set("master").up()
+                    .add("name").set("v1.0.0").up()
+                    .add("body").set("Description of the release").up()
+                    .add("draft").set("true").up()
+                    .add("prerelease").set("false").up()
+                    .add("created_at").set(new Github.Time().toString()).up()
+                    .add("published_at").set(new Github.Time().toString()).up()
+                    .add("url").set("http://localhost/1").up()
+                    .add("html_url").set("http://localhost/2").up()
+                    .add("assets_url").set("http://localhost/3").up()
+                    .add("upload_url").set("http://localhost/4").up()
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        throw new UnsupportedOperationException("MkReleases#remove()");
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/releases",
+            this.coords
+        );
+    }
 }

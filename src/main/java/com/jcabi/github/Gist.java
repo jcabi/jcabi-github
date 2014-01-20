@@ -52,13 +52,6 @@ import lombok.ToString;
  *  http://developer.github.com/v3/gists/
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
- * @todo #1:1hr Gist comments. Let's add new method comments() to this
- *  interface, returning an instance of interface GistComments. This new
- *  interface should implement methods do iterate, post, delete and read
- *  comments, as explained in
- *  http://developer.github.com/v3/gists/comments/. New interface should
- *  be implemented by GhGistComments class and tested with unit and
- *  integration tests.
  * @todo #1:0.5hr Integration test for fork() method is required.
  *  Need to fork some gist and check the forked gist.
  */
@@ -108,6 +101,12 @@ public interface Gist extends JsonReadable {
      * @throws IOException If there is any I/O problem
      */
     void star() throws IOException;
+
+    /**
+     * Unstar a gist.
+     * @throws IOException If there is any I/O problem
+     */
+    void unstar() throws IOException;
 
     /**
      * Checks if Gist is starred.
@@ -192,6 +191,11 @@ public interface Gist extends JsonReadable {
         @Override
         public void star() throws IOException {
             this.gist.star();
+        }
+
+        @Override
+        public void unstar() throws IOException {
+            this.gist.unstar();
         }
 
         @Override

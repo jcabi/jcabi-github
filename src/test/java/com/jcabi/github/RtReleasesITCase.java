@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,20 +40,22 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @todo #123 RtReleases should be able to fetch a list of releases from a real
- *  Github repository, a single release, create, edit and remove release.
- *  When done, remove this puzzle and Ignore annotation from the method.
+ * @todo #123 RtReleases should be able to edit release.
+ *  When done, remove this puzzle and Ignore annotation from
+ *  the methods.
  */
 public final class RtReleasesITCase {
 
     /**
      * RtReleases can iterate releases.
-     * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchAllReleases() throws Exception {
-        // to be implemented
+    public void canFetchAllReleases() {
+        final Releases releases = RtReleasesITCase.releases();
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.not(Matchers.emptyIterableOf(Release.class))
+        );
     }
 
     /**
@@ -64,6 +69,43 @@ public final class RtReleasesITCase {
     @Ignore
     public void canFetchRelease() {
         // to be implemented
+    }
+
+    /**
+     * RtReleases can create a release.
+     * @todo #180 Integration test for RtReleases.create() should be implemented.
+     *  When done, remove this puzzle and Ignore annotation from this method.
+     */
+    @Test
+    @Ignore
+    public void canCreateRelease() {
+        // to be implemented
+    }
+
+    /**
+     * RtReleases can remove a release.
+     * @todo #238 Integration test for RtReleases.remove() should be implemented.
+     *  Looks like it depends on RtReleases.iterate(), so it can be implemented
+     *  only after the create() implementation. When done, remove this puzzle
+     *  and Ignore annotation from this method.
+     */
+    @Test
+    @Ignore
+    public void canRemoveRelease() {
+        // to be implemented
+    }
+
+    /**
+     * Create and return RtReleases object to test.
+     * @return Releases
+     */
+    private static Releases releases() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).releases();
     }
 
 }

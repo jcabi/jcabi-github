@@ -57,7 +57,7 @@ public interface Pulls {
      * @return Pull request
      * @see <a href="http://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
      */
-    @NotNull(message = "issue is never NULL")
+    @NotNull(message = "pull is never NULL")
     Pull get(int number);
 
     /**
