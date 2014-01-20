@@ -27,42 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Implementation of Collaborators.
+ * @todo #116:1hr Implement methods. They should be implemented as described at
+ *  http://developer.github.com/v3/repos/collaborators/
+ *  and repo() method should return Repo instance it is created with.
+ *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-final class RtOrganizations implements Organizations {
+public final class RtCollaborators implements Collaborators {
 
     @Override
-    public Github github() {
-        throw new UnsupportedOperationException("Github not yet implemented.");
+    public Repo repo() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public User user() {
-        return null;
+    public boolean isCollabborator(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Organization get(final String login) {
-        return null;
+    public void add(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Iterable<Organization> iterate() {
-        return null;
+    public void remove(final String user) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Iterable<User> iterate() {
+        throw new UnsupportedOperationException();
     }
 }

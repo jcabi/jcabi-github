@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Collaborators;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
@@ -173,6 +174,11 @@ final class MkRepo implements Repo {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public Collaborators collaborators() {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
