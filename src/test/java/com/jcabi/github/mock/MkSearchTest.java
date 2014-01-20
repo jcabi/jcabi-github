@@ -29,6 +29,10 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,8 +41,7 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #124 Implement the test cases for {@link MkSearch}.
- *  See http://developer.github.com/v3/search/
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class MkSearchTest {
 
@@ -50,7 +53,14 @@ public final class MkSearchTest {
     @Test
     @Ignore
     public void canSearchForRepos() throws Exception {
-        //To be implemented.
+        final MkGithub github = new MkGithub();
+        github.repos().create(
+            Json.createObjectBuilder().add("name", "TestRepo").build()
+        );
+        MatcherAssert.assertThat(
+            github.search().repos("TestRepo", "updated", "asc"),
+            Matchers.not(Matchers.emptyIterable())
+        );
     }
 
     /**
@@ -61,7 +71,15 @@ public final class MkSearchTest {
     @Test
     @Ignore
     public void canSearchForIssues() throws Exception {
-        //To be implemented.
+        final MkGithub github = new MkGithub();
+        final Repo repo = github.repos().create(
+            Json.createObjectBuilder().add("name", "TestIssues").build()
+        );
+        repo.issues().create("test issue", "TheTest");
+        MatcherAssert.assertThat(
+            github.search().issues("TheTest", "updated", "desc"),
+            Matchers.not(Matchers.emptyIterable())
+        );
     }
 
     /**
@@ -72,7 +90,13 @@ public final class MkSearchTest {
     @Test
     @Ignore
     public void canSearchForUsers() throws Exception {
-        //To be implemented.
+        final MkGithub github = new MkGithub("jeff");
+        github.repos().create(
+            Json.createObjectBuilder().add("name", "searchUsers").build()
+        );
+        MatcherAssert.assertThat(
+            github.search().users("jeff", "repositories", "desc"),
+            Matchers.not(Matchers.emptyIterable())
+        );
     }
-
 }

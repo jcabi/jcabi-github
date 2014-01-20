@@ -27,63 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import com.jcabi.aspects.Loggable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Implementation of Collaborators.
+ * @todo #116:1hr Implement methods. They should be implemented as described at
+ *  http://developer.github.com/v3/repos/collaborators/
+ *  and repo() method should return Repo instance it is created with.
+ *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
-public interface Releases {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+@Loggable(Loggable.DEBUG)
+public final class RtCollaborators implements Collaborators {
 
-    /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
+    @Override
+    public Repo repo() {
+        throw new UnsupportedOperationException();
+    }
 
-    /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
+    @Override
+    public boolean isCollabborator(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
+    }
 
-    /**
-     * Create new release.
-     * @param tag The name of the tag
-     * @return Release just created
-     * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release create(
-        @NotNull(message = "release tag is never NULL") String tag)
-        throws IOException;
+    @Override
+    public void add(
+        @NotNull(message = "User is never null") final String user) {
+        throw new UnsupportedOperationException();
+    }
 
-    /**
-     * Remove a release.
-     *
-     * @param number ID of the release to remove.
-     * @throws IOException If an IO problem occurs.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
-     */
-    void remove(int number) throws IOException;
+    @Override
+    public void remove(final String user) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Iterable<User> iterate() {
+        throw new UnsupportedOperationException();
+    }
 }

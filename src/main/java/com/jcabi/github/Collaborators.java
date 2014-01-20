@@ -27,21 +27,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github Releases.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github repository collaborators.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
-public interface Releases {
+public interface Collaborators {
     /**
      * Owner of them.
      * @return Repo
@@ -50,40 +49,35 @@ public interface Releases {
     Repo repo();
 
     /**
-     * Iterate them all.
-     * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Release> iterate();
-
-    /**
-     * Get a single release.
-     * @param number Release id
-     * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release get(int number);
-
-    /**
-     * Create new release.
-     * @param tag The name of the tag
-     * @return Release just created
-     * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
-     */
-    @NotNull(message = "release is never NULL")
-    Release create(
-        @NotNull(message = "release tag is never NULL") String tag)
-        throws IOException;
-
-    /**
-     * Remove a release.
+     * Check if a user is collaborator.
      *
-     * @param number ID of the release to remove.
-     * @throws IOException If an IO problem occurs.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
+     * @param user User
+     * @return True is a user is a collaborator, otherwise returns false
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
+     *  Check if a user is collaborator</a>
      */
-    void remove(int number) throws IOException;
+    boolean isCollabborator(
+        @NotNull(message = "User is never null") String user);
+
+    /**
+     * Add user as a collaborator.
+     *
+     * @param user User
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
+     */
+    void add(@NotNull(message = "User is never null") String user);
+
+    /**
+     * Remove user as a collaborator.
+     *
+     * @param user User
+     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
+     */
+    void remove(String user);
+
+    /**
+     * Iterates over repo collaborators.
+     * @return Iterator on repo collaborators.
+     */
+    Iterable<User> iterate();
 }
