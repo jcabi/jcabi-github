@@ -29,6 +29,11 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Repo;
+import com.jcabi.github.User;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,8 +42,7 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Implement the tests for {@link MkAssignees}
- *  See http://developer.github.com/v3/issues/assignees/
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class MkAssigneesTest {
 
@@ -49,16 +53,50 @@ public final class MkAssigneesTest {
     @Test
     @Ignore
     public void iteratesAssignees() throws Exception {
-        // To be implemented
+        final Repo repo = repo();
+        repo.collaborators().add("Michael");
+        MatcherAssert.assertThat(
+            repo.assignees().iterate(),
+            Matchers.not(Matchers.emptyIterableOf(User.class))
+        );
     }
 
     /**
-     * MkAssignees can check if user is assignee for this repo.
+     * MkAssignees can check if a collaborator is an assignee for this repo.
      * @throws Exception Exception If some problem inside
      */
     @Test
     @Ignore
-    public void checkUserIsAssigneeForRepo() throws Exception {
-        // To be implemented
+    public void checkCollaboratorIsAssigneeForRepo() throws Exception {
+        final Repo repo = repo();
+        repo.collaborators().add("Vladimir");
+        MatcherAssert.assertThat(
+            repo.assignees().check("Vladimir"),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * MkAssignees can check if the owner is an assignee for this repo.
+     * @throws Exception Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void checkOwnerIsAssigneeForRepo() throws Exception {
+        MatcherAssert.assertThat(
+            repo().assignees().check("Jonathan"),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub("Jonathan").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 }
