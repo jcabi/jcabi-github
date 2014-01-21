@@ -27,42 +27,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
+import org.junit.Test;
 
 /**
- * Github organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Tests for {@link RtCollaborators}.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-final class RtOrganizations implements Organizations {
-
-    @Override
-    public Github github() {
-        throw new UnsupportedOperationException("Github not yet implemented.");
+public class RtCollaboratorsTest {
+    /**
+     * RtCollaborators can iterate over a list of collaborators.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void canIterate() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public User user() {
-        return null;
+    /**
+     * User can be added to a repo as a collaborator.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void userCanBeAddedAsCollaborator() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public Organization get(final String login) {
-        return null;
+    /**
+     * User can be checked for being a collaborator.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void userCanBeTestForBeingCollaborator() throws Exception {
+        // to be implemented
     }
 
-    @Override
-    public Iterable<Organization> iterate() {
-        return null;
+    /**
+     * User can be removed from a list of collaborators.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void userCanBeRemoved() throws Exception {
+        // to be implemented
     }
 }

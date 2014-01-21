@@ -50,13 +50,13 @@ import javax.validation.constraints.NotNull;
 final class RtOrganization implements Organization {
 
     @Override
-    public User user() {
-        return null;
+    public Github github() {
+        throw new UnsupportedOperationException("Github not yet implemented.");
     }
 
     @Override
-    public int orgId() {
-        return 0;
+    public String login() {
+        throw new UnsupportedOperationException("Login Not yet implemented.");
     }
 
     @Override
@@ -75,4 +75,5 @@ final class RtOrganization implements Organization {
     public JsonObject json() throws IOException {
         return null;
     }
+
 }

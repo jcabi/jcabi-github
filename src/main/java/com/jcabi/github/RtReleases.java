@@ -127,4 +127,13 @@ public final class RtReleases implements Releases {
         );
     }
 
+    @Override
+    public void remove(final int number) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(Integer.toString(number)).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
 }
