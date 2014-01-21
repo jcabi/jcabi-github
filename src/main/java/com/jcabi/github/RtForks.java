@@ -55,7 +55,9 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "owner" })
 public final class RtForks implements Forks {
-
+    /**
+     * Github repos URL.
+     */
     private static final String REPOS_URL = "https://api.github.com/repos/";
     /**
      * Repository.
