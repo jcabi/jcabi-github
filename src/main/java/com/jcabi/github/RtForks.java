@@ -41,7 +41,6 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
-
 /**
  * Github forks.
  *
@@ -57,10 +56,14 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = { "owner" })
 public final class RtForks implements Forks {
 
+    private static final String REPOS_URL = "https://api.github.com/repos/";
     /**
      * Repository.
      */
     private final transient Repo owner;
+    /**
+     * Coordinates.
+     */
     private final transient Coordinates coor;
 
     /**
@@ -70,7 +73,7 @@ public final class RtForks implements Forks {
      */
     public RtForks(final Repo repo) {
         this.owner = repo;
-        coor = owner.coordinates();
+        this.coor = this.owner.coordinates();
     }
 
     @Override
@@ -80,43 +83,50 @@ public final class RtForks implements Forks {
 
     @Override
     public Iterable<Fork> iterate(
-            @NotNull(message="sort can't be NULL")final String sort) {
-         return new RtPagination<Fork>(
-                new JdkRequest("https://api.github.com/repos/"+coor
-                 .user()+"/"+coor
-                 .repo()+"?sort="+sort), new RtPagination
-                 .Mapping<Fork>() {
-            @Override
-            public Fork map(final JsonObject object) {
-               return new Fork() {
-                   @Override
-                   public JsonObject json() throws IOException {
-                       return object; 
-                   }
-               };
-            }
-        });
+        @NotNull(message = "sort can't be NULL") final String sort) {
+        return new RtPagination<Fork>(
+            new JdkRequest(new StringBuilder(REPOS_URL)
+                .append(this.coor
+                .user())
+                .append("/")
+                .append(this.coor
+                .repo())
+                .append("?sort=")
+                .append(sort)
+                .toString()), new RtPagination.Mapping<Fork>() {
+                @Override
+                public Fork map(final JsonObject object) {
+                    return new Fork() {
+                    @Override
+                    public JsonObject json() throws IOException {
+                        return object;
+                    }
+                };
+                }
+            });
     }
 
     @Override
     public Fork create(
-            @NotNull(message="organization can't be NULL")final String organization) {
-        return new Fork(){
-           @Override
-           public JsonObject json() throws IOException {
-              return new JdkRequest(
-                      "https://api.github.com/repos/"+coor
-                      .user()+"/"+coor.repo()+"/forks")
-                      .method("POST").body()
-                      .set(Json.createObjectBuilder()
-                      .add("organization", organization)
-                      .build()).back().fetch()
-                      .as(RestResponse.class)
-                      .assertStatus(HttpURLConnection.HTTP_CREATED)
-                      .as(JsonResponse.class).json().readObject(); 
-           }
+        @NotNull(message = "organization can't be NULL")
+        final String organization) {
+        return new Fork() {
+            @Override
+            public JsonObject json() throws IOException {
+                return new JdkRequest(
+                    new StringBuilder(REPOS_URL)
+                    .append(RtForks.this.coor
+                    .user()).append(REPOS_URL).append("/")
+                    .append(RtForks.this.coor.repo())
+                    .append("/forks").toString())
+                    .method("POST").body()
+                    .set(Json.createObjectBuilder()
+                    .add("organization", organization)
+                    .build()).back().fetch()
+                    .as(RestResponse.class)
+                    .assertStatus(HttpURLConnection.HTTP_CREATED)
+                    .as(JsonResponse.class).json().readObject();
+            }
         };
-                
-                
     }
 }
