@@ -31,7 +31,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.request.JdkRequest;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+
 
 /**
  * Github forks.
@@ -52,6 +61,7 @@ public final class RtForks implements Forks {
      * Repository.
      */
     private final transient Repo owner;
+    private final transient Coordinates coor;
 
     /**
      * Public ctor.
@@ -60,6 +70,7 @@ public final class RtForks implements Forks {
      */
     public RtForks(final Repo repo) {
         this.owner = repo;
+        coor = owner.coordinates();
     }
 
     @Override
@@ -68,12 +79,44 @@ public final class RtForks implements Forks {
     }
 
     @Override
-    public Iterable<Fork> iterate(final String sort) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    public Iterable<Fork> iterate(
+            @NotNull(message="sort can't be NULL")final String sort) {
+         return new RtPagination<Fork>(
+                new JdkRequest("https://api.github.com/repos/"+coor
+                 .user()+"/"+coor
+                 .repo()+"?sort="+sort), new RtPagination
+                 .Mapping<Fork>() {
+            @Override
+            public Fork map(final JsonObject object) {
+               return new Fork() {
+                   @Override
+                   public JsonObject json() throws IOException {
+                       return object; 
+                   }
+               };
+            }
+        });
     }
 
     @Override
-    public Fork create(final String organization) {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Fork create(
+            @NotNull(message="organization can't be NULL")final String organization) {
+        return new Fork(){
+           @Override
+           public JsonObject json() throws IOException {
+              return new JdkRequest(
+                      "https://api.github.com/repos/"+coor
+                      .user()+"/"+coor.repo()+"/forks")
+                      .method("POST").body()
+                      .set(Json.createObjectBuilder()
+                      .add("organization", organization)
+                      .build()).back().fetch()
+                      .as(RestResponse.class)
+                      .assertStatus(HttpURLConnection.HTTP_CREATED)
+                      .as(JsonResponse.class).json().readObject(); 
+           }
+        };
+                
+                
     }
 }

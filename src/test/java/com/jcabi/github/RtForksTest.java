@@ -49,7 +49,7 @@ public final class RtForksTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
+   
     public void retrievesForks() throws Exception {
         final RtForks forks = new RtForks(this.repo());
         MatcherAssert.assertThat(
@@ -64,7 +64,7 @@ public final class RtForksTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
+    
     public void createsFork() throws Exception {
         final RtForks forks = new RtForks(this.repo());
         MatcherAssert.assertThat(
