@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Collaborators;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import javax.json.Json;
@@ -51,12 +52,9 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesAssignees() throws Exception {
-        final Repo repo = repo();
-        repo.collaborators().add("Michael");
         MatcherAssert.assertThat(
-            repo.assignees().iterate(),
+            repo().assignees().iterate(),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
     }
@@ -64,6 +62,15 @@ public final class MkAssigneesTest {
     /**
      * MkAssignees can check if a collaborator is an assignee for this repo.
      * @throws Exception Exception If some problem inside
+     * @todo #92:1h MkAssignee should be able to check if a collaborator is also
+     *  an assignee for a repo. At the moment, this does not work since
+     *  {@link MkRepo#collaborators()} is not implemented. We need to implement
+     *  MkCollaborators, which should represent a mock instance of
+     *  {@link Collaborators}. We should also provide implementations for all
+     *  methods declared in the {@link Collaborators} as well as unit test cases
+     *  for each method. {@link MkRepo#collaborators()} should return an
+     *  instance of MkCollaborators. Once done, update this test method and
+     *  remove the Ignore annotation as well as this puzzle.
      */
     @Test
     @Ignore
@@ -81,7 +88,6 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkOwnerIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
             repo().assignees().check("Jonathan"),
