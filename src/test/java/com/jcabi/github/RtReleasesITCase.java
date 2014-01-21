@@ -60,15 +60,22 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can fetch a single release.
-     * @todo #180 Integration test for RtReleases.get() should be implemented.
-     *  Looks like it depends on RtReleases.iterate(), so it can be implemented
-     *  only after the iterate() implementation. When done, remove this puzzle
-     *  and Ignore annotation from this method.
+     * @throws Exception if any error inside
      */
     @Test
-    @Ignore
-    public void canFetchRelease() {
-        // to be implemented
+    public void canFetchRelease() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final String tag = "v1.0";
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            releases.get(release.number()).number(),
+            Matchers.equalTo(release.number())
+        );
+        MatcherAssert.assertThat(
+            releases.get(release.number()).json().getString("tag_name"),
+            Matchers.equalTo(tag)
+        );
+        releases.remove(release.number());
     }
 
     /**

@@ -88,8 +88,8 @@ public final class RtGistsITCase {
             Collections.singletonMap(filename, "body")
         );
         MatcherAssert.assertThat(
-            gists.get(gist.name()),
-            Matchers.sameInstance(gist)
+            gists.get(gist.name()).name(),
+            Matchers.equalTo(gist.name())
         );
         gists.remove(gist.name());
     }
