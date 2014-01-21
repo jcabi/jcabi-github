@@ -155,7 +155,11 @@ final class MkRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        throw new UnsupportedOperationException();
+        try {
+            return new MkAssignees(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -190,7 +194,7 @@ final class MkRepo implements Repo {
     public Contents contents() {
         try {
             return new MkContents(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
