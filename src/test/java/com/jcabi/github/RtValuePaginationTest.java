@@ -45,8 +45,8 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtPagination}.
- * @author Giang Le (giang@vn-smartsolutions.com)
+ * Test case for {@link RtValuePagination}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
 public final class RtValuePaginationTest {
