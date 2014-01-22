@@ -125,7 +125,7 @@ final class RtComments implements Comments {
     public Iterable<Comment> iterate() {
         return new RtPagination<Comment>(
             this.request,
-            new RtPagination.Mapping<Comment>() {
+            new RtPagination.Mapping<Comment, JsonObject>() {
                 @Override
                 public Comment map(final JsonObject object) {
                     return RtComments.this.get(object.getInt("id"));
