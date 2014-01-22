@@ -58,6 +58,7 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface PublicKey extends JsonReadable, JsonPatchable {
 
     /**
