@@ -30,10 +30,28 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import java.net.URL;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github public key.
+ *
+ * <p>PublicKey implements {@link JsonReadable}, that's how you can get its full
+ * details in JSON format. For example, to get its title,
+ * you get the entire JSON and then gets its element:
+ *
+ * <pre>String title = key.json().getString("title");</pre>
+ *
+ * <p>However, it's better to use a supplementary "smart" decorator, which
+ * automates most of these operations:
+ *
+ * <pre>String title = new PublicKey.Smart(comment).title();</pre>
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
@@ -60,5 +78,103 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
      * @return Public key ID number
      */
     int number();
+
+    /**
+     * Smart PublicKey with extra features.
+     * @checkstyle MultipleStringLiterals (500 lines)
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "key")
+    final class Smart implements PublicKey {
+
+        /**
+         * Encapsulated public key.
+         */
+        private final transient PublicKey key;
+
+        /**
+         * Public ctor.
+         * @param pkey Public key
+         */
+        public Smart(
+            @NotNull(message = "public key is never NULL")
+            final PublicKey pkey
+        ) {
+            this.key = pkey;
+        }
+
+        /**
+         * Get its key value.
+         * @return Value of public key
+         * @throws IOException If there is any I/O problem
+         */
+        public String key() throws IOException {
+            return new SmartJson(this).text("title");
+        }
+
+        /**
+         * Change its value.
+         * @param value Title of public key
+         * @throws IOException If there is any I/O problem
+         */
+        public void key(final String value) throws IOException {
+            this.key.patch(
+                Json.createObjectBuilder().add("title", value).build()
+            );
+        }
+
+        /**
+         * Get its URL.
+         * @return URL of public key
+         * @throws IOException If there is any I/O problem
+         */
+        public URL url() throws IOException {
+            return new URL(new SmartJson(this).text("url"));
+        }
+
+        /**
+         * Get its title.
+         * @return Title of public key
+         * @throws IOException If there is any I/O problem
+         */
+        public String title() throws IOException {
+            return new SmartJson(this).text("title");
+        }
+
+        /**
+         * Change its title.
+         * @param text Title of public key
+         * @throws IOException If there is any I/O problem
+         */
+        public void title(final String text) throws IOException {
+            this.key.patch(
+                Json.createObjectBuilder().add("title", text).build()
+            );
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.key.json();
+        }
+
+        @Override
+        public void patch(
+            @NotNull(message = "JSON is never NULL") final JsonObject json
+        ) throws IOException {
+            this.key.patch(json);
+        }
+
+        @Override
+        public User user() {
+            return this.key.user();
+        }
+
+        @Override
+        public int number() {
+            return this.key.number();
+        }
+    }
 
 }
