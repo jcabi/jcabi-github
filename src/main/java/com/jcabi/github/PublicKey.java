@@ -56,11 +56,6 @@ import lombok.ToString;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
- * @todo #24 Implement a Smart decorator for PublicKey for the purposes of
- *  JSON parsing. This class should be able to return the various attributes of
- *  the JSON response for fetching public keys, such as the ID, key, URL, and
- *  title. Include an example of how to do this in the Javadoc comment above
- *  (see other classes/interfaces for how they describe it).
  */
 @Immutable
 public interface PublicKey extends JsonReadable, JsonPatchable {
@@ -99,8 +94,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @param pkey Public key
          */
         public Smart(
-            @NotNull(message = "public key is never NULL")
-            final PublicKey pkey
+            @NotNull(message = "public key is never NULL") final PublicKey pkey
         ) {
             this.key = pkey;
         }
@@ -111,7 +105,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String key() throws IOException {
-            return new SmartJson(this).text("title");
+            return new SmartJson(this).text("key");
         }
 
         /**
@@ -121,7 +115,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          */
         public void key(final String value) throws IOException {
             this.key.patch(
-                Json.createObjectBuilder().add("title", value).build()
+                Json.createObjectBuilder().add("key", value).build()
             );
         }
 
@@ -176,5 +170,4 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
             return this.key.number();
         }
     }
-
 }
