@@ -31,6 +31,14 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.request.JdkRequest;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -47,11 +55,18 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "owner" })
 public final class RtForks implements Forks {
-
+    /**
+     * Github repos URL.
+     */
+    private static final String REPOS_URL = "https://api.github.com/repos/";
     /**
      * Repository.
      */
     private final transient Repo owner;
+    /**
+     * Coordinates.
+     */
+    private final transient Coordinates coor;
 
     /**
      * Public ctor.
@@ -60,6 +75,7 @@ public final class RtForks implements Forks {
      */
     public RtForks(final Repo repo) {
         this.owner = repo;
+        this.coor = this.owner.coordinates();
     }
 
     @Override
@@ -68,12 +84,51 @@ public final class RtForks implements Forks {
     }
 
     @Override
-    public Iterable<Fork> iterate(final String sort) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    public Iterable<Fork> iterate(
+        @NotNull(message = "sort can't be NULL") final String sort) {
+        return new RtPagination<Fork>(
+            new JdkRequest(new StringBuilder(REPOS_URL)
+                .append(this.coor
+                .user())
+                .append("/")
+                .append(this.coor
+                .repo())
+                .append("?sort=")
+                .append(sort)
+                .toString()), new RtPagination.Mapping<Fork>() {
+                @Override
+                public Fork map(final JsonObject object) {
+                    return new Fork() {
+                    @Override
+                    public JsonObject json() throws IOException {
+                        return object;
+                    }
+                };
+                }
+            });
     }
 
     @Override
-    public Fork create(final String organization) {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Fork create(
+        @NotNull(message = "organization can't be NULL")
+        final String organization) {
+        return new Fork() {
+            @Override
+            public JsonObject json() throws IOException {
+                return new JdkRequest(
+                    new StringBuilder(REPOS_URL)
+                    .append(RtForks.this.coor
+                    .user()).append(REPOS_URL).append("/")
+                    .append(RtForks.this.coor.repo())
+                    .append("/forks").toString())
+                    .method("POST").body()
+                    .set(Json.createObjectBuilder()
+                    .add("organization", organization)
+                    .build()).back().fetch()
+                    .as(RestResponse.class)
+                    .assertStatus(HttpURLConnection.HTTP_CREATED)
+                    .as(JsonResponse.class).json().readObject();
+            }
+        };
     }
 }
