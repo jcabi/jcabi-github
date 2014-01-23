@@ -116,8 +116,8 @@ final class MkAssignees implements Assignees {
             );
             return this.self.equalsIgnoreCase(login) || (
                 !xpath.isEmpty()
-                && StringUtils.equalsIgnoreCase(login, xpath.get(0))
-            );
+                    && StringUtils.equalsIgnoreCase(login, xpath.get(0))
+                );
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
