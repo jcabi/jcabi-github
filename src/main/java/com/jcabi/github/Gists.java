@@ -41,10 +41,6 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
- * @todo #1:1hr New method remove() to delete a gist. Let's add a new
- *  method to remove a gist by name, as explained in
- *  http://developer.github.com/v3/gists/#delete-a-gist. The method
- *  should be tested by unit and integration tests.
  */
 @Immutable
 public interface Gists {
