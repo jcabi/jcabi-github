@@ -27,70 +27,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Repo;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkSearch}.
+ * Test case for {@link RtPublicKey}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkSearchTest {
-
+public final class RtPublicKeyITCase {
     /**
-     * MkSearch can search for repos.
-     *
-     * @throws Exception if a problem occurs
+     * RtPublicKey can retrieve correctly URI.
+     * @throws Exception if any error inside
      */
     @Test
-    public void canSearchForRepos() throws Exception {
-        final MkGithub github = new MkGithub();
-        github.repos().create(
-            Json.createObjectBuilder().add("name", "TestRepo").build()
-        );
+    public void retrievesURI() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        final PublicKeys keys = github.users().self().keys();
         MatcherAssert.assertThat(
-            github.search().repos("TestRepo", "updated", "asc"),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * MkSearch can search for issues.
-     *
-     * @throws Exception if a problem occurs
-     */
-    @Test
-    public void canSearchForIssues() throws Exception {
-        final MkGithub github = new MkGithub();
-        final Repo repo = github.repos().create(
-            Json.createObjectBuilder().add("name", "TestIssues").build()
-        );
-        repo.issues().create("test issue", "TheTest");
-        MatcherAssert.assertThat(
-            github.search().issues("TheTest", "updated", "desc"),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * MkSearch can search for users.
-     *
-     * @throws Exception if a problem occurs
-     */
-    @Test
-    public void canSearchForUsers() throws Exception {
-        final MkGithub github = new MkGithub("jeff");
-        github.users().self();
-        MatcherAssert.assertThat(
-            github.search().users("jeff", "repositories", "desc"),
-            Matchers.not(Matchers.emptyIterable())
+            keys.get(1).toString(),
+            Matchers.endsWith("/keys/1")
         );
     }
 }

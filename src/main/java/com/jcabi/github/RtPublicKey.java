@@ -71,7 +71,11 @@ public final class RtPublicKey implements PublicKey {
      * @param number Number of the get
      */
     public RtPublicKey(final Request req, final User user, final int number) {
-        this.request = req.uri().path("/user").path("/keys").back();
+        this.request = req.uri()
+            .path("/user")
+            .path("/keys")
+            .path(Integer.toString(number))
+            .back();
         this.owner = user;
         this.num = number;
     }
