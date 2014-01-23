@@ -35,6 +35,7 @@ import com.rexsl.test.Request;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -43,8 +44,6 @@ import lombok.EqualsAndHashCode;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
- * @todo #24 Implement the iterate() method of RtPublicKeys. Don't forget to
- *  implement the test {@link RtPublicKeysTest#retrievesKeys()} class when done.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -85,7 +84,15 @@ public final class RtPublicKeys implements PublicKeys {
 
     @Override
     public Iterable<PublicKey> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new RtPagination<PublicKey>(
+            this.request,
+            new RtPagination.Mapping<PublicKey>() {
+                @Override
+                public PublicKey map(final JsonObject object) {
+                    return RtPublicKeys.this.get(object.getInt("id"));
+                }
+            }
+        );
     }
 
     @Override
