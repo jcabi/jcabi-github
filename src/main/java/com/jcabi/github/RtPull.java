@@ -114,7 +114,7 @@ final class RtPull implements Pull {
     public Iterable<Commit> commits() throws IOException {
         return new RtPagination<Commit>(
             this.request.uri().path("/commits").back(),
-            new RtPagination.Mapping<Commit>() {
+            new RtPagination.Mapping<Commit, JsonObject>() {
                 @Override
                 public Commit map(final JsonObject object) {
                     return new RtCommit(

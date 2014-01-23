@@ -38,69 +38,90 @@ import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtPagination}.
- *
- * @author Giang Le (giang@vn-smartsolutions.com)
+ * Test case for {@link RtValuePagination}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
-public final class RtPaginationTest {
+public final class RtValuePaginationTest {
     /**
      * RtPagination can jump to next page of results.
-     *
      * @throws Exception if there is any problem
      */
     @Test
     public void jumpNextPage() throws Exception {
+        final String jeff = "Jeff";
+        final String mark = "Mark";
+        final String judy = "Judy";
+        final String jessy = "Jessy";
         final MkContainer container = new MkGrizzlyContainer().next(
-            RtPaginationTest.simple("Hi Jeff")
+            RtValuePaginationTest.simple(jeff, mark)
                 .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"")
-        ).next(RtPaginationTest.simple("Hi Mark")).start();
+        ).next(RtValuePaginationTest.simple(judy, jessy)).start();
         final Request request = new ApacheRequest(container.home());
-        final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-            request, new RtPagination.Mapping<JsonObject, JsonObject>() {
-                @Override
-                public JsonObject map(final JsonObject object) {
-                    return object;
+        final RtValuePagination<JsonObject, JsonArray> page =
+            new RtValuePagination<JsonObject, JsonArray>(
+                request,
+                new RtValuePagination.Mapping<JsonObject, JsonArray>() {
+                    @Override
+                    public JsonObject map(final JsonArray object) {
+                        return Json.createObjectBuilder()
+                            .add("id1", object.getString(0))
+                            .add("id2", object.getString(1))
+                            .build();
+                    }
                 }
-            }
-        );
+            );
         final Iterator<JsonObject> iterator = page.iterator();
         MatcherAssert.assertThat(
             iterator.next().toString(),
-            Matchers.containsString("Jeff")
+            Matchers.allOf(
+                Matchers.containsString(jeff),
+                Matchers.containsString(mark)
+            )
         );
         MatcherAssert.assertThat(
             iterator.next().toString(),
-            Matchers.containsString("Mark")
+            Matchers.allOf(
+                Matchers.containsString(judy),
+                Matchers.containsString(jessy)
+            )
         );
         container.stop();
     }
 
     /**
-     * RtPagination can throw if there is no more elements in pagination.
-     *
+     * RtValuePagination can throw if there is no more elements in pagination.
      * @throws Exception if there is any problem
      */
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer()
-            .next(simple("Hi there")).start();
+        final String jeff = "other Jeff";
+        final String mark = "other Mark";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            RtValuePaginationTest.simple(jeff, mark)
+        ).start();
         try {
             final Request request = new ApacheRequest(container.home());
-            final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-                request, new RtPagination.Mapping<JsonObject, JsonObject>() {
-                    @Override
-                    public JsonObject map(final JsonObject object) {
-                        return object;
+            final RtValuePagination<JsonObject, JsonArray> page =
+                new RtValuePagination<JsonObject, JsonArray>(
+                    request,
+                    new RtValuePagination.Mapping<JsonObject, JsonArray>() {
+                        @Override
+                        public JsonObject map(final JsonArray object) {
+                            return Json.createObjectBuilder()
+                                .add("id3", object.getString(0))
+                                .add("id4", object.getString(1))
+                                .build();
+                        }
                     }
-                }
-            );
+                );
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();
             MatcherAssert.assertThat(
@@ -114,13 +135,16 @@ public final class RtPaginationTest {
 
     /**
      * Create and return MkAnswer.Simple to test.
-     * @param msg Message to build MkAnswer.Simple
+     * @param one First array element
+     * @param another Second array element
      * @return MkAnswer.Simple
      * @throws Exception If some problem inside
      */
-    private static  MkAnswer.Simple simple(final String msg) throws Exception {
+    private static MkAnswer.Simple simple(final String one,
+        final String another
+    ) throws Exception {
         final String message = Json.createArrayBuilder()
-            .add(Json.createObjectBuilder().add("msg", msg))
+            .add(Json.createArrayBuilder().add(one).add(another))
             .build().toString();
         return new MkAnswer.Simple(HttpURLConnection.HTTP_OK, message);
     }

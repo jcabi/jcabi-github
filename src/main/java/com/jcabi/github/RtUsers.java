@@ -100,7 +100,7 @@ final class RtUsers implements Users {
         final String login) {
         return new RtPagination<User>(
             this.request.uri().queryParam("since", login).back(),
-            new RtPagination.Mapping<User>() {
+            new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
                     return RtUsers.this.get(object.getString("login"));
