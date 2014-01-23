@@ -88,4 +88,9 @@ public final class RtRelease implements Release {
         return new RtJson(this.request).fetch();
     }
 
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
+
 }
