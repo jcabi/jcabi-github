@@ -29,109 +29,73 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
+import com.rexsl.test.request.FakeRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtPublicKeys}.
+ * Test case for {@link RtOrganization}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtPublicKeysTest {
+public final class RtOrganizationTest {
 
     /**
-     * RtPublicKeys should be able to iterate its keys.
+     * RtOrganization should be able to describe itself in JSON format.
      *
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesKeys() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(key(1))
-                    .add(key(2))
-                    .build().toString()
-            )
-        ).start();
-        final RtPublicKeys keys = new RtPublicKeys(
-            new ApacheRequest(container.home()),
-            Mockito.mock(User.class)
+    public void canFetchIssueAsJson() throws Exception {
+        final RtOrganization org = new RtOrganization(
+            new MkGithub(),
+            new FakeRequest().withBody("{\"organization\":\"json\"}"),
+            "testJson"
         );
         MatcherAssert.assertThat(
-            keys.iterate(),
-            Matchers.<PublicKey>iterableWithSize(2)
+            org.json().getString("organization"),
+            Matchers.equalTo("json")
         );
-        container.stop();
     }
 
     /**
-     * RtPublicKeys should be able to obtain a single key.
+     * RtOrganization should be able to perform a patch request.
      *
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchSingleKey() throws Exception {
+    public void patchWithJson() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                ""
-            )
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
         ).start();
-        final RtPublicKeys keys = new RtPublicKeys(
+        final RtOrganization org = new RtOrganization(
+            new MkGithub(),
             new ApacheRequest(container.home()),
-            Mockito.mock(User.class)
+            "testPatch"
         );
-        try {
-            MatcherAssert.assertThat(
-                keys.get(1),
-                Matchers.notNullValue()
-            );
-        } finally {
-            container.stop();
-        }
-    }
-
-    /**
-     * RtPublicKeys should be able to remove a key.
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    public void canRemoveKey() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                ""
-            )
-        ).start();
-        final RtPublicKeys keys = new RtPublicKeys(
-            new ApacheRequest(container.home()),
-            Mockito.mock(User.class)
+        org.patch(
+            Json.createObjectBuilder().add("patch", "test").build()
         );
+        final MkQuery query = container.take();
         try {
-            keys.remove(1);
-            final MkQuery query = container.take();
-            MatcherAssert.assertThat(
-                query.uri().toString(),
-                Matchers.endsWith("/user/keys/1")
-            );
             MatcherAssert.assertThat(
                 query.method(),
-                Matchers.equalTo(Request.DELETE)
+                Matchers.equalTo(Request.PATCH)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.equalTo("{\"patch\":\"test\"}")
             );
         } finally {
             container.stop();
@@ -139,14 +103,57 @@ public final class RtPublicKeysTest {
     }
 
     /**
-     * Create and return key to test.
-     * @param number Public Key Id
-     * @return JsonObject
+     * RtOrganization should be able to compare instances of each other.
+     *
+     * @throws Exception if a problem occurs.
      */
-    private static JsonObject key(final int number) {
-        return Json.createObjectBuilder()
-            .add("id", number)
-            .add("key", "ssh-rsa AAA")
-            .build();
+    @Test
+    public void canCompareInstances() throws Exception {
+        final RtOrganization less = new RtOrganization(
+            new MkGithub(),
+            new FakeRequest(),
+            "abc"
+        );
+        final RtOrganization greater = new RtOrganization(
+            new MkGithub(),
+            new FakeRequest(),
+            "def"
+        );
+        MatcherAssert.assertThat(
+            less.compareTo(greater), Matchers.lessThan(0)
+        );
+        MatcherAssert.assertThat(
+            greater.compareTo(less), Matchers.greaterThan(0)
+        );
+        MatcherAssert.assertThat(
+            less.compareTo(less), Matchers.equalTo(0)
+        );
     }
+
+    /**
+     * RtOrganization can return a String representation correctly reflecting
+     * its URI.
+     *
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    public void canRepresentAsString() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
+        ).start();
+        final RtOrganization org = new RtOrganization(
+            new MkGithub(),
+            new ApacheRequest(container.home()),
+            "testToString"
+        );
+        try {
+            MatcherAssert.assertThat(
+                org.toString(),
+                Matchers.endsWith("/orgs/testToString")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
 }

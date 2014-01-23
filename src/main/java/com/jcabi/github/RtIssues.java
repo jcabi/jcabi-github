@@ -128,7 +128,7 @@ final class RtIssues implements Issues {
         final Map<String, String> params) {
         return new RtPagination<Issue>(
             this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<Issue>() {
+            new RtPagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {
                     return RtIssues.this.get(object.getInt("number"));
