@@ -33,7 +33,6 @@ import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -51,7 +50,6 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForRepos() throws Exception {
         final MkGithub github = new MkGithub();
         github.repos().create(
@@ -69,7 +67,6 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForIssues() throws Exception {
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(
@@ -88,12 +85,9 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForUsers() throws Exception {
         final MkGithub github = new MkGithub("jeff");
-        github.repos().create(
-            Json.createObjectBuilder().add("name", "searchUsers").build()
-        );
+        github.users().self();
         MatcherAssert.assertThat(
             github.search().users("jeff", "repositories", "desc"),
             Matchers.not(Matchers.emptyIterable())
