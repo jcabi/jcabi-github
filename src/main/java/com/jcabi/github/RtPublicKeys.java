@@ -86,7 +86,7 @@ public final class RtPublicKeys implements PublicKeys {
     public Iterable<PublicKey> iterate() {
         return new RtPagination<PublicKey>(
             this.request,
-            new RtPagination.Mapping<PublicKey>() {
+            new RtPagination.Mapping<PublicKey, JsonObject>() {
                 @Override
                 public PublicKey map(final JsonObject object) {
                     return RtPublicKeys.this.get(object.getInt("id"));

@@ -128,7 +128,7 @@ final class RtRepo implements Repo {
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/issues/events").back(),
-            new RtPagination.Mapping<Event>() {
+            new RtPagination.Mapping<Event, JsonObject>() {
                 @Override
                 public Event map(final JsonObject object) {
                     return new RtEvent(
