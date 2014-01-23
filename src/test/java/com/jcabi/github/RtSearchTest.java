@@ -51,7 +51,7 @@ public final class RtSearchTest {
      */
     @Test
     public void canSearchForRepos() throws Exception {
-        final String coords = "test/test";
+        final String coords = "test-user1/test-repo1";
         final Search search = new RtGithub(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
