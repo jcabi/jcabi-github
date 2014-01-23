@@ -69,12 +69,19 @@ public final class RtSearch implements Search {
     private final transient Request entry;
 
     /**
+     * RESTful Request to search.
+     */
+    private final transient Request request;
+
+    /**
      * Public ctor.
      * @param github Github
+     * @param req RESTful API entry point
      */
-    RtSearch(final Github github) {
+    RtSearch(final Github github, final Request req) {
         this.ghub = github;
-        this.entry = github.entry();
+        this.entry = req;
+        this.request = req.uri().path("/search").back();
     }
 
     @Override
@@ -90,7 +97,7 @@ public final class RtSearch implements Search {
         @NotNull(message = "Sort order can't be NULL") final String order)
         throws IOException {
         return new RtSearchPagination<Repo>(
-            this.entry, "/search/repositories", keywords, sort, order,
+            this.request, "repositories", keywords, sort, order,
             new RtPagination.Mapping<Repo>() {
                 @Override
                 public Repo map(final JsonObject object) {
@@ -111,7 +118,7 @@ public final class RtSearch implements Search {
         @NotNull(message = "Sort order can't be NULL") final String order)
         throws IOException {
         return new RtSearchPagination<Issue>(
-            this.entry, "/search/issues", keywords, sort, order,
+            this.request, "issues", keywords, sort, order,
             // @checkstyle AnonInnerLength (21 line)
             new RtPagination.Mapping<Issue>() {
                 @Override
@@ -145,7 +152,7 @@ public final class RtSearch implements Search {
         @NotNull(message = "Sort order can't be NULL") final String order)
         throws IOException {
         return new RtSearchPagination<User>(
-            this.entry, "/search/users", keywords, sort, order,
+            this.request, "users", keywords, sort, order,
             new RtPagination.Mapping<User>() {
                 @Override
                 public User map(final JsonObject object) {
