@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Collaborators;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import javax.json.Json;
@@ -66,8 +65,8 @@ public final class MkAssigneesTest {
      *  an assignee for a repo. At the moment, this does not work since
      *  {@link MkRepo#collaborators()} is not implemented. We need to implement
      *  MkCollaborators, which should represent a mock instance of
-     *  {@link Collaborators}. We should also provide implementations for all
-     *  methods declared in the {@link Collaborators} as well as unit test cases
+     *  Collaborators. We should also provide implementations for all
+     *  methods declared in the Collaborators as well as unit test cases
      *  for each method. {@link MkRepo#collaborators()} should return an
      *  instance of MkCollaborators. Once done, update this test method and
      *  remove the Ignore annotation as well as this puzzle.
