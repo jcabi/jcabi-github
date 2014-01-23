@@ -30,7 +30,14 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.User;
+import com.jcabi.xml.XML;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Mock for Github Assignees.
@@ -38,21 +45,92 @@ import com.jcabi.github.User;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
- * @todo #16 Assignees mock should be implemented. Let's implement
- *  two methods: 1) iterate() returning a list of MkUsers and
- *  2) check(String) returning TRUE if provided
- *  login can be used as an assignee in repository. See
- *  http://developer.github.com/v3/issues/assignees/
  */
 final class MkAssignees implements Assignees {
 
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates coords;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @throws IOException If there is any I/O problem
+     */
+    MkAssignees(final MkStorage stg, final String login,
+        final Coordinates rep) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
+    }
+
     @Override
     public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
+        try {
+            final Set<User> assignees = new HashSet<User>();
+            assignees.add(new MkUser(this.storage, this.self));
+            final Iterable<User> collaborators = new MkIterable<User>(
+                this.storage,
+                this.xpath(),
+                new MkIterable.Mapping<User>() {
+                    @Override
+                    public User map(final XML xml) {
+                        try {
+                            return new MkUser(
+                                MkAssignees.this.storage,
+                                xml.xpath("login/text()").get(0)
+                            );
+                        } catch (final IOException ex) {
+                            throw new IllegalStateException(ex);
+                        }
+                    }
+                }
+            );
+            for (final User collab : collaborators) {
+                assignees.add(collab);
+            }
+            return assignees;
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
     public boolean check(final String login) {
-        throw new UnsupportedOperationException();
+        try {
+            final List<String> xpath = this.storage.xml().xpath(
+                this.xpath()
+            );
+            return this.self.equalsIgnoreCase(login) || (
+                !xpath.isEmpty()
+                    && StringUtils.equalsIgnoreCase(login, xpath.get(0))
+                );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    /**
+     * XPath of the Collaborators element in the XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/collaborators",
+            this.coords
+        );
     }
 }
