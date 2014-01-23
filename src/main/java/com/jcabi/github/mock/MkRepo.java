@@ -58,6 +58,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle ClassFanOutComplexity (500 lines)
  * @todo #9 Implement milestones() method.
  *  Please, implement milestones() method to return
  *  MkMilestones. Don't forget about unit tests

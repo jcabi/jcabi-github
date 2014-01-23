@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import org.apache.commons.lang3.StringUtils;
 import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.User;
@@ -38,6 +37,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Mock for Github Assignees.
@@ -115,9 +115,9 @@ final class MkAssignees implements Assignees {
                 this.xpath()
             );
             return this.self.equalsIgnoreCase(login) || (
-                !xpath.isEmpty() &&
-                StringUtils.equalsIgnoreCase(login, xpath.get(0))
-            );
+                    !xpath.isEmpty()
+                    && StringUtils.equalsIgnoreCase(login, xpath.get(0))
+                );
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
