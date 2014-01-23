@@ -254,6 +254,15 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
+        /**
+         * Get an issue where the pull request is submitted.
+         * @return Issue
+         */
+        @NotNull(message = "issue is never NULL")
+        public Issue issue() {
+            return this.pull.repo().issues().get(this.pull.number());
+        }
         /**
          * Get comments count.
          * @return Count of comments

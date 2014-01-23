@@ -137,7 +137,7 @@ public interface Github {
      * @return Search API
      * @since 0.8
      */
-    @NotNull(message = "rate limit API is never NULL")
+    @NotNull(message = "search API is never NULL")
     Search search();
 
     /**

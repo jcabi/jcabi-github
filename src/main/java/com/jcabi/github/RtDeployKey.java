@@ -31,38 +31,60 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github deploy key.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-final class RtOrganizations implements Organizations {
+@EqualsAndHashCode(of = "request")
+public final class RtDeployKey implements DeployKey {
 
-    @Override
-    public Github github() {
-        throw new UnsupportedOperationException("Github not yet implemented.");
+    /**
+     * RESTful API request for this deploy key.
+     */
+    private final transient Request request;
+
+    /**
+     * Id.
+     */
+    private final transient int key;
+
+    /**
+     * Public ctor.
+     * @param req RESTful API entry point
+     * @param number Id
+     * @param repo Repository
+     */
+    RtDeployKey(final Request req, final int number, final Repo repo) {
+        this.key = number;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/keys")
+            .path(String.valueOf(number))
+            .back();
     }
 
     @Override
-    public User user() {
-        return null;
+    public int number() {
+        return this.key;
     }
 
     @Override
-    public Organization get(final String login) {
-        return null;
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public Iterable<Organization> iterate() {
-        return null;
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 }

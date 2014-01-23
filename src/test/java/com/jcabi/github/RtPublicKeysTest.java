@@ -36,9 +36,10 @@ import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -56,9 +57,25 @@ public final class RtPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
     public void retrievesKeys() throws Exception {
-        //to be implemented.
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(key(1))
+                    .add(key(2))
+                    .build().toString()
+            )
+        ).start();
+        final RtPublicKeys keys = new RtPublicKeys(
+            new ApacheRequest(container.home()),
+            Mockito.mock(User.class)
+        );
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.<PublicKey>iterableWithSize(2)
+        );
+        container.stop();
     }
 
     /**
@@ -121,4 +138,15 @@ public final class RtPublicKeysTest {
         }
     }
 
+    /**
+     * Create and return key to test.
+     * @param number Public Key Id
+     * @return JsonObject
+     */
+    private static JsonObject key(final int number) {
+        return Json.createObjectBuilder()
+            .add("id", number)
+            .add("key", "ssh-rsa AAA")
+            .build();
+    }
 }

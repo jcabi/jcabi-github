@@ -158,7 +158,7 @@ final class RtRepo implements Repo {
 
     @Override
     public DeployKeys keys() {
-        return new RtDeployKeys(this);
+        return new RtDeployKeys(this.entry, this);
     }
 
     @Override
@@ -169,6 +169,11 @@ final class RtRepo implements Repo {
     @Override
     public Contents contents() {
         return new RtContents(this);
+    }
+
+    @Override
+    public Collaborators collaborators() {
+        return new RtCollaborators();
     }
 
     @Override

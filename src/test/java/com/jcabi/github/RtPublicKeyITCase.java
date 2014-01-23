@@ -35,74 +35,25 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtPublicKey}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class RtRepoITCase {
-
+public final class RtPublicKeyITCase {
     /**
-     * RtRepo can identify itself.
-     * @throws Exception If some problem inside
+     * RtPublicKey can retrieve correctly URI.
+     * @throws Exception if any error inside
      */
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * RtRepo can fetch its commits.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * RtRepo can fetch assignees.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesAssignees() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(
-            repo.assignees().iterate(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
+    public void retrievesURI() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        final PublicKeys keys = github.users().self().keys();
+        MatcherAssert.assertThat(
+            keys.get(1).toString(),
+            Matchers.endsWith("/keys/1")
         );
     }
-
 }
