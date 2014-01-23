@@ -31,6 +31,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import javax.json.JsonObject;
 
 /**
  * Github organizations.
@@ -46,23 +48,64 @@ import com.jcabi.aspects.Loggable;
 @Loggable(Loggable.DEBUG)
 final class RtOrganizations implements Organizations {
 
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * User we're in.
+     */
+    private final transient User owner;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     * @param user User
+     */
+    RtOrganizations(final Github github, final Request req, final User user) {
+        this.entry = req;
+        this.ghub = github;
+        this.owner = user;
+        this.request = this.entry.uri().path("/user").path("/orgs").back();
+    }
+
     @Override
     public Github github() {
-        throw new UnsupportedOperationException("Github not yet implemented.");
+        return this.ghub;
     }
 
     @Override
     public User user() {
-        return null;
+        return this.owner;
     }
 
     @Override
     public Organization get(final String login) {
-        return null;
+        return new RtOrganization(this.ghub, this.entry, login);
     }
 
     @Override
     public Iterable<Organization> iterate() {
-        return null;
+        return new RtPagination<Organization>(
+            this.request,
+            new RtPagination.Mapping<Organization, JsonObject>() {
+                @Override
+                public Organization map(final JsonObject object) {
+                    return RtOrganizations.this.get(object.getString("login"));
+                }
+            }
+        );
     }
 }
