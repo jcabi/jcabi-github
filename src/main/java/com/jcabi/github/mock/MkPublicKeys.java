@@ -96,6 +96,11 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     @Override
+    public PublicKey create(final String title, final String key) throws IOException {
+        throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
     public void remove(final int number) throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
