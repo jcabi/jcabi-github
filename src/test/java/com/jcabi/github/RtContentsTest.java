@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -63,7 +64,9 @@ public final class RtContentsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
         ).start();
-        final Contents contents = new RtContents(RtContentsTest.repo());
+        final Contents contents = new RtContents(
+            new ApacheRequest(container.home()), RtContentsTest.repo()
+        );
         MatcherAssert.assertThat(
             contents.readme(),
             Matchers.notNullValue()
