@@ -43,6 +43,7 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkForksTest {
 
@@ -71,6 +72,23 @@ public final class MkForksTest {
     public void createsFork() throws Exception {
         final MkForks forks = new MkForks(new MkStorage.InFile(),
             "Test", new Coordinates.Simple("tests", "forks")
+        );
+        MatcherAssert.assertThat(
+            forks.create(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * RtForks should be able to create a new fork with an Organization.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    @Ignore
+    public void createsForkWithOrganization() throws Exception {
+        final MkForks forks = new MkForks(new MkStorage.InFile(),
+            "Test1", new Coordinates.Simple("tests1", "forks1")
         );
         MatcherAssert.assertThat(
             forks.create("blah"),

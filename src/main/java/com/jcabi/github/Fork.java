@@ -48,6 +48,7 @@ import lombok.ToString;
 public interface Fork extends JsonReadable {
     /**
      * Smart fork with extra features.
+     * @todo #193 Need to add the rest of the {@link Fork} attributes
      */
     @Immutable
     @ToString
@@ -66,12 +67,12 @@ public interface Fork extends JsonReadable {
             this.origin = fork;
         }
         /**
-         * Returns the name of the Fork's organization.
+         * Returns the name of the Fork.
          * @return Fork's organization's name
          * @throws IOException If it fails
          */
-        public String organization() throws IOException {
-            return new SmartJson(this.origin).text("organization");
+        public String name() throws IOException {
+            return new SmartJson(this.origin).text("name");
         }
         @Override
         public JsonObject json() throws IOException {

@@ -44,6 +44,7 @@ import org.xembly.Directives;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  * @todo #192 Need to implement {@link MkFork} and {@link MkForkTest},
  *  then update this class and {@link MkForksTest}
  */
@@ -78,18 +79,17 @@ final class MkForks implements Forks {
         this.self = login;
         this.coords = rep;
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
-    /**
-     * Creates a mocked Fork.
-     * @param org Organization
-     * @return Mocked Fork
-     */
-    public Fork get(final String org) {
+
+    @Override
+    public Fork get(final int nmber) {
         return new MkFork();
     }
+
     @Override
     public Iterable<Fork> iterate(final String sort) {
         return new MkIterable<Fork>(
@@ -98,24 +98,55 @@ final class MkForks implements Forks {
             new MkIterable.Mapping<Fork>() {
                 @Override
                 public Fork map(final XML xml) {
-                    return MkForks.this.get("Test");
+                    return MkForks.this.get(
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
                 }
             }
         );
     }
 
     @Override
-    public Fork create(final String org) throws IOException {
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).add("fork")
-                .attr("organization", org)
-        );
-        final Fork fork = this.get(org);
+    public Fork create() throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/fork/id", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("fork")
+            );
+        } finally {
+            this.storage.unlock();
+        }
         Logger.info(
             this, "fork %s created by %s",
             this.coords, this.self
         );
-        return fork;
+        return this.get(number);
+    }
+
+    @Override
+    public Fork create(final String org) throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/fork/id", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("fork")
+                    .attr("organization", org)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        Logger.info(
+            this, "fork %s created inside %s by %s",
+            this.coords, org, this.self
+        );
+        return this.get(number);
     }
     /**
      * XPath of this element in XML tree.
@@ -127,5 +158,4 @@ final class MkForks implements Forks {
             this.coords
         );
     }
-
 }

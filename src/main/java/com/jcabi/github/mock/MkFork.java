@@ -43,7 +43,7 @@ import javax.json.JsonObject;
 public class MkFork implements Fork {
     @Override
     public final JsonObject json() throws IOException {
-        return null;
+        throw new UnsupportedOperationException("MkFork#json()");
     }
 
 }

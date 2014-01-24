@@ -63,6 +63,15 @@ public interface Forks {
     /**
      * Create a fork for the authenticated user.
      *
+     * @return The new fork
+     * @throws IOException  If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">List forks</a>
+     */
+    Fork create() throws IOException;
+
+    /**
+     * Create a fork for the authenticated user within the Organization.
+     *
      * @param organization The organization the repository will be forked into.
      * @return The new fork
      * @throws IOException  If there is any I/O problem
@@ -70,4 +79,11 @@ public interface Forks {
      */
     Fork create(@NotNull(message = "organization can't be NULL")
         String organization) throws IOException;
+    /**
+     * Get specific Fork by number.
+     * @param number Fork number
+     * @return Fork
+     */
+    @NotNull(message = "fork is never NULL")
+    Fork get(int number);
 }
