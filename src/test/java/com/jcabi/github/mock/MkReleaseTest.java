@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
 import com.jcabi.github.Release;
+import com.jcabi.github.Releases;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonString;
@@ -52,6 +53,21 @@ public final class MkReleaseTest {
      * NAME constant.
      */
     private static final String NAME = "name";
+
+    /**
+     * Check if a release can be deleted.
+     * @throws Exception If any problems occur.
+     */
+    @Test
+    public void canDeleteRelease() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases.create("v1.0");
+        release.delete();
+        MatcherAssert.assertThat(
+            releases.iterate().iterator().hasNext(),
+            Matchers.is(false)
+        );
+    }
 
     /**
      * Smart decorator returns url.
@@ -220,8 +236,17 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     private static Release release() throws Exception {
+        return releases().create("v1");
+    }
+
+    /**
+     * Creates a Releases instance set to work with.
+     * @return A test Releases instance.
+     * @throws IOException if any I/O problems occur.
+     */
+    private static Releases releases() throws IOException {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add(NAME, "test").build()
-        ).releases().create("v1");
+        ).releases();
     }
 }
