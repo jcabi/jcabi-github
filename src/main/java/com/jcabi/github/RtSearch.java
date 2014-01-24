@@ -46,7 +46,6 @@ import lombok.EqualsAndHashCode;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -64,11 +63,6 @@ public final class RtSearch implements Search {
     private final transient Github ghub;
 
     /**
-     * RESTful API entry point.
-     */
-    private final transient Request entry;
-
-    /**
      * RESTful Request to search.
      */
     private final transient Request request;
@@ -80,7 +74,6 @@ public final class RtSearch implements Search {
      */
     RtSearch(final Github github, final Request req) {
         this.ghub = github;
-        this.entry = req;
         this.request = req.uri().path("/search").back();
     }
 
@@ -101,8 +94,7 @@ public final class RtSearch implements Search {
             new RtPagination.Mapping<Repo>() {
                 @Override
                 public Repo map(final JsonObject object) {
-                    return new RtRepo(
-                        RtSearch.this.ghub, RtSearch.this.entry,
+                    return RtSearch.this.github().repos().get(
                         new Coordinates.Simple(object.getString("full_name"))
                     );
                 }
@@ -119,7 +111,6 @@ public final class RtSearch implements Search {
         throws IOException {
         return new RtSearchPagination<Issue>(
             this.request, "issues", keywords, sort, order,
-            // @checkstyle AnonInnerLength (21 line)
             new RtPagination.Mapping<Issue>() {
                 @Override
                 public Issue map(final JsonObject object) {
@@ -127,15 +118,10 @@ public final class RtSearch implements Search {
                         final String[] parts = RtSearch.SLASH.split(
                             new URI(object.getString("url")).getPath()
                         );
-                        return new RtIssue(
-                            RtSearch.this.entry,
-                            new RtRepo(
-                                RtSearch.this.ghub, RtSearch.this.entry,
-                                // @checkstyle MagicNumber (1 line)
-                                new Coordinates.Simple(parts[2], parts[3])
-                            ),
-                            object.getInt("number")
-                        );
+                        return RtSearch.this.ghub.repos().get(
+                            // @checkstyle MagicNumber (1 line)
+                            new Coordinates.Simple(parts[2], parts[3])
+                        ).issues().get(object.getInt("number"));
                     } catch (final URISyntaxException ex) {
                         throw new IllegalStateException(ex);
                     }
@@ -156,8 +142,7 @@ public final class RtSearch implements Search {
             new RtPagination.Mapping<User>() {
                 @Override
                 public User map(final JsonObject object) {
-                    return new RtUser(
-                        RtSearch.this.ghub, RtSearch.this.entry,
+                    return RtSearch.this.ghub.users().get(
                         object.getString("login")
                     );
                 }
