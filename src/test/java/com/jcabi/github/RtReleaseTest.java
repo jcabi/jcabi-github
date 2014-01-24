@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.request.FakeRequest;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -69,17 +72,24 @@ public class RtReleaseTest {
 
     /**
      * RtRelease can list assets for a release.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to list assets for a release. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     * See
+     * http://developer.github.com/v3/repos/releases/#list-assets-for-a-release
+     * @throws java.io.IOException if io error occurs
      */
     @Test
-    @Ignore
-    public void listReleaseAssets() {
-        // to be implemented
+    public final void listReleaseAssets() throws java.io.IOException {
+        final FakeRequest req = new FakeRequest();
+        final Coordinates.Simple coords = new Coordinates.Simple("test",
+            "releases");
+        final Release release = new RtRelease(
+            req, coords, 1
+        );
+        MatcherAssert.assertThat(
+            release.iterate(
+                req, coords
+            ),
+            Matchers.notNullValue()
+        );
     }
 
     /**

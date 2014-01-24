@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -99,4 +100,8 @@ public final class MkRelease implements Release {
         );
     }
 
+    @Override
+    public Request iterate(final Request req, final Coordinates cords) {
+        return null;
+    }
 }

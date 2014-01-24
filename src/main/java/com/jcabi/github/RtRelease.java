@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.RequestURI;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -64,12 +65,7 @@ public final class RtRelease implements Release {
      */
     RtRelease(final Request req, final Coordinates coords, final int nmbr) {
         this.release = nmbr;
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/releases")
-            .path(String.valueOf(this.release))
+        this.request = initRequest(req, coords)
             .back();
     }
 
@@ -88,4 +84,26 @@ public final class RtRelease implements Release {
         return new RtJson(this.request).fetch();
     }
 
+    @Override
+    public Request iterate(final Request req,  final Coordinates coords) {
+        return initRequest(req, coords)
+            .path("/assets")
+            .back();
+    }
+
+    /**
+     * Creates initial request.
+     * @param req RESTful API entry point
+     * @param coords Repository coordinates
+     * @return Request URI entity
+     */
+    private RequestURI initRequest(final Request req,
+        final Coordinates coords) {
+        return req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/releases")
+            .path(String.valueOf(this.release));
+    }
 }

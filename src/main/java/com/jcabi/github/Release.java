@@ -30,22 +30,31 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.rexsl.test.Request;
 
 /**
  * Github release.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Release extends JsonReadable {
-
     /**
      * Release id.
+     *
      * @return Id
      */
     int number();
 
+    /**
+     * Iterates assets for a release.
+     *
+     * @param req RESTful API entry point
+     * @param coords Repository coordinates
+     * @return Release asserts
+     */
+    Request iterate(final Request req, final Coordinates coords);
 }
