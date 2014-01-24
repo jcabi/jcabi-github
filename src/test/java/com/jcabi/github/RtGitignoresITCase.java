@@ -30,7 +30,9 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -38,25 +40,23 @@ import org.junit.Test;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #7 Let's implement integration tests for RtGitignores:
- *  1) iterateTemplateNames() to iteration over all available
- *  gitignore templates
- *  2) getRawTemplateByName() to test retrieving template
- *  in raw format by it's name
  * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
  *
  */
 @Immutable
-public class RtGitignoresITCase {
+public final class RtGitignoresITCase {
 
     /**
      * RtGitignores can iterate template names.
      * @throws Exception if there is any error
      */
     @Test
-    @Ignore
     public void iterateTemplateNames() throws Exception {
-        // to be implemented
+        final Gitignores gitignores = RtGitignoresITCase.gitignores();
+        MatcherAssert.assertThat(
+            gitignores.iterate(),
+            Matchers.hasItem("C++")
+        );
     }
 
     /**
@@ -64,9 +64,21 @@ public class RtGitignoresITCase {
      * @throws Exception if there is any error
      */
     @Test
-    @Ignore
     public void getRawTemplateByName() throws Exception {
-        // to be implemented
+        final Gitignores gitignores = RtGitignoresITCase.gitignores();
+        MatcherAssert.assertThat(
+            gitignores.template("C"),
+            Matchers.containsString("#")
+        );
     }
 
+    /**
+     * Create and return gitignores object to test.
+     * @return Gitignores
+     */
+    private static Gitignores gitignores() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGitignores(new RtGithub(key));
+    }
 }
