@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -42,7 +43,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = { "request", "owner" })
 public final class RtContents implements Contents {
     /**
      * Repository.
@@ -50,11 +51,23 @@ public final class RtContents implements Contents {
     private final transient Repo owner;
 
     /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
      * Public ctor.
+     * @param req RESTful API entry point
      * @param repo Repository
      */
-    public RtContents(final Repo repo) {
+    public RtContents(final Request req, final Repo repo) {
         this.owner = repo;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/contents")
+            .back();
     }
 
     @Override
