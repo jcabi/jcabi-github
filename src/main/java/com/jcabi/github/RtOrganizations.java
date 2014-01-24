@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import lombok.EqualsAndHashCode;
+
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
@@ -38,14 +40,12 @@ import javax.json.JsonObject;
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "entry", "ghub", "request", "owner" })
 final class RtOrganizations implements Organizations {
 
     /**
