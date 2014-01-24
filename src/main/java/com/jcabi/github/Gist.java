@@ -67,11 +67,11 @@ public interface Gist extends JsonReadable {
     Github github();
 
     /**
-     * Get gist id.
-     * @return Gist id
+     * Get gist identifier.
+     * @return Gist identifier
      */
-    @NotNull(message = "String is never NULL")
-    String name();
+    @NotNull(message = "Identifier is never NULL")
+    String identifier();
 
     /**
      * Read file content.
@@ -156,8 +156,9 @@ public interface Gist extends JsonReadable {
          * Get gist id.
          * @return Gist id
          */
-        public String name() {
-            return this.gist.name();
+        @Override
+        public String identifier() {
+            return this.gist.identifier();
         }
 
         /**
