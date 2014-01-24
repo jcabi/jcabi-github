@@ -30,7 +30,15 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import org.junit.Ignore;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.FakeRequest;
+import com.rexsl.test.request.JdkRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -38,25 +46,35 @@ import org.junit.Test;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #7 Let's implement unit tests for RtGitignores:
- *  1) iterateTemplateNames() to iteration over all available
- *  gitignore templates
- *  2) getRawTemplateByName() to test retrieving template
- *  in raw format by it's name
- *  Use <code>MkContainer</code> to mock templates to iterate
  * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
 @Immutable
-public class RtGitignoresTest {
+public final class RtGitignoresTest {
 
     /**
      * RtGitignores can iterate template names.
      * @throws Exception if there is any error
      */
     @Test
-    @Ignore
     public void iterateTemplateNames() throws Exception {
-        // to be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add("C")
+                    .add("Java")
+                    .build()
+                    .toString()
+            )
+        ).start();
+        final RtGitignores gitignores = new RtGitignores(
+            new RtGithub(new JdkRequest(container.home()))
+        );
+        MatcherAssert.assertThat(
+            gitignores.iterate(),
+            Matchers.<String>iterableWithSize(2)
+        );
+        container.stop();
     }
 
     /**
@@ -64,9 +82,14 @@ public class RtGitignoresTest {
      * @throws Exception if there is any error
      */
     @Test
-    @Ignore
     public void getRawTemplateByName() throws Exception {
-        // to be implemented
+        final RtGitignores gitignores = new RtGitignores(
+            new RtGithub(new FakeRequest().withBody("# Object files"))
+        );
+        MatcherAssert.assertThat(
+            gitignores.template("C#"),
+            Matchers.startsWith("# Object")
+        );
     }
 
 }
