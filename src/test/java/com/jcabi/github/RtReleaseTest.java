@@ -29,6 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -109,6 +118,29 @@ public class RtReleaseTest {
     @Ignore
     public void getReleaseAsset() {
         // to be implemented
+    }
+
+    /**
+     * RtRelese can execute PATCH request.
+     * @throws Exception if there is any problem
+     */
+    @Test
+    public final void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{}")
+        ).start();
+        final RtRelease release = new RtRelease(
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple("test", "test-branch"), 2
+        );
+        release.patch(Json.createObjectBuilder().add("name", "v1")
+            .build()
+        );
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.PATCH)
+        );
+        container.stop();
     }
 
 }

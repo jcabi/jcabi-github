@@ -93,7 +93,6 @@ public final class RtGistsITCase {
         );
         gists.remove(gist.name());
     }
-
     /**
      * This tests that RtGists can remove a gist by name.
      * @throws Exception - if something goes wrong.

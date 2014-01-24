@@ -59,9 +59,6 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
- * @todo #9 Implement milestones() method.
- *  Please, implement milestones() method to return
- *  MkMilestones. Don't forget about unit tests
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -119,7 +116,11 @@ final class MkRepo implements Repo {
 
     @Override
     public Milestones milestones() {
-        return null;
+        try {
+            return new MkMilestones(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
