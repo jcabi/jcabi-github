@@ -76,7 +76,7 @@ final class RtRepos implements Repos {
     RtRepos(final Github github, final Request req) {
         this.ghub = github;
         this.entry = req;
-        this.request = this.entry.uri().path("/repos").back();
+        this.request = this.entry.uri().path("user/repos").back();
     }
 
     @Override
