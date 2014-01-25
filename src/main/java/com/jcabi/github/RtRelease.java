@@ -53,6 +53,11 @@ public final class RtRelease implements Release {
     private final transient Request request;
 
     /**
+     * RESTful request URI.
+     */
+    private final transient RequestURI requestURI;
+
+    /**
      * Release id.
      */
     private final transient int release;
@@ -65,8 +70,14 @@ public final class RtRelease implements Release {
      */
     RtRelease(final Request req, final Coordinates coords, final int nmbr) {
         this.release = nmbr;
-        this.request = initRequest(req, coords)
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/releases")
+            .path(String.valueOf(this.release))
             .back();
+        this.requestURI = this.request.uri();
     }
 
     @Override
@@ -86,24 +97,9 @@ public final class RtRelease implements Release {
 
     @Override
     public Request iterate(final Request req,  final Coordinates coords) {
-        return initRequest(req, coords)
+        return this.requestURI
             .path("/assets")
             .back();
     }
 
-    /**
-     * Creates initial request.
-     * @param req RESTful API entry point
-     * @param coords Repository coordinates
-     * @return Request URI entity
-     */
-    private RequestURI initRequest(final Request req,
-        final Coordinates coords) {
-        return req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/releases")
-            .path(String.valueOf(this.release));
-    }
 }

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
 import com.rexsl.test.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -39,6 +40,7 @@ import org.junit.Test;
  * Test case for {@link RtRelease}.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RtReleaseTest {
 
@@ -71,10 +73,9 @@ public class RtReleaseTest {
     }
 
     /**
-     * RtRelease can list assets for a release.
-     * See
-     * http://developer.github.com/v3/repos/releases/#list-assets-for-a-release
-     * @throws java.io.IOException if io error occurs
+     * List assets for a release.
+     * @see <a href="http://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List assets for a release</a>
+     * @throws java.io.IOException If there is any I/O problem
      */
     @Test
     public final void listReleaseAssets() throws java.io.IOException {
@@ -88,7 +89,7 @@ public class RtReleaseTest {
             release.iterate(
                 req, coords
             ),
-            Matchers.notNullValue()
+            Matchers.instanceOf(Request.class)
         );
     }
 

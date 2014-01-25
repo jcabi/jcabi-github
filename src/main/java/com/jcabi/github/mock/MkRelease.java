@@ -102,6 +102,6 @@ public final class MkRelease implements Release {
 
     @Override
     public Request iterate(final Request req, final Coordinates cords) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
