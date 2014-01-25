@@ -105,7 +105,7 @@ final class RtGist implements Gist {
     }
 
     @Override
-    public String name() {
+    public String identifier() {
         return this.gist;
     }
 

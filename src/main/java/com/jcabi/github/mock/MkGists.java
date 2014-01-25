@@ -137,7 +137,7 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public void remove(final String name) throws IOException {
+    public void remove(final String identifier) throws IOException {
         throw new UnsupportedOperationException(
             "This operation is not implemented yet."
         );
