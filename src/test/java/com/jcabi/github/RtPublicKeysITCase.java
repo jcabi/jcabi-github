@@ -41,6 +41,8 @@ import org.junit.Test;
  *  against a real Github repository. The test should exercise the iteration of
  *  existing keys, the retrieval of a single key, and the removal of an existing
  *  key.
+ * @todo #301 Implement an integration test for RtPublicKeys that creates
+ *  a real public key for a user.
  */
 public class RtPublicKeysITCase {
 

@@ -35,6 +35,7 @@ import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -132,6 +133,42 @@ public final class RtPublicKeysTest {
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtPublicKeys can create a key.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void canCreatePublicKey() throws IOException {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED, key(1).toString()
+            )
+        ).start();
+        try {
+            final RtPublicKeys keys = new RtPublicKeys(
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
+            MatcherAssert.assertThat(
+                keys.create("theTitle", "theKey").number(),
+                Matchers.is(1)
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/user/keys")
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.equalTo(
+                    "{\"title\":\"theTitle\",\"key\":\"theKey\"}"
+                )
             );
         } finally {
             container.stop();
