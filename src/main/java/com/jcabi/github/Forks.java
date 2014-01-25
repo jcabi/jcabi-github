@@ -80,10 +80,10 @@ public interface Forks {
     Fork create(@NotNull(message = "organization can't be NULL")
         String organization) throws IOException;
     /**
-     * Get specific Fork by number.
-     * @param number Fork number
+     * Get specific Fork by id.
+     * @param forkid Fork id
      * @return Fork
      */
     @NotNull(message = "fork is never NULL")
-    Fork get(int number);
+    Fork get(int forkid);
 }

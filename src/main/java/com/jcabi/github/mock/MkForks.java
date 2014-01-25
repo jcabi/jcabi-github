@@ -78,15 +78,26 @@ final class MkForks implements Forks {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("forks")
+        );
     }
 
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
-
-    @Override
-    public Fork get(final int nmber) {
+    /**
+     * Gets a mocked Fork.
+     * @param forkid Fork id
+     * @return Mocked Fork
+     */
+    public Fork get(final int forkid) {
         return new MkFork();
     }
 
@@ -99,7 +110,7 @@ final class MkForks implements Forks {
                 @Override
                 public Fork map(final XML xml) {
                     return MkForks.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
                     );
                 }
             }
@@ -137,6 +148,7 @@ final class MkForks implements Forks {
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")
+                    .add("id").set(Integer.toString(number)).up()
                     .attr("organization", org)
             );
         } finally {

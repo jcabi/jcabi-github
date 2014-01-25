@@ -86,7 +86,7 @@ public final class RtForks implements Forks {
     }
 
     @Override
-    public Fork get(final int number) {
+    public Fork get(final int forkid) {
         throw new UnsupportedOperationException("Get not yet implemented.");
     }
 }
