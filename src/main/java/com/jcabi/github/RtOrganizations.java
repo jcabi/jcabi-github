@@ -29,12 +29,11 @@
  */
 package com.jcabi.github;
 
-import lombok.EqualsAndHashCode;
-
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
 import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organizations.
