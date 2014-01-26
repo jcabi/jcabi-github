@@ -64,16 +64,6 @@ final class RtRepos implements Repos {
     private final transient Request entry;
 
     /**
-     * RESTful request for create repository.
-     */
-    private final transient Request createRequest;
-
-    /**
-     * RESTful request for remove repository.
-     */
-    private final transient Request removeRequest;
-
-    /**
      * Public ctor.
      * @param github Github
      * @param req Request
@@ -81,13 +71,11 @@ final class RtRepos implements Repos {
     RtRepos(final Github github, final Request req) {
         this.ghub = github;
         this.entry = req;
-        this.createRequest = this.entry.uri().path("user/repos").back();
-        this.removeRequest = this.entry.uri().path("/repos").back();
     }
 
     @Override
     public String toString() {
-        return this.createRequest.uri().get().toString();
+        return this.entry.uri().get().toString();
     }
 
     @Override
@@ -103,7 +91,9 @@ final class RtRepos implements Repos {
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
-        final String coordinates = this.createRequest.method(Request.POST)
+        final Request createRequest = this.entry.uri().path("user/repos")
+            .back();
+        final String coordinates = createRequest.method(Request.POST)
             .body().set(json).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)
@@ -122,7 +112,9 @@ final class RtRepos implements Repos {
     public void remove(
         @NotNull(message = "coordinates can't be NULL")
         final Coordinates coords) throws IOException {
-        this.removeRequest.method(Request.DELETE)
+        final Request removeRequest = this.entry.uri().path("/repos")
+            .back();
+        removeRequest.method(Request.DELETE)
             .uri().path(coords.toString()).back()
             .fetch()
             .as(RestResponse.class)
