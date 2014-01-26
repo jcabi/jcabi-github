@@ -91,7 +91,7 @@ public final class RtSearch implements Search {
         throws IOException {
         return new RtSearchPagination<Repo>(
             this.request, "repositories", keywords, sort, order,
-            new RtPagination.Mapping<Repo>() {
+            new RtPagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
                     return RtSearch.this.github().repos().get(
@@ -111,7 +111,7 @@ public final class RtSearch implements Search {
         throws IOException {
         return new RtSearchPagination<Issue>(
             this.request, "issues", keywords, sort, order,
-            new RtPagination.Mapping<Issue>() {
+            new RtPagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {
                     try {
@@ -139,7 +139,7 @@ public final class RtSearch implements Search {
         throws IOException {
         return new RtSearchPagination<User>(
             this.request, "users", keywords, sort, order,
-            new RtPagination.Mapping<User>() {
+            new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
                     return RtSearch.this.ghub.users().get(

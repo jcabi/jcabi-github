@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -65,7 +66,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
     /**
      * Pagination mapping.
      */
-    private final transient RtPagination.Mapping<T> mapping;
+    private final transient RtPagination.Mapping<T, JsonObject> mapping;
 
     /**
      * Ctor.
@@ -79,7 +80,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
      */
     RtSearchPagination(final Request req, final String path,
         final String keywords, final String sort, final String order,
-        final RtPagination.Mapping<T> mppng) {
+        final RtPagination.Mapping<T, JsonObject> mppng) {
         this.request = req.uri().path(path)
             .queryParam("q", keywords)
             .queryParam("sort", sort)
