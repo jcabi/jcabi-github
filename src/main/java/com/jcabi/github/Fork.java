@@ -29,6 +29,13 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 /**
  * Github fork.
  *
@@ -36,9 +43,53 @@ package com.jcabi.github;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
- * @todo #121 Implement a Smart decorator for this class for the purposes of
- *  JSON parsing.
  */
+@Immutable
 public interface Fork extends JsonReadable {
+    /**
+     * Smart fork with extra features.
+     * @todo #193 Need to add the rest of the {@link Fork} attributes
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "origin")
+    final class Smart implements Fork {
+        /**
+         * Encapsulated fork.
+         */
+        private final transient Fork origin;
+
+        /**
+         * Public ctor.
+         * @param fork Fork
+         */
+        public Smart(final Fork fork) {
+            this.origin = fork;
+        }
+
+        /**
+         * Returns the id of the Fork.
+         * @return Fork's id
+         * @throws IOException If it fails
+         */
+        public String forkId() throws IOException {
+            return new SmartJson(this.origin).text("id");
+        }
+
+        /**
+         * Returns the name of the organization of the Fork.
+         * @return Fork's organization's name
+         * @throws IOException If it fails
+         */
+        public String organization() throws IOException {
+            return new SmartJson(this.origin).text("organization");
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.origin.json();
+        }
+    }
 
 }

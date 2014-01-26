@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -74,6 +75,18 @@ public final class RtForks implements Forks {
 
     @Override
     public Fork create(final String organization) {
+        throw new UnsupportedOperationException(
+            "Create with organization not yet implemented."
+        );
+    }
+
+    @Override
+    public Fork create() throws IOException {
         throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
+    public Fork get(final int forkid) {
+        throw new UnsupportedOperationException("Get not yet implemented.");
     }
 }
