@@ -30,133 +30,98 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
-import java.util.Collections;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtGists}.
+ * Test case for {@link RtOrganizations}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtGistsTest {
+public final class RtOrganizationsTest {
 
     /**
-     * RtGists can create new files.
+     * RtOrganizations should be able to iterate its organizations.
      *
-     * @throws Exception if a problem occurs.
+     * @throws Exception If a problem occurs
+     * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
-    public void canCreateFiles() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"id\":\"1\"}"
-            )
-        ).start();
-        final Gists gists = new RtGists(
-            new MkGithub(),
-            new ApacheRequest(container.home())
-        );
-        try {
-            MatcherAssert.assertThat(
-                gists.create(Collections.singletonMap("test", "")),
-                Matchers.notNullValue()
-            );
-            MatcherAssert.assertThat(
-                container.take().body(),
-                Matchers.startsWith("{\"files\":{\"test\":{\"content\":")
-            );
-        } finally {
-            container.stop();
-        }
-    }
-
-    /**
-     * RtGists can retrieve a specific Gist.
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    public void canRetrieveSpecificGist() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
-        ).start();
-        final Gists gists = new RtGists(
-            new MkGithub(),
-            new ApacheRequest(container.home())
-        );
-        try {
-            MatcherAssert.assertThat(
-                gists.get("gist"),
-                Matchers.notNullValue()
-            );
-        } finally {
-            container.stop();
-        }
-    }
-
-    /**
-     * RtGists can iterate through its contents.
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    public void canIterateThrouRtGists() throws Exception {
+    public void retrievesOrganizations() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                "[{\"id\":\"hello\"}]"
+                Json.createArrayBuilder()
+                    .add(org(1, "org1"))
+                    .add(org(2, "org2"))
+                    .add(org(3, "org3"))
+                    .build().toString()
             )
         ).start();
-        final Gists gists = new RtGists(
-            new MkGithub(),
-            new ApacheRequest(container.home())
-        );
         try {
+            final RtOrganizations orgs = new RtOrganizations(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
             MatcherAssert.assertThat(
-                gists.iterate().iterator().next(),
+                orgs.iterate(),
+                Matchers.<Organization>iterableWithSize(3)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/user/orgs")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtOrganizations should be able to get a single organization.
+     *
+     * @throws Exception if a problem occurs
+     */
+    @Test
+    public void fetchesSingleOrganization() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+        ).start();
+        try {
+            final RtOrganizations orgs = new RtOrganizations(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
+            MatcherAssert.assertThat(
+                orgs.get("org"),
                 Matchers.notNullValue()
             );
         } finally {
             container.stop();
         }
     }
+
     /**
-     * RtGists can remove a gist by name.
-     * @throws Exception - if something goes wrong.
+     * Create and return organization to test.
+     * @param number Organization ID
+     * @param login Organization login name.
+     * @return JsonObject
      */
-    @Test
-    public void removesGistByName() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                ""
-            )
-        )
-            .start();
-        final Gists gists = new RtGists(
-            new MkGithub(),
-            new ApacheRequest(container.home())
-        );
-        try {
-            gists.remove("12234");
-            final MkQuery query = container.take();
-            MatcherAssert.assertThat(
-                query.method(),
-                Matchers.equalTo(Request.DELETE)
-            );
-        } finally {
-            container.stop();
-        }
+    private static JsonObject org(final int number, final String login) {
+        return Json.createObjectBuilder()
+            .add("id", number)
+            .add("login", login)
+            .build();
     }
 }

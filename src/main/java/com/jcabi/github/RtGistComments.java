@@ -76,7 +76,7 @@ final class RtGistComments implements GistComments {
         this.entry = req;
         this.request = this.entry.uri()
             .path("/gists")
-            .path(gist.name())
+            .path(gist.identifier())
             .path("/comments")
             .back();
         this.owner = gist;

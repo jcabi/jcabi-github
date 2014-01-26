@@ -92,7 +92,7 @@ final class MkGist implements Gist {
     }
 
     @Override
-    public String name() {
+    public String identifier() {
         return this.gist;
     }
 

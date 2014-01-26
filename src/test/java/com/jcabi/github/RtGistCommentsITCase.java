@@ -49,7 +49,7 @@ public final class RtGistCommentsITCase {
      */
     @Test
     public void createComment() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("gist comment");
         MatcherAssert.assertThat(
@@ -57,7 +57,7 @@ public final class RtGistCommentsITCase {
             Matchers.startsWith("gist")
         );
         comment.remove();
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**
@@ -66,7 +66,7 @@ public final class RtGistCommentsITCase {
      */
     @Test
     public void getComment() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
@@ -74,7 +74,7 @@ public final class RtGistCommentsITCase {
             Matchers.equalTo(comment)
         );
         comment.remove();
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**
@@ -83,7 +83,7 @@ public final class RtGistCommentsITCase {
      */
     @Test
     public void iterateComments() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
@@ -91,7 +91,7 @@ public final class RtGistCommentsITCase {
             Matchers.hasItem(comment)
         );
         comment.remove();
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**

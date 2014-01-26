@@ -33,6 +33,7 @@ import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -82,6 +83,35 @@ public final class RtReposTest {
             Matchers.equalTo((Coordinates) new Coordinates.Simple(owner, name))
         );
         container.stop();
+    }
+
+    /**
+     * RtRepos can remove a repo.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void removeRepo() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final Repos repos = new RtRepos(
+            Mockito.mock(Github.class),
+            new ApacheRequest(container.home())
+        );
+        repos.remove(new Coordinates.Simple("", ""));
+        try {
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.isEmptyString()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
