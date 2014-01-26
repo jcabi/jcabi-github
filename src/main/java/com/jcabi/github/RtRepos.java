@@ -111,4 +111,15 @@ final class RtRepos implements Repos {
         final Coordinates name) {
         return new RtRepo(this.ghub, this.entry, name);
     }
+
+    @Override
+    public void remove(
+        @NotNull(message = "coordinates can't be NULL")
+        final Coordinates coords) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(coords.toString()).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }
