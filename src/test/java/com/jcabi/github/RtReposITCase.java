@@ -57,15 +57,14 @@ public class RtReposITCase {
     @Test
     public final void create() throws Exception {
         final String name = RandomStringUtils.randomNumeric(5);
-        final Github github = RtReposITCase.github();
-        final Repos repos = github.repos();
+        final Repos repos = RtReposITCase.github().repos();
         try {
-            final Repo repo = repos.create(request(name));
-            MatcherAssert.assertThat(repo, Matchers.notNullValue());
+            MatcherAssert.assertThat(
+                repos.create(request(name)), Matchers.notNullValue()
+            );
         } finally {
-            final String repositoryOwner = github.users().self().login();
             final Coordinates.Simple coordinates = new Coordinates.Simple(
-                repositoryOwner, name
+                RtReposITCase.github().users().self().login(), name
             );
             repos.remove(coordinates);
         }

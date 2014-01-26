@@ -91,15 +91,15 @@ final class RtRepos implements Repos {
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
-        final Request createRequest = this.entry.uri().path("user/repos")
-            .back();
-        final String coordinates = createRequest.method(Request.POST)
+        return this.get(
+            new Coordinates.Simple(this.entry.uri().path("user/repos")
+            .back().method(Request.POST)
             .body().set(json).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)
             .as(JsonResponse.class)
-            .json().readObject().getString("full_name");
-        return this.get(new Coordinates.Simple(coordinates));
+            .json().readObject().getString("full_name"))
+        );
     }
 
     @Override
@@ -112,9 +112,8 @@ final class RtRepos implements Repos {
     public void remove(
         @NotNull(message = "coordinates can't be NULL")
         final Coordinates coords) throws IOException {
-        final Request removeRequest = this.entry.uri().path("/repos")
-            .back();
-        removeRequest.method(Request.DELETE)
+        this.entry.uri().path("/repos")
+            .back().method(Request.DELETE)
             .uri().path(coords.toString()).back()
             .fetch()
             .as(RestResponse.class)
