@@ -173,7 +173,7 @@ public final class RtGithub implements Github {
 
     @Override
     public Search search() {
-        return new RtSearch(this);
+        return new RtSearch(this, this.request);
     }
 
     @Override
