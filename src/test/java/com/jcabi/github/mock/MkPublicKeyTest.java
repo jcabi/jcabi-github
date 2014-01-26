@@ -29,8 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.PublicKey;
-import com.jcabi.github.PublicKeys;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -55,9 +53,8 @@ public final class MkPublicKeyTest {
     public void canRetrieveAsJson() throws Exception {
         final String keyTitle = "Title1";
         final String keyContent = "PublicKey1";
-        final PublicKeys keys = new MkGithub().users().get("john").keys();
-        final PublicKey key = keys.create(keyTitle, keyContent);
-        final JsonObject json = key.json();
+        final JsonObject json = new MkGithub().users().get("john").keys()
+            .create(keyTitle, keyContent).json();
         MatcherAssert.assertThat(
             json.getString("id"),
             Matchers.equalTo("1")
