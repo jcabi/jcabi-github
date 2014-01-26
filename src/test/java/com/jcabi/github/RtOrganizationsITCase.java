@@ -29,15 +29,51 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
+
 /**
  * Test case for {@link RtOrganizations}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @todo #2 Integration tests for Organizations.
- *  Let's implements integration tests for user's organizations.
- *  Please, test all public methods
  */
-public class RtOrganizationsITCase {
+public final class RtOrganizationsITCase {
+    /**
+     * RtOrganizations can get an organization.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void getOrganization() throws Exception {
+        final String login = "github";
+        final Github github = RtOrganizationsITCase.github();
+        final Organizations orgs = github.users().self().organizations();
+        final Organization org = orgs.get(login);
+        MatcherAssert.assertThat(org.login(), Matchers.equalTo(login));
+    }
+
+    /**
+     * RtOrganizations can iterate all organizations.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void iterateOrganizations() throws Exception {
+        final Github github = RtOrganizationsITCase.github();
+        final Organizations orgs = github.users().self().organizations();
+        MatcherAssert.assertThat(orgs.iterate(), Matchers.notNullValue());
+    }
+
+    /**
+     * Create and return github to test.
+     * @return Github
+     * @throws Exception If some problem inside
+     */
+    private static Github github() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key);
+    }
 }
