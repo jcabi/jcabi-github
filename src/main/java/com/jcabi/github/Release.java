@@ -59,6 +59,12 @@ public interface Release extends JsonReadable, JsonPatchable {
     int number();
 
     /**
+     * Deletes a release.
+     * @throws IOException If any I/O problems occur.
+     */
+    void delete() throws IOException;
+
+    /**
      * Smart release.
      */
     @Immutable
@@ -221,6 +227,11 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         private boolean booleanValue(final String name) throws IOException {
             return JsonValue.TRUE.equals(this.json().get(name));
+        }
+
+        @Override
+        public void delete() throws IOException {
+            this.release.delete();
         }
     }
 }

@@ -82,10 +82,11 @@ public interface Gists {
     Iterable<Gist> iterate();
 
     /**
-     * Removes a gist by name.
-     * @param name Name of the gist to be removed.
+     * Removes a gist by id.
+     *
+     *
+     * @param identifier Identifier of the gist to be removed.
      * @throws IOException If there is any I/O problem
      */
-    void remove(@NotNull(message = "name is never NULL")
-    String name) throws IOException;
+    void remove(String identifier) throws IOException;
 }

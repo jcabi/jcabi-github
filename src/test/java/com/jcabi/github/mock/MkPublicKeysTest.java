@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -67,6 +68,21 @@ public final class MkPublicKeysTest {
         MatcherAssert.assertThat(
             keys.get(1),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkPublicKeys should be able to create a public key.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void canCreatePublicKey() throws Exception {
+        final PublicKeys keys = new MkGithub().users().get("john").keys();
+        final PublicKey key = keys.create("Title1", "PublicKey1");
+        MatcherAssert.assertThat(
+            keys.get(key.number()),
+            Matchers.equalTo(key)
         );
     }
 

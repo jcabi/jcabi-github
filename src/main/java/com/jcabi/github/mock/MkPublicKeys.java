@@ -44,6 +44,7 @@ import org.xembly.Directives;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -72,7 +73,7 @@ final class MkPublicKeys implements PublicKeys {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
-            new Directives().xpath("/github/users").addIf("keys")
+            new Directives().xpath("/github/user").addIf("keys")
         );
     }
 
@@ -96,8 +97,37 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     @Override
+    public PublicKey create(final String title, final String key)
+        throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/id/text()", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath())
+                    .add("key")
+                    .add("id").set(String.valueOf(number)).up()
+                    .add("title").set(title).up()
+                    .add("key").set(key)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
+    }
+
+    @Override
     public void remove(final int number) throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return "/github/user/keys";
+    }
 }

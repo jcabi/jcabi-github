@@ -51,7 +51,7 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void removeItself() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentITCase.gist();
         final String body = "comment body";
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post(body);
@@ -64,7 +64,7 @@ public final class RtGistCommentITCase {
             comments.iterate(),
             Matchers.not(Matchers.hasItem(comment))
         );
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**
@@ -73,7 +73,7 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
@@ -81,7 +81,7 @@ public final class RtGistCommentITCase {
             Matchers.equalTo(comment.number())
         );
         comment.remove();
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**
@@ -90,7 +90,7 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
@@ -103,7 +103,7 @@ public final class RtGistCommentITCase {
             Matchers.startsWith("hi")
         );
         comment.remove();
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**
@@ -112,7 +112,7 @@ public final class RtGistCommentITCase {
      */
     @Test
     public void changeCommentBody() throws Exception {
-        final Gist gist = gist();
+        final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("hi there");
         MatcherAssert.assertThat(
@@ -125,7 +125,7 @@ public final class RtGistCommentITCase {
             Matchers.startsWith("hello")
         );
         comment.remove();
-        gist.github().gists().remove(gist.name());
+        gist.github().gists().remove(gist.identifier());
     }
 
     /**
