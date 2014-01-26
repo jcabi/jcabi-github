@@ -31,7 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
-import com.jcabi.github.RtForks;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -47,22 +46,23 @@ import org.junit.Test;
 public final class MkForksTest {
 
     /**
-     * RtForks should be able to iterate its forks.
-     *
+     * MkForks should be able to iterate its forks.
      * @throws Exception if a problem occurs.
      */
-    @Test(expected = UnsupportedOperationException.class)
     public void retrievesForks() throws Exception {
-        final RtForks forks = new RtForks(this.repo());
+        final Fork.Smart fork = new Fork.Smart(this.repo().forks().create());
         MatcherAssert.assertThat(
-            forks.iterate("newest"),
+            fork,
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            this.repo().forks().iterate("newest"),
             Matchers.notNullValue()
         );
     }
 
     /**
-     * RtForks should be able to create a new fork.
-     *
+     * MkForks should be able to create a new fork.
      * @throws Exception if a problem occurs.
      */
     @Test(expected = UnsupportedOperationException.class)
@@ -75,7 +75,7 @@ public final class MkForksTest {
     }
 
     /**
-     * MtForks should be able to create a new fork with an Organization.
+     * MkForks should be able to create a new fork with an Organization.
      *
      * @throws Exception if a problem occurs.
      */
