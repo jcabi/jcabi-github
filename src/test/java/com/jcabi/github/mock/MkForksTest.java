@@ -29,13 +29,12 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Coordinates;
+import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RtForks;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -52,8 +51,7 @@ public final class MkForksTest {
      *
      * @throws Exception if a problem occurs.
      */
-    @Test
-    @Ignore
+    @Test(expected = UnsupportedOperationException.class)
     public void retrievesForks() throws Exception {
         final RtForks forks = new RtForks(this.repo());
         MatcherAssert.assertThat(
@@ -67,31 +65,27 @@ public final class MkForksTest {
      *
      * @throws Exception if a problem occurs.
      */
-    @Test
-    @Ignore
+    @Test(expected = UnsupportedOperationException.class)
     public void createsFork() throws Exception {
-        final MkForks forks = new MkForks(new MkStorage.InFile(),
-            "Test", new Coordinates.Simple("tests", "forks")
-        );
+        final Fork.Smart fork = new Fork.Smart(this.repo().forks().create());
         MatcherAssert.assertThat(
-            forks.create(),
+            this.repo().forks().get(Integer.parseInt(fork.forkId())),
             Matchers.notNullValue()
         );
     }
 
     /**
-     * RtForks should be able to create a new fork with an Organization.
+     * MtForks should be able to create a new fork with an Organization.
      *
      * @throws Exception if a problem occurs.
      */
-    @Test
-    @Ignore
+    @Test(expected = UnsupportedOperationException.class)
     public void createsForkWithOrganization() throws Exception {
-        final MkForks forks = new MkForks(new MkStorage.InFile(),
-            "Test1", new Coordinates.Simple("tests1", "forks1")
+        final Fork.Smart fork = new Fork.Smart(
+            this.repo().forks().create("OneOrganization")
         );
         MatcherAssert.assertThat(
-            forks.create("blah"),
+            this.repo().forks().get(Integer.parseInt(fork.forkId())),
             Matchers.notNullValue()
         );
     }

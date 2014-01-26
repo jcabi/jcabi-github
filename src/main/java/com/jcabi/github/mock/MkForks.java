@@ -127,6 +127,7 @@ final class MkForks implements Forks {
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")
+                .add("id").set(Integer.toString(number)).up()
             );
         } finally {
             this.storage.unlock();

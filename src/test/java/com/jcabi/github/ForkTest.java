@@ -62,13 +62,12 @@ public final class ForkTest {
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("organization", "OrganizationName")
-                .add("name", "ForkName")
                 .build()
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
-            smart.name(),
-            Matchers.notNullValue()
+            smart.organization(),
+            Matchers.equalTo("OrganizationName")
         );
     }
 

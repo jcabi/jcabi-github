@@ -59,6 +59,7 @@ public interface Fork extends JsonReadable {
          * Encapsulated fork.
          */
         private final transient Fork origin;
+
         /**
          * Public ctor.
          * @param fork Fork
@@ -66,14 +67,25 @@ public interface Fork extends JsonReadable {
         public Smart(final Fork fork) {
             this.origin = fork;
         }
+
         /**
-         * Returns the name of the Fork.
+         * Returns the id of the Fork.
+         * @return Fork's id
+         * @throws IOException If it fails
+         */
+        public String forkId() throws IOException {
+            return new SmartJson(this.origin).text("id");
+        }
+
+        /**
+         * Returns the name of the organization of the Fork.
          * @return Fork's organization's name
          * @throws IOException If it fails
          */
-        public String name() throws IOException {
-            return new SmartJson(this.origin).text("name");
+        public String organization() throws IOException {
+            return new SmartJson(this.origin).text("organization");
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.origin.json();
