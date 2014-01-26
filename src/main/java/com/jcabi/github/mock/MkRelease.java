@@ -37,6 +37,7 @@ import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github release.
@@ -104,4 +105,10 @@ public final class MkRelease implements Release {
         );
     }
 
+    @Override
+    public void delete() throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).strict(1).remove()
+        );
+    }
 }
