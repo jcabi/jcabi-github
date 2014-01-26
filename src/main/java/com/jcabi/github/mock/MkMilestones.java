@@ -29,26 +29,21 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Release;
+import com.jcabi.github.Milestone;
+import com.jcabi.github.Milestones;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.util.Map;
 import org.xembly.Directives;
 
 /**
- * Mock Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Mock Github milestones.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "coords", "release" })
-public final class MkRelease implements Release {
+public final class MkMilestones implements Milestones {
 
     /**
      * Storage.
@@ -56,59 +51,69 @@ public final class MkRelease implements Release {
     private final transient MkStorage storage;
 
     /**
-     * Repository coordinates.
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repo name.
      */
     private final transient Coordinates coords;
 
     /**
-     * Release id.
-     */
-    private final transient int release;
-
-    /**
-     * Public ctor.
+     * MkMilestones ctor.
      * @param stg Storage
-     * @param crds Repository coordinates
-     * @param nmbr Release id
+     * @param login User to login
+     * @param rep Repo
+     * @throws IOException - if any I/O problem occurs
      */
-    MkRelease(final MkStorage stg, final Coordinates crds, final int nmbr) {
+    MkMilestones(
+        final MkStorage stg, final String login, final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
-        this.coords = crds;
-        this.release = nmbr;
+        this.self = login;
+        this.coords = rep;
+        this.storage.apply(
+        new Directives().xpath(
+            String.format("/github/repos/repo[@coords='%s']", this.coords)
+        ).addIf("milestones")
+        );
     }
-
     @Override
-    public int number() {
-        return this.release;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
-    }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
-            this.coords, this.release
+    public Repo repo() {
+        throw new UnsupportedOperationException(
+            "Unsupported operation."
         );
     }
 
     @Override
-    public void delete() throws IOException {
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).strict(1).remove()
+    public Milestone create(final String title) throws IOException {
+        throw new UnsupportedOperationException(
+            "This method hasn't been implemented yet"
+        );
+    }
+
+    @Override
+    public Milestone get(final int number) {
+        assert this.self != null;
+        assert this.storage != null;
+        assert this.coords != null;
+        throw new UnsupportedOperationException(
+            "This method has not been implemented yet."
+        );
+    }
+
+    @Override
+    public Iterable<Milestone> iterate(final Map<String, String> params) {
+        throw new UnsupportedOperationException(
+            "This method hasn't been implemented yet."
+        );
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        throw new UnsupportedOperationException(
+            "This operation is not available yet."
         );
     }
 }

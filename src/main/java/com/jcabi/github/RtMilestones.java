@@ -133,7 +133,7 @@ public class RtMilestones implements Milestones {
         final Map<String, String> params) {
         return new RtPagination<Milestone>(
             this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<Milestone>() {
+            new RtPagination.Mapping<Milestone, JsonObject>() {
                 @Override
                 public Milestone map(final JsonObject object) {
                     return RtMilestones.this.get(object.getInt("number"));

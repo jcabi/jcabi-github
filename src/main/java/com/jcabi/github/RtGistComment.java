@@ -73,7 +73,7 @@ final class RtGistComment implements GistComment {
     RtGistComment(final Request req, final Gist gist, final int number) {
         this.request = req.uri()
             .path("/gists")
-            .path(new Gist.Smart(gist).name())
+            .path(new Gist.Smart(gist).identifier())
             .path("/comments")
             .path(Integer.toString(number))
             .back();

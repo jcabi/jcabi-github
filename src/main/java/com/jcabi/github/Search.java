@@ -81,7 +81,7 @@ public interface Search {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-issues">Search issues</a>
      */
-    @NotNull(message = "Iterable of repos is never NULL")
+    @NotNull(message = "Iterable of issues is never NULL")
     Iterable<Issue> issues(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
@@ -96,9 +96,9 @@ public interface Search {
      * @param order The sort order
      * @return Users
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/search/#search-users">Search repositories</a>
+     * @see <a href="http://developer.github.com/v3/search/#search-users">Search users</a>
      */
-    @NotNull(message = "Iterable of repos is never NULL")
+    @NotNull(message = "Iterable of users is never NULL")
     Iterable<User> users(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,

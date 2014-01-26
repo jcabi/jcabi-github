@@ -29,50 +29,58 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtHook}.
+ * Test case for {@link RtOrganizations}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtHookTest {
+public final class RtOrganizationsTest {
 
     /**
-     * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
+     * RtOrganizations should be able to iterate its organizations.
      *
-     * @throws Exception If a problem occurs.
+     * @throws Exception If a problem occurs
+     * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
-    public void performsValidRequest() throws Exception {
+    public void retrievesOrganizations() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                "{\"test\":\"hook\"}"
+                Json.createArrayBuilder()
+                    .add(org(1, "org1"))
+                    .add(org(2, "org2"))
+                    .add(org(3, "org3"))
+                    .build().toString()
             )
         ).start();
         try {
-            final Hook hook = new RtHook(
+            final RtOrganizations orgs = new RtOrganizations(
+                new MkGithub(),
                 new ApacheRequest(container.home()),
-                repo(),
-                1
+                Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
-                hook.json(),
-                Matchers.notNullValue()
+                orgs.iterate(),
+                Matchers.<Organization>iterableWithSize(3)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith("/repos/test/repo/hooks/1")
+                Matchers.endsWith("/user/orgs")
             );
         } finally {
             container.stop();
@@ -80,14 +88,40 @@ public final class RtHookTest {
     }
 
     /**
-     * Create and return repo for testing.
-     * @return Repo
+     * RtOrganizations should be able to get a single organization.
+     *
+     * @throws Exception if a problem occurs
      */
-    private static Repo repo() {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "repo"))
-            .when(repo).coordinates();
-        return repo;
+    @Test
+    public void fetchesSingleOrganization() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+        ).start();
+        try {
+            final RtOrganizations orgs = new RtOrganizations(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
+            MatcherAssert.assertThat(
+                orgs.get("org"),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
+    /**
+     * Create and return organization to test.
+     * @param number Organization ID
+     * @param login Organization login name.
+     * @return JsonObject
+     */
+    private static JsonObject org(final int number, final String login) {
+        return Json.createObjectBuilder()
+            .add("id", number)
+            .add("login", login)
+            .build();
+    }
 }
