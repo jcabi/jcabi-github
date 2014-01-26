@@ -115,7 +115,7 @@ final class RtUser implements User {
 
     @Override
     public Organizations organizations() {
-        return null;
+        return new RtOrganizations(this.ghub, this.ghub.entry(), this);
     }
 
     @Override
