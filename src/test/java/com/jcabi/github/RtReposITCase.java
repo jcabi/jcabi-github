@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -55,11 +56,19 @@ public class RtReposITCase {
      */
     @Test
     public final void create() throws Exception {
-        final String name = "test-repo";
+        final String name = RandomStringUtils.randomNumeric(5);
         final Github github = RtReposITCase.github();
         final Repos repos = github.repos();
-        final Repo repo = repos.create(request(name));
-        MatcherAssert.assertThat(repo, Matchers.notNullValue());
+        try {
+            final Repo repo = repos.create(request(name));
+            MatcherAssert.assertThat(repo, Matchers.notNullValue());
+        } finally {
+            final String repositoryOwner = github.users().self().login();
+            final Coordinates.Simple coordinates = new Coordinates.Simple(
+                repositoryOwner, name
+            );
+            repos.remove(coordinates);
+        }
     }
 
     /**
