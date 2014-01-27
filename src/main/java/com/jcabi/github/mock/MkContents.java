@@ -90,4 +90,9 @@ public final class MkContents implements Contents {
     public Content readme() {
         return new MkContent();
     }
+
+    @Override
+    public Content readme(final String branch) {
+        return new MkContent();
+    }
 }

@@ -44,7 +44,7 @@ import lombok.ToString;
  * @version $Id$
  * @todo #166 Content mock should be implemented.
  *  Need to implement the methods of MkContent: 1) compareTo,
- *  2) json, 3) patch
+ *  2) json, 3) patch, 4) contentPath, 5) ref
  *  Don't forget to update the unit test class {@link MkContent}.
  *  See http://developer.github.com/v3/repos/contents
  * @since 0.8
@@ -69,5 +69,15 @@ final class MkContent implements Content {
     @Override
     public JsonObject json() throws IOException {
         throw new UnsupportedOperationException("MkContent#json()");
+    }
+
+    @Override
+    public String contentPath() {
+        throw new UnsupportedOperationException("MkContent#contentPath()");
+    }
+
+    @Override
+    public String ref() {
+        throw new UnsupportedOperationException("MkContent#ref()");
     }
 }

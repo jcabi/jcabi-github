@@ -37,17 +37,21 @@ import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github event.
+ * Github release.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @version $Id$
- * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-final class RtEvent implements Event {
+@EqualsAndHashCode(of = { "request" })
+public class RtReadme implements Content {
+
+    /**
+     * Content path URL part.
+     */
+    private static final String README = "readme";
 
     /**
      * RESTful request.
@@ -55,58 +59,56 @@ final class RtEvent implements Event {
     private final transient Request request;
 
     /**
-     * Repository we're in.
+     * The name of the commit/branch/tag for the content.
      */
-    private final transient Repo owner;
+    private final transient String refname;
 
     /**
-     * Event number.
-     */
-    private final transient int num;
-
-    /**
-     * Public ctor.
+     * Public CTOR for README content.
      * @param req Request
-     * @param repo Repository
-     * @param number Number of the get
+     * @param ref The name of the commit/branch/tag.
      */
-    RtEvent(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/events")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+    RtReadme(final Request req, final String ref) {
+        if (ref == null) {
+            this.request = req.uri().path(README).back();
+        } else {
+            this.request = req.uri().path(README).queryParam("ref", ref)
+                .back();
+        }
+        this.refname = ref;
+    }
+
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     */
+    RtReadme(final Request req) {
+        this(req, null);
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public final int compareTo(final Content content) {
+        return this.contentPath().compareTo(content.contentPath());
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.num;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
+    public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public int compareTo(final Event event) {
-        return this.number() - event.number();
+    public final void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public final String contentPath() {
+        return "README.md";
+    }
+
+    @Override
+    public final String ref() {
+        return this.refname;
     }
 
 }
