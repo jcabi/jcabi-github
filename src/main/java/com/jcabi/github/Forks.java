@@ -53,7 +53,7 @@ public interface Forks {
      *
      * @param sort The sort order.
      * @return All forks
-     * @see @see <a href="http://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
+     * @see <a href="http://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
      */
     @NotNull(message = "Iterable of forks is never NULL")
     Iterable<Fork> iterate(@NotNull(message = "Sort order can't be NULL")
@@ -64,7 +64,7 @@ public interface Forks {
      *
      * @param organization The organization the repository will be forked into.
      * @return The new fork
-     * @see @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">List forks</a>
+     * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
      */
     Fork create(@NotNull(message = "organization can't be NULL")
         String organization);

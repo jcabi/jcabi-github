@@ -30,6 +30,15 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
+import java.util.Date;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github release.
@@ -40,7 +49,8 @@ import com.jcabi.aspects.Immutable;
  * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  */
 @Immutable
-public interface Release extends JsonReadable {
+@SuppressWarnings("PMD.TooManyMethods")
+public interface Release extends JsonReadable, JsonPatchable {
 
     /**
      * Release id.
@@ -48,4 +58,180 @@ public interface Release extends JsonReadable {
      */
     int number();
 
+    /**
+     * Deletes a release.
+     * @throws IOException If any I/O problems occur.
+     */
+    void delete() throws IOException;
+
+    /**
+     * Smart release.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "release")
+    final class Smart implements Release {
+
+        /**
+         * Encapsulated release.
+         */
+        private final transient Release release;
+
+        /**
+         * Public CTOR.
+         * @param original Original release
+         */
+        public Smart(final Release original) {
+            this.release = original;
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.release.json();
+        }
+
+        @Override
+        public void patch(final JsonObject json) throws IOException {
+            this.release.patch(json);
+        }
+
+        @Override
+        public int number() {
+            return this.release.number();
+        }
+
+        /**
+         * Get release url.
+         * @return Release url
+         * @throws IOException If there is any I/O problem
+         */
+        public URL url() throws IOException {
+            return new URL(new SmartJson(this).text("url"));
+        }
+
+        /**
+         * Get release html url.
+         * @return Release html url
+         * @throws IOException If there is any I/O problem
+         */
+        public URL htmlUrl() throws IOException {
+            return new URL(new SmartJson(this).text("html_url"));
+        }
+
+        /**
+         * Get release assets url.
+         * @return Release assets url
+         * @throws IOException If there is any I/O problem
+         */
+        public URL assetsUrl() throws IOException {
+            return new URL(new SmartJson(this).text("assets_url"));
+        }
+
+        /**
+         * Get release upload url.
+         * @return Release upload url
+         * @throws IOException If there is any I/O problem
+         */
+        public URL uploadUrl() throws IOException {
+            return new URL(new SmartJson(this).text("upload_url"));
+        }
+
+        /**
+         * Get release tag name.
+         * @return The release tag name
+         * @throws IOException If there is any I/O problem
+         */
+        public String tag() throws IOException {
+            return new SmartJson(this).text("tag_name");
+        }
+
+        /**
+         * Get release target commitish.
+         * @return Release target commitish value
+         * @throws IOException If there is any I/O problem
+         */
+        public String commitish() throws IOException {
+            return new SmartJson(this).text("target_commitish");
+        }
+
+        /**
+         * Get release name.
+         * @return Release name
+         * @throws IOException If there is any I/O problem
+         */
+        public String name() throws IOException {
+            return new SmartJson(this).text("name");
+        }
+
+        /**
+         * Get release body.
+         * @return Release body
+         * @throws IOException If there is any I/O problem
+         */
+        public String body() throws IOException {
+            return new SmartJson(this).text("body");
+        }
+
+        /**
+         * Get release creation date.
+         * @return Release creation date
+         * @throws IOException If there is any I/O problem
+         */
+        public Date createdAt() throws IOException {
+            try {
+                return new Github.Time(new SmartJson(this).text("created_at"))
+                    .date();
+            } catch (ParseException ex) {
+                throw new IOException(ex);
+            }
+        }
+
+        /**
+         * Get release publication date.
+         * @return Release publication date
+         * @throws IOException If there is any I/O problem
+         */
+        public Date publishedAt() throws IOException {
+            try {
+                return new Github.Time(new SmartJson(this).text("published_at"))
+                    .date();
+            } catch (ParseException ex) {
+                throw new IOException(ex);
+            }
+        }
+
+        /**
+         * Is release draft.
+         * @return Returns true if it's draft
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean draft() throws IOException {
+            return booleanValue("draft");
+        }
+
+        /**
+         * Is it prerelease.
+         * @return Returns true if it's prerelease
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean prerelease() throws IOException {
+            return booleanValue("prerelease");
+        }
+
+        /**
+         * Get a property as boolean.
+         * @param name Parameter name
+         * @return Returns boolean property value
+         * @throws IOException If there is any I/O problem
+         */
+        private boolean booleanValue(final String name) throws IOException {
+            return JsonValue.TRUE.equals(this.json().get(name));
+        }
+
+        @Override
+        public void delete() throws IOException {
+            this.release.delete();
+        }
+    }
 }

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -47,13 +48,26 @@ public final class RtGistITCase {
      */
     @Test
     public void readsAndWritesGists() throws Exception {
-        final Gist gist = RtGistITCase.gist();
-        final String file = new Gist.Smart(gist).files().iterator().next();
-        gist.write(file, "hey, works for you this way?");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hey, works for ")
-        );
+        final String filename = "filename.txt";
+        final String content = "content of file";
+        final Gists gists = RtGistITCase.github().gists();
+        Gist.Smart smart = null;
+        try {
+            final Gist gist = gists.create(
+                Collections.singletonMap(filename, content)
+            );
+            smart = new Gist.Smart(gist);
+            final String file = smart.files().iterator().next();
+            gist.write(file, "hey, works for you this way?");
+            MatcherAssert.assertThat(
+                gist.read(file),
+                Matchers.startsWith("hey, works for ")
+            );
+        } finally {
+            if (smart != null) {
+                gists.remove(smart.identifier());
+            }
+        }
     }
 
     /**
@@ -75,14 +89,13 @@ public final class RtGistITCase {
     }
 
     /**
-     * Return gist to test.
+     * Return github to test.
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Gist gist() throws Exception {
+    private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).gists().iterate().iterator().next();
+        return new RtGithub(key);
     }
-
 }

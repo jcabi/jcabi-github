@@ -37,6 +37,7 @@ import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github release.
@@ -88,6 +89,11 @@ public final class MkRelease implements Release {
         ).json();
     }
 
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
@@ -99,4 +105,10 @@ public final class MkRelease implements Release {
         );
     }
 
+    @Override
+    public void delete() throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).strict(1).remove()
+        );
+    }
 }

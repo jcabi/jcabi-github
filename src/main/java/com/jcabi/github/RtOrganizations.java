@@ -31,33 +31,80 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2 Default implementation for user's Organizations.
- *  Provide default implementation for user's organizations.
- *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "entry", "ghub", "request", "owner" })
 final class RtOrganizations implements Organizations {
 
-    @Override
-    public User user() {
-        return null;
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * User we're in.
+     */
+    private final transient User owner;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     * @param user User
+     */
+    RtOrganizations(final Github github, final Request req, final User user) {
+        this.entry = req;
+        this.ghub = github;
+        this.owner = user;
+        this.request = this.entry.uri().path("/user").path("/orgs").back();
     }
 
     @Override
-    public Organization get(final int orgid) {
-        return null;
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public User user() {
+        return this.owner;
+    }
+
+    @Override
+    public Organization get(final String login) {
+        return new RtOrganization(this.ghub, this.entry, login);
     }
 
     @Override
     public Iterable<Organization> iterate() {
-        return null;
+        return new RtPagination<Organization>(
+            this.request,
+            new RtPagination.Mapping<Organization, JsonObject>() {
+                @Override
+                public Organization map(final JsonObject object) {
+                    return RtOrganizations.this.get(object.getString("login"));
+                }
+            }
+        );
     }
 }

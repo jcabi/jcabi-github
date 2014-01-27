@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.DeployKey;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Repo;
 import javax.json.Json;
@@ -54,6 +55,28 @@ public final class MkDeployKeysTest {
             deployKeys.iterate(),
             Matchers.emptyIterable()
         );
+    }
+
+    /**
+     * MkDeployKeys can fetch a single deploy key.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canFetchSingleDeployKey() throws Exception {
+        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKey key = keys.create("Title", "Key");
+        MatcherAssert.assertThat(keys.get(key.number()), Matchers.equalTo(key));
+    }
+
+    /**
+     * MkDeployKeys can create a deploy key.
+     * @throws Exception If some problem inside.
+     */
+    @Test
+    public void canCreateDeployKey() throws Exception {
+        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKey key = keys.create("Title1", "Key1");
+        MatcherAssert.assertThat(key, Matchers.equalTo(keys.get(key.number())));
     }
 
     /**

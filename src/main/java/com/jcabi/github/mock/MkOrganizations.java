@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
 import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
@@ -50,6 +51,8 @@ import org.xembly.Directives;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCoupling (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -88,35 +91,45 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
+    }
+
+    @Override
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
 
     @Override
-    public Organization get(final int orgid) {
+    public Organization get(final String login) {
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath())
                     .add("org")
                     .add("id")
-                    .set(Integer.toString(orgid))
+                    .set(Integer.toString(RAND.nextInt()))
             );
-        } catch (IOException ex) {
+            this.storage.apply(
+                new Directives().xpath(
+                    String.format("/github/orgs[not(org[login='%s'])]", login)
+                ).add("org").add("login").set(login)
+            );
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
         // @checkstyle AnonInnerLength (50 lines)
         return new Organization() {
             @Override
-            public User user() {
-                return MkOrganizations.this.user();
+            public Github github() {
+                return new MkGithub(MkOrganizations.this.storage, login);
             }
             @Override
-            public int orgId() {
-                return orgid;
+            public String login() {
+                return login;
             }
             @Override
             public JsonObject json() {
@@ -137,7 +150,7 @@ final class MkOrganizations implements Organizations {
             }
             @Override
             public int compareTo(final Organization obj) {
-                return this.orgId() - obj.orgId();
+                return this.login().compareTo(obj.login());
             }
             @Override
             public void patch(final JsonObject json) throws IOException {
@@ -156,7 +169,7 @@ final class MkOrganizations implements Organizations {
                 @Override
                 public Organization map(final XML xml) {
                     return MkOrganizations.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                        xml.xpath("login/text()").get(0)
                     );
                 }
             }

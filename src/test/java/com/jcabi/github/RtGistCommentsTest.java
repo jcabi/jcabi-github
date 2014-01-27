@@ -63,7 +63,7 @@ public final class RtGistCommentsTest {
             )
         ).start();
         final Gist gist = Mockito.mock(Gist.class);
-        Mockito.doReturn("1").when(gist).name();
+        Mockito.doReturn("1").when(gist).identifier();
         final RtGistComments comments = new RtGistComments(
             new JdkRequest(container.home()),
             gist
@@ -92,7 +92,7 @@ public final class RtGistCommentsTest {
             )
         ).start();
         final Gist gist = Mockito.mock(Gist.class);
-        Mockito.doReturn("2").when(gist).name();
+        Mockito.doReturn("2").when(gist).identifier();
         final RtGistComments comments = new RtGistComments(
             new JdkRequest(container.home()),
             gist
@@ -122,7 +122,7 @@ public final class RtGistCommentsTest {
             )
         ).next(answer).start();
         final Gist gist = Mockito.mock(Gist.class);
-        Mockito.doReturn("3").when(gist).name();
+        Mockito.doReturn("3").when(gist).identifier();
         final RtGistComments comments = new RtGistComments(
             new JdkRequest(container.home()),
             gist
