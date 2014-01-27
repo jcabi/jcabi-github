@@ -54,19 +54,13 @@ import org.junit.Test;
 public final class RtCommentTest {
 
     /**
-     * String constant to avoid PMD multiple strig literals check.
-     */
-    private static final String NAME = "name";
-    /**
      * RtComment should be able to compare different instances.
      * @throws Exception when a problem occurs.
      */
     @Test
     public void canCompareInstances() throws Exception {
-        final Issue issue = new MkGithub().repos().create(
-            Json.createObjectBuilder()
-                .add("name", "test1").build()
-        ).issues().create("title", "body");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("title", "body");
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
         final RtComment greater = new RtComment(new FakeRequest(), issue, 2);
         MatcherAssert.assertThat(
@@ -83,9 +77,8 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsIssue() throws Exception {
-        final Issue issue = new MkGithub().repos().create(
-            Json.createObjectBuilder().add(NAME, "test2").build()
-        ).issues().create("testing1", "issue1");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
         MatcherAssert.assertThat(comment.issue(), Matchers.is(issue));
     }
@@ -96,9 +89,8 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsNumber() throws Exception {
-        final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder().add(NAME, "test3").build())
-            .issues().create("testing2", "issue2");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("testing2", "issue2");
         final int num = 10;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
         MatcherAssert.assertThat(comment.number(), Matchers.is(num));
@@ -113,9 +105,8 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
         ).start();
-        final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder().add(NAME, "test4").build())
-            .issues().create("testing3", "issue3");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("testing3", "issue3");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
         );
@@ -137,20 +128,19 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsJSon() throws Exception {
-        final String body = "{\"name\":\"test5\"}";
+        final String body = "{\"body\":\"test5\"}";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
         ).start();
-        final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder().add(NAME, "test5").build())
-            .issues().create("testing4", "issue4");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("testing4", "issue4");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
         );
         try {
             final JsonObject json = comment.json();
             MatcherAssert.assertThat(
-                json.getString(NAME),
+                json.getString("body"),
                 Matchers.is("test5")
             );
         } finally {
@@ -167,9 +157,8 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
-        final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder().add(NAME, "test6").build())
-            .issues().create("testing5", "issue5");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("testing5", "issue5");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
         );
@@ -195,9 +184,8 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
-        final Issue issue = new MkGithub().repos()
-            .create(Json.createObjectBuilder().add(NAME, "test7").build())
-            .issues().create("testing6", "issue6");
+        final Repo repo = repo();
+        final Issue issue = repo.issues().create("testing6", "issue6");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
         );
@@ -210,5 +198,16 @@ public final class RtCommentTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * This method returns a Repo for testing.
+     * @return Repo - a repo to be used for test.
+     * @throws Exception - if anything goes wrong.
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 }
