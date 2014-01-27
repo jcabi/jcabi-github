@@ -98,7 +98,7 @@ public final class RtContents implements Contents {
     public Content create(
         @NotNull(message = "path can't be NULL") final String path,
         @NotNull(message = "message can't be NULL") final String message,
-        @NotNull(message = "content  can't be NULL") final String content)
+        @NotNull(message = "content can't be NULL") final String content)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("message", message)
