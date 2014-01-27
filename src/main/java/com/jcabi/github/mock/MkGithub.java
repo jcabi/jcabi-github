@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
+import com.jcabi.github.Gitignores;
 import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
 import com.jcabi.github.Repos;
@@ -62,7 +63,6 @@ import lombok.EqualsAndHashCode;
  * on JVM exit:
  *
  * <pre> Github github = new MkGithub("jeff");</pre>
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
@@ -168,6 +168,11 @@ public final class MkGithub implements Github {
     }
 
     @Override
+    public Gitignores gitignores() throws IOException {
+        throw new UnsupportedOperationException("MkGithub#gitignores()");
+    }
+
+    @Override
     public JsonObject emojis() {
         return Json.createObjectBuilder()
             .add("+1", "http://locahost/up")
@@ -194,7 +199,7 @@ public final class MkGithub implements Github {
      * @throws IOException If there is any I/O problem
      */
     public Github relogin(@NotNull(message = "login is never NULL")
-        final String login) throws IOException {
+    final String login) throws IOException {
         return new MkGithub(this.storage, login);
     }
 }

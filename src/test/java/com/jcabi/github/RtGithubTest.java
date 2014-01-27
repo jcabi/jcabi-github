@@ -130,4 +130,17 @@ public final class RtGithubTest {
         );
     }
 
+    /**
+     * RtGithub can retrieve the gitignores.
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void retrievesGitignores() throws Exception {
+        final RtGithub github = new RtGithub(new FakeRequest());
+        MatcherAssert.assertThat(
+            github.gitignores(),
+            Matchers.notNullValue()
+        );
+    }
+
 }
