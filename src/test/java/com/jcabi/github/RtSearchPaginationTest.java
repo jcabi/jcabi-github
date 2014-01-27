@@ -29,57 +29,47 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import com.rexsl.test.request.FakeRequest;
+import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Repo API.
+ * Test case for {@link RtSearchPagination}.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.5
- * @see <a href="http://developer.github.com/v3/repos/">Repos API</a>
  */
-@Immutable
-public interface Repos {
+public final class RtSearchPaginationTest {
 
     /**
-     * Get its owner.
-     * @return Github
+     * RtSearchPagination can iterate through items.
      */
-    @NotNull(message = "github is never NULL")
-    Github github();
+    @Test
+    public void iteratesItems() {
+        final String key = "key";
+        final String value = "value";
+        final Iterable<String> pagination = new RtSearchPagination<String>(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder().add(
+                    "items", Json.createArrayBuilder().add(
+                        Json.createObjectBuilder().add(key, value)
+                    )
+                ).build().toString()
+            ),
+            "/search/path", "keywords", "sort", "order",
+            new RtPagination.Mapping<String, JsonObject>() {
+                @Override
+                public String map(final JsonObject object) {
+                    return object.getString(key);
+                }
+            }
+        );
+        MatcherAssert.assertThat(
+            pagination.iterator().next(), Matchers.equalTo(value)
+        );
+    }
 
-    /**
-     * Create repository.
-     * @param json Repository creation JSON
-     * @return Repository
-     * @throws IOException If there is any I/O problem
-     * @since 0.5
-     * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo create(@NotNull(message = "JSON can't be NULL") JsonObject json)
-        throws IOException;
-
-    /**
-     * Get repository by name.
-     * @param coords Repository name in "user/repo" format
-     * @return Repository
-     * @see <a href="http://developer.github.com/v3/repos/#get">Get Repository</a>
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo get(@NotNull(message = "coordinates can't be NULL")
-        Coordinates coords);
-
-    /**
-     * Remove repository by name.
-     * @param coords Repository name in "user/repo" format
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/#delete-a-repository">Delete a Repository</a>
-     */
-    void remove(@NotNull(message = "coordinates can't be NULL")
-        Coordinates coords) throws IOException;
 }

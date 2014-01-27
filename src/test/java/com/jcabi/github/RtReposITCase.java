@@ -29,57 +29,67 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
- * Github Repo API.
+ * Integration case for {@link RtRepos}.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.5
- * @see <a href="http://developer.github.com/v3/repos/">Repos API</a>
  */
-@Immutable
-public interface Repos {
+public class RtReposITCase {
+    /**
+     * The key for name in JSON.
+     */
+    private static final String NAME_KEY = "name";
 
     /**
-     * Get its owner.
-     * @return Github
+     * RtRepos create repository test.
+     *
+     * @throws Exception If some problem inside
      */
-    @NotNull(message = "github is never NULL")
-    Github github();
+    @Test
+    public final void create() throws Exception {
+        final String name = RandomStringUtils.randomNumeric(5);
+        final Repos repos = RtReposITCase.github().repos();
+        try {
+            MatcherAssert.assertThat(
+                repos.create(request(name)), Matchers.notNullValue()
+            );
+        } finally {
+            final Coordinates.Simple coordinates = new Coordinates.Simple(
+                RtReposITCase.github().users().self().login(), name
+            );
+            repos.remove(coordinates);
+        }
+    }
 
     /**
-     * Create repository.
-     * @param json Repository creation JSON
-     * @return Repository
-     * @throws IOException If there is any I/O problem
-     * @since 0.5
-     * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
+     * Create and return JsonObject to test request.
+     *
+     * @param name Repo name
+     * @return JsonObject
+     * @throws Exception If some problem inside
      */
-    @NotNull(message = "repository is never NULL")
-    Repo create(@NotNull(message = "JSON can't be NULL") JsonObject json)
-        throws IOException;
+    private static JsonObject request(final String name) throws Exception {
+        return Json.createObjectBuilder().add(NAME_KEY, name).build();
+    }
 
     /**
-     * Get repository by name.
-     * @param coords Repository name in "user/repo" format
-     * @return Repository
-     * @see <a href="http://developer.github.com/v3/repos/#get">Get Repository</a>
+     * Create and return repo to test.
+     *
+     * @return Repo
+     * @throws Exception If some problem inside
      */
-    @NotNull(message = "repository is never NULL")
-    Repo get(@NotNull(message = "coordinates can't be NULL")
-        Coordinates coords);
-
-    /**
-     * Remove repository by name.
-     * @param coords Repository name in "user/repo" format
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/#delete-a-repository">Delete a Repository</a>
-     */
-    void remove(@NotNull(message = "coordinates can't be NULL")
-        Coordinates coords) throws IOException;
+    private static Github github() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key);
+    }
 }
