@@ -47,7 +47,7 @@ import lombok.EqualsAndHashCode;
 final class RtRepoCommits implements RepoCommits {
 
     /**
-     * RESTful request for thTe commits.
+     * RESTful request for the commits.
      */
     private final transient Request request;
 
