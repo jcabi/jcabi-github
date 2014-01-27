@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import javax.swing.text.AbstractDocument.BranchElement;
 import lombok.EqualsAndHashCode;
 
 /**
