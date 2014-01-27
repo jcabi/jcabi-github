@@ -36,7 +36,6 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -93,9 +92,7 @@ public final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Content is never NULL")
-    public Content readme(String branch)
-    {
+    public Content readme(final String branch) {
         return new MkContent();
     }
 }

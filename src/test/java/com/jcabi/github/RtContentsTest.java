@@ -62,7 +62,8 @@ public final class RtContentsTest {
     @Test
     public void canFetchReadmeFile() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+                "{\"path\": \"README.md\"}")
         ).start();
         final Contents contents = new RtContents(new FakeRequest(),
             RtContentsTest.repo());
@@ -80,7 +81,8 @@ public final class RtContentsTest {
     @Test
     public void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+                "{\"name\": \"README.md\"}")
         ).start();
         final Contents contents = new RtContents(new FakeRequest(),
             RtContentsTest.repo());
@@ -89,7 +91,6 @@ public final class RtContentsTest {
             Matchers.notNullValue()
         );
         container.stop();
-
     }
 
     /**
