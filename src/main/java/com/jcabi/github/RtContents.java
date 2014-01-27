@@ -79,4 +79,9 @@ public final class RtContents implements Contents {
         return new RtReadme(this.request);
     }
 
+    @Override
+    public Content readme(final String branch) {
+        return new RtReadme(this.request, branch);
+    }
+
 }
