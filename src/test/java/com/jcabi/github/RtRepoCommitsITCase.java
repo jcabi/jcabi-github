@@ -95,7 +95,6 @@ public class RtRepoCommitsITCase {
         final Commit commit = repoCommits.get(sha);
 
         MatcherAssert.assertThat(commit.json()
-            //.getJsonObject("commit")
             .getJsonObject("author")
             .get("name")
             .toString(),
