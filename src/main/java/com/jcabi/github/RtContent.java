@@ -27,61 +27,78 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Content;
-import com.jcabi.github.Repo;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-import lombok.ToString;
 
 /**
- * Mock Github content.
+ * Github content.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #166 Content mock should be implemented.
- *  Need to implement the methods of MkContent: 1) compareTo,
- *  2) json, 3) patch
- *  Don't forget to update the unit test class {@link MkContent}.
- *  See http://developer.github.com/v3/repos/contents
- * @todo #314:30m MkContent should be able to return its own repository when
- *  the repo() method is invoked, and its own path when the path() method
- *  is invoked. Don't forget to implement unit tests.
- * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-final class MkContent implements Content {
+public final class RtContent implements Content {
 
-    @Override
-    public int compareTo(final Content cont) {
-        throw new UnsupportedOperationException("MkContent#compareTo()");
-    }
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
 
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        throw new UnsupportedOperationException("MkContent#patch()");
-    }
+    /**
+     * Repository we're in.
+     */
+    private final transient Repo owner;
 
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkContent#json()");
+    /**
+     * Path of this Content.
+     */
+    private final transient String location;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     * @param repo Repository
+     * @param path Path of the content
+     */
+    RtContent(final Request req, final Repo repo, final String path) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/contents")
+            .path(path)
+            .back();
+        this.owner = repo;
+        this.location = path;
     }
 
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException("MkContent#repo()");
+        return this.owner;
     }
 
     @Override
     public String path() {
-        throw new UnsupportedOperationException("MkContent#path()");
+        return this.location;
+    }
+
+    @Override
+    public int compareTo(final Content other) {
+        return this.path().compareTo(other.path());
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(@NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
 }

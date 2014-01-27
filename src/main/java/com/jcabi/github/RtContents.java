@@ -43,8 +43,14 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner" })
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
 public final class RtContents implements Contents {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
     /**
      * Repository.
      */
@@ -61,6 +67,7 @@ public final class RtContents implements Contents {
      * @param repo Repository
      */
     public RtContents(final Request req, final Repo repo) {
+        this.entry = req;
         this.owner = repo;
         this.request = req.uri()
             .path("/repos")
