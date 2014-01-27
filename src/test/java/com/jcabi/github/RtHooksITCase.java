@@ -54,22 +54,30 @@ public final class RtHooksITCase {
     @Test
     public void canFetchAllHooks() throws Exception {
         final Hooks hooks = repo().hooks();
-        int number = 0;
+        int number = -1;
         try {
             if (!hooks.iterate().iterator().hasNext()) {
-                final Hook hook = hooks.create(
+                final Hook created = hooks.create(
                     "geocommit",
                     Collections.singletonMap("active", "true")
                 );
-                number = hook.number();
+                number = created.number();
             }
+            boolean found = false;
+            for (Hook hook : hooks.iterate()) {
+                found = hook.number() == number;
+                if (found) {
+                    break;
+                }
+            }
+            MatcherAssert.assertThat(
+                found,
+                Matchers.is(true)
+            );
         } finally {
             if (number != 0) {
                 hooks.remove(number);
             }
-        }
-        for (Hook hook : hooks.iterate()) {
-            hook.json();
         }
     }
 
