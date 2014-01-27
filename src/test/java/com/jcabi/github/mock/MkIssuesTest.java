@@ -43,6 +43,7 @@ import org.junit.Test;
  * Test case for {@link MkIssues}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkIssuesTest {
 
@@ -76,20 +77,20 @@ public final class MkIssuesTest {
         );
     }
 
-	/**
-	 * MkIssues can create a multiple issues.
-	 * @throws Exception If some problem inside
-	 */
-	@Test
-	public void createsMultipleIssues() throws Exception {
-		final Github github = new MkGithub("jeff");
-		final Repo repo = github.repos().create(
-				Json.createObjectBuilder().add("name", "test-3").build()
-		);
-		for (int idx = 1; idx < Tv.TEN; ++idx) {
-			repo.issues().create("title", "body");
-		}
-	}
+    /**
+     * MkIssues can create a multiple issues.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsMultipleIssues() throws Exception {
+        final Github github = new MkGithub("jeff");
+        final Repo repo = github.repos().create(
+            Json.createObjectBuilder().add("name", "test-3").build()
+        );
+        for (int idx = 1; idx < Tv.TEN; ++idx) {
+            repo.issues().create("title", "body");
+        }
+    }
 
     /**
      * Create an repo to work with.
