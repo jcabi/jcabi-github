@@ -102,7 +102,7 @@ public final class RtGistITCase {
     /**
      * Return github to test. Property "failsafe.github.key" is used
      * for authentication.
-     * @return Repo
+     * @return Github
      * @throws Exception If some problem inside
      */
     private static Github github() throws Exception {
@@ -112,7 +112,7 @@ public final class RtGistITCase {
     /**
      * Return github to test.
      * @param property Name of a property with github key
-     * @return Repo
+     * @return Github
      * @throws Exception If some problem inside
      */
     private static Github github(final String property) throws Exception {
