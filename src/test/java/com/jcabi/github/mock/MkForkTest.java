@@ -34,7 +34,7 @@ package com.jcabi.github.mock;
  *
  * @author Tomas Colombo (tomas.colombo@rollasolution.com)
  * @version $Id$
- * @since 0.5
+ * @since 0.8
  */
 public class MkForkTest {
 }
