@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -58,5 +59,21 @@ public interface Contents {
      */
     @NotNull(message = "Content is never NULL")
     Content readme();
+
+    /**
+     * Create new file.
+     * @param path The content path
+     * @param message The commit message
+     * @param content File content, Base64 encoded
+     * @return Issue just created
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
+     */
+    @NotNull(message = "issue is never NULL")
+    Content create(
+        @NotNull(message = "path is never NULL") String path,
+        @NotNull(message = "message is never NULL") String message,
+        @NotNull(message = "content is never NULL") String content)
+        throws IOException;
 
 }

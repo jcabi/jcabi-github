@@ -34,6 +34,7 @@ import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,21 @@ public final class MkContentsTest {
             contents.readme(),
             Matchers.notNullValue()
         );
+    }
+
+    /**
+     * MkContents should be able to create new files.
+     *
+     * @throws Exception if some problem inside
+     * @todo #314 MkContents should support the creation of mock contents.
+     *  This method should create a new instance of MkContent. Do not
+     *  forget to implement a unit test for it here and remove the Ignore
+     *  annotation.
+     */
+    @Test
+    @Ignore
+    public void canCreateFile() throws Exception {
+        //To be implemented.
     }
 
     /**

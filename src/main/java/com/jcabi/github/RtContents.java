@@ -32,6 +32,13 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonStructure;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -85,6 +92,28 @@ public final class RtContents implements Contents {
     @Override
     public Content readme() {
         throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
+    public Content create(
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "message can't be NULL") final String message,
+        @NotNull(message = "content  can't be NULL") final String content)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("message", message)
+            // @checkstyle MultipleStringLiterals (1 line)
+            .add("content", content)
+            .build();
+        return new RtContent(this.entry, this.owner,
+            this.request.method(Request.PUT)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getJsonObject("content").getString("path")
+        );
     }
 
 }

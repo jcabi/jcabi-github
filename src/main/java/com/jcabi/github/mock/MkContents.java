@@ -90,4 +90,10 @@ public final class MkContents implements Contents {
     public Content readme() {
         return new MkContent();
     }
+
+    @Override
+    public Content create(final String path, final String message,
+        final String content) throws IOException {
+        throw new UnsupportedOperationException("Create not yet implemented.");
+    }
 }
