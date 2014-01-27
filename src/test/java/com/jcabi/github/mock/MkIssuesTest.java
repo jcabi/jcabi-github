@@ -29,6 +29,8 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Tv;
+import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.immutable.ArrayMap;
@@ -73,6 +75,21 @@ public final class MkIssuesTest {
             Matchers.equalTo(repo.github().users().self().login())
         );
     }
+
+	/**
+	 * MkIssues can create a multiple issues.
+	 * @throws Exception If some problem inside
+	 */
+	@Test
+	public void createsMultipleIssues() throws Exception {
+		final Github github = new MkGithub("jeff");
+		final Repo repo = github.repos().create(
+				Json.createObjectBuilder().add("name", "test-3").build()
+		);
+		for (int idx = 1; idx < Tv.TEN; ++idx) {
+			repo.issues().create("title", "body");
+		}
+	}
 
     /**
      * Create an repo to work with.
