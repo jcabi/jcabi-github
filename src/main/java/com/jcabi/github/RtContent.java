@@ -32,19 +32,26 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github contents.
+ * Github release.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" , "request" })
-public final class RtContents implements Contents {
+@EqualsAndHashCode(of = { "request" })
+public class RtContent implements Content {
+
+    /**
+     * Content path URL part.
+     */
+    private static final String CONTENTS = "contents";
 
     /**
      * RESTful request.
@@ -52,36 +59,65 @@ public final class RtContents implements Contents {
     private final transient Request request;
 
     /**
-     * Repository.
+     * The name of the commit/branch/tag for the content.
      */
-    private final transient Repo owner;
+    private final transient String refname;
 
     /**
-     * Public ctor.
-     * @param repo Repository
-     * @param req Request
+     * The name of the commit/branch/tag for the content.
      */
-    public RtContents(final Request req, final Repo repo) {
-        this.owner = repo;
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri().path("/repos").path(coords.user())
-            .path(coords.repo())
-            .back();
+    private final transient String path;
+
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     * @param contentpath The content path.
+     * @param ref The name of the commit/branch/tag.
+     */
+    RtContent(final Request req, final String contentpath, final String ref) {
+        if (ref == null) {
+            this.request = req.uri().path(CONTENTS).path(contentpath).back();
+        } else {
+            this.request = req.uri().path(CONTENTS).path(contentpath)
+                .queryParam("ref", ref)
+                .back();
+        }
+        this.refname = ref;
+        this.path = contentpath;
+    }
+
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     * @param contentpath The content path.
+     */
+    RtContent(final Request req, final String contentpath) {
+        this(req, contentpath, null);
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
+    public final int compareTo(final Content content) {
+        return this.contentPath().compareTo(content.contentPath());
     }
 
     @Override
-    public Content readme() {
-        return new RtReadme(this.request);
+    public final JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 
     @Override
-    public Content content(final String path) {
-        return new RtContent(this.request, path);
+    public final void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public final String contentPath() {
+        return this.path;
+    }
+
+    @Override
+    public final String ref() {
+        return this.refname;
     }
 
 }

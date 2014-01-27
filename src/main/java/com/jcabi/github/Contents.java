@@ -59,4 +59,15 @@ public interface Contents {
     @NotNull(message = "Content is never NULL")
     Content readme();
 
+    /**
+     * Get the content for the specified path of the
+     * default branch (usually master).
+     *
+     * @param path The Content of the specified path (directory or file).
+     * @return The Content of the specified path.
+     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get contents</a>
+     */
+    @NotNull(message = "Content is never NULL")
+    Content content(String path);
+
 }
