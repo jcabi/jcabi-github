@@ -136,10 +136,10 @@ final class RtGists implements Gists {
     }
 
     @Override
-    public void remove(@NotNull(message = "gist name can't be NULL")
-        final String name) throws IOException {
+    public void remove(final String identifier) throws IOException {
         this.request.method(Request.DELETE)
-            .uri().path(name).back().fetch()
+            .uri().path(identifier).back()
+            .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }

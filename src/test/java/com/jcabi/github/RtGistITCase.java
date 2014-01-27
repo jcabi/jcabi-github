@@ -51,15 +51,23 @@ public final class RtGistITCase {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistITCase.github().gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap(filename, content)
-        );
-        final String file = new Gist.Smart(gist).files().iterator().next();
-        gist.write(file, "hey, works for you this way?");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hey, works for ")
-        );
+        Gist.Smart smart = null;
+        try {
+            final Gist gist = gists.create(
+                Collections.singletonMap(filename, content)
+            );
+            smart = new Gist.Smart(gist);
+            final String file = smart.files().iterator().next();
+            gist.write(file, "hey, works for you this way?");
+            MatcherAssert.assertThat(
+                gist.read(file),
+                Matchers.startsWith("hey, works for ")
+            );
+        } finally {
+            if (smart != null) {
+                gists.remove(smart.identifier());
+            }
+        }
     }
 
     /**

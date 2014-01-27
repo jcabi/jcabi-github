@@ -72,7 +72,7 @@ public interface GistComment
      * The gist it's in.
      * @return Owner of the comment
      */
-    @NotNull(message = "issue is never NULL")
+    @NotNull(message = "Gist is never NULL")
     Gist gist();
 
     /**
