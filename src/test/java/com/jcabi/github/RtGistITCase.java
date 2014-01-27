@@ -73,29 +73,52 @@ public final class RtGistITCase {
     /**
      * RtGist can fork a gist.
      * @throws Exception If some problem inside
+     * @checkstyle MultipleStringLiterals (7 lines)
+     * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test
-    public void forkGist() throws Exception {
-        final String key = System.getProperty("failsafe.github.key.second");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Gist gist = new RtGithub(key).gists().get(
-            RtGistITCase.gist().name()
+    public void forksGist() throws Exception {
+        final String filename = "filename1.txt";
+        final String content = "content of file1";
+        final Gists gists1 = RtGistITCase.github("failsafe.github.key").gists();
+        final Gists gists2 = RtGistITCase.github("failsafe.github.key.second")
+            .gists();
+        final Gist gist = gists1.get(
+            gists2.create(Collections.singletonMap(filename, content))
+                .identifier()
         );
-        final String file = new Gist.Smart(gist).files().iterator().next();
-        MatcherAssert.assertThat(
-            gist.fork().read(file),
-            Matchers.equalTo(gist.read(file))
-        );
+        final Gist forked = gist.fork();
+        try {
+            MatcherAssert.assertThat(
+                forked.read(filename),
+                Matchers.equalTo(content)
+            );
+        } finally {
+            gists1.remove(forked.identifier());
+            gists2.remove(gist.identifier());
+        }
     }
 
     /**
-     * Return github to test.
+     * Return github to test. Property "failsafe.github.key" is used
+     * for authentication.
      * @return Repo
      * @throws Exception If some problem inside
      */
     private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+        return RtGistITCase.github("failsafe.github.key");
+    }
+
+    /**
+     * Return github to test.
+     * @param property Name of a property with github key
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Github github(final String property) throws Exception {
+        final String key = System.getProperty(property);
         Assume.assumeThat(key, Matchers.notNullValue());
         return new RtGithub(key);
     }
+
 }
