@@ -38,6 +38,7 @@ import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -49,6 +50,7 @@ import org.xembly.Directives;
  * @version $Id$
  * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #262 Implement method MkRepos.remove() to remove particular repository.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -116,6 +118,13 @@ final class MkRepos implements Repos {
             throw new IllegalStateException(ex);
         }
         return new MkRepo(this.storage, this.self, coords);
+    }
+
+    @Override
+    public void remove(
+        @NotNull(message = "coordinates can't be NULL")
+        final Coordinates coords) {
+        throw new UnsupportedOperationException("MkRepos#remove");
     }
 
     /**
