@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -58,7 +59,7 @@ public final class PullTest {
                 .build()
         ).when(pull).json();
         MatcherAssert.assertThat(
-            new Pull.Smart(pull).comments(),
+            new Pull.Smart(pull).commentsCount(),
             Matchers.is(number)
         );
     }
@@ -81,6 +82,21 @@ public final class PullTest {
         MatcherAssert.assertThat(
             new Pull.Smart(pull).issue().number(),
             Matchers.equalTo(number)
+        );
+    }
+
+    /**
+     * Pull.Smart can get pull comments.
+     */
+    @Test
+    public void getsPullComments() throws IOException {
+
+        PullComments pullComments = Mockito.mock(PullComments.class);
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.when(pull.comments()).thenReturn(pullComments);
+        MatcherAssert.assertThat(
+            new Pull.Smart(pull).comments(),
+            Matchers.equalTo(pullComments)
         );
     }
 

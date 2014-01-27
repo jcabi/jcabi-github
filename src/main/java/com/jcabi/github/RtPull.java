@@ -154,6 +154,11 @@ final class RtPull implements Pull {
     }
 
     @Override
+    public PullComments comments() throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

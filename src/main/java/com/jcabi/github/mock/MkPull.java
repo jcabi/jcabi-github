@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
+import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;
@@ -116,6 +117,11 @@ final class MkPull implements Pull {
     @Override
     public void merge(final String msg) throws IOException {
         // nothing to do here
+    }
+
+    @Override
+    public PullComments comments() throws IOException {
+        return new MkPullComments();
     }
 
     @Override

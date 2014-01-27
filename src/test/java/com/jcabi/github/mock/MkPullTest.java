@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
+import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -108,6 +109,22 @@ public final class MkPullTest {
         MatcherAssert.assertThat(
             pull.json().getInt("comments"),
             Matchers.is(2)
+        );
+    }
+
+    /**
+     * MkPull can get comments.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canGetComments() throws Exception {
+        final Repo repo =  MkPullTest.repo();
+        final Pull pull = repo.pulls().create("", "", "");
+        final PullComments pullComments = pull.comments();
+        MatcherAssert.assertThat(
+            pull.comments(),
+            Matchers.notNullValue()
         );
     }
 

@@ -49,13 +49,7 @@ import lombok.ToString;
  * @since 0.3
  * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #1:1hr Pull request comments. Let's add new method comments() to this
- *  interface, returning an instance of interface PullComments. This new
- *  interface should implement methods do iterate, post, delete and read
- *  comments, as explained in
- *  http://developer.github.com/v3/pulls/comments/. New interface should
- *  be implemented by GhPullComments class and tested with unit and
- *  integration tests.
+ *
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -100,6 +94,13 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      */
     void merge(@NotNull(message = "message can't be NULL") String msg)
         throws IOException;
+
+    /**
+     * Get Pull Comments.
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
+     */
+    PullComments comments() throws IOException;
 
     /**
      * Smart pull request with extra features.
@@ -269,7 +270,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.8
          */
-        public int comments() throws IOException {
+        public int commentsCount() throws IOException {
             return new SmartJson(this).number("comments");
         }
         @Override
@@ -292,6 +293,12 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public void merge(final String msg) throws IOException {
             this.pull.merge(msg);
         }
+
+        @Override
+        public PullComments comments() throws IOException {
+            return this.pull.comments();
+        }
+
         @Override
         public JsonObject json() throws IOException {
             return this.pull.json();
