@@ -33,6 +33,7 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -77,6 +78,7 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
+    @Ignore
     public void canCreateAHook() throws Exception {
         // to be implemented
     }
