@@ -56,6 +56,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkPull implements Pull {
 
     /**

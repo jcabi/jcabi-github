@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
 import com.jcabi.github.PullComments;
 
 /**

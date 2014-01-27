@@ -87,11 +87,11 @@ public final class PullTest {
 
     /**
      * Pull.Smart can get pull comments.
+     * @throws IOException If some problem inside
      */
     @Test
     public void getsPullComments() throws IOException {
-
-        PullComments pullComments = Mockito.mock(PullComments.class);
+        final PullComments pullComments = Mockito.mock(PullComments.class);
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.when(pull.comments()).thenReturn(pullComments);
         MatcherAssert.assertThat(

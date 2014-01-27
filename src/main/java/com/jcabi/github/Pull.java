@@ -97,6 +97,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Get Pull Comments.
+     * @return Comments.
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
      */

@@ -53,6 +53,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtPull implements Pull {
 
     /**

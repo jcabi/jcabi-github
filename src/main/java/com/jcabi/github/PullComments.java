@@ -38,7 +38,7 @@ import com.jcabi.aspects.Immutable;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
- * @todo #22:This interface should implement methods do iterate, post, delete
+ * @todo #22 This interface should implement methods do iterate, post, delete
  *  and read comments, as explained in
  *  http://developer.github.com/v3/pulls/comments/. New interface should
  *  be implemented by RtPullComments class and tested with unit and
