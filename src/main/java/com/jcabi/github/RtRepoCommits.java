@@ -40,12 +40,6 @@ import lombok.EqualsAndHashCode;
  * Commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
- * @todo #117 RtRepoCommits should be able to get commit. Let's implement
- *  this method. When done, remove this puzzle and Ignore annotation
- *  from a test for the method.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -53,9 +47,24 @@ import lombok.EqualsAndHashCode;
 final class RtRepoCommits implements RepoCommits {
 
     /**
-     * RESTful request for the commits.
+     * RESTful request for thTe commits.
      */
     private final transient Request request;
+
+    /**
+     * RESTful request, an entry point to the Github API.
+     */
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github github;
+
+    /**
+     * Repository.
+     */
+    private final transient Repo repo;
 
     /**
      * Public ctor.
@@ -63,22 +72,33 @@ final class RtRepoCommits implements RepoCommits {
      * @param repo Repository coordinates
      */
     RtRepoCommits(final Request req, final Coordinates repo) {
+        this.entry = req;
         this.request = req.uri()
             .path("/repos")
             .path(repo.user())
             .path(repo.repo())
             .path("/commits")
             .back();
+        this.github = new RtGithub(this.request);
+        this.repo = new RtRepo(this.github, this.request, repo);
     }
 
     @Override
     public Iterable<Commit> iterate() {
-        throw new UnsupportedOperationException();
+        return new RtPagination<Commit>(
+            this.request,
+            new RtPagination.Mapping<Commit>() {
+                @Override
+                public Commit map(final JsonObject object) {
+                    return get(object.getString("sha"));
+                }
+            }
+        );
     }
 
     @Override
     public Commit get(final String sha) {
-        throw new UnsupportedOperationException();
+        return new RtCommit(this.entry, this.repo, sha);
     }
 
     @Override

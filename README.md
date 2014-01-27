@@ -70,7 +70,7 @@ a new Github OAuth access token
 and provide it in command line, like this:
 
 ```
-$ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfailsafe.github.repo=<repo>
+$ mvn clean install -Dit.test=RtGistITCase
 ```
 
 Replace `<token>` with the OAuth access token, and `<repo>` with the name of
