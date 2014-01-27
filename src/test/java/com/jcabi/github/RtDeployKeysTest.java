@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.FakeRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -58,7 +59,7 @@ public final class RtDeployKeysTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
         ).start();
-        final DeployKeys deployKeys = new RtDeployKeys(
+        final DeployKeys deployKeys = new RtDeployKeys(new FakeRequest(),
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
@@ -116,16 +117,16 @@ public final class RtDeployKeysTest {
     /**
      * RtDeployKeys can delete a deploy key.
      *
-     * @todo #119 RtDeployKeys should be able to delete a DeployKey. Let's implement
-     *  a test here and a method remove() of RtDeployKeys.
-     *  The method should remove a deploy key by it's id.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
-    public void canDeleteDeployKey() {
-        // to be implemented
+    public void canDeleteDeployKey() throws Exception {
+        final RtDeployKeys deployKeys = new RtDeployKeys(
+            new FakeRequest(), repo());
+        MatcherAssert.assertThat(
+            deployKeys.remove(Integer.valueOf("123")),
+            Matchers.notNullValue()
+        );
     }
 
     /**

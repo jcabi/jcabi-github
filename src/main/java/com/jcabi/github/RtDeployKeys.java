@@ -31,7 +31,13 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import com.rexsl.test.Response;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Collections;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -43,8 +49,13 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = {"request", "owner" })
 public final class RtDeployKeys implements DeployKeys {
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
     /**
      * Repository.
      */
@@ -52,9 +63,16 @@ public final class RtDeployKeys implements DeployKeys {
 
     /**
      * Public ctor.
+     * @param req Request
      * @param repo Repository
      */
-    public RtDeployKeys(final Repo repo) {
+    public RtDeployKeys(final Request req, final Repo repo) {
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/keys")
+            .back();
         this.owner = repo;
     }
 
@@ -66,5 +84,22 @@ public final class RtDeployKeys implements DeployKeys {
     @Override
     public Iterable<DeployKey> iterate() {
         return Collections.emptyList();
+    }
+
+    /**
+     * Remove a deploy key by its id.
+     * @param number Id of the key to be remove.
+     * @return Response Response
+     * @throws IOException if something goes wrong.
+     */
+    public Response remove(
+        @NotNull(message = "id can't be NULL") final int number)
+        throws IOException {
+        return this.request.uri()
+            .path(Integer.toString(number))
+            .back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 }
