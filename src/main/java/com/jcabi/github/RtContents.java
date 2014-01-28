@@ -32,6 +32,13 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
+import com.rexsl.test.response.JsonResponse;
+import com.rexsl.test.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonStructure;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -43,8 +50,14 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner" })
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
 public final class RtContents implements Contents {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
     /**
      * Repository.
      */
@@ -61,6 +74,7 @@ public final class RtContents implements Contents {
      * @param repo Repository
      */
     public RtContents(final Request req, final Repo repo) {
+        this.entry = req;
         this.owner = repo;
         this.request = req.uri()
             .path("/repos")
@@ -78,6 +92,30 @@ public final class RtContents implements Contents {
     @Override
     public Content readme() {
         throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
+    public Commit remove(
+        @NotNull(message = "path is never NULL") final String path,
+        @NotNull(message = "message is never NULL") final String message,
+        @NotNull(message = "sha is never NULL") final String sha)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("message", message)
+            // @checkstyle MultipleStringLiterals (1 line)
+            .add("sha", sha)
+            .build();
+        return new RtCommit(
+            this.entry,
+            this.owner,
+            this.request.method(Request.DELETE)
+                .uri().path(path).back()
+                .body().set(json).back().fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class).json()
+                .readObject().getJsonObject("commit").getString("sha")
+        );
     }
 
 }

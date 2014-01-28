@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Commit;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
@@ -89,5 +90,14 @@ public final class MkContents implements Contents {
     @Override
     public Content readme() {
         return new MkContent();
+    }
+
+    @Override
+    public Commit remove(
+        final String path,
+        final String message,
+        final String sha)
+        throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 }
