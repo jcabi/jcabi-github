@@ -33,7 +33,10 @@ import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
+import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -63,7 +66,9 @@ public final class RtContentsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
         ).start();
-        final Contents contents = new RtContents(RtContentsTest.repo());
+        final Contents contents = new RtContents(
+            new ApacheRequest(container.home()), RtContentsTest.repo()
+        );
         MatcherAssert.assertThat(
             contents.readme(),
             Matchers.notNullValue()
@@ -114,14 +119,48 @@ public final class RtContentsTest {
     /**
      * RtContents can delete files from the repository.
      *
-     * @todo #119 RtContents should be able to delete files from the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if a problem occurs.
+     * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    @Ignore
-    public void canDeleteFilesFromRepository() {
-        // to be implemented
+    public void canDeleteFilesFromRepository() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder().add(
+                    "commit",
+                    Json.createObjectBuilder()
+                        .add("sha", "commitSha")
+                        .build()
+                ).build().toString()
+            )
+        ).start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            final Commit commit = contents.remove(
+                "to/remove", "Delete me", "fileSha"
+            );
+            MatcherAssert.assertThat(
+                commit.sha(),
+                Matchers.is("commitSha")
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.allOf(
+                    Matchers.containsString("\"message\":\"Delete me\""),
+                    Matchers.containsString("\"sha\":\"fileSha\"")
+                )
+            );
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents/to/remove")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
