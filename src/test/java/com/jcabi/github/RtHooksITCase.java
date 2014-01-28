@@ -63,19 +63,16 @@ public final class RtHooksITCase {
                 );
                 number = created.number();
             }
-            boolean found = false;
-            for (Hook hook : hooks.iterate()) {
-                found = hook.number() == number;
-                if (found) {
-                    break;
-                }
+            int count = 0;
+            for (@SuppressWarnings("unused") Hook hook : hooks.iterate()) {
+                count = count + 1;
             }
             MatcherAssert.assertThat(
-                found,
-                Matchers.is(true)
+                count,
+                Matchers.greaterThan(0)
             );
         } finally {
-            if (number != 0) {
+            if (number != -1) {
                 hooks.remove(number);
             }
         }
