@@ -42,8 +42,6 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #165 RtHooks should be able to create a hook in real repository
- *  When done, remove this puzzle and Ignore annotation from the method.
  * @todo #159 Need to implement integration test case where RtHooks can obtain
  *  a list of hooks from a real repository. Add the implementation in
  *  canFetchAllHooks(). When done, remove this puzzle and Ignore annotation from
@@ -66,9 +64,13 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canCreateAHook() throws Exception {
-        // to be implemented
+        final Hooks hooks = RtHooksITCase.repo().hooks();
+        final Hook hook = hooks.create(
+            "geocommit", Collections.<String, String>emptyMap()
+        );
+        MatcherAssert.assertThat(hook, Matchers.notNullValue());
+        hooks.remove(hook.number());
     }
 
     /**
