@@ -60,10 +60,10 @@ import lombok.ToString;
  * <pre> Github github = new RtGithub(
  *   new RtGithub(oauthKey).entry().through(RetryWire.class)
  * );</pre>
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -188,6 +188,11 @@ public final class RtGithub implements Github {
         return this.request.uri().path("emojis").back().fetch()
             .as(JsonResponse.class)
             .json().readObject();
+    }
+
+    @Override
+    public Gitignores gitignores() throws IOException {
+        return new RtGitignores(this);
     }
 
     @Override
