@@ -29,7 +29,9 @@
  */
 package com.jcabi.github;
 
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -37,9 +39,7 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #124 Need to implement an integration test for RtHooks that should be
- *  able to search repos, users, and issues from a real Github repository.
- *  When done, remove this puzzle and Ignore annotation from the method.
+ * @checkstyle MultipleStringLiterals (41 lines)
  */
 public final class RtSearchITCase {
 
@@ -49,9 +49,11 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForRepos() throws Exception {
-        //To be implemented.
+        MatcherAssert.assertThat(
+            RtSearchITCase.github().search().repos("repo", "stars", "desc"),
+            Matchers.not(Matchers.emptyIterableOf(Repo.class))
+        );
     }
 
     /**
@@ -60,9 +62,11 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForIssues() throws Exception {
-        //To be implemented.
+        MatcherAssert.assertThat(
+            RtSearchITCase.github().search().issues("issue", "updated", "desc"),
+            Matchers.not(Matchers.emptyIterableOf(Issue.class))
+        );
     }
 
     /**
@@ -71,9 +75,21 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    @Ignore
     public void canSearchForUsers() throws Exception {
-        //To be implemented.
+        MatcherAssert.assertThat(
+            RtSearchITCase.github().search().users("jcabi", "joined", "desc"),
+            Matchers.not(Matchers.emptyIterableOf(User.class))
+        );
+    }
+
+    /**
+     * Return github for test.
+     * @return Github
+     */
+    private static Github github() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key);
     }
 
 }
