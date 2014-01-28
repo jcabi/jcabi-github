@@ -55,9 +55,11 @@ public final class MkIssuesTest {
     public void iteratesIssues() throws Exception {
         final Repo repo = this.repo();
         repo.issues().create("hey, you", "body of issue");
+        repo.issues().create("hey", "body of 2nd issue");
+        repo.issues().create("hey again", "body of 3rd issue");
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<String, String>()),
-            Matchers.<Issue>iterableWithSize(1)
+            Matchers.<Issue>iterableWithSize(Tv.THREE)
         );
     }
 
