@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -88,7 +89,18 @@ final class MkPublicKeys implements PublicKeys {
 
     @Override
     public Iterable<PublicKey> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<PublicKey>(
+            this.storage,
+            String.format("%s/key", this.xpath()),
+            new MkIterable.Mapping<PublicKey>() {
+                @Override
+                public PublicKey map(final XML xml) {
+                    return MkPublicKeys.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
