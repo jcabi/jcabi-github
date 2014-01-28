@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.FakeRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -51,19 +52,16 @@ public final class RtContentsTest {
 
     /**
      * RtContents can fetch the default branch readme file.
-     * @todo #119 RtContents should fetch the readme file for the default
-     *  branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
      * @throws Exception if some problem inside.
      */
     @Test
-    @Ignore
     public void canFetchReadmeFile() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+                "{\"path\": \"README.md\"}")
         ).start();
-        final Contents contents = new RtContents(RtContentsTest.repo());
+        final Contents contents = new RtContents(new FakeRequest(),
+            RtContentsTest.repo());
         MatcherAssert.assertThat(
             contents.readme(),
             Matchers.notNullValue()
