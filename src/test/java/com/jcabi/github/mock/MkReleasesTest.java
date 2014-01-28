@@ -105,10 +105,8 @@ public final class MkReleasesTest {
     @Test
     public void iteratesReleases() throws Exception {
         final Releases releases = repo().releases();
-        final String tag = "v1.0.1";
-        final String newtag = "v1.0.2";
-        releases.create(tag);
-        releases.create(newtag);
+        releases.create("v1.0.1");
+        releases.create("v1.0.2");
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.<Release>iterableWithSize(2)

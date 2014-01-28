@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.immutable.ArrayMap;
@@ -54,10 +55,9 @@ public final class MkIssuesTest {
         repo.issues().create("hey, you", "body of issue");
         repo.issues().create("hey", "body of 2nd issue");
         repo.issues().create("hey again", "body of 3rd issue");
-        final int size = 3;
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<String, String>()),
-            Matchers.<Issue>iterableWithSize(size)
+            Matchers.<Issue>iterableWithSize(Tv.THREE)
         );
     }
 
