@@ -90,4 +90,10 @@ public final class MkContents implements Contents {
     public Content readme() {
         return new MkContent();
     }
+
+    @Override
+    public Content content(final String path) {
+        return new MkContent();
+    }
+
 }

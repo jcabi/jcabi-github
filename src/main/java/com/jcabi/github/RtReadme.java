@@ -30,44 +30,85 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github contents.
+ * Github release.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @version $Id$
- * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
-public interface Contents {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request" })
+public class RtReadme implements Content {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * Content path URL part.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private static final String README = "readme";
 
     /**
-     * Get the Readme file of the default branch (usually master).
-     *
-     * @return The Content of the readme file.
-     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
+     * RESTful request.
      */
-    @NotNull(message = "Content is never NULL")
-    Content readme();
+    private final transient Request request;
 
     /**
-     * Get the content for the specified path of the
-     * default branch (usually master).
-     *
-     * @param path The Content of the specified path (directory or file).
-     * @return The Content of the specified path.
-     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get contents</a>
+     * The name of the commit/branch/tag for the content.
      */
-    @NotNull(message = "Content is never NULL")
-    Content content(String path);
+    private final transient String refname;
+
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     * @param ref The name of the commit/branch/tag.
+     */
+    RtReadme(final Request req, final String ref) {
+        if (ref == null) {
+            this.request = req.uri().path(README).back();
+        } else {
+            this.request = req.uri().path(README).queryParam("ref", ref)
+                .back();
+        }
+        this.refname = ref;
+    }
+
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     */
+    RtReadme(final Request req) {
+        this(req, null);
+    }
+
+    @Override
+    public final int compareTo(final Content content) {
+        return this.contentPath().compareTo(content.contentPath());
+    }
+
+    @Override
+    public final JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public final void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public final String contentPath() {
+        return "README.md";
+    }
+
+    @Override
+    public final String ref() {
+        return this.refname;
+    }
 
 }
