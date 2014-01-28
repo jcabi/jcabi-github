@@ -73,7 +73,7 @@ final class MkPublicKeys implements PublicKeys {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
-            new Directives().xpath("/github/user").addIf("keys")
+            new Directives().xpath(this.userXpath()).addIf("keys")
         );
     }
 
@@ -103,7 +103,7 @@ final class MkPublicKeys implements PublicKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/id/text()", this.xpath())
+                String.format("%s/key/id/text()", this.xpath())
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())
@@ -124,10 +124,18 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     /**
-     * XPath of this element in XML tree.
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String userXpath() {
+        return String.format("/github/users/user[login='%s']", this.self);
+    }
+
+    /**
+     * XPath of user element in XML tree.
      * @return XPath
      */
     private String xpath() {
-        return "/github/user/keys";
+        return String.format("%s/keys", this.userXpath());
     }
 }

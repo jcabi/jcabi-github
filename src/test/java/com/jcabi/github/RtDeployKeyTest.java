@@ -29,71 +29,60 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
-import java.io.IOException;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
+import com.rexsl.test.request.ApacheRequest;
 import java.net.HttpURLConnection;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Github deploy key.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link RtDeployKey}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtDeployKey implements DeployKey {
+public final class RtDeployKeyTest {
+    /**
+     * RtDeployKey can delete a deploy key.
+     *
+     * @throws Exception If some problem inside.
+     */
+    @Test
+    public void canDeleteDeployKey() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                ""
+            )
+        ).start();
+        final DeployKey key = new RtDeployKey(
+            new ApacheRequest(container.home()),
+            3,
+            RtDeployKeyTest.repo()
+        );
+        key.remove();
+        final MkQuery query = container.take();
+        MatcherAssert.assertThat(
+            query.method(),
+            Matchers.equalTo(Request.DELETE)
+        );
+        container.stop();
+    }
 
     /**
-     * RESTful API request for this deploy key.
+     * Create and return repo for testing.
+     * @return Repo
      */
-    private final transient Request request;
-
-    /**
-     * Id.
-     */
-    private final transient int key;
-
-    /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param number Id
-     * @param repo Repository
-     */
-    RtDeployKey(final Request req, final int number, final Repo repo) {
-        this.key = number;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .path(String.valueOf(number))
-            .back();
-    }
-
-    @Override
-    public int number() {
-        return this.key;
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void remove() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    private static Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "keys"))
+            .when(repo).coordinates();
+        return repo;
     }
 }
