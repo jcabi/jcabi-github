@@ -51,21 +51,21 @@ public final class MkPublicKeyTest {
     @Test
     @Ignore
     public void canRetrieveAsJson() throws Exception {
-        final String keyTitle = "Title1";
-        final String keyContent = "PublicKey1";
+        final String title = "Title1";
+        final String key = "PublicKey1";
         final JsonObject json = new MkGithub().users().get("john").keys()
-            .create(keyTitle, keyContent).json();
+            .create(title, key).json();
         MatcherAssert.assertThat(
             json.getString("id"),
             Matchers.equalTo("1")
         );
         MatcherAssert.assertThat(
             json.getString("title"),
-            Matchers.equalTo(keyTitle)
+            Matchers.equalTo(title)
         );
         MatcherAssert.assertThat(
             json.getString("key"),
-            Matchers.equalTo(keyContent)
+            Matchers.equalTo(key)
         );
     }
 
