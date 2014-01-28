@@ -99,6 +99,21 @@ public final class MkReleasesTest {
     }
 
     /**
+     * MkReleases can iterate through the releases.
+     * @throws Exception - if something goes wrong.
+     */
+    @Test
+    public void iteratesReleases() throws Exception {
+        final Releases releases = repo().releases();
+        releases.create("v1.0.1");
+        releases.create("v1.0.2");
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.<Release>iterableWithSize(2)
+        );
+    }
+
+    /**
      * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside

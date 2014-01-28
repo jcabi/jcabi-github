@@ -76,4 +76,20 @@ public interface Contents {
         @NotNull(message = "content is never NULL") String content)
         throws IOException;
 
+    /**
+     * Removes a file.
+     * @param path The content path
+     * @param message The commit message
+     * @param sha Blob SHA of file to be deleted
+     * @return Commit referring to this operation
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
+     */
+    @NotNull(message = "Content is never NULL")
+    Commit remove(
+        @NotNull(message = "path is never NULL") String path,
+        @NotNull(message = "message is never NULL") String message,
+        @NotNull(message = "sha is never NULL") String sha)
+        throws IOException;
+
 }

@@ -47,10 +47,12 @@ import lombok.EqualsAndHashCode;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiterals (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContents implements Contents {
 
     /**
@@ -102,7 +104,6 @@ public final class RtContents implements Contents {
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("message", message)
-            // @checkstyle MultipleStringLiterals (1 line)
             .add("content", content)
             .build();
         return new RtContent(this.entry, this.owner,
@@ -113,6 +114,29 @@ public final class RtContents implements Contents {
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
                 .json().readObject().getJsonObject("content").getString("path")
+        );
+    }
+
+    @Override
+    public Commit remove(
+        @NotNull(message = "path is never NULL") final String path,
+        @NotNull(message = "message is never NULL") final String message,
+        @NotNull(message = "sha is never NULL") final String sha)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("message", message)
+            .add("sha", sha)
+            .build();
+        return new RtCommit(
+            this.entry,
+            this.owner,
+            this.request.method(Request.DELETE)
+                .uri().path(path).back()
+                .body().set(json).back().fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class).json()
+                .readObject().getJsonObject("commit").getString("sha")
         );
     }
 

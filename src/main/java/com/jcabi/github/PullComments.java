@@ -30,70 +30,20 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 
 /**
- * Github deploy key.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github pull comments.
+ *
+ * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
+ * @since 0.8
+ * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @todo #22 This interface should implement methods do iterate, post, delete
+ *  and read comments, as explained in
+ *  http://developer.github.com/v3/pulls/comments/. New interface should
+ *  be implemented by RtPullComments class and tested with unit and
+ *  integration tests.
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtDeployKey implements DeployKey {
-
-    /**
-     * RESTful API request for this deploy key.
-     */
-    private final transient Request request;
-
-    /**
-     * Id.
-     */
-    private final transient int key;
-
-    /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param number Id
-     * @param repo Repository
-     */
-    RtDeployKey(final Request req, final int number, final Repo repo) {
-        this.key = number;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .path(String.valueOf(number))
-            .back();
-    }
-
-    @Override
-    public int number() {
-        return this.key;
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void remove() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-    }
+public interface PullComments {
 }

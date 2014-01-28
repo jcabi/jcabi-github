@@ -53,6 +53,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtPull implements Pull {
 
     /**
@@ -151,6 +152,11 @@ final class RtPull implements Pull {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public PullComments comments() throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override

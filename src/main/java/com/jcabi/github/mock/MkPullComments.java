@@ -27,43 +27,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import com.jcabi.github.PullComments;
 
 /**
- * Github deploy key.
+ * Mock Github pull comments.
  *
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
- * @todo #231 Deploy key object should be able to edit a deploy key. Let's
- *  create a test for for this method, declare it here, implement it in
- *  RtDeployKey and MkDeployKey, and add an integration test for it. See
- *  http://developer.github.com/v3/repos/keys/#edit. When done, remove this
- *  puzzle.
- * @todo #231 Deploy key object should be able to remove a deploy key. Let's
- *  create a test for for this method, declare it here, implement it in
- *  RtDeployKey and MkDeployKey, and add an integration test for it. See
- *  http://developer.github.com/v3/repos/keys/#delete. When done, remove this
- *  puzzle.
+ * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
-@Immutable
-public interface DeployKey extends JsonReadable {
-
-    /**
-     * Get id of a deploy key.
-     * @return Id
-     */
-    int number();
-
-    /**
-     * Delete a deploy key.
-     * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
-     */
-    void remove() throws IOException;
-
+public class MkPullComments implements PullComments {
 }

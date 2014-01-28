@@ -27,73 +27,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.github.Github;
+import com.jcabi.github.Gitignores;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotNull;
+import lombok.ToString;
 
 /**
- * Github deploy key.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Mock Gitignore.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtDeployKey implements DeployKey {
+@ToString
+public final class MkGitignores implements Gitignores {
 
-    /**
-     * RESTful API request for this deploy key.
-     */
-    private final transient Request request;
-
-    /**
-     * Id.
-     */
-    private final transient int key;
-
-    /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param number Id
-     * @param repo Repository
-     */
-    RtDeployKey(final Request req, final int number, final Repo repo) {
-        this.key = number;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .path(String.valueOf(number))
-            .back();
+    @Override
+    public Github github() {
+        throw new UnsupportedOperationException("MkGitignores#github()");
     }
 
     @Override
-    public int number() {
-        return this.key;
+    public Iterable<String> iterate() throws IOException {
+        throw new UnsupportedOperationException("MkGitignores#iterate()");
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void remove() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    public String template(
+        @NotNull(message = "Template name can't be NULL")
+        final String name) throws IOException {
+        throw new UnsupportedOperationException("MkGitignores#template()");
     }
 }
