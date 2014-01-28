@@ -39,6 +39,7 @@ import com.rexsl.test.request.FakeRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -152,6 +153,17 @@ public final class RtPullTest {
         MatcherAssert.assertThat(
             greater.compareTo(less), Matchers.greaterThan(0)
         );
+    }
+
+    /**
+     * RtPull should be able to fetch pull comments.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    @Ignore
+    public void canFetchComments() throws Exception {
+        //to be implemented
     }
 
     /**
