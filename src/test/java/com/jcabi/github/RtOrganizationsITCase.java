@@ -49,9 +49,8 @@ public final class RtOrganizationsITCase {
     @Test
     public void getOrganization() throws Exception {
         final String login = "github";
-        final Github github = RtOrganizationsITCase.github();
-        final Organizations orgs = github.users().self().organizations();
-        final Organization org = orgs.get(login);
+        final Organization org = github()
+            .users().self().organizations().get(login);
         MatcherAssert.assertThat(org.login(), Matchers.equalTo(login));
     }
 
@@ -61,8 +60,7 @@ public final class RtOrganizationsITCase {
      */
     @Test
     public void iterateOrganizations() throws Exception {
-        final Github github = RtOrganizationsITCase.github();
-        final Organizations orgs = github.users().self().organizations();
+        final Organizations orgs = github().users().self().organizations();
         MatcherAssert.assertThat(orgs.iterate(), Matchers.notNullValue());
     }
 
