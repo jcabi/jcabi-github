@@ -35,7 +35,7 @@ import javax.json.JsonObject;
 
 /**
  * Github Fork.
- * 
+ *
  * @author Tomas Colombo (tomas.colombo@rollasolution.com)
  * @version $Id$
  * @since 0.8
