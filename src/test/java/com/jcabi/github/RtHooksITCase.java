@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import java.util.Collections;
+import org.apache.commons.collections.CollectionUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -63,12 +64,8 @@ public final class RtHooksITCase {
                 );
                 number = created.number();
             }
-            int count = 0;
-            for (@SuppressWarnings("unused") Hook hook : hooks.iterate()) {
-                count = count + 1;
-            }
             MatcherAssert.assertThat(
-                count,
+                CollectionUtils.size(hooks.iterate().iterator()),
                 Matchers.greaterThan(0)
             );
         } finally {
