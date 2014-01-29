@@ -111,7 +111,7 @@ final class MkIssues implements Issues {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/issue/number", this.xpath())
+                String.format("%s/issue/number/text()", this.xpath())
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("issue")

@@ -48,13 +48,15 @@ public final class MkPublicKeysTest {
      * MkPublicKeys should be able to iterate its keys.
      *
      * @throws Exception if a problem occurs.
-     * @todo #24 Implement the iterate() method of MkPublicKeys. Implement this
-     *  unit test method and remove the Ignore annotation when done.
      */
     @Test
-    @Ignore
     public void retrievesKeys() throws Exception {
-        //To be implemented.
+        final PublicKeys keys = new MkGithub().users().self().keys();
+        final PublicKey key = keys.create("key", "ssh 1AA");
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.hasItem(key)
+        );
     }
 
     /**

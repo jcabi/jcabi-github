@@ -77,7 +77,9 @@ final class MkPublicKey implements PublicKey {
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("JSON not yet implemented.");
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
@@ -99,4 +101,16 @@ final class MkPublicKey implements PublicKey {
         return this.num;
     }
 
+    /**
+     * XPath of this element in XML tree.
+     *
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/users/user[login='%s']/keys/key[id='%d']",
+            this.self,
+            this.num
+        );
+    }
 }

@@ -168,7 +168,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Contents contents() {
-        return new RtContents(this);
+        return new RtContents(this.entry, this);
     }
 
     @Override
