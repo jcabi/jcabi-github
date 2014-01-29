@@ -91,15 +91,21 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can remove a release.
-     * @todo #238 Integration test for RtReleases.remove() should be implemented.
-     *  Looks like it depends on RtReleases.iterate(), so it can be implemented
-     *  only after the create() implementation. When done, remove this puzzle
-     *  and Ignore annotation from this method.
+     * @throws Exception if any problem inside
      */
     @Test
-    @Ignore
-    public void canRemoveRelease() {
-        // to be implemented
+    public void canRemoveRelease() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final Release release = releases.create("v.011");
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.hasItem(release)
+        );
+        releases.remove(release.number());
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.not(Matchers.hasItem(release))
+        );
     }
 
     /**
