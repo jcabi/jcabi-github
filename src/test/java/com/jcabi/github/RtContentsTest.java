@@ -90,11 +90,14 @@ public final class RtContentsTest {
         ).start();
         final Contents contents = new RtContents(
             new ApacheRequest(container.home()), RtContentsTest.repo());
-        MatcherAssert.assertThat(
-            contents.readme("somebranch"),
-            Matchers.notNullValue()
-        );
-        container.stop();
+        try {
+            MatcherAssert.assertThat(
+                contents.readme("somebranch"),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

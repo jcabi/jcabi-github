@@ -42,21 +42,12 @@ import lombok.EqualsAndHashCode;
  * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request" })
 class RtReadme implements Content {
-
-    /**
-     * Content path root URL part.
-     */
-    private static final String REPOS = "/repos";
-
-    /**
-     * Content path URL part.
-     */
-    private static final String README = "readme";
 
     /**
      * RESTful request.
@@ -76,10 +67,10 @@ class RtReadme implements Content {
     RtReadme(final Request req, final Repo repo) {
         this.owner = repo;
         this.request = req.uri()
-            .path(REPOS)
+            .path("/repos")
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
-            .path(README)
+            .path("readme")
             .back();
     }
 
@@ -92,10 +83,10 @@ class RtReadme implements Content {
     RtReadme(final Request req, final Repo repo, final String ref) {
         this.owner = repo;
         this.request = req.uri()
-            .path(REPOS)
+            .path("/repos")
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
-            .path(README)
+            .path("readme")
             .queryParam("ref", ref)
             .back();
     }
