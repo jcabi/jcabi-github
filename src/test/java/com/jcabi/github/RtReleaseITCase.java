@@ -29,17 +29,15 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 
 /**
  * Test case for {@link RtRelease}.
@@ -49,39 +47,58 @@ import javax.json.JsonObject;
  */
 public final class RtReleaseITCase {
 
-	/**
-	 * Test release.
-	 */
-	private transient Release release;
+    /**
+     * The key for release tag name in JSON used for patching or describing a
+     * release.
+     */
+    private static final String REL_TAG_NAME = "tag_name";
 
-	/**
-	 * Test repository.
-	 */
-	private transient Repo repo;
+    /**
+     * The key for release name in JSON used for patching or describing a
+     * release.
+     */
+    private static final String REL_NAME = "name";
 
-	/**
-	 * Set up test fixtures.
-	 * @throws IOException If creating the test release didn't succeed.
-	 */
-	@Before
-	public final void setUp() throws IOException {
-		final String key = System.getProperty("failsafe.github.key");
+    /**
+     * The key for release description in JSON used for patching or describing a
+     * release.
+     */
+    private static final String REL_DESC = "body";
+    /**
+     * Test release.
+     */
+    private transient Release release;
+
+    /**
+     * Test repository.
+     */
+    private transient Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws IOException If creating the test release didn't succeed.
+     */
+    @Before
+    public void setUp() throws IOException {
+        final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         this.repo = github.repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
         this.release = this.repo.releases().create("jcabi_test_tag");
-	}
+    }
 
-	/**
-	 * Tear down test fixtures.
-	 * @throws IOException If deleting the test release didn't succeed.
-	 */
-	@After
-	public final void tearDown() throws IOException {
-		this.release.delete();
-	}
+    /**
+     * Tear down test fixtures.
+     * @throws IOException If deleting the test release didn't succeed.
+     */
+    @After
+    public void tearDown() throws IOException {
+        if (this.release != null) {
+            this.release.delete();
+        }
+    }
 
     /**
      * RtReleases can iterate releases.
@@ -89,24 +106,28 @@ public final class RtReleaseITCase {
      */
     @Test
     public void canEditRelease() throws Exception {
-        JsonObject jsonPatch = Json.createObjectBuilder()
-            .add("tag_name", "v23")
-            .add("name", "JCabi Github test release")
-            .add("body", "JCabi Github was here!")
+        final String tag = "v23";
+        final String name = "JCabi Github test release";
+        final String description = "JCabi Github was here!";
+        final JsonObject jsonPatch = Json.createObjectBuilder()
+            .add(REL_TAG_NAME, tag)
+            .add(REL_NAME, name)
+            .add(REL_DESC, description)
             .build();
         this.release.patch(jsonPatch);
-        final JsonObject json = this.repo.releases().get(this.release.number()).json();
+        final JsonObject json = this.repo.releases()
+            .get(this.release.number()).json();
         MatcherAssert.assertThat(
-            json.getString("tag_name"),
-            Matchers.equalTo("v23")
+            json.getString(REL_TAG_NAME),
+            Matchers.equalTo(tag)
         );
         MatcherAssert.assertThat(
-            json.getString("name"),
-            Matchers.equalTo("JCabi Github test release")
+            json.getString(REL_NAME),
+            Matchers.equalTo(name)
         );
         MatcherAssert.assertThat(
-            json.getString("body"),
-            Matchers.equalTo("JCabi Github was here!")
+            json.getString(REL_DESC),
+            Matchers.equalTo(description)
         );
     }
 }

@@ -81,9 +81,7 @@ public class RtReleaseTest {
      */
     @After
     public final void tearDown() {
-        if (this.container != null) {
-            this.container.stop();
-        }
+        this.container.stop();
     }
 
     /**
