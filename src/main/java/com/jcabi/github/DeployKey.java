@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+
 /**
  * Github deploy key.
  *
@@ -36,6 +39,31 @@ package com.jcabi.github;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @todo #231 Deploy key object should be able to edit a deploy key. Let's
+ *  create a test for for this method, declare it here, implement it in
+ *  RtDeployKey and MkDeployKey, and add an integration test for it. See
+ *  http://developer.github.com/v3/repos/keys/#edit. When done, remove this
+ *  puzzle.
+ * @todo #231 Deploy key object should be able to remove a deploy key. Let's
+ *  create a test for for this method, declare it here, implement it in
+ *  RtDeployKey and MkDeployKey, and add an integration test for it. See
+ *  http://developer.github.com/v3/repos/keys/#delete. When done, remove this
+ *  puzzle.
  */
-public interface DeployKey {
+@Immutable
+public interface DeployKey extends JsonReadable {
+
+    /**
+     * Get id of a deploy key.
+     * @return Id
+     */
+    int number();
+
+    /**
+     * Delete a deploy key.
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
+     */
+    void remove() throws IOException;
+
 }

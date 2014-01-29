@@ -44,8 +44,8 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #56 This class only tests the compareTo method so far. Test for the
- *  other operations should also be implemented.
+ * @todo #56 This MkPullTest class only tests the compareTo
+ *  method so far. Test for the other operations should also be implemented.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkPullTest {
@@ -108,6 +108,21 @@ public final class MkPullTest {
         MatcherAssert.assertThat(
             pull.json().getInt("comments"),
             Matchers.is(2)
+        );
+    }
+
+    /**
+     * MkPull can get comments.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canGetComments() throws Exception {
+        final Repo repo =  MkPullTest.repo();
+        final Pull pull = repo.pulls().create("", "", "");
+        MatcherAssert.assertThat(
+            pull.comments(),
+            Matchers.notNullValue()
         );
     }
 

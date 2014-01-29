@@ -30,9 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
+import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -211,5 +213,32 @@ public final class RtGistTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * RtGist can unstar a starred Gist.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void canUnstarAGist() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final RtGist gist = new RtGist(
+            new MkGithub(),
+            new ApacheRequest(container.home()),
+            "unstar"
+        );
+        gist.unstar();
+        final MkQuery query = container.take();
+        MatcherAssert.assertThat(
+            query.method(),
+            Matchers.equalTo(Request.DELETE)
+        );
+        MatcherAssert.assertThat(
+            query.body(),
+            Matchers.isEmptyOrNullString()
+        );
+        container.stop();
     }
 }

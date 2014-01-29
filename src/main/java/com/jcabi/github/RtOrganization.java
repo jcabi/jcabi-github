@@ -31,48 +31,88 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github organization.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #2 Default implementation for user's Organization.
- *  Provide default implementation for user's organization.
- *  Don't forget about @EqualsAndHashCode.
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class RtOrganization implements Organization {
 
-    @Override
-    public User user() {
-        return null;
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Login of the organization.
+     */
+    private final transient String self;
+
+    /**
+     * Public ctor.
+     * @param github Github
+     * @param req Request
+     * @param login Organization login name
+     */
+    public RtOrganization(
+        final Github github,
+        final Request req,
+        final String login
+    ) {
+        this.ghub = github;
+        this.request = req.uri()
+            .path("/orgs")
+            .path(login)
+            .back();
+        this.self = login;
     }
 
     @Override
-    public int orgId() {
-        return 0;
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public int compareTo(final Organization org) {
-        return 0;
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    public String login() {
+        return this.self;
+    }
+
+    @Override
+    public int compareTo(final Organization other) {
+        return this.login().compareTo(other.login());
     }
 
     @Override
     public void patch(
         @NotNull(message = "JSON is never NULL")
         final JsonObject json) throws IOException {
-        // to be implemented
+        new RtJson(this.request).patch(json);
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return null;
+        return new RtJson(this.request).fetch();
     }
+
 }

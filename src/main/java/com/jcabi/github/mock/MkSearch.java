@@ -31,11 +31,13 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
 import com.jcabi.github.User;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -45,9 +47,6 @@ import lombok.ToString;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #124 Search mock should be implemented. Implement methods
- *  repos(), issues(), and users() which should return lists of repositories,
- *  issues, and users, respectively. See http://developer.github.com/v3/search/
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -87,7 +86,19 @@ final class MkSearch implements Search {
         final String sort,
         final String order)
         throws IOException {
-        throw new UnsupportedOperationException();
+        return new MkIterable<Repo>(
+            this.storage,
+            "/github/repos/repo",
+            new MkIterable.Mapping<Repo>() {
+                @Override
+                public Repo map(final XML xml) {
+                    return new MkRepo(
+                        MkSearch.this.storage, MkSearch.this.self,
+                        new Coordinates.Simple(xml.xpath("@coords").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -96,7 +107,22 @@ final class MkSearch implements Search {
         final String sort,
         final String order)
         throws IOException {
-        throw new UnsupportedOperationException();
+        return new MkIterable<Issue>(
+            this.storage,
+            "/github/repos/repo/issues/issue",
+            new MkIterable.Mapping<Issue>() {
+                @Override
+                public Issue map(final XML xml) {
+                    return new MkIssue(
+                        MkSearch.this.storage, MkSearch.this.self,
+                        new Coordinates.Simple(
+                            xml.xpath("../../@coords").get(0)
+                        ),
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -105,7 +131,23 @@ final class MkSearch implements Search {
         final String sort,
         final String order)
         throws IOException {
-        throw new UnsupportedOperationException();
+        return new MkIterable<User>(
+            this.storage,
+            "/github/users/user",
+            new MkIterable.Mapping<User>() {
+                @Override
+                public User map(final XML xml) {
+                    try {
+                        return new MkUser(
+                            MkSearch.this.storage,
+                            xml.xpath("login/text()").get(0)
+                        );
+                    } catch (final IOException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+            }
+        );
     }
 
 }

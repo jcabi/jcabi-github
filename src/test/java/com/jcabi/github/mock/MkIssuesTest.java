@@ -29,6 +29,8 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Tv;
+import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.immutable.ArrayMap;
@@ -41,6 +43,7 @@ import org.junit.Test;
  * Test case for {@link MkIssues}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkIssuesTest {
 
@@ -52,9 +55,11 @@ public final class MkIssuesTest {
     public void iteratesIssues() throws Exception {
         final Repo repo = this.repo();
         repo.issues().create("hey, you", "body of issue");
+        repo.issues().create("hey", "body of 2nd issue");
+        repo.issues().create("hey again", "body of 3rd issue");
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<String, String>()),
-            Matchers.<Issue>iterableWithSize(1)
+            Matchers.<Issue>iterableWithSize(Tv.THREE)
         );
     }
 
@@ -72,6 +77,21 @@ public final class MkIssuesTest {
             issue.author().login(),
             Matchers.equalTo(repo.github().users().self().login())
         );
+    }
+
+    /**
+     * MkIssues can create a multiple issues.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsMultipleIssues() throws Exception {
+        final Github github = new MkGithub("jeff");
+        final Repo repo = github.repos().create(
+            Json.createObjectBuilder().add("name", "test-3").build()
+        );
+        for (int idx = 1; idx < Tv.TEN; ++idx) {
+            repo.issues().create("title", "body");
+        }
     }
 
     /**

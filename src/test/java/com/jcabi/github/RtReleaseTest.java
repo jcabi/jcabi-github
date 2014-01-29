@@ -29,6 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -38,6 +47,16 @@ import org.junit.Test;
  * @version $Id$
  */
 public class RtReleaseTest {
+
+    /**
+     * An empty JSON string.
+     */
+    private static final String EMPTY_JSON = "{}";
+
+    /**
+     * A test mnemo.
+     */
+    private static final String TEST_MNEMO = "tstuser/tstbranch";
 
     /**
      * RtRelease can edit a release.
@@ -55,16 +74,24 @@ public class RtReleaseTest {
 
     /**
      * RtRelease can delete a release.
-     * @todo #180 RtRelease should be able to delete a release. Let's implement
-     *  this method, add integration test, declare a method in Release
-     *  and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#delete-a-release. When
-     *  done, remove this puzzle and Ignore annotation from this method.
+     * @throws Exception If any problems in the test occur.
      */
     @Test
-    @Ignore
-    public void deleteRelease() {
-        // to be implemented
+    public final void deleteRelease() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, EMPTY_JSON)
+        ).start();
+        final RtRelease release = new RtRelease(
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple(TEST_MNEMO),
+            2
+        );
+        release.delete();
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.DELETE)
+        );
+        container.stop();
     }
 
     /**
@@ -109,6 +136,29 @@ public class RtReleaseTest {
     @Ignore
     public void getReleaseAsset() {
         // to be implemented
+    }
+
+    /**
+     * RtRelese can execute PATCH request.
+     * @throws Exception if there is any problem
+     */
+    @Test
+    public final void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
+        ).start();
+        final RtRelease release = new RtRelease(
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple(TEST_MNEMO), 2
+        );
+        release.patch(Json.createObjectBuilder().add("name", "v1")
+            .build()
+        );
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.PATCH)
+        );
+        container.stop();
     }
 
 }

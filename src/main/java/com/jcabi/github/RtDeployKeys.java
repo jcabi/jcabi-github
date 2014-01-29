@@ -32,12 +32,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.rexsl.test.Request;
-import com.rexsl.test.Response;
+import com.rexsl.test.response.JsonResponse;
 import com.rexsl.test.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
-import javax.validation.constraints.NotNull;
+import javax.json.Json;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -52,28 +52,34 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = {"request", "owner" })
 public final class RtDeployKeys implements DeployKeys {
     /**
-     * RESTful request.
-     */
-    private final transient Request request;
-
-    /**
      * Repository.
      */
     private final transient Repo owner;
 
     /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful API request for these deploy keys.
+     */
+    private final transient Request request;
+
+    /**
      * Public ctor.
-     * @param req Request
+     * @param req RESTful API entry point
      * @param repo Repository
      */
-    public RtDeployKeys(final Request req, final Repo repo) {
+    RtDeployKeys(final Request req, final Repo repo) {
+        this.owner = repo;
+        this.entry = req;
         this.request = req.uri()
             .path("/repos")
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
             .path("/keys")
             .back();
-        this.owner = repo;
     }
 
     @Override
@@ -86,20 +92,27 @@ public final class RtDeployKeys implements DeployKeys {
         return Collections.emptyList();
     }
 
-    /**
-     * Remove a deploy key by its id.
-     * @param number Id of the key to be remove.
-     * @return Response Response
-     * @throws IOException if something goes wrong.
-     */
-    public Response remove(
-        @NotNull(message = "id can't be NULL") final int number)
-        throws IOException {
-        return this.request.uri()
-            .path(Integer.toString(number))
-            .back()
-            .method(Request.DELETE)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+    @Override
+    public DeployKey get(final int number) {
+        return new RtDeployKey(this.entry, number, this.owner);
     }
+
+    @Override
+    public DeployKey create(final String title, final String key)
+        throws IOException {
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("title", title)
+                        .add("key", key)
+                        .build()
+                ).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
+    }
+
 }

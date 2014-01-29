@@ -70,6 +70,17 @@ public interface PublicKeys {
     PublicKey get(int number);
 
     /**
+     * Create a public key.
+     *
+     * @param title The title of this key.
+     * @param key The value of this key.
+     * @return A new PublicKey
+     * @throws IOException If an IO problem occurs.
+     * @see <a href="http://developer.github.com/v3/users/keys/#create-a-public-key/">Create a public key.</a>
+     */
+    PublicKey create(String title, String key) throws IOException;
+
+    /**
      * Remove a public key.
      *
      * @param number ID of the public key to remove.
@@ -77,4 +88,5 @@ public interface PublicKeys {
      * @see <a href="http://developer.github.com/v3/users/keys/#delete-a-public-key/">Delete a public key.</a>
      */
     void remove(int number) throws IOException;
+
 }

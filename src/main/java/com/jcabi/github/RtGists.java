@@ -126,7 +126,7 @@ final class RtGists implements Gists {
     public Iterable<Gist> iterate() {
         return new RtPagination<Gist>(
             this.request,
-            new RtPagination.Mapping<Gist>() {
+            new RtPagination.Mapping<Gist, JsonObject>() {
                 @Override
                 public Gist map(final JsonObject object) {
                     return RtGists.this.get(object.getString("id"));
@@ -136,10 +136,10 @@ final class RtGists implements Gists {
     }
 
     @Override
-    public void remove(@NotNull(message = "gist name can't be NULL")
-        final String name) throws IOException {
+    public void remove(final String identifier) throws IOException {
         this.request.method(Request.DELETE)
-            .uri().path(name).back().fetch()
+            .uri().path(identifier).back()
+            .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }

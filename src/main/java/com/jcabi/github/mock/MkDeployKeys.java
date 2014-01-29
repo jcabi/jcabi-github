@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.Collections;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github deploy keys.
@@ -73,10 +74,9 @@ public final class MkDeployKeys implements DeployKeys {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws IOException If there is any I/O problem
      */
-    public MkDeployKeys(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkDeployKeys(final MkStorage stg, final String login,
+        final Coordinates rep) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -91,4 +91,42 @@ public final class MkDeployKeys implements DeployKeys {
     public Iterable<DeployKey> iterate() {
         return Collections.emptyList();
     }
+
+    @Override
+    public DeployKey get(final int number) {
+        return new MkDeployKey(this.storage, number, this.repo());
+    }
+
+    @Override
+    public DeployKey create(final String title, final String key)
+        throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/deployKey/id/text()", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath())
+                    .add("deployKey")
+                    .add("id").set(String.valueOf(number)).up()
+                    .add("title").set(title).up()
+                    .add("key").set(key)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/repos/%s/%s/deployKeys", this.coords.user(), this.coords.repo()
+        );
+    }
+
 }

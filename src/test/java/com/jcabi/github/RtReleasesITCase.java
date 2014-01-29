@@ -40,8 +40,8 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @todo #123 RtReleases should be able to get a single release, create, edit
- *  and remove release. When done, remove this puzzle and Ignore annotation from
+ * @todo #123 RtReleases should be able to edit release.
+ *  When done, remove this puzzle and Ignore annotation from
  *  the methods.
  */
 public final class RtReleasesITCase {
@@ -60,14 +60,45 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can fetch a single release.
-     * @todo #180 Integration test for RtReleases.get() should be implemented.
+     * @throws Exception if any error inside
+     */
+    @Test
+    public void canFetchRelease() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final String tag = "v1.0";
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            releases.get(release.number()).number(),
+            Matchers.equalTo(release.number())
+        );
+        MatcherAssert.assertThat(
+            releases.get(release.number()).json().getString("tag_name"),
+            Matchers.equalTo(tag)
+        );
+        releases.remove(release.number());
+    }
+
+    /**
+     * RtReleases can create a release.
+     * @todo #180 Integration test for RtReleases.create() should be implemented.
+     *  When done, remove this puzzle and Ignore annotation from this method.
+     */
+    @Test
+    @Ignore
+    public void canCreateRelease() {
+        // to be implemented
+    }
+
+    /**
+     * RtReleases can remove a release.
+     * @todo #238 Integration test for RtReleases.remove() should be implemented.
      *  Looks like it depends on RtReleases.iterate(), so it can be implemented
-     *  only after the iterate() implementation. When done, remove this puzzle
+     *  only after the create() implementation. When done, remove this puzzle
      *  and Ignore annotation from this method.
      */
     @Test
     @Ignore
-    public void canFetchRelease() {
+    public void canRemoveRelease() {
         // to be implemented
     }
 

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -47,24 +48,77 @@ public final class RtGistITCase {
      */
     @Test
     public void readsAndWritesGists() throws Exception {
-        final Gist gist = RtGistITCase.gist();
-        final String file = new Gist.Smart(gist).files().iterator().next();
-        gist.write(file, "hey, works for you this way?");
-        MatcherAssert.assertThat(
-            gist.read(file),
-            Matchers.startsWith("hey, works for ")
-        );
+        final String filename = "filename.txt";
+        final String content = "content of file";
+        final Gists gists = RtGistITCase.github().gists();
+        Gist.Smart smart = null;
+        try {
+            final Gist gist = gists.create(
+                Collections.singletonMap(filename, content)
+            );
+            smart = new Gist.Smart(gist);
+            final String file = smart.files().iterator().next();
+            gist.write(file, "hey, works for you this way?");
+            MatcherAssert.assertThat(
+                gist.read(file),
+                Matchers.startsWith("hey, works for ")
+            );
+        } finally {
+            if (smart != null) {
+                gists.remove(smart.identifier());
+            }
+        }
     }
 
     /**
-     * Return gist to test.
-     * @return Repo
+     * RtGist can fork a gist.
+     * @throws Exception If some problem inside
+     * @checkstyle MultipleStringLiterals (7 lines)
+     * @checkstyle LocalFinalVariableName (11 lines)
+     */
+    @Test
+    public void forksGist() throws Exception {
+        final String filename = "filename1.txt";
+        final String content = "content of file1";
+        final Gists gists1 = RtGistITCase.github("failsafe.github.key").gists();
+        final Gists gists2 = RtGistITCase.github("failsafe.github.key.second")
+            .gists();
+        final Gist gist = gists1.get(
+            gists2.create(Collections.singletonMap(filename, content))
+                .identifier()
+        );
+        final Gist forked = gist.fork();
+        try {
+            MatcherAssert.assertThat(
+                forked.read(filename),
+                Matchers.equalTo(content)
+            );
+        } finally {
+            gists1.remove(forked.identifier());
+            gists2.remove(gist.identifier());
+        }
+    }
+
+    /**
+     * Return github to test. Property "failsafe.github.key" is used
+     * for authentication.
+     * @return Github
      * @throws Exception If some problem inside
      */
-    private static Gist gist() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+    private static Github github() throws Exception {
+        return RtGistITCase.github("failsafe.github.key");
+    }
+
+    /**
+     * Return github to test.
+     * @param property Name of a property with github key
+     * @return Github
+     * @throws Exception If some problem inside
+     */
+    private static Github github(final String property) throws Exception {
+        final String key = System.getProperty(property);
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).gists().iterate().iterator().next();
+        return new RtGithub(key);
     }
 
 }

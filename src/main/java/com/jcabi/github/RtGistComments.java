@@ -76,7 +76,7 @@ final class RtGistComments implements GistComments {
         this.entry = req;
         this.request = this.entry.uri()
             .path("/gists")
-            .path(gist.name())
+            .path(gist.identifier())
             .path("/comments")
             .back();
         this.owner = gist;
@@ -118,7 +118,7 @@ final class RtGistComments implements GistComments {
     public Iterable<GistComment> iterate() {
         return new RtPagination<GistComment>(
             this.request,
-            new RtPagination.Mapping<GistComment>() {
+            new RtPagination.Mapping<GistComment, JsonObject>() {
                 @Override
                 public GistComment map(final JsonObject object) {
                     return RtGistComments.this.get(object.getInt("id"));

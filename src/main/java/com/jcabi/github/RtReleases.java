@@ -93,7 +93,7 @@ public final class RtReleases implements Releases {
     public Iterable<Release> iterate() {
         return new RtPagination<Release>(
             this.request,
-            new RtPagination.Mapping<Release>() {
+            new RtPagination.Mapping<Release, JsonObject>() {
                 @Override
                 public Release map(final JsonObject object) {
                     return new RtRelease(
@@ -125,6 +125,15 @@ public final class RtReleases implements Releases {
                 .as(JsonResponse.class)
                 .json().readObject().getInt("id")
         );
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(Integer.toString(number)).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
 }

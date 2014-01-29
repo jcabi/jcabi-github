@@ -78,7 +78,6 @@ import javax.validation.constraints.NotNull;
  *   .getJsonObject()
  *   .getNumber("total_count")
  *   .intValue();</pre>
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
@@ -137,15 +136,25 @@ public interface Github {
      * @return Search API
      * @since 0.8
      */
-    @NotNull(message = "rate limit API is never NULL")
+    @NotNull(message = "search API is never NULL")
     Search search();
+
+    /**
+     * Get gitignores.
+     * @return Gitignotes API
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
+     * @since 0.8
+     */
+    @NotNull(message = "gitignores JSON is never NULL")
+    Gitignores gitignores() throws IOException;
 
     /**
      * Get meta information.
      * @return JSON with meta
      * @throws IOException If there is any I/O problem
-     * @since 0.6
      * @see <a href="http://developer.github.com/v3/meta/">Meta API</a>
+     * @since 0.6
      */
     @NotNull(message = "meta JSON is never NULL")
     JsonObject meta() throws IOException;
@@ -154,17 +163,16 @@ public interface Github {
      * Get emojis.
      * @return JSON with emojis
      * @throws IOException If there is any I/O problem
-     * @since 0.6
      * @see <a href="http://developer.github.com/v3/emojis/">Emojis API</a>
+     * @since 0.6
      */
     @NotNull(message = "emojis JSON is never NULL")
     JsonObject emojis() throws IOException;
 
     /**
      * Time in Github JSON.
-     *
-     * @since 0.2
      * @see <a href="http://developer.github.com/v3/#schema">Schema</a>
+     * @since 0.2
      */
     @Immutable
     final class Time {
@@ -180,12 +188,14 @@ public interface Github {
          * Encapsulated time in milliseconds.
          */
         private final transient long msec;
+
         /**
          * Ctor.
          */
         public Time() {
             this(new Date());
         }
+
         /**
          * Ctor.
          * @param text ISO date/time
@@ -194,6 +204,7 @@ public interface Github {
         public Time(final String text) throws ParseException {
             this(Github.Time.format().parse(text));
         }
+
         /**
          * Ctor.
          * @param date Date to encapsulate
@@ -201,6 +212,7 @@ public interface Github {
         public Time(final Date date) {
             this(date.getTime());
         }
+
         /**
          * Ctor.
          * @param millis Milliseconds
@@ -208,10 +220,12 @@ public interface Github {
         public Time(final long millis) {
             this.msec = millis;
         }
+
         @Override
         public String toString() {
             return Github.Time.format().format(this.date());
         }
+
         /**
          * Get date.
          * @return Date
@@ -219,6 +233,7 @@ public interface Github {
         public Date date() {
             return new Date(this.msec);
         }
+
         /**
          * Make format.
          * @return Date format
