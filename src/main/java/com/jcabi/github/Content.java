@@ -52,6 +52,20 @@ public interface Content extends Comparable<Content>,
     JsonReadable, JsonPatchable {
 
     /**
+     * Repository we're in.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
+
+    /**
+     * Get its path name.
+     * @return The path name
+     */
+    @NotNull(message = "path is never NULL")
+    String path();
+
+    /**
      * Smart Content with extra features.
      */
     @Immutable
@@ -105,14 +119,6 @@ public interface Content extends Comparable<Content>,
             return new SmartJson(this).text("sha");
         }
         /**
-         * Get its path.
-         * @return Path of content
-         * @throws IOException If there is any I/O problem
-         */
-        public String path() throws IOException {
-            return new SmartJson(this).text("path");
-        }
-        /**
          * Get its URL.
          * @return URL of content
          * @throws IOException If there is any I/O problem
@@ -149,6 +155,14 @@ public interface Content extends Comparable<Content>,
         @Override
         public JsonObject json() throws IOException {
             return this.content.json();
+        }
+        @Override
+        public Repo repo() {
+            return this.repo();
+        }
+        @Override
+        public String path() {
+            return this.content.path();
         }
     }
 }

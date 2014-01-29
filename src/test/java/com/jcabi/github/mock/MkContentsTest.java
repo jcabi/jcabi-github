@@ -61,6 +61,21 @@ public final class MkContentsTest {
      * MkContents should be able to create new files.
      *
      * @throws Exception if some problem inside
+     * @todo #314 MkContents should support the creation of mock contents.
+     *  This method should create a new instance of MkContent. Do not
+     *  forget to implement a unit test for it here and remove the Ignore
+     *  annotation.
+     */
+    @Test
+    @Ignore
+    public void canCreateFile() throws Exception {
+        //To be implemented.
+    }
+
+    /**
+     * MkContents should be able to create new files.
+     *
+     * @throws Exception if some problem inside
      * @todo #311 MkContents should support the removal of mock contents.
      *  This method should return a new instance of MkCommit. Do not
      *  forget to implement a unit test for it here and remove the Ignore
