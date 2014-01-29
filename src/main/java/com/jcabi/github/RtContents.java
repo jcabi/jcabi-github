@@ -140,4 +140,9 @@ public final class RtContents implements Contents {
         );
     }
 
+    @Override
+    public Content content(final String path) {
+        return new RtContent(this.request, this.owner, path);
+    }
+
 }

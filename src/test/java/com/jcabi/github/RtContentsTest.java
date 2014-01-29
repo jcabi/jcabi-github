@@ -35,6 +35,7 @@ import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
 import com.rexsl.test.mock.MkQuery;
 import com.rexsl.test.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -93,15 +94,23 @@ public final class RtContentsTest {
 
     /**
      * RtContents can fetch files from the repository.
-     *
-     * @todo #119 RtContents should be able to fetch files from the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws IOException Exception if some problem inside.
      */
     @Test
     @Ignore
-    public void canFetchFilesFromRepository() {
-        // to be implemented
+    public void canFetchFilesFromRepository() throws IOException {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+                "{\"path\": \"somefile\"}")
+        ).start();
+        final Contents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            RtContentsTest.repo());
+        MatcherAssert.assertThat(
+            contents.content("somepath"),
+            Matchers.notNullValue()
+        );
+        container.stop();
     }
 
     /**
