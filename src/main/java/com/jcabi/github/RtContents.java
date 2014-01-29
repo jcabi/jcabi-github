@@ -97,6 +97,11 @@ public final class RtContents implements Contents {
     }
 
     @Override
+    public Content readme(final String branch) {
+        return new RtReadme(this.entry, this.owner, branch);
+    }
+
+    @Override
     public Content create(
         @NotNull(message = "path can't be NULL") final String path,
         @NotNull(message = "message can't be NULL") final String message,
