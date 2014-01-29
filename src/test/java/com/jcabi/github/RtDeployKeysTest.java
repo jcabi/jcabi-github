@@ -50,7 +50,6 @@ public final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can fetch empty list of deploy keys.
-     * @throws Exception if some problem inside
      */
     @Test
     public void canFetchEmptyListOfDeployKeys() {
@@ -62,7 +61,6 @@ public final class RtDeployKeysTest {
             deployKeys.iterate(),
             Matchers.emptyIterable()
         );
-        container.stop();
     }
 
     /**

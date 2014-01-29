@@ -49,7 +49,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = {"request", "owner" })
+@EqualsAndHashCode(of = "request")
 public final class RtDeployKeys implements DeployKeys {
     /**
      * Repository.
