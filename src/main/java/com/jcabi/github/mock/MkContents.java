@@ -106,4 +106,10 @@ public final class MkContents implements Contents {
         throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
+
+    @Override
+    public Content content(final String path) {
+        return new MkContent();
+    }
+
 }
