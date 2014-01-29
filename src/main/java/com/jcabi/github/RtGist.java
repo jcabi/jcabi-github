@@ -154,7 +154,10 @@ final class RtGist implements Gist {
 
     @Override
     public void unstar() throws IOException {
-        throw new UnsupportedOperationException("unstar not yet implemented.");
+        this.request.uri().path("star").back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override

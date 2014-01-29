@@ -27,74 +27,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Contents;
-import com.jcabi.github.Repo;
-import javax.json.Json;
+import com.rexsl.test.Request;
+import com.rexsl.test.mock.MkAnswer;
+import com.rexsl.test.mock.MkContainer;
+import com.rexsl.test.mock.MkGrizzlyContainer;
+import com.rexsl.test.mock.MkQuery;
+import com.rexsl.test.request.ApacheRequest;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link MkContents}.
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * Test case for {@link RtDeployKey}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @since 0.8
  */
-public final class MkContentsTest {
+public final class RtDeployKeyTest {
     /**
-     * MkContents can fetch the default branch readme file.
-     * @throws Exception if some problem inside
+     * RtDeployKey can delete a deploy key.
+     *
+     * @throws Exception If some problem inside.
      */
     @Test
-    public void canFetchReadmeFile() throws Exception {
-        final Contents contents = MkContentsTest.repo().contents();
+    public void canDeleteDeployKey() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                ""
+            )
+        ).start();
+        final DeployKey key = new RtDeployKey(
+            new ApacheRequest(container.home()),
+            3,
+            RtDeployKeyTest.repo()
+        );
+        key.remove();
+        final MkQuery query = container.take();
         MatcherAssert.assertThat(
-            contents.readme(),
-            Matchers.notNullValue()
+            query.method(),
+            Matchers.equalTo(Request.DELETE)
         );
+        container.stop();
     }
 
     /**
-     * MkContents should be able to create new files.
-     *
-     * @throws Exception if some problem inside
-     * @todo #314 MkContents should support the creation of mock contents.
-     *  This method should create a new instance of MkContent. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
-     */
-    @Test
-    @Ignore
-    public void canCreateFile() throws Exception {
-        //To be implemented.
-    }
-
-    /**
-     * MkContents should be able to create new files.
-     *
-     * @throws Exception if some problem inside
-     * @todo #311 MkContents should support the removal of mock contents.
-     *  This method should return a new instance of MkCommit. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
-     */
-    @Test
-    @Ignore
-    public void canRemoveFile() throws Exception {
-        //To be implemented.
-    }
-
-    /**
-     * Create a repo to work with.
+     * Create and return repo for testing.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+    private static Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "keys"))
+            .when(repo).coordinates();
+        return repo;
     }
 }

@@ -27,61 +27,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Content;
-import com.jcabi.github.Repo;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import lombok.ToString;
 
 /**
- * Mock Github content.
+ * Github pull comments.
  *
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
- * @todo #166 Content mock should be implemented.
- *  Need to implement the methods of MkContent: 1) compareTo,
- *  2) json, 3) patch
- *  Don't forget to update the unit test class {@link MkContent}.
- *  See http://developer.github.com/v3/repos/contents
- * @todo #314:30m MkContent should be able to return its own repository when
- *  the repo() method is invoked, and its own path when the path() method
- *  is invoked. Don't forget to implement unit tests.
  * @since 0.8
+ * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @todo #22 This interface should implement methods do iterate, post, delete
+ *  and read comments, as explained in
+ *  http://developer.github.com/v3/pulls/comments/. New interface should
+ *  be implemented by RtPullComments class and tested with unit and
+ *  integration tests.
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-final class MkContent implements Content {
-
-    @Override
-    public int compareTo(final Content cont) {
-        throw new UnsupportedOperationException("MkContent#compareTo()");
-    }
-
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        throw new UnsupportedOperationException("MkContent#patch()");
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkContent#json()");
-    }
-
-    @Override
-    public Repo repo() {
-        throw new UnsupportedOperationException("MkContent#repo()");
-    }
-
-    @Override
-    public String path() {
-        throw new UnsupportedOperationException("MkContent#path()");
-    }
+public interface PullComments {
 }

@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -73,7 +74,7 @@ final class MkPublicKeys implements PublicKeys {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
-            new Directives().xpath("/github/user").addIf("keys")
+            new Directives().xpath(this.userXpath()).addIf("keys")
         );
     }
 
@@ -88,7 +89,18 @@ final class MkPublicKeys implements PublicKeys {
 
     @Override
     public Iterable<PublicKey> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<PublicKey>(
+            this.storage,
+            String.format("%s/key", this.xpath()),
+            new MkIterable.Mapping<PublicKey>() {
+                @Override
+                public PublicKey map(final XML xml) {
+                    return MkPublicKeys.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -103,7 +115,7 @@ final class MkPublicKeys implements PublicKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/id/text()", this.xpath())
+                String.format("%s/key/id/text()", this.xpath())
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())
@@ -124,10 +136,18 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     /**
-     * XPath of this element in XML tree.
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String userXpath() {
+        return String.format("/github/users/user[login='%s']", this.self);
+    }
+
+    /**
+     * XPath of user element in XML tree.
      * @return XPath
      */
     private String xpath() {
-        return "/github/user/keys";
+        return String.format("%s/keys", this.userXpath());
     }
 }
