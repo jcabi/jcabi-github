@@ -86,10 +86,9 @@ public final class RtReleasesITCase {
     public void canCreateRelease() throws Exception {
         final Releases releases = RtReleasesITCase.releases();
         final String tag = "0.1";
-        int number = 0;
+        final Release created = releases.create(tag);
+        final int number = created.number();
         try {
-            final Release created = releases.create(tag);
-            number = created.number();
             final Release obtained = releases.get(number);
             MatcherAssert.assertThat(
                 created,
