@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import java.util.Collections;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -78,20 +80,24 @@ public final class RtHooksITCase {
      */
     @Test
     public void canFetchSingleHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        int number = 0;
+        final Repos repos = RtHooksITCase.github().repos();
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
+        );
         try {
-            final Hook hook = hooks.create(
-                "geocommit",
-                Collections.singletonMap("active", "true")
-            );
-            number = hook.number();
+            final Hooks hooks = repo.hooks();
+            final int number = hooks.create(
+                "geocommit", Collections.<String, String>emptyMap()
+            ).number();
             MatcherAssert.assertThat(
                 hooks.get(number).json().getInt("id"),
                 Matchers.equalTo(number)
             );
         } finally {
-            hooks.remove(number);
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -102,29 +108,36 @@ public final class RtHooksITCase {
      */
     @Test
     public void canRemoveHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        final Hook hook = hooks.create(
-            "geocommit",
-            Collections.<String, String>emptyMap()
+        final Repos repos = RtHooksITCase.github().repos();
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
         );
-        hooks.remove(hook.number());
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.not(Matchers.hasItem(hook))
-        );
+        try {
+            final Hooks hooks = repo.hooks();
+            final Hook hook = hooks.create(
+                "geocommit", Collections.<String, String>emptyMap()
+            );
+            hooks.remove(hook.number());
+            MatcherAssert.assertThat(
+                hooks.iterate(),
+                Matchers.not(Matchers.hasItem(hook))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * Return github for tests.
+     * @return Github
      */
-    private static Repo repo() throws Exception {
+    private static Github github() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        return new RtGithub(key);
     }
+
 }
