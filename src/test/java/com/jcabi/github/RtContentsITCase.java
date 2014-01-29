@@ -53,4 +53,18 @@ public class RtContentsITCase {
     public void canFetchReadmeFiles() throws Exception {
         // to be implemented
     }
+
+    /**
+     * RtContents can fetch readme file for specified branch.
+     *
+     * @todo #119 RtContents should fetch the readme file for the speicified
+     *  branch.
+     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void canFetchReadmeFileForSpecifiedBranch() throws Exception {
+        // to be implemented
+    }
 }

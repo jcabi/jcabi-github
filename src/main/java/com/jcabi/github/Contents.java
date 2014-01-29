@@ -40,14 +40,11 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface Contents {
-
-    /**
-     * NOT NULL string constant message for content.
-     */
-    String CONTENT_NOT_NULL = "Content is never NULL";
 
     /**
      * Owner of them.
@@ -62,7 +59,7 @@ public interface Contents {
      * @return The Content of the readme file.
      * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
-    @NotNull(message = Contents.CONTENT_NOT_NULL)
+    @NotNull(message = "Content is never NULL")
     Content readme();
 
     /**
@@ -72,7 +69,7 @@ public interface Contents {
      * @param branch The branch name.
      * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
-    @NotNull(message = Contents.CONTENT_NOT_NULL)
+    @NotNull(message = "Content is never NULL")
     Content readme(
         @NotNull(message = "branch name is never NULL") final String branch);
 
@@ -85,7 +82,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
      */
-    @NotNull(message = Contents.CONTENT_NOT_NULL)
+    @NotNull(message = "Content is never NULL")
     Content create(
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
@@ -101,7 +98,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
      */
-    @NotNull(message = Contents.CONTENT_NOT_NULL)
+    @NotNull(message = "Content is never NULL")
     Commit remove(
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
