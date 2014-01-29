@@ -95,6 +95,11 @@ public final class RtContents implements Contents {
     }
 
     @Override
+    public Content readme(final String branch) {
+        return new RtReadme(this.entry, this.owner, branch);
+    }
+
+    @Override
     public Commit remove(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "message is never NULL") final String message,

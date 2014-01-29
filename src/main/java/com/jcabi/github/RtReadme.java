@@ -77,6 +77,22 @@ class RtReadme implements Content {
             .back();
     }
 
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     * @param repo Repository
+     * @param ref The name of the commit/branch/tag.
+     */
+    RtReadme(final Request req, final Repo repo, final String ref) {
+        this.request = req.uri()
+            .path(REPOS)
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path(README)
+            .queryParam("ref", ref)
+            .back();
+    }
+
     @Override
     public final int compareTo(final Content content) {
         return this.contentPath().compareTo(content.contentPath());

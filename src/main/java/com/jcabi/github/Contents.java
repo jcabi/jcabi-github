@@ -61,6 +61,17 @@ public interface Contents {
     Content readme();
 
     /**
+     * Get the Readme file of the specified branch.
+     *
+     * @return The Content of the readme file
+     * @param branch The branch name.
+     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
+     */
+    @NotNull(message = "Content is never NULL")
+    Content readme(
+        @NotNull(message = "branch name is never NULL") final String branch);
+
+    /**
      * Removes a file.
      * @param path The content path
      * @param message The commit message

@@ -93,6 +93,11 @@ public final class MkContents implements Contents {
     }
 
     @Override
+    public Content readme(final String branch) {
+        return new MkContent();
+    }
+
+    @Override
     public Commit remove(
         final String path,
         final String message,
@@ -100,4 +105,5 @@ public final class MkContents implements Contents {
         throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
+
 }
