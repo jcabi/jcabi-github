@@ -65,8 +65,8 @@ class RtReadme implements Content {
 
     /**
      * Public CTOR for README content.
-     * @param repo Repository
      * @param req Request
+     * @param repo Repository
      */
     RtReadme(final Request req, final Repo repo) {
         this.request = req.uri()

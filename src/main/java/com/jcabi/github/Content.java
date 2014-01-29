@@ -58,9 +58,6 @@ public interface Content extends Comparable<Content>,
     @NotNull(message = "contentPath is never NULL")
     String contentPath();
 
-    /**
-     * Smart Content with extra features.
-     */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
@@ -70,6 +67,7 @@ public interface Content extends Comparable<Content>,
          * Encapsulated content.
          */
         private final transient Content content;
+
         /**
          * Public ctor.
          * @param cont Content
@@ -84,7 +82,6 @@ public interface Content extends Comparable<Content>,
         public String contentPath() {
             return this.contentPath();
         }
-
         /**
          * Get its name.
          * @return Name of content

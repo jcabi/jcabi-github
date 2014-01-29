@@ -59,14 +59,14 @@ public final class RtContents implements Contents {
     private final transient Request entry;
 
     /**
-     * Repository.
-     */
-    private final transient Repo owner;
-
-    /**
      * RESTful request.
      */
     private final transient Request request;
+
+    /**
+     * Repository.
+     */
+    private final transient Repo owner;
 
     /**
      * Public ctor.

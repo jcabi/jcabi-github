@@ -57,10 +57,10 @@ public final class RtContentsTest {
      * @throws Exception if some problem inside.
      */
     @Test
-    @Ignore
     public void canFetchReadmeFile() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+                "{\"path\": \"README.md\"}")
         ).start();
         final Contents contents = new RtContents(
             new ApacheRequest(container.home()), RtContentsTest.repo()
