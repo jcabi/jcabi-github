@@ -116,6 +116,19 @@ public final class RtDeployKeysTest {
     }
 
     /**
+     * RtDeployKeys can delete a deploy key.
+     * @throws Exception if a problem occurs.
+     */
+    public void canDeleteDeployKey() throws Exception {
+        final RtDeployKeys deployKeys = new RtDeployKeys(
+            new FakeRequest(), repo());
+        MatcherAssert.assertThat(
+            deployKeys.remove(Integer.valueOf("123")),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * Create and return repo for testing.
      * @return Repo
      */
