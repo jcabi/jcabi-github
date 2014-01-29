@@ -29,75 +29,41 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
-import com.jcabi.github.Content;
-import com.jcabi.github.Contents;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
-import java.io.IOException;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock Github contents.
- *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * Test case for {@link com.jcabi.github.mock.MkGitignores}.
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkContents implements Contents {
-
+public final class MkGitignoresTest {
     /**
-     * Storage.
+     * MkGitignores can fetch single gitignore template.
+     * @throws Exception if some problem inside
+     * @todo #320 MkGitignores should be able fetch single raw template.
+     *  Let's implement a test here and the method template(String name)
+     *  from MkGitignores. When done, remove this puzzle
+     *  and the Ignore annotation from this method.
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Repo name.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
-     */
-    public MkContents(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
+    @Test
+    @Ignore
+    public void canFetchSingleRawTemplate() throws Exception {
+        //To be implemented.
     }
 
-    @Override
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
-    }
-
-    @Override
-    public Content readme() {
-        return new MkContent();
-    }
-
-    @Override
-    public Commit remove(
-        final String path,
-        final String message,
-        final String sha)
-        throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+    /**
+     * MkGitignores can iterate over templates.
+     * @throws Exception if something goes wrong.
+     * @todo #320 MkGitignores should be able iterate over template.
+     *  Let's implement a test here and the method iterate() from MkGitignores.
+     *  When done, remove this puzzle and the Ignore annotation
+     *  from this method.
+     */
+    @Test
+    @Ignore
+    public void canIterateOverTemplates() throws Exception {
+        //To be implemented.
     }
 }

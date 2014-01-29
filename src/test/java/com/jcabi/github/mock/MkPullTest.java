@@ -112,6 +112,21 @@ public final class MkPullTest {
     }
 
     /**
+     * MkPull can get comments.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void canGetComments() throws Exception {
+        final Repo repo =  MkPullTest.repo();
+        final Pull pull = repo.pulls().create("", "", "");
+        MatcherAssert.assertThat(
+            pull.comments(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * Create an repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
