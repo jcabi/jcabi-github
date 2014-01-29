@@ -52,6 +52,13 @@ public interface Content extends Comparable<Content>,
     JsonReadable, JsonPatchable {
 
     /**
+     * Get content path.
+     * @return Content path
+     */
+    @NotNull(message = "contentPath is never NULL")
+    String contentPath();
+
+    /**
      * Smart Content with extra features.
      */
     @Immutable
@@ -72,6 +79,12 @@ public interface Content extends Comparable<Content>,
             final Content cont) {
             this.content = cont;
         }
+        @Override
+        @NotNull(message = "contentPath is never NULL")
+        public String contentPath() {
+            return this.contentPath();
+        }
+
         /**
          * Get its name.
          * @return Name of content

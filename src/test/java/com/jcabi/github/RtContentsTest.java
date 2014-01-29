@@ -54,10 +54,6 @@ public final class RtContentsTest {
 
     /**
      * RtContents can fetch the default branch readme file.
-     * @todo #119 RtContents should fetch the readme file for the default
-     *  branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
      * @throws Exception if some problem inside.
      */
     @Test

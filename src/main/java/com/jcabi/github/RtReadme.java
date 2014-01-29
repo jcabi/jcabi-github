@@ -27,52 +27,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Content;
+import com.rexsl.test.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github content.
+ * Github release.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @version $Id$
- * @todo #166 Content mock should be implemented.
- *  Need to implement the methods of MkContent: 1) compareTo,
- *  2) json, 3) patch, 4) contentPath
- *  Don't forget to update the unit test class {@link MkContent}.
- *  See http://developer.github.com/v3/repos/contents
- * @since 0.8
+ * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-final class MkContent implements Content {
+@EqualsAndHashCode(of = { "request" })
+class RtReadme implements Content {
 
-    @Override
-    public int compareTo(final Content cont) {
-        throw new UnsupportedOperationException("MkContent#compareTo()");
+    /**
+     * Content path root URL part.
+     */
+    private static final String REPOS = "/repos";
+
+    /**
+     * Content path URL part.
+     */
+    private static final String README = "readme";
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Public CTOR for README content.
+     * @param repo Repository
+     * @param req Request
+     */
+    RtReadme(final Request req, final Repo repo) {
+        this.request = req.uri()
+            .path(REPOS)
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path(README)
+            .back();
     }
 
     @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        throw new UnsupportedOperationException("MkContent#patch()");
+    public final int compareTo(final Content content) {
+        return this.contentPath().compareTo(content.contentPath());
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkContent#json()");
+    public final JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 
     @Override
-    public String contentPath() {
-        throw new UnsupportedOperationException("MkContent#contentPath()");
+    public final void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
+
+    @Override
+    public final String contentPath() {
+        return "README.md";
+    }
+
 }

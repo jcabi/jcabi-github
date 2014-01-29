@@ -91,7 +91,7 @@ public final class RtContents implements Contents {
 
     @Override
     public Content readme() {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+        return new RtReadme(this.entry, this.owner);
     }
 
     @Override
