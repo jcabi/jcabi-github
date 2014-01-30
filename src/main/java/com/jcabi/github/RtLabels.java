@@ -136,7 +136,7 @@ final class RtLabels implements Labels {
     public Iterable<Label> iterate() {
         return new RtPagination<Label>(
             this.request,
-            new RtPagination.Mapping<Label>() {
+            new RtPagination.Mapping<Label, JsonObject>() {
                 @Override
                 public Label map(final JsonObject object) {
                     return new RtLabel(

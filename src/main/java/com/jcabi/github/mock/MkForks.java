@@ -33,17 +33,19 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Repo;
+import com.jcabi.log.Logger;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
+import org.xembly.Directives;
 
 /**
  * Mock Github forks.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #121 Need to implement the methods of MkForks: 1) iterate, returning
- *  a list of forks, and 2) create, which will create a new fork. Don't forget
- *  to update the unit test class {@link MkForksTest}.
+ * @todo #192 Need to implement {@link MkFork} and {@link MkForkTest},
+ *  then update this class and {@link MkForksTest}
  */
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkForks implements Forks {
@@ -75,21 +77,73 @@ final class MkForks implements Forks {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("forks")
+        );
     }
-
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
-
+    /**
+     * Gets a mocked Fork.
+     * @param forkid Fork id
+     * @return Mocked Fork
+     */
+    public Fork get(final int forkid) {
+        return new MkFork();
+    }
     @Override
     public Iterable<Fork> iterate(final String sort) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<Fork>(
+            this.storage,
+            String.format("%s/fork", this.xpath()),
+            new MkIterable.Mapping<Fork>() {
+                @Override
+                public Fork map(final XML xml) {
+                    return MkForks.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
-
     @Override
-    public Fork create(final String organization) {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Fork create(final String org) throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/fork/id", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("fork")
+                    .add("id").set(Integer.toString(number)).up()
+                    .attr("organization", org)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        Logger.info(
+            this, "fork %s created inside %s by %s",
+            this.coords, org, this.self
+        );
+        return this.get(number);
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/forks",
+            this.coords
+        );
+    }
 }

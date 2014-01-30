@@ -105,14 +105,14 @@ final class RtGist implements Gist {
     }
 
     @Override
-    public String name() {
+    public String identifier() {
         return this.gist;
     }
 
     @Override
     public String read(@NotNull(message = "file name can't be NULL")
         final String file) throws IOException {
-        final Response response = this.entry.fetch();
+        final Response response = this.request.fetch();
         final String url = response
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
@@ -138,7 +138,7 @@ final class RtGist implements Gist {
         final JsonStructure json = Json.createObjectBuilder()
             .add("files", Json.createObjectBuilder().add(file, builder))
             .build();
-        this.entry.method(Request.PATCH)
+        this.request.method(Request.PATCH)
             .body().set(json).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
@@ -154,7 +154,10 @@ final class RtGist implements Gist {
 
     @Override
     public void unstar() throws IOException {
-        throw new UnsupportedOperationException("unstar not yet implemented.");
+        this.request.uri().path("star").back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override

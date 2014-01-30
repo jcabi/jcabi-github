@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -66,24 +65,21 @@ public final class MkGistsTest {
     /**
      * This tests that the remove() method in MkGists is working fine.
      * @throws Exception - if anything goes wrong.
-     * @todo #20 Method remove() in MkGists class has to be implemented.
-     *  The test for this method is currently ignored.
      */
     @Test
-    @Ignore
-    public void removesMkGistByName() throws Exception {
+    public void removesGistByIdentifier() throws Exception {
         final Gists gists = new MkGithub().gists();
-        final Gist createdGist = gists.create(
+        final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content")
         );
         MatcherAssert.assertThat(
             gists.iterate(),
-            Matchers.hasItem(createdGist)
+            Matchers.hasItem(gist)
         );
-        gists.remove("gist");
+        gists.remove(gist.identifier());
         MatcherAssert.assertThat(
             gists.iterate(),
-            Matchers.not(Matchers.hasItem(createdGist))
+            Matchers.not(Matchers.hasItem(gist))
         );
     }
     /**

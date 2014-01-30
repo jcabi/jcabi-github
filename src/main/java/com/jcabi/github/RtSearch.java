@@ -31,7 +31,12 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.rexsl.test.Request;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.regex.Pattern;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -41,14 +46,16 @@ import lombok.EqualsAndHashCode;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @todo #124 Add implementations of repos(), issues(), and users() methods.
- *  When done, don't forget to remove @Ignore annotations from the
- *  {@link RtSearchTest} class.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub" })
+@EqualsAndHashCode(of = "ghub")
 public final class RtSearch implements Search {
+
+    /**
+     * Slash pattern for url splitting.
+     */
+    private static final Pattern SLASH = Pattern.compile("/");
 
     /**
      * Github.
@@ -56,11 +63,18 @@ public final class RtSearch implements Search {
     private final transient Github ghub;
 
     /**
+     * RESTful Request to search.
+     */
+    private final transient Request request;
+
+    /**
      * Public ctor.
      * @param github Github
+     * @param req RESTful API entry point
      */
-    public RtSearch(final Github github) {
+    RtSearch(final Github github, final Request req) {
         this.ghub = github;
+        this.request = req.uri().path("/search").back();
     }
 
     @Override
@@ -75,8 +89,16 @@ public final class RtSearch implements Search {
         @NotNull(message = "Sort field can't be NULL") final String sort,
         @NotNull(message = "Sort order can't be NULL") final String order)
         throws IOException {
-        throw new UnsupportedOperationException(
-            "Repo search is not yet implemented."
+        return new RtSearchPagination<Repo>(
+            this.request, "repositories", keywords, sort, order,
+            new RtPagination.Mapping<Repo, JsonObject>() {
+                @Override
+                public Repo map(final JsonObject object) {
+                    return RtSearch.this.github().repos().get(
+                        new Coordinates.Simple(object.getString("full_name"))
+                    );
+                }
+            }
         );
     }
 
@@ -87,8 +109,24 @@ public final class RtSearch implements Search {
         @NotNull(message = "Sort field can't be NULL") final String sort,
         @NotNull(message = "Sort order can't be NULL") final String order)
         throws IOException {
-        throw new UnsupportedOperationException(
-            "Issue search is not yet implemeted."
+        return new RtSearchPagination<Issue>(
+            this.request, "issues", keywords, sort, order,
+            new RtPagination.Mapping<Issue, JsonObject>() {
+                @Override
+                public Issue map(final JsonObject object) {
+                    try {
+                        final String[] parts = RtSearch.SLASH.split(
+                            new URI(object.getString("url")).getPath()
+                        );
+                        return RtSearch.this.ghub.repos().get(
+                            // @checkstyle MagicNumber (1 line)
+                            new Coordinates.Simple(parts[2], parts[3])
+                        ).issues().get(object.getInt("number"));
+                    } catch (final URISyntaxException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+            }
         );
     }
 
@@ -99,8 +137,16 @@ public final class RtSearch implements Search {
         @NotNull(message = "Sort field can't be NULL") final String sort,
         @NotNull(message = "Sort order can't be NULL") final String order)
         throws IOException {
-        throw new UnsupportedOperationException(
-            "User search is not yet implemeted."
+        return new RtSearchPagination<User>(
+            this.request, "users", keywords, sort, order,
+            new RtPagination.Mapping<User, JsonObject>() {
+                @Override
+                public User map(final JsonObject object) {
+                    return RtSearch.this.ghub.users().get(
+                        object.getString("login")
+                    );
+                }
+            }
         );
     }
 

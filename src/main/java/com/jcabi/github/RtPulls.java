@@ -127,7 +127,7 @@ final class RtPulls implements Pulls {
     public Iterable<Pull> iterate() {
         return new RtPagination<Pull>(
             this.request,
-            new RtPagination.Mapping<Pull>() {
+            new RtPagination.Mapping<Pull, JsonObject>() {
                 @Override
                 public Pull map(final JsonObject object) {
                     return RtPulls.this.get(object.getInt("number"));

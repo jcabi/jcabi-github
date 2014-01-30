@@ -191,6 +191,8 @@
                         <systemPropertyVariables>
                             <failsafe.github.key>${failsafe.github.key}</failsafe.github.key>
                             <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
+                            <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
+                            <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>

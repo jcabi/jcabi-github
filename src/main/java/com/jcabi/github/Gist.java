@@ -52,8 +52,6 @@ import lombok.ToString;
  *  http://developer.github.com/v3/gists/
  *  The method should be tested by integration and unit tests, and implemented
  *  in MkGist as well. When done, remove this comment.
- * @todo #1:0.5hr Integration test for fork() method is required.
- *  Need to fork some gist and check the forked gist.
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -67,11 +65,11 @@ public interface Gist extends JsonReadable {
     Github github();
 
     /**
-     * Get gist id.
-     * @return Gist id
+     * Get gist identifier.
+     * @return Gist identifier
      */
-    @NotNull(message = "String is never NULL")
-    String name();
+    @NotNull(message = "Identifier is never NULL")
+    String identifier();
 
     /**
      * Read file content.
@@ -156,8 +154,9 @@ public interface Gist extends JsonReadable {
          * Get gist id.
          * @return Gist id
          */
-        public String name() {
-            return this.gist.name();
+        @Override
+        public String identifier() {
+            return this.gist.identifier();
         }
 
         /**
