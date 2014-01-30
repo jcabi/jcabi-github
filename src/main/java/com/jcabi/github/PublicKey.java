@@ -82,13 +82,18 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "key")
+    @EqualsAndHashCode(of = { "key", "jsn" })
     final class Smart implements PublicKey {
 
         /**
          * Encapsulated public key.
          */
         private final transient PublicKey key;
+
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
 
         /**
          * Public ctor.
@@ -98,6 +103,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
             @NotNull(message = "public key is never NULL") final PublicKey pkey
         ) {
             this.key = pkey;
+            this.jsn = new SmartJson(pkey);
         }
 
         /**
@@ -106,7 +112,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String key() throws IOException {
-            return new SmartJson(this).text("key");
+            return this.jsn.text("key");
         }
 
         /**
@@ -126,7 +132,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -135,7 +141,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String title() throws IOException {
-            return new SmartJson(this).text("title");
+            return this.jsn.text("title");
         }
 
         /**

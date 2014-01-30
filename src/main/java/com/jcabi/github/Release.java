@@ -70,13 +70,17 @@ public interface Release extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "release")
+    @EqualsAndHashCode(of = { "release", "jsn" })
     final class Smart implements Release {
 
         /**
          * Encapsulated release.
          */
         private final transient Release release;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
 
         /**
          * Public CTOR.
@@ -84,6 +88,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Smart(final Release original) {
             this.release = original;
+            this.jsn = new SmartJson(original);
         }
 
         @Override
@@ -107,7 +112,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -116,7 +121,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
-            return new URL(new SmartJson(this).text("html_url"));
+            return new URL(this.jsn.text("html_url"));
         }
 
         /**
@@ -125,7 +130,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL assetsUrl() throws IOException {
-            return new URL(new SmartJson(this).text("assets_url"));
+            return new URL(this.jsn.text("assets_url"));
         }
 
         /**
@@ -134,7 +139,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL uploadUrl() throws IOException {
-            return new URL(new SmartJson(this).text("upload_url"));
+            return new URL(this.jsn.text("upload_url"));
         }
 
         /**
@@ -143,7 +148,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String tag() throws IOException {
-            return new SmartJson(this).text("tag_name");
+            return this.jsn.text("tag_name");
         }
 
         /**
@@ -152,7 +157,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String commitish() throws IOException {
-            return new SmartJson(this).text("target_commitish");
+            return this.jsn.text("target_commitish");
         }
 
         /**
@@ -161,7 +166,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
-            return new SmartJson(this).text("name");
+            return this.jsn.text("name");
         }
 
         /**
@@ -170,7 +175,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
-            return new SmartJson(this).text("body");
+            return this.jsn.text("body");
         }
 
         /**
@@ -180,7 +185,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(new SmartJson(this).text("created_at"))
+                return new Github.Time(this.jsn.text("created_at"))
                     .date();
             } catch (ParseException ex) {
                 throw new IOException(ex);
@@ -194,7 +199,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Date publishedAt() throws IOException {
             try {
-                return new Github.Time(new SmartJson(this).text("published_at"))
+                return new Github.Time(this.jsn.text("published_at"))
                     .date();
             } catch (ParseException ex) {
                 throw new IOException(ex);

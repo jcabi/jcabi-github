@@ -71,12 +71,16 @@ public interface Content extends Comparable<Content>,
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "content")
+    @EqualsAndHashCode(of = { "content", "jsn" })
     final class Smart implements Content {
         /**
          * Encapsulated content.
          */
         private final transient Content content;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param cont Content
@@ -85,6 +89,7 @@ public interface Content extends Comparable<Content>,
             @NotNull(message = "content is never NULL")
             final Content cont) {
             this.content = cont;
+            this.jsn = new SmartJson(cont);
         }
         /**
          * Get its name.
@@ -92,7 +97,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
-            return new SmartJson(this).text("name");
+            return this.jsn.text("name");
         }
         /**
          * Get its type.
@@ -100,7 +105,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public String type() throws IOException {
-            return new SmartJson(this).text("type");
+            return this.jsn.text("type");
         }
         /**
          * Get its size.
@@ -108,7 +113,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If it fails
          */
         public int size() throws IOException {
-            return new SmartJson(this).number("size");
+            return this.jsn.number("size");
         }
         /**
          * Get its sha hash.
@@ -116,7 +121,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public String sha() throws IOException {
-            return new SmartJson(this).text("sha");
+            return this.jsn.text("sha");
         }
         /**
          * Get its URL.
@@ -124,7 +129,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
         /**
          * Get its HTML URL.
@@ -132,7 +137,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
-            return new URL(new SmartJson(this).text("html_url"));
+            return new URL(this.jsn.text("html_url"));
         }
         /**
          * Get its GIT URL.
@@ -140,7 +145,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public URL gitUrl() throws IOException {
-            return new URL(new SmartJson(this).text("git_url"));
+            return new URL(this.jsn.text("git_url"));
         }
         @Override
         public int compareTo(final Content cont) {
