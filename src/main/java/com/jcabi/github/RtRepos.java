@@ -83,11 +83,6 @@ final class RtRepos implements Repos {
         return this.ghub;
     }
 
-    /**
-     * {@inheritDoc}
-     * @todo #23:1hr Create integration test case to create random repo,
-     *  ensure success, create again, ensure failure, delete.
-     */
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
