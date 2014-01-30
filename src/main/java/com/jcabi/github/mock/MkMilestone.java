@@ -31,19 +31,17 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
-import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import java.io.IOException;
-import java.util.Map;
-import org.xembly.Directives;
+import javax.json.JsonObject;
 
 /**
- * Mock Github milestones.
+ * Mock Github milestone.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkMilestones implements Milestones {
+public final class MkMilestone implements Milestone {
 
     /**
      * Storage.
@@ -61,73 +59,63 @@ public final class MkMilestones implements Milestones {
     private final transient Coordinates coords;
 
     /**
-     * MkMilestones ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException - if any I/O problem occurs
+     * The number of the MkMilestone.
      */
-    MkMilestones(
-        final MkStorage stg, final String login, final Coordinates rep
-    ) throws IOException {
-        this.storage = stg;
+    private final transient int code;
+
+    /**
+     * MkMilestone constructor.
+     * @param strg The storage
+     * @param login The user to login with
+     * @param crds The repo
+     * @param num The number of the MkMilestone
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkMilestone(
+        final MkStorage strg, final String login, final Coordinates crds,
+        final int num
+    ) {
         this.self = login;
-        this.coords = rep;
-        this.storage.apply(
-        new Directives().xpath(
-            String.format("/github/repos/repo[@coords='%s']", this.coords)
-        ).addIf("milestones")
-        );
+        this.coords = crds;
+        this.storage = strg;
+        this.code = num;
     }
+
     @Override
-    public Repo repo() {
+    public int compareTo(final Milestone milestone) {
+        assert this.self != null;
+        assert this.coords != null;
+        assert this.storage != null;
+        assert this.code != -1;
         throw new UnsupportedOperationException(
-            "Unsupported operation."
+            "This method is not implemented yet."
         );
     }
 
     @Override
-    public Milestone create(final String title) throws IOException {
-        final int number;
-        number = 1 + this.storage.xml().xpath(
-            String.format("%s/milestone/number/text()", this.xpath())
-        ).size();
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).add("milestone")
-                .add("title").set(title).up()
-                .add("state").set(Milestone.OPEN_STATE).up()
-                .add("description").set("mock milestone").up()
-        );
-        return this.get(number);
-    }
-
-    @Override
-    public Milestone get(final int number) {
-        return new MkMilestone(this.storage, this.self, this.coords, number);
-    }
-
-    @Override
-    public Iterable<Milestone> iterate(final Map<String, String> params) {
+    public JsonObject json() throws IOException {
         throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+            "Unimplemented operation."
         );
     }
 
     @Override
-    public void remove(final int number) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         throw new UnsupportedOperationException(
             "This operation is not available yet."
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/milestones",
-            this.coords
+    @Override
+    public Repo repo() {
+        throw new UnsupportedOperationException(
+            "This is not available yet"
         );
     }
+
+    @Override
+    public int number() {
+        return this.code;
+    }
+
 }
