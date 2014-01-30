@@ -208,9 +208,6 @@ public final class RtContentsTest {
     /**
      * RtContents can update files into the repository.
      * @throws Exception If any problems during test execution occurs.
-     * @todo #119 RtContents should be able to update files into the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
      */
     @Test
     public void canUpdateFilesInRepository() throws Exception {
