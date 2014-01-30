@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.rexsl.test.Request;
 import com.rexsl.test.mock.MkAnswer;
 import com.rexsl.test.mock.MkContainer;
 import com.rexsl.test.mock.MkGrizzlyContainer;
@@ -49,6 +50,7 @@ import org.mockito.Mockito;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 @Immutable
 public final class RtContentsTest {
@@ -205,15 +207,44 @@ public final class RtContentsTest {
 
     /**
      * RtContents can update files into the repository.
-     *
+     * @throws Exception If any problems during test execution occurs.
      * @todo #119 RtContents should be able to update files into the repository.
      *  Let's implement a test here and a method of RtContents.
      *  When done, remove this puzzle and Ignore annotation from the method.
      */
     @Test
-    @Ignore
-    public void canUpdateFilesInRepository() {
-        // to be implemented
+    public void canUpdateFilesInRepository() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{}")
+        ).start();
+        try {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            final String path = "test.txt";
+            final JsonObject json = Json.createObjectBuilder()
+                .add("message", "let's change it.")
+                .add("content", "bmV3IHRlc3Q=")
+                .add("sha", "90b67dda6d5944ad167e20ec52bfed8fd56986c8")
+                .build();
+            contents.update(path, json);
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+            MatcherAssert.assertThat(
+                query.uri().getPath(),
+                Matchers.endsWith(path)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.equalTo(json.toString())
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

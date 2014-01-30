@@ -37,6 +37,7 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -105,5 +106,11 @@ public final class MkContents implements Contents {
         final String sha)
         throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
+    @Override
+    public void update(final String path, final JsonObject json)
+        throws IOException {
+        throw new UnsupportedOperationException("Update not yet implemented.");
     }
 }
