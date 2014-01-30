@@ -38,6 +38,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Event;
 import com.jcabi.github.Forks;
+import com.jcabi.github.Git;
 import com.jcabi.github.Github;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Issues;
@@ -209,6 +210,11 @@ final class MkRepo implements Repo {
     @Override
     public RepoCommits commits() {
         return new MkRepoCommits(this.storage, this.coordinates());
+    }
+
+    @Override
+    public Git git() {
+        return null;
     }
 
     @Override
