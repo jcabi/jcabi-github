@@ -77,18 +77,23 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "commit")
+    @EqualsAndHashCode(of = { "commit", "jsn" })
     final class Smart implements Commit {
         /**
          * Encapsulated commit.
          */
         private final transient Commit commit;
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
          * Public ctor.
          * @param cmt Commit
          */
         public Smart(final Commit cmt) {
             this.commit = cmt;
+            this.jsn = new SmartJson(cmt);
         }
         /**
          * Get its message.
@@ -96,7 +101,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public String message() throws IOException {
-            return new SmartJson(this).text("message");
+            return this.jsn.text("message");
         }
         /**
          * Get its URL.
@@ -104,7 +109,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
         @Override
         public Repo repo() {

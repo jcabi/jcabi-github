@@ -168,18 +168,23 @@ public interface Repo extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "repo")
+    @EqualsAndHashCode(of = { "repo", "jsn" })
     final class Smart implements Repo {
         /**
          * Encapsulated Repo.
          */
         private final transient Repo repo;
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
          * Public ctor.
          * @param rep Repo
          */
         public Smart(final Repo rep) {
             this.repo = rep;
+            this.jsn = new SmartJson(rep);
         }
         /**
          * Get its description.
@@ -187,7 +192,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
-            return new SmartJson(this).text("description");
+            return this.jsn.text("description");
         }
         @Override
         public Github github() {

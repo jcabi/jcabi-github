@@ -94,18 +94,25 @@ public interface Comment
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "comment")
+    @EqualsAndHashCode(of = { "comment", "jsn" })
     final class Smart implements Comment {
         /**
          * Encapsulated comment.
          */
         private final transient Comment comment;
+
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param cmt Comment
          */
         public Smart(final Comment cmt) {
             this.comment = cmt;
+            this.jsn = new SmartJson(cmt);
         }
         /**
          * Get its author.
@@ -123,7 +130,7 @@ public interface Comment
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
-            return new SmartJson(this).text("body");
+            return this.jsn.text("body");
         }
         /**
          * Change comment body.
@@ -141,7 +148,7 @@ public interface Comment
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
         /**
          * When this comment was created.
@@ -151,7 +158,7 @@ public interface Comment
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("created_at")
+                    this.jsn.text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IOException(ex);
@@ -165,7 +172,7 @@ public interface Comment
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("updated_at")
+                    this.jsn.text("updated_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IOException(ex);
