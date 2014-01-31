@@ -189,7 +189,11 @@ final class MkRepo implements Repo {
 
     @Override
     public DeployKeys keys() {
-        return new MkDeployKeys(this.storage, this.self, this.coords);
+        try {
+            return new MkDeployKeys(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
