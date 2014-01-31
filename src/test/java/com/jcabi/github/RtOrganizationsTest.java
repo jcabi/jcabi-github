@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -91,7 +92,6 @@ public final class RtOrganizationsTest {
      * RtOrganizations can iterate organizations for an unauthenticated user.
      *
      * @throws Exception If a problem occurs
-     * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
     public void canIterateOrganizationsForUnauthUser() throws Exception {
@@ -99,9 +99,9 @@ public final class RtOrganizationsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(org(1, "org11"))
-                    .add(org(2, "org12"))
-                    .add(org(3, "org13"))
+                    .add(org(Tv.THREE, "org11"))
+                    .add(org(Tv.FOUR, "org12"))
+                    .add(org(Tv.FIVE, "org13"))
                     .build().toString()
             )
         ).start();
@@ -114,7 +114,7 @@ public final class RtOrganizationsTest {
             final String username = "octopus";
             MatcherAssert.assertThat(
                 orgs.iterate(username),
-                Matchers.<Organization>iterableWithSize(3)
+                Matchers.<Organization>iterableWithSize(Tv.THREE)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
