@@ -57,7 +57,7 @@ public final class RtRepoCommitsTest {
                     Json.createObjectBuilder().add("sha", sha)
                 ).build().toString()
             ),
-            new Coordinates.Simple("testuser1", "testrepo1")
+            RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
             commits.iterate().iterator().next().sha(),
@@ -68,7 +68,6 @@ public final class RtRepoCommitsTest {
     /**
      * RtRepoCommits can get commit.
      */
-    @Ignore
     @Test
     public void getCommit() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
@@ -79,8 +78,18 @@ public final class RtRepoCommitsTest {
                     .build()
                     .toString()
             ),
-            new Coordinates.Simple("testuser2", "testrepo2")
+            RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(commits.get(sha).sha(), Matchers.equalTo(sha));
     }
+
+    /**
+     * Create repository for tests.
+     * @return Repository
+     */
+    private static Repo repo() {
+        return new RtGithub().repos()
+            .get(new Coordinates.Simple("user", "repo"));
+    }
+
 }
