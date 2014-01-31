@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -52,7 +52,7 @@ import javax.validation.constraints.NotNull;
  * Issue issue = issues.post("issue title", "issue body");</pre>
  *
  * <p>It is strongly recommended to use
- * {@link com.rexsl.test.wire.RetryWire} to avoid
+ * {@link com.jcabi.http.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
  * <pre> Github github = new RtGithub(
