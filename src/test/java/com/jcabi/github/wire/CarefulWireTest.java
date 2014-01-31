@@ -29,7 +29,7 @@
  */
 package com.jcabi.github.wire;
 
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
