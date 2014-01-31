@@ -56,7 +56,7 @@ public interface Collaborators {
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
      *  Check if a user is collaborator</a>
      */
-    boolean isCollabborator(
+    boolean isCollaborator(
         @NotNull(message = "User is never null") String user);
 
     /**
