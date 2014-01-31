@@ -41,7 +41,6 @@ import org.xembly.Directives;
  * Mock Github milestones.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkMilestones implements Milestones {
 
@@ -74,16 +73,14 @@ public final class MkMilestones implements Milestones {
         this.self = login;
         this.coords = rep;
         this.storage.apply(
-        new Directives().xpath(
-            String.format("/github/repos/repo[@coords='%s']", this.coords)
-        ).addIf("milestones")
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", this.coords)
+            ).addIf("milestones")
         );
     }
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException(
-            "Unsupported operation."
-        );
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
