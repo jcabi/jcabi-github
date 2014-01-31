@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import java.util.Collections;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -80,13 +81,8 @@ public final class RtHooksITCase {
      */
     @Test
     public void canFetchSingleHook() throws Exception {
-        final Repos repos = RtHooksITCase.github().repos();
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
-            ).build()
-        );
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
         try {
             final Hooks hooks = repo.hooks();
             final int number = hooks.create(
@@ -108,13 +104,8 @@ public final class RtHooksITCase {
      */
     @Test
     public void canRemoveHook() throws Exception {
-        final Repos repos = RtHooksITCase.github().repos();
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
-            ).build()
-        );
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
         try {
             final Hooks hooks = repo.hooks();
             final Hook hook = hooks.create(
@@ -131,13 +122,28 @@ public final class RtHooksITCase {
     }
 
     /**
-     * Return github for tests.
-     * @return Github
+     * Return repos for tests.
+     * @return Repos
      */
-    private static Github github() {
+    private static Repos repos() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
+        return new RtGithub(key).repos();
+    }
+
+    /**
+     * Create a new repo with random name.
+     * @param repos Repos
+     * @return Repository
+     * @throws IOException If there is any I/O problem
+     */
+    private static Repo repo(final Repos repos) throws IOException {
+        return repos.create(
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
+        );
     }
 
 }
