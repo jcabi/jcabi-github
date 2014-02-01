@@ -92,7 +92,7 @@ public interface Milestone extends Comparable<Milestone>,
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "milestone")
+    @EqualsAndHashCode(of = { "milestone", "jsn" })
     final class Smart implements Milestone {
 
         /**
@@ -121,11 +121,17 @@ public interface Milestone extends Comparable<Milestone>,
         private final transient Milestone milestone;
 
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+
+        /**
          * Public ctor.
          * @param mls Issue
          */
         public Smart(final Milestone mls) {
             this.milestone = mls;
+            this.jsn = new SmartJson(mls);
         }
 
         /**
@@ -135,7 +141,7 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public User creator() throws IOException {
             return this.milestone.repo().github().users().get(
-                new SmartJson(this).value(
+                this.jsn.value(
                     "creator", JsonObject.class
                 ).getString("login")
             );
@@ -172,7 +178,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public String state() throws IOException {
-            return new SmartJson(this).text(STATE);
+            return this.jsn.text(STATE);
         }
 
         /**
@@ -192,7 +198,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public String title() throws IOException {
-            return new SmartJson(this).text(TITLE);
+            return this.jsn.text(TITLE);
         }
 
         /**
@@ -212,7 +218,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
-            return new SmartJson(this).text(DESCRIPTION);
+            return this.jsn.text(DESCRIPTION);
         }
 
         /**
@@ -233,7 +239,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -244,7 +250,7 @@ public interface Milestone extends Comparable<Milestone>,
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("created_at")
+                    this.jsn.text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -259,7 +265,7 @@ public interface Milestone extends Comparable<Milestone>,
         public Date dueOn() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text(DUE_ON)
+                    this.jsn.text(DUE_ON)
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -284,7 +290,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public int openIssues() throws IOException {
-            return new SmartJson(this).number("open_issues");
+            return this.jsn.number("open_issues");
         }
 
         /**
@@ -293,7 +299,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public int closedIssues() throws IOException {
-            return new SmartJson(this).number("closed_issues");
+            return this.jsn.number("closed_issues");
         }
 
         @Override
