@@ -91,6 +91,7 @@ public final class MkMilestones implements Milestones {
         ).size();
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("milestone")
+                .add("number").set(Integer.toString(number)).up()
                 .add("title").set(title).up()
                 .add("state").set(Milestone.OPEN_STATE).up()
                 .add("description").set("mock milestone").up()
