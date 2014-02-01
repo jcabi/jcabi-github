@@ -82,7 +82,7 @@ public interface Organization extends Comparable<Organization>,
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "org")
+    @EqualsAndHashCode(of = { "org", "jsn" })
     final class Smart implements Organization {
 
         /**
@@ -91,11 +91,17 @@ public interface Organization extends Comparable<Organization>,
         private final transient Organization org;
 
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+
+        /**
          * Public ctor.
          * @param orgn Organization
          */
         public Smart(final Organization orgn) {
             this.org = orgn;
+            this.jsn = new SmartJson(orgn);
         }
 
         /**
@@ -113,7 +119,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String company() throws IOException {
-            return new SmartJson(this).text("company");
+            return this.jsn.text("company");
         }
 
         /**
@@ -133,7 +139,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String location() throws IOException {
-            return new SmartJson(this).text("location");
+            return this.jsn.text("location");
         }
 
         /**
@@ -153,7 +159,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
-            return new SmartJson(this).text("name");
+            return this.jsn.text("name");
         }
 
         /**
@@ -173,7 +179,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String email() throws IOException {
-            return new SmartJson(this).text("email");
+            return this.jsn.text("email");
         }
 
         /**
@@ -193,7 +199,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String billingEmail() throws IOException {
-            return new SmartJson(this).text("billing_email");
+            return this.jsn.text("billing_email");
         }
 
         /**
@@ -215,7 +221,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String blog() throws IOException {
-            return new SmartJson(this).text("blog");
+            return this.jsn.text("blog");
         }
 
         /**
@@ -224,7 +230,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -233,7 +239,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
-            return new URL(new SmartJson(this).text("html_url"));
+            return new URL(this.jsn.text("html_url"));
         }
 
         /**
@@ -242,7 +248,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public URL avatarUrl() throws IOException {
-            return new URL(new SmartJson(this).text("avatar_url"));
+            return new URL(this.jsn.text("avatar_url"));
         }
 
         /**
@@ -253,7 +259,7 @@ public interface Organization extends Comparable<Organization>,
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("created_at")
+                    this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -266,7 +272,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public int publicRepos() throws IOException {
-            return new SmartJson(this).number("public_repos");
+            return this.jsn.number("public_repos");
         }
 
         /**
@@ -275,7 +281,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public int publicGists() throws IOException {
-            return new SmartJson(this).number("public_gists");
+            return this.jsn.number("public_gists");
         }
 
         /**
@@ -284,7 +290,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public int followers() throws IOException {
-            return new SmartJson(this).number("followers");
+            return this.jsn.number("followers");
         }
 
         /**
@@ -293,7 +299,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public int following() throws IOException {
-            return new SmartJson(this).number("following");
+            return this.jsn.number("following");
         }
 
         /**
@@ -302,7 +308,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public String type() throws IOException {
-            return new SmartJson(this).text("type");
+            return this.jsn.text("type");
         }
 
         @Override
