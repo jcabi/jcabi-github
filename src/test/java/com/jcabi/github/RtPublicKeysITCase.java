@@ -29,20 +29,18 @@
  */
 package com.jcabi.github;
 
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
  * Test case for {@link RtPublicKeys}.
- *
+ * against a real Github repository. The test exercises the iteration of
+ * existing keys, the retrieval of a single key, and the removal of
+ * an existing key.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #24 Implement an integration test for RtPublicKeys that operates
- *  against a real Github repository. The test should exercise the iteration of
- *  existing keys, the retrieval of a single key, and the removal of an existing
- *  key.
- * @todo #301 Implement an integration test for RtPublicKeys that creates
- *  a real public key for a user.
  */
 public class RtPublicKeysITCase {
 
@@ -52,9 +50,23 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
-    public void retrievesKeys() throws Exception {
-        //To be implemented.
+    public final void retrievesKeys() throws Exception {
+        final PublicKeys keys = this.keys();
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.<PublicKey>iterableWithSize(2)
+        );
+    }
+
+    /**
+     * Create and return PublicKeys object to test.
+     * @return PublicKeys
+     */
+    private PublicKeys keys() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        return github.users().self().keys();
     }
 
     /**
@@ -63,20 +75,32 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
-    public void retrievesSingleKey() throws Exception {
-        //To be implemented.
+    public final void retrievesSingleKey() throws Exception {
+        final PublicKeys keys = this.keys();
+        MatcherAssert.assertThat(
+            keys.get(1).toString(),
+            Matchers.endsWith("/keys/1")
+        );
     }
 
     /**
-     * RtPublicKeys should be able to remove a ey.
+     * RtPublicKeys should be able to remove a key.
      *
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
-    public void removesKey() throws Exception {
-        //To be implemented.
+    public final void removesKey() throws Exception {
+        final PublicKeys keys = this.keys();
+        final PublicKey key = keys.create("rsa", "rsa sh");
+        MatcherAssert.assertThat(
+            keys.iterate() ,
+            Matchers.hasItem(key)
+        );
+        keys.remove(key.number());
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.not(Matchers.hasItem(key))
+        );
     }
 
 }
