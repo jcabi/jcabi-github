@@ -30,12 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
-import com.rexsl.test.request.ApacheRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -63,7 +63,7 @@ public final class RtGistsTest {
                 "{\"id\":\"1\"}"
             )
         ).start();
-        final RtGists gists = new RtGists(
+        final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
         );
@@ -91,7 +91,7 @@ public final class RtGistsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
         ).start();
-        final RtGists gists = new RtGists(
+        final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
         );
@@ -118,7 +118,7 @@ public final class RtGistsTest {
                 "[{\"id\":\"hello\"}]"
             )
         ).start();
-        final RtGists gists = new RtGists(
+        final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
         );
@@ -144,12 +144,12 @@ public final class RtGistsTest {
             )
         )
             .start();
-        final RtGists gists = new RtGists(
+        final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
         );
         try {
-            gists.remove("test_gist");
+            gists.remove("12234");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),

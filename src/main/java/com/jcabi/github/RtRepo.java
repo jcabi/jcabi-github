@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -128,7 +128,7 @@ final class RtRepo implements Repo {
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/issues/events").back(),
-            new RtPagination.Mapping<Event>() {
+            new RtPagination.Mapping<Event, JsonObject>() {
                 @Override
                 public Event map(final JsonObject object) {
                     return new RtEvent(
@@ -168,7 +168,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Contents contents() {
-        return new RtContents(this);
+        return new RtContents(this.entry, this);
     }
 
     @Override
@@ -185,7 +185,7 @@ final class RtRepo implements Repo {
 
     @Override
     public RepoCommits commits() {
-        return new RtRepoCommits(this.entry, this.coords);
+        return new RtRepoCommits(this.entry, this);
     }
 
     @Override

@@ -29,8 +29,8 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.request.FakeRequest;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -56,7 +56,7 @@ public final class BulkTest {
         final Comment comment = new Bulk<Comment>(
             new RtPagination<Comment>(
                 request,
-                new RtPagination.Mapping<Comment>() {
+                new RtPagination.Mapping<Comment, JsonObject>() {
                     @Override
                     public Comment map(final JsonObject object) {
                         return origin;

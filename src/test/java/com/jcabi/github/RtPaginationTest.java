@@ -29,11 +29,11 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.ApacheRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -63,7 +63,7 @@ public final class RtPaginationTest {
         ).next(RtPaginationTest.simple("Hi Mark")).start();
         final Request request = new ApacheRequest(container.home());
         final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-            request, new RtPagination.Mapping<JsonObject>() {
+            request, new RtPagination.Mapping<JsonObject, JsonObject>() {
                 @Override
                 public JsonObject map(final JsonObject object) {
                     return object;
@@ -94,7 +94,7 @@ public final class RtPaginationTest {
         try {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-                request, new RtPagination.Mapping<JsonObject>() {
+                request, new RtPagination.Mapping<JsonObject, JsonObject>() {
                     @Override
                     public JsonObject map(final JsonObject object) {
                         return object;

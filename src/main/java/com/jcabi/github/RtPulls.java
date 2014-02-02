@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -127,7 +127,7 @@ final class RtPulls implements Pulls {
     public Iterable<Pull> iterate() {
         return new RtPagination<Pull>(
             this.request,
-            new RtPagination.Mapping<Pull>() {
+            new RtPagination.Mapping<Pull, JsonObject>() {
                 @Override
                 public Pull map(final JsonObject object) {
                     return RtPulls.this.get(object.getInt("number"));

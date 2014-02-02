@@ -31,10 +31,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.manifests.Manifests;
-import com.rexsl.test.Request;
-import com.rexsl.test.request.ApacheRequest;
-import com.rexsl.test.response.JsonResponse;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -54,16 +54,16 @@ import lombok.ToString;
  * Issue issue = issues.post("issue title", "issue body");</pre>
  *
  * <p>It is strongly recommended to use
- * {@link com.rexsl.test.wire.RetryWire} to avoid
+ * {@link com.jcabi.http.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
  * <pre> Github github = new RtGithub(
  *   new RtGithub(oauthKey).entry().through(RetryWire.class)
  * );</pre>
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -173,7 +173,7 @@ public final class RtGithub implements Github {
 
     @Override
     public Search search() {
-        return new RtSearch(this);
+        return new RtSearch(this, this.request);
     }
 
     @Override
@@ -188,6 +188,11 @@ public final class RtGithub implements Github {
         return this.request.uri().path("emojis").back().fetch()
             .as(JsonResponse.class)
             .json().readObject();
+    }
+
+    @Override
+    public Gitignores gitignores() throws IOException {
+        return new RtGitignores(this);
     }
 
     @Override

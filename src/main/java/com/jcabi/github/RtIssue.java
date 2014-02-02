@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -119,7 +119,7 @@ final class RtIssue implements Issue {
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/events").back(),
-            new RtPagination.Mapping<Event>() {
+            new RtPagination.Mapping<Event, JsonObject>() {
                 @Override
                 public Event map(final JsonObject object) {
                     return new RtEvent(

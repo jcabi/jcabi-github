@@ -29,11 +29,12 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.ApacheRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -82,6 +83,35 @@ public final class RtReposTest {
             Matchers.equalTo((Coordinates) new Coordinates.Simple(owner, name))
         );
         container.stop();
+    }
+
+    /**
+     * RtRepos can remove a repo.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void removeRepo() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final Repos repos = new RtRepos(
+            Mockito.mock(Github.class),
+            new ApacheRequest(container.home())
+        );
+        repos.remove(new Coordinates.Simple("", ""));
+        try {
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.isEmptyString()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

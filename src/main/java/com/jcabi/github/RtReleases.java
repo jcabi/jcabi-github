@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -93,7 +93,7 @@ public final class RtReleases implements Releases {
     public Iterable<Release> iterate() {
         return new RtPagination<Release>(
             this.request,
-            new RtPagination.Mapping<Release>() {
+            new RtPagination.Mapping<Release, JsonObject>() {
                 @Override
                 public Release map(final JsonObject object) {
                     return new RtRelease(

@@ -49,15 +49,16 @@ public final class RtGistsITCase {
     public void createGist() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
-        final Gists gists = gists();
+        final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap(filename, content)
         );
+        final Gist.Smart smart = new Gist.Smart(gist);
         MatcherAssert.assertThat(
-            new Gist.Smart(gist).read(filename),
+            smart.read(filename),
             Matchers.equalTo(content)
         );
-        gists.remove(gist.name());
+        gists.remove(smart.identifier());
     }
 
     /**
@@ -66,7 +67,7 @@ public final class RtGistsITCase {
      */
     @Test
     public void iterateGists() throws Exception {
-        final Gists gists = gists();
+        final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test.txt", "content")
         );
@@ -74,7 +75,7 @@ public final class RtGistsITCase {
             gists.iterate(),
             Matchers.hasItem(gist)
         );
-        gists.remove(gist.name());
+        gists.remove(gist.identifier());
     }
     /**
      * RtGists can get a single gist.
@@ -83,24 +84,23 @@ public final class RtGistsITCase {
     @Test
     public void singleGist() throws Exception {
         final String filename = "single-name.txt";
-        final Gists gists = gists();
+        final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap(filename, "body")
         );
         MatcherAssert.assertThat(
-            gists.get(gist.name()).name(),
-            Matchers.equalTo(gist.name())
+            gists.get(gist.identifier()).identifier(),
+            Matchers.equalTo(gist.identifier())
         );
-        gists.remove(gist.name());
+        gists.remove(gist.identifier());
     }
-
     /**
      * This tests that RtGists can remove a gist by name.
      * @throws Exception - if something goes wrong.
      */
     @Test
     public void removesGistByName() throws Exception {
-        final Gists gists = gists();
+        final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content of test file")
         );

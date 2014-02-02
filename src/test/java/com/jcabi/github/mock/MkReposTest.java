@@ -34,7 +34,9 @@ import com.jcabi.github.Repos;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link MkRepos}.
@@ -43,6 +45,13 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReposTest {
+
+    /**
+     * Rule for checking thrown exception.
+     * @checkstyle VisibilityModifier (3 lines)
+     */
+    @Rule
+    public transient ExpectedException thrown = ExpectedException.none();
 
     /**
      * MkRepos can create a repo.
@@ -79,4 +88,26 @@ public final class MkReposTest {
         );
     }
 
+    /**
+     * MkRepos can remove an existing repo.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void removesRepo() throws Exception {
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
+        final Repo repo = repos.create(
+            Json.createObjectBuilder()
+                .add("name", "remove-me")
+                .add("description", "This is to be deleted!")
+                .build()
+        );
+        MatcherAssert.assertThat(
+            repos.get(repo.coordinates()),
+            Matchers.notNullValue()
+        );
+        repos.remove(repo.coordinates());
+        this.thrown.expect(IllegalArgumentException.class);
+        this.thrown.expectMessage("repository jeff/remove-me doesn't exist");
+        repos.get(repo.coordinates());
+    }
 }

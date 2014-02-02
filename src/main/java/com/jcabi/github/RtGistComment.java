@@ -31,8 +31,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
@@ -73,7 +73,7 @@ final class RtGistComment implements GistComment {
     RtGistComment(final Request req, final Gist gist, final int number) {
         this.request = req.uri()
             .path("/gists")
-            .path(new Gist.Smart(gist).name())
+            .path(new Gist.Smart(gist).identifier())
             .path("/comments")
             .path(Integer.toString(number))
             .back();

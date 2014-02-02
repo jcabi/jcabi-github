@@ -114,18 +114,23 @@ public interface Event extends Comparable<Event>, JsonReadable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "event")
+    @EqualsAndHashCode(of = { "event", "jsn" })
     final class Smart implements Event {
         /**
          * Encapsulated event.
          */
         private final transient Event event;
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
          * Public ctor.
          * @param evt Event
          */
         public Smart(final Event evt) {
             this.event = evt;
+            this.jsn = new SmartJson(evt);
         }
         /**
          * Get its author.
@@ -143,7 +148,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public String type() throws IOException {
-            return new SmartJson(this).text("event");
+            return this.jsn.text("event");
         }
         /**
          * Get its URL.
@@ -151,7 +156,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
         /**
          * When this issue was created.
@@ -161,7 +166,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("created_at")
+                    this.jsn.text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);

@@ -72,7 +72,7 @@ public interface GistComment
      * The gist it's in.
      * @return Owner of the comment
      */
-    @NotNull(message = "issue is never NULL")
+    @NotNull(message = "Gist is never NULL")
     Gist gist();
 
     /**
@@ -94,12 +94,16 @@ public interface GistComment
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "comment")
+    @EqualsAndHashCode(of = { "comment", "jsn" })
     final class Smart implements GistComment {
         /**
          * Encapsulated gist comment.
          */
         private final transient GistComment comment;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
 
         /**
          * Public ctor.
@@ -107,6 +111,7 @@ public interface GistComment
          */
         public Smart(final GistComment cmt) {
             this.comment = cmt;
+            this.jsn = new SmartJson(cmt);
         }
 
         /**
@@ -126,7 +131,7 @@ public interface GistComment
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
-            return new SmartJson(this).text("body");
+            return this.jsn.text("body");
         }
 
         /**
@@ -146,7 +151,7 @@ public interface GistComment
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -157,7 +162,7 @@ public interface GistComment
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("created_at")
+                    this.jsn.text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IOException(ex);
@@ -172,7 +177,7 @@ public interface GistComment
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("updated_at")
+                    this.jsn.text("updated_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IOException(ex);

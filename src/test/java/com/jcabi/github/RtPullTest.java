@@ -29,16 +29,17 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
-import com.rexsl.test.request.ApacheRequest;
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -152,6 +153,17 @@ public final class RtPullTest {
         MatcherAssert.assertThat(
             greater.compareTo(less), Matchers.greaterThan(0)
         );
+    }
+
+    /**
+     * RtPull should be able to fetch pull comments.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    @Ignore
+    public void canFetchComments() throws Exception {
+        //to be implemented
     }
 
     /**
