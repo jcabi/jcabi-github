@@ -72,4 +72,10 @@ public interface DeployKey extends JsonReadable {
      */
     void edit(String title, String value) throws IOException;
 
+    /**
+     * Delete a deploy key.
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
+     */
+    void remove() throws IOException;
 }

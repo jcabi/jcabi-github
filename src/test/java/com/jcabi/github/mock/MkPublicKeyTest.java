@@ -29,6 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -44,13 +47,26 @@ public final class MkPublicKeyTest {
      * MkHooks can be represented as JSON.
      *
      * @throws Exception If a problem occurs.
-     * @todo #24 Implement the Json() method of MkPublicKey. Implement this unit
-     *  test method and remove the Ignore annotation when done.
      */
     @Test
     @Ignore
     public void canRetrieveAsJson() throws Exception {
-        //To be implemented.
+        final String title = "Title1";
+        final String key = "PublicKey1";
+        final JsonObject json = new MkGithub().users().get("john").keys()
+            .create(title, key).json();
+        MatcherAssert.assertThat(
+            json.getString("id"),
+            Matchers.equalTo("1")
+        );
+        MatcherAssert.assertThat(
+            json.getString("title"),
+            Matchers.equalTo(title)
+        );
+        MatcherAssert.assertThat(
+            json.getString("key"),
+            Matchers.equalTo(key)
+        );
     }
 
     /**

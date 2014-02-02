@@ -109,15 +109,11 @@ public class ContentTest {
     @Test
     public final void fetchesPath() throws Exception {
         final Content content = Mockito.mock(Content.class);
-        final String prop = "this is some path";
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("path", prop)
-                .build()
-        ).when(content).json();
+        final String path = "this is some path";
+        Mockito.doReturn(path).when(content).path();
         MatcherAssert.assertThat(
             new Content.Smart(content).path(),
-            Matchers.is(prop)
+            Matchers.is(path)
         );
     }
 

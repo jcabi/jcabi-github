@@ -31,10 +31,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.Response;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.Response;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -154,7 +154,10 @@ final class RtGist implements Gist {
 
     @Override
     public void unstar() throws IOException {
-        throw new UnsupportedOperationException("unstar not yet implemented.");
+        this.request.uri().path("star").back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override

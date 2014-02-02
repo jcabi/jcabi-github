@@ -138,8 +138,10 @@ final class MkGists implements Gists {
 
     @Override
     public void remove(final String identifier) throws IOException {
-        throw new UnsupportedOperationException(
-            "This operation is not implemented yet."
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/gist[id='%s']", this.xpath(), identifier)
+            ).remove()
         );
     }
 }
