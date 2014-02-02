@@ -37,6 +37,7 @@ import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github deploy key.
@@ -79,6 +80,16 @@ public final class MkDeployKey implements DeployKey {
     @Override
     public int number() {
         return this.key;
+    }
+
+    @Override
+    public void edit(final String title, final String value)
+        throws IOException {
+        this.storage.apply(
+            new Directives().xpath(
+                this.xpath()
+            ).attr("key", value).attr("title", title)
+        );
     }
 
     @Override

@@ -87,4 +87,13 @@ public final class RtDeployKey implements DeployKey {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
+
+    @Override
+    public void edit(final String title, final String value)
+        throws IOException {
+        this.request.method(Request.PATCH)
+            .body()
+            .formParam("title", title)
+            .formParam("key", value).back().fetch();
+    }
 }

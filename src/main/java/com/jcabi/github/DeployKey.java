@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 
 /**
  * Github deploy key.
@@ -57,5 +58,14 @@ public interface DeployKey extends JsonReadable {
      * @return Id
      */
     int number();
+
+    /**
+     * Edits a key.
+     * @see <a href="http://developer.github.com/v3/repos/keys/#edit">Deploy keys API</a>
+     * @param title New title
+     * @param value New value
+     * @throws IOException if any I/O problem occurs86
+     */
+    void edit(String title, String value) throws IOException;
 
 }
