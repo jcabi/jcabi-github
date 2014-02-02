@@ -44,6 +44,7 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  * @todo #117 Add test getCommit() to check that commit actually got.
+ *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  *
  * See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
