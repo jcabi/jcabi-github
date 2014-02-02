@@ -65,11 +65,6 @@ final class RtRepoCommits implements RepoCommits {
     private final transient Repo owner;
 
     /**
-     * Github.
-     */
-    private final transient Github github;
-
-    /**
      * Public ctor.
      * @param req Entry point of API
      * @param repo Repository
@@ -83,17 +78,16 @@ final class RtRepoCommits implements RepoCommits {
             .path(repo.coordinates().repo())
             .path("/commits")
             .back();
-        this.github = new RtGithub(this.req);
     }
 
     @Override
     public Iterable<Commit> iterate() {
         return new RtPagination<Commit>(
             this.request,
-            new RtPagination.Mapping<Commit>() {
+            new RtPagination.Mapping<Commit, JsonObject>() {
                 @Override
                 public Commit map(final JsonObject object) {
-                    return get(object.getString("sha"));
+                    return RtRepoCommits.this.get(object.getString("sha"));
                 }
             }
         );

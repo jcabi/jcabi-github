@@ -33,7 +33,6 @@ import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
