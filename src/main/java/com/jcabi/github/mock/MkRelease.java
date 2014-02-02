@@ -83,6 +83,12 @@ public final class MkRelease implements Release {
     }
 
     @Override
+    public Release uploadAsset(final String name, final String contenttype,
+        final byte[] body) throws IOException {
+        return this;
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)

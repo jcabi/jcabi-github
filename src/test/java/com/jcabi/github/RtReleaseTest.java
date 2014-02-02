@@ -34,6 +34,8 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.JdkRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -57,14 +59,15 @@ public class RtReleaseTest {
      * A test mnemo.
      */
     private static final String TEST_MNEMO = "tstuser/tstbranch";
+    public static final String NAME_STRING = "name";
 
     /**
      * RtRelease can edit a release.
      * @todo #180 RtRelease should be able to edit a release. Let's implement
-     *  this method, add integration test, declare a method in Release and
-     *  implement it. See
-     *  http://developer.github.com/v3/repos/releases/#edit-a-release. When
-     *  done, remove this puzzle and Ignore annotation from this method.
+     * this method, add integration test, declare a method in Release and
+     * implement it. See
+     * http://developer.github.com/v3/repos/releases/#edit-a-release. When
+     * done, remove this puzzle and Ignore annotation from this method.
      */
     @Test
     @Ignore
@@ -98,10 +101,10 @@ public class RtReleaseTest {
      * RtRelease can list assets for a release.
      * @checkstyle LineLength (4 lines)
      * @todo #180 RtRelease should be able to list assets for a release. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     * implement this method, add integration test, declare a method in
+     * Release and implement it. See
+     * http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
+     * When done, remove this puzzle and Ignore annotation from this method.
      */
     @Test
     @Ignore
@@ -110,27 +113,59 @@ public class RtReleaseTest {
     }
 
     /**
-     * RtRelease can upload a release asset.
-     * @todo #180 RtRelease should be able to upload a release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#upload-a-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     * RtRelease can uploadAsset a release asset.
+     * @throws IOException if has some problems with json parsing.
      */
     @Test
-    @Ignore
-    public void uploadReleaseAsset() {
-        // to be implemented
+    public final void uploadReleaseAsset() throws IOException {
+        final int identifier = 1;
+        final String idString = "id";
+        final String name = "foo.zip";
+        final MkAnswer first = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            Json.createObjectBuilder()
+                .add(idString, identifier)
+                .add(NAME_STRING, name)
+                .build().toString()
+        );
+        final MkAnswer second = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add(idString, identifier)
+                .add(NAME_STRING, name)
+                .build().toString()
+        );
+        final MkAnswer third = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add(idString, identifier)
+                .add(NAME_STRING, name)
+                .build().toString()
+        );
+        final MkContainer container =
+            new MkGrizzlyContainer().next(first).next(second).next(third)
+                .start();
+        final Release release = new RtRelease(new JdkRequest(container.home())
+            , new Coordinates.Simple("testuser", "testrepo"), identifier);
+        release.uploadAsset(name, "application/zip", "".getBytes());
+        MatcherAssert.assertThat(
+            release.json().getInt(idString),
+            Matchers.equalTo(identifier)
+        );
+        MatcherAssert.assertThat(
+            release.json().getString(NAME_STRING),
+            Matchers.equalTo(name)
+        );
     }
 
     /**
      * RtRelease can get a single release asset.
      * @checkstyle LineLength (4 lines)
      * @todo #180 RtRelease should be able to get a single release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     * implement this method, add integration test, declare a method in
+     * Release and implement it. See
+     * http://developer.github.com/v3/repos/releases/#get-a-single-release-asset.
+     * When done, remove this puzzle and Ignore annotation from this method.
      */
     @Test
     @Ignore
@@ -151,7 +186,7 @@ public class RtReleaseTest {
             new ApacheRequest(container.home()),
             new Coordinates.Simple(TEST_MNEMO), 2
         );
-        release.patch(Json.createObjectBuilder().add("name", "v1")
+        release.patch(Json.createObjectBuilder().add(NAME_STRING, "v1")
             .build()
         );
         MatcherAssert.assertThat(

@@ -59,6 +59,19 @@ public interface Release extends JsonReadable, JsonPatchable {
     int number();
 
     /**
+     * Todo: i wonder if that requires a new type of return object, ReleaseAsset
+     *
+     * Upload a release asset.
+     * @param name New name of release.
+     * @param contenttype New content type of release.
+     * @param body New body of release.
+     * @return Uploaded release.
+     * @throws IOException if has some problems with response parsing.
+     */
+    Release uploadAsset(String name, String contenttype, byte[] body)
+        throws IOException;
+
+    /**
      * Deletes a release.
      * @throws IOException If any I/O problems occur.
      */
@@ -104,6 +117,12 @@ public interface Release extends JsonReadable, JsonPatchable {
         @Override
         public int number() {
             return this.release.number();
+        }
+
+        @Override
+        public Release uploadAsset(final String name, final String contenttype,
+            final byte[] body) throws IOException {
+            return this.release.uploadAsset(name, contenttype, body);
         }
 
         /**
