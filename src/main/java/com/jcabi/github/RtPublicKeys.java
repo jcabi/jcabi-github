@@ -31,10 +31,13 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -43,8 +46,7 @@ import lombok.EqualsAndHashCode;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
- * @todo #24 Implement the iterate() method of RtPublicKeys. Don't forget to
- *  implement the test {@link RtPublicKeysTest#retrievesKeys()} class when done.
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -85,7 +87,33 @@ public final class RtPublicKeys implements PublicKeys {
 
     @Override
     public Iterable<PublicKey> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new RtPagination<PublicKey>(
+            this.request,
+            new RtPagination.Mapping<PublicKey, JsonObject>() {
+                @Override
+                public PublicKey map(final JsonObject object) {
+                    return RtPublicKeys.this.get(object.getInt("id"));
+                }
+            }
+        );
+    }
+
+    @Override
+    public PublicKey create(final String title, final String key)
+        throws IOException {
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("title", title)
+                        .add("key", key)
+                        .build()
+                ).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
     }
 
     @Override

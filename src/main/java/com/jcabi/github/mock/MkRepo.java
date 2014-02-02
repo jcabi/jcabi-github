@@ -58,9 +58,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @todo #9 Implement milestones() method.
- *  Please, implement milestones() method to return
- *  MkMilestones. Don't forget about unit tests
+ * @checkstyle ClassFanOutComplexity (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -118,7 +116,11 @@ final class MkRepo implements Repo {
 
     @Override
     public Milestones milestones() {
-        return null;
+        try {
+            return new MkMilestones(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -155,7 +157,11 @@ final class MkRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        throw new UnsupportedOperationException();
+        try {
+            return new MkAssignees(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -183,14 +189,18 @@ final class MkRepo implements Repo {
 
     @Override
     public DeployKeys keys() {
-        return new MkDeployKeys(this.storage, this.self, this.coords);
+        try {
+            return new MkDeployKeys(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
     public Contents contents() {
         try {
             return new MkContents(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }

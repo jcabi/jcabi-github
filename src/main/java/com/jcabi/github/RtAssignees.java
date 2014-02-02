@@ -31,8 +31,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
@@ -88,7 +88,7 @@ final class RtAssignees implements Assignees {
     public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,
-            new RtPagination.Mapping<User>() {
+            new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
                     return new RtUser(

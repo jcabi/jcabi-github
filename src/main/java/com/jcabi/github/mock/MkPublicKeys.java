@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -44,6 +45,7 @@ import org.xembly.Directives;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -72,7 +74,7 @@ final class MkPublicKeys implements PublicKeys {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
-            new Directives().xpath("/github/users").addIf("keys")
+            new Directives().xpath(this.userXpath()).addIf("keys")
         );
     }
 
@@ -87,7 +89,18 @@ final class MkPublicKeys implements PublicKeys {
 
     @Override
     public Iterable<PublicKey> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<PublicKey>(
+            this.storage,
+            String.format("%s/key", this.xpath()),
+            new MkIterable.Mapping<PublicKey>() {
+                @Override
+                public PublicKey map(final XML xml) {
+                    return MkPublicKeys.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -96,8 +109,49 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     @Override
-    public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+    public PublicKey create(final String title, final String key)
+        throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/key/id/text()", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath())
+                    .add("key")
+                    .add("id").set(String.valueOf(number)).up()
+                    .add("title").set(title).up()
+                    .add("key").set(key)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
     }
 
+    @Override
+    public void remove(final int number) throws IOException {
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/key[id='%d']", this.xpath(), number)
+            ).remove()
+        );
+    }
+
+    /**
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String userXpath() {
+        return String.format("/github/users/user[login='%s']", this.self);
+    }
+
+    /**
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format("%s/keys", this.userXpath());
+    }
 }

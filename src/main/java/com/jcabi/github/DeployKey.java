@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 
 /**
  * Github deploy key.
@@ -57,5 +58,12 @@ public interface DeployKey extends JsonReadable {
      * @return Id
      */
     int number();
+
+    /**
+     * Delete a deploy key.
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
+     */
+    void remove() throws IOException;
 
 }

@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -136,7 +136,7 @@ final class RtLabels implements Labels {
     public Iterable<Label> iterate() {
         return new RtPagination<Label>(
             this.request,
-            new RtPagination.Mapping<Label>() {
+            new RtPagination.Mapping<Label, JsonObject>() {
                 @Override
                 public Label map(final JsonObject object) {
                     return new RtLabel(

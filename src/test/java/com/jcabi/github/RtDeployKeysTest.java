@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
@@ -113,21 +113,6 @@ public final class RtDeployKeysTest {
             keys.create("Title", "Key").number(),
             Matchers.equalTo(number)
         );
-    }
-
-    /**
-     * RtDeployKeys can delete a deploy key.
-     *
-     * @todo #119 RtDeployKeys should be able to delete a DeployKey. Let's implement
-     *  a test here and a method remove() of RtDeployKeys.
-     *  The method should remove a deploy key by it's id.
-     *  See how it's done in other classes, using Rexsl request/response.
-     *  When done, remove this puzzle and Ignore annotation from the method.
-     */
-    @Test
-    @Ignore
-    public void canDeleteDeployKey() {
-        // to be implemented
     }
 
     /**

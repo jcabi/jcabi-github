@@ -38,6 +38,7 @@ import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -112,10 +113,25 @@ final class MkRepos implements Repos {
                     String.format("repository %s doesn't exist", coords)
                 );
             }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
         return new MkRepo(this.storage, this.self, coords);
+    }
+
+    @Override
+    public void remove(
+        @NotNull(message = "coordinates can't be NULL")
+        final Coordinates coords) {
+        try {
+            this.storage.apply(
+                new Directives().xpath(
+                    String.format("%s/repo[@coords='%s']", this.xpath(), coords)
+                ).remove()
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     /**

@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -40,6 +40,9 @@ import lombok.EqualsAndHashCode;
  * Commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
+ * @todo #117 RtRepoCommits should be able to fetch commits. Let's
+ *  implement this method. When done, remove this puzzle and
+ *  Ignore annotation from a test for the method.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -47,14 +50,19 @@ import lombok.EqualsAndHashCode;
 final class RtRepoCommits implements RepoCommits {
 
     /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request for the commits.
      */
     private final transient Request request;
 
     /**
-     * RESTful request, an entry point to the Github API.
+     * Parent repository.
      */
-    private final transient Request entry;
+    private final transient Repo owner;
 
     /**
      * Github.
@@ -62,25 +70,20 @@ final class RtRepoCommits implements RepoCommits {
     private final transient Github github;
 
     /**
-     * Repository.
-     */
-    private final transient Repo repo;
-
-    /**
      * Public ctor.
      * @param req Entry point of API
-     * @param repo Repository coordinates
+     * @param repo Repository
      */
-    RtRepoCommits(final Request req, final Coordinates repo) {
+    RtRepoCommits(final Request req, final Repo repo) {
         this.entry = req;
+        this.owner = repo;
         this.request = req.uri()
             .path("/repos")
-            .path(repo.user())
-            .path(repo.repo())
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
             .path("/commits")
             .back();
-        this.github = new RtGithub(this.request);
-        this.repo = new RtRepo(this.github, this.request, repo);
+        this.github = new RtGithub(this.req);
     }
 
     @Override
@@ -98,7 +101,7 @@ final class RtRepoCommits implements RepoCommits {
 
     @Override
     public Commit get(final String sha) {
-        return new RtCommit(this.entry, this.repo, sha);
+        return new RtCommit(this.entry, this.owner, sha);
     }
 
     @Override

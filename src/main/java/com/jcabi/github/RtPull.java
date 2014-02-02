@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -53,6 +53,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtPull implements Pull {
 
     /**
@@ -114,7 +115,7 @@ final class RtPull implements Pull {
     public Iterable<Commit> commits() throws IOException {
         return new RtPagination<Commit>(
             this.request.uri().path("/commits").back(),
-            new RtPagination.Mapping<Commit>() {
+            new RtPagination.Mapping<Commit, JsonObject>() {
                 @Override
                 public Commit map(final JsonObject object) {
                     return new RtCommit(
@@ -151,6 +152,11 @@ final class RtPull implements Pull {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public PullComments comments() throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -29,7 +29,7 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -56,7 +56,7 @@ public final class RtRepoCommitsTest {
                     Json.createObjectBuilder().add("sha", sha)
                 ).build().toString()
             ),
-            new Coordinates.Simple("testuser1", "testrepo1")
+            RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
             commits.iterate().iterator().next().sha(),
@@ -77,8 +77,18 @@ public final class RtRepoCommitsTest {
                     .build()
                     .toString()
             ),
-            new Coordinates.Simple("testuser2", "testrepo2")
+            RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(commits.get(sha).sha(), Matchers.equalTo(sha));
     }
+
+    /**
+     * Create repository for tests.
+     * @return Repository
+     */
+    private static Repo repo() {
+        return new RtGithub().repos()
+            .get(new Coordinates.Simple("user", "repo"));
+    }
+
 }

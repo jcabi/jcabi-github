@@ -54,10 +54,11 @@ public interface Gitignores {
     /**
      * Iterate them all.
      * @return Iterator of Gitignote template names
+     * @throws IOException If it fails due to I/O problem
      * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<String> iterate();
+    Iterable<String> iterate() throws IOException;
 
     /**
      * Gets raw gitignore template.

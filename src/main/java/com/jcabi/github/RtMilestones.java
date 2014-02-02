@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -133,7 +133,7 @@ public class RtMilestones implements Milestones {
         final Map<String, String> params) {
         return new RtPagination<Milestone>(
             this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<Milestone>() {
+            new RtPagination.Mapping<Milestone, JsonObject>() {
                 @Override
                 public Milestone map(final JsonObject object) {
                     return RtMilestones.this.get(object.getInt("number"));
