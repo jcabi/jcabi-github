@@ -40,8 +40,9 @@ import javax.json.JsonObject;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo Mock for user's Organizations. Let's implements Mock for pull comment
- *  using MkStorage. Don't forget about @EqualsAndHashCode.
+ * @todo #416 Mock for pull comment. Let's implements Mock for PullComment using
+ *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
+ *  tests.
  */
 @Immutable
 public final class MkPullComment implements PullComment {

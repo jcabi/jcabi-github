@@ -71,9 +71,9 @@ public final class MkPullComments implements PullComments {
 
     // @checkstyle ParameterNumberCheck (3 lines)
     @Override
-    public PullComment create(final String body, final String commit,
+    public PullComment post(final String body, final String commit,
         final String path, final int position) throws IOException {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+        throw new UnsupportedOperationException("Post not yet implemented.");
     }
 
     @Override

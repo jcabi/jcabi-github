@@ -32,8 +32,10 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import javax.json.JsonObject;
+import java.net.HttpURLConnection;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -44,8 +46,13 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtPullComment implements PullComment {
+@EqualsAndHashCode(of = { "request", "owner" })
+public final class RtPullComments implements PullComments {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -53,48 +60,26 @@ public final class RtPullComment implements PullComment {
     private final transient Request request;
 
     /**
-     * Pull we're in.
+     * Owner of comments.
      */
     private final transient Pull owner;
 
     /**
-     * Comment number.
-     */
-    private final transient int num;
-
-    /**
      * Public ctor.
-     * @param req RESTful request
-     * @param pull Owner of this comment
-     * @param number Number of the get
+     * @param req Request
+     * @param pull Pull
      */
-    RtPullComment(final Request req, final Pull pull, final int number) {
+    RtPullComments(final Request req, final Pull pull) {
+        this.entry = req;
         final Coordinates coords = pull.repo().coordinates();
-        this.request = req.uri()
+        this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
             .path("/pulls")
             .path("/comments")
-            .path(Integer.toString(number))
             .back();
         this.owner = pull;
-        this.num = number;
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new RtJson(this.request).patch(json);
     }
 
     @Override
@@ -103,13 +88,40 @@ public final class RtPullComment implements PullComment {
     }
 
     @Override
-    public int number() {
-        return this.num;
+    public PullComment get(final int number) {
+        return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
-    public int compareTo(final PullComment comment) {
-        return this.number() - comment.number();
+    public Iterable<PullComment> iterate(final Map<String, String> params) {
+        //@checkstyle MultipleStringLiteralsCheck (1 line)
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
     }
 
+    @Override
+    public Iterable<PullComment> iterate(final int number,
+        final Map<String, String> params) {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    // @checkstyle ParameterNumberCheck (3 lines)
+    @Override
+    public PullComment post(final String body, final String commit,
+        final String path, final int position) throws IOException {
+        throw new UnsupportedOperationException("Post not yet implemented.");
+    }
+
+    @Override
+    public PullComment reply(final String text,
+        final int comment) throws IOException {
+        throw new UnsupportedOperationException("Reply not yet implemented.");
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        this.request.uri().path(String.valueOf(number)).back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }

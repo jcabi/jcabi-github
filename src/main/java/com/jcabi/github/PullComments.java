@@ -41,11 +41,6 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
- * @todo #22 This interface should implement methods do iterate, post, delete
- *  and read comments, as explained in
- *  http://developer.github.com/v3/pulls/comments/. New interface should
- *  be implemented by RtPullComments class and tested with unit and
- *  integration tests.
  */
 @Immutable
 public interface PullComments {
@@ -94,7 +89,7 @@ public interface PullComments {
         Map<String, String> params);
 
     /**
-     * Create a new pull comment.
+     * Post a new pull comment.
      *
      * @param body Body of it
      * @param commit Commit ID (SHA) of it
@@ -106,7 +101,7 @@ public interface PullComments {
      * @checkstyle ParameterNumberCheck (7 lines)
      */
     @NotNull(message = "PullComment is never NULL")
-    PullComment create(
+    PullComment post(
         @NotNull(message = "Comment body is never NULL") String body,
         @NotNull(message = "commit ID is never NULL") String commit,
         @NotNull(message = "path body is never NULL") String path,

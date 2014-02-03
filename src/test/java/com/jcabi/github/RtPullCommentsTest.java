@@ -27,40 +27,55 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.FakeRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link MkPullComments}.
+ * Test case for {@link RtPullComments}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class MkPullCommentsTest {
+public final class RtPullCommentsTest {
 
     /**
-     * MkPullComments can fetch a single comment.
+     * RtPullComments can fetch a single comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch a single pull comment.
-     *  Implement {@link MkPullComments#get(int)} and don't forget to include a
-     *  test here. When done, remove this puzzle and the Ignore annotation of
-     *  this test method.
      */
     @Test
-    @Ignore
     public void fetchesPullComment() throws Exception {
-        // To be implemented.
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
+        final RtPullComments comments =
+            new RtPullComments(new FakeRequest(), pull);
+        MatcherAssert.assertThat(
+            comments.get(1),
+            Matchers.notNullValue()
+        );
     }
 
     /**
-     * MkPullComments can fetch all pull comments for a repo.
+     * RtPullComments can fetch all pull comments for a repo.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link MkPullComments#iterate(java.util.Map)}
+     * @todo #416 RtPullComments should be able to fetch all pull comments of a
+     *  repo. Implement {@link RtPullComments#iterate(java.util.Map)}
      *  and don't forget to include a test here. When done, remove this puzzle
      *  and the Ignore annotation of this test method.
      */
@@ -71,11 +86,11 @@ public final class MkPullCommentsTest {
     }
 
     /**
-     * MkPullComments can fetch pull comments for a pull request.
+     * RtPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all comments of a pull
-     *  request. Implement {@link MkPullComments#iterate(int, java.util.Map)}
+     * @todo #416 RtPullComments should be able to fetch all comments of a pull
+     *  request. Implement {@link RtPullComments#iterate(int, java.util.Map)}
      *  and don't forget to include a test here. When done, remove this puzzle
      *  and the Ignore annotation of this test method.
      */
@@ -86,26 +101,26 @@ public final class MkPullCommentsTest {
     }
 
     /**
-     * MkPullComments can create a pull comment.
+     * RtPullComments can post a new a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to create a new pull comment.
-     *  Implement {@link MkPullComments#post(String, String, String, int)}
+     * @todo #416 RtPullComments should be able to create a new pull comment.
+     *  Implement {@link RtPullComments#post(String, String, String, int)}
      *  and don't forget to include a test here. When done, remove this puzzle
      *  and the Ignore annotation of this test method.
      */
     @Test
     @Ignore
-    public void postsPullComment() throws Exception {
+    public void createsPullComment() throws Exception {
         // To be implemented.
     }
 
     /**
-     * MkPullComments can reply to an existing pull comment.
+     * RtPullComments can reply to an existing pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link MkPullComments#reply(String, int))}
+     * @todo #416 RtPullComments should be able to fetch all pull comments of a
+     *  repo. Implement {@link RtPullComments#reply(String, int))}
      *  and don't forget to include a test here. When done, remove this puzzle
      *  and the Ignore annotation of this test method.
      */
@@ -116,18 +131,43 @@ public final class MkPullCommentsTest {
     }
 
     /**
-     * MkPullComments can remove a pull comment.
+     * RtPullComments can remove a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able remove a pull comment.
-     *  Implement {@link MkPullComments#iterate(java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void removesPullComment() throws Exception {
-        // To be implemented.
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
+        final RtPullComments comments =
+            new RtPullComments(new ApacheRequest(container.home()), pull);
+        try {
+            comments.remove(2);
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(), Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/johnny/test/pulls/comments/2")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * This method returns a Repo for testing.
+     * @return Repo - a repo to be used for test.
+     * @throws Exception - if anything goes wrong.
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub("johnny").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 
 }
