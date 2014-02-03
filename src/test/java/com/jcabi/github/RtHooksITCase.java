@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import java.util.Collections;
+import org.apache.commons.collections.CollectionUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -44,10 +45,6 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @todo #165 RtHooks should be able to create a hook in real repository
  *  When done, remove this puzzle and Ignore annotation from the method.
- * @todo #159 Need to implement integration test case where RtHooks can obtain
- *  a list of hooks from a real repository. Add the implementation in
- *  canFetchAllHooks(). When done, remove this puzzle and Ignore annotation from
- *  the method.
  */
 public final class RtHooksITCase {
 
@@ -56,9 +53,26 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canFetchAllHooks() throws Exception {
-        // to be implemented
+        final Hooks hooks = repo().hooks();
+        int number = -1;
+        try {
+            if (!hooks.iterate().iterator().hasNext()) {
+                final Hook created = hooks.create(
+                    "geocommit",
+                    Collections.singletonMap("active", "true")
+                );
+                number = created.number();
+            }
+            MatcherAssert.assertThat(
+                CollectionUtils.size(hooks.iterate().iterator()),
+                Matchers.greaterThan(0)
+            );
+        } finally {
+            if (number != -1) {
+                hooks.remove(number);
+            }
+        }
     }
 
     /**
