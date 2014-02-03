@@ -31,21 +31,30 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.github.PullComment;
-import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
 import java.io.IOException;
-import java.util.Map;
+import javax.json.JsonObject;
 
 /**
- * Mock Github pull comments.
+ * Mock Github pull comment.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @todo Mock for user's Organizations. Let's implements Mock for pull comment
+ *  using MkStorage. Don't forget about @EqualsAndHashCode.
  */
 @Immutable
-public final class MkPullComments implements PullComments {
+public final class MkPullComment implements PullComment {
+
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("Json yet implemented.");
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("Patch not yet implemented.");
+    }
 
     @Override
     public Repo repo() {
@@ -53,37 +62,8 @@ public final class MkPullComments implements PullComments {
     }
 
     @Override
-    public PullComment get(final int number) {
-        throw new UnsupportedOperationException("Get not yet implemented.");
+    public int number() {
+        throw new UnsupportedOperationException("Number not yet implemented.");
     }
 
-    @Override
-    public Iterable<PullComment> iterate(final Map<String, String> params) {
-        //@checkstyle MultipleStringLiteralsCheck (1 line)
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
-    }
-
-    @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
-    }
-
-    // @checkstyle ParameterNumberCheck (3 lines)
-    @Override
-    public PullComment create(final String body, final String commit,
-        final String path, final int position) throws IOException {
-        throw new UnsupportedOperationException("Create not yet implemented.");
-    }
-
-    @Override
-    public PullComment reply(final String body,
-        final int comment) throws IOException {
-        throw new UnsupportedOperationException("Reply not yet implemented.");
-    }
-
-    @Override
-    public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
-    }
 }
