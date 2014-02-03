@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import java.io.IOException;
 import java.util.Collections;
-import org.apache.commons.collections.CollectionUtils;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -57,24 +56,19 @@ public final class RtHooksITCase {
      */
     @Test
     public void canFetchAllHooks() throws Exception {
-        final Hooks hooks = repo().hooks();
-        int number = -1;
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
         try {
-            if (!hooks.iterate().iterator().hasNext()) {
-                final Hook created = hooks.create(
-                    "geocommit",
-                    Collections.singletonMap("active", "true")
-                );
-                number = created.number();
-            }
+            final Hooks hooks = repo.hooks();
+            hooks.create(
+                "geocommit",
+                Collections.singletonMap("active", "true")
+            );
             MatcherAssert.assertThat(
-                CollectionUtils.size(hooks.iterate().iterator()),
-                Matchers.greaterThan(0)
+                hooks.iterate(), Matchers.<Hook>iterableWithSize(1)
             );
         } finally {
-            if (number != -1) {
-                hooks.remove(number);
-            }
+            repos.remove(repo.coordinates());
         }
     }
 
