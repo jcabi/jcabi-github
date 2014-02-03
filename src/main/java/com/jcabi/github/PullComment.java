@@ -46,14 +46,15 @@ import javax.validation.constraints.NotNull;
  *  of how to do this in the Javadoc comment above. You can refer to
  *  {@link PublicKey} on how to do this.
  */
-public interface PullComment extends JsonReadable, JsonPatchable {
+public interface PullComment extends JsonReadable, JsonPatchable,
+    Comparable<PullComment> {
 
     /**
-     * Repository we're in.
-     * @return Repo
+     * Pull we're in.
+     * @return Pull
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @NotNull(message = "pull is never NULL")
+    Pull pull();
 
     /**
      * Get its number.

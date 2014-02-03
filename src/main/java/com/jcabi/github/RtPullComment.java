@@ -27,50 +27,89 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Pull;
-import com.jcabi.github.PullComment;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github pull comment.
+ * Github pull comment.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo Mock for user's Organizations. Let's implements Mock for pull comment
- *  using MkStorage. Don't forget about @EqualsAndHashCode.
  */
 @Immutable
-public final class MkPullComment implements PullComment {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtPullComment implements PullComment {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Pull we're in.
+     */
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
+
+    /**
+     * Public ctor.
+     * @param req RESTful request
+     * @param Pull Owner of this comment
+     * @param number Number of the get
+     */
+    RtPullComment(final Request req, final Pull pull, final int number) {
+        final Coordinates coords = pull.repo().coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
+            .path(Integer.toString(number))
+            .back();
+        this.owner = pull;
+        this.num = number;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
+        return new RtJson(this.request).fetch();
     }
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
+        new RtJson(this.request).patch(json);
     }
 
     @Override
     public Pull pull() {
-        throw new UnsupportedOperationException("Repo not yet implemented.");
+        return this.owner;
     }
 
     @Override
     public int number() {
-        throw new UnsupportedOperationException("Number not yet implemented.");
+        return this.num;
     }
 
     @Override
-    public int compareTo(final PullComment other) {
-        throw new UnsupportedOperationException(
-            "compareTo not yet implemented."
-        );
+    public int compareTo(final PullComment comment) {
+        return this.number() - comment.number();
     }
 
 }

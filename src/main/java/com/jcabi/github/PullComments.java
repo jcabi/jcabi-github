@@ -51,12 +51,12 @@ import javax.validation.constraints.NotNull;
 public interface PullComments {
 
     /**
-     * Owner of them.
+     * Pull we're in.
      *
-     * @return Repo
+     * @return Pull
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @NotNull(message = "pull is never NULL")
+    Pull pull();
 
     /**
      * Get specific pull comment by number.

@@ -30,9 +30,9 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
-import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Map;
 
@@ -48,8 +48,8 @@ import java.util.Map;
 public final class MkPullComments implements PullComments {
 
     @Override
-    public Repo repo() {
-        throw new UnsupportedOperationException("Repo not yet implemented.");
+    public Pull pull() {
+        throw new UnsupportedOperationException("Pull not yet implemented.");
     }
 
     @Override
