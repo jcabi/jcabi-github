@@ -36,8 +36,9 @@ import javax.validation.constraints.NotNull;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @since 0.8
  * @see <a href="http://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
- * @todo #416 Implement a Smart decorator for PublicKey for the purposes of JSON
+ * @todo #416 Implement a Smart decorator for PullComment for the purposes of JSON
  *  parsing. This class should be able to return the various attributes of the
  *  JSON response for fetching comments, such as the ID, commit ID, URL, and
  *  comment body. Smart should also be able to handle editing the attributes
