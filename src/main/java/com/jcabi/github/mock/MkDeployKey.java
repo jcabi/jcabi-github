@@ -102,9 +102,8 @@ public final class MkDeployKey implements DeployKey {
      */
     private String xpath() {
         return String.format(
-            "/repos/%s/%s/deployKeys/deployKey[id=%d]",
-            this.owner.coordinates().user(),
-            this.owner.coordinates().repo(),
+            "/github/repos/repo[@coords='%s']/deploykeys/deploykey[id='%d']",
+            this.owner.coordinates(),
             this.key
         );
     }

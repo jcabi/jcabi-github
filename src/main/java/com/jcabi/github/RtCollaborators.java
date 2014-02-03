@@ -54,7 +54,7 @@ public final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    public boolean isCollabborator(
+    public boolean isCollaborator(
         @NotNull(message = "User is never null") final String user) {
         throw new UnsupportedOperationException();
     }
