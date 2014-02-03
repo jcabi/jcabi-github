@@ -47,13 +47,6 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
- * @todo #1:1hr New method star() and starred() for a single gist. Let's
- *  add these methods as explained in
- *  http://developer.github.com/v3/gists/
- *  The method should be tested by integration and unit tests, and implemented
- *  in MkGist as well. When done, remove this comment.
- * @todo #1:0.5hr Integration test for fork() method is required.
- *  Need to fork some gist and check the forked gist.
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")

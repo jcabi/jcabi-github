@@ -37,6 +37,7 @@ import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github deploy key.
@@ -88,15 +89,21 @@ public final class MkDeployKey implements DeployKey {
         ).json();
     }
 
+    @Override
+    public void remove() throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).strict(1).remove()
+        );
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
      */
     private String xpath() {
         return String.format(
-            "/repos/%s/%s/deployKeys/deployKey[id=%d]",
-            this.owner.coordinates().user(),
-            this.owner.coordinates().repo(),
+            "/github/repos/repo[@coords='%s']/deploykeys/deploykey[id='%d']",
+            this.owner.coordinates(),
             this.key
         );
     }

@@ -80,6 +80,44 @@ public final class MkDeployKeysTest {
     }
 
     /**
+     * MkDeployKeys can create distinct deploy keys.
+     * Reproduces bug described in issue #346.
+     * @throws Exception If some problem inside.
+     */
+    @Test
+    public void canCreateDistinctDeployKeys() throws Exception {
+        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKey first = keys.create("Title2", "Key2");
+        final DeployKey second = keys.create("Title3", "Key3");
+        MatcherAssert.assertThat(
+            first,
+            Matchers.not(Matchers.is(second))
+        );
+        MatcherAssert.assertThat(
+            first.number(),
+            Matchers.not(Matchers.is(second.number()))
+        );
+    }
+
+    /**
+     * MkDeployKeys can be represented in JSON format.
+     * Reproduces bug described in issue #346.
+     * @throws Exception If some problem inside.
+     */
+    @Test
+    public void canRepresentAsJson() throws Exception {
+        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKey first = keys.create("Title4", "Key4");
+        MatcherAssert.assertThat(
+            first.json().toString(),
+            Matchers.allOf(
+                Matchers.containsString("\"title\":\"Title4\""),
+                Matchers.containsString("\"key\":\"Key4\"")
+            )
+        );
+    }
+
+    /**
      * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
