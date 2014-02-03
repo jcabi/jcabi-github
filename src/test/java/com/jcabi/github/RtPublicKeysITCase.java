@@ -39,6 +39,8 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @todo #301 Implement an integration test for RtPublicKeys that creates
+ *  a real public key for a user.
  */
 public class RtPublicKeysITCase {
 
