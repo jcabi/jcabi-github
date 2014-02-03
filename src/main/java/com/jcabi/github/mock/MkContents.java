@@ -109,7 +109,11 @@ public final class MkContents implements Contents {
     }
 
     /**
-     * @todo 329 MkContents should implement method update.
+     * Updates a file.
+     * @param path The content path.
+     * @param json JSON object containing updates to the content.
+     * @throws IOException If any I/O problem occurs.
+     * @todo #329 MkContents should implement method update.
      */
     @Override
     public void update(final String path, final JsonObject json)
