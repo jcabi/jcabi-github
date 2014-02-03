@@ -29,7 +29,7 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
