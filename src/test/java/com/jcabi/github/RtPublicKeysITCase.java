@@ -36,9 +36,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtPublicKeys}.
- * against a real Github repository. The test exercises the iteration of
- * existing keys, the retrieval of a single key, and the removal of
- * an existing key.
+ *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
@@ -52,10 +50,12 @@ public class RtPublicKeysITCase {
     @Test
     public final void retrievesKeys() throws Exception {
         final PublicKeys keys = this.keys();
+        final PublicKey key = keys.create("key", "ssh 1AA");
         MatcherAssert.assertThat(
             keys.iterate(),
-            Matchers.<PublicKey>iterableWithSize(2)
+            Matchers.hasItem(key)
         );
+        keys.remove(key.number());
     }
 
     /**
@@ -77,10 +77,12 @@ public class RtPublicKeysITCase {
     @Test
     public final void retrievesSingleKey() throws Exception {
         final PublicKeys keys = this.keys();
+        final PublicKey key = keys.create("Title", "Key");
         MatcherAssert.assertThat(
-            keys.get(1).toString(),
-            Matchers.endsWith("/keys/1")
+            keys.get(key.number()),
+            Matchers.equalTo(key)
         );
+        keys.remove(key.number());
     }
 
     /**
