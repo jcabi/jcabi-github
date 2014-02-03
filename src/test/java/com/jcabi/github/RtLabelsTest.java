@@ -29,12 +29,12 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
-import com.rexsl.test.request.JdkRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;

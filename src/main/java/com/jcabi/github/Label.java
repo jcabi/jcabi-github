@@ -73,12 +73,16 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "label")
+    @EqualsAndHashCode(of = { "label", "jsn" })
     final class Smart implements Label {
         /**
          * Encapsulated label.
          */
         private final transient Label label;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
 
         /**
          * Public ctor.
@@ -86,6 +90,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          */
         public Smart(final Label lbl) {
             this.label = lbl;
+            this.jsn = new SmartJson(lbl);
         }
 
         /**
@@ -94,7 +99,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String color() throws IOException {
-            return new SmartJson(this).text("color");
+            return this.jsn.text("color");
         }
 
         /**

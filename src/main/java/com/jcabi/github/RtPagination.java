@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import javax.json.JsonObject;
 
 /**
