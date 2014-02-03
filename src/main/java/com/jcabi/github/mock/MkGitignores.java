@@ -89,6 +89,10 @@ public final class MkGitignores implements Gitignores {
     public String template(
         @NotNull(message = "Template name can't be NULL")
         final String name) throws IOException {
-        throw new UnsupportedOperationException("MkGitignores#template()");
+        final String template = GITIGNORES.get(name);
+        if (template == null) {
+            throw new IllegalArgumentException("Template not found.");
+        }
+        return template;
     }
 }
