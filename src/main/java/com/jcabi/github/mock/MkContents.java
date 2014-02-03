@@ -108,6 +108,9 @@ public final class MkContents implements Contents {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
+    /**
+     * @todo 329 MkContents should implement method update.
+     */
     @Override
     public void update(final String path, final JsonObject json)
         throws IOException {
