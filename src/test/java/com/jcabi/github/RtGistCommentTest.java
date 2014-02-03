@@ -87,10 +87,13 @@ public class RtGistCommentTest {
                 .start();
         final MkContainer gistContainer = new MkGrizzlyContainer().start();
         final RtGist gist =
-            new RtGist(new MkGithub(),
-                new ApacheRequest(gistContainer.home()), "someName");
+            new RtGist(
+                new MkGithub(),
+                new ApacheRequest(gistContainer.home()), "someName"
+            );
         final RtGistComment comment = new RtGistComment(
-            new ApacheRequest(container.home()), gist, identifier);
+            new ApacheRequest(container.home()), gist, identifier
+        );
         comment.patch(Json.createObjectBuilder()
             .add(bodyString, patchedBody)
             .add(idString, identifier)
@@ -114,11 +117,14 @@ public class RtGistCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
         ).start();
-        final RtGist gist = new RtGist(new MkGithub(),
+        final RtGist gist = new RtGist(
+            new MkGithub(),
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
-            "gistName");
+            "gistName"
+        );
         final RtGistComment comment = new RtGistComment(
-            new ApacheRequest(container.home()), gist, identifier);
+            new ApacheRequest(container.home()), gist, identifier
+        );
         comment.remove();
         MatcherAssert.assertThat(
             container.take().method(),
