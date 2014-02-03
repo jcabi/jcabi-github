@@ -74,12 +74,18 @@ public final class MkDeployKeys implements DeployKeys {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
+     * @throws IOException If there is any I/O problem
      */
     MkDeployKeys(final MkStorage stg, final String login,
-        final Coordinates rep) {
+        final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", this.coords)
+            ).addIf("deploykeys")
+        );
     }
 
     @Override
@@ -104,11 +110,11 @@ public final class MkDeployKeys implements DeployKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/deployKey/id/text()", this.xpath())
+                String.format("%s/deploykey/id/text()", this.xpath())
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())
-                    .add("deployKey")
+                    .add("deploykey")
                     .add("id").set(String.valueOf(number)).up()
                     .add("title").set(title).up()
                     .add("key").set(key)
@@ -125,7 +131,8 @@ public final class MkDeployKeys implements DeployKeys {
      */
     private String xpath() {
         return String.format(
-            "/repos/%s/%s/deployKeys", this.coords.user(), this.coords.repo()
+            "/github/repos/repo[@coords='%s']/deploykeys",
+            this.coords
         );
     }
 
