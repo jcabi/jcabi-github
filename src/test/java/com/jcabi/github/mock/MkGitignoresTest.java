@@ -29,6 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Gitignores;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -56,14 +59,13 @@ public final class MkGitignoresTest {
     /**
      * MkGitignores can iterate over templates.
      * @throws Exception if something goes wrong.
-     * @todo #320 MkGitignores should be able iterate over template.
-     *  Let's implement a test here and the method iterate() from MkGitignores.
-     *  When done, remove this puzzle and the Ignore annotation
-     *  from this method.
      */
     @Test
-    @Ignore
     public void canIterateOverTemplates() throws Exception {
-        //To be implemented.
+        final Gitignores gitignores = new MkGithub().gitignores();
+        MatcherAssert.assertThat(
+            gitignores.iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
     }
 }

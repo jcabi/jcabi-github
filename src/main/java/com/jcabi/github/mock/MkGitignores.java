@@ -82,7 +82,7 @@ public final class MkGitignores implements Gitignores {
 
     @Override
     public Iterable<String> iterate() throws IOException {
-        throw new UnsupportedOperationException("MkGitignores#iterate()");
+        return GITIGNORES.keySet();
     }
 
     @Override
