@@ -53,11 +53,17 @@ import org.xembly.Directives;
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCoupling (200 lines)
+ * @todo #367 MkOrganizations should be able to iterate over organizations
+ *  of any user. Method iterate(username) should iterate over:
+ *  1) public and private organizations if username matches to login of
+ *  authenticated user
+ *  2) public organizations otherwise. Don't forget about unit tests
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkOrganizations implements Organizations {
 
     /**
@@ -173,6 +179,13 @@ final class MkOrganizations implements Organizations {
                     );
                 }
             }
+        );
+    }
+
+    @Override
+    public Iterable<Organization> iterate(final String username) {
+        throw new UnsupportedOperationException(
+            "MkOrganizations.iterate(username)"
         );
     }
 
