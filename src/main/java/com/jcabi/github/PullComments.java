@@ -30,6 +30,9 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github pull comments.
@@ -46,4 +49,91 @@ import com.jcabi.aspects.Immutable;
  */
 @Immutable
 public interface PullComments {
+
+    /**
+     * Owner of them.
+     *
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
+
+    /**
+     * Get specific pull comment by number.
+     *
+     * @param number Pull comment number
+     * @return Pull comment
+     * @see <a href="http://developer.github.com/v3/pulls/comments/#get-a-single-comment">Get a single comment</a>
+     */
+    @NotNull(message = "PullComment is never NULL")
+    PullComment get(int number);
+
+    /**
+     * Iterate all pull comments for this repo.
+     *
+     * @param params Iterating parameters, as specified by API
+     * @return Iterable of pull comments
+     * @see <a href="http://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<PullComment> iterate(
+        @NotNull(message = "map of params can't be NULL")
+        Map<String, String> params);
+
+    /**
+     * Iterate all pull comments for a pull request.
+     *
+     * @param number Pull comment number
+     * @param params Iterating parameters, as specified by API
+     * @return Iterable of pull comments
+     * @see <a href="http://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<PullComment> iterate(int number,
+        @NotNull(message = "map of params can't be NULL")
+        Map<String, String> params);
+
+    /**
+     * Create a new pull comment.
+     *
+     * @param body Body of it
+     * @param commit Commit ID (SHA) of it
+     * @param path Path of the file to comment on
+     * @param position Line index in the diff to comment on
+     * @return PullComment just created
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
+     * @checkstyle ParameterNumberCheck (7 lines)
+     */
+    @NotNull(message = "PullComment is never NULL")
+    PullComment create(
+        @NotNull(message = "Comment body is never NULL") String body,
+        @NotNull(message = "commit ID is never NULL") String commit,
+        @NotNull(message = "path body is never NULL") String path,
+        @NotNull(message = "position is never NULL") int position)
+        throws IOException;
+
+    /**
+     * Create a new comment as a reply to an existing pull comment.
+     *
+     * @param body Body of it
+     * @param comment Commit ID (SHA) of it
+     * @return PullComment just created
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
+     */
+    @NotNull(message = "PullComment is never NULL")
+    PullComment reply(
+        @NotNull(message = "Comment body is never NULL") String body,
+        @NotNull(message = "comment ID is never NULL") int comment)
+        throws IOException;
+
+    /**
+     * Removes a pull comment by ID.
+     *
+     * @param number The ID of the pull comment to delete.
+     * @throws IOException If there is any I/O problem.
+     */
+    void remove(int number) throws IOException;
+
 }

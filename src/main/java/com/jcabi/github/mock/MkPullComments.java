@@ -29,7 +29,11 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import com.jcabi.github.Repo;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Mock Github pull comments.
@@ -39,5 +43,45 @@ import com.jcabi.github.PullComments;
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
-public class MkPullComments implements PullComments {
+public final class MkPullComments implements PullComments {
+
+    @Override
+    public Repo repo() {
+        throw new UnsupportedOperationException("Repo not yet implemented.");
+    }
+
+    @Override
+    public PullComment get(final int number) {
+        throw new UnsupportedOperationException("Get not yet implemented.");
+    }
+
+    @Override
+    public Iterable<PullComment> iterate(final Map<String, String> params) {
+        //@checkstyle MultipleStringLiteralsCheck (1 line)
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    @Override
+    public Iterable<PullComment> iterate(final int number,
+        final Map<String, String> params) {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    // @checkstyle ParameterNumberCheck (3 lines)
+    @Override
+    public PullComment create(final String body, final String commit,
+        final String path, final int position) throws IOException {
+        throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
+    public PullComment reply(final String body,
+        final int comment) throws IOException {
+        throw new UnsupportedOperationException("Reply not yet implemented.");
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
 }
