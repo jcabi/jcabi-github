@@ -50,6 +50,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "ghub" })
+@SuppressWarnings("PMD.UseConcurrentHashMap")
 public final class MkGitignores implements Gitignores {
 
     /**
