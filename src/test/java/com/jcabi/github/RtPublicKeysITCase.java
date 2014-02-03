@@ -67,8 +67,7 @@ public class RtPublicKeysITCase {
     private PublicKeys keys() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.users().self().keys();
+        return new RtGithub(key).users().self().keys();
     }
 
     /**
