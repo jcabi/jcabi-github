@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -47,10 +47,12 @@ import lombok.EqualsAndHashCode;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiterals (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContents implements Contents {
 
     /**
@@ -95,6 +97,27 @@ public final class RtContents implements Contents {
     }
 
     @Override
+    public Content create(
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "message can't be NULL") final String message,
+        @NotNull(message = "content can't be NULL") final String content)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("message", message)
+            .add("content", content)
+            .build();
+        return new RtContent(this.entry, this.owner,
+            this.request.method(Request.PUT)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getJsonObject("content").getString("path")
+        );
+    }
+
+    @Override
     public Commit remove(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "message is never NULL") final String message,
@@ -102,7 +125,6 @@ public final class RtContents implements Contents {
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("message", message)
-            // @checkstyle MultipleStringLiterals (1 line)
             .add("sha", sha)
             .build();
         return new RtCommit(

@@ -42,7 +42,7 @@ import org.junit.Test;
 public final class RtUserITCase {
 
     /**
-     * Github.Rexsl can understand who am I.
+     * Github can understand who am I.
      * @throws Exception If some problem inside
      */
     @Test

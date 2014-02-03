@@ -31,10 +31,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.manifests.Manifests;
-import com.rexsl.test.Request;
-import com.rexsl.test.request.ApacheRequest;
-import com.rexsl.test.response.JsonResponse;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -54,7 +54,7 @@ import lombok.ToString;
  * Issue issue = issues.post("issue title", "issue body");</pre>
  *
  * <p>It is strongly recommended to use
- * {@link com.rexsl.test.wire.RetryWire} to avoid
+ * {@link com.jcabi.http.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
  * <pre> Github github = new RtGithub(

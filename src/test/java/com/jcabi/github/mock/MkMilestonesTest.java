@@ -50,15 +50,11 @@ public final class MkMilestonesTest {
     /**
      * This tests that MkMilestones can return its owner repo.
      * @throws Exception - if something goes wrong.
-     * @todo #111 Method repo() in MkMilestones has to be implemented.
-     *  Until then, this test is ignored.
      */
     @Test
-    @Ignore
     public void returnsRepo() throws Exception {
         final Repo repo = this.repo();
-        final Milestones milestones = repo.milestones();
-        final Repo owner = milestones.repo();
+        final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(repo, Matchers.is(owner));
     }
 

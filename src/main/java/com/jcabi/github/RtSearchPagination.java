@@ -30,11 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.Request;
-import com.rexsl.test.RequestBody;
-import com.rexsl.test.RequestURI;
-import com.rexsl.test.Response;
-import com.rexsl.test.Wire;
+import com.jcabi.http.Request;
+import com.jcabi.http.RequestBody;
+import com.jcabi.http.RequestURI;
+import com.jcabi.http.Response;
+import com.jcabi.http.Wire;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;

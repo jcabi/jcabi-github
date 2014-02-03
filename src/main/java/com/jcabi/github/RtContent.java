@@ -27,85 +27,78 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.DeployKey;
-import com.jcabi.github.Repo;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
+import javax.validation.constraints.NotNull;
 
 /**
- * Mock Github deploy key.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github content.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "owner", "key" })
-public final class MkDeployKey implements DeployKey {
+public final class RtContent implements Content {
 
     /**
-     * Storage.
+     * RESTful request.
      */
-    private final transient MkStorage storage;
+    private final transient Request request;
 
     /**
-     * Repository.
+     * Repository we're in.
      */
     private final transient Repo owner;
 
     /**
-     * Id.
+     * Path of this Content.
      */
-    private final transient int key;
+    private final transient String location;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param number Id
+     * @param req Request
      * @param repo Repository
+     * @param path Path of the content
      */
-    MkDeployKey(final MkStorage stg, final int number, final Repo repo) {
-        this.storage = stg;
-        this.key = number;
+    RtContent(final Request req, final Repo repo, final String path) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/contents")
+            .path(path)
+            .back();
         this.owner = repo;
+        this.location = path;
     }
 
     @Override
-    public int number() {
-        return this.key;
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String path() {
+        return this.location;
+    }
+
+    @Override
+    public int compareTo(final Content other) {
+        return this.path().compareTo(other.path());
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
+        return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void remove() throws IOException {
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).strict(1).remove()
-        );
+    public void patch(@NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
-
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/deploykeys/deploykey[id='%d']",
-            this.owner.coordinates(),
-            this.key
-        );
-    }
-
 }

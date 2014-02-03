@@ -27,57 +27,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package com.jcabi.github;
-
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+package com.jcabi.github.mock;
 
 /**
- * Github repository collaborators.
- * @author Aleksey Popov (alopen@yandex.ru)
+ * Test case for {@link MkFork}.
+ *
+ * @author Tomas Colombo (tomas.colombo@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
-@Immutable
-public interface Collaborators {
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Check if a user is collaborator.
-     *
-     * @param user User
-     * @return True is a user is a collaborator, otherwise returns false
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
-     *  Check if a user is collaborator</a>
-     */
-    boolean isCollaborator(
-        @NotNull(message = "User is never null") String user);
-
-    /**
-     * Add user as a collaborator.
-     *
-     * @param user User
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
-     */
-    void add(@NotNull(message = "User is never null") String user);
-
-    /**
-     * Remove user as a collaborator.
-     *
-     * @param user User
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
-     */
-    void remove(String user);
-
-    /**
-     * Iterates over repo collaborators.
-     * @return Iterator on repo collaborators.
-     */
-    Iterable<User> iterate();
+public class MkForkTest {
 }

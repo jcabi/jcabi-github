@@ -93,6 +93,12 @@ public final class MkContents implements Contents {
     }
 
     @Override
+    public Content create(final String path, final String message,
+        final String content) throws IOException {
+        throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
     public Commit remove(
         final String path,
         final String message,

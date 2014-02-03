@@ -30,13 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
-import com.rexsl.test.request.ApacheRequest;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -105,15 +106,54 @@ public final class RtContentsTest {
 
     /**
      * RtContents can create a file in the repository.
-     *
-     * @todo #119 RtContents should be able to create files in the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @todo #314:15min RtContents#create() should be referencing a get()
+     *  method instead of creating its own RtContent object, however,
+     *  that method is not yet present. When that has been implemented, update
+     *  create() to delegate to get() to obtain a RtContent instance.
+     * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
-    public void canCreateFilesFromRepository() {
-        // to be implemented
+    public void canCreateFilesFromRepository() throws Exception {
+        final String path = "test/thefile";
+        final String name = "thefile";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .add("name", name)
+            .build();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED,
+                Json.createObjectBuilder().add("content", body)
+                    .build().toString()
+            )
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
+            .start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            final Content.Smart smart = new Content.Smart(
+                contents.create(path, "theMessage", "blah")
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents")
+            );
+            MatcherAssert.assertThat(
+                smart.path(),
+                Matchers.is(path)
+            );
+            MatcherAssert.assertThat(
+                smart.name(),
+                Matchers.is(name)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents/test/thefile")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
