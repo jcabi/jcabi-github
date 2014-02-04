@@ -60,13 +60,34 @@ public class RtReposITCase {
         final Repos repos = RtReposITCase.github().repos();
         try {
             MatcherAssert.assertThat(
-                repos.create(request(name)), Matchers.notNullValue()
+                repos.create(RtReposITCase.request(name)),
+                Matchers.notNullValue()
             );
         } finally {
             final Coordinates.Simple coordinates = new Coordinates.Simple(
                 RtReposITCase.github().users().self().login(), name
             );
             repos.remove(coordinates);
+        }
+    }
+
+    /**
+     * RtRepos should fail on creation of two repos with the same name.
+     * @throws Exception If some problem inside
+     */
+    @Test(expected = AssertionError.class)
+    public final void failsOnCreationOfTwoRepos() throws Exception {
+        final String name = RandomStringUtils.randomNumeric(5);
+        final Repos repos = RtReposITCase.github().repos();
+        repos.create(RtReposITCase.request(name));
+        try {
+            repos.create(RtReposITCase.request(name));
+        } finally {
+            repos.remove(
+                new Coordinates.Simple(
+                    RtReposITCase.github().users().self().login(), name
+                )
+            );
         }
     }
 

@@ -125,7 +125,7 @@ public final class MkReleases implements Releases {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/release/id", this.xpath())
+                String.format("%s/release/id/text()", this.xpath())
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("release")

@@ -67,18 +67,23 @@ public interface Hook extends JsonReadable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "hook")
+    @EqualsAndHashCode(of = { "hook", "jsn" })
     final class Smart implements Hook {
         /**
          * Encapsulated Hook.
          */
         private final transient Hook hook;
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
          * Public ctor.
          * @param hoo Hook
          */
         public Smart(final Hook hoo) {
             this.hook = hoo;
+            this.jsn = new SmartJson(hoo);
         }
         /**
          * Get its name.
@@ -86,7 +91,7 @@ public interface Hook extends JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
-            return new SmartJson(this).text("name");
+            return this.jsn.text("name");
         }
         @Override
         public Repo repo() {

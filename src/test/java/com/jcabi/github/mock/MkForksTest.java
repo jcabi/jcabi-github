@@ -29,6 +29,8 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RtForks;
 import javax.json.Json;
@@ -68,7 +70,10 @@ public final class MkForksTest {
     @Test
     @Ignore
     public void createsFork() throws Exception {
-        final RtForks forks = new RtForks(this.repo());
+        final MkForks forks = new MkForks(
+            new MkStorage.InFile(),
+            "Test", new Coordinates.Simple("tests", "forks")
+        );
         MatcherAssert.assertThat(
             forks.create("blah"),
             Matchers.notNullValue()
@@ -84,6 +89,20 @@ public final class MkForksTest {
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
+
+    /**
+     * MkForks can list forks.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iteratesForks() throws Exception {
+        final Repo repo = this.repo();
+        repo.forks().create("Organization");
+        MatcherAssert.assertThat(
+            repo.forks().iterate("Order"),
+            Matchers.<Fork>iterableWithSize(1)
         );
     }
 }

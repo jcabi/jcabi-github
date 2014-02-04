@@ -29,7 +29,7 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -126,6 +126,19 @@ public final class RtGithubTest {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.markdown(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * RtGithub can retrieve the gitignores.
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void retrievesGitignores() throws Exception {
+        final RtGithub github = new RtGithub(new FakeRequest());
+        MatcherAssert.assertThat(
+            github.gitignores(),
             Matchers.notNullValue()
         );
     }

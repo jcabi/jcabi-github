@@ -29,11 +29,12 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGithub;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.ApacheRequest;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -69,7 +70,7 @@ public final class RtOrganizationsTest {
             )
         ).start();
         try {
-            final RtOrganizations orgs = new RtOrganizations(
+            final Organizations orgs = new RtOrganizations(
                 new MkGithub(),
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
@@ -88,6 +89,43 @@ public final class RtOrganizationsTest {
     }
 
     /**
+     * RtOrganizations can iterate organizations for an unauthenticated user.
+     *
+     * @throws Exception If a problem occurs
+     */
+    @Test
+    public void canIterateOrganizationsForUnauthUser() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(org(Tv.THREE, "org11"))
+                    .add(org(Tv.FOUR, "org12"))
+                    .add(org(Tv.FIVE, "org13"))
+                    .build().toString()
+            )
+        ).start();
+        try {
+            final Organizations orgs = new RtOrganizations(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
+            final String username = "octopus";
+            MatcherAssert.assertThat(
+                orgs.iterate(username),
+                Matchers.<Organization>iterableWithSize(Tv.THREE)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith(String.format("/users/%s/orgs", username))
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
      * RtOrganizations should be able to get a single organization.
      *
      * @throws Exception if a problem occurs
@@ -98,7 +136,7 @@ public final class RtOrganizationsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
         try {
-            final RtOrganizations orgs = new RtOrganizations(
+            final Organizations orgs = new RtOrganizations(
                 new MkGithub(),
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
