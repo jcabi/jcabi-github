@@ -61,6 +61,22 @@ public interface Contents {
     Content readme();
 
     /**
+     * Create new file.
+     * @param path The content path
+     * @param message The commit message
+     * @param content File content, Base64 encoded
+     * @return Content just created
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
+     */
+    @NotNull(message = "Content is never NULL")
+    Content create(
+        @NotNull(message = "path is never NULL") String path,
+        @NotNull(message = "message is never NULL") String message,
+        @NotNull(message = "content is never NULL") String content)
+        throws IOException;
+
+    /**
      * Removes a file.
      * @param path The content path
      * @param message The commit message

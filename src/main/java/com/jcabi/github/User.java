@@ -102,12 +102,16 @@ public interface User extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "user")
+    @EqualsAndHashCode(of = { "user", "jsn" })
     final class Smart implements User {
         /**
          * Encapsulated user.
          */
         private final transient User user;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
 
         /**
          * Public ctor.
@@ -115,6 +119,7 @@ public interface User extends JsonReadable, JsonPatchable {
          */
         public Smart(final User usr) {
             this.user = usr;
+            this.jsn = new SmartJson(usr);
         }
 
         /**
@@ -134,7 +139,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public URL avatarUrl() throws IOException {
-            return new URL(new SmartJson(this).text("avatar_url"));
+            return new URL(this.jsn.text("avatar_url"));
         }
 
         /**
@@ -143,7 +148,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -180,7 +185,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String company() throws IOException {
-            return new SmartJson(this).text("company");
+            return this.jsn.text("company");
         }
 
         /**
@@ -189,7 +194,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String location() throws IOException {
-            return new SmartJson(this).text("location");
+            return this.jsn.text("location");
         }
 
         /**
@@ -198,7 +203,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String email() throws IOException {
-            return new SmartJson(this).text("email");
+            return this.jsn.text("email");
         }
 
         @Override

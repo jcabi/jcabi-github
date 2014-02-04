@@ -59,7 +59,7 @@ public interface Coordinates extends Comparable<Coordinates> {
     String repo();
 
     /**
-     * Rexsl implementation.
+     * Jcabi.http implementation.
      */
     @Immutable
     @EqualsAndHashCode(of = { "usr", "rpo" })

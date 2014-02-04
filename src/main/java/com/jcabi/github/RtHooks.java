@@ -31,14 +31,14 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import java.util.Map;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
@@ -93,7 +93,16 @@ public final class RtHooks implements Hooks {
 
     @Override
     public Iterable<Hook> iterate() {
-        return Collections.emptyList();
+        return new RtPagination<Hook>(
+            this.request,
+            new RtPagination.Mapping<Hook, JsonObject>() {
+                @Override
+                public Hook map(final JsonObject object) {
+                    // @checkstyle MultipleStringLiterals (1 line)
+                    return RtHooks.this.get(object.getInt("id"));
+                }
+            }
+        );
     }
 
     @Override
