@@ -34,7 +34,10 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.Gitignores;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -46,11 +49,36 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
+@EqualsAndHashCode(of = { "ghub" })
+@SuppressWarnings("PMD.UseConcurrentHashMap")
 public final class MkGitignores implements Gitignores {
+
+    /**
+     * The gitignore templates.
+     */
+    private static final Map<String, String> GITIGNORES =
+        Collections.singletonMap(
+            "Java",
+            "*.class\n\n# Package Files #\n*.jar\n*.war\n*.ear\n"
+        );
+
+    /**
+     * Github.
+     */
+    private final transient MkGithub ghub;
+
+    /**
+     * Public ctor.
+     * @param github The github
+     */
+    MkGitignores(@NotNull(message = "github is never NULL")
+        final MkGithub github) {
+        this.ghub = github;
+    }
 
     @Override
     public Github github() {
-        throw new UnsupportedOperationException("MkGitignores#github()");
+        return this.ghub;
     }
 
     @Override
@@ -62,6 +90,10 @@ public final class MkGitignores implements Gitignores {
     public String template(
         @NotNull(message = "Template name can't be NULL")
         final String name) throws IOException {
-        throw new UnsupportedOperationException("MkGitignores#template()");
+        final String template = GITIGNORES.get(name);
+        if (template == null) {
+            throw new IllegalArgumentException("Template not found.");
+        }
+        return template;
     }
 }
