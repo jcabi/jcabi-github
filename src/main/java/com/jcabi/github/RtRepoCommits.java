@@ -91,6 +91,11 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
+    public CommitsComparison compare(final String base, final String head) {
+        return new RtCommitsComparison(this.entry, this.owner, base, head);
+    }
+
+    @Override
     public String toString() {
         return this.request.uri().get().toString();
     }

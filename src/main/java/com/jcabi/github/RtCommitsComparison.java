@@ -30,41 +30,64 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Commits of a Github repository.
+ * Commits comparison.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
-public interface RepoCommits extends JsonReadable {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "request")
+final class RtCommitsComparison implements CommitsComparison {
 
     /**
-     * Iterate all repository's commits.
-     * @return All commits
-     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
+     * RESTful request for the comparison.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Commit> iterate();
+    private final transient Request request;
 
     /**
-     * Get single repository's commits.
-     * @param sha SHA of a commit
-     * @return Commit
-     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
+     * Parent repository.
      */
-    @NotNull(message = "Commit is never NULL")
-    Commit get(String sha);
+    private final transient Repo owner;
 
     /**
-     * Compare two commits.
-     * @param base SHA of the base commit
-     * @param head SHA of the head commit
-     * @return Commits comparison
+     * Ctor.
+     * @param req Entry point of API
+     * @param repo Repository
+     * @param base SHA of a base commit
+     * @param head SHA of a head commit
+     * @checkstyle ParameterNumber (3 lines)
      */
-    @NotNull(message = "commits comparison is never NULL")
-    CommitsComparison compare(String base, String head);
+    RtCommitsComparison(final Request req, final Repo repo,
+        final String base, final String head) {
+        this.owner = repo;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().toString())
+            .path("/compare")
+            .path(String.format("%s...%s", base, head))
+            .back();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 
 }
