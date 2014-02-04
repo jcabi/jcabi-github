@@ -33,6 +33,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import org.xembly.Directives;
@@ -106,15 +107,26 @@ public final class MkMilestones implements Milestones {
 
     @Override
     public Iterable<Milestone> iterate(final Map<String, String> params) {
-        throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+        return new MkIterable<Milestone>(
+            this.storage,
+            String.format("%s/milestone", this.xpath()),
+            new MkIterable.Mapping<Milestone>() {
+                @Override
+                public Milestone map(final XML xml) {
+                    return MkMilestones.this.get(
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
+                }
+            }
         );
     }
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException(
-            "This operation is not available yet."
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/milestone[number='%d']", this.xpath(), number)
+            ).remove()
         );
     }
 
