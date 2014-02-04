@@ -123,8 +123,7 @@ public final class RtReleasesITCase {
     private static Releases releases() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
+        return new RtGithub(key).repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         ).releases();
     }

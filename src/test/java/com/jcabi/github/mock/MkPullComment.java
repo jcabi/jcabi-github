@@ -27,31 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComment;
+import java.io.IOException;
+import javax.json.JsonObject;
 
 /**
- * Test case for {@link RtPublicKey}.
+ * Mock Github pull comment.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @todo #416 Mock for pull comment. Let's implements Mock for PullComment using
+ *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
+ *  tests.
  */
-public final class RtPublicKeyITCase {
-    /**
-     * RtPublicKey can retrieve correctly URI.
-     * @throws Exception if any error inside
-     */
-    @Test
-    public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            new RtGithub(key).users().self().keys().get(1).toString(),
-            Matchers.endsWith("/keys/1")
+@Immutable
+public final class MkPullComment implements PullComment {
+
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("Json yet implemented.");
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("Patch not yet implemented.");
+    }
+
+    @Override
+    public Pull pull() {
+        throw new UnsupportedOperationException("Repo not yet implemented.");
+    }
+
+    @Override
+    public int number() {
+        throw new UnsupportedOperationException("Number not yet implemented.");
+    }
+
+    @Override
+    public int compareTo(final PullComment other) {
+        throw new UnsupportedOperationException(
+            "compareTo not yet implemented."
         );
     }
+
 }

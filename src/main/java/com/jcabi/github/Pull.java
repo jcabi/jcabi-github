@@ -56,7 +56,7 @@ import lombok.ToString;
 public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
-     * Repository we're in.
+     * Pull we're in.
      * @return Repo
      */
     @NotNull(message = "repository is never NULL")
@@ -215,7 +215,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("created_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -229,7 +229,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("updated_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -243,7 +243,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("closed_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -257,7 +257,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("merged_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
