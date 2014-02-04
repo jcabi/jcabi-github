@@ -70,7 +70,8 @@ public final class MkForksTest {
     @Test
     @Ignore
     public void createsFork() throws Exception {
-        final MkForks forks = new MkForks(new MkStorage.InFile(),
+        final MkForks forks = new MkForks(
+            new MkStorage.InFile(),
             "Test", new Coordinates.Simple("tests", "forks")
         );
         MatcherAssert.assertThat(
