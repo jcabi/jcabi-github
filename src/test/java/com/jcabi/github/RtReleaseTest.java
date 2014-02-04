@@ -204,12 +204,11 @@ public class RtReleaseTest {
      * @return A test release.
      */
     private static RtRelease release(final URI uri) {
-        final RtRelease release = new RtRelease(
+        return new RtRelease(
             new ApacheRequest(uri),
             new Coordinates.Simple(TEST_MNEMO),
             2
         );
-        return release;
     }
 
 }

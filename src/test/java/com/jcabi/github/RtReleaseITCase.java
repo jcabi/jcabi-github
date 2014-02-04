@@ -48,23 +48,6 @@ import org.junit.Test;
 public final class RtReleaseITCase {
 
     /**
-     * The key for release tag name in JSON used for patching or describing a
-     * release.
-     */
-    private static final String REL_TAG_NAME = "tag_name";
-
-    /**
-     * The key for release name in JSON used for patching or describing a
-     * release.
-     */
-    private static final String REL_NAME = "name";
-
-    /**
-     * The key for release description in JSON used for patching or describing a
-     * release.
-     */
-    private static final String REL_DESC = "body";
-    /**
      * Test release.
      */
     private transient Release release;
@@ -101,7 +84,7 @@ public final class RtReleaseITCase {
     }
 
     /**
-     * RtReleases can iterate releases.
+     * RtRelease can edit a release.
      * @throws Exception If any problems during test execution occur.
      */
     @Test
@@ -109,24 +92,28 @@ public final class RtReleaseITCase {
         final String tag = "v23";
         final String name = "JCabi Github test release";
         final String description = "JCabi Github was here!";
+        // @checkstyle LocalFinalVariableNameCheck (3 lines)
+        final String tagNameKey = "tag_name";
+        final String nameKey = "name";
+        final String descKey = "body";
         final JsonObject jsonPatch = Json.createObjectBuilder()
-            .add(REL_TAG_NAME, tag)
-            .add(REL_NAME, name)
-            .add(REL_DESC, description)
+            .add(tagNameKey, tag)
+            .add(nameKey, name)
+            .add(descKey, description)
             .build();
         this.release.patch(jsonPatch);
         final JsonObject json = this.repo.releases()
             .get(this.release.number()).json();
         MatcherAssert.assertThat(
-            json.getString(REL_TAG_NAME),
+            json.getString(tagNameKey),
             Matchers.equalTo(tag)
         );
         MatcherAssert.assertThat(
-            json.getString(REL_NAME),
+            json.getString(nameKey),
             Matchers.equalTo(name)
         );
         MatcherAssert.assertThat(
-            json.getString(REL_DESC),
+            json.getString(descKey),
             Matchers.equalTo(description)
         );
     }
