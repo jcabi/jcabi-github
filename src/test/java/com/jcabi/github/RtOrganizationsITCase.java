@@ -61,7 +61,10 @@ public final class RtOrganizationsITCase {
     @Test
     public void iterateOrganizations() throws Exception {
         final Organizations orgs = github().users().self().organizations();
-        MatcherAssert.assertThat(orgs.iterate(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            orgs.iterate("yegor256").iterator().next(),
+            Matchers.notNullValue()
+        );
     }
 
     /**
