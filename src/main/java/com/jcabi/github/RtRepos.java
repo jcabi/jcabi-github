@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
@@ -83,22 +83,19 @@ final class RtRepos implements Repos {
         return this.ghub;
     }
 
-    /**
-     * {@inheritDoc}
-     * @todo #23:1hr Create integration test case to create random repo,
-     *  ensure success, create again, ensure failure, delete.
-     */
     @Override
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
         return this.get(
-            new Coordinates.Simple(this.entry.uri().path("user/repos")
-            .back().method(Request.POST)
-            .body().set(json).back()
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_CREATED)
-            .as(JsonResponse.class)
-            .json().readObject().getString("full_name"))
+            new Coordinates.Simple(
+                this.entry.uri().path("user/repos")
+                    .back().method(Request.POST)
+                    .body().set(json).back()
+                    .fetch().as(RestResponse.class)
+                    .assertStatus(HttpURLConnection.HTTP_CREATED)
+                    .as(JsonResponse.class)
+                    .json().readObject().getString("full_name")
+            )
         );
     }
 

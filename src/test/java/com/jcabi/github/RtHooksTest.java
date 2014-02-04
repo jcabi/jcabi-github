@@ -30,12 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
-import com.rexsl.test.request.JdkRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import java.util.Map;
@@ -45,7 +45,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -84,16 +83,28 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can fetch non empty list of hooks.
-     *
-     * @todo #122 RtHooks should iterate multiple hooks. Let's implement
-     *  a test here and a method of RtHooks. The method should iterate
-     *  multiple hooks. See how it's done in other classes with GhPagination.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchNonEmptyListOfHooks() {
-        // to be implemented
+    public void canFetchNonEmptyListOfHooks() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(hook("hook 1", Collections.<String, String>emptyMap()))
+                    .add(hook("hook 2", Collections.<String, String>emptyMap()))
+                    .build().toString()
+            )
+        ).start();
+        final RtHooks hooks = new RtHooks(
+            new JdkRequest(container.home()),
+            RtHooksTest.repo()
+        );
+        MatcherAssert.assertThat(
+            hooks.iterate(),
+            Matchers.<Hook>iterableWithSize(2)
+        );
+        container.stop();
     }
 
     /**

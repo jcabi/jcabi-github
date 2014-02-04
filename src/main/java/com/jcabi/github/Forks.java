@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -64,8 +65,9 @@ public interface Forks {
      *
      * @param organization The organization the repository will be forked into.
      * @return The new fork
+     * @throws IOException  If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
      */
     Fork create(@NotNull(message = "organization can't be NULL")
-        String organization);
+        String organization) throws IOException;
 }
