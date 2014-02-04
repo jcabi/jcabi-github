@@ -29,10 +29,11 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -110,7 +111,9 @@ public final class RtReleasesITCase {
     @Test
     public void canRemoveRelease() throws Exception {
         final Releases releases = RtReleasesITCase.releases();
-        final Release release = releases.create("v.011");
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.hasItem(release)
