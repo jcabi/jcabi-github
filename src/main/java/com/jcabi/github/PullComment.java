@@ -29,29 +29,38 @@
  */
 package com.jcabi.github;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
+import javax.validation.constraints.NotNull;
 
 /**
- * Test case for {@link RtPublicKey}.
+ * Github pull comment.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @since 0.8
+ * @see <a href="http://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
+ * @todo #416 Implement a Smart decorator for PullComment for the purposes of JSON
+ *  parsing. This class should be able to return the various attributes of the
+ *  JSON response for fetching comments, such as the ID, commit ID, URL, and
+ *  comment body. Smart should also be able to handle editing the attributes
+ *  of an existing comment by using
+ *  {@link JsonPatchable#patch(javax.json.JsonObject)}. Also include an example
+ *  of how to do this in the Javadoc comment above. You can refer to
+ *  {@link PublicKey} on how to do this.
  */
-public final class RtPublicKeyITCase {
+public interface PullComment extends JsonReadable, JsonPatchable,
+    Comparable<PullComment> {
+
     /**
-     * RtPublicKey can retrieve correctly URI.
-     * @throws Exception if any error inside
+     * Pull we're in.
+     * @return Pull
      */
-    @Test
-    public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            new RtGithub(key).users().self().keys().get(1).toString(),
-            Matchers.endsWith("/keys/1")
-        );
-    }
+    @NotNull(message = "pull is never NULL")
+    Pull pull();
+
+    /**
+     * Get its number.
+     * @return Pull comment number
+     */
+    int number();
+
 }

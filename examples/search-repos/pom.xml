@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0"?>
+<!--
  * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
  *
@@ -26,32 +27,44 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-package com.jcabi.github;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
-
-/**
- * Test case for {@link RtPublicKey}.
- *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
- */
-public final class RtPublicKeyITCase {
-    /**
-     * RtPublicKey can retrieve correctly URI.
-     * @throws Exception if any error inside
-     */
-    @Test
-    public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            new RtGithub(key).users().self().keys().get(1).toString(),
-            Matchers.endsWith("/keys/1")
-        );
-    }
-}
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.jcabi.example</groupId>
+    <artifactId>search-repos</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>jcabi-github</name>
+    <description>Search Repositories</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-github</artifactId>
+            <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.jcabi.Main</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

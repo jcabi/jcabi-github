@@ -29,14 +29,107 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+
 /**
  * Test case for {@link RtGistComment}.
- *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @todo #18 Unit test for RtGistComment is required. Let's create a simple one,
- *  to check that the class implements key functions correctly.
- *  The most important methods to test are remove(), json(), and patch()
  */
 public class RtGistCommentTest {
+
+    /**
+     * RtGistComment can patch comment and return new json.
+     * @throws IOException if has some problems with json parsing.
+     */
+    @Test
+    public final void patchAndCheckJsonGistComment() throws IOException {
+        final int identifier = 1;
+        final String idString = "id";
+        final String bodyString = "body";
+        final String body = "somebody";
+        final String patchedBody = "some patchedbody";
+        final MkAnswer first = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add(bodyString, body)
+                .add(idString, identifier)
+                .build().toString()
+        );
+        final MkAnswer second = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add(bodyString, patchedBody)
+                .add(idString, identifier)
+                .build().toString()
+        );
+        final MkAnswer third = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add(bodyString, body)
+                .add(idString, identifier)
+                .build().toString()
+        );
+        final MkContainer container =
+            new MkGrizzlyContainer().next(first).next(second).next(third)
+                .start();
+        final MkContainer gistContainer = new MkGrizzlyContainer().start();
+        final RtGist gist =
+            new RtGist(
+                new MkGithub(),
+                new ApacheRequest(gistContainer.home()), "someName"
+            );
+        final RtGistComment comment = new RtGistComment(
+            new ApacheRequest(container.home()), gist, identifier
+        );
+        comment.patch(Json.createObjectBuilder()
+            .add(bodyString, patchedBody)
+            .add(idString, identifier)
+            .build()
+        );
+        MatcherAssert.assertThat(
+            comment.json().getString(bodyString),
+            Matchers.equalTo(patchedBody)
+        );
+        container.stop();
+        gistContainer.stop();
+    }
+
+    /**
+     * RtGistComment can remove comment.
+     * @throws IOException if has some problems with json parsing.
+     */
+    @Test
+    public final void removeGistComment() throws IOException {
+        final int identifier = 1;
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final RtGist gist = new RtGist(
+            new MkGithub(),
+            new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
+            "gistName"
+        );
+        final RtGistComment comment = new RtGistComment(
+            new ApacheRequest(container.home()), gist, identifier
+        );
+        comment.remove();
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.DELETE)
+        );
+        container.stop();
+    }
 }

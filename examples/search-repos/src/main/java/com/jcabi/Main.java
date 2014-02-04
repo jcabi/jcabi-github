@@ -27,31 +27,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
+import com.jcabi.github.Github;
+import com.jcabi.github.RtGithub;
+import com.jcabi.http.response.JsonResponse;
+import java.util.List;
+import javax.json.JsonObject;
 
 /**
- * Test case for {@link RtPublicKey}.
+ * Search repositories.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
+ * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.8
  */
-public final class RtPublicKeyITCase {
+public final class Main {
+
     /**
-     * RtPublicKey can retrieve correctly URI.
-     * @throws Exception if any error inside
+     * Main entry point.
+     * @param args Command line arguments
      */
-    @Test
-    public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            new RtGithub(key).users().self().keys().get(1).toString(),
-            Matchers.endsWith("/keys/1")
-        );
+    public static void main(final String[] args) throws Exception {
+        final Github github = new RtGithub();
+        final JsonResponse resp = github.entry()
+            .uri().path("/search/repositories")
+            .queryParam("q", "java").back()
+            .fetch()
+            .as(JsonResponse.class);
+        final List<JsonObject> items = resp.json().readObject()
+            .getJsonArray("items")
+            .getValuesAs(JsonObject.class);
+        for (final JsonObject item : items) {
+            System.out.println(
+                String.format(
+                    "repository found: %s",
+                    item.get("full_name").toString()
+                )
+            );
+        }
     }
+
 }

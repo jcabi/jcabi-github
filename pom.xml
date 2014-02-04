@@ -33,7 +33,7 @@
     <parent>
         <groupId>com.jcabi</groupId>
         <artifactId>jcabi</artifactId>
-        <version>1.0.1</version>
+        <version>1.1</version>
     </parent>
     <artifactId>jcabi-github</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -71,13 +71,16 @@
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-immutable</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
             <artifactId>jcabi-xml</artifactId>
-            <version>0.7.1</version>
+            <version>0.7.7</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-http</artifactId>
-            <version>1.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.rexsl</groupId>

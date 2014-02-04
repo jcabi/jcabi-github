@@ -27,31 +27,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
 
 /**
- * Test case for {@link RtPublicKey}.
+ * Search repositories.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
+ * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @since 0.8
  */
-public final class RtPublicKeyITCase {
-    /**
-     * RtPublicKey can retrieve correctly URI.
-     * @throws Exception if any error inside
-     */
-    @Test
-    public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            new RtGithub(key).users().self().keys().get(1).toString(),
-            Matchers.endsWith("/keys/1")
-        );
-    }
-}
+package com.jcabi;
