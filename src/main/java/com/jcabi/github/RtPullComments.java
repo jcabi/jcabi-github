@@ -27,34 +27,69 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Pull;
-import com.jcabi.github.PullComment;
-import com.jcabi.github.PullComments;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Map;
+import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github pull comments.
+ * Github pull comment.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
 @Immutable
-public final class MkPullComments implements PullComments {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner" })
+public final class RtPullComments implements PullComments {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Owner of comments.
+     */
+    private final transient Pull owner;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     * @param pull Pull
+     */
+    RtPullComments(final Request req, final Pull pull) {
+        this.entry = req;
+        final Coordinates coords = pull.repo().coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
+            .back();
+        this.owner = pull;
+    }
 
     @Override
     public Pull pull() {
-        throw new UnsupportedOperationException("Pull not yet implemented.");
+        return this.owner;
     }
 
     @Override
     public PullComment get(final int number) {
-        throw new UnsupportedOperationException("Get not yet implemented.");
+        return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
@@ -77,13 +112,16 @@ public final class MkPullComments implements PullComments {
     }
 
     @Override
-    public PullComment reply(final String body,
+    public PullComment reply(final String text,
         final int comment) throws IOException {
         throw new UnsupportedOperationException("Reply not yet implemented.");
     }
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.request.uri().path(String.valueOf(number)).back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 }

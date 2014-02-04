@@ -27,63 +27,90 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Pull;
-import com.jcabi.github.PullComment;
-import com.jcabi.github.PullComments;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import java.io.IOException;
-import java.util.Map;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github pull comments.
+ * Github pull comment.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
 @Immutable
-public final class MkPullComments implements PullComments {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtPullComment implements PullComment {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Pull we're in.
+     */
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
+
+    /**
+     * Public ctor.
+     * @param req RESTful request
+     * @param pull Owner of this comment
+     * @param number Number of the get
+     */
+    RtPullComment(final Request req, final Pull pull, final int number) {
+        final Coordinates coords = pull.repo().coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
+            .path(Integer.toString(number))
+            .back();
+        this.owner = pull;
+        this.num = number;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
 
     @Override
     public Pull pull() {
-        throw new UnsupportedOperationException("Pull not yet implemented.");
+        return this.owner;
     }
 
     @Override
-    public PullComment get(final int number) {
-        throw new UnsupportedOperationException("Get not yet implemented.");
+    public int number() {
+        return this.num;
     }
 
     @Override
-    public Iterable<PullComment> iterate(final Map<String, String> params) {
-        //@checkstyle MultipleStringLiteralsCheck (1 line)
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    public int compareTo(final PullComment comment) {
+        return this.number() - comment.number();
     }
 
-    @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
-    }
-
-    // @checkstyle ParameterNumberCheck (3 lines)
-    @Override
-    public PullComment post(final String body, final String commit,
-        final String path, final int position) throws IOException {
-        throw new UnsupportedOperationException("Post not yet implemented.");
-    }
-
-    @Override
-    public PullComment reply(final String body,
-        final int comment) throws IOException {
-        throw new UnsupportedOperationException("Reply not yet implemented.");
-    }
-
-    @Override
-    public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
-    }
 }
