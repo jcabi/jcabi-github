@@ -49,13 +49,7 @@ import lombok.ToString;
  * @since 0.3
  * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #1:1hr Pull request comments. Let's add new method comments() to this
- *  interface, returning an instance of interface PullComments. This new
- *  interface should implement methods do iterate, post, delete and read
- *  comments, as explained in
- *  http://developer.github.com/v3/pulls/comments/. New interface should
- *  be implemented by GhPullComments class and tested with unit and
- *  integration tests.
+ *
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -102,23 +96,36 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         throws IOException;
 
     /**
+     * Get Pull Comments.
+     * @return Comments.
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
+     */
+    PullComments comments() throws IOException;
+
+    /**
      * Smart pull request with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "pull")
+    @EqualsAndHashCode(of = { "pull", "jsn" })
     final class Smart implements Pull {
         /**
          * Encapsulated pull request.
          */
         private final transient Pull pull;
         /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
          * Public ctor.
          * @param pll Pull request
          */
         public Smart(final Pull pll) {
             this.pull = pll;
+            this.jsn = new SmartJson(pll);
         }
         /**
          * Is it open?
@@ -134,7 +141,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String state() throws IOException {
-            return new SmartJson(this).text("state");
+            return this.jsn.text("state");
         }
         /**
          * Change its state.
@@ -152,7 +159,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String title() throws IOException {
-            return new SmartJson(this).text("title");
+            return this.jsn.text("title");
         }
         /**
          * Change its state.
@@ -170,7 +177,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
-            return new SmartJson(this).text("body");
+            return this.jsn.text("body");
         }
         /**
          * Change its body.
@@ -188,7 +195,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
         /**
          * Get its HTML URL.
@@ -196,7 +203,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
-            return new URL(new SmartJson(this).text("html_url"));
+            return new URL(this.jsn.text("html_url"));
         }
         /**
          * When this pull request was created.
@@ -206,7 +213,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("created_at")
+                    this.jsn.text("created_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -220,7 +227,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("updated_at")
+                    this.jsn.text("updated_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -234,7 +241,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date closedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("closed_at")
+                    this.jsn.text("closed_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -248,7 +255,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Date mergedAt() throws IOException {
             try {
                 return new Github.Time(
-                    new SmartJson(this).text("merged_at")
+                    this.jsn.text("merged_at")
                 ).date();
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -269,8 +276,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.8
          */
-        public int comments() throws IOException {
-            return new SmartJson(this).number("comments");
+        public int commentsCount() throws IOException {
+            return this.jsn.number("comments");
         }
         @Override
         public Repo repo() {
@@ -292,6 +299,12 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public void merge(final String msg) throws IOException {
             this.pull.merge(msg);
         }
+
+        @Override
+        public PullComments comments() throws IOException {
+            return this.pull.comments();
+        }
+
         @Override
         public JsonObject json() throws IOException {
             return this.pull.json();

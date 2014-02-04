@@ -120,12 +120,16 @@ public interface Limit extends JsonReadable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "origin")
+    @EqualsAndHashCode(of = { "origin", "jsn" })
     final class Throttled implements Limit {
         /**
          * Original.
          */
         private final transient Limit origin;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
         /**
          * Maximum allowed, instead of default 5000.
          */
@@ -138,6 +142,7 @@ public interface Limit extends JsonReadable {
         public Throttled(final Limit limit, final int allowed) {
             this.origin = limit;
             this.max = allowed;
+            this.jsn = new SmartJson(limit);
         }
         @Override
         public JsonObject json() throws IOException {

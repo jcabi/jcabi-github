@@ -29,7 +29,10 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import java.util.Collections;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -42,10 +45,6 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #159 Need to implement integration test case where RtHooks can obtain
- *  a list of hooks from a real repository. Add the implementation in
- *  canFetchAllHooks(). When done, remove this puzzle and Ignore annotation from
- *  the method.
  */
 public final class RtHooksITCase {
 
@@ -54,9 +53,21 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canFetchAllHooks() throws Exception {
-        // to be implemented
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
+        try {
+            final Hooks hooks = repo.hooks();
+            hooks.create(
+                "geocommit",
+                Collections.singletonMap("active", "true")
+            );
+            MatcherAssert.assertThat(
+                hooks.iterate(), Matchers.<Hook>iterableWithSize(1)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -80,20 +91,19 @@ public final class RtHooksITCase {
      */
     @Test
     public void canFetchSingleHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        int number = 0;
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
         try {
-            final Hook hook = hooks.create(
-                "geocommit",
-                Collections.singletonMap("active", "true")
-            );
-            number = hook.number();
+            final Hooks hooks = repo.hooks();
+            final int number = hooks.create(
+                "geocommit", Collections.<String, String>emptyMap()
+            ).number();
             MatcherAssert.assertThat(
                 hooks.get(number).json().getInt("id"),
                 Matchers.equalTo(number)
             );
         } finally {
-            hooks.remove(number);
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -104,29 +114,46 @@ public final class RtHooksITCase {
      */
     @Test
     public void canRemoveHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        final Hook hook = hooks.create(
-            "geocommit",
-            Collections.<String, String>emptyMap()
-        );
-        hooks.remove(hook.number());
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.not(Matchers.hasItem(hook))
-        );
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
+        try {
+            final Hooks hooks = repo.hooks();
+            final Hook hook = hooks.create(
+                "geocommit", Collections.<String, String>emptyMap()
+            );
+            hooks.remove(hook.number());
+            MatcherAssert.assertThat(
+                hooks.iterate(),
+                Matchers.not(Matchers.hasItem(hook))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * Return repos for tests.
+     * @return Repos
      */
-    private static Repo repo() throws Exception {
+    private static Repos repos() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        return new RtGithub(key).repos();
+    }
+
+    /**
+     * Create a new repo with random name.
+     * @param repos Repos
+     * @return Repository
+     * @throws IOException If there is any I/O problem
+     */
+    private static Repo repo(final Repos repos) throws IOException {
+        return repos.create(
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
         );
     }
+
 }

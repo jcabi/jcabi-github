@@ -80,13 +80,27 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can create a release.
-     * @todo #180 Integration test for RtReleases.create() should be implemented.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     * @throws Exception if any error inside
      */
     @Test
-    @Ignore
-    public void canCreateRelease() {
-        // to be implemented
+    public void canCreateRelease() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final String tag = "0.1";
+        final Release created = releases.create(tag);
+        final int number = created.number();
+        try {
+            final Release obtained = releases.get(number);
+            MatcherAssert.assertThat(
+                created,
+                Matchers.is(obtained)
+            );
+            MatcherAssert.assertThat(
+                new Release.Smart(created).tag(),
+                Matchers.equalTo(new Release.Smart(obtained).tag())
+            );
+        } finally {
+            releases.remove(number);
+        }
     }
 
     /**
@@ -109,8 +123,7 @@ public final class RtReleasesITCase {
     private static Releases releases() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
+        return new RtGithub(key).repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         ).releases();
     }

@@ -31,10 +31,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.Response;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.Response;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -162,26 +162,27 @@ final class RtGist implements Gist {
 
     @Override
     public boolean starred() throws IOException {
-        final RestResponse response = this.request.uri().path("star").back()
+        return this.request.uri().path("star").back()
             .method("GET").fetch()
             .as(RestResponse.class).assertStatus(
                 Matchers.isOneOf(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     HttpURLConnection.HTTP_NOT_FOUND
             )
-        );
-        return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
+        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override
     public Gist fork() throws IOException {
-        final String name = this.request.uri().path("/forks").back()
-            .method(Request.POST)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_CREATED)
-            .as(JsonResponse.class)
-            .json().readObject().getString("id");
-        return new RtGist(this.ghub, this.entry, name);
+        return new RtGist(
+            this.ghub, this.entry,
+            this.request.uri().path("/forks").back()
+                .method(Request.POST)
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("id")
+        );
     }
 
     @Override
