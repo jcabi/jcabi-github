@@ -106,7 +106,8 @@ public final class RtContents implements Contents {
             .add("message", message)
             .add("content", content)
             .build();
-        return new RtContent(this.entry, this.owner,
+        return new RtContent(
+            this.entry, this.owner,
             this.request.method(Request.PUT)
                 .body().set(json).back()
                 .fetch()

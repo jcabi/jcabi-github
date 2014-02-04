@@ -121,7 +121,8 @@ public final class RtContentsTest {
             .add("name", name)
             .build();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED,
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED,
                 Json.createObjectBuilder().add("content", body)
                     .build().toString()
             )
@@ -165,7 +166,8 @@ public final class RtContentsTest {
     @Test
     public void canDeleteFilesFromRepository() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder().add(
                     "commit",
                     Json.createObjectBuilder()
