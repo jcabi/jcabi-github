@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Map;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
@@ -66,15 +67,24 @@ public interface Contents {
      * @param path The content path
      * @param message The commit message
      * @param content File content, Base64 encoded
+     * @param branch The branch name
+     * @param committer Committer parameter, which is a hash containing information about the committer
+     * @param author Author parameter is optional and is filled in with the committer information if omitted
      * @return Content just created
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
+     * @checkstyle ParameterNumberCheck (11 lines)
      */
     @NotNull(message = "Content is never NULL")
     Content create(
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
-        @NotNull(message = "content is never NULL") String content)
+        @NotNull(message = "content is never NULL") String content,
+        @NotNull(message = "branch is never NULL") String branch,
+        @NotNull(message = "committer is never NULL")
+        Map<String, String> committer,
+        @NotNull(message = "author is never NULL")
+        Map<String, String> author)
         throws IOException;
 
     /**
@@ -82,15 +92,24 @@ public interface Contents {
      * @param path The content path
      * @param message The commit message
      * @param sha Blob SHA of file to be deleted
+     * @param branch The branch name
+     * @param committer Committer parameter, which is a hash containing information about the committer
+     * @param author Author parameter is optional and is filled in with the committer information if omitted
      * @return Commit referring to this operation
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
+     * @checkstyle ParameterNumberCheck (11 lines)
      */
     @NotNull(message = "Content is never NULL")
     Commit remove(
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
-        @NotNull(message = "sha is never NULL") String sha)
+        @NotNull(message = "sha is never NULL") String sha,
+        @NotNull(message = "branch is never NULL") String branch,
+        @NotNull(message = "committer is never NULL")
+        Map<String, String> committer,
+        @NotNull(message = "author is never NULL")
+        Map<String, String> author)
         throws IOException;
 
     /**
