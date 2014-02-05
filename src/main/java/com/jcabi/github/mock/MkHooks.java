@@ -35,8 +35,8 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -46,12 +46,6 @@ import org.xembly.Directives;
  * Mock Github hooks.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #166 Hooks mock should be implemented.
- *  Need to implement the methods of MkHooks: 1) iterate, returning
- *  a list of hooks, 2) create, which will create a new hook and
- *  3) get, which will fetch hook by id
- *  Don't forget to update the unit test class {@link MkHooks}.
- *  See http://developer.github.com/v3/repos/hooks/
  * @since 0.8
  */
 @Immutable
@@ -104,7 +98,18 @@ public final class MkHooks implements Hooks {
 
     @Override
     public Iterable<Hook> iterate() {
-        return Collections.emptyList();
+        return new MkIterable<Hook>(
+            this.storage,
+            String.format("%s/hook", this.xpath()),
+            new MkIterable.Mapping<Hook>() {
+                @Override
+                public Hook map(final XML xml) {
+                    return MkHooks.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -113,13 +118,45 @@ public final class MkHooks implements Hooks {
     }
 
     @Override
-    public Hook create(final String name, final Map<String, String> config) {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Hook create(final String name, final Map<String, String> config)
+        throws IOException {
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/hook/id/text()", this.xpath())
+            ).size();
+            final Directives dirs = new Directives().xpath(this.xpath())
+                .add("hook")
+                .add("id").set(String.valueOf(number)).up()
+                .add("name").set(name).up()
+                .add("active").set("true").up()
+                .add("events").up()
+                .add("config");
+            for (final Map.Entry<String, String> entr : config.entrySet()) {
+                dirs.add(entr.getKey()).set(entr.getValue()).up();
+            }
+            this.storage.apply(dirs);
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
     }
 
     @Override
     public void remove(final int number) throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/hooks",
+            this.coords
+        );
     }
 
 }
