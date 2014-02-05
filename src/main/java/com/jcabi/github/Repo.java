@@ -163,6 +163,13 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Collaborators collaborators();
 
     /**
+     * Gel git object.
+     * @return Git
+     * @see <a href="http://developer.github.com/v3/git/">Git API</a>
+     */
+    Git git();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -261,6 +268,10 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @Override
         public RepoCommits commits() {
             return this.repo.commits();
+        }
+        @Override
+        public Git git() {
+            return this.repo.git();
         }
         @Override
         public JsonObject json() throws IOException {

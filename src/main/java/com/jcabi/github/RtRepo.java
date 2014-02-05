@@ -189,6 +189,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Git git() {
+        return null;
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
