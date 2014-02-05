@@ -34,69 +34,53 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-final class RtRepoCommits implements RepoCommits {
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtPullComment implements PullComment {
 
     /**
-     * RESTful API entry point.
-     */
-    private final transient Request entry;
-
-    /**
-     * RESTful request for the commits.
+     * RESTful request.
      */
     private final transient Request request;
 
     /**
-     * Parent repository.
+     * Pull we're in.
      */
-    private final transient Repo owner;
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param req Entry point of API
-     * @param repo Repository
+     * @param req RESTful request
+     * @param pull Owner of this comment
+     * @param number Number of the get
      */
-    RtRepoCommits(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
+    RtPullComment(final Request req, final Pull pull, final int number) {
+        final Coordinates coords = pull.repo().coordinates();
         this.request = req.uri()
             .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/commits")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
+            .path(Integer.toString(number))
             .back();
-    }
-
-    @Override
-    public Iterable<Commit> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Commit get(final String sha) {
-        return new RtCommit(this.entry, this.owner, sha);
-    }
-
-    @Override
-    @NotNull(message = "commits comparison is never NULL")
-    public CommitsComparison compare(
-        @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "base is never NULL") final String head) {
-        return new RtCommitsComparison(this.entry, this.owner, base, head);
+        this.owner = pull;
+        this.num = number;
     }
 
     @Override
@@ -108,4 +92,25 @@ final class RtRepoCommits implements RepoCommits {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public Pull pull() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return this.num;
+    }
+
+    @Override
+    public int compareTo(final PullComment comment) {
+        return this.number() - comment.number();
+    }
+
 }

@@ -27,73 +27,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
-import com.jcabi.github.Gitignores;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Mock Gitignore.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
+ * @see <a href="http://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
+ * @todo #416 Implement a Smart decorator for PullComment for the purposes of JSON
+ *  parsing. This class should be able to return the various attributes of the
+ *  JSON response for fetching comments, such as the ID, commit ID, URL, and
+ *  comment body. Smart should also be able to handle editing the attributes
+ *  of an existing comment by using
+ *  {@link JsonPatchable#patch(javax.json.JsonObject)}. Also include an example
+ *  of how to do this in the Javadoc comment above. You can refer to
+ *  {@link PublicKey} on how to do this.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "ghub" })
-@SuppressWarnings("PMD.UseConcurrentHashMap")
-public final class MkGitignores implements Gitignores {
+public interface PullComment extends JsonReadable, JsonPatchable,
+    Comparable<PullComment> {
 
     /**
-     * The gitignore templates.
+     * Pull we're in.
+     * @return Pull
      */
-    private static final Map<String, String> GITIGNORES =
-        Collections.singletonMap(
-            "Java",
-            "*.class\n\n# Package Files #\n*.jar\n*.war\n*.ear\n"
-        );
+    @NotNull(message = "pull is never NULL")
+    Pull pull();
 
     /**
-     * Github.
+     * Get its number.
+     * @return Pull comment number
      */
-    private final transient MkGithub ghub;
+    int number();
 
-    /**
-     * Public ctor.
-     * @param github The github
-     */
-    MkGitignores(@NotNull(message = "github is never NULL")
-        final MkGithub github) {
-        this.ghub = github;
-    }
-
-    @Override
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    public Iterable<String> iterate() throws IOException {
-        return GITIGNORES.keySet();
-    }
-
-    @Override
-    public String template(
-        @NotNull(message = "Template name can't be NULL")
-        final String name) throws IOException {
-        final String template = GITIGNORES.get(name);
-        if (template == null) {
-            throw new IllegalArgumentException("Template not found.");
-        }
-        return template;
-    }
 }

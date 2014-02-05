@@ -84,6 +84,30 @@ public final class RtRepoCommitsTest {
     }
 
     /**
+     * RtRepoCommits can compare two commits.
+     */
+    @Test
+    public void comparesCommits() {
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("base_commit", Json.createObjectBuilder())
+                    .add("commits", Json.createArrayBuilder())
+                    .add("files", Json.createArrayBuilder())
+                    .build().toString()
+            ),
+            RtRepoCommitsTest.repo()
+        );
+        MatcherAssert.assertThat(
+            commits.compare(
+                "6dcb09b5b57875f334f61aebed695e2e4193db53",
+                "6dcb09b5b57875f334f61aebed695e2e4193db54"
+            ),
+            Matchers.notNullValue(CommitsComparison.class)
+        );
+    }
+
+    /**
      * Create repository for tests.
      * @return Repository
      */

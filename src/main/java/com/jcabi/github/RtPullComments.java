@@ -32,80 +32,96 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import java.net.HttpURLConnection;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-final class RtRepoCommits implements RepoCommits {
+@EqualsAndHashCode(of = { "request", "owner" })
+public final class RtPullComments implements PullComments {
 
     /**
-     * RESTful API entry point.
+     * API entry point.
      */
     private final transient Request entry;
 
     /**
-     * RESTful request for the commits.
+     * RESTful request.
      */
     private final transient Request request;
 
     /**
-     * Parent repository.
+     * Owner of comments.
      */
-    private final transient Repo owner;
+    private final transient Pull owner;
 
     /**
      * Public ctor.
-     * @param req Entry point of API
-     * @param repo Repository
+     * @param req Request
+     * @param pull Pull
      */
-    RtRepoCommits(final Request req, final Repo repo) {
+    RtPullComments(final Request req, final Pull pull) {
         this.entry = req;
-        this.owner = repo;
-        this.request = req.uri()
+        final Coordinates coords = pull.repo().coordinates();
+        this.request = this.entry.uri()
             .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/commits")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
             .back();
+        this.owner = pull;
     }
 
     @Override
-    public Iterable<Commit> iterate() {
-        throw new UnsupportedOperationException();
+    public Pull pull() {
+        return this.owner;
     }
 
     @Override
-    public Commit get(final String sha) {
-        return new RtCommit(this.entry, this.owner, sha);
+    public PullComment get(final int number) {
+        return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "commits comparison is never NULL")
-    public CommitsComparison compare(
-        @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "base is never NULL") final String head) {
-        return new RtCommitsComparison(this.entry, this.owner, base, head);
+    public Iterable<PullComment> iterate(final Map<String, String> params) {
+        //@checkstyle MultipleStringLiteralsCheck (1 line)
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public Iterable<PullComment> iterate(final int number,
+        final Map<String, String> params) {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    // @checkstyle ParameterNumberCheck (3 lines)
+    @Override
+    public PullComment post(final String body, final String commit,
+        final String path, final int position) throws IOException {
+        throw new UnsupportedOperationException("Post not yet implemented.");
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    public PullComment reply(final String text,
+        final int comment) throws IOException {
+        throw new UnsupportedOperationException("Reply not yet implemented.");
+    }
+
+    @Override
+    public void remove(final int number) throws IOException {
+        this.request.uri().path(String.valueOf(number)).back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 }

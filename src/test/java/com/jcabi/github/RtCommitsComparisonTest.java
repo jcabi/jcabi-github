@@ -27,44 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Fork;
-import com.jcabi.github.Forks;
+import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkFork}.
- *
- * @author Tomas Colombo (tomas.colombo@rollasolution.com)
+ * Test case for {@link RtCommitsComparison}.
+ * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-public final class MkForkTest {
+public final class RtCommitsComparisonTest {
+
     /**
-     * MkFork can fetch as json object.
-     * @throws Exception if any problem inside
+     * RtCommitsComparison can fetch JSON.
+     * @throws Exception If some problem inside
+     * @checkstyle MultipleStringLiterals (25 lines)
      */
     @Test
-    public void fetchAsJson() throws Exception {
-        final Fork fork = forks().create("fork");
+    public void fetchesJson() throws Exception {
+        final CommitsComparison comparison = new RtCommitsComparison(
+            new FakeRequest().withBody(
+                Json.createObjectBuilder()
+                    .add("base_commit", Json.createObjectBuilder())
+                    .add("commits", Json.createArrayBuilder())
+                    .add("files", Json.createArrayBuilder())
+                    .build().toString()
+            ),
+            RtCommitsComparisonTest.repo(),
+            "6dcb09b5b57875f334f61aebed695e2e4193db51",
+            "6dcb09b5b57875f334f61aebed695e2e4193db52"
+        );
+        final JsonObject json = comparison.json();
         MatcherAssert.assertThat(
-            fork.json().toString(),
-            Matchers.containsString("{")
+            json.getJsonObject("base_commit"), Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            json.getJsonArray("commits"), Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            json.getJsonArray("files"), Matchers.notNullValue()
         );
     }
 
     /**
-     * Create and return forks to test.
-     * @return Forks
-     * @throws Exception if any problem inside
+     * Return repo for tests.
+     * @return Repository
      */
-    private static Forks forks() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        ).forks();
+    private static Repo repo() {
+        return new RtGithub().repos()
+            .get(new Coordinates.Simple("user", "repo"));
     }
+
 }
