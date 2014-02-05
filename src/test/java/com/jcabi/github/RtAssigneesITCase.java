@@ -97,8 +97,7 @@ public final class RtAssigneesITCase {
     private static Repo repo() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(RtAssigneesITCase.coordinates());
+        return new RtGithub(key).repos().get(RtAssigneesITCase.coordinates());
     }
 
     /**

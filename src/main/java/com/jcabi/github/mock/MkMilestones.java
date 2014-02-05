@@ -85,19 +85,23 @@ public final class MkMilestones implements Milestones {
 
     @Override
     public Milestone create(final String title) throws IOException {
-        throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet"
+        final int number;
+        number = 1 + this.storage.xml().xpath(
+            String.format("%s/milestone/number/text()", this.xpath())
+        ).size();
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("milestone")
+                .add("number").set(Integer.toString(number)).up()
+                .add("title").set(title).up()
+                .add("state").set(Milestone.OPEN_STATE).up()
+                .add("description").set("mock milestone").up()
         );
+        return this.get(number);
     }
 
     @Override
     public Milestone get(final int number) {
-        assert this.self != null;
-        assert this.storage != null;
-        assert this.coords != null;
-        throw new UnsupportedOperationException(
-            "This method has not been implemented yet."
-        );
+        return new MkMilestone(this.storage, this.self, this.coords, number);
     }
 
     @Override
@@ -111,6 +115,17 @@ public final class MkMilestones implements Milestones {
     public void remove(final int number) throws IOException {
         throw new UnsupportedOperationException(
             "This operation is not available yet."
+        );
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/milestones",
+            this.coords
         );
     }
 }

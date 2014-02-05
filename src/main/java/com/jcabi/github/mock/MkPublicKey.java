@@ -84,7 +84,7 @@ final class MkPublicKey implements PublicKey {
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override

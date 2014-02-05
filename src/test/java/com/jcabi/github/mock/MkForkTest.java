@@ -29,6 +29,13 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Fork;
+import com.jcabi.github.Forks;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+
 /**
  * Test case for {@link MkFork}.
  *
@@ -36,5 +43,28 @@ package com.jcabi.github.mock;
  * @version $Id$
  * @since 0.8
  */
-public class MkForkTest {
+public final class MkForkTest {
+    /**
+     * MkFork can fetch as json object.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void fetchAsJson() throws Exception {
+        final Fork fork = forks().create("fork");
+        MatcherAssert.assertThat(
+            fork.json().toString(),
+            Matchers.containsString("{")
+        );
+    }
+
+    /**
+     * Create and return forks to test.
+     * @return Forks
+     * @throws Exception if any problem inside
+     */
+    private static Forks forks() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).forks();
+    }
 }

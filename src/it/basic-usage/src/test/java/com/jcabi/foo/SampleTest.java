@@ -37,12 +37,23 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-public class SampleTest {
+/**
+ * Sample test.
+ * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @version $Id$
+ */
+public final class SampleTest {
 
+    /**
+     * Fetches labels from Github.
+     * @throws Exception If fails
+     */
     @Test
     public void fetchesLabelsFromGithub() throws Exception {
-        Github github = new RtGithub();
-        Repo repo = github.repos().get(new Coordinates.Simple("jcabi/jcabi-github"));
+        final Github github = new RtGithub();
+        final Repo repo = github.repos().get(
+            new Coordinates.Simple("jcabi/jcabi-github")
+        );
         MatcherAssert.assertThat(
             repo.labels().iterate().iterator().hasNext(),
             Matchers.equalTo(true)

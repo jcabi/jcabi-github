@@ -87,13 +87,15 @@ final class RtRepos implements Repos {
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
         return this.get(
-            new Coordinates.Simple(this.entry.uri().path("user/repos")
-            .back().method(Request.POST)
-            .body().set(json).back()
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_CREATED)
-            .as(JsonResponse.class)
-            .json().readObject().getString("full_name"))
+            new Coordinates.Simple(
+                this.entry.uri().path("user/repos")
+                    .back().method(Request.POST)
+                    .body().set(json).back()
+                    .fetch().as(RestResponse.class)
+                    .assertStatus(HttpURLConnection.HTTP_CREATED)
+                    .as(JsonResponse.class)
+                    .json().readObject().getString("full_name")
+            )
         );
     }
 
