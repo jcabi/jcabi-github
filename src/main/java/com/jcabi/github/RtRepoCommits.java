@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -91,7 +92,10 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public CommitsComparison compare(final String base, final String head) {
+    @NotNull(message = "commits comparison is never NULL")
+    public CommitsComparison compare(
+        @NotNull(message = "base is never NULL") final String base,
+        @NotNull(message = "base is never NULL") final String head) {
         return new RtCommitsComparison(this.entry, this.owner, base, head);
     }
 

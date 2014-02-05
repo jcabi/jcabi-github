@@ -65,6 +65,8 @@ public interface RepoCommits extends JsonReadable {
      * @return Commits comparison
      */
     @NotNull(message = "commits comparison is never NULL")
-    CommitsComparison compare(String base, String head);
+    CommitsComparison compare(
+        @NotNull(message = "base is never NULL") String base,
+        @NotNull(message = "base is never NULL") String head);
 
 }
