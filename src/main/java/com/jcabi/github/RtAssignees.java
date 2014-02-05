@@ -70,10 +70,10 @@ final class RtAssignees implements Assignees {
     /**
      * Public ctor.
      * @param repo Repo
-     * @param req Request
+     * @param apiEntry Request
      */
-    RtAssignees(final Repo repo, final Request req) {
-        this.entry = req;
+    RtAssignees(final Request apiEntry, final Repo repo) {
+        this.entry = apiEntry;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
             .path("/repos")
