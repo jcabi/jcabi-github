@@ -37,6 +37,7 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -52,7 +53,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContents implements Contents {
 
     /**
@@ -139,6 +139,19 @@ public final class RtContents implements Contents {
                 .as(JsonResponse.class).json()
                 .readObject().getJsonObject("commit").getString("sha")
         );
+    }
+
+    @Override
+    public void update(
+        @NotNull(message = "path is never NULL") final String path,
+        @NotNull(message = "json is never NULL") final JsonObject json)
+        throws IOException {
+        this.request.uri().path(path).back()
+            .method(Request.PUT)
+            .body().set(json).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
 }

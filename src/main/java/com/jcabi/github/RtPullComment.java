@@ -27,73 +27,90 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
-import com.jcabi.github.Gitignores;
+import com.jcabi.http.Request;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import javax.validation.constraints.NotNull;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Mock Gitignore.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "ghub" })
-@SuppressWarnings("PMD.UseConcurrentHashMap")
-public final class MkGitignores implements Gitignores {
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtPullComment implements PullComment {
 
     /**
-     * The gitignore templates.
+     * RESTful request.
      */
-    private static final Map<String, String> GITIGNORES =
-        Collections.singletonMap(
-            "Java",
-            "*.class\n\n# Package Files #\n*.jar\n*.war\n*.ear\n"
-        );
+    private final transient Request request;
 
     /**
-     * Github.
+     * Pull we're in.
      */
-    private final transient MkGithub ghub;
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param github The github
+     * @param req RESTful request
+     * @param pull Owner of this comment
+     * @param number Number of the get
      */
-    MkGitignores(@NotNull(message = "github is never NULL")
-        final MkGithub github) {
-        this.ghub = github;
+    RtPullComment(final Request req, final Pull pull, final int number) {
+        final Coordinates coords = pull.repo().coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
+            .path(Integer.toString(number))
+            .back();
+        this.owner = pull;
+        this.num = number;
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public Iterable<String> iterate() throws IOException {
-        return GITIGNORES.keySet();
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 
     @Override
-    public String template(
-        @NotNull(message = "Template name can't be NULL")
-        final String name) throws IOException {
-        final String template = GITIGNORES.get(name);
-        if (template == null) {
-            throw new IllegalArgumentException("Template not found.");
-        }
-        return template;
+    public void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
+
+    @Override
+    public Pull pull() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return this.num;
+    }
+
+    @Override
+    public int compareTo(final PullComment comment) {
+        return this.number() - comment.number();
+    }
+
 }
