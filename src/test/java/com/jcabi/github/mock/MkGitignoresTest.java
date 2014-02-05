@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Gitignores;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
