@@ -27,73 +27,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
-import com.jcabi.github.Gitignores;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.jcabi.github.RtGithub;
+import com.jcabi.http.response.JsonResponse;
+import java.util.List;
+import javax.json.JsonObject;
 
 /**
- * Mock Gitignore.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Search repositories.
+ *
+ * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "ghub" })
-@SuppressWarnings("PMD.UseConcurrentHashMap")
-public final class MkGitignores implements Gitignores {
+public final class Main {
 
     /**
-     * The gitignore templates.
+     * Main entry point.
+     * @param args Command line arguments
      */
-    private static final Map<String, String> GITIGNORES =
-        Collections.singletonMap(
-            "Java",
-            "*.class\n\n# Package Files #\n*.jar\n*.war\n*.ear\n"
-        );
-
-    /**
-     * Github.
-     */
-    private final transient MkGithub ghub;
-
-    /**
-     * Public ctor.
-     * @param github The github
-     */
-    MkGitignores(@NotNull(message = "github is never NULL")
-        final MkGithub github) {
-        this.ghub = github;
-    }
-
-    @Override
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    public Iterable<String> iterate() throws IOException {
-        return GITIGNORES.keySet();
-    }
-
-    @Override
-    public String template(
-        @NotNull(message = "Template name can't be NULL")
-        final String name) throws IOException {
-        final String template = GITIGNORES.get(name);
-        if (template == null) {
-            throw new IllegalArgumentException("Template not found.");
+    public static void main(final String[] args) throws Exception {
+        final Github github = new RtGithub();
+        final JsonResponse resp = github.entry()
+            .uri().path("/search/repositories")
+            .queryParam("q", "java").back()
+            .fetch()
+            .as(JsonResponse.class);
+        final List<JsonObject> items = resp.json().readObject()
+            .getJsonArray("items")
+            .getValuesAs(JsonObject.class);
+        for (final JsonObject item : items) {
+            System.out.println(
+                String.format(
+                    "repository found: %s",
+                    item.get("full_name").toString()
+                )
+            );
         }
-        return template;
     }
+
 }

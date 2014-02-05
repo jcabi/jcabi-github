@@ -30,70 +30,48 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
-import com.jcabi.github.Gitignores;
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComment;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import javax.json.JsonObject;
 
 /**
- * Mock Gitignore.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Mock Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @todo #416 Mock for pull comment. Let's implements Mock for PullComment using
+ *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
+ *  tests.
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "ghub" })
-@SuppressWarnings("PMD.UseConcurrentHashMap")
-public final class MkGitignores implements Gitignores {
+public final class MkPullComment implements PullComment {
 
-    /**
-     * The gitignore templates.
-     */
-    private static final Map<String, String> GITIGNORES =
-        Collections.singletonMap(
-            "Java",
-            "*.class\n\n# Package Files #\n*.jar\n*.war\n*.ear\n"
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("Json yet implemented.");
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("Patch not yet implemented.");
+    }
+
+    @Override
+    public Pull pull() {
+        throw new UnsupportedOperationException("Repo not yet implemented.");
+    }
+
+    @Override
+    public int number() {
+        throw new UnsupportedOperationException("Number not yet implemented.");
+    }
+
+    @Override
+    public int compareTo(final PullComment other) {
+        throw new UnsupportedOperationException(
+            "compareTo not yet implemented."
         );
-
-    /**
-     * Github.
-     */
-    private final transient MkGithub ghub;
-
-    /**
-     * Public ctor.
-     * @param github The github
-     */
-    MkGitignores(@NotNull(message = "github is never NULL")
-        final MkGithub github) {
-        this.ghub = github;
     }
 
-    @Override
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    public Iterable<String> iterate() throws IOException {
-        return GITIGNORES.keySet();
-    }
-
-    @Override
-    public String template(
-        @NotNull(message = "Template name can't be NULL")
-        final String name) throws IOException {
-        final String template = GITIGNORES.get(name);
-        if (template == null) {
-            throw new IllegalArgumentException("Template not found.");
-        }
-        return template;
-    }
 }

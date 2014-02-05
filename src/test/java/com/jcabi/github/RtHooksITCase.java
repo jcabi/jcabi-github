@@ -55,6 +55,7 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
+    @Ignore
     public void canFetchAllHooks() throws Exception {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = RtHooksITCase.repo(repos);
