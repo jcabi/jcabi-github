@@ -29,8 +29,10 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Repo;
+import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -77,9 +79,52 @@ public final class MkHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
     public void canFetchSingleHook() throws Exception {
-        // to be implemented
+        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hook hook = hooks.create(
+            // @checkstyle MultipleStringLiterals (1 line)
+            "geocommit", Collections.<String, String>emptyMap()
+        );
+        MatcherAssert.assertThat(
+            hooks.get(hook.number()),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkHooks can fetch non empty list of hooks.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canFetchNonEmptyListOfHooks() throws Exception {
+        final Hooks hooks = MkHooksTest.repo().hooks();
+        hooks.create(
+            // @checkstyle MultipleStringLiterals (1 line)
+            "geocommit", Collections.<String, String>emptyMap()
+        );
+        hooks.create(
+            "web", Collections.<String, String>emptyMap()
+        );
+        MatcherAssert.assertThat(
+            hooks.iterate(),
+            Matchers.<Hook>iterableWithSize(2)
+        );
+    }
+
+    /**
+     * MkHooks can create a hook.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canCreateHook() throws Exception {
+        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hook hook = hooks.create(
+            "geocommit", Collections.<String, String>emptyMap()
+        );
+        MatcherAssert.assertThat(
+            hooks.iterate().iterator().next().number(),
+            Matchers.equalTo(hook.number())
+        );
     }
 
     /**
@@ -92,4 +137,5 @@ public final class MkHooksTest {
             Json.createObjectBuilder().add("name", "test").build()
         );
     }
+
 }
