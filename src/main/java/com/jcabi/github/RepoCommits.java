@@ -37,10 +37,6 @@ import javax.validation.constraints.NotNull;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
- * @todo #117 RtRepoCommits should be able to compare two commits. Let's
- *  add a test, declare a method here and implement it. See
- *  http://developer.github.com/v3/repos/commits/#compare-two-commits. When
- *  done, remove this puzzle.
  */
 @Immutable
 public interface RepoCommits extends JsonReadable {
@@ -61,5 +57,16 @@ public interface RepoCommits extends JsonReadable {
      */
     @NotNull(message = "Commit is never NULL")
     Commit get(String sha);
+
+    /**
+     * Compare two commits.
+     * @param base SHA of the base commit
+     * @param head SHA of the head commit
+     * @return Commits comparison
+     */
+    @NotNull(message = "commits comparison is never NULL")
+    CommitsComparison compare(
+        @NotNull(message = "base is never NULL") String base,
+        @NotNull(message = "base is never NULL") String head);
 
 }

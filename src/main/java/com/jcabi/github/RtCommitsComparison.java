@@ -34,29 +34,20 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Commits of a Github repository.
+ * Commits comparison.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "request")
-final class RtRepoCommits implements RepoCommits {
+final class RtCommitsComparison implements CommitsComparison {
 
     /**
-     * RESTful API entry point.
-     */
-    private final transient Request entry;
-
-    /**
-     * RESTful request for the commits.
+     * RESTful request for the comparison.
      */
     private final transient Request request;
 
@@ -66,37 +57,27 @@ final class RtRepoCommits implements RepoCommits {
     private final transient Repo owner;
 
     /**
-     * Public ctor.
+     * Ctor.
      * @param req Entry point of API
      * @param repo Repository
+     * @param base SHA of a base commit
+     * @param head SHA of a head commit
+     * @checkstyle ParameterNumber (3 lines)
      */
-    RtRepoCommits(final Request req, final Repo repo) {
-        this.entry = req;
+    RtCommitsComparison(final Request req, final Repo repo,
+        final String base, final String head) {
         this.owner = repo;
         this.request = req.uri()
             .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/commits")
+            .path(repo.coordinates().toString())
+            .path("/compare")
+            .path(String.format("%s...%s", base, head))
             .back();
     }
 
     @Override
-    public Iterable<Commit> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Commit get(final String sha) {
-        return new RtCommit(this.entry, this.owner, sha);
-    }
-
-    @Override
-    @NotNull(message = "commits comparison is never NULL")
-    public CommitsComparison compare(
-        @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "base is never NULL") final String head) {
-        return new RtCommitsComparison(this.entry, this.owner, base, head);
+    public Repo repo() {
+        return this.owner;
     }
 
     @Override
@@ -108,4 +89,5 @@ final class RtRepoCommits implements RepoCommits {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
+
 }

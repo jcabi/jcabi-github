@@ -31,64 +31,26 @@ package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtRepoCommits}.
+ * Test case for {@link RtCommitsComparison}.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public final class RtRepoCommitsTest {
+public final class RtCommitsComparisonTest {
 
     /**
-     * RtRepoCommits can return commits' iterator.
-     */
-    @Ignore
-    @Test
-    public void returnIterator() {
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody(
-                Json.createArrayBuilder().add(
-                    // @checkstyle MultipleStringLiterals (1 line)
-                    Json.createObjectBuilder().add("sha", sha)
-                ).build().toString()
-            ),
-            RtRepoCommitsTest.repo()
-        );
-        MatcherAssert.assertThat(
-            commits.iterate().iterator().next().sha(),
-            Matchers.equalTo(sha)
-        );
-    }
-
-    /**
-     * RtRepoCommits can get commit.
+     * RtCommitsComparison can fetch JSON.
+     * @throws Exception If some problem inside
+     * @checkstyle MultipleStringLiterals (25 lines)
      */
     @Test
-    public void getCommit() {
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("sha", sha)
-                    .build()
-                    .toString()
-            ),
-            RtRepoCommitsTest.repo()
-        );
-        MatcherAssert.assertThat(commits.get(sha).sha(), Matchers.equalTo(sha));
-    }
-
-    /**
-     * RtRepoCommits can compare two commits.
-     */
-    @Test
-    public void comparesCommits() {
-        final RepoCommits commits = new RtRepoCommits(
+    public void fetchesJson() throws Exception {
+        final CommitsComparison comparison = new RtCommitsComparison(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
                     .add("base_commit", Json.createObjectBuilder())
@@ -96,19 +58,24 @@ public final class RtRepoCommitsTest {
                     .add("files", Json.createArrayBuilder())
                     .build().toString()
             ),
-            RtRepoCommitsTest.repo()
+            RtCommitsComparisonTest.repo(),
+            "6dcb09b5b57875f334f61aebed695e2e4193db51",
+            "6dcb09b5b57875f334f61aebed695e2e4193db52"
+        );
+        final JsonObject json = comparison.json();
+        MatcherAssert.assertThat(
+            json.getJsonObject("base_commit"), Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
-            commits.compare(
-                "6dcb09b5b57875f334f61aebed695e2e4193db53",
-                "6dcb09b5b57875f334f61aebed695e2e4193db54"
-            ),
-            Matchers.notNullValue(CommitsComparison.class)
+            json.getJsonArray("commits"), Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            json.getJsonArray("files"), Matchers.notNullValue()
         );
     }
 
     /**
-     * Create repository for tests.
+     * Return repo for tests.
      * @return Repository
      */
     private static Repo repo() {
