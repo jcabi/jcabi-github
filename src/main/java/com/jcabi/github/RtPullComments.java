@@ -32,30 +32,27 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import java.net.HttpURLConnection;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user.
+ * Github pull comment.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.1
- * @todo #2:30min Organizations of a user.
- *  Let's implements a new method organizations(),
- *  which should return an instance of interface Organisations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "request" })
-final class RtUser implements User {
+@EqualsAndHashCode(of = { "request", "owner" })
+public final class RtPullComments implements PullComments {
 
     /**
-     * Github.
+     * API entry point.
      */
-    private final transient Github ghub;
+    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -63,76 +60,68 @@ final class RtUser implements User {
     private final transient Request request;
 
     /**
-     * Login of the user.
+     * Owner of comments.
      */
-    private final transient String self;
+    private final transient Pull owner;
 
     /**
      * Public ctor.
-     * @param github Github
      * @param req Request
+     * @param pull Pull
      */
-    RtUser(final Github github, final Request req) {
-        this(github, req, "");
-    }
-
-    /**
-     * Public ctor.
-     * @param github Github
-     * @param req Request
-     * @param login User identity/identity
-     */
-    RtUser(final Github github, final Request req, final String login) {
-        this.ghub = github;
-        if (login.isEmpty()) {
-            this.request = req.uri().path("/user").back();
-        } else {
-            this.request = req.uri().path("/users").path(login).back();
-        }
-        this.self = login;
+    RtPullComments(final Request req, final Pull pull) {
+        this.entry = req;
+        final Coordinates coords = pull.repo().coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/pulls")
+            .path("/comments")
+            .back();
+        this.owner = pull;
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public Pull pull() {
+        return this.owner;
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public PullComment get(final int number) {
+        return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
-    public String login() throws IOException {
-        final String login;
-        if (this.self.isEmpty()) {
-            login = this.json().getString("login");
-        } else {
-            login = this.self;
-        }
-        return login;
+    public Iterable<PullComment> iterate(final Map<String, String> params) {
+        //@checkstyle MultipleStringLiteralsCheck (1 line)
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
     }
 
     @Override
-    public Organizations organizations() {
-        return new RtOrganizations(this.ghub, this.ghub.entry(), this);
+    public Iterable<PullComment> iterate(final int number,
+        final Map<String, String> params) {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    // @checkstyle ParameterNumberCheck (3 lines)
+    @Override
+    public PullComment post(final String body, final String commit,
+        final String path, final int position) throws IOException {
+        throw new UnsupportedOperationException("Post not yet implemented.");
     }
 
     @Override
-    public PublicKeys keys() {
-        return new RtPublicKeys(this.request, this);
+    public PullComment reply(final String text,
+        final int comment) throws IOException {
+        throw new UnsupportedOperationException("Reply not yet implemented.");
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    public void remove(final int number) throws IOException {
+        this.request.uri().path(String.valueOf(number)).back()
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
-
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        new RtJson(this.request).patch(json);
-    }
-
 }

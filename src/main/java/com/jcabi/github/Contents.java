@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -90,6 +91,18 @@ public interface Contents {
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
         @NotNull(message = "sha is never NULL") String sha)
+        throws IOException;
+
+    /**
+     * Updates a file.
+     * @param path The content path.
+     * @param json JSON object containing updates to the content.
+     * @throws IOException If any I/O problems occur.
+     * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
+     */
+    void update(
+        @NotNull(message = "path is never NULL") final String path,
+        @NotNull(message = "json is never NULL") final JsonObject json)
         throws IOException;
 
 }

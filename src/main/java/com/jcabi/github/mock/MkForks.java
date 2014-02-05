@@ -44,8 +44,6 @@ import org.xembly.Directives;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #192 Need to implement {@link MkFork} and {@link MkForkTest},
- *  then update this class and {@link MkForksTest}
  */
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkForks implements Forks {
@@ -96,7 +94,7 @@ final class MkForks implements Forks {
      * @return Mocked Fork
      */
     public Fork get(final int forkid) {
-        return new MkFork();
+        return new MkFork(this.storage, forkid, this.coords);
     }
     @Override
     public Iterable<Fork> iterate(final String sort) {
@@ -119,7 +117,7 @@ final class MkForks implements Forks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/fork/id", this.xpath())
+                String.format("%s/fork/id/text()", this.xpath())
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")

@@ -66,6 +66,7 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -169,7 +170,7 @@ public final class MkGithub implements Github {
 
     @Override
     public Gitignores gitignores() throws IOException {
-        throw new UnsupportedOperationException("MkGithub#gitignores()");
+        return new MkGitignores(this);
     }
 
     @Override
