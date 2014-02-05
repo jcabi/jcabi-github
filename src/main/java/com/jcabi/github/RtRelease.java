@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -59,13 +60,20 @@ public final class RtRelease implements Release {
     private final transient int release;
 
     /**
+     * Repository coordinates.
+     */
+    private final transient Coordinates coordinates;
+
+    /**
      * Public ctor.
+     *
      * @param req RESTful API entry point
      * @param coords Repository coordinates
-     * @param nmbr Release id
+     * @param number Release id
      */
-    RtRelease(final Request req, final Coordinates coords, final int nmbr) {
-        this.release = nmbr;
+    RtRelease(final Request req, final Coordinates coords, final int number) {
+        this.release = number;
+        this.coordinates = coords;
         this.request = req.uri()
             .path("/repos")
             .path(coords.user())
@@ -102,4 +110,36 @@ public final class RtRelease implements Release {
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
+    /**
+     * Todo: according to githubdoc, this requires a totally different URL
+     *  given that we support URLs for not only GitHub, but also for hosted
+     *  instances, how do we handle this? we need 2 then, one for API,
+     *  another for upload.
+     *
+     * @param name New name of release.
+     * @param contenttype New content type of release.
+     * @param body New body of release.
+     * @return this release (should be changed!)
+     *
+     * @throws IOException in case of IO error
+     */
+    @Override
+    public Release uploadAsset(final String name,
+        final String contenttype, final byte[] body)
+        throws IOException {
+        final Request req = this.request
+            .header("Content-type", contenttype)
+            .method(Request.POST)
+            .body().set(body).back()
+            .uri()
+            .path("assets")
+            .queryParam("name", name)
+            .back();
+        return new RtRelease(this.request, this.coordinates,
+            req.fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id"));
+    }
 }
