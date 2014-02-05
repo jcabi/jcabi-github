@@ -41,9 +41,6 @@ import lombok.EqualsAndHashCode;
  * Commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -83,7 +80,15 @@ final class RtRepoCommits implements RepoCommits {
 
     @Override
     public Iterable<Commit> iterate() {
-        throw new UnsupportedOperationException();
+        return new RtPagination<Commit>(
+            this.request,
+            new RtPagination.Mapping<Commit, JsonObject>() {
+                @Override
+                public Commit map(final JsonObject object) {
+                    return RtRepoCommits.this.get(object.getString("sha"));
+                }
+            }
+        );
     }
 
     @Override

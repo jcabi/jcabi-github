@@ -33,7 +33,6 @@ import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,7 +45,6 @@ public final class RtRepoCommitsTest {
     /**
      * RtRepoCommits can return commits' iterator.
      */
-    @Ignore
     @Test
     public void returnIterator() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
