@@ -36,7 +36,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,9 +43,6 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #165 RtHooks should be able to create a hook in real repository
- *  When done, remove this puzzle and Ignore annotation from the method.
  */
 public final class RtHooksITCase {
 
@@ -55,18 +51,13 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canFetchAllHooks() throws Exception {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = RtHooksITCase.repo(repos);
         try {
-            final Hooks hooks = repo.hooks();
-            hooks.create(
-                "geocommit",
-                Collections.singletonMap("active", "true")
-            );
+            RtHooksITCase.createHook(repo);
             MatcherAssert.assertThat(
-                hooks.iterate(), Matchers.<Hook>iterableWithSize(1)
+                repo.hooks().iterate(), Matchers.<Hook>iterableWithSize(1)
             );
         } finally {
             repos.remove(repo.coordinates());
@@ -78,9 +69,16 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canCreateAHook() throws Exception {
-        // to be implemented
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
+        try {
+            MatcherAssert.assertThat(
+                RtHooksITCase.createHook(repo), Matchers.notNullValue()
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -93,12 +91,9 @@ public final class RtHooksITCase {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = RtHooksITCase.repo(repos);
         try {
-            final Hooks hooks = repo.hooks();
-            final int number = hooks.create(
-                "geocommit", Collections.<String, String>emptyMap()
-            ).number();
+            final int number = RtHooksITCase.createHook(repo).number();
             MatcherAssert.assertThat(
-                hooks.get(number).json().getInt("id"),
+                repo.hooks().get(number).json().getInt("id"),
                 Matchers.equalTo(number)
             );
         } finally {
@@ -116,14 +111,10 @@ public final class RtHooksITCase {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = RtHooksITCase.repo(repos);
         try {
-            final Hooks hooks = repo.hooks();
-            final Hook hook = hooks.create(
-                "geocommit", Collections.<String, String>emptyMap()
-            );
-            hooks.remove(hook.number());
+            final Hook hook = RtHooksITCase.createHook(repo);
+            repo.hooks().remove(hook.number());
             MatcherAssert.assertThat(
-                hooks.iterate(),
-                Matchers.not(Matchers.hasItem(hook))
+                repo.hooks().iterate(), Matchers.not(Matchers.hasItem(hook))
             );
         } finally {
             repos.remove(repo.coordinates());
@@ -152,6 +143,18 @@ public final class RtHooksITCase {
                 // @checkstyle MagicNumber (1 line)
                 "name", RandomStringUtils.randomNumeric(5)
             ).build()
+        );
+    }
+
+    /**
+     * Create a new hook in a repository.
+     * @param repo Repository
+     * @return Hook
+     * @throws IOException If there is any I/O problem
+     */
+    private static Hook createHook(final Repo repo) throws IOException {
+        return repo.hooks().create(
+            "geocommit", Collections.<String, String>emptyMap()
         );
     }
 
