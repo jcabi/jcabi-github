@@ -127,8 +127,9 @@ public final class RtDeployKeysTest {
      */
     @Test
     public void canDeleteDeployKey() throws Exception {
-       final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
         ).start();
         final RtDeployKeys deployKeys = new RtDeployKeys(
             new JdkRequest(container.home()),

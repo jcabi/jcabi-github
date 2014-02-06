@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.Response;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
@@ -51,7 +50,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
+@EqualsAndHashCode(of = { "request", "owner", "entry" })
 public final class RtDeployKeys implements DeployKeys {
     /**
      * Repository.
@@ -117,11 +116,11 @@ public final class RtDeployKeys implements DeployKeys {
         );
     }
 
-     /**
-      * Remove a deploy key by its id.
-      * @param number Id of the key to be remove.
-      * @throws IOException if something goes wrong.
-      */
+    /**
+     * Remove a deploy key by its id.
+     * @param number Id of the key to be remove.
+     * @throws IOException if something goes wrong.
+     */
     public void remove(
         @NotNull(message = "id can't be NULL") final int number)
         throws IOException {

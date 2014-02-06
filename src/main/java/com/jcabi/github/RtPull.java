@@ -156,7 +156,7 @@ final class RtPull implements Pull {
 
     @Override
     public PullComments comments() throws IOException {
-        throw new UnsupportedOperationException();
+        return new RtPullComments(this.entry, this);
     }
 
     @Override
