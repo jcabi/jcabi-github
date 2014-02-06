@@ -90,6 +90,13 @@ public interface User extends JsonReadable, JsonPatchable {
     PublicKeys keys();
 
     /**
+     * Get user's emails.
+     * @return User's emails
+     */
+    @NotNull(message = "user emails is never NULL")
+    UserEmails emails();
+
+    /**
      * Smart user with extra features.
      * @todo #1:30min Implement methods to retrieve all values provided
      *  by Github for a single user, see:
@@ -224,6 +231,11 @@ public interface User extends JsonReadable, JsonPatchable {
         @Override
         public PublicKeys keys() {
             return this.user.keys();
+        }
+
+        @Override
+        public UserEmails emails() {
+            return this.user.emails();
         }
 
         @Override
