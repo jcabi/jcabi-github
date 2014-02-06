@@ -56,11 +56,6 @@ public final class MkForksTest {
     @Test
     @Ignore
     public void retrievesForks() throws Exception {
-        final RtForks forks = new RtForks(new FakeRequest(), this.repo());
-        MatcherAssert.assertThat(
-            forks.iterate("newest"),
-            Matchers.notNullValue()
-        );
     }
 
     /**
