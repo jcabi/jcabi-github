@@ -37,6 +37,7 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import java.util.Map;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -93,17 +94,28 @@ public final class MkContents implements Contents {
         return new MkContent();
     }
 
+    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Content create(final String path, final String message,
-        final String content) throws IOException {
+    public Content create(
+        final String path,
+        final String message,
+        final String content,
+        final String branch,
+        final Map<String, String> committer,
+        final Map<String, String> author)
+        throws IOException {
         throw new UnsupportedOperationException("Create not yet implemented.");
     }
 
+    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Commit remove(
         final String path,
         final String message,
-        final String sha)
+        final String sha,
+        final String branch,
+        final Map<String, String> committer,
+        final Map<String, String> author)
         throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }

@@ -31,6 +31,13 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -40,14 +47,19 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
- * @todo #121 Implement the iterate() and create() methods of RtForks. Don't
- *  forget to remove the Ignore annotation from the RtForksTest class.
+ * @todo #440 Create RtFork class which will implement Fork interface, RtForkTest
+ *  will be necessary as well, implement number() and patch() method,
+ *  lastly change RtForks to return an RtFork instance instead  of an anonymous
+ *  Fork object. Don't forget to remove this to do tag after finishing.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = {"request", "owner" })
 public final class RtForks implements Forks {
-
+    /**
+     * Restful Request.
+     */
+    private final transient Request request;
     /**
      * Repository.
      */
@@ -55,10 +67,16 @@ public final class RtForks implements Forks {
 
     /**
      * Public ctor.
-     *
+     * @param req Request
      * @param repo Repository
      */
-    public RtForks(final Repo repo) {
+    public RtForks(final Request req, final Repo repo) {
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("forks")
+            .back();
         this.owner = repo;
     }
 
@@ -68,12 +86,55 @@ public final class RtForks implements Forks {
     }
 
     @Override
-    public Iterable<Fork> iterate(final String sort) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    public Iterable<Fork> iterate(
+        @NotNull(message = "sort can't be NULL") final String sort) {
+        return new RtPagination<Fork>(
+            this.request.uri()
+                .queryParam("sort", sort).back(),
+            new RtPagination.Mapping<Fork, JsonObject>() {
+                @Override
+                public Fork map(final JsonObject value) {
+                    return new Fork() {
+                        @Override
+                        public JsonObject json() throws IOException {
+                            return value;
+                        }
+                        @Override
+                        public int number() {
+                            throw new UnsupportedOperationException("");
+                        }
+                        @Override
+                        public void patch(
+                            final JsonObject json) throws IOException {
+                            throw new UnsupportedOperationException("");
+                        }
+                    };
+                }
+            }
+        );
     }
 
     @Override
-    public Fork create(final String organization) {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Fork create(
+        @NotNull(message = "organization can't be NULL")
+        final String organization) {
+        return new Fork() {
+            @Override
+            public JsonObject json() throws IOException {
+                return RtForks.this.request.method(Request.POST)
+                    .fetch()
+                    .as(RestResponse.class)
+                    .assertStatus(HttpURLConnection.HTTP_ACCEPTED)
+                    .as(JsonResponse.class).json().readObject();
+            }
+            @Override
+            public int number() {
+                throw new UnsupportedOperationException("");
+            }
+            @Override
+            public void patch(final JsonObject json) throws IOException {
+                throw new UnsupportedOperationException("");
+            }
+        };
     }
 }

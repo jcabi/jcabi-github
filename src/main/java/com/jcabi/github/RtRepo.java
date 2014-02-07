@@ -163,7 +163,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Forks forks() {
-        return new RtForks(this);
+        return new RtForks(this.entry, this);
     }
 
     @Override
