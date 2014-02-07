@@ -83,6 +83,7 @@ public interface User extends JsonReadable, JsonPatchable {
     /**
      * Get user's emails.
      * @return User's emails
+     * @since 0.8
      */
     @NotNull(message = "user emails is never NULL")
     UserEmails emails();
