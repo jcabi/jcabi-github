@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -47,6 +48,13 @@ import javax.validation.constraints.NotNull;
  *  {@link JsonPatchable#patch(javax.json.JsonObject)}. Also include an example
  *  of how to do this in the Javadoc comment above. You can refer to
  *  {@link PublicKey} on how to do this.
+ * @todo #282 We should be able to fetch a release asset's binary contents. See
+ *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset
+ *  for details on how this needs to be done. The ReleaseAsset interface should
+ *  be able to expose this function through a method, which we can name
+ *  something like "content", "body" or "raw", whichever is most appropriate.
+ *  I'm not sure what the return type should be at the moment but it will likely
+ *  be either a byte array or a stream implementation.
  */
 @Immutable
 public interface ReleaseAsset extends JsonReadable, JsonPatchable {
@@ -63,5 +71,12 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      * @return Release asset number
      */
     int number();
+
+    /**
+     * Delete the release asset.
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Release Asset</a>
+     */
+    void remove() throws IOException;
 
 }

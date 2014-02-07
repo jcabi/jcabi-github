@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -64,9 +65,11 @@ public interface ReleaseAssets {
      * @param type Content-Type of the release asset.
      * @param name Name of the release asset.
      * @return The new release asset.
+     * @throws IOException If an IO Exception occurs
      * @see <a href="http://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
      */
-    ReleaseAsset upload(byte[] content, String type, String name);
+    ReleaseAsset upload(byte[] content, String type, String name)
+        throws IOException;
 
     /**
      * Get a single release asset.
@@ -75,12 +78,5 @@ public interface ReleaseAssets {
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
      */
     ReleaseAsset get(int number);
-
-    /**
-     * Remove a single release asset.
-     * @param number The release asset ID.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Single Release Asset</a>
-     */
-    void remove(int number);
 
 }

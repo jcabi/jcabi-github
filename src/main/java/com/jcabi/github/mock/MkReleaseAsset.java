@@ -65,4 +65,9 @@ public final class MkReleaseAsset implements ReleaseAsset {
         throw new UnsupportedOperationException("Number not yet implemented.");
     }
 
+    @Override
+    public void remove() throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
 }

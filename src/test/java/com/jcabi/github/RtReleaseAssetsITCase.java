@@ -36,7 +36,7 @@ package com.jcabi.github;
  * @version $Id$
  * @todo #282 Need to implement integration test for RtReleaseAsset. This class
  *  should contain test cases that operate against a real github repository.
- *  Need to test the following methods: iterate, upload, get, and remove.
+ *  Need to test the following methods: iterate, upload, get.
  */
 public class RtReleaseAssetsITCase {
 

@@ -42,6 +42,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -91,7 +92,7 @@ public final class RtReleaseAssetTest {
 
     /**
      * RtReleaseAsset can create a patch request.
-     * @throws Exception if a problem occurs.
+     * @throws Exception If a problem occurs.
      */
     @Test
     public void patchesAsset() throws Exception {
@@ -122,6 +123,19 @@ public final class RtReleaseAssetTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * RtReleaseAsset can remove itself.
+     * @throws Exception If a problem occurs.
+     * @todo #282 RtReleaseAsset should be able to support removal. Implement
+     *  this method and include a unit test here. When done, remove this puzzle
+     *  and the Ignore annotation from this test method.
+     */
+    @Test
+    @Ignore
+    public void removesAsset() throws Exception {
+        // To be implemented.
     }
 
     /**

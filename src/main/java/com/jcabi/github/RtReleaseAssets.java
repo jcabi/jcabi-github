@@ -32,6 +32,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -69,6 +75,7 @@ public final class RtReleaseAssets implements ReleaseAssets {
     RtReleaseAssets(final Request req, final Release release) {
         this.entry = req;
         final Coordinates coords = release.repo().coordinates();
+        // @checkstyle MultipleStringLiteralsCheck (7 lines)
         this.request = this.entry.uri()
             .path("/repos")
             .path(coords.user())
@@ -91,19 +98,33 @@ public final class RtReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    public ReleaseAsset upload(final byte[] content, final String type,
-        final String name) {
-        throw new UnsupportedOperationException("Upload not yet implemented.");
+    public ReleaseAsset upload(final byte[] content,
+        final String type, final String name) throws IOException {
+        return this.get(
+            this.request.uri()
+                .set(URI.create("https://uploads.github.com"))
+                .path("/repos")
+                .path(this.owner.repo().coordinates().user())
+                .path(this.owner.repo().coordinates().repo())
+                .path("/releases")
+                .path(String.valueOf(this.owner.number()))
+                .path("/assets")
+                .queryParam("name", name)
+                .back()
+                .method(Request.POST)
+                .reset(HttpHeaders.CONTENT_TYPE)
+                .header(HttpHeaders.CONTENT_TYPE, type)
+                .body().set(content).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
     }
 
     @Override
     public ReleaseAsset get(final int number) {
         return new RtReleaseAsset(this.entry, this.owner, number);
-    }
-
-    @Override
-    public void remove(final int number) {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
 }

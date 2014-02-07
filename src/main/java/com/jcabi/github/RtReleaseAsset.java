@@ -108,4 +108,9 @@ public final class RtReleaseAsset implements ReleaseAsset {
         new RtJson(this.request).patch(json);
     }
 
+    @Override
+    public void remove() throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
 }

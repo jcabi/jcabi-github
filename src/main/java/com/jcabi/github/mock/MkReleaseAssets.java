@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import java.io.IOException;
 
 /**
  * Mock Github Release Assets.
@@ -57,7 +58,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
 
     @Override
     public ReleaseAsset upload(final byte[] content,
-        final String type, final String name) {
+        final String type, final String name) throws IOException {
         throw new UnsupportedOperationException("Upload not yet implemented.");
     }
 
@@ -65,10 +66,4 @@ public final class MkReleaseAssets implements ReleaseAssets {
     public ReleaseAsset get(final int number) {
         throw new UnsupportedOperationException("Number not yet implemented.");
     }
-
-    @Override
-    public void remove(final int number) {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
-    }
-
 }

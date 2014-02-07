@@ -29,8 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.http.request.FakeRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleaseAssets}.
@@ -43,9 +50,9 @@ public final class RtReleaseAssetsTest {
     /**
      * RtRelease can list assets for a release.
      * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to list assets for a release. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
+     * @todo #180 RtReleaseAssets should be able to list assets for a release.
+     *  Let's implement this method, add integration test, declare a method in
+     *  ReleaseAssets and implement it. See
      *  http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
      *  When done, remove this puzzle and Ignore annotation from this method.
      */
@@ -57,24 +64,29 @@ public final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can upload a release asset.
-     * @todo #180 RtRelease should be able to upload a release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#upload-a-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     *
+     * @throws Exception If something goes wrong
      */
     @Test
-    @Ignore
-    public void uploadReleaseAsset() {
-        // to be implemented
+    public void uploadReleaseAsset() throws Exception {
+        final ReleaseAssets assets = new RtReleaseAssets(
+            new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
+                .withBody("{\"id\":1}"),
+            release()
+        );
+        MatcherAssert.assertThat(
+            assets.upload("blah".getBytes(), "text/plain", "hello.txt")
+                .number(),
+            Matchers.is(1)
+        );
     }
 
     /**
      * RtRelease can get a single release asset.
      * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to get a single release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
+     * @todo #180 RtReleaseAssets should be able to get a single release asset.
+     *  Let's implement this method, add integration test, declare a method in
+     *  ReleaseAssets and implement it. See
      *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset.
      *  When done, remove this puzzle and Ignore annotation from this method.
      */
@@ -84,4 +96,18 @@ public final class RtReleaseAssetsTest {
         // to be implemented
     }
 
+    /**
+     * This method returns a Release for testing.
+     * @return Release to be used for test.
+     * @throws Exception - if anything goes wrong.
+     */
+    private static Release release() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        final Repo repo = new MkGithub("john").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+        Mockito.doReturn(repo).when(release).repo();
+        Mockito.doReturn(1).when(release).number();
+        return release;
+    }
 }
