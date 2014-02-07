@@ -89,32 +89,19 @@ public final class RtReleaseITCase {
      */
     @Test
     public void canEditRelease() throws Exception {
-        final String tag = "v23";
-        final String name = "JCabi Github test release";
-        final String description = "JCabi Github was here!";
-        // @checkstyle LocalFinalVariableNameCheck (3 lines)
-        final String tagNameKey = "tag_name";
-        final String nameKey = "name";
-        final String descKey = "body";
-        final JsonObject jsonPatch = Json.createObjectBuilder()
-            .add(tagNameKey, tag)
-            .add(nameKey, name)
-            .add(descKey, description)
+        final JsonObject patch = Json.createObjectBuilder()
+            .add("tag_name", "v23")
+            .add("name", "JCabi Github test release")
+            .add("body", "JCabi Github was here!")
             .build();
-        this.release.patch(jsonPatch);
+        this.release.patch(patch);
         final JsonObject json = this.repo.releases()
             .get(this.release.number()).json();
-        MatcherAssert.assertThat(
-            json.getString(tagNameKey),
-            Matchers.equalTo(tag)
-        );
-        MatcherAssert.assertThat(
-            json.getString(nameKey),
-            Matchers.equalTo(name)
-        );
-        MatcherAssert.assertThat(
-            json.getString(descKey),
-            Matchers.equalTo(description)
-        );
+        for (String key : patch.keySet()) {
+            MatcherAssert.assertThat(
+                json.getString(key),
+                Matchers.equalTo(patch.getString(key))
+            );
+        }
     }
 }
