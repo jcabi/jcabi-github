@@ -29,58 +29,16 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
-
 /**
- * Github release assets.
+ * Integration test for {@link RtReleaseAsset}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @todo #282 Need to implement integration test for RtReleaseAsset. This class
+ *  should contain test cases that operate against a real github repository. At
+ *  the very least, the json and patch methods should be exercised.
  */
-@Immutable
-public interface ReleaseAssets {
-
-    /**
-     * The release we're in.
-     * @return Issue
-     */
-    @NotNull(message = "release is never NULL")
-    Release release();
-
-    /**
-     * Iterate them all.
-     * @return All comments
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<ReleaseAsset> iterate();
-
-    /**
-     * Upload a release asset.
-     * @param content The raw content bytes.
-     * @param type Content-Type of the release asset.
-     * @param name Name of the release asset.
-     * @return The new release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
-     */
-    ReleaseAsset upload(byte[] content, String type, String name);
-
-    /**
-     * Get a single release asset.
-     * @param number The release asset ID.
-     * @return The release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
-     */
-    ReleaseAsset get(int number);
-
-    /**
-     * Remove a single release asset.
-     * @param number The release asset ID.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Single Release Asset</a>
-     */
-    void remove(int number);
+public final class RtReleaseAssetITCase {
 
 }

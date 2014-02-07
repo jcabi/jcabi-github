@@ -73,6 +73,14 @@ public interface Release extends JsonReadable, JsonPatchable {
     void delete() throws IOException;
 
     /**
+     * Get all release assets of this release.
+     * @return Release assets.
+     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     */
+    @NotNull(message = "assets are never NULL")
+    ReleaseAssets assets();
+
+    /**
      * Smart release.
      */
     @Immutable
@@ -117,6 +125,11 @@ public interface Release extends JsonReadable, JsonPatchable {
         @Override
         public int number() {
             return this.release.number();
+        }
+
+        @Override
+        public ReleaseAssets assets() {
+            return this.release.assets();
         }
 
         /**

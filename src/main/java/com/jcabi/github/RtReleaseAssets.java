@@ -30,7 +30,9 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github release assets.
@@ -38,49 +40,70 @@ import javax.validation.constraints.NotNull;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  */
 @Immutable
-public interface ReleaseAssets {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner" })
+public final class RtReleaseAssets implements ReleaseAssets {
 
     /**
-     * The release we're in.
-     * @return Issue
+     * API entry point.
      */
-    @NotNull(message = "release is never NULL")
-    Release release();
+    private final transient Request entry;
 
     /**
-     * Iterate them all.
-     * @return All comments
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
+     * RESTful request.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<ReleaseAsset> iterate();
+    private final transient Request request;
 
     /**
-     * Upload a release asset.
-     * @param content The raw content bytes.
-     * @param type Content-Type of the release asset.
-     * @param name Name of the release asset.
-     * @return The new release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
+     * Owner of assets.
      */
-    ReleaseAsset upload(byte[] content, String type, String name);
+    private final transient Release owner;
 
     /**
-     * Get a single release asset.
-     * @param number The release asset ID.
-     * @return The release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
+     * Public ctor.
+     * @param req Request
+     * @param release Issue
      */
-    ReleaseAsset get(int number);
+    RtReleaseAssets(final Request req, final Release release) {
+        this.entry = req;
+        final Coordinates coords = release.repo().coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/releases")
+            .path(Integer.toString(release.number()))
+            .path("/comments")
+            .back();
+        this.owner = release;
+    }
 
-    /**
-     * Remove a single release asset.
-     * @param number The release asset ID.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Single Release Asset</a>
-     */
-    void remove(int number);
+    @Override
+    public Release release() {
+        return this.owner;
+    }
+
+    @Override
+    public Iterable<ReleaseAsset> iterate() {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    }
+
+    @Override
+    public ReleaseAsset upload(final byte[] content, final String type,
+        final String name) {
+        throw new UnsupportedOperationException("Upload not yet implemented.");
+    }
+
+    @Override
+    public ReleaseAsset get(final int number) {
+        return new RtReleaseAsset(this.entry, this.owner, number);
+    }
+
+    @Override
+    public void remove(final int number) {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
 
 }

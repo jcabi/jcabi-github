@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -38,7 +39,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
- * @todo #288 Implement a Smart decorator for ReleaseAsset for the purposes of
+ * @todo #282 Implement a Smart decorator for ReleaseAsset for the purposes of
  *  JSON parsing. This class should be able to return the various attributes of
  *  the JSON response for fetching comments, such as the ID, commit ID, URL, and
  *  comment body. Smart should also be able to handle editing the attributes
@@ -47,6 +48,7 @@ import javax.validation.constraints.NotNull;
  *  of how to do this in the Javadoc comment above. You can refer to
  *  {@link PublicKey} on how to do this.
  */
+@Immutable
 public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
@@ -55,5 +57,11 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "release is never NULL")
     Release release();
+
+    /**
+     * Number.
+     * @return Release asset number
+     */
+    int number();
 
 }

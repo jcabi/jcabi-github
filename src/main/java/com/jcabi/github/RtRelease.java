@@ -49,6 +49,11 @@ import lombok.EqualsAndHashCode;
 public final class RtRelease implements Release {
 
     /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -70,6 +75,7 @@ public final class RtRelease implements Release {
      * @param nmbr Release id
      */
     RtRelease(final Request req, final Repo repo, final int nmbr) {
+        this.entry = req;
         this.release = nmbr;
         this.owner = repo;
         this.request = req.uri()
@@ -89,6 +95,11 @@ public final class RtRelease implements Release {
     @Override
     public int number() {
         return this.release;
+    }
+
+    @Override
+    public ReleaseAssets assets() {
+        return new RtReleaseAssets(this.entry, this);
     }
 
     @Override

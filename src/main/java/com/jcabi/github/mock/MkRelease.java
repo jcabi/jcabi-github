@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
+import com.jcabi.github.ReleaseAssets;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -98,6 +99,11 @@ public final class MkRelease implements Release {
     }
 
     @Override
+    public ReleaseAssets assets() {
+        throw new UnsupportedOperationException("Assets not yet implemented.");
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -126,4 +132,5 @@ public final class MkRelease implements Release {
             new Directives().xpath(this.xpath()).strict(1).remove()
         );
     }
+
 }

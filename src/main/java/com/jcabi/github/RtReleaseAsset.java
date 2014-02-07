@@ -30,57 +30,82 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github release assets.
+ * Github release asset.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  */
 @Immutable
-public interface ReleaseAssets {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtReleaseAsset implements ReleaseAsset {
 
     /**
-     * The release we're in.
-     * @return Issue
+     * RESTful request.
      */
-    @NotNull(message = "release is never NULL")
-    Release release();
+    private final transient Request request;
 
     /**
-     * Iterate them all.
-     * @return All comments
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
+     * Issue we're in.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<ReleaseAsset> iterate();
+    private final transient Release owner;
 
     /**
-     * Upload a release asset.
-     * @param content The raw content bytes.
-     * @param type Content-Type of the release asset.
-     * @param name Name of the release asset.
-     * @return The new release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
+     * Release Asset number.
      */
-    ReleaseAsset upload(byte[] content, String type, String name);
+    private final transient int num;
 
     /**
-     * Get a single release asset.
-     * @param number The release asset ID.
-     * @return The release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
+     * Public ctor.
+     * @param req RESTful Request
+     * @param release Release
+     * @param number Number of the release asset.
      */
-    ReleaseAsset get(int number);
+    RtReleaseAsset(final Request req, final Release release, final int number) {
+        final Coordinates coords = release.repo().coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/releases")
+            .path(Integer.toString(release.number()))
+            .path("/assets")
+            .path(Integer.toString(number))
+            .back();
+        this.owner = release;
+        this.num = number;
+    }
 
-    /**
-     * Remove a single release asset.
-     * @param number The release asset ID.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Single Release Asset</a>
-     */
-    void remove(int number);
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Release release() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return this.num;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
 
 }
