@@ -37,6 +37,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import java.util.Collections;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -136,7 +137,14 @@ public final class RtContentsTest {
         );
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.create(path, "theMessage", "blah")
+                contents.create(
+                    path,
+                    "theMessage",
+                    "blah",
+                    "master",
+                    Collections.<String, String>emptyMap(),
+                    Collections.<String, String>emptyMap()
+                )
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
@@ -184,7 +192,12 @@ public final class RtContentsTest {
         );
         try {
             final Commit commit = contents.remove(
-                "to/remove", "Delete me", "fileSha"
+                "to/remove",
+                "Delete me",
+                "fileSha",
+                "master",
+                Collections.<String, String>emptyMap(),
+                Collections.<String, String>emptyMap()
             );
             MatcherAssert.assertThat(
                 commit.sha(),
