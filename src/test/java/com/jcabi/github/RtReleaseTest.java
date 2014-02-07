@@ -91,50 +91,6 @@ public class RtReleaseTest {
     }
 
     /**
-     * RtRelease can list assets for a release.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to list assets for a release. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
-     *  When done, remove this puzzle and Ignore annotation from this method.
-     */
-    @Test
-    @Ignore
-    public void listReleaseAssets() {
-        // to be implemented
-    }
-
-    /**
-     * RtRelease can upload a release asset.
-     * @todo #180 RtRelease should be able to upload a release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#upload-a-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
-     */
-    @Test
-    @Ignore
-    public void uploadReleaseAsset() {
-        // to be implemented
-    }
-
-    /**
-     * RtRelease can get a single release asset.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to get a single release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
-     */
-    @Test
-    @Ignore
-    public void getReleaseAsset() {
-        // to be implemented
-    }
-
-    /**
      * RtRelese can execute PATCH request.
      * @throws Exception if there is any problem
      */
