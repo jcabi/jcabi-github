@@ -40,6 +40,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRelease}.
@@ -52,11 +53,6 @@ public class RtReleaseTest {
      * An empty JSON string.
      */
     private static final String EMPTY_JSON = "{}";
-
-    /**
-     * A test mnemo.
-     */
-    private static final String TEST_MNEMO = "tstuser/tstbranch";
 
     /**
      * RtRelease can edit a release.
@@ -83,7 +79,7 @@ public class RtReleaseTest {
         ).start();
         final RtRelease release = new RtRelease(
             new ApacheRequest(container.home()),
-            new Coordinates.Simple(TEST_MNEMO),
+            this.repo(),
             2
         );
         release.delete();
@@ -149,7 +145,8 @@ public class RtReleaseTest {
         ).start();
         final RtRelease release = new RtRelease(
             new ApacheRequest(container.home()),
-            new Coordinates.Simple(TEST_MNEMO), 2
+            this.repo(),
+            2
         );
         release.patch(Json.createObjectBuilder().add("name", "v1")
             .build()
@@ -159,6 +156,19 @@ public class RtReleaseTest {
             Matchers.equalTo(Request.PATCH)
         );
         container.stop();
+    }
+
+    /**
+     * Mock repo for GhIssue creation.
+     * @return The mock repo.
+     */
+    private Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        final Coordinates coords = Mockito.mock(Coordinates.class);
+        Mockito.doReturn(coords).when(repo).coordinates();
+        Mockito.doReturn("tstuser").when(coords).user();
+        Mockito.doReturn("tstbranch").when(coords).repo();
+        return repo;
     }
 
 }

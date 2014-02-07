@@ -116,7 +116,7 @@ public final class MkReleases implements Releases {
 
     @Override
     public Release get(final int number) {
-        return new MkRelease(this.storage, this.coords, number);
+        return new MkRelease(this.storage, this.self, this.coords, number);
     }
 
     @Override

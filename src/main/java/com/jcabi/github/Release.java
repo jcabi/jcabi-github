@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -51,6 +52,13 @@ import lombok.ToString;
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
 public interface Release extends JsonReadable, JsonPatchable {
+
+    /**
+     * Owner of them.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
 
     /**
      * Release id.
@@ -99,6 +107,11 @@ public interface Release extends JsonReadable, JsonPatchable {
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.release.patch(json);
+        }
+
+        @Override
+        public Repo repo() {
+            return this.release.repo();
         }
 
         @Override
@@ -187,7 +200,7 @@ public interface Release extends JsonReadable, JsonPatchable {
             try {
                 return new Github.Time(this.jsn.text("created_at"))
                     .date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
@@ -201,7 +214,7 @@ public interface Release extends JsonReadable, JsonPatchable {
             try {
                 return new Github.Time(this.jsn.text("published_at"))
                     .date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
@@ -239,4 +252,5 @@ public interface Release extends JsonReadable, JsonPatchable {
             this.release.delete();
         }
     }
+
 }

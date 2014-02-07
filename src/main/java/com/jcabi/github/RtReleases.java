@@ -98,7 +98,7 @@ public final class RtReleases implements Releases {
                 public Release map(final JsonObject object) {
                     return new RtRelease(
                         RtReleases.this.entry,
-                        RtReleases.this.owner.coordinates(),
+                        RtReleases.this.owner,
                         // @checkstyle MultipleStringLiterals (1 line)
                         object.getInt("id")
                     );
@@ -109,7 +109,7 @@ public final class RtReleases implements Releases {
 
     @Override
     public Release get(final int number) {
-        return new RtRelease(this.entry, this.owner.coordinates(), number);
+        return new RtRelease(this.entry, this.owner, number);
     }
 
     @Override
