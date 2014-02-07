@@ -50,6 +50,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 public final class RtReleaseAssetTest {
 
@@ -60,12 +61,12 @@ public final class RtReleaseAssetTest {
     @Test
     public void canRepresentAsJson() throws Exception {
         final RtReleaseAsset asset = new RtReleaseAsset(
-            new FakeRequest().withBody("{\"test\":\"release\"}"),
+            new FakeRequest().withBody("{\"asset\":\"release\"}"),
             release(),
             1
         );
         MatcherAssert.assertThat(
-            asset.json().getString("test"),
+            asset.json().getString("asset"),
             Matchers.equalTo("release")
         );
     }
@@ -122,7 +123,6 @@ public final class RtReleaseAssetTest {
             container.stop();
         }
     }
-
 
     /**
      * This method returns a Release for testing.
