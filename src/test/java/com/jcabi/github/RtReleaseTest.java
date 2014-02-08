@@ -33,12 +33,16 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -55,17 +59,49 @@ public class RtReleaseTest {
     private static final String EMPTY_JSON = "{}";
 
     /**
+     * A mock container used in test to mimic the Github server.
+     */
+    private transient MkContainer container;
+
+    /**
+     * Setting up the test fixture.
+     */
+    @Before
+    public final void setUp() {
+        this.container = new MkGrizzlyContainer();
+    }
+
+    /**
+     * Tear down the test fixture to return to the original state.
+     */
+    @After
+    public final void tearDown() {
+        this.container.stop();
+    }
+
+    /**
      * RtRelease can edit a release.
-     * @todo #180 RtRelease should be able to edit a release. Let's implement
-     *  this method, add integration test, declare a method in Release and
-     *  implement it. See
-     *  http://developer.github.com/v3/repos/releases/#edit-a-release. When
-     *  done, remove this puzzle and Ignore annotation from this method.
+     * @throws Exception If any problem during test execution occurs.
      */
     @Test
-    @Ignore
-    public void editRelease() {
-        // to be implemented
+    public final void editRelease() throws Exception {
+        this.container.next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
+        ).start();
+        final RtRelease release = RtReleaseTest.release(this.container.home());
+        final JsonObject json = Json.createObjectBuilder()
+            .add("tag_name", "v1.0.0")
+            .build();
+        release.patch(json);
+        final MkQuery query = this.container.take();
+        MatcherAssert.assertThat(
+            query.method(),
+            Matchers.equalTo(Request.PATCH)
+        );
+        MatcherAssert.assertThat(
+            query.body(),
+            Matchers.equalTo(json.toString())
+        );
     }
 
     /**
@@ -74,20 +110,15 @@ public class RtReleaseTest {
      */
     @Test
     public final void deleteRelease() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, EMPTY_JSON)
         ).start();
-        final RtRelease release = new RtRelease(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            2
-        );
+        final RtRelease release = RtReleaseTest.release(this.container.home());
         release.delete();
         MatcherAssert.assertThat(
-            container.take().method(),
+            this.container.take().method(),
             Matchers.equalTo(Request.DELETE)
         );
-        container.stop();
     }
 
     /**
@@ -96,35 +127,35 @@ public class RtReleaseTest {
      */
     @Test
     public final void executePatchRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
         ).start();
-        final RtRelease release = new RtRelease(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            2
-        );
+        final RtRelease release = RtReleaseTest.release(this.container.home());
         release.patch(Json.createObjectBuilder().add("name", "v1")
             .build()
         );
         MatcherAssert.assertThat(
-            container.take().method(),
+            this.container.take().method(),
             Matchers.equalTo(Request.PATCH)
         );
-        container.stop();
     }
 
     /**
-     * Mock repo for GhIssue creation.
-     * @return The mock repo.
+     * Create a test release.
+     * @param uri REST API entry point.
+     * @return A test release.
      */
-    private Repo repo() {
+    private static RtRelease release(final URI uri) {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();
         Mockito.doReturn("tstuser").when(coords).user();
         Mockito.doReturn("tstbranch").when(coords).repo();
-        return repo;
+        return new RtRelease(
+            new ApacheRequest(uri),
+            repo,
+            2
+        );
     }
 
 }
