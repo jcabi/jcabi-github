@@ -30,13 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import javax.json.Json;
@@ -88,11 +88,14 @@ public final class RtContentsTest {
     @Test
     public void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
-                "{\"name\": \"README.md\"}")
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"name\": \"README.md\"}"
+            )
         ).start();
         final Contents contents = new RtContents(
-            new ApacheRequest(container.home()), RtContentsTest.repo());
+            new ApacheRequest(container.home()), RtContentsTest.repo()
+        );
         try {
             MatcherAssert.assertThat(
                 contents.readme("somebranch"),
