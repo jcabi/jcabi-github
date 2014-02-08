@@ -33,6 +33,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import org.xembly.Directives;
@@ -41,7 +42,6 @@ import org.xembly.Directives;
  * Mock Github milestones.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkMilestones implements Milestones {
 
@@ -74,46 +74,70 @@ public final class MkMilestones implements Milestones {
         this.self = login;
         this.coords = rep;
         this.storage.apply(
-        new Directives().xpath(
-            String.format("/github/repos/repo[@coords='%s']", this.coords)
-        ).addIf("milestones")
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", this.coords)
+            ).addIf("milestones")
         );
     }
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException(
-            "Unsupported operation."
-        );
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     public Milestone create(final String title) throws IOException {
-        throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet"
+        final int number;
+        number = 1 + this.storage.xml().xpath(
+            String.format("%s/milestone/number/text()", this.xpath())
+        ).size();
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("milestone")
+                .add("number").set(Integer.toString(number)).up()
+                .add("title").set(title).up()
+                .add("state").set(Milestone.OPEN_STATE).up()
+                .add("description").set("mock milestone").up()
         );
+        return this.get(number);
     }
 
     @Override
     public Milestone get(final int number) {
-        assert this.self != null;
-        assert this.storage != null;
-        assert this.coords != null;
-        throw new UnsupportedOperationException(
-            "This method has not been implemented yet."
-        );
+        return new MkMilestone(this.storage, this.self, this.coords, number);
     }
 
     @Override
     public Iterable<Milestone> iterate(final Map<String, String> params) {
-        throw new UnsupportedOperationException(
-            "This method hasn't been implemented yet."
+        return new MkIterable<Milestone>(
+            this.storage,
+            String.format("%s/milestone", this.xpath()),
+            new MkIterable.Mapping<Milestone>() {
+                @Override
+                public Milestone map(final XML xml) {
+                    return MkMilestones.this.get(
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
+                }
+            }
         );
     }
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException(
-            "This operation is not available yet."
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/milestone[number='%d']", this.xpath(), number)
+            ).remove()
+        );
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/milestones",
+            this.coords
         );
     }
 }

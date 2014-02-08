@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -115,12 +115,18 @@ final class RtUser implements User {
 
     @Override
     public Organizations organizations() {
-        return null;
+        return new RtOrganizations(this.ghub, this.ghub.entry(), this);
     }
 
     @Override
     public PublicKeys keys() {
         return new RtPublicKeys(this.request, this);
+    }
+
+    @Override
+    @NotNull(message = "user emails is never NULL")
+    public UserEmails emails() {
+        return new RtUserEmails(this.ghub.entry());
     }
 
     @Override

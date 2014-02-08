@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
+import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.RepoCommits;
 import java.io.IOException;
@@ -49,6 +50,9 @@ import lombok.ToString;
  * @todo #117 MkRepoCommits should be able to get commit. Let's implement
  *  this method. When done, remove this puzzle and Ignore annotation
  *  from a test for the method.
+ * @todo #273 MkRepoCommits should be able to compare two commits. Let's
+ *  create a test for this method and implement the method. When done, remove
+ *  this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -83,6 +87,11 @@ final class MkRepoCommits implements RepoCommits {
 
     @Override
     public Commit get(final String sha) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommitsComparison compare(final String base, final String head) {
         throw new UnsupportedOperationException();
     }
 

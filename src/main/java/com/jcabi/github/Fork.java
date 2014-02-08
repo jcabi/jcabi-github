@@ -39,6 +39,10 @@ package com.jcabi.github;
  * @todo #121 Implement a Smart decorator for this class for the purposes of
  *  JSON parsing.
  */
-public interface Fork extends JsonReadable {
-
+public interface Fork extends JsonReadable, JsonPatchable {
+    /**
+     * Fork id.
+     * @return Id
+     */
+    int number();
 }

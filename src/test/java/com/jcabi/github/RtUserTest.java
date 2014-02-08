@@ -29,12 +29,12 @@
  */
 package com.jcabi.github;
 
-import com.rexsl.test.Request;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.ApacheRequest;
-import com.rexsl.test.request.FakeRequest;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -173,4 +173,16 @@ public final class RtUserTest {
         );
         container.stop();
     }
+
+    /**
+     * RtUser can fetch emails.
+     */
+    @Test
+    public void fetchesEmails() {
+        final Github github = Mockito.mock(Github.class);
+        Mockito.when(github.entry()).thenReturn(new FakeRequest());
+        final User user = new RtUser(github, new FakeRequest());
+        MatcherAssert.assertThat(user.emails(), Matchers.notNullValue());
+    }
+
 }

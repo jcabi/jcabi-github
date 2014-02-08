@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -41,6 +41,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -99,6 +100,19 @@ final class RtOrganizations implements Organizations {
     public Iterable<Organization> iterate() {
         return new RtPagination<Organization>(
             this.request,
+            new RtPagination.Mapping<Organization, JsonObject>() {
+                @Override
+                public Organization map(final JsonObject object) {
+                    return RtOrganizations.this.get(object.getString("login"));
+                }
+            }
+        );
+    }
+
+    @Override
+    public Iterable<Organization> iterate(final String username) {
+        return new RtPagination<Organization>(
+            this.entry.uri().path("/users").path(username).path("/orgs").back(),
             new RtPagination.Mapping<Organization, JsonObject>() {
                 @Override
                 public Organization map(final JsonObject object) {

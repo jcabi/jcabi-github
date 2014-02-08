@@ -31,8 +31,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
@@ -72,7 +72,7 @@ final class RtAssignees implements Assignees {
      * @param repo Repo
      * @param req Request
      */
-    RtAssignees(final Repo repo, final Request req) {
+    RtAssignees(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()

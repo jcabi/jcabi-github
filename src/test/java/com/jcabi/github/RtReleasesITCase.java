@@ -29,10 +29,11 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -80,26 +81,48 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can create a release.
-     * @todo #180 Integration test for RtReleases.create() should be implemented.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     * @throws Exception if any error inside
      */
     @Test
-    @Ignore
-    public void canCreateRelease() {
-        // to be implemented
+    public void canCreateRelease() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final String tag = "0.1";
+        final Release created = releases.create(tag);
+        final int number = created.number();
+        try {
+            final Release obtained = releases.get(number);
+            MatcherAssert.assertThat(
+                created,
+                Matchers.is(obtained)
+            );
+            MatcherAssert.assertThat(
+                new Release.Smart(created).tag(),
+                Matchers.equalTo(new Release.Smart(obtained).tag())
+            );
+        } finally {
+            releases.remove(number);
+        }
     }
 
     /**
      * RtReleases can remove a release.
-     * @todo #238 Integration test for RtReleases.remove() should be implemented.
-     *  Looks like it depends on RtReleases.iterate(), so it can be implemented
-     *  only after the create() implementation. When done, remove this puzzle
-     *  and Ignore annotation from this method.
+     * @throws Exception if any problem inside
      */
     @Test
-    @Ignore
-    public void canRemoveRelease() {
-        // to be implemented
+    public void canRemoveRelease() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.hasItem(release)
+        );
+        releases.remove(release.number());
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.not(Matchers.hasItem(release))
+        );
     }
 
     /**
@@ -109,8 +132,7 @@ public final class RtReleasesITCase {
     private static Releases releases() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
+        return new RtGithub(key).repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         ).releases();
     }

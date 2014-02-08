@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -148,7 +148,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        return new RtAssignees(this, this.entry);
+        return new RtAssignees(this.entry, this);
     }
 
     @Override
@@ -163,7 +163,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Forks forks() {
-        return new RtForks(this);
+        return new RtForks(this.entry, this);
     }
 
     @Override
@@ -185,7 +185,7 @@ final class RtRepo implements Repo {
 
     @Override
     public RepoCommits commits() {
-        return new RtRepoCommits(this.entry, this.coords);
+        return new RtRepoCommits(this.entry, this);
     }
 
     @Override

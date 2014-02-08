@@ -132,7 +132,11 @@ final class MkPublicKeys implements PublicKeys {
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/key[id='%d']", this.xpath(), number)
+            ).remove()
+        );
     }
 
     /**

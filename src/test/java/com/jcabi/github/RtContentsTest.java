@@ -30,13 +30,15 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.mock.MkQuery;
-import com.rexsl.test.request.ApacheRequest;
 import java.io.IOException;
+import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import java.util.Collections;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -50,6 +52,7 @@ import org.mockito.Mockito;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 @Immutable
 public final class RtContentsTest {
@@ -130,7 +133,8 @@ public final class RtContentsTest {
             .add("name", name)
             .build();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED,
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED,
                 Json.createObjectBuilder().add("content", body)
                     .build().toString()
             )
@@ -142,7 +146,14 @@ public final class RtContentsTest {
         );
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.create(path, "theMessage", "blah")
+                contents.create(
+                    path,
+                    "theMessage",
+                    "blah",
+                    "master",
+                    Collections.<String, String>emptyMap(),
+                    Collections.<String, String>emptyMap()
+                )
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
@@ -174,7 +185,8 @@ public final class RtContentsTest {
     @Test
     public void canDeleteFilesFromRepository() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK,
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder().add(
                     "commit",
                     Json.createObjectBuilder()
@@ -189,7 +201,12 @@ public final class RtContentsTest {
         );
         try {
             final Commit commit = contents.remove(
-                "to/remove", "Delete me", "fileSha"
+                "to/remove",
+                "Delete me",
+                "fileSha",
+                "master",
+                Collections.<String, String>emptyMap(),
+                Collections.<String, String>emptyMap()
             );
             MatcherAssert.assertThat(
                 commit.sha(),
@@ -214,15 +231,41 @@ public final class RtContentsTest {
 
     /**
      * RtContents can update files into the repository.
-     *
-     * @todo #119 RtContents should be able to update files into the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception If any problems during test execution occurs.
      */
     @Test
-    @Ignore
-    public void canUpdateFilesInRepository() {
-        // to be implemented
+    public void canUpdateFilesInRepository() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{}")
+        ).start();
+        try {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            final String path = "test.txt";
+            final JsonObject json = Json.createObjectBuilder()
+                .add("message", "let's change it.")
+                .add("content", "bmV3IHRlc3Q=")
+                .add("sha", "90b67dda6d5944ad167e20ec52bfed8fd56986c8")
+                .build();
+            contents.update(path, json);
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+            MatcherAssert.assertThat(
+                query.uri().getPath(),
+                Matchers.endsWith(path)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.equalTo(json.toString())
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

@@ -31,9 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.rexsl.test.Request;
-import com.rexsl.test.response.JsonResponse;
-import com.rexsl.test.response.RestResponse;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -156,7 +156,7 @@ final class RtPull implements Pull {
 
     @Override
     public PullComments comments() throws IOException {
-        throw new UnsupportedOperationException();
+        return new RtPullComments(this.entry, this);
     }
 
     @Override

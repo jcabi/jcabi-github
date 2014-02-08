@@ -30,11 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.FakeRequest;
-import com.rexsl.test.request.JdkRequest;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.FakeRequest;
+import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;

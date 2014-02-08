@@ -29,9 +29,11 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.http.Request;
+import com.jcabi.http.request.FakeRequest;
+import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -49,12 +51,14 @@ public final class RtForksTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
     public void retrievesForks() throws Exception {
-        final RtForks forks = new RtForks(this.repo());
+        final RtForks forks = new RtForks(
+            new FakeRequest()
+                .withBody("[]"), this.repo()
+        );
         MatcherAssert.assertThat(
             forks.iterate("newest"),
-            Matchers.notNullValue()
+            Matchers.<Fork>iterableWithSize(0)
         );
     }
 
@@ -64,12 +68,16 @@ public final class RtForksTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
     public void createsFork() throws Exception {
-        final RtForks forks = new RtForks(this.repo());
+        final RtForks forks = new RtForks(
+            new FakeRequest()
+                .withBody("{\"fork\": true}")
+                .withStatus(HttpURLConnection.HTTP_ACCEPTED)
+                .method(Request.POST), repo()
+        );
         MatcherAssert.assertThat(
-            forks.create("blah"),
-            Matchers.notNullValue()
+            forks.create("").json().getBoolean("fork"),
+            Matchers.comparesEqualTo(true)
         );
     }
 

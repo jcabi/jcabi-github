@@ -33,7 +33,6 @@ import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -92,13 +91,20 @@ public final class MkPublicKeysTest {
      * MkPublicKeys should be able to remove a key.
      *
      * @throws Exception if a problem occurs.
-     * @todo #24 Implement the remove() method of MkPublicKey. Implement this
-     *  unit test method and remove the Ignore annotation when done.
      */
     @Test
-    @Ignore
     public void canRemoveKey() throws Exception {
-        //To be implemented.
+        final PublicKeys keys = new MkGithub().users().self().keys();
+        final PublicKey key = keys.create("rsa", "rsa sh");
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.hasItem(key)
+        );
+        keys.remove(key.number());
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.not(Matchers.hasItem(key))
+        );
     }
 
 }

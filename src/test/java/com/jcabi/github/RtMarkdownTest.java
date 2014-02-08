@@ -30,10 +30,10 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import com.rexsl.test.mock.MkAnswer;
-import com.rexsl.test.mock.MkContainer;
-import com.rexsl.test.mock.MkGrizzlyContainer;
-import com.rexsl.test.request.ApacheRequest;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.ws.rs.core.MediaType;

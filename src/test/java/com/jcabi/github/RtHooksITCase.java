@@ -29,11 +29,13 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import java.util.Collections;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -41,13 +43,6 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #165 RtHooks should be able to create a hook in real repository
- *  When done, remove this puzzle and Ignore annotation from the method.
- * @todo #159 Need to implement integration test case where RtHooks can obtain
- *  a list of hooks from a real repository. Add the implementation in
- *  canFetchAllHooks(). When done, remove this puzzle and Ignore annotation from
- *  the method.
  */
 public final class RtHooksITCase {
 
@@ -56,9 +51,17 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canFetchAllHooks() throws Exception {
-        // to be implemented
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
+        try {
+            RtHooksITCase.createHook(repo);
+            MatcherAssert.assertThat(
+                repo.hooks().iterate(), Matchers.<Hook>iterableWithSize(1)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -66,9 +69,16 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canCreateAHook() throws Exception {
-        // to be implemented
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
+        try {
+            MatcherAssert.assertThat(
+                RtHooksITCase.createHook(repo), Matchers.notNullValue()
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -78,20 +88,16 @@ public final class RtHooksITCase {
      */
     @Test
     public void canFetchSingleHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        int number = 0;
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
         try {
-            final Hook hook = hooks.create(
-                "geocommit",
-                Collections.singletonMap("active", "true")
-            );
-            number = hook.number();
+            final int number = RtHooksITCase.createHook(repo).number();
             MatcherAssert.assertThat(
-                hooks.get(number).json().getInt("id"),
+                repo.hooks().get(number).json().getInt("id"),
                 Matchers.equalTo(number)
             );
         } finally {
-            hooks.remove(number);
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -102,29 +108,54 @@ public final class RtHooksITCase {
      */
     @Test
     public void canRemoveHook() throws Exception {
-        final Hooks hooks = repo().hooks();
-        final Hook hook = hooks.create(
-            "geocommit",
-            Collections.<String, String>emptyMap()
-        );
-        hooks.remove(hook.number());
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.not(Matchers.hasItem(hook))
+        final Repos repos = RtHooksITCase.repos();
+        final Repo repo = RtHooksITCase.repo(repos);
+        try {
+            final Hook hook = RtHooksITCase.createHook(repo);
+            repo.hooks().remove(hook.number());
+            MatcherAssert.assertThat(
+                repo.hooks().iterate(), Matchers.not(Matchers.hasItem(hook))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * Return repos for tests.
+     * @return Repos
+     */
+    private static Repos repos() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos();
+    }
+
+    /**
+     * Create a new repo with random name.
+     * @param repos Repos
+     * @return Repository
+     * @throws IOException If there is any I/O problem
+     */
+    private static Repo repo(final Repos repos) throws IOException {
+        return repos.create(
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
         );
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * Create a new hook in a repository.
+     * @param repo Repository
+     * @return Hook
+     * @throws IOException If there is any I/O problem
      */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        return github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+    private static Hook createHook(final Repo repo) throws IOException {
+        return repo.hooks().create(
+            "geocommit", Collections.<String, String>emptyMap()
         );
     }
+
 }

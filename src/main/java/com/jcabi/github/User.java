@@ -43,15 +43,6 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #1:1hr Fetch list of emails of a user. Let's implement
- *  a new method emails() that returns an instance of class UserEmails with
- *  a few methods: 1) iterate() returning a list of strings, 2) add(String),
- *  and 3) remove(String). Let's use the
- *  new response format suggested by Github:
- *  http://developer.github.com/v3/users/emails/#list-email-addresses-for-a-user
- *  This new UserEmails interface should be implemented by GhUserEmails,
- *  tested in a unit and integration tests. Besides that, we should
- *  implement MkUserEmails class.
  * @see <a href="http://developer.github.com/v3/users/">User API</a>
  * @since 0.1
  */
@@ -90,6 +81,14 @@ public interface User extends JsonReadable, JsonPatchable {
     PublicKeys keys();
 
     /**
+     * Get user's emails.
+     * @return User's emails
+     * @since 0.8
+     */
+    @NotNull(message = "user emails is never NULL")
+    UserEmails emails();
+
+    /**
      * Smart user with extra features.
      * @todo #1:30min Implement methods to retrieve all values provided
      *  by Github for a single user, see:
@@ -102,12 +101,16 @@ public interface User extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "user")
+    @EqualsAndHashCode(of = { "user", "jsn" })
     final class Smart implements User {
         /**
          * Encapsulated user.
          */
         private final transient User user;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
 
         /**
          * Public ctor.
@@ -115,6 +118,7 @@ public interface User extends JsonReadable, JsonPatchable {
          */
         public Smart(final User usr) {
             this.user = usr;
+            this.jsn = new SmartJson(usr);
         }
 
         /**
@@ -134,7 +138,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public URL avatarUrl() throws IOException {
-            return new URL(new SmartJson(this).text("avatar_url"));
+            return new URL(this.jsn.text("avatar_url"));
         }
 
         /**
@@ -143,7 +147,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public URL url() throws IOException {
-            return new URL(new SmartJson(this).text("url"));
+            return new URL(this.jsn.text("url"));
         }
 
         /**
@@ -180,7 +184,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String company() throws IOException {
-            return new SmartJson(this).text("company");
+            return this.jsn.text("company");
         }
 
         /**
@@ -189,7 +193,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String location() throws IOException {
-            return new SmartJson(this).text("location");
+            return this.jsn.text("location");
         }
 
         /**
@@ -198,7 +202,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public String email() throws IOException {
-            return new SmartJson(this).text("email");
+            return this.jsn.text("email");
         }
 
         @Override
@@ -219,6 +223,11 @@ public interface User extends JsonReadable, JsonPatchable {
         @Override
         public PublicKeys keys() {
             return this.user.keys();
+        }
+
+        @Override
+        public UserEmails emails() {
+            return this.user.emails();
         }
 
         @Override
