@@ -67,8 +67,8 @@ public final class RtAssigneesTest {
             )
         ).start();
         final Assignees users = new RtAssignees(
-            repo(),
-            new JdkRequest(container.home())
+            new JdkRequest(container.home()),
+            repo()
         );
         MatcherAssert.assertThat(
             users.iterate(),
@@ -93,8 +93,8 @@ public final class RtAssigneesTest {
             )
         ).start();
         final Assignees users = new RtAssignees(
-            repo(),
-            new JdkRequest(container.home())
+            new JdkRequest(container.home()),
+            repo()
         );
         MatcherAssert.assertThat(
             users.check("octocat2"),
@@ -120,8 +120,8 @@ public final class RtAssigneesTest {
             )
         ).start();
         final Assignees users = new RtAssignees(
-            repo(),
-            new JdkRequest(container.home())
+            new JdkRequest(container.home()),
+            repo()
         );
         MatcherAssert.assertThat(
             users.check("octocat33"),

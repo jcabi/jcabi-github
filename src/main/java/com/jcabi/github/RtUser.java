@@ -124,6 +124,12 @@ final class RtUser implements User {
     }
 
     @Override
+    @NotNull(message = "user emails is never NULL")
+    public UserEmails emails() {
+        return new RtUserEmails(this.ghub.entry());
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
