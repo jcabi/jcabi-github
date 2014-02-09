@@ -44,11 +44,6 @@ import java.io.IOException;
  *  RtDeployKey and MkDeployKey, and add an integration test for it. See
  *  http://developer.github.com/v3/repos/keys/#edit. When done, remove this
  *  puzzle.
- * @todo #231 Deploy key object should be able to remove a deploy key. Let's
- *  create a test for for this method, declare it here, implement it in
- *  RtDeployKey and MkDeployKey, and add an integration test for it. See
- *  http://developer.github.com/v3/repos/keys/#delete. When done, remove this
- *  puzzle.
  */
 @Immutable
 public interface DeployKey extends JsonReadable {
