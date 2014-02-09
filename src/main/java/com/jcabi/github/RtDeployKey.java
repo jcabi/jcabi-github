@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -95,8 +96,10 @@ public final class RtDeployKey implements DeployKey {
         throws IOException {
         this.request.method(Request.PATCH)
             .body()
-            .formParam("title", title)
-            .formParam("key", value).back().fetch().as(RestResponse.class)
+            .set(
+                Json.createObjectBuilder().add("title", title)
+                .add("key", value).build()
+            ).back().fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_ACCEPTED);
     }
 
