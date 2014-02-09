@@ -173,4 +173,16 @@ public final class RtUserTest {
         );
         container.stop();
     }
+
+    /**
+     * RtUser can fetch emails.
+     */
+    @Test
+    public void fetchesEmails() {
+        final Github github = Mockito.mock(Github.class);
+        Mockito.when(github.entry()).thenReturn(new FakeRequest());
+        final User user = new RtUser(github, new FakeRequest());
+        MatcherAssert.assertThat(user.emails(), Matchers.notNullValue());
+    }
+
 }
