@@ -87,8 +87,13 @@ public final class MkDeployKey implements DeployKey {
         throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                this.xpath()
-            ).attr("key", value).attr("title", title)
+                new StringBuilder(2).append(this.xpath()).append("/key")
+                .toString()
+            ).remove().add("key").set(value)
+                .xpath(
+                new StringBuilder(2).append(this.xpath()).append("/title")
+                .toString()
+                ).remove().add("title").set(title)
         );
     }
 

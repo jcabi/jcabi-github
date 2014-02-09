@@ -130,5 +130,23 @@ public interface DeployKey extends JsonReadable {
         public JsonObject json() throws IOException {
             return this.key.json();
         }
+
+        /**
+         * Returns the value of the "key" field.
+         * @return The value of the "key" field.
+         * @throws IOException If ani I/O problem occurs.
+         */
+        public String value() throws IOException {
+            return this.json.text("key");
+        }
+
+        /**
+         * Returns the value of the "title" field.
+         * @return The value of the "title" field.
+         * @throws IOException If any I/O problem occurs.
+         */
+        public String title() throws IOException {
+            return this.json.text("title");
+        }
     }
 }
