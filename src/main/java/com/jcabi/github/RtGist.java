@@ -53,8 +53,6 @@ import org.hamcrest.Matchers;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #114 RtGist.unstar() method as long as unit test have to be
- *  implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
