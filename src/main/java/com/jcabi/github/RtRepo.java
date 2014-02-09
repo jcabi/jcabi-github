@@ -148,7 +148,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        return new RtAssignees(this, this.entry);
+        return new RtAssignees(this.entry, this);
     }
 
     @Override
@@ -163,7 +163,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Forks forks() {
-        return new RtForks(this);
+        return new RtForks(this.entry, this);
     }
 
     @Override

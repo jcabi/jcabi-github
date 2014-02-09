@@ -36,7 +36,10 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -52,7 +55,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContents implements Contents {
 
     /**
@@ -96,17 +98,33 @@ public final class RtContents implements Contents {
         throw new UnsupportedOperationException("Create not yet implemented.");
     }
 
+    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Content create(
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "message can't be NULL") final String message,
-        @NotNull(message = "content can't be NULL") final String content)
+        final String path,
+        final String message,
+        final String content,
+        final String branch,
+        final Map<String, String> committer,
+        final Map<String, String> author)
         throws IOException {
+        final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
+        for (final Map.Entry<String, String> entr : committer.entrySet()) {
+            cmtBuilder.add(entr.getKey(), entr.getValue());
+        }
+        final JsonObjectBuilder atrBuilder = Json.createObjectBuilder();
+        for (final Map.Entry<String, String> entr : author.entrySet()) {
+            atrBuilder.add(entr.getKey(), entr.getValue());
+        }
         final JsonStructure json = Json.createObjectBuilder()
             .add("message", message)
             .add("content", content)
+            .add("branch", branch)
+            .add("committer", cmtBuilder.build())
+            .add("author", atrBuilder.build())
             .build();
-        return new RtContent(this.entry, this.owner,
+        return new RtContent(
+            this.entry, this.owner,
             this.request.method(Request.PUT)
                 .body().set(json).back()
                 .fetch()
@@ -117,15 +135,30 @@ public final class RtContents implements Contents {
         );
     }
 
+    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Commit remove(
-        @NotNull(message = "path is never NULL") final String path,
-        @NotNull(message = "message is never NULL") final String message,
-        @NotNull(message = "sha is never NULL") final String sha)
+        final String path,
+        final String message,
+        final String sha,
+        final String branch,
+        final Map<String, String> committer,
+        final Map<String, String> author)
         throws IOException {
+        final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
+        for (final Map.Entry<String, String> entr : committer.entrySet()) {
+            cmtBuilder.add(entr.getKey(), entr.getValue());
+        }
+        final JsonObjectBuilder atrBuilder = Json.createObjectBuilder();
+        for (final Map.Entry<String, String> entr : author.entrySet()) {
+            atrBuilder.add(entr.getKey(), entr.getValue());
+        }
         final JsonStructure json = Json.createObjectBuilder()
             .add("message", message)
             .add("sha", sha)
+            .add("branch", branch)
+            .add("committer", cmtBuilder.build())
+            .add("author", atrBuilder.build())
             .build();
         return new RtCommit(
             this.entry,
@@ -138,6 +171,19 @@ public final class RtContents implements Contents {
                 .as(JsonResponse.class).json()
                 .readObject().getJsonObject("commit").getString("sha")
         );
+    }
+
+    @Override
+    public void update(
+        @NotNull(message = "path is never NULL") final String path,
+        @NotNull(message = "json is never NULL") final JsonObject json)
+        throws IOException {
+        this.request.uri().path(path).back()
+            .method(Request.PUT)
+            .body().set(json).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
 }

@@ -37,6 +37,8 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import java.util.Map;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -92,18 +94,42 @@ public final class MkContents implements Contents {
         return new MkContent();
     }
 
+    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Content create(final String path, final String message,
-        final String content) throws IOException {
+    public Content create(
+        final String path,
+        final String message,
+        final String content,
+        final String branch,
+        final Map<String, String> committer,
+        final Map<String, String> author)
+        throws IOException {
         throw new UnsupportedOperationException("Create not yet implemented.");
     }
 
+    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Commit remove(
         final String path,
         final String message,
-        final String sha)
+        final String sha,
+        final String branch,
+        final Map<String, String> committer,
+        final Map<String, String> author)
         throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
+    /**
+     * Updates a file.
+     * @param path The content path.
+     * @param json JSON object containing updates to the content.
+     * @throws IOException If any I/O problem occurs.
+     * @todo #329 MkContents should implement method update.
+     */
+    @Override
+    public void update(final String path, final JsonObject json)
+        throws IOException {
+        throw new UnsupportedOperationException("Update not yet implemented.");
     }
 }

@@ -43,15 +43,6 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #1:1hr Fetch list of emails of a user. Let's implement
- *  a new method emails() that returns an instance of class UserEmails with
- *  a few methods: 1) iterate() returning a list of strings, 2) add(String),
- *  and 3) remove(String). Let's use the
- *  new response format suggested by Github:
- *  http://developer.github.com/v3/users/emails/#list-email-addresses-for-a-user
- *  This new UserEmails interface should be implemented by GhUserEmails,
- *  tested in a unit and integration tests. Besides that, we should
- *  implement MkUserEmails class.
  * @see <a href="http://developer.github.com/v3/users/">User API</a>
  * @since 0.1
  */
@@ -88,6 +79,14 @@ public interface User extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "keys is never NULL")
     PublicKeys keys();
+
+    /**
+     * Get user's emails.
+     * @return User's emails
+     * @since 0.8
+     */
+    @NotNull(message = "user emails is never NULL")
+    UserEmails emails();
 
     /**
      * Smart user with extra features.
@@ -224,6 +223,11 @@ public interface User extends JsonReadable, JsonPatchable {
         @Override
         public PublicKeys keys() {
             return this.user.keys();
+        }
+
+        @Override
+        public UserEmails emails() {
+            return this.user.emails();
         }
 
         @Override

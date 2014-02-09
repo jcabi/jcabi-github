@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
-import com.jcabi.github.RtForks;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -55,11 +54,7 @@ public final class MkForksTest {
     @Test
     @Ignore
     public void retrievesForks() throws Exception {
-        final RtForks forks = new RtForks(this.repo());
-        MatcherAssert.assertThat(
-            forks.iterate("newest"),
-            Matchers.notNullValue()
-        );
+        // To be implemented.
     }
 
     /**
@@ -70,7 +65,8 @@ public final class MkForksTest {
     @Test
     @Ignore
     public void createsFork() throws Exception {
-        final MkForks forks = new MkForks(new MkStorage.InFile(),
+        final MkForks forks = new MkForks(
+            new MkStorage.InFile(),
             "Test", new Coordinates.Simple("tests", "forks")
         );
         MatcherAssert.assertThat(

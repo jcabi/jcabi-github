@@ -53,8 +53,6 @@ import org.hamcrest.Matchers;
  * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #114 RtGist.unstar() method as long as unit test have to be
- *  implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -162,26 +160,27 @@ final class RtGist implements Gist {
 
     @Override
     public boolean starred() throws IOException {
-        final RestResponse response = this.request.uri().path("star").back()
+        return this.request.uri().path("star").back()
             .method("GET").fetch()
             .as(RestResponse.class).assertStatus(
                 Matchers.isOneOf(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     HttpURLConnection.HTTP_NOT_FOUND
             )
-        );
-        return response.status() == HttpURLConnection.HTTP_NO_CONTENT;
+        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override
     public Gist fork() throws IOException {
-        final String name = this.request.uri().path("/forks").back()
-            .method(Request.POST)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_CREATED)
-            .as(JsonResponse.class)
-            .json().readObject().getString("id");
-        return new RtGist(this.ghub, this.entry, name);
+        return new RtGist(
+            this.ghub, this.entry,
+            this.request.uri().path("/forks").back()
+                .method(Request.POST)
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("id")
+        );
     }
 
     @Override
