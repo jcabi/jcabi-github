@@ -30,7 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github deploy key.
@@ -78,4 +82,53 @@ public interface DeployKey extends JsonReadable {
      * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
      */
     void remove() throws IOException;
+
+    /**
+     * Smart deploy key.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "key", "json" })
+    final class Smart  implements DeployKey {
+        /**
+         * Encapsulated DeployKey.
+         */
+        private final transient DeployKey key;
+
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson json;
+
+        /**
+         * Public constructor.
+         * @param encapsulated Encapsulated DeployKey.
+         */
+        public Smart(final DeployKey encapsulated) {
+            this.key = encapsulated;
+            this.json = new SmartJson(encapsulated);
+        }
+
+        @Override
+        public int number() {
+            return this.key.number();
+        }
+
+        @Override
+        public void edit(final String title, final String value)
+            throws IOException {
+            this.key.edit(title, value);
+        }
+
+        @Override
+        public void remove() throws IOException {
+            this.key.remove();
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.key.json();
+        }
+    }
 }
