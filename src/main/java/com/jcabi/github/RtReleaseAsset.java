@@ -32,26 +32,20 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github release asset.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtRelease implements Release {
-
-    /**
-     * API entry point.
-     */
-    private final transient Request entry;
+@EqualsAndHashCode(of = { "request", "owner", "num" })
+public final class RtReleaseAsset implements ReleaseAsset {
 
     /**
      * RESTful request.
@@ -59,52 +53,49 @@ public final class RtRelease implements Release {
     private final transient Request request;
 
     /**
-     * Repository.
+     * Issue we're in.
      */
-    private final transient Repo owner;
+    private final transient Release owner;
 
     /**
-     * Release id.
+     * Release Asset number.
      */
-    private final transient int release;
+    private final transient int num;
 
     /**
      * Public ctor.
-     * @param req RESTful API entry point
-     * @param repo Repository
-     * @param nmbr Release id
+     * @param req RESTful Request
+     * @param release Release
+     * @param number Number of the release asset.
      */
-    RtRelease(final Request req, final Repo repo, final int nmbr) {
-        this.entry = req;
-        this.release = nmbr;
-        this.owner = repo;
+    RtReleaseAsset(final Request req, final Release release, final int number) {
+        final Coordinates coords = release.repo().coordinates();
         this.request = req.uri()
             .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
+            .path(coords.user())
+            .path(coords.repo())
             .path("/releases")
-            .path(String.valueOf(this.release))
+            .path(Integer.toString(release.number()))
+            .path("/assets")
+            .path(Integer.toString(number))
             .back();
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public int number() {
-        return this.release;
-    }
-
-    @Override
-    public ReleaseAssets assets() {
-        return new RtReleaseAssets(this.entry, this);
+        this.owner = release;
+        this.num = number;
     }
 
     @Override
     public String toString() {
         return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Release release() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return this.num;
     }
 
     @Override
@@ -118,10 +109,8 @@ public final class RtRelease implements Release {
     }
 
     @Override
-    public void delete() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    public void remove() throws IOException {
+        throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
 }

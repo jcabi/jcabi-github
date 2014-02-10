@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -53,6 +54,13 @@ import lombok.ToString;
 public interface Release extends JsonReadable, JsonPatchable {
 
     /**
+     * Owner of them.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
+
+    /**
      * Release id.
      * @return Id
      */
@@ -63,6 +71,14 @@ public interface Release extends JsonReadable, JsonPatchable {
      * @throws IOException If any I/O problems occur.
      */
     void delete() throws IOException;
+
+    /**
+     * Get all release assets of this release.
+     * @return Release assets.
+     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     */
+    @NotNull(message = "assets are never NULL")
+    ReleaseAssets assets();
 
     /**
      * Smart release.
@@ -102,8 +118,18 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         @Override
+        public Repo repo() {
+            return this.release.repo();
+        }
+
+        @Override
         public int number() {
             return this.release.number();
+        }
+
+        @Override
+        public ReleaseAssets assets() {
+            return this.release.assets();
         }
 
         /**
@@ -187,7 +213,7 @@ public interface Release extends JsonReadable, JsonPatchable {
             try {
                 return new Github.Time(this.jsn.text("created_at"))
                     .date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
@@ -201,7 +227,7 @@ public interface Release extends JsonReadable, JsonPatchable {
             try {
                 return new Github.Time(this.jsn.text("published_at"))
                     .date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
@@ -239,4 +265,5 @@ public interface Release extends JsonReadable, JsonPatchable {
             this.release.delete();
         }
     }
+
 }

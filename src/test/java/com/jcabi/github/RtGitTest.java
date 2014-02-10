@@ -29,58 +29,43 @@
  */
 package com.jcabi.github;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Integration case for {@link RepoCommits}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link RtGit}.
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #117 Add test getCommit() to check that commit actually got.
- *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
- *
+ * @since 0.8
  */
-public class RtRepoCommitsITCase {
+public final class RtGitTest {
+
     /**
-     * RtRepoCommits can fetch commits.
-     * @throws Exception if there is no github key provided
+     * RtGit can fetch its own repo.
+     *
+     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void fetchCommits() throws Exception {
-        final Iterator<Commit> iterator = repo().commits().iterate().iterator();
-        final List<String> shas = new ArrayList<String>();
-        shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
-        shas.add("940dd5081fada0ead07762933036bf68a005cc40");
-        shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");
-        shas.add("51cabb8e759852a6a40a7a2a76ef0afd4beef96d");
-        shas.add("11bd4d527236f9cb211bc6667df06fde075beded");
-        int found = 0;
-        while (iterator.hasNext()) {
-            if (shas.contains(iterator.next().sha())) {
-                found += 1;
-            }
-        }
+    public void canFetchOwnRepo() throws Exception {
+        final Repo repo = repo();
         MatcherAssert.assertThat(
-            found,
-            Matchers.equalTo(shas.size())
+            new RtGit(repo).repo(),
+            Matchers.is(repo)
         );
     }
 
     /**
-     * Create and return repo to test.
+     * Create and return repo for testing.
+     *
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple("jcabi", "jcabi-github")
-        );
+    private static Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "git"))
+            .when(repo).coordinates();
+        return repo;
     }
+
 }

@@ -163,6 +163,13 @@ public interface Repo extends JsonReadable, JsonPatchable {
     Collaborators collaborators();
 
     /**
+     * Get the Git API entry point.
+     * @return Collaborators
+     * @see <a href="http://developer.github.com/v3/git/">Git Data API</a>
+     */
+    Git git();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -248,12 +255,14 @@ public interface Repo extends JsonReadable, JsonPatchable {
         public Contents contents() {
             return this.repo.contents();
         }
-
         @Override
         public Collaborators collaborators() {
             return this.repo.collaborators();
         }
-
+        @Override
+        public Git git() {
+            return this.repo.git();
+        }
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.repo.patch(json);

@@ -289,6 +289,18 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch Git.
+     */
+    public void fetchesGit() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("gituser", "gitrepo")
+        );
+        MatcherAssert.assertThat(repo.git(), Matchers.notNullValue());
+    }
+
+    /**
      * Create and return JsonObject to test.
      * @param event Event type
      * @return JsonObject
