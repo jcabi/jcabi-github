@@ -33,6 +33,8 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
+import com.jcabi.github.ReleaseAssets;
+import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -56,6 +58,11 @@ public final class MkRelease implements Release {
     private final transient MkStorage storage;
 
     /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
      * Repository coordinates.
      */
     private final transient Coordinates coords;
@@ -68,18 +75,32 @@ public final class MkRelease implements Release {
     /**
      * Public ctor.
      * @param stg Storage
-     * @param crds Repository coordinates
-     * @param nmbr Release id
+     * @param login User to login
+     * @param rep Repo
+     * @param number Release ID
+     * @checkstyle ParameterNumber (5 lines)
      */
-    MkRelease(final MkStorage stg, final Coordinates crds, final int nmbr) {
+    MkRelease(final MkStorage stg, final String login,
+        final Coordinates rep, final int number) {
         this.storage = stg;
-        this.coords = crds;
-        this.release = nmbr;
+        this.self = login;
+        this.coords = rep;
+        this.release = number;
     }
 
     @Override
     public int number() {
         return this.release;
+    }
+
+    @Override
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.coords);
+    }
+
+    @Override
+    public ReleaseAssets assets() {
+        throw new UnsupportedOperationException("Assets not yet implemented.");
     }
 
     @Override
@@ -111,4 +132,5 @@ public final class MkRelease implements Release {
             new Directives().xpath(this.xpath()).strict(1).remove()
         );
     }
+
 }

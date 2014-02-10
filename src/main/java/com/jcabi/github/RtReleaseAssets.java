@@ -32,21 +32,25 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.JsonObject;
+import java.net.URI;
+import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github release assets.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtRelease implements Release {
+@EqualsAndHashCode(of = { "request", "owner" })
+public final class RtReleaseAssets implements ReleaseAssets {
 
     /**
      * API entry point.
@@ -59,69 +63,68 @@ public final class RtRelease implements Release {
     private final transient Request request;
 
     /**
-     * Repository.
+     * Owner of assets.
      */
-    private final transient Repo owner;
-
-    /**
-     * Release id.
-     */
-    private final transient int release;
+    private final transient Release owner;
 
     /**
      * Public ctor.
-     * @param req RESTful API entry point
-     * @param repo Repository
-     * @param nmbr Release id
+     * @param req Request
+     * @param release Issue
      */
-    RtRelease(final Request req, final Repo repo, final int nmbr) {
+    RtReleaseAssets(final Request req, final Release release) {
         this.entry = req;
-        this.release = nmbr;
-        this.owner = repo;
-        this.request = req.uri()
+        final Coordinates coords = release.repo().coordinates();
+        // @checkstyle MultipleStringLiteralsCheck (7 lines)
+        this.request = this.entry.uri()
             .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
+            .path(coords.user())
+            .path(coords.repo())
             .path("/releases")
-            .path(String.valueOf(this.release))
+            .path(Integer.toString(release.number()))
+            .path("/comments")
             .back();
+        this.owner = release;
     }
 
     @Override
-    public Repo repo() {
+    public Release release() {
         return this.owner;
     }
 
     @Override
-    public int number() {
-        return this.release;
+    public Iterable<ReleaseAsset> iterate() {
+        throw new UnsupportedOperationException("Iterate not yet implemented.");
     }
 
     @Override
-    public ReleaseAssets assets() {
-        return new RtReleaseAssets(this.entry, this);
+    public ReleaseAsset upload(final byte[] content,
+        final String type, final String name) throws IOException {
+        return this.get(
+            this.request.uri()
+                .set(URI.create("https://uploads.github.com"))
+                .path("/repos")
+                .path(this.owner.repo().coordinates().user())
+                .path(this.owner.repo().coordinates().repo())
+                .path("/releases")
+                .path(String.valueOf(this.owner.number()))
+                .path("/assets")
+                .queryParam("name", name)
+                .back()
+                .method(Request.POST)
+                .reset(HttpHeaders.CONTENT_TYPE)
+                .header(HttpHeaders.CONTENT_TYPE, type)
+                .body().set(content).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new RtJson(this.request).patch(json);
-    }
-
-    @Override
-    public void delete() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    public ReleaseAsset get(final int number) {
+        return new RtReleaseAsset(this.entry, this.owner, number);
     }
 
 }
