@@ -295,7 +295,7 @@ public final class RtRepoTest {
         final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
-            new Coordinates.Simple("testuser", "testrepo")
+            new Coordinates.Simple("gituser", "gitrepo")
         );
         MatcherAssert.assertThat(repo.git(), Matchers.notNullValue());
     }

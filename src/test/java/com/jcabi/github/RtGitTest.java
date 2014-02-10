@@ -58,6 +58,7 @@ public final class RtGitTest {
 
     /**
      * Create and return repo for testing.
+     *
      * @return Repo
      */
     private static Repo repo() {

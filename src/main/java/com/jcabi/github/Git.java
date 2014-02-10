@@ -52,6 +52,19 @@ public interface Git {
     /**
      * Get its blobs.
      * @return Blobs
+     * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
+     * @todo #115:1hr Implement the Git Data Blobs API. We need to implement the
+     *  following:
+     *  1) Add the operations in http://developer.github.com/v3/git/blobs/ to
+     *  the Blobs interface.
+     *  2) A class RtBlobs, which performs RESTful request operations against
+     *  the Blobs API.
+     *  3) A class MkBlobs, which mocks the Blobs interface
+     *  4) an interface Blob, which represents a single Blob of the Git Data API
+     *  5) RtBlob, a Blob implementation which fetches and
+     *  modifies Blob information according to the Blob API. and
+     *  6) MkBlob, which mocks a single Blob object.
+     *  Don't forget to implement unit and integration tests.
      */
     @NotNull(message = "Blobs is never NULL")
     Blobs blobs();
@@ -59,21 +72,81 @@ public interface Git {
     /**
      * Get its commits.
      * @return Commits
+     * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
+     * @todo #115:30min Implement the Git Data Commits API. We need to
+     *  implement the following:
+     *  1) Add the operations in http://developer.github.com/v3/git/commits/
+     *  to the Commits interface. Fetch operations should return Commit
+     *  instances.
+     *  2) A class RtCommits, which performs RESTful request operations
+     *  against the Commits API.
+     *  3) A class MkCommits, which mocks the Commits interface.
+     *  4) MkCommit, which mocks a single Commit object.
+     *  Don't forget to implement unit tests and integration tests.
      */
-    @NotNull(message = "Blobs is never NULL")
+    @NotNull(message = "Commits is never NULL")
     Commits commits();
 
     /**
      * Get its references.
      * @return References
+     * @see <a href="http://developer.github.com/v3/git/references/">References API</a>
+     * @todo #115:1hr Implement the Git Data References API. We need to
+     *  implement the following:
+     *  1) Add the operations in http://developer.github.com/v3/git/references/
+     *  to the References interface.
+     *  2) A class RtReferences, which performs RESTful request operations
+     *  against the References API.
+     *  3) A class MkReferences, which mocks the References interface.
+     *  4) An interface Reference, which represents a single Reference of the
+     *  Git Data API.
+     *  5) RtReferences, a Reference implementation which fetches and modifies
+     *  Reference information according to the References API, and
+     *  6) MkReference, which mocks a single Reference object.
+     *  Don't forget to implement unit tests and integration tests.
      */
-    @NotNull(message = "Blobs is never NULL")
+    @NotNull(message = "References is never NULL")
     References references();
 
     /**
      * Get its trees.
-     * @return Trees
+     * @return Tags
+     * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
+     * @todo #115:1hr Implement the Git Data Tags API. We need to
+     *  implement the following:
+     *  1) Add the operations in http://developer.github.com/v3/git/tags/
+     *  to the Tags interface.
+     *  2) A class RtTags, which performs RESTful request operations
+     *  against the Tags API.
+     *  3) A class MkTags, which mocks the Tags interface.
+     *  4) An interface Tag, which represents a single Tag of the
+     *  Git Data API.
+     *  5) RtTags, a Tag implementation which fetches and modifies
+     *  Tag information according to the Tags API, and
+     *  6) MkTag, which mocks a single Reference object.
+     *  Don't forget to implement unit tests and integration tests.
      */
-    @NotNull(message = "Blobs is never NULL")
+    @NotNull(message = "Tags is never NULL")
+    Tags tags();
+
+    /**
+     * Get its trees.
+     * @return Trees
+     * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
+     * @todo #115:1hr Implement the Git Data Trees API. We need to
+     *  implement the following:
+     *  1) Add the operations in http://developer.github.com/v3/git/trees/
+     *  to the Trees interface.
+     *  2) A class RtTrees, which performs RESTful request operations
+     *  against the Trees API.
+     *  3) A class MkTrees, which mocks the Trees interface.
+     *  4) An interface Tag, which represents a single Tag of the
+     *  Git Data API.
+     *  5) RtTrees, a Tag implementation which fetches and modifies
+     *  Tag information according to the Trees API, and
+     *  6) MkTag, which mocks a single Tag object.
+     *  Don't forget to implement unit tests and integration tests.
+     */
+    @NotNull(message = "Trees is never NULL")
     Trees trees();
 }

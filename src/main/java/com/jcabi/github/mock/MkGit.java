@@ -37,6 +37,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Git;
 import com.jcabi.github.References;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Tags;
 import com.jcabi.github.Trees;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
@@ -104,6 +105,11 @@ public final class MkGit implements Git {
         throw new UnsupportedOperationException(
             "References not yet implemented"
         );
+    }
+
+    @Override
+    public Tags tags() {
+        throw new UnsupportedOperationException("Tags not yet implemented.");
     }
 
     @Override

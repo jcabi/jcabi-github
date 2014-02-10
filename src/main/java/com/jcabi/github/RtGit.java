@@ -50,6 +50,10 @@ public final class RtGit implements Git {
      */
     private final transient Repo owner;
 
+    /**
+     * Public ctor.
+     * @param repo Repository
+     */
     public RtGit(final Repo repo) {
         this.owner = repo;
     }
@@ -74,6 +78,11 @@ public final class RtGit implements Git {
         throw new UnsupportedOperationException(
             "References not yet implemented"
         );
+    }
+
+    @Override
+    public Tags tags() {
+        throw new UnsupportedOperationException("Tags not yet implemented.");
     }
 
     @Override
