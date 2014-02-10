@@ -145,7 +145,11 @@ public final class MkHooks implements Hooks {
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/hook[id='%d']", this.xpath(), number)
+            ).remove()
+        );
     }
 
     /**
