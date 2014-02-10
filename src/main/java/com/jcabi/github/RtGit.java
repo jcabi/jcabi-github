@@ -31,32 +31,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import com.jcabi.http.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github Git.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtRelease implements Release {
-
-    /**
-     * API entry point.
-     */
-    private final transient Request entry;
-
-    /**
-     * RESTful request.
-     */
-    private final transient Request request;
+@EqualsAndHashCode(of = { "owner" })
+public final class RtGit implements Git {
 
     /**
      * Repository.
@@ -64,27 +51,11 @@ public final class RtRelease implements Release {
     private final transient Repo owner;
 
     /**
-     * Release id.
-     */
-    private final transient int release;
-
-    /**
      * Public ctor.
-     * @param req RESTful API entry point
      * @param repo Repository
-     * @param nmbr Release id
      */
-    RtRelease(final Request req, final Repo repo, final int nmbr) {
-        this.entry = req;
-        this.release = nmbr;
+    public RtGit(final Repo repo) {
         this.owner = repo;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/releases")
-            .path(String.valueOf(this.release))
-            .back();
     }
 
     @Override
@@ -93,35 +64,30 @@ public final class RtRelease implements Release {
     }
 
     @Override
-    public int number() {
-        return this.release;
+    public Blobs blobs() {
+        throw new UnsupportedOperationException("Blobs not yet implemented");
     }
 
     @Override
-    public ReleaseAssets assets() {
-        return new RtReleaseAssets(this.entry, this);
+    public Commits commits() {
+        throw new UnsupportedOperationException("Commits not yet implemented");
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public References references() {
+        throw new UnsupportedOperationException(
+            "References not yet implemented"
+        );
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    public Tags tags() {
+        throw new UnsupportedOperationException("Tags not yet implemented.");
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        new RtJson(this.request).patch(json);
-    }
-
-    @Override
-    public void delete() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    public Trees trees() {
+        throw new UnsupportedOperationException("Trees not yet implemented");
     }
 
 }

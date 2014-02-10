@@ -43,8 +43,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRelease}.
@@ -57,11 +57,6 @@ public class RtReleaseTest {
      * An empty JSON string.
      */
     private static final String EMPTY_JSON = "{}";
-
-    /**
-     * A test mnemo.
-     */
-    private static final String TEST_MNEMO = "tstuser/tstbranch";
 
     /**
      * A mock container used in test to mimic the Github server.
@@ -118,60 +113,12 @@ public class RtReleaseTest {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, EMPTY_JSON)
         ).start();
-        final RtRelease release = new RtRelease(
-            new ApacheRequest(this.container.home()),
-            new Coordinates.Simple(TEST_MNEMO),
-            2
-        );
+        final RtRelease release = RtReleaseTest.release(this.container.home());
         release.delete();
         MatcherAssert.assertThat(
             this.container.take().method(),
             Matchers.equalTo(Request.DELETE)
         );
-    }
-
-    /**
-     * RtRelease can list assets for a release.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to list assets for a release. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
-     *  When done, remove this puzzle and Ignore annotation from this method.
-     */
-    @Test
-    @Ignore
-    public void listReleaseAssets() {
-        // to be implemented
-    }
-
-    /**
-     * RtRelease can upload a release asset.
-     * @todo #180 RtRelease should be able to upload a release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#upload-a-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
-     */
-    @Test
-    @Ignore
-    public void uploadReleaseAsset() {
-        // to be implemented
-    }
-
-    /**
-     * RtRelease can get a single release asset.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtRelease should be able to get a single release asset. Let's
-     *  implement this method, add integration test, declare a method in
-     *  Release and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
-     */
-    @Test
-    @Ignore
-    public void getReleaseAsset() {
-        // to be implemented
     }
 
     /**
@@ -183,10 +130,7 @@ public class RtReleaseTest {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
         ).start();
-        final RtRelease release = new RtRelease(
-            new ApacheRequest(this.container.home()),
-            new Coordinates.Simple(TEST_MNEMO), 2
-        );
+        final RtRelease release = RtReleaseTest.release(this.container.home());
         release.patch(Json.createObjectBuilder().add("name", "v1")
             .build()
         );
@@ -202,9 +146,14 @@ public class RtReleaseTest {
      * @return A test release.
      */
     private static RtRelease release(final URI uri) {
+        final Repo repo = Mockito.mock(Repo.class);
+        final Coordinates coords = Mockito.mock(Coordinates.class);
+        Mockito.doReturn(coords).when(repo).coordinates();
+        Mockito.doReturn("tstuser").when(coords).user();
+        Mockito.doReturn("tstbranch").when(coords).repo();
         return new RtRelease(
             new ApacheRequest(uri),
-            new Coordinates.Simple(TEST_MNEMO),
+            repo,
             2
         );
     }

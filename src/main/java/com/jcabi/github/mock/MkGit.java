@@ -27,101 +27,94 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import com.jcabi.http.response.RestResponse;
+import com.jcabi.github.Blobs;
+import com.jcabi.github.Commits;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Git;
+import com.jcabi.github.References;
+import com.jcabi.github.Repo;
+import com.jcabi.github.Tags;
+import com.jcabi.github.Trees;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github Mock Git.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
-public final class RtRelease implements Release {
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+public final class MkGit implements Git {
 
     /**
-     * API entry point.
+     * Storage.
      */
-    private final transient Request entry;
+    private final transient MkStorage storage;
 
     /**
-     * RESTful request.
+     * Login of the user logged in.
      */
-    private final transient Request request;
+    private final transient String self;
 
     /**
-     * Repository.
+     * Repo name.
      */
-    private final transient Repo owner;
-
-    /**
-     * Release id.
-     */
-    private final transient int release;
+    private final transient Coordinates coords;
 
     /**
      * Public ctor.
-     * @param req RESTful API entry point
-     * @param repo Repository
-     * @param nmbr Release id
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @throws IOException If there is any I/O problem
      */
-    RtRelease(final Request req, final Repo repo, final int nmbr) {
-        this.entry = req;
-        this.release = nmbr;
-        this.owner = repo;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/releases")
-            .path(String.valueOf(this.release))
-            .back();
+    public MkGit(final MkStorage stg, final String login,
+        final Coordinates rep) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
     }
 
     @Override
     public Repo repo() {
-        return this.owner;
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public int number() {
-        return this.release;
+    public Blobs blobs() {
+        throw new UnsupportedOperationException("Blobs not yet implemented");
     }
 
     @Override
-    public ReleaseAssets assets() {
-        return new RtReleaseAssets(this.entry, this);
+    public Commits commits() {
+        throw new UnsupportedOperationException("Commits not yet implemented");
     }
 
     @Override
-    public String toString() {
-        return this.request.uri().get().toString();
+    public References references() {
+        throw new UnsupportedOperationException(
+            "References not yet implemented"
+        );
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    public Tags tags() {
+        throw new UnsupportedOperationException("Tags not yet implemented.");
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        new RtJson(this.request).patch(json);
-    }
-
-    @Override
-    public void delete() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    public Trees trees() {
+        throw new UnsupportedOperationException("Trees not yet implemented");
     }
 
 }

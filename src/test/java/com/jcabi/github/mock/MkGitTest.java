@@ -27,60 +27,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.jcabi.github.Repo;
+import com.jcabi.github.RtGit;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RepoCommits}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
- * @todo #117 Add test getCommit() to check that commit actually got.
- *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
+ * Test case for {@link MkGit}.
  *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @version $Id$
+ * @since 0.8
  */
-public class RtRepoCommitsITCase {
+public final class MkGitTest {
+
     /**
-     * RtRepoCommits can fetch commits.
-     * @throws Exception if there is no github key provided
+     * MkGit can fetch its own repo.
+     *
+     * @throws Exception if something goes wrong.
      */
     @Test
-    public final void fetchCommits() throws Exception {
-        final Iterator<Commit> iterator = repo().commits().iterate().iterator();
-        final List<String> shas = new ArrayList<String>();
-        shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
-        shas.add("940dd5081fada0ead07762933036bf68a005cc40");
-        shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");
-        shas.add("51cabb8e759852a6a40a7a2a76ef0afd4beef96d");
-        shas.add("11bd4d527236f9cb211bc6667df06fde075beded");
-        int found = 0;
-        while (iterator.hasNext()) {
-            if (shas.contains(iterator.next().sha())) {
-                found += 1;
-            }
-        }
+    public void canFetchOwnRepo() throws Exception {
+        final Repo repo = repo();
         MatcherAssert.assertThat(
-            found,
-            Matchers.equalTo(shas.size())
+            new RtGit(repo).repo(),
+            Matchers.is(repo)
         );
     }
 
     /**
-     * Create and return repo to test.
+     * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple("jcabi", "jcabi-github")
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
         );
     }
+
 }
