@@ -30,7 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github deploy key.
@@ -44,6 +49,11 @@ import java.io.IOException;
  *  RtDeployKey and MkDeployKey, and add an integration test for it. See
  *  http://developer.github.com/v3/repos/keys/#edit. When done, remove this
  *  puzzle.
+ * @todo #231 Deploy key object should be able to remove a deploy key. Let's
+ *  create a test for for this method, declare it here, implement it in
+ *  RtDeployKey and MkDeployKey, and add an integration test for it. See
+ *  http://developer.github.com/v3/repos/keys/#delete. When done, remove this
+ *  puzzle.
  */
 @Immutable
 public interface DeployKey extends JsonReadable {
@@ -55,10 +65,104 @@ public interface DeployKey extends JsonReadable {
     int number();
 
     /**
+     * Edits a key.
+     * @see <a href="http://developer.github.com/v3/repos/keys/#edit">Deploy keys API</a>
+     * @param title New title
+     * @param value New value
+     * @throws IOException if any I/O problem occurs86
+     */
+    void edit(String title, String value) throws IOException;
+
+    /**
      * Delete a deploy key.
      * @throws java.io.IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
      */
     void remove() throws IOException;
 
+    /**
+     * Smart deploy key.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "key", "json" })
+    final class Smart  implements DeployKey {
+        /**
+         * Encapsulated DeployKey.
+         */
+        private final transient DeployKey key;
+
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson json;
+
+        /**
+         * Public constructor.
+         * @param encapsulated Encapsulated DeployKey.
+         */
+        public Smart(final DeployKey encapsulated) {
+            this.key = encapsulated;
+            this.json = new SmartJson(encapsulated);
+        }
+
+        @Override
+        public int number() {
+            return this.key.number();
+        }
+
+        @Override
+        public void edit(@NotNull final String title,
+            @NotNull final String value)
+            throws IOException {
+            this.key.edit(title, value);
+        }
+
+        @Override
+        public void remove() throws IOException {
+            this.key.remove();
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.key.json();
+        }
+
+        /**
+         * Returns the value of the "key" field.
+         * @return The value of the "key" field.
+         * @throws IOException If ani I/O problem occurs.
+         */
+        public String value() throws IOException {
+            return this.json.text("key");
+        }
+
+        /**
+         * Sets the new key value.
+         * @param value New key value.
+         * @throws IOException If any I/O problem occurs.
+         */
+        public void value(@NotNull final String value) throws IOException {
+            this.edit(this.title(), value);
+        }
+
+        /**
+         * Returns the value of the "title" field.
+         * @return The value of the "title" field.
+         * @throws IOException If any I/O problem occurs.
+         */
+        public String title() throws IOException {
+            return this.json.text("title");
+        }
+
+        /**
+         * Sets new title.
+         * @param title New title
+         * @throws IOException If any I/O problem occurs.
+         */
+        public void title(@NotNull final String title) throws IOException {
+            this.edit(title, this.value());
+        }
+    }
 }

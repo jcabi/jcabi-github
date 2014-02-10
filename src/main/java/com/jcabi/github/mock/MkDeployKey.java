@@ -83,6 +83,21 @@ public final class MkDeployKey implements DeployKey {
     }
 
     @Override
+    public void edit(final String title, final String value)
+        throws IOException {
+        this.storage.apply(
+            new Directives().xpath(
+                new StringBuilder(2).append(this.xpath()).append("/key")
+                .toString()
+            ).remove().add("key").set(value)
+                .xpath(
+                new StringBuilder(2).append(this.xpath()).append("/title")
+                .toString()
+                ).remove().add("title").set(title)
+        );
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)

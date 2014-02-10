@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -88,6 +89,18 @@ public final class RtDeployKey implements DeployKey {
     @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public void edit(final String title, final String value)
+        throws IOException {
+        this.request.method(Request.PATCH)
+            .body()
+            .set(
+                Json.createObjectBuilder().add("title", title)
+                .add("key", value).build()
+            ).back().fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_ACCEPTED);
     }
 
     @Override
