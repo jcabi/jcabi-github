@@ -59,14 +59,14 @@ public class RtRepoCommitsITCase {
         shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");
         shas.add("51cabb8e759852a6a40a7a2a76ef0afd4beef96d");
         shas.add("11bd4d527236f9cb211bc6667df06fde075beded");
-        int existsCount = 0;
+        int found = 0;
         while (iterator.hasNext()) {
             if (shas.contains(iterator.next().sha())) {
-                existsCount += 1;
+                found += 1;
             }
         }
         MatcherAssert.assertThat(
-            existsCount,
+            found,
             Matchers.equalTo(shas.size())
         );
     }
