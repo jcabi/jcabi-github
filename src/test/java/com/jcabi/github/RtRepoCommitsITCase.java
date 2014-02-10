@@ -29,8 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.Request;
-import com.jcabi.http.request.ApacheRequest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,51 +44,20 @@ import org.junit.Test;
  * @todo #117 Add test getCommit() to check that commit actually got.
  *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  *
- * See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
 public class RtRepoCommitsITCase {
-
-    /**
-     * Repository url.
-     */
-    private static final transient String REQUEST_URL =
-        "https://api.github.com/";
-
-    /**
-     * User name for repository.
-     */
-    private static final transient String USER = "jcabi";
-
-    /**
-     * Repository name.
-     */
-    private static final transient String REPO = "jcabi-github";
-
-    /**
-     * Sha using for searching commit.
-     */
-    private static final String SHA =
-        "51cabb8e759852a6a40a7a2a76ef0afd4beef96d";
-
     /**
      * RtRepoCommits can fetch commits.
      * @throws Exception if there is no github key provided
      */
     @Test
     public final void fetchCommits() throws Exception {
-        final Request request = new ApacheRequest(
-            RtRepoCommitsITCase.REQUEST_URL);
-        final Coordinates coordinates =
-            new Coordinates.Simple(RtRepoCommitsITCase.USER,
-                RtRepoCommitsITCase.REPO);
-        final RepoCommits repoCommits = new RtRepoCommits(request,
-            RtRepoCommitsITCase.github().repos().get(coordinates));
-        final Iterator<Commit> iterator = repoCommits.iterate().iterator();
+        final Iterator<Commit> iterator = repo().commits().iterate().iterator();
         final List<String> shas = new ArrayList<String>();
         shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
         shas.add("940dd5081fada0ead07762933036bf68a005cc40");
         shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");
-        shas.add(RtRepoCommitsITCase.SHA);
+        shas.add("51cabb8e759852a6a40a7a2a76ef0afd4beef96d");
         shas.add("11bd4d527236f9cb211bc6667df06fde075beded");
         int existsCount = 0;
         while (iterator.hasNext()) {
@@ -109,9 +76,11 @@ public class RtRepoCommitsITCase {
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Github github() throws Exception {
+    private static Repo repo() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
+        return new RtGithub(key).repos().get(
+            new Coordinates.Simple("jcabi", "jcabi-github")
+        );
     }
 }
