@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -112,7 +113,8 @@ public interface DeployKey extends JsonReadable {
         }
 
         @Override
-        public void edit(final String title, final String value)
+        public void edit(@NotNull final String title,
+            @NotNull final String value)
             throws IOException {
             this.key.edit(title, value);
         }
@@ -137,12 +139,30 @@ public interface DeployKey extends JsonReadable {
         }
 
         /**
+         * Sets the new key value.
+         * @param value New key value.
+         * @throws IOException If any I/O problem occurs.
+         */
+        public void value(@NotNull final String value) throws IOException {
+            this.edit(this.title(), value);
+        }
+
+        /**
          * Returns the value of the "title" field.
          * @return The value of the "title" field.
          * @throws IOException If any I/O problem occurs.
          */
         public String title() throws IOException {
             return this.json.text("title");
+        }
+
+        /**
+         * Sets new title.
+         * @param title New title
+         * @throws IOException If any I/O problem occurs.
+         */
+        public void title(@NotNull final String title) throws IOException {
+            this.edit(title, this.value());
         }
     }
 }
