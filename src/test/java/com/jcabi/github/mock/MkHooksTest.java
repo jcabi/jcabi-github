@@ -36,7 +36,6 @@ import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -45,6 +44,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkHooksTest {
     /**
      * MkHooks can fetch empty list of hooks.
@@ -63,15 +63,23 @@ public final class MkHooksTest {
      * MkHooks can delete a single hook by ID.
      *
      * @throws Exception if something goes wrong.
-     * @todo #158 MkHooks should be able to delete individual hooks by name.
-     *  Let's implement a test here and the method remove(int id) from MkHooks.
-     *  When done, remove this puzzle and the Ignore annotation from this
-     *  method.
      */
     @Test
-    @Ignore
     public void canDeleteSingleHook() throws Exception {
-        //To be implemented.
+        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hook hook = hooks.create(
+            // @checkstyle MultipleStringLiterals (1 line)
+            "geocommit", Collections.<String, String>emptyMap()
+        );
+        MatcherAssert.assertThat(
+            hooks.iterate(),
+            Matchers.<Hook>iterableWithSize(1)
+        );
+        hooks.remove(hook.number());
+        MatcherAssert.assertThat(
+            hooks.iterate(),
+            Matchers.emptyIterable()
+        );
     }
 
     /**
