@@ -30,10 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import java.io.IOException;
+import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -46,13 +50,49 @@ import org.junit.Test;
  *  the methods.
  */
 public final class RtReleasesITCase {
+    /**
+     * Test github.
+     */
+    private transient Github github;
 
+    /**
+     * Test repository.
+     */
+    private transient Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws java.io.IOException If creating the test release didn't succeed.
+     */
+    @Before
+    public void setUp() throws IOException {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        this.github = new RtGithub(key);
+        this.repo = this.github.repos().create(
+            Json.createObjectBuilder()
+                .add("name", RandomStringUtils.randomAlphabetic(Tv.TEN))
+                .add("auto_init", true)
+                .build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws IOException If deleting the test release didn't succeed.
+     */
+    @After
+    public void tearDown() throws IOException {
+        if (this.github != null && this.repo != null) {
+            this.github.repos().remove(this.repo.coordinates());
+        }
+    }
     /**
      * RtReleases can iterate releases.
      */
     @Test
     public void canFetchAllReleases() {
-        final Releases releases = RtReleasesITCase.releases();
+        final Releases releases = this.repo.releases();
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.not(Matchers.emptyIterableOf(Release.class))
@@ -65,7 +105,7 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canFetchRelease() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
+        final Releases releases = this.repo.releases();
         final String tag = "v1.0";
         final Release release = releases.create(tag);
         MatcherAssert.assertThat(
@@ -85,7 +125,7 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canCreateRelease() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
+        final Releases releases = this.repo.releases();
         final String tag = "0.1";
         final Release created = releases.create(tag);
         final int number = created.number();
@@ -110,7 +150,7 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canRemoveRelease() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
+        final Releases releases = this.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
@@ -124,17 +164,4 @@ public final class RtReleasesITCase {
             Matchers.not(Matchers.hasItem(release))
         );
     }
-
-    /**
-     * Create and return RtReleases object to test.
-     * @return Releases
-     */
-    private static Releases releases() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).releases();
-    }
-
 }
