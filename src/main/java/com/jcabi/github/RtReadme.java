@@ -37,61 +37,83 @@ import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github limit rate.
+ * Github readme.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @version $Id$
- * @since 0.6
+ * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry", "res" })
-final class RtLimit implements Limit {
+@EqualsAndHashCode(of = { "request", "owner" })
+class RtReadme implements Content {
 
     /**
-     * API entry point.
+     * RESTful request.
      */
-    private final transient Request entry;
+    private final transient Request request;
 
     /**
-     * Github.
+     * Repository.
      */
-    private final transient Github ghub;
+    private final transient Repo owner;
 
     /**
-     * Name of resource.
-     */
-    private final transient String res;
-
-    /**
-     * Public ctor.
-     * @param github Github
+     * Public CTOR for README content.
      * @param req Request
-     * @param name Name of resource
+     * @param repo Repository
      */
-    RtLimit(final Github github, final Request req, final String name) {
-        this.entry = req;
-        this.ghub = github;
-        this.res = name;
+    RtReadme(final Request req, final Repo repo) {
+        this.owner = repo;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("readme")
+            .back();
+    }
+
+    /**
+     * Public CTOR for README content.
+     * @param req Request
+     * @param repo Repository
+     * @param ref The name of the commit/branch/tag.
+     */
+    RtReadme(final Request req, final Repo repo, final String ref) {
+        this.owner = repo;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("readme")
+            .queryParam("ref", ref)
+            .back();
     }
 
     @Override
-    public Github github() {
-        return this.ghub;
+    public final int compareTo(final Content content) {
+        return this.path().compareTo(content.path());
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        final JsonObject json = new RtJson(this.entry)
-            .fetch()
-            .getJsonObject("resources");
-        if (!json.containsKey(this.res)) {
-            throw new IllegalStateException(
-                String.format(
-                    "'%s' is absent in JSON: %s", this.res, json
-                )
-            );
-        }
-        return json.getJsonObject(this.res);
+    public final JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
+
+    @Override
+    public final void patch(final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public final String path() {
+        return "README.md";
+    }
+
 }

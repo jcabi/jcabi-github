@@ -95,7 +95,12 @@ public final class RtContents implements Contents {
 
     @Override
     public Content readme() {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+        throw new UnsupportedOperationException("Readme not yet implemented.");
+    }
+
+    @Override
+    public Content readme(final String branch) {
+        return new RtReadme(this.entry, this.owner, branch);
     }
 
     // @checkstyle ParameterNumberCheck (9 lines)

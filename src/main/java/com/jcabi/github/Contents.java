@@ -42,8 +42,10 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface Contents {
 
     /**
@@ -61,6 +63,17 @@ public interface Contents {
      */
     @NotNull(message = "Content is never NULL")
     Content readme();
+
+    /**
+     * Get the Readme file of the specified branch.
+     *
+     * @return The Content of the readme file
+     * @param branch The branch name.
+     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
+     */
+    @NotNull(message = "Content is never NULL")
+    Content readme(
+        @NotNull(message = "branch name is never NULL") final String branch);
 
     /**
      * Create new file.

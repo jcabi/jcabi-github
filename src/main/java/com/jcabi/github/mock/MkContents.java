@@ -120,6 +120,11 @@ public final class MkContents implements Contents {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
+    @Override
+    public Content readme(final String branch) {
+        throw new UnsupportedOperationException("Readme not yet implemented.");
+    }
+
     /**
      * Updates a file.
      * @param path The content path.

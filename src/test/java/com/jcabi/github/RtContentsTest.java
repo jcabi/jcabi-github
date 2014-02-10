@@ -36,6 +36,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import javax.json.Json;
@@ -82,16 +83,27 @@ public final class RtContentsTest {
 
     /**
      * RtContents can fetch the readme file from the specified branch.
-     *
-     * @todo #119 RtContents should fetch the readme file for any branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  The method should receive the branch name as a parameter.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws IOException if some problem inside.
      */
     @Test
-    @Ignore
-    public void canFetchReadmeFileFromSpecifiedBranch() {
-        // to be implemented
+    public void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"name\": \"README.md\"}"
+            )
+        ).start();
+        final Contents contents = new RtContents(
+            new ApacheRequest(container.home()), RtContentsTest.repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                contents.readme("somebranch"),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
