@@ -73,4 +73,15 @@ public interface Organizations {
     @NotNull(message = "iterable is never NULL")
     Iterable<Organization> iterate();
 
+    /**
+     * Iterate organizations of particular user.
+     * All public organizations for an unauthenticated user or
+     * private and public organizations for authenticated users
+     * @param username Name of user
+     * @return Iterator of Organizations
+     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List Organizations</a>
+     * @since 0.8
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Organization> iterate(String username);
 }
