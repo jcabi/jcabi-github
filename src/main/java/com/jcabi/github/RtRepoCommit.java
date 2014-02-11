@@ -27,89 +27,84 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.CommitsComparison;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommit;
-import com.jcabi.github.RepoCommits;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Mock commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github repo commit.
+ *
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #117 MkRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
- * @todo #117 MkRepoCommits should be able to get commit. Let's implement
- *  this method. When done, remove this puzzle and Ignore annotation
- *  from a test for the method.
- * @todo #273 MkRepoCommits should be able to compare two commits. Let's
- *  create a test for this method and implement the method. When done, remove
- *  this puzzle.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "coords" })
-final class MkRepoCommits implements RepoCommits {
+@EqualsAndHashCode(of = { "request", "owner", "hash" })
+final class RtRepoCommit implements RepoCommit {
 
     /**
-     * Storage.
+     * RESTful request.
      */
-    private final transient MkStorage storage;
+    private final transient Request request;
 
     /**
-     * Repo coordinates.
+     * Repo we're in.
      */
-    private final transient Coordinates coords;
+    private final transient Repo owner;
+
+    /**
+     * Commit SHA hash.
+     */
+    private final transient String hash;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param repo Repository coordinates
+     * @param req RESTful request
+     * @param repo Owner of this commit
+     * @param sha Number of the get
      */
-    MkRepoCommits(final MkStorage stg, final Coordinates repo) {
-        this.storage = stg;
-        this.coords = repo;
+    RtRepoCommit(final Request req, final Repo repo, final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/commits")
+            .path(sha)
+            .back();
+        this.owner = repo;
+        this.hash = sha;
     }
 
     @Override
-    public Iterable<RepoCommit> iterate() {
-        throw new UnsupportedOperationException();
+    public String toString() {
+        return this.request.uri().get().toString();
     }
 
     @Override
-    public RepoCommit get(final String sha) {
-        throw new UnsupportedOperationException();
+    public Repo repo() {
+        return this.owner;
     }
 
     @Override
-    public CommitsComparison compare(final String base, final String head) {
-        throw new UnsupportedOperationException();
+    public String sha() {
+        return this.hash;
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
+        return new RtJson(this.request).fetch();
     }
 
-    /**
-     * Xpath of this element in XML tree.
-     * @return Xpath
-     */
-    private String xpath() {
-        return String.format(
-            "/github/repos/repo[@coords='%s']/commits",
-            this.coords
-        );
+    @Override
+    public int compareTo(final RepoCommit commit) {
+        return this.sha().compareTo(commit.sha());
     }
 }

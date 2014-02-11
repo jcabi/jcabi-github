@@ -47,13 +47,14 @@ import org.junit.Test;
  */
 public class RtRepoCommitsITCase {
     /**
-     * RtRepoCommits can fetch commits.
+     * RtRepoCommits can fetch repo commits.
      * @throws Exception if there is no github key provided
      */
     @Test
     public final void fetchCommits() throws Exception {
-        final Iterator<Commit> iterator = repo().commits().iterate().iterator();
-        final List<String> shas = new ArrayList<String>();
+        final Iterator<RepoCommit> iterator =
+            RtRepoCommitsITCase.repo().commits().iterate().iterator();
+        final List<String> shas = new ArrayList<String>(5);
         shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
         shas.add("940dd5081fada0ead07762933036bf68a005cc40");
         shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");
