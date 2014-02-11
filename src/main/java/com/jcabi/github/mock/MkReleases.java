@@ -161,7 +161,6 @@ public final class MkReleases implements Releases {
         } finally {
             this.storage.unlock();
         }
-        
     }
 
     /**

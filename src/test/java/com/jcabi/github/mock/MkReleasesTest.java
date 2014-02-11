@@ -120,8 +120,8 @@ public final class MkReleasesTest {
     @Test
     public void canRemoveRelease() throws Exception {
         final Releases releases = repo().releases();
-        releases.create("v1.0.1");
-        releases.create("v1.0.2");
+        releases.create("v1.1.1");
+        releases.create("v1.1.2");
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.<Release>iterableWithSize(2)
