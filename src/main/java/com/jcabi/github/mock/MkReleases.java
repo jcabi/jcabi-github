@@ -151,7 +151,17 @@ public final class MkReleases implements Releases {
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("MkReleases#remove()");
+        this.storage.lock();
+        try {
+            this.storage.apply(
+                new Directives().xpath(
+                    String.format("%s/release[id='%d']", this.xpath(), number)
+                ).remove()
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        
     }
 
     /**

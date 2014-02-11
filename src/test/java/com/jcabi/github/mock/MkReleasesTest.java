@@ -114,6 +114,26 @@ public final class MkReleasesTest {
     }
 
     /**
+     * MkReleases can be removed.
+     * @throws Exception - if something goes wrong.
+     */
+    @Test
+    public void canRemoveRelease() throws Exception {
+        final Releases releases = repo().releases();
+        releases.create("v1.0.1");
+        releases.create("v1.0.2");
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.<Release>iterableWithSize(2)
+        );
+        releases.remove(1);
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.<Release>iterableWithSize(1)
+        );
+    }
+
+    /**
      * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
