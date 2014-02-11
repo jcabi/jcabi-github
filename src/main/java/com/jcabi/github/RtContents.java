@@ -50,11 +50,12 @@ import lombok.EqualsAndHashCode;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiterals (200 lines)
+ * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContents implements Contents {
 
     /**
@@ -96,6 +97,29 @@ public final class RtContents implements Contents {
     @Override
     public Content readme() {
         throw new UnsupportedOperationException("Create not yet implemented.");
+    }
+
+    @Override
+    public Content readme(final String branch) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("ref", branch)
+            .build();
+        return new RtContent(
+            this.entry, this.owner,
+            this.entry.uri()
+                .path("/repos")
+                .path(this.owner.coordinates().user())
+                .path(this.owner.coordinates().repo())
+                .path("/readme")
+                .back()
+                .method(Request.GET)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
+        );
     }
 
     // @checkstyle ParameterNumberCheck (9 lines)

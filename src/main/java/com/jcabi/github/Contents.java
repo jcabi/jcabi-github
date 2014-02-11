@@ -44,6 +44,7 @@ import javax.validation.constraints.NotNull;
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface Contents {
 
     /**
@@ -61,6 +62,17 @@ public interface Contents {
      */
     @NotNull(message = "Content is never NULL")
     Content readme();
+
+    /**
+     * Get the Readme file of the specified branch.
+     *
+     * @param branch The branch name
+     * @return The Content of the readme file.
+     * @throws IOException If an IO Exception occurs.
+     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
+     */
+    @NotNull(message = "Content is never NULL")
+    Content readme(String branch) throws IOException;
 
     /**
      * Create new file.
