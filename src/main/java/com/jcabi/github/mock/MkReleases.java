@@ -46,8 +46,6 @@ import org.xembly.Directives;
  * Mock Github releases.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #238 MkReleases should be able to remove Release.
- *  Please, implement remove method. Don't forget about unit-tests
  * @since 0.8
  */
 @Immutable
