@@ -29,8 +29,14 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComment;
+import com.jcabi.github.PullComments;
+import org.hamcrest.MatcherAssert;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import javax.json.Json;
 
 /**
  * Test case for {@link MkPullComments}.
@@ -95,9 +101,15 @@ public final class MkPullCommentsTest {
      *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void postsPullComment() throws Exception {
-        // To be implemented.
+        final MkStorage.InFile stg = new MkStorage.InFile();
+        final Pull pull = new MkGithub(stg, "test").repos().create(
+                Json.createObjectBuilder().add("name", "test").build()
+        ).pulls().create("pullrequest1", "head", "base");
+        final PullComments comments = pull.comments();
+        comments.post("body", "commit", "path", 1);
+        System.out.println(stg.xml());
+        Assert.fail("Not implemented");
     }
 
     /**

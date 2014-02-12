@@ -30,9 +30,11 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import org.xembly.Directives;
 import java.io.IOException;
 import java.util.Map;
 
@@ -46,6 +48,42 @@ import java.util.Map;
  */
 @Immutable
 public final class MkPullComments implements PullComments {
+
+    /**
+     * The storage.
+     */
+    private final MkStorage storage;
+
+    /**
+     * Logged in user name.
+     */
+    private final String self;
+
+    /**
+     * Repo name
+     */
+    private final Coordinates coords;
+
+    /**
+     * Pull request
+     */
+    private final Pull mkpull;
+
+    public MkPullComments (final MkStorage stg, final String login,
+        final Coordinates rep, final Pull pull) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
+        this.mkpull = pull;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
+                    this.coords, this.mkpull.number()
+                )
+            ).addIf("comments")
+        );
+    }
 
     @Override
     public Pull pull() {
@@ -85,5 +123,12 @@ public final class MkPullComments implements PullComments {
     @Override
     public void remove(final int number) throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
+            this.coords, this.mkpull.number()
+        );
     }
 }
