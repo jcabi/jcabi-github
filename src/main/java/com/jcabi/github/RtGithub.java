@@ -49,12 +49,12 @@ import lombok.ToString;
  * <p>This is how you start communicating with Github API:
  *
  * <pre> Github github = new RtGithub(oauthKey);
- *  Repo repo = github.repos().get(
- *      new Coordinates.Simple("jcabi/jcabi-github")
- *  );
- *  Issues issues = repo.issues();
- *  Issue issue = issues.create("issue title", "issue body");
- *  issue.comments().post("issue comment");</pre>
+ * Repo repo = github.repos().get(
+ *     new Coordinates.Simple("jcabi/jcabi-github")
+ * );
+ * Issues issues = repo.issues();
+ * Issue issue = issues.create("issue title", "issue body");
+ * issue.comments().post("issue comment");</pre>
  *
  * <p>It is strongly recommended to use
  * {@link com.jcabi.http.wire.RetryWire} to avoid
