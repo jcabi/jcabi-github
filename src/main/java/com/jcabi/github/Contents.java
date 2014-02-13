@@ -88,6 +88,20 @@ public interface Contents {
         throws IOException;
 
     /**
+     * Get the contents of a file or directory in a repository.
+     * @param path The content path
+     * @param ref The name of the commit/branch/tag. Default: the repository’s default branch (usually master)
+     * @return Content fetched
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     * @checkstyle ParameterNumberCheck (5 lines)
+     */
+    Content get(
+        @NotNull(message = "path_ is never NULL") String path,
+        @NotNull(message = "ref_ is never NULL") String ref)
+        throws IOException;
+
+    /**
      * Removes a file.
      * @param path The content path
      * @param message The commit message

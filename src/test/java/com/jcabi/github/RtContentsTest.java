@@ -97,14 +97,62 @@ public final class RtContentsTest {
     /**
      * RtContents can fetch files from the repository.
      *
-     * @todo #119 RtContents should be able to fetch files from the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if some problem inside.
+     * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    @Ignore
-    public void canFetchFilesFromRepository() {
-        // to be implemented
+    public void canFetchFilesFromRepository() throws Exception {
+        final String path = "test/file";
+        final String name = "file";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .add("name", name)
+            .build();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add("path", path)
+                    .add("name", name)
+                    .build().toString()
+            )
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
+            .start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            final Content.Smart smart = new Content.Smart(
+                contents.get(
+                    path,
+                    "master"
+                )
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents")
+            );
+            MatcherAssert.assertThat(
+                smart.path(),
+                Matchers.is(path)
+            );
+            MatcherAssert.assertThat(
+                smart.name(),
+                Matchers.is(name)
+            );
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.GET)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents/test/file")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
