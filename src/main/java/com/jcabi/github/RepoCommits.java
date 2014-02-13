@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -70,4 +71,25 @@ public interface RepoCommits extends JsonReadable {
         @NotNull(message = "base is never NULL") String base,
         @NotNull(message = "base is never NULL") String head);
 
+    /**
+     * Compare two commits and provide result in diff format.
+     * @param base SHA of the base repo commit
+     * @param head SHA of the head repo commit
+     * @return Commits comparison
+     * @throws IOException If there is any I/O problem
+     * @since 0.8
+     */
+    @NotNull(message = "repo commits comparison is never NULL")
+    String diff(String base, String head) throws IOException;
+
+    /**
+     * Compare two commits and provide result in patch format.
+     * @param base SHA of the base repo commit
+     * @param head SHA of the head repo commit
+     * @return Commits comparison
+     * @throws IOException If there is any I/O problem
+     * @since 0.8
+     */
+    @NotNull(message = "repo commits comparison is never NULL")
+    String patch(String base, String head) throws IOException;
 }
