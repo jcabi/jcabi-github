@@ -122,7 +122,7 @@ final class MkPull implements Pull {
 
     @Override
     public PullComments comments() throws IOException {
-        return new MkPullComments();
+        return new MkPullComments(this.storage, this.self, this.coords, this);
     }
 
     @Override

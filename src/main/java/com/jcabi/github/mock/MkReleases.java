@@ -46,8 +46,6 @@ import org.xembly.Directives;
  * Mock Github releases.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #238 MkReleases should be able to remove Release.
- *  Please, implement remove method. Don't forget about unit-tests
  * @since 0.8
  */
 @Immutable
@@ -151,7 +149,16 @@ public final class MkReleases implements Releases {
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("MkReleases#remove()");
+        this.storage.lock();
+        try {
+            this.storage.apply(
+                new Directives().xpath(
+                    String.format("%s/release[id='%d']", this.xpath(), number)
+                ).remove()
+            );
+        } finally {
+            this.storage.unlock();
+        }
     }
 
     /**

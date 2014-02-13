@@ -27,47 +27,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComment;
+import java.io.IOException;
+import javax.json.JsonObject;
 
 /**
- * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Mock Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @todo #416 Mock for pull comment. Let's implements Mock for PullComment using
+ *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
+ *  tests.
  */
 @Immutable
-public interface RepoCommits extends JsonReadable {
+public final class MkPullComment implements PullComment {
+    /**
+     * Owner of comments.
+     */
+    private final transient Pull owner;
 
     /**
-     * Iterate all repository's commits.
-     * @return All commits
-     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
+     * Comment number.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<RepoCommit> iterate();
+    private final transient int num;
 
     /**
-     * Get single repository's commits.
-     *
-     * @param sha SHA of a commit
-     * @return RepoCommit
-     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
+     * Public ctor.
+     * @param pull Pull
+     * @param number Comment number
+     * @checkstyle ParameterNumber (5 lines)
      */
-    @NotNull(message = "RepoCommit is never NULL")
-    RepoCommit get(String sha);
+    MkPullComment(final Pull pull, final int number) {
+        this.owner = pull;
+        this.num = number;
+    }
 
-    /**
-     * Compare two commits.
-     * @param base SHA of the base repo commit
-     * @param head SHA of the head repo commit
-     * @return Commits comparison
-     */
-    @NotNull(message = "repo commits comparison is never NULL")
-    CommitsComparison compare(
-        @NotNull(message = "base is never NULL") String base,
-        @NotNull(message = "base is never NULL") String head);
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("Json yet implemented.");
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        throw new UnsupportedOperationException("Patch not yet implemented.");
+    }
+
+    @Override
+    public Pull pull() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return this.num;
+    }
+
+    @Override
+    public int compareTo(final PullComment other) {
+        throw new UnsupportedOperationException(
+            "compareTo not yet implemented."
+        );
+    }
 
 }

@@ -31,9 +31,9 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
 import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -81,12 +81,12 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    public Iterable<Commit> iterate() {
+    public Iterable<RepoCommit> iterate() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Commit get(final String sha) {
+    public RepoCommit get(final String sha) {
         throw new UnsupportedOperationException();
     }
 

@@ -82,13 +82,13 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public Iterable<Commit> iterate() {
+    public Iterable<RepoCommit> iterate() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Commit get(final String sha) {
-        return new RtCommit(this.entry, this.owner, sha);
+    public RepoCommit get(final String sha) {
+        return new RtRepoCommit(this.entry, this.owner, sha);
     }
 
     @Override

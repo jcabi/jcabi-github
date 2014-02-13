@@ -27,51 +27,84 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Pull;
-import com.jcabi.github.PullComment;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github pull comment.
+ * Github repo commit.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #416 Mock for pull comment. Let's implements Mock for PullComment using
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
+ * @since 0.8
  */
 @Immutable
-public final class MkPullComment implements PullComment {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "hash" })
+final class RtRepoCommit implements RepoCommit {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repo we're in.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Commit SHA hash.
+     */
+    private final transient String hash;
+
+    /**
+     * Public ctor.
+     * @param req RESTful request
+     * @param repo Owner of this commit
+     * @param sha Number of the get
+     */
+    RtRepoCommit(final Request req, final Repo repo, final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/commits")
+            .path(sha)
+            .back();
+        this.owner = repo;
+        this.hash = sha;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String sha() {
+        return this.hash;
+    }
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
+        return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
+    public int compareTo(final RepoCommit commit) {
+        return this.sha().compareTo(commit.sha());
     }
-
-    @Override
-    public Pull pull() {
-        throw new UnsupportedOperationException("Repo not yet implemented.");
-    }
-
-    @Override
-    public int number() {
-        throw new UnsupportedOperationException("Number not yet implemented.");
-    }
-
-    @Override
-    public int compareTo(final PullComment other) {
-        throw new UnsupportedOperationException(
-            "compareTo not yet implemented."
-        );
-    }
-
 }
