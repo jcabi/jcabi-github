@@ -43,7 +43,12 @@ import org.junit.Test;
  * @version $Id$
  * @todo #117 Add test getCommit() to check that commit actually got.
  *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
- *
+ * @todo #439 Implement test compareCommitsPatch to check that
+ *  two commits can be compared and result is in patch format.
+ *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
+ * @todo #439 Implement test compareCommitsDiff to check that
+ *  two commits can be compared and result is in diff format.
+ *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
  */
 public class RtRepoCommitsITCase {
     /**
@@ -73,10 +78,28 @@ public class RtRepoCommitsITCase {
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * RtRepoCommits can compare two commits and return result in patch mode.
+     * @throws Exception if there is no github key provided
      */
+    @Test
+    public final void compareCommitsPatch() throws Exception {
+        // To be implemented
+    }
+
+    /**
+     * RtRepoCommits can compare two commits and return result in diff mode.
+     * @throws Exception if there is no github key provided
+     */
+    @Test
+    public final void compareCommitsDiff() throws Exception {
+        // To be implemented
+    }
+
+        /**
+         * Create and return repo to test.
+         * @return Repo
+         * @throws Exception If some problem inside
+         */
     private static Repo repo() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
