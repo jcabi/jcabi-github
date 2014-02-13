@@ -46,6 +46,26 @@ import javax.json.JsonObject;
  */
 @Immutable
 public final class MkPullComment implements PullComment {
+    /**
+     * Owner of comments.
+     */
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
+
+    /**
+     * Public ctor.
+     * @param pull Pull
+     * @param number Comment number
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkPullComment(final Pull pull, final int number) {
+        this.owner = pull;
+        this.num = number;
+    }
 
     @Override
     public JsonObject json() throws IOException {
@@ -59,12 +79,12 @@ public final class MkPullComment implements PullComment {
 
     @Override
     public Pull pull() {
-        throw new UnsupportedOperationException("Repo not yet implemented.");
+        return this.owner;
     }
 
     @Override
     public int number() {
-        throw new UnsupportedOperationException("Number not yet implemented.");
+        return this.num;
     }
 
     @Override

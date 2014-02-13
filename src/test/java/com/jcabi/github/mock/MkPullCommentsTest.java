@@ -29,6 +29,11 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.PullComment;
+import com.jcabi.github.PullComments;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -44,15 +49,17 @@ public final class MkPullCommentsTest {
      * MkPullComments can fetch a single comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch a single pull comment.
-     *  Implement {@link MkPullComments#get(int)} and don't forget to include a
-     *  test here. When done, remove this puzzle and the Ignore annotation of
-     *  this test method.
      */
     @Test
-    @Ignore
     public void fetchesPullComment() throws Exception {
-        // To be implemented.
+        final PullComments comments = new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).pulls().create("hello", "", "").comments();
+        final PullComment comment = comments.post("comment", "commit", "/", 1);
+        MatcherAssert.assertThat(
+            comments.get(comment.number()).number(),
+            Matchers.equalTo(comment.number())
+        );
     }
 
     /**
