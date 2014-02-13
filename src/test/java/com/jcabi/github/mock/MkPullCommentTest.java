@@ -27,47 +27,63 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.github.PullComment;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link MkPullComment}.
+ *
+ * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
  */
-@Immutable
-public interface RepoCommits extends JsonReadable {
-
+public final class MkPullCommentTest {
     /**
-     * Iterate all repository's commits.
-     * @return All commits
-     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<RepoCommit> iterate();
-
-    /**
-     * Get single repository's commits.
+     * MkPullComment can be represented as JSON.
      *
-     * @param sha SHA of a commit
-     * @return RepoCommit
-     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
+     * @throws Exception If a problem occurs.
      */
-    @NotNull(message = "RepoCommit is never NULL")
-    RepoCommit get(String sha);
+    @Test
+    public void retrieveAsJson() throws Exception {
+        final PullComment comment = MkPullCommentTest.comment();
+        MatcherAssert.assertThat(
+            comment.json().getString("url"),
+            Matchers.startsWith("http://")
+        );
+    }
 
     /**
-     * Compare two commits.
-     * @param base SHA of the base repo commit
-     * @param head SHA of the head repo commit
-     * @return Commits comparison
+     * MkPullComment can accept a PATCH request.
+     *
+     * @throws Exception If a problem occurs.
      */
-    @NotNull(message = "repo commits comparison is never NULL")
-    CommitsComparison compare(
-        @NotNull(message = "base is never NULL") String base,
-        @NotNull(message = "base is never NULL") String head);
+    @Test
+    public void executePatchRequest() throws Exception {
+        final String path = "/path/to/file.txt";
+        final PullComment comment = MkPullCommentTest.comment();
+        comment.patch(Json.createObjectBuilder().add("path", path).build());
+        MatcherAssert.assertThat(
+            comment.json().toString(),
+            Matchers.containsString(path)
+        );
+    }
 
+    /**
+     * Create and return pull comment to test.
+     * @return PullComment
+     * @throws Exception if any error inside
+     */
+    private static PullComment comment() throws Exception {
+        return new MkGithub()
+            .repos()
+            .create(Json.createObjectBuilder().add("name", "test").build())
+            .pulls()
+            .create("hello", "", "")
+            .comments()
+            .post("comment", "commit", "/", 1);
+    }
 }
