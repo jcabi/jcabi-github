@@ -29,45 +29,56 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import java.net.URL;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link RepoCommit}.
+ * @author Paul Polischuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface RepoCommits extends JsonReadable {
+public class RepoCommitTest {
+    /**
+     * RepoCommit.Smart can fetch message property from RepoCommit.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesType() throws Exception {
+        final RepoCommit commit = Mockito.mock(RepoCommit.class);
+        final String prop = "this is some message";
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("message", prop)
+                .build()
+        ).when(commit).json();
+        MatcherAssert.assertThat(
+            new RepoCommit.Smart(commit).message(),
+            Matchers.is(prop)
+        );
+    }
 
     /**
-     * Iterate all repository's commits.
-     * @return All commits
-     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
+     * RepoCommit.Smart can fetch url property from RepoCommit.
+     * @throws Exception If some problem inside
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<RepoCommit> iterate();
-
-    /**
-     * Get single repository's commits.
-     *
-     * @param sha SHA of a commit
-     * @return RepoCommit
-     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
-     */
-    @NotNull(message = "RepoCommit is never NULL")
-    RepoCommit get(String sha);
-
-    /**
-     * Compare two commits.
-     * @param base SHA of the base repo commit
-     * @param head SHA of the head repo commit
-     * @return Commits comparison
-     */
-    @NotNull(message = "repo commits comparison is never NULL")
-    CommitsComparison compare(
-        @NotNull(message = "base is never NULL") String base,
-        @NotNull(message = "base is never NULL") String head);
-
+    @Test
+    public final void fetchesUrl() throws Exception {
+        final RepoCommit commit = Mockito.mock(RepoCommit.class);
+        // @checkstyle LineLength (1 line)
+        final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("url", prop)
+                .build()
+        ).when(commit).json();
+        MatcherAssert.assertThat(
+            new RepoCommit.Smart(commit).url(),
+            Matchers.is(new URL(prop))
+        );
+    }
 }

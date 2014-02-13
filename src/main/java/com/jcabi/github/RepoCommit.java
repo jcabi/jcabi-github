@@ -32,89 +32,100 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.json.JsonArray;
+import java.net.URL;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Commits comparison.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Github repo commit.
+ *
+ * <p>The repo commit exposes all available properties through its
+ * {@code json()} method. However, it is recommended to use its
+ * "smart" decorator, which helps you to get access to all JSON properties,
+ * for example:
+ *
+ * <pre> URL url = new RepoCommit.Smart(commit).url();</pre>
+ *
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @since 0.8
+ * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
-public interface CommitsComparison extends JsonReadable {
+public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
     /**
-     * Get a parent repository of commits.
-     * @return Repository
+     * The repo we're in.
+     * @return Repo
      */
     @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
-     * Smart commits comparison with extra features.
+     * SHA of it.
+     * @return SHA
+     */
+    @NotNull(message = "commit SHA is never NULL")
+    String sha();
+
+    /**
+     * Smart commit.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = "comparison")
-    final class Smart implements CommitsComparison {
-
+    @EqualsAndHashCode(of = { "commit", "jsn" })
+    final class Smart implements RepoCommit {
         /**
-         * Encapsulated commits comparison.
+         * Encapsulated repo commit.
          */
-        private final transient CommitsComparison comparison;
-
+        private final transient RepoCommit commit;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
         /**
          * Public ctor.
-         * @param cmprsn Commits comparison
+         * @param cmt RepoCommit
          */
-        public Smart(final CommitsComparison cmprsn) {
-            this.comparison = cmprsn;
+        public Smart(final RepoCommit cmt) {
+            this.commit = cmt;
+            this.jsn = new SmartJson(cmt);
         }
-
         /**
-         * Get commits.
-         * @return Commits
+         * Get its message.
+         * @return Message of repo commit
          * @throws IOException If there is any I/O problem
          */
-        public Iterable<RepoCommit> commits() throws IOException {
-            final JsonArray array = this.comparison.json()
-                .getJsonArray("commits");
-            final Collection<RepoCommit> commits =
-                new ArrayList<RepoCommit>(array.size());
-            final RepoCommits repo = this.comparison.repo().commits();
-            for (final JsonValue value : array) {
-                commits.add(
-                    repo.get(JsonObject.class.cast(value).getString("sha"))
-                );
-            }
-            return commits;
+        public String message() throws IOException {
+            return this.jsn.text("message");
         }
-
         /**
-         * Get a JSON-array of objects with information about files.
-         * @return JSON-array
+         * Get its URL.
+         * @return URL of repo commit
          * @throws IOException If there is any I/O problem
          */
-        public JsonArray files() throws IOException {
-            return this.comparison.json().getJsonArray("files");
+        public URL url() throws IOException {
+            return new URL(this.jsn.text("url"));
         }
-
         @Override
         public Repo repo() {
-            return this.comparison.repo();
+            return this.commit.repo();
         }
-
+        @Override
+        public String sha() {
+            return this.commit.sha();
+        }
         @Override
         public JsonObject json() throws IOException {
-            return this.comparison.json();
+            return this.commit.json();
+        }
+        @Override
+        public int compareTo(final RepoCommit obj) {
+            return this.commit.compareTo(obj);
         }
     }
+
 }
