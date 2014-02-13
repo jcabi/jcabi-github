@@ -45,7 +45,7 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkPullTest {
 
@@ -132,7 +132,9 @@ public final class MkPullTest {
      */
     @Test
     public void canRetrieveAsJson() throws Exception {
-        final Pull pull = repo().pulls().create("Test Pull", "blah", "aaa");
+        final String head = "blah";
+        final String base = "aaa";
+        final Pull pull = repo().pulls().create("Test Pull Json", head, base);
         final JsonObject json = pull.json();
         MatcherAssert.assertThat(
             json.getString("number"),
@@ -140,11 +142,11 @@ public final class MkPullTest {
         );
         MatcherAssert.assertThat(
             json.getString("head"),
-            Matchers.equalTo("blah")
+            Matchers.equalTo(head)
         );
         MatcherAssert.assertThat(
             json.getString("base"),
-            Matchers.equalTo("aaa")
+            Matchers.equalTo(base)
         );
     }
 
@@ -155,13 +157,14 @@ public final class MkPullTest {
      */
     @Test
     public void canPatchJson() throws Exception {
-        final Pull pull = repo().pulls().create("Test Pull", "def", "abc");
+        final Pull pull = repo().pulls().create("Test Patch", "def", "abc");
+        final String value = "someValue";
         pull.patch(
-            Json.createObjectBuilder().add("patch", "someValue").build()
+            Json.createObjectBuilder().add("patch", value).build()
         );
         MatcherAssert.assertThat(
             pull.json().getString("patch"),
-            Matchers.equalTo("someValue")
+            Matchers.equalTo(value)
         );
     }
 
