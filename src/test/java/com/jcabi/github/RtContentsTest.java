@@ -51,33 +51,47 @@ import org.mockito.Mockito;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (300 lines)
+ * @checkstyle MultipleStringLiteralsCheck (350 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsTest {
 
     /**
      * RtContents can fetch the default branch readme file.
-     * @todo #119 RtContents should fetch the readme file for the default
-     *  branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     *
      * @throws Exception if some problem inside.
      */
     @Test
-    @Ignore
     public void canFetchReadmeFile() throws Exception {
+        final String path = "README.md";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .build();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
         ).start();
-        final Contents contents = new RtContents(
-            new ApacheRequest(container.home()), RtContentsTest.repo()
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
         );
-        MatcherAssert.assertThat(
-            contents.readme(),
-            Matchers.notNullValue()
-        );
-        container.stop();
+        try {
+            MatcherAssert.assertThat(
+                contents.readme().path(),
+                Matchers.is(path)
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/readme")
+            );
+            MatcherAssert.assertThat(
+                query.body().length(),
+                Matchers.is(0)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

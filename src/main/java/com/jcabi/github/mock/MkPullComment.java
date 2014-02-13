@@ -30,69 +30,58 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommit;
-import com.jcabi.github.RepoCommits;
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComment;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Mock Github pull comment.
+ *
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #117 MkRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
- * @todo #117 MkRepoCommits should be able to get commit. Let's implement
- *  this method. When done, remove this puzzle and Ignore annotation
- *  from a test for the method.
- * @todo #273 MkRepoCommits should be able to compare two commits. Let's
- *  create a test for this method and implement the method. When done, remove
- *  this puzzle.
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords" })
-final class MkRepoCommits implements RepoCommits {
-
+@EqualsAndHashCode(of = { "storage", "repo", "owner", "num" })
+public final class MkPullComment implements PullComment {
     /**
      * Storage.
      */
     private final transient MkStorage storage;
 
     /**
-     * Repo coordinates.
+     * Repo name.
      */
-    private final transient Coordinates coords;
+    private final transient Coordinates repo;
+
+    /**
+     * Owner of comments.
+     */
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
 
     /**
      * Public ctor.
      * @param stg Storage
-     * @param repo Repository coordinates
+     * @param rep Repo
+     * @param pull Pull
+     * @param number Comment number
+     * @checkstyle ParameterNumber (5 lines)
      */
-    MkRepoCommits(final MkStorage stg, final Coordinates repo) {
+    MkPullComment(final MkStorage stg,
+        final Coordinates rep, final Pull pull, final int number) {
         this.storage = stg;
-        this.coords = repo;
-    }
-
-    @Override
-    public Iterable<RepoCommit> iterate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public RepoCommit get(final String sha) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public CommitsComparison compare(final String base, final String head) {
-        throw new UnsupportedOperationException();
+        this.repo = rep;
+        this.owner = pull;
+        this.num = number;
     }
 
     @Override
@@ -102,14 +91,35 @@ final class MkRepoCommits implements RepoCommits {
         ).json();
     }
 
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public Pull pull() {
+        return this.owner;
+    }
+
+    @Override
+    public int number() {
+        return this.num;
+    }
+
+    @Override
+    public int compareTo(final PullComment other) {
+        return this.number() - other.number();
+    }
+
     /**
-     * Xpath of this element in XML tree.
-     * @return Xpath
+     * XPath of this element in XML tree.
+     * @return XPath
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[@coords='%s']/commits",
-            this.coords
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment[id='%d']",
+            this.repo, this.owner.number(), this.num
         );
     }
 }
