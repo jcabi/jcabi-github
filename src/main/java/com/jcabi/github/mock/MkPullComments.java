@@ -104,7 +104,7 @@ public final class MkPullComments implements PullComments {
 
     @Override
     public PullComment get(final int number) {
-        return new MkPullComment(this.owner, number);
+        return new MkPullComment(this.storage, this.repo, this.owner, number);
     }
 
     @Override
