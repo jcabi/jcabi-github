@@ -39,9 +39,12 @@ import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Iterator;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -71,17 +74,67 @@ public final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can fetch non empty list of deploy keys.
-     *
-     * @todo #119 RtDepoyKeys should iterate multiple deploy keys. Let's
-     *  implement a test here and a method of RtDeployKeys. The method should
-     *  iterate multiple deploy keys.
-     *  See how it's done in other classes with GhPagination.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws IOException If any problems occurs.
      */
     @Test
-    @Ignore
-    public void canFetchNonEmptyListOfDeployKeys() {
-        // to be implemented
+    // @checkstyle MultipleStringLiteralsCheck (10 lines)
+    public void canFetchNonEmptyListOfDeployKeys() throws IOException {
+        final JsonObject[] expected = new JsonObject[2];
+        expected[0] = Json.createObjectBuilder()
+            .add("id", 1)
+            .build();
+        expected[1] = Json.createObjectBuilder()
+            .add("id", 2)
+            .build();
+        final JsonArray json = Json.createArrayBuilder()
+            .add(expected[0])
+            .add(expected[1])
+            .build();
+        // @checkstyle MagicNumberCheck (1 line)
+        final MkAnswer.Simple[] answers = new MkAnswer.Simple[3];
+        answers[0] = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK, json.toString()
+        );
+        answers[1] = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK, expected[0].toString()
+        );
+        answers[2] = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK, expected[1].toString()
+        );
+        final MkContainer container = new MkGrizzlyContainer().next(answers[0])
+            .next(answers[1])
+            .next(answers[2])
+            .start();
+        final RtDeployKeys keys = new RtDeployKeys(
+            new JdkRequest(container.home()),
+            RtDeployKeysTest.repo()
+        );
+        try {
+            final Iterator<DeployKey> iterator =
+                keys.iterate().iterator();
+            MatcherAssert.assertThat(
+                iterator.next().json(),
+                Matchers.equalTo(expected[0])
+            );
+            checkMethodAndUri(
+                container.take(),
+                Request.GET, "/repos/owner/repo/keys"
+            );
+            checkMethodAndUri(
+                container.take(),
+                Request.GET, "/repos/owner/repo/keys/1"
+            );
+            MatcherAssert.assertThat(
+                iterator.next().json(),
+                Matchers.equalTo(expected[1])
+            );
+            checkMethodAndUri(
+                container.take(),
+                Request.GET, "/repos/owner/repo/keys/2"
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -152,12 +205,30 @@ public final class RtDeployKeysTest {
     }
 
     /**
+     * Check if the given query's method is equal to the provided,
+     * and its URI ends with the given String.
+     * @param query The query to be checked.
+     * @param method Expected method.
+     * @param uri Expected URI ending
+     */
+    private static void checkMethodAndUri(final MkQuery query,
+        final String method, final String uri) {
+        MatcherAssert.assertThat(
+            query.method(),
+            Matchers.equalTo(method)
+        );
+        MatcherAssert.assertThat(
+            query.uri().toString(),
+            Matchers.endsWith(uri)
+        );
+    }
+    /**
      * Create and return repo for testing.
      * @return Repo
      */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "keys"))
+        Mockito.doReturn(new Coordinates.Simple("owner", "repo"))
             .when(repo).coordinates();
         return repo;
     }

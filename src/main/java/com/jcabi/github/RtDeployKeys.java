@@ -36,8 +36,8 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -52,6 +52,11 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "entry" })
 public final class RtDeployKeys implements DeployKeys {
+    /**
+     * The key in JSON object.
+     */
+    private static final String ID_KEY = "id";
+
     /**
      * Repository.
      */
@@ -90,7 +95,15 @@ public final class RtDeployKeys implements DeployKeys {
 
     @Override
     public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
+        return new RtPagination<DeployKey>(
+            this.request,
+                new RtPagination.Mapping<DeployKey, JsonObject>() {
+                    @Override
+                    public DeployKey map(final JsonObject object) {
+                        return RtDeployKeys.this.get(object.getInt(ID_KEY));
+                    }
+                }
+        );
     }
 
     @Override
@@ -112,7 +125,7 @@ public final class RtDeployKeys implements DeployKeys {
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt("id")
+                .json().readObject().getInt(ID_KEY)
         );
     }
 
