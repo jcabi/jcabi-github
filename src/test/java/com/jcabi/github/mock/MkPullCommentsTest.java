@@ -29,16 +29,15 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
-import com.jcabi.xml.XML;
+import java.io.IOException;
+import java.util.List;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import javax.json.Json;
 
 /**
  * Test case for {@link MkPullComments}.
@@ -49,6 +48,15 @@ import javax.json.Json;
 public final class MkPullCommentsTest {
 
     /**
+     * Test constant.
+     */
+    private static final String NAME = "name";
+    /**
+     * Test constant.
+     */
+    private static final String TEST = "test";
+
+    /**
      * MkPullComments can fetch a single comment.
      *
      * @throws Exception If something goes wrong.
@@ -56,7 +64,7 @@ public final class MkPullCommentsTest {
     @Test
     public void fetchesPullComment() throws Exception {
         final PullComments comments = new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            Json.createObjectBuilder().add(NAME, TEST).build()
         ).pulls().create("hello", "", "").comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
@@ -107,21 +115,43 @@ public final class MkPullCommentsTest {
     @Test
     public void postsPullComment() throws Exception {
         final MkStorage.InFile storage = new MkStorage.InFile();
-        new MkGithub(storage, "test").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+        final String body = "body";
+        final String commit = "commit_id";
+        final String path = "path";
+        new MkGithub(storage, TEST).repos().create(
+            Json.createObjectBuilder().add(NAME, TEST).build()
         ).pulls().create("pullrequest1", "head", "base").comments()
-            .post("body", "commit", "path", 1);
-        for (final String element : new String[] {"body", "commit", "path"}) {
-            MatcherAssert.assertThat(
-                    storage.xml().xpath(
-                            String.format("/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()", element)).get(0),
-                    Matchers.equalTo(element)
-            );
+            .post(body, commit, path, 1);
+        final String[] strings = {body, commit, path};
+        for (final String element : strings) {
+            this.test(storage, element);
         }
+        final List<String> xpath = storage.xml().xpath(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()"
+        );
         MatcherAssert.assertThat(
-            storage.xml().xpath(
-                "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()").get(0),
-            Matchers.equalTo("1")
+            xpath.get(0),
+            Matchers.is("1")
+        );
+    }
+
+    /**
+     * Helper methos for passing style check.
+     * @param storage The storage
+     * @param element The element to be tested
+     * @throws IOException If any I/O error occurs.
+     */
+    private void test(final MkStorage.InFile storage,
+        final String element) throws IOException {
+        // @checkstyle LineLength (2 lines)
+        final String xpath = String.format(
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
+            element
+        );
+        MatcherAssert.assertThat(
+            storage.xml().xpath(xpath).get(0),
+            Matchers.is(element)
         );
     }
 

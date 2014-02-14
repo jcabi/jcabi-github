@@ -84,19 +84,6 @@ public final class MkPullComment implements PullComment {
         this.num = number;
     }
 
-    /**
-     * MkPullComment constructor.
-     * @todo #465 Let's implement MkPulComment's constructor.
-     * @param storage The storage
-     * @param coords Coordinates
-     * @param pull Pull request.
-     * @param number Comment number
-     */
-    public MkPullComment(final MkStorage storage, final String coords,
-         final Pull pull, final int number) {
-
-    }
-
     @Override
     public JsonObject json() throws IOException {
         return new JsonNode(
