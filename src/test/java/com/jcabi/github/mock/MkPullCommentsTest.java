@@ -124,7 +124,7 @@ public final class MkPullCommentsTest {
             .post(body, commit, path, 1);
         final String[] strings = {body, commit, path};
         for (final String element : strings) {
-            this.test(storage, element);
+            this.check(storage, element);
         }
         final List<String> xpath = storage.xml().xpath(
             // @checkstyle LineLength (1 line)
@@ -142,7 +142,7 @@ public final class MkPullCommentsTest {
      * @param element The element to be tested
      * @throws IOException If any I/O error occurs.
      */
-    private void test(final MkStorage.InFile storage,
+    private void check(final MkStorage.InFile storage,
         final String element) throws IOException {
         // @checkstyle LineLength (2 lines)
         final String xpath = String.format(

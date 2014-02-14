@@ -129,22 +129,22 @@ public final class MkPullComments implements PullComments {
             number = 1 + this.storage.xml()
                 .nodes(String.format("%s/comment/id/text()", this.xpath()))
                 .size();
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).add("comment")
-            .add("id").set(Integer.toString(number)).up()
-            .add("url").set("http://localhost/1").up()
-            .add("diff_hunk").set("@@ -16,33 +16,40 @@ public...").up()
-            .add("path").set(path).up()
-            .add("position").set(Integer.toString(number)).up()
-            .add("original_position").set(Integer.toString(number)).up()
-            .add("commit_id").set(commit).up()
-            .add("original_commit_id").set(commit).up()
-            .add("body").set(body).up()
-            .add("created_at").set(new Github.Time().toString()).up()
-            .add("published_at").set(new Github.Time().toString()).up()
-            .add("user").add("login").set(this.self).up()
-            .add("pull_request_url").set("http://localhost/2").up()
-        );
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("comment")
+                .add("id").set(Integer.toString(number)).up()
+                .add("url").set("http://localhost/1").up()
+                .add("diff_hunk").set("@@ -16,33 +16,40 @@ public...").up()
+                .add("path").set(path).up()
+                .add("position").set(Integer.toString(number)).up()
+                .add("original_position").set(Integer.toString(number)).up()
+                .add("commit_id").set(commit).up()
+                .add("original_commit_id").set(commit).up()
+                .add("body").set(body).up()
+                .add("created_at").set(new Github.Time().toString()).up()
+                .add("published_at").set(new Github.Time().toString()).up()
+                .add("user").add("login").set(this.self).up()
+                .add("pull_request_url").set("http://localhost/2").up()
+            );
         } finally {
             this.storage.unlock();
         }
