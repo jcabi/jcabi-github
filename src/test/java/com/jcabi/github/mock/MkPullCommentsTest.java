@@ -104,21 +104,20 @@ public final class MkPullCommentsTest {
      */
     @Test
     public void postsPullComment() throws Exception {
-        final MkStorage.InFile stg = new MkStorage.InFile();
-        final Pull pull = new MkGithub(stg, "test").repos().create(
-                Json.createObjectBuilder().add("name", "test").build()
-        ).pulls().create("pullrequest1", "head", "base");
-        final PullComments comments = pull.comments();
-        comments.post("body", "commit", "path", 1);
+        final MkStorage.InFile storage = new MkStorage.InFile();
+        new MkGithub(storage, "test").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).pulls().create("pullrequest1", "head", "base").comments()
+            .post("body", "commit", "path", 1);
         for (final String element : new String[] {"body", "commit", "path"}) {
             MatcherAssert.assertThat(
-                    stg.xml().xpath(
+                    storage.xml().xpath(
                             String.format("/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()", element)).get(0),
                     Matchers.equalTo(element)
             );
         }
         MatcherAssert.assertThat(
-            stg.xml().xpath(
+            storage.xml().xpath(
                 "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()").get(0),
             Matchers.equalTo("1")
         );
