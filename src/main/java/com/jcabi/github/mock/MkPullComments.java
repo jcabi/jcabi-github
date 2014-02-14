@@ -31,12 +31,16 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
 import org.xembly.Directives;
 import java.io.IOException;
 import java.util.Map;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github pull comments.
@@ -47,52 +51,61 @@ import java.util.Map;
  * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
 @Immutable
+@ToString
+@EqualsAndHashCode(of = { "storage", "self", "repo", "owner" })
 public final class MkPullComments implements PullComments {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
 
     /**
-     * The storage.
+     * Login of the user logged in.
      */
-    private final MkStorage storage;
+    private final transient String self;
 
     /**
-     * Logged in user name.
+     * Repo name.
      */
-    private final String self;
+    private final transient Coordinates repo;
 
     /**
-     * Repo name
+     * Owner of comments.
      */
-    private final Coordinates coords;
+    private final transient Pull owner;
 
     /**
-     * Pull request
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @param pull Pull
+     * @throws IOException If there is any I/O problem
+     * @checkstyle ParameterNumber (5 lines)
      */
-    private final Pull mkpull;
-
-    public MkPullComments (final MkStorage stg, final String login,
+    MkPullComments(final MkStorage stg, final String login,
         final Coordinates rep, final Pull pull) throws IOException {
         this.storage = stg;
         this.self = login;
-        this.coords = rep;
-        this.mkpull = pull;
+        this.repo = rep;
+        this.owner = pull;
         this.storage.apply(
             new Directives().xpath(
                 String.format(
                     "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
-                    this.coords, this.mkpull.number()
+                    this.repo, this.owner.number()
                 )
             ).addIf("comments")
         );
     }
-
     @Override
     public Pull pull() {
-        throw new UnsupportedOperationException("Pull not yet implemented.");
+        return this.owner;
     }
 
     @Override
     public PullComment get(final int number) {
-        throw new UnsupportedOperationException("Get not yet implemented.");
+        return new MkPullComment(this.storage, this.repo, this.owner, number);
     }
 
     @Override
@@ -111,22 +124,7 @@ public final class MkPullComments implements PullComments {
     @Override
     public PullComment post(final String body, final String commit,
         final String path, final int position) throws IOException {
-        final int number = this.storage.xml().nodes(
-            String.format("%s/comment", this.xpath())
-        ).size();
-        this.storage.apply(
-            new Directives().xpath(this.xpath())
-            .add("comment").attr(
-                "id",
-                new StringBuilder(2).append(this.coords.toString())
-                    .append(String.valueOf(number)).toString()
-            ).add("body").set(body).up()
-            .add("commit").set("commit").up()
-            .add("path").set(path).up()
-            .add("position").set(String.valueOf(position))
-        );
-
-        return new MkPullComment(this.storage, this.self, this.mkpull, number);
+        throw new UnsupportedOperationException("Post not yet implemented.");
     }
 
     @Override
@@ -140,10 +138,15 @@ public final class MkPullComments implements PullComments {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
     private String xpath() {
         return String.format(
+            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments",
-            this.coords, this.mkpull.number()
+            this.repo, this.owner.number()
         );
     }
 }

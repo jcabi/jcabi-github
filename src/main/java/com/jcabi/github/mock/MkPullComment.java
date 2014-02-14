@@ -30,22 +30,59 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import java.io.IOException;
 import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Mock Github pull comment.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #416 Mock for pull comment. Let's implements Mock for PullComment using
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
  */
 @Immutable
+@ToString
+@EqualsAndHashCode(of = { "storage", "repo", "owner", "num" })
 public final class MkPullComment implements PullComment {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates repo;
+
+    /**
+     * Owner of comments.
+     */
+    private final transient Pull owner;
+
+    /**
+     * Comment number.
+     */
+    private final transient int num;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param rep Repo
+     * @param pull Pull
+     * @param number Comment number
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkPullComment(final MkStorage stg,
+        final Coordinates rep, final Pull pull, final int number) {
+        this.storage = stg;
+        this.repo = rep;
+        this.owner = pull;
+        this.num = number;
+    }
 
     /**
      * MkPullComment constructor.
@@ -62,29 +99,40 @@ public final class MkPullComment implements PullComment {
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
     public Pull pull() {
-        throw new UnsupportedOperationException("Repo not yet implemented.");
+        return this.owner;
     }
 
     @Override
     public int number() {
-        throw new UnsupportedOperationException("Number not yet implemented.");
+        return this.num;
     }
 
     @Override
     public int compareTo(final PullComment other) {
-        throw new UnsupportedOperationException(
-            "compareTo not yet implemented."
-        );
+        return this.number() - other.number();
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment[id='%d']",
+            this.repo, this.owner.number(), this.num
+        );
+    }
 }

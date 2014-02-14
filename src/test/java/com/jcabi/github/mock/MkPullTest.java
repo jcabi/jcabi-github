@@ -34,6 +34,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -44,8 +45,6 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #56 This MkPullTest class only tests the compareTo
- *  method so far. Test for the other operations should also be implemented.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkPullTest {
@@ -123,6 +122,49 @@ public final class MkPullTest {
         MatcherAssert.assertThat(
             pull.comments(),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkPull can be represented as JSON.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canRetrieveAsJson() throws Exception {
+        final String head = "blah";
+        final String base = "aaa";
+        final Pull pull = repo().pulls().create("Test Pull Json", head, base);
+        final JsonObject json = pull.json();
+        MatcherAssert.assertThat(
+            json.getString("number"),
+            Matchers.equalTo("1")
+        );
+        MatcherAssert.assertThat(
+            json.getString("head"),
+            Matchers.equalTo(head)
+        );
+        MatcherAssert.assertThat(
+            json.getString("base"),
+            Matchers.equalTo(base)
+        );
+    }
+
+    /**
+     * MkPull can perform JSON patch operation.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canPatchJson() throws Exception {
+        final Pull pull = repo().pulls().create("Test Patch", "def", "abc");
+        final String value = "someValue";
+        pull.patch(
+            Json.createObjectBuilder().add("patch", value).build()
+        );
+        MatcherAssert.assertThat(
+            pull.json().getString("patch"),
+            Matchers.equalTo(value)
         );
     }
 
