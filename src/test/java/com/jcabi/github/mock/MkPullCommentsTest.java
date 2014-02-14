@@ -32,7 +32,9 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import com.jcabi.xml.XML;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -108,8 +110,18 @@ public final class MkPullCommentsTest {
         ).pulls().create("pullrequest1", "head", "base");
         final PullComments comments = pull.comments();
         comments.post("body", "commit", "path", 1);
-        System.out.println(stg.xml());
-        Assert.fail("Not implemented");
+        for (final String element : new String[] {"body", "commit", "path"}) {
+            MatcherAssert.assertThat(
+                    stg.xml().xpath(
+                            String.format("/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()", element)).get(0),
+                    Matchers.equalTo(element)
+            );
+        }
+        MatcherAssert.assertThat(
+            stg.xml().xpath(
+                "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()").get(0),
+            Matchers.equalTo("1")
+        );
     }
 
     /**

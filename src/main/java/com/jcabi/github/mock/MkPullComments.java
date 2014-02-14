@@ -111,7 +111,22 @@ public final class MkPullComments implements PullComments {
     @Override
     public PullComment post(final String body, final String commit,
         final String path, final int position) throws IOException {
-        throw new UnsupportedOperationException("Post not yet implemented.");
+        final int number = this.storage.xml().nodes(
+            String.format("%s/comment", this.xpath())
+        ).size();
+        this.storage.apply(
+            new Directives().xpath(this.xpath())
+            .add("comment").attr(
+                "id",
+                new StringBuilder(2).append(this.coords.toString())
+                    .append(String.valueOf(number)).toString()
+            ).add("body").set(body).up()
+            .add("commit").set("commit").up()
+            .add("path").set(path).up()
+            .add("position").set(String.valueOf(position))
+        );
+
+        return new MkPullComment(this.storage, this.self, this.mkpull, number);
     }
 
     @Override
@@ -127,7 +142,7 @@ public final class MkPullComments implements PullComments {
 
     private String xpath() {
         return String.format(
-            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments",
             this.coords, this.mkpull.number()
         );
     }

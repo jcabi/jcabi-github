@@ -47,6 +47,19 @@ import javax.json.JsonObject;
 @Immutable
 public final class MkPullComment implements PullComment {
 
+    /**
+     * MkPullComment constructor.
+     * @todo #465 Let's implement MkPulComment's constructor.
+     * @param storage The storage
+     * @param coords Coordinates
+     * @param pull Pull request.
+     * @param number Comment number
+     */
+    public MkPullComment(final MkStorage storage, final String coords,
+         final Pull pull, final int number) {
+
+    }
+
     @Override
     public JsonObject json() throws IOException {
         throw new UnsupportedOperationException("Json yet implemented.");
