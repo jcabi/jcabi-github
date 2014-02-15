@@ -106,6 +106,7 @@ public final class MkPullCommentsTest {
     @Test
     public void postsPullComment() throws Exception {
         final MkStorage.InFile storage = new MkStorage.InFile();
+        // @checkstyle MultipleStringLiteralsCheck (1 line)
         final String body = "body";
         final String commit = "commit_id";
         final String path = "path";
@@ -133,6 +134,7 @@ public final class MkPullCommentsTest {
      */
     private static Repo repo(
         final MkStorage storage) throws IOException {
+        // @checkstyle MultipleStringLiteralsCheck (3 lines)
         final String test = "test";
         return new MkGithub(storage, test).repos().create(
             Json.createObjectBuilder().add("name", test).build()
