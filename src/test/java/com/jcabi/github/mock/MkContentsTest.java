@@ -116,28 +116,34 @@ public final class MkContentsTest {
     @Test
     @Ignore
     public void updatesFile() throws Exception {
+        final String username = "jeff";
+        final String path = "file.txt";
+        final String message = "content message";
+        final String initial = "abcdef";
+        final String update = "test update content";
+        final String cont = "content";
         final Contents contents = MkContentsTest.repo().contents();
         final ConcurrentMap<String, String> commiter =
             new ConcurrentHashMap<String, String>();
-        commiter.put("login", "jeff");
+        commiter.put("login", username);
         final ConcurrentMap<String, String> author =
             new ConcurrentHashMap<String, String>();
-        author.put("login", "jeff");
+        author.put("login", username);
         final Content content = contents.create(
-            "file.txt", "content message", "abcdef", "444", commiter, author
+            path, message, initial, "444", commiter, author
         );
         MatcherAssert.assertThat(
-            content.json().getString("content"),
-            Matchers.is("abcdef")
+            content.json().getString(cont),
+            Matchers.is(initial)
         );
         final JsonObject jsonPatch = Json.createObjectBuilder()
-            .add("path", "file.txt")
-            .add("message", "content message")
-            .add("content", "test update content").build();
-        contents.update("file.txt", jsonPatch);
+            .add("path", path)
+            .add("message", message)
+            .add(cont, update).build();
+        contents.update(path, jsonPatch);
         MatcherAssert.assertThat(
-            content.json().getString("content"),
-            Matchers.is("test update content")
+            content.json().getString(cont),
+            Matchers.is(update)
         );
     }
 
