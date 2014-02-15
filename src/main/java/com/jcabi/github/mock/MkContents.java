@@ -94,6 +94,11 @@ public final class MkContents implements Contents {
         return new MkContent();
     }
 
+    @Override
+    public Content readme(final String branch) {
+        throw new UnsupportedOperationException("Readme not yet implemented.");
+    }
+
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Content create(
@@ -131,11 +136,10 @@ public final class MkContents implements Contents {
      * @param path The content path.
      * @param json JSON object containing updates to the content.
      * @throws IOException If any I/O problem occurs.
-     * @todo #329 MkContents should implement method update.
      */
     @Override
     public void update(final String path, final JsonObject json)
         throws IOException {
-        throw new UnsupportedOperationException("Update not yet implemented.");
+        new JsonPatch(this.storage).patch(path, json);
     }
 }

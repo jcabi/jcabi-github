@@ -31,9 +31,9 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
 import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -53,6 +53,16 @@ import lombok.ToString;
  * @todo #273 MkRepoCommits should be able to compare two commits. Let's
  *  create a test for this method and implement the method. When done, remove
  *  this puzzle.
+ * @todo #439 MkRepoCommits should be able to compare two commits and return
+ *  comparison in diff format.
+ *  Let's create a test for this method and implement the method.
+ *  When done, remove this puzzle.
+ *  See http://developer.github.com/v3/repos/commits/#compare-two-commits
+ * @todo #439 MkRepoCommits should be able to compare two commits and return
+ *  comparison in patch format.
+ *  Let's create a test for this method and implement the method.
+ *  When done, remove this puzzle.
+ *  See http://developer.github.com/v3/repos/commits/#compare-two-commits
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -81,18 +91,30 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    public Iterable<Commit> iterate() {
+    public Iterable<RepoCommit> iterate() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Commit get(final String sha) {
+    public RepoCommit get(final String sha) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public CommitsComparison compare(final String base, final String head) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String diff(final String base, final String head)
+        throws IOException {
+        throw new UnsupportedOperationException("MkRepoCommits#diff()");
+    }
+
+    @Override
+    public String patch(final String base, final String head)
+        throws IOException {
+        throw new UnsupportedOperationException("MkRepoCommits#patch()");
     }
 
     @Override

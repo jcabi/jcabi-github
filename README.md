@@ -7,11 +7,13 @@ an object oriented API of Github:
 
 ```java
 public class Main {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     Github github = new RtGithub(".. your OAuth token ..");
-    Repo repo = github.repo("jcabi/jcabi-github");
+    Repo repo = github.repos().get(
+        new Coordinates.Simple("jcabi/jcabi-github")
+    );
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
-    issue.post("My first comment!");
+    issue.comments().post("My first comment!");
   }
 }
 ```

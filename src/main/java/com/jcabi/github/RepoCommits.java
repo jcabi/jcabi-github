@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -47,26 +48,48 @@ public interface RepoCommits extends JsonReadable {
      * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Commit> iterate();
+    Iterable<RepoCommit> iterate();
 
     /**
      * Get single repository's commits.
+     *
      * @param sha SHA of a commit
-     * @return Commit
+     * @return RepoCommit
      * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
      */
-    @NotNull(message = "Commit is never NULL")
-    Commit get(String sha);
+    @NotNull(message = "RepoCommit is never NULL")
+    RepoCommit get(String sha);
 
     /**
      * Compare two commits.
-     * @param base SHA of the base commit
-     * @param head SHA of the head commit
+     * @param base SHA of the base repo commit
+     * @param head SHA of the head repo commit
      * @return Commits comparison
      */
-    @NotNull(message = "commits comparison is never NULL")
+    @NotNull(message = "repo commits comparison is never NULL")
     CommitsComparison compare(
         @NotNull(message = "base is never NULL") String base,
         @NotNull(message = "base is never NULL") String head);
 
+    /**
+     * Compare two commits and provide result in diff format.
+     * @param base SHA of the base repo commit
+     * @param head SHA of the head repo commit
+     * @return Commits comparison
+     * @throws IOException If there is any I/O problem
+     * @since 0.8
+     */
+    @NotNull(message = "repo commits comparison is never NULL")
+    String diff(String base, String head) throws IOException;
+
+    /**
+     * Compare two commits and provide result in patch format.
+     * @param base SHA of the base repo commit
+     * @param head SHA of the head repo commit
+     * @return Commits comparison
+     * @throws IOException If there is any I/O problem
+     * @since 0.8
+     */
+    @NotNull(message = "repo commits comparison is never NULL")
+    String patch(String base, String head) throws IOException;
 }

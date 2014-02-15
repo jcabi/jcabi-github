@@ -29,6 +29,13 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.PullComment;
+import com.jcabi.github.PullComments;
+import java.io.IOException;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -44,15 +51,15 @@ public final class MkPullCommentsTest {
      * MkPullComments can fetch a single comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch a single pull comment.
-     *  Implement {@link MkPullComments#get(int)} and don't forget to include a
-     *  test here. When done, remove this puzzle and the Ignore annotation of
-     *  this test method.
      */
     @Test
-    @Ignore
     public void fetchesPullComment() throws Exception {
-        // To be implemented.
+        final PullComments comments = this.comments();
+        final PullComment comment = comments.post("comment", "commit", "/", 1);
+        MatcherAssert.assertThat(
+            comments.get(comment.number()).number(),
+            Matchers.equalTo(comment.number())
+        );
     }
 
     /**
@@ -104,15 +111,26 @@ public final class MkPullCommentsTest {
      * MkPullComments can reply to an existing pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link MkPullComments#reply(String, int))}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void createsPullCommentReply() throws Exception {
-        // To be implemented.
+        final PullComments comments = this.comments();
+        final int orig = comments.post(
+            "Orig Comment",
+            "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "file1.txt",
+            1
+        ).number();
+        final String body = "Reply Comment";
+        final JsonObject reply = comments.reply(body, orig).json();
+        MatcherAssert.assertThat(
+            reply.getString("body"),
+            Matchers.is(body)
+        );
+        MatcherAssert.assertThat(
+            reply.getString("original_position"),
+            Matchers.is(Integer.toString(orig))
+        );
     }
 
     /**
@@ -128,6 +146,17 @@ public final class MkPullCommentsTest {
     @Ignore
     public void removesPullComment() throws Exception {
         // To be implemented.
+    }
+
+    /**
+     * Generate pull comments for test.
+     * @return The pull comments
+     * @throws IOException If an IO Exception occurs
+     */
+    private PullComments comments() throws IOException {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).pulls().create("hello", "", "").comments();
     }
 
 }
