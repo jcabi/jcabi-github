@@ -129,9 +129,8 @@ public final class MkPullComments implements PullComments {
             number = 1 + this.storage.xml()
                 .nodes(String.format("%s/comment/id/text()", this.xpath()))
                 .size();
-            this.storage.apply(
-                new Directives().xpath(this.xpath()).add("comment")
-                .add("id").set(Integer.toString(number)).up()
+            this.storage.apply(new Directives().xpath(this.xpath())
+                .add("comment").add("id").set(Integer.toString(number)).up()
                 .add("url").set("http://localhost/1").up()
                 .add("diff_hunk").set("@@ -16,33 +16,40 @@ public...").up()
                 .add("path").set(path).up()

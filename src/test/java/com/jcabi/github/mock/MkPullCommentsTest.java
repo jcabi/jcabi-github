@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.List;
 import javax.json.Json;
@@ -48,23 +49,14 @@ import org.junit.Test;
 public final class MkPullCommentsTest {
 
     /**
-     * Test constant.
-     */
-    private static final String NAME = "name";
-    /**
-     * Test constant.
-     */
-    private static final String TEST = "test";
-
-    /**
      * MkPullComments can fetch a single comment.
      *
      * @throws Exception If something goes wrong.
      */
     @Test
     public void fetchesPullComment() throws Exception {
-        final PullComments comments = new MkGithub().repos().create(
-            Json.createObjectBuilder().add(NAME, TEST).build()
+        final PullComments comments = MkPullCommentsTest.repo(
+            new MkStorage.InFile()
         ).pulls().create("hello", "", "").comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
@@ -118,21 +110,33 @@ public final class MkPullCommentsTest {
         final String body = "body";
         final String commit = "commit_id";
         final String path = "path";
-        new MkGithub(storage, TEST).repos().create(
-            Json.createObjectBuilder().add(NAME, TEST).build()
-        ).pulls().create("pullrequest1", "head", "base").comments()
+        MkPullCommentsTest.repo(storage).pulls()
+            .create("pullrequest1", "head", "base").comments()
             .post(body, commit, path, 1);
-        final String[] strings = {body, commit, path};
-        for (final String element : strings) {
-            this.check(storage, element);
+        final String[] fields = {body, commit, path};
+        for (final String element : fields) {
+            MkPullCommentsTest.assertFieldContains(storage, element);
         }
         final List<String> xpath = storage.xml().xpath(
             // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()"
         );
         MatcherAssert.assertThat(
-            xpath.get(0),
-            Matchers.is("1")
+            xpath.get(0), Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Create a test repo.
+     * @param storage The storage
+     * @return Test repo
+     * @throws IOException If any I/O error occurs.
+     */
+    private static Repo repo(
+        final MkStorage storage) throws IOException {
+        final String test = "test";
+        return new MkGithub(storage, test).repos().create(
+            Json.createObjectBuilder().add("name", test).build()
         );
     }
 
@@ -142,10 +146,10 @@ public final class MkPullCommentsTest {
      * @param element The element to be tested
      * @throws IOException If any I/O error occurs.
      */
-    private void check(final MkStorage.InFile storage,
+    private static void assertFieldContains(final MkStorage.InFile storage,
         final String element) throws IOException {
-        // @checkstyle LineLength (2 lines)
         final String xpath = String.format(
+            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
             element
         );
