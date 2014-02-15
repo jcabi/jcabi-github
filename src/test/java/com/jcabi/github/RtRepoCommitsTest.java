@@ -108,6 +108,46 @@ public final class RtRepoCommitsTest {
     }
 
     /**
+     * RtRepoCommits can compare two commits and present result in diff format.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void comparesCommitsDiffFormat() throws Exception {
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody("diff --git"),
+            RtRepoCommitsTest.repo()
+        );
+        MatcherAssert.assertThat(
+            commits.diff(
+                "6dcb09b5b57875f334f61aebed695e2e4193db55",
+                "6dcb09b5b57875f334f61aebed695e2e4193db56"
+            ),
+            Matchers.startsWith("diff")
+        );
+    }
+
+    /**
+     * RtRepoCommits can compare two commits and present result in patch format.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void comparesCommitsPatchFormat() throws Exception {
+        final RepoCommits commits = new RtRepoCommits(
+            new FakeRequest().withBody(
+                "From 6dcb09b5b57875f33"
+            ),
+            RtRepoCommitsTest.repo()
+        );
+        MatcherAssert.assertThat(
+            commits.patch(
+                "6dcb09b5b57875f334f61aebed695e2e4193db57",
+                "6dcb09b5b57875f334f61aebed695e2e4193db58"
+            ),
+            Matchers.startsWith("From")
+        );
+    }
+
+    /**
      * Create repository for tests.
      * @return Repository
      */
