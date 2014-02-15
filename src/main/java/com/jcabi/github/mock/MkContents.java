@@ -94,6 +94,11 @@ public final class MkContents implements Contents {
         return new MkContent();
     }
 
+    @Override
+    public Content readme(final String branch) {
+        throw new UnsupportedOperationException("Readme not yet implemented.");
+    }
+
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Content create(
