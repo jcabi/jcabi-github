@@ -108,7 +108,7 @@ public final class RtRepoCommitsTest {
     }
 
     /**
-     * RtRepoCommits can compare two commits present result in diff format.
+     * RtRepoCommits can compare two commits and present result in diff format.
      * @throws Exception If some problem inside
      */
     @Test
@@ -127,7 +127,7 @@ public final class RtRepoCommitsTest {
     }
 
     /**
-     * RtRepoCommits can compare two commits present result in patch format.
+     * RtRepoCommits can compare two commits and present result in patch format.
      * @throws Exception If some problem inside
      */
     @Test

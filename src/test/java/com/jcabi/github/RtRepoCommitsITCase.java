@@ -95,11 +95,11 @@ public class RtRepoCommitsITCase {
         // To be implemented
     }
 
-        /**
-         * Create and return repo to test.
-         * @return Repo
-         * @throws Exception If some problem inside
-         */
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
     private static Repo repo() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
