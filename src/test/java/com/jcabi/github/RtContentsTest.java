@@ -97,15 +97,38 @@ public final class RtContentsTest {
     /**
      * RtContents can fetch the readme file from the specified branch.
      *
-     * @todo #119 RtContents should fetch the readme file for any branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  The method should receive the branch name as a parameter.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
-    public void canFetchReadmeFileFromSpecifiedBranch() {
-        // to be implemented
+    public void canFetchReadmeFileFromSpecifiedBranch() throws Exception {
+        final String path = "README.md";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .build();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
+        ).start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                contents.readme("test-branch").path(),
+                Matchers.is(path)
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/readme")
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.is("{\"ref\":\"test-branch\"}")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
