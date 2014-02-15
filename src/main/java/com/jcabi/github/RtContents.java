@@ -136,9 +136,7 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public Content get(
-        final String path,
-        final String ref)
+    public Content get(final String path, final String ref)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("path", path)

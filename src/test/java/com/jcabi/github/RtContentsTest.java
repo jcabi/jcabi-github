@@ -124,10 +124,7 @@ public final class RtContentsTest {
         );
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.get(
-                    path,
-                    "master"
-                )
+                contents.get(path, "master")
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(

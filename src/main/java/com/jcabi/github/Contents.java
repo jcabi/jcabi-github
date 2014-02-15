@@ -42,6 +42,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 public interface Contents {
@@ -94,11 +95,10 @@ public interface Contents {
      * @return Content fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
-     * @checkstyle ParameterNumberCheck (5 lines)
      */
     Content get(
-        @NotNull(message = "path_ is never NULL") String path,
-        @NotNull(message = "ref_ is never NULL") String ref)
+        @NotNull(message = "path  is never NULL") String path,
+        @NotNull(message = "ref is never NULL") String ref)
         throws IOException;
 
     /**
