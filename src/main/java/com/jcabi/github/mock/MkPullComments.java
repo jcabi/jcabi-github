@@ -37,6 +37,8 @@ import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
 import java.io.IOException;
 import java.util.Map;
+import javax.json.Json;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -134,8 +136,9 @@ public final class MkPullComments implements PullComments {
                     .add("id").set(Integer.toString(number)).up()
                     .add("url").set("http://localhost/1").up()
                     .add("diff_hunk").set("@@ -16,33 +16,40 @@ public...").up()
-                    .add("path").set("file1.txt").up()
-                    .add("position").set(Integer.toString(number)).up()
+                    // @checkstyle MultipleStringLiteralsCheck (4 lines)
+                    .add("path").set(path).up()
+                    .add("position").set(Integer.toString(position)).up()
                     .add("original_position").set(Integer.toString(number)).up()
                     .add("commit_id").set(commit).up()
                     .add("original_commit_id").set(commit).up()
@@ -152,9 +155,25 @@ public final class MkPullComments implements PullComments {
     }
 
     @Override
-    public PullComment reply(final String body,
-        final int comment) throws IOException {
-        throw new UnsupportedOperationException("Reply not yet implemented.");
+    public PullComment reply(final String body, final int comment)
+        throws IOException {
+        this.storage.lock();
+        try {
+            final JsonObject orig = this.get(comment).json();
+            final PullComment reply = this.post(
+                body,
+                orig.getString("commit_id"),
+                orig.getString("path"),
+                comment
+            );
+            reply.patch(
+                Json.createObjectBuilder()
+                    .add("original_position", String.valueOf(comment)).build()
+            );
+            return reply;
+        } finally {
+            this.storage.unlock();
+        }
     }
 
     @Override
