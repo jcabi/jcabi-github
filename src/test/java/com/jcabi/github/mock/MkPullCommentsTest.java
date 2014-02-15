@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -52,9 +53,7 @@ public final class MkPullCommentsTest {
      */
     @Test
     public void fetchesPullComment() throws Exception {
-        final PullComments comments = new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        ).pulls().create("hello", "", "").comments();
+        final PullComments comments = MkPullCommentsTest.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
             comments.get(comment.number()).number(),
@@ -81,15 +80,19 @@ public final class MkPullCommentsTest {
      * MkPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all comments of a pull
-     *  request. Implement {@link MkPullComments#iterate(int, java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesPullRequestComments() throws Exception {
-        // To be implemented.
+        final PullComments comments = MkPullCommentsTest.comments();
+        comments.post("comment 1", "commit 1", "/commit1", 1);
+        comments.post("comment 2", "commit 2", "/commit2", 2);
+        MatcherAssert.assertThat(
+            comments.iterate(
+                comments.pull().number(),
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(2)
+        );
     }
 
     /**
@@ -135,6 +138,17 @@ public final class MkPullCommentsTest {
     @Ignore
     public void removesPullComment() throws Exception {
         // To be implemented.
+    }
+
+    /**
+     * Create and return PullComments to test.
+     * @return PullComments
+     * @throws Exception If something goes wrong.
+     */
+    private static PullComments comments() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).pulls().create("hello", "", "").comments();
     }
 
 }
