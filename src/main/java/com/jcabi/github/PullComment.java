@@ -46,12 +46,12 @@ import lombok.ToString;
  * For example, to get its id, you get the entire JSON and
  * then gets its element:
  *
- * <pre>String id = cmnt.jsn().getString("id");</pre>
+ * <pre>String id = comment.jsn().getString("id");</pre>
  *
  * <p>However, it's better to use a supplementary "smart" decorator, which
  * automates most of these operations:
  *
- * <pre>String id = new PullComment.Smart(cmnt).id();</pre>
+ * <pre>String id = new PullComment.Smart(comment).id();</pre>
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
@@ -120,7 +120,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @param pcomment Pull comment
          */
         public Smart(
-            @NotNull(message = "pull cmnt is never NULL")
+            @NotNull(message = "pull comment is never NULL")
             final PullComment pcomment
         ) {
             this.cmnt = pcomment;
@@ -169,7 +169,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its url value.
-         * @return Url of pull cmnt
+         * @return Url of pull comment
          * @throws IOException If there is any I/O problem
          */
         public String url() throws IOException {
