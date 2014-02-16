@@ -91,7 +91,7 @@ public interface Contents {
     /**
      * Get the contents of a file or directory in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag. Default: the repository�s default branch (usually master)
+     * @param ref The name of the commit/branch/tag. Default: the repository's default branch (usually master)
      * @return Content fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
