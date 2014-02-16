@@ -102,24 +102,28 @@ public final class MkPullCommentsTest {
     @Test
     public void postsPullComment() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
-        // @checkstyle MultipleStringLiteralsCheck (1 line)
-        final String body = "body";
         final String commit = "commit_id";
         final String path = "path";
+        final String bodytext = "some text as a body";
         MkPullCommentsTest.repo(storage).pulls()
             .create("pullrequest1", "head", "base").comments()
-            .post(body, commit, path, 1);
-        final String[] fields = {body, commit, path};
+            .post(bodytext, commit, path, 1);
+        final String[] fields = {commit, path};
         for (final String element : fields) {
             MkPullCommentsTest.assertFieldContains(storage, element);
         }
-        final List<String> xpath = storage.xml().xpath(
+        final List<String> position = storage.xml().xpath(
             // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()"
         );
         MatcherAssert.assertThat(
-            xpath.get(0), Matchers.notNullValue()
+            position.get(0), Matchers.notNullValue()
         );
+        final List<String> body = storage.xml().xpath(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/body/text()"
+        );
+        MatcherAssert.assertThat(body.get(0), Matchers.equalTo(bodytext));
     }
 
     /**
