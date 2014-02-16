@@ -29,24 +29,37 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github pull comment.
+ *
+ * <p>PullComment implements {@link JsonReadable},
+ * that's how you can get its full details in JSON format.
+ * For example, to get its id, you get the entire JSON and
+ * then gets its element:
+ *
+ * <pre>String id = cmnt.jsn().getString("id");</pre>
+ *
+ * <p>However, it's better to use a supplementary "smart" decorator, which
+ * automates most of these operations:
+ *
+ * <pre>String id = new PullComment.Smart(cmnt).id();</pre>
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
- * @todo #416 Implement a Smart decorator for PullComment for the purposes of JSON
- *  parsing. This class should be able to return the various attributes of the
- *  JSON response for fetching comments, such as the ID, commit ID, URL, and
- *  comment body. Smart should also be able to handle editing the attributes
- *  of an existing comment by using
- *  {@link JsonPatchable#patch(javax.json.JsonObject)}. Also include an example
- *  of how to do this in the Javadoc comment above. You can refer to
- *  {@link PublicKey} on how to do this.
  */
+@Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface PullComment extends JsonReadable, JsonPatchable,
     Comparable<PullComment> {
 
@@ -63,4 +76,162 @@ public interface PullComment extends JsonReadable, JsonPatchable,
      */
     int number();
 
+    /**
+     * Smart PullComment with extra features.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "cmnt", "jsn" })
+    final class Smart implements PullComment {
+
+        /**
+         * Id field's name in JSON.
+         */
+        private static final String ID = "id";
+
+        /**
+         * Commit id field's name in JSON.
+         */
+        private static final String COMMIT_ID = "commit_id";
+
+        /**
+         * Url field's name in JSON.
+         */
+        private static final String URL = "url";
+
+        /**
+         * Body field's name in JSON.
+         */
+        private static final String BODY = "body";
+
+        /**
+         * Encapsulated pull comment.
+         */
+        private final transient PullComment cmnt;
+
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+
+        /**
+         * Public ctor.
+         * @param pcomment Pull comment
+         */
+        public Smart(
+            @NotNull(message = "pull cmnt is never NULL")
+            final PullComment pcomment
+        ) {
+            this.cmnt = pcomment;
+            this.jsn = new SmartJson(pcomment);
+        }
+
+        /**
+         * Get its id value.
+         * @return Id of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public String identifier() throws IOException {
+            return this.jsn.text(ID);
+        }
+
+        /**
+         * Change its id value.
+         * @param value Id of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public void identifier(final String value) throws IOException {
+            this.cmnt.patch(
+                Json.createObjectBuilder().add(ID, value).build()
+            );
+        }
+
+        /**
+         * Get its commit id value.
+         * @return Commit id of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public String commitId() throws IOException {
+            return this.jsn.text(COMMIT_ID);
+        }
+
+        /**
+         * Change its commit id value.
+         * @param value Commit id of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public void commitId(final String value) throws IOException {
+            this.cmnt.patch(
+                Json.createObjectBuilder().add(COMMIT_ID, value).build()
+            );
+        }
+
+        /**
+         * Get its url value.
+         * @return Url of pull cmnt
+         * @throws IOException If there is any I/O problem
+         */
+        public String url() throws IOException {
+            return this.jsn.text(URL);
+        }
+
+        /**
+         * Change its url value.
+         * @param value Url of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public void url(final String value) throws IOException {
+            this.cmnt.patch(
+                Json.createObjectBuilder().add(URL, value).build()
+            );
+        }
+
+        /**
+         * Get its body value.
+         * @return Url of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public String body() throws IOException {
+            return this.jsn.text(BODY);
+        }
+
+        /**
+         * Change its body value.
+         * @param value Url of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        public void body(final String value) throws IOException {
+            this.cmnt.patch(
+                Json.createObjectBuilder().add(BODY, value).build()
+            );
+        }
+
+        @Override
+        public Pull pull() {
+            return this.cmnt.pull();
+        }
+
+        @Override
+        public int number() {
+            return this.cmnt.number();
+        }
+
+        @Override
+        public int compareTo(final PullComment comment) {
+            return this.cmnt.compareTo(comment);
+        }
+
+        @Override
+        public void patch(
+            @NotNull(message = "JSON is never NULL") final JsonObject json
+        ) throws IOException {
+            this.cmnt.patch(json);
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.cmnt.json();
+        }
+    }
 }
