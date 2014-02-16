@@ -112,6 +112,12 @@ public final class MkContents implements Contents {
         throw new UnsupportedOperationException("Create not yet implemented.");
     }
 
+    @Override
+    public Content get(final String path, final String ref)
+        throws IOException {
+        throw new UnsupportedOperationException("Get not yet implemented.");
+    }
+
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Commit remove(
