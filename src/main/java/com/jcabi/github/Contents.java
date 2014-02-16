@@ -42,6 +42,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -98,6 +99,19 @@ public interface Contents {
         Map<String, String> committer,
         @NotNull(message = "author is never NULL")
         Map<String, String> author)
+        throws IOException;
+
+    /**
+     * Get the contents of a file or directory in a repository.
+     * @param path The content path
+     * @param ref The name of the commit/branch/tag. Default: the repository’s default branch (usually master)
+     * @return Content fetched
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     */
+    Content get(
+        @NotNull(message = "path  is never NULL") String path,
+        @NotNull(message = "ref is never NULL") String ref)
         throws IOException;
 
     /**

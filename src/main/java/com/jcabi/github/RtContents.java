@@ -173,6 +173,25 @@ public final class RtContents implements Contents {
         );
     }
 
+    @Override
+    public Content get(final String path, final String ref)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("ref", ref)
+            .build();
+        return new RtContent(
+            this.entry, this.owner,
+            this.request.method(Request.GET)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
+        );
+    }
+
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Commit remove(
