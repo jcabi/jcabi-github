@@ -31,7 +31,9 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import com.jcabi.github.Repo;
 import java.io.IOException;
+import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -96,15 +98,66 @@ public final class MkPullCommentsTest {
      * MkPullComments can create a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to create a new pull comment.
-     *  Implement {@link MkPullComments#post(String, String, String, int)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void postsPullComment() throws Exception {
-        // To be implemented.
+        final MkStorage storage = new MkStorage.InFile();
+        final String commit = "commit_id";
+        final String path = "path";
+        final String bodytext = "some text as a body";
+        MkPullCommentsTest.repo(storage).pulls()
+            .create("pullrequest1", "head", "base").comments()
+            .post(bodytext, commit, path, 1);
+        final String[] fields = {commit, path};
+        for (final String element : fields) {
+            MkPullCommentsTest.assertFieldContains(storage, element);
+        }
+        final List<String> position = storage.xml().xpath(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()"
+        );
+        MatcherAssert.assertThat(
+            position.get(0), Matchers.notNullValue()
+        );
+        final List<String> body = storage.xml().xpath(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/body/text()"
+        );
+        MatcherAssert.assertThat(body.get(0), Matchers.equalTo(bodytext));
+    }
+
+    /**
+     * Create a test repo.
+     * @param storage The storage
+     * @return Test repo
+     * @throws IOException If any I/O error occurs.
+     */
+    private static Repo repo(
+        final MkStorage storage) throws IOException {
+        // @checkstyle MultipleStringLiteralsCheck (3 lines)
+        final String login = "test";
+        return new MkGithub(storage, login).repos().create(
+            Json.createObjectBuilder().add("name", login).build()
+        );
+    }
+
+    /**
+     * Assert if fields doesn't contain value.
+     * @param storage The storage
+     * @param element The element to be tested and the value.
+     * @throws IOException If any I/O error occurs.
+     */
+    private static void assertFieldContains(final MkStorage storage,
+        final String element) throws IOException {
+        final String xpath = String.format(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
+            element
+        );
+        MatcherAssert.assertThat(
+            storage.xml().xpath(xpath).get(0),
+            Matchers.is(element)
+        );
     }
 
     /**
