@@ -98,14 +98,10 @@ public final class MkPullCommentsTest {
      * MkPullComments can create a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to create a new pull comment.
-     *  Implement {@link MkPullComments#post(String, String, String, int)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
     public void postsPullComment() throws Exception {
-        final MkStorage.InFile storage = new MkStorage.InFile();
+        final MkStorage storage = new MkStorage.InFile();
         // @checkstyle MultipleStringLiteralsCheck (1 line)
         final String body = "body";
         final String commit = "commit_id";
@@ -135,19 +131,19 @@ public final class MkPullCommentsTest {
     private static Repo repo(
         final MkStorage storage) throws IOException {
         // @checkstyle MultipleStringLiteralsCheck (3 lines)
-        final String test = "test";
-        return new MkGithub(storage, test).repos().create(
-            Json.createObjectBuilder().add("name", test).build()
+        final String login = "test";
+        return new MkGithub(storage, login).repos().create(
+            Json.createObjectBuilder().add("name", login).build()
         );
     }
 
     /**
-     * Helper methos for passing style check.
+     * Assert if fields doesn't contain value.
      * @param storage The storage
-     * @param element The element to be tested
+     * @param element The element to be tested and the value.
      * @throws IOException If any I/O error occurs.
      */
-    private static void assertFieldContains(final MkStorage.InFile storage,
+    private static void assertFieldContains(final MkStorage storage,
         final String element) throws IOException {
         final String xpath = String.format(
             // @checkstyle LineLength (1 line)
