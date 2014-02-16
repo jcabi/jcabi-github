@@ -139,9 +139,16 @@ public final class RtContents implements Contents {
     @Override
     public Content create(final JsonObject content)
         throws IOException {
+        if (!content.containsKey("path")) {
+            throw new IllegalStateException(
+                "Content should have path parameter"
+            );
+        }
+        final String path = content.getString("path");
         return new RtContent(
             this.entry, this.owner,
             this.request.method(Request.PUT)
+                .uri().path(path).back()
                 .body().set(content).back()
                 .fetch()
                 .as(RestResponse.class)
