@@ -29,9 +29,13 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -42,6 +46,7 @@ import org.junit.Test;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkContentsTest {
     /**
@@ -100,6 +105,46 @@ public final class MkContentsTest {
     @Ignore
     public void canRemoveFile() throws Exception {
         //To be implemented.
+    }
+
+    /**
+     * MkContents should be able to update a file.
+     * @throws Exception - if anything goes wrong.
+     * @todo #444 Methods create() in MkContents and json() in MkContent
+     *  should be implemented in order for this test to work.
+     */
+    @Test
+    @Ignore
+    public void updatesFile() throws Exception {
+        final String username = "jeff";
+        final String path = "file.txt";
+        final String message = "content message";
+        final String initial = "abcdef";
+        final String update = "test update content";
+        final String cont = "content";
+        final Contents contents = MkContentsTest.repo().contents();
+        final ConcurrentMap<String, String> commiter =
+            new ConcurrentHashMap<String, String>();
+        commiter.put("login", username);
+        final ConcurrentMap<String, String> author =
+            new ConcurrentHashMap<String, String>();
+        author.put("login", username);
+        final Content content = contents.create(
+            path, message, initial, "444", commiter, author
+        );
+        MatcherAssert.assertThat(
+            content.json().getString(cont),
+            Matchers.is(initial)
+        );
+        final JsonObject jsonPatch = Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", message)
+            .add(cont, update).build();
+        contents.update(path, jsonPatch);
+        MatcherAssert.assertThat(
+            content.json().getString(cont),
+            Matchers.is(update)
+        );
     }
 
     /**

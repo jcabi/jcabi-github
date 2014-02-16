@@ -32,9 +32,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -44,10 +47,11 @@ import lombok.EqualsAndHashCode;
  * @todo #117 RtRepoCommits should be able to fetch commits. Let's
  *  implement this method. When done, remove this puzzle and
  *  Ignore annotation from a test for the method.
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
+@EqualsAndHashCode(of = { "request", "owner", "entry" })
 final class RtRepoCommits implements RepoCommits {
 
     /**
@@ -59,6 +63,11 @@ final class RtRepoCommits implements RepoCommits {
      * RESTful request for the commits.
      */
     private final transient Request request;
+
+    /**
+     * RESTful request for the comparison.
+     */
+    private final transient Request comp;
 
     /**
      * Parent repository.
@@ -79,6 +88,11 @@ final class RtRepoCommits implements RepoCommits {
             .path(repo.coordinates().repo())
             .path("/commits")
             .back();
+        this.comp = this.request.uri()
+            .path("/repos")
+            .path(this.owner.coordinates().toString())
+            .path("/compare")
+            .back();
     }
 
     @Override
@@ -95,8 +109,40 @@ final class RtRepoCommits implements RepoCommits {
     @NotNull(message = "commits comparison is never NULL")
     public CommitsComparison compare(
         @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "base is never NULL") final String head) {
+        @NotNull(message = "head is never NULL") final String head) {
         return new RtCommitsComparison(this.entry, this.owner, base, head);
+    }
+
+    @Override
+    @NotNull(message = "comparison result is never NULL")
+    public String diff(
+        @NotNull(message = "base is never NULL") final String base,
+        @NotNull(message = "head is never NULL") final String head)
+        throws IOException {
+        return this.comp.reset(HttpHeaders.ACCEPT)
+            .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.diff")
+            .uri()
+            .path(String.format("%s...%s", base, head))
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .body();
+    }
+
+    @Override
+    @NotNull(message = "comparison result is never NULL")
+    public String patch(
+        @NotNull(message = "base is never NULL") final String base,
+        @NotNull(message = "head is never NULL") final String head)
+        throws IOException {
+        return this.comp.reset(HttpHeaders.ACCEPT)
+            .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.patch")
+            .uri()
+            .path(String.format("%s...%s", base, head))
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .body();
     }
 
     @Override
