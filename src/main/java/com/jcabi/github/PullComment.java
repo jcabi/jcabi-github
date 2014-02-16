@@ -51,7 +51,7 @@ import lombok.ToString;
  * <p>However, it's better to use a supplementary "smart" decorator, which
  * automates most of these operations:
  *
- * <pre>String id = new PullComment.Smart(comment).id();</pre>
+ * <pre>String id = new PullComment.Smart(comment).identifier();</pre>
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
