@@ -85,7 +85,7 @@ public interface Contents {
      */
     @NotNull(message = "Content is never NULL")
     Content create(
-        @NotNull(message = "path  is never NULL") JsonObject content)
+        @NotNull(message = "content is never NULL") JsonObject content)
         throws IOException;
 
     /**
