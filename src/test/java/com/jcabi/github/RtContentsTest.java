@@ -197,7 +197,7 @@ public final class RtContentsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canCreateFilesFromRepository() throws Exception {
+    public void canCreateFileInRepository() throws Exception {
         final String path = "test/thefile";
         final String name = "thefile";
         final JsonObject body = Json.createObjectBuilder()
@@ -216,16 +216,14 @@ public final class RtContentsTest {
             new ApacheRequest(container.home()),
             repo()
         );
+        final JsonObject content = Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", "theMessage")
+            .add("content", "blah")
+            .build();
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.create(
-                    path,
-                    "theMessage",
-                    "blah",
-                    "master",
-                    Collections.<String, String>emptyMap(),
-                    Collections.<String, String>emptyMap()
-                )
+                contents.create(content)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),

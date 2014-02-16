@@ -33,6 +33,7 @@ import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -83,15 +84,19 @@ public final class MkPullCommentsTest {
      * MkPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all comments of a pull
-     *  request. Implement {@link MkPullComments#iterate(int, java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesPullRequestComments() throws Exception {
-        // To be implemented.
+        final PullComments comments = comments();
+        comments.post("comment 1", "commit 1", "/commit1", 1);
+        comments.post("comment 2", "commit 2", "/commit2", 2);
+        MatcherAssert.assertThat(
+            comments.iterate(
+                comments.pull().number(),
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(2)
+        );
     }
 
     /**

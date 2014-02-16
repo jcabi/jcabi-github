@@ -99,15 +99,8 @@ public final class MkContents implements Contents {
         throw new UnsupportedOperationException("Readme not yet implemented.");
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Content create(
-        final String path,
-        final String message,
-        final String content,
-        final String branch,
-        final Map<String, String> committer,
-        final Map<String, String> author)
+    public Content create(final JsonObject content)
         throws IOException {
         throw new UnsupportedOperationException("Create not yet implemented.");
     }
