@@ -113,6 +113,29 @@ public final class RtContents implements Contents {
         );
     }
 
+    @Override
+    public Content readme(final String branch) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("ref", branch)
+            .build();
+        return new RtContent(
+            this.entry, this.owner,
+            this.entry.uri()
+                .path("/repos")
+                .path(this.owner.coordinates().user())
+                .path(this.owner.coordinates().repo())
+                .path("/readme")
+                .back()
+                .method(Request.GET)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
+        );
+    }
+
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
     public Content create(
@@ -147,6 +170,25 @@ public final class RtContents implements Contents {
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
                 .json().readObject().getJsonObject("content").getString("path")
+        );
+    }
+
+    @Override
+    public Content get(final String path, final String ref)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("ref", ref)
+            .build();
+        return new RtContent(
+            this.entry, this.owner,
+            this.request.method(Request.GET)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
         );
     }
 
