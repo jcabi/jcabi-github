@@ -42,6 +42,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -77,27 +78,27 @@ public interface Contents {
 
     /**
      * Create new file.
-     * @param path The content path
-     * @param message The commit message
-     * @param content File content, Base64 encoded
-     * @param branch The branch name
-     * @param committer Committer parameter, which is a hash containing information about the committer
-     * @param author Author parameter is optional and is filled in with the committer information if omitted
+     * @param content Parameters to create new content
      * @return Content just created
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
-     * @checkstyle ParameterNumberCheck (11 lines)
      */
     @NotNull(message = "Content is never NULL")
     Content create(
-        @NotNull(message = "path is never NULL") String path,
-        @NotNull(message = "message is never NULL") String message,
-        @NotNull(message = "content is never NULL") String content,
-        @NotNull(message = "branch is never NULL") String branch,
-        @NotNull(message = "committer is never NULL")
-        Map<String, String> committer,
-        @NotNull(message = "author is never NULL")
-        Map<String, String> author)
+        @NotNull(message = "content is never NULL") JsonObject content)
+        throws IOException;
+
+    /**
+     * Get the contents of a file or directory in a repository.
+     * @param path The content path
+     * @param ref The name of the commit/branch/tag. Default: the repository's default branch (usually master)
+     * @return Content fetched
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     */
+    Content get(
+        @NotNull(message = "path  is never NULL") String path,
+        @NotNull(message = "ref is never NULL") String ref)
         throws IOException;
 
     /**

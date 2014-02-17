@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import java.util.concurrent.ConcurrentHashMap;
@@ -129,11 +128,13 @@ public final class MkContentsTest {
         final ConcurrentMap<String, String> author =
             new ConcurrentHashMap<String, String>();
         author.put("login", username);
-        final Content content = contents.create(
-            path, message, initial, "444", commiter, author
-        );
+        final JsonObject content = Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", "theMessage")
+            .add("content", "blah")
+            .build();
         MatcherAssert.assertThat(
-            content.json().getString(cont),
+            content.getString(cont),
             Matchers.is(initial)
         );
         final JsonObject jsonPatch = Json.createObjectBuilder()
@@ -142,7 +143,7 @@ public final class MkContentsTest {
             .add(cont, update).build();
         contents.update(path, jsonPatch);
         MatcherAssert.assertThat(
-            content.json().getString(cont),
+            content.getString(cont),
             Matchers.is(update)
         );
     }

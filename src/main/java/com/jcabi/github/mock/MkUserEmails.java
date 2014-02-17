@@ -31,11 +31,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
-import com.jcabi.github.Organizations;
-import com.jcabi.github.PublicKeys;
-import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -43,20 +40,17 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github user.
+ * Mock Github User Emails.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.5
- * @todo #2:30min Organizations of a user.
- *  Let's implements a new method organizations(),
- *  which should return a mock instance of interface Organisations.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-final class MkUser implements User {
+public final class MkUserEmails implements UserEmails {
 
     /**
      * Storage.
@@ -74,52 +68,12 @@ final class MkUser implements User {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkUser(final MkStorage stg, final String login) throws IOException {
+    MkUserEmails(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/users[not(user[login='%s'])]", login)
-            ).add("user").add("login").set(login)
+            new Directives().xpath(this.userXpath()).addIf("emails")
         );
-    }
-
-    @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
-    }
-
-    @Override
-    public String login() {
-        return this.self;
-    }
-
-    @Override
-    public Organizations organizations() {
-        return null;
-    }
-
-    @Override
-    public PublicKeys keys() {
-        try {
-            return new MkPublicKeys(this.storage, this.self);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    public UserEmails emails() {
-        try {
-            return new MkUserEmails(this.storage, this.self);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
@@ -129,12 +83,60 @@ final class MkUser implements User {
         ).json();
     }
 
+    @Override
+    public Iterable<String> iterate() throws IOException {
+        return new MkIterable<String>(
+            this.storage,
+            String.format("%s/email", this.xpath()),
+            new MkIterable.Mapping<String>() {
+                @Override
+                public String map(final XML xml) {
+                    return xml.xpath("./text()").get(0);
+                }
+            }
+        );
+    }
+
+    @Override
+    public Iterable<String> add(final Iterable<String> emails)
+        throws IOException {
+        this.storage.lock();
+        try {
+            final Directives directives = new Directives().xpath(this.xpath());
+            for (final String email : emails) {
+                directives.add("email").set(email).up();
+            }
+            this.storage.apply(directives);
+        } finally {
+            this.storage.unlock();
+        }
+        return emails;
+    }
+
+    @Override
+    public void remove(final Iterable<String> emails) throws IOException {
+        final Directives directives = new Directives();
+        for (final String email : emails) {
+            directives.xpath(
+                String.format("%s/email[.='%s']", this.xpath(), email)
+            ).remove();
+        }
+        this.storage.apply(directives);
+    }
+
     /**
-     * XPath of this element in XML tree.
+     * XPath of user element in XML tree.
      * @return XPath
      */
-    private String xpath() {
+    private String userXpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }
 
+    /**
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format("%s/emails", this.userXpath());
+    }
 }
