@@ -53,12 +53,16 @@ public final class MkUserEmailsTest {
     @Test
     public void canAddEmails() throws Exception {
         final UserEmails emails = new MkGithub().users().get("john").emails();
+        final String email = "john@nowhere.com";
         final Iterable<String> added = emails.add(
-            Collections.singleton("john@nowhere.com")
+            Collections.singleton(email)
         );
         MatcherAssert.assertThat(
             added,
-            Matchers.<String>iterableWithSize(1)
+            Matchers.allOf(
+                Matchers.<String>iterableWithSize(1),
+                Matchers.contains(email)
+            )
         );
     }
 
@@ -71,18 +75,20 @@ public final class MkUserEmailsTest {
     public void canRemoveEmails() throws Exception {
         final UserEmails emails = new MkGithub().users().get("joe").emails();
         final String removed = "joe@nowhere.com";
+        final String retained = "joseph@somewhere.net";
         emails.add(
             Arrays.asList(
-                new String[]{
-                    removed,
-                    "joseph@somewhere.net",
-                }
+                new String[]{removed, retained}
             )
         );
         emails.remove(Collections.singleton(removed));
         MatcherAssert.assertThat(
             emails.iterate(),
-            Matchers.<String>iterableWithSize(1)
+            Matchers.allOf(
+                Matchers.<String>iterableWithSize(1),
+                Matchers.contains(retained),
+                Matchers.not(Matchers.contains(removed))
+            )
         );
     }
 
@@ -94,17 +100,17 @@ public final class MkUserEmailsTest {
     @Test
     public void canIterateEmails() throws Exception {
         final UserEmails emails = new MkGithub().users().get("matt").emails();
-        emails.add(
-            Arrays.asList(
-                new String[]{
-                    "matt@none.org",
-                    "matthew@somewhere.net",
-                }
-            )
-        );
+        final String[] added = new String[]{
+            "matt@none.org",
+            "matthew@somewhere.net",
+        };
+        emails.add(Arrays.asList(added));
         MatcherAssert.assertThat(
             emails.iterate(),
-            Matchers.<String>iterableWithSize(2)
+            Matchers.allOf(
+                Matchers.<String>iterableWithSize(2),
+                Matchers.containsInAnyOrder(added)
+            )
         );
     }
 
