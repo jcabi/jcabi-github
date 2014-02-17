@@ -112,8 +112,21 @@ public final class MkPullComments implements PullComments {
 
     @Override
     public Iterable<PullComment> iterate(final Map<String, String> params) {
-        //@checkstyle MultipleStringLiteralsCheck (1 line)
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<PullComment>(
+            this.storage,
+            String.format(
+                "/github/repos/repo[@coords='%s']/pulls/pull/comments",
+                this.repo
+            ),
+            new MkIterable.Mapping<PullComment>() {
+                @Override
+                public PullComment map(final XML xml) {
+                    return MkPullComments.this.get(
+                        Integer.parseInt(xml.xpath("comment/id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
