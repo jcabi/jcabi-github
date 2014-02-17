@@ -227,7 +227,7 @@ public final class RtContentsTest {
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents")
+                Matchers.endsWith(path)
             );
             MatcherAssert.assertThat(
                 smart.path(),
