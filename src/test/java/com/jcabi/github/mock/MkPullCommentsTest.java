@@ -69,15 +69,30 @@ public final class MkPullCommentsTest {
      * MkPullComments can fetch all pull comments for a repo.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link MkPullComments#iterate(java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesRepoPullComments() throws Exception {
-        // To be implemented.
+        final PullComments comments = comments();
+        comments.pull()
+            .repo()
+            .pulls()
+            .create("new", "", "")
+            .comments()
+            .post("new pull comment", "new commit", "/p", 1);
+        comments.post("test 1", "tesst 1", "/test1", 1);
+        MatcherAssert.assertThat(
+            comments.iterate(
+                comments.pull().number(),
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            comments.iterate(
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(2)
+        );
     }
 
     /**

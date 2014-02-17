@@ -47,17 +47,6 @@ import org.junit.Test;
 public final class MkForksTest {
 
     /**
-     * RtForks should be able to iterate its forks.
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    @Ignore
-    public void retrievesForks() throws Exception {
-        // To be implemented.
-    }
-
-    /**
      * RtForks should be able to create a new fork.
      *
      * @throws Exception if a problem occurs.
@@ -94,10 +83,15 @@ public final class MkForksTest {
     @Test
     public void iteratesForks() throws Exception {
         final Repo repo = this.repo();
-        repo.forks().create("Organization");
+        final Fork fork = repo.forks().create("Organization");
+        final Iterable<Fork> iterate = repo.forks().iterate("Order");
         MatcherAssert.assertThat(
-            repo.forks().iterate("Order"),
+            iterate,
             Matchers.<Fork>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            iterate,
+            Matchers.hasItem(fork)
         );
     }
 }

@@ -136,35 +136,20 @@ public final class RtContents implements Contents {
         );
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Content create(
-        final String path,
-        final String message,
-        final String content,
-        final String branch,
-        final Map<String, String> committer,
-        final Map<String, String> author)
+    public Content create(final JsonObject content)
         throws IOException {
-        final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : committer.entrySet()) {
-            cmtBuilder.add(entr.getKey(), entr.getValue());
+        if (!content.containsKey("path")) {
+            throw new IllegalStateException(
+                "Content should have path parameter"
+            );
         }
-        final JsonObjectBuilder atrBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : author.entrySet()) {
-            atrBuilder.add(entr.getKey(), entr.getValue());
-        }
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("message", message)
-            .add("content", content)
-            .add("branch", branch)
-            .add("committer", cmtBuilder.build())
-            .add("author", atrBuilder.build())
-            .build();
+        final String path = content.getString("path");
         return new RtContent(
             this.entry, this.owner,
             this.request.method(Request.PUT)
-                .body().set(json).back()
+                .uri().path(path).back()
+                .body().set(content).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)

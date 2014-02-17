@@ -29,6 +29,14 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -42,7 +50,7 @@ import org.junit.Test;
  *  files.
  *  When done, remove this puzzle and Ignore annotation from the method.
  */
-public class RtContentsITCase {
+public final class RtContentsITCase {
 
     /**
      * RtContents can fetch readme file.
@@ -52,5 +60,48 @@ public class RtContentsITCase {
     @Ignore
     public void canFetchReadmeFiles() throws Exception {
         // to be implemented
+    }
+
+    /**
+     * RtContents can create file content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canCreateFileContent() throws Exception {
+        final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+        final String cont = new String(
+            Base64.encodeBase64("some content".getBytes())
+        );
+        final JsonObject json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", "theMessage")
+            .add("content", cont)
+            .build();
+        final Content content = RtContentsITCase.repo().contents().create(json);
+        MatcherAssert.assertThat(
+            content.path(),
+            Matchers.equalTo(path)
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(RtContentsITCase.coordinates());
+    }
+
+    /**
+     * Create and return repo coordinates to test on.
+     * @return Coordinates
+     */
+    private static Coordinates coordinates() {
+        return new Coordinates.Simple(
+            System.getProperty("failsafe.github.repo")
+        );
     }
 }
