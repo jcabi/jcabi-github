@@ -37,6 +37,7 @@ import com.jcabi.http.request.ApacheRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -50,40 +51,21 @@ import org.junit.Test;
 public final class RtForkTest {
 
     /**
+     * Fork's organization field name in JSON object.
+     */
+    public static final String ORGANIZATION = "organization";
+
+    /**
      * RtFork can patch comment and return new json.
      * @throws java.io.IOException if has some problems with json parsing.
      */
     @Test
     public void patchAndCheckJsonFork() throws IOException {
-        final String nidentifier = "id";
-        final String norganization = "organization";
-        final int identifier = 1;
-        final String organization = "some organization";
-        final String porganization = "some patched organization";
-        final MkAnswer first = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createObjectBuilder()
-                .add(norganization, organization)
-                .add(nidentifier, identifier)
-                .build().toString()
-        );
-        final MkAnswer second = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createObjectBuilder()
-                .add(norganization, porganization)
-                .add(nidentifier, identifier)
-                .build().toString()
-        );
-        final MkAnswer third = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createObjectBuilder()
-                .add(norganization, organization)
-                .add(nidentifier, identifier)
-                .build().toString()
-        );
+        final String original = "some organization";
+        final String patched = "some patched organization";
         final MkContainer container =
-            new MkGrizzlyContainer().next(first).next(second).next(third)
-                .start();
+            new MkGrizzlyContainer().next(answer(original))
+                .next(answer(patched)).next(answer(original)).start();
         final MkContainer forksContainer = new MkGrizzlyContainer().start();
         final RtRepo repo =
             new RtRepo(
@@ -92,18 +74,38 @@ public final class RtForkTest {
                 new Coordinates.Simple("test_user", "test_repo")
             );
         final RtFork fork = new RtFork(
-            new ApacheRequest(container.home()), repo, identifier
+            new ApacheRequest(container.home()), repo, 1
         );
-        fork.patch(Json.createObjectBuilder()
-            .add(norganization, porganization)
-            .add(nidentifier, identifier)
-            .build()
-        );
+        fork.patch(fork(patched));
         MatcherAssert.assertThat(
-            fork.json().getString(norganization),
-            Matchers.equalTo(porganization)
+            fork.json().getString(ORGANIZATION),
+            Matchers.equalTo(patched)
         );
         container.stop();
         forksContainer.stop();
+    }
+
+    /**
+     * Create and return success MkAnswer object to test.
+     * @param organization The organization of the fork
+     * @return Success MkAnswer
+     */
+    private MkAnswer.Simple answer(final String organization) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            fork(organization).toString()
+        );
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param organization The organization of the fork
+     * @return JsonObject
+     */
+    private static JsonObject fork(final String organization) {
+        return Json.createObjectBuilder()
+            .add("id", 1)
+            .add(ORGANIZATION, organization)
+            .build();
     }
 }
