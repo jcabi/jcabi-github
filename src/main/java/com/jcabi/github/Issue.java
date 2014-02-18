@@ -225,6 +225,19 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
+
+        /**
+         * Get its assignee.
+         * @return User Assignee of issue
+         * @throws IOException If there is any I/O problem
+         */
+        public User assignee() throws IOException {
+            return this.issue.repo().github().users().get(
+                this.jsn.value(
+                    "assignee", JsonObject.class
+                ).getString("login")
+            );
+        }
         /**
          * Assign this issue to another user.
          * @param login Login of the user to assign to
