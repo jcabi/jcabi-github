@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Commit;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,15 +96,24 @@ public final class MkContentsTest {
      * MkContents should be able to create new files.
      *
      * @throws Exception if some problem inside
-     * @todo #311 MkContents should support the removal of mock contents.
-     *  This method should return a new instance of MkCommit. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
      */
     @Test
     @Ignore
     public void canRemoveFile() throws Exception {
-        //To be implemented.
+        final String username = "jeff";
+        final String path = "file.txt";
+        final String message = "commit message";
+        final String sha = "abcdef";
+        final String branch = "test_branch";
+        final Contents contents = MkContentsTest.repo().contents();
+        final ConcurrentMap<String, String> committer =
+            new ConcurrentHashMap<String, String>();
+        committer.put("login", username);
+        Commit commit = contents.remove(path, message, sha, branch, committer, committer);
+        MatcherAssert.assertThat(
+            commit.json().getString("message"),
+            Matchers.is(message)
+        );
     }
 
     /**
