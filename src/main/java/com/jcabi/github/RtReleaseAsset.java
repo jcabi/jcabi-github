@@ -32,7 +32,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -110,7 +112,9 @@ public final class RtReleaseAsset implements ReleaseAsset {
 
     @Override
     public void remove() throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.request.method(Request.DELETE).fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
 }
