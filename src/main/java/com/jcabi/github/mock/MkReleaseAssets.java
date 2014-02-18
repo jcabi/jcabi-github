@@ -29,10 +29,15 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
 import java.io.IOException;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Mock Github Release Assets.
@@ -40,15 +45,56 @@ import java.io.IOException;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @todo #282 Mock for release assets. Let's implements Mock for ReleaseAssets
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
  */
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords", "rel" })
 public final class MkReleaseAssets implements ReleaseAssets {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repository coordinates.
+     */
+    private final transient Coordinates coords;
+
+    /**
+     * Release id.
+     */
+    private final transient int rel;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @param number Release ID
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkReleaseAssets(final MkStorage stg, final String login,
+        final Coordinates rep, final int number) {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
+        this.rel = number;
+    }
 
     @Override
     public Release release() {
-        throw new UnsupportedOperationException("Release not yet implemented.");
+        return new MkRelease(
+            this.storage,
+            this.self,
+            this.coords,
+            this.rel
+        );
     }
 
     @Override
