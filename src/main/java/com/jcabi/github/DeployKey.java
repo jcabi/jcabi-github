@@ -65,7 +65,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
     void remove() throws IOException;
 
     /**
-     * Smart DeploycKey with extra features.
+     * Smart DeployKey with extra features.
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable
