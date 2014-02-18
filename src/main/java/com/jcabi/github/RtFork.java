@@ -32,22 +32,22 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release asset.
+ * Github fork.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtReleaseAsset implements ReleaseAsset {
+@EqualsAndHashCode(of = {"request", "num" })
+final class RtFork implements Fork {
 
     /**
      * RESTful request.
@@ -55,44 +55,26 @@ public final class RtReleaseAsset implements ReleaseAsset {
     private final transient Request request;
 
     /**
-     * Issue we're in.
-     */
-    private final transient Release owner;
-
-    /**
-     * Release Asset number.
+     * Fork number.
      */
     private final transient int num;
 
     /**
      * Public ctor.
-     * @param req RESTful Request
-     * @param release Release
-     * @param number Number of the release asset.
+     * @param req Request
+     * @param repo Repository
+     * @param number Number of the get
      */
-    RtReleaseAsset(final Request req, final Release release, final int number) {
-        final Coordinates coords = release.repo().coordinates();
+    RtFork(final Request req, final Repo repo, final int number) {
+        final Coordinates coords = repo.coordinates();
         this.request = req.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/releases")
-            .path(Integer.toString(release.number()))
-            .path("/assets")
+            .path("/forks")
             .path(Integer.toString(number))
             .back();
-        this.owner = release;
         this.num = number;
-    }
-
-    @Override
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    public Release release() {
-        return this.owner;
     }
 
     @Override
@@ -101,20 +83,14 @@ public final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
-    public void remove() throws IOException {
-        this.request.method(Request.DELETE).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
-
 }

@@ -30,8 +30,15 @@
 package com.jcabi.github;
 
 import com.jcabi.http.Request;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.FakeRequest;
+import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -44,6 +51,11 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtForksTest {
+
+    /**
+     * Fork's organization name in JSON object.
+     */
+    public static final String ORGANIZATION = "organization";
 
     /**
      * RtForks should be able to iterate its forks.
@@ -69,16 +81,36 @@ public final class RtForksTest {
      */
     @Test
     public void createsFork() throws Exception {
+        final String organization = RandomStringUtils.randomNumeric(10);
+        final MkAnswer answer = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            fork(organization).toString()
+        );
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_ACCEPTED,
+                fork(organization).toString()
+            )
+        ).next(answer).start();
+        final Repo owner = Mockito.mock(Repo.class);
+        final Coordinates coordinates = new Coordinates.Simple(
+            "test_user", "test_repo"
+        );
+        Mockito.doReturn(coordinates).when(owner).coordinates();
         final RtForks forks = new RtForks(
-            new FakeRequest()
-                .withBody("{\"fork\": true}")
-                .withStatus(HttpURLConnection.HTTP_ACCEPTED)
-                .method(Request.POST), repo()
+            new JdkRequest(container.home()),
+            owner
+        );
+        final Fork fork = forks.create(organization);
+        MatcherAssert.assertThat(
+            container.take().method(),
+            Matchers.equalTo(Request.POST)
         );
         MatcherAssert.assertThat(
-            forks.create("").json().getBoolean("fork"),
-            Matchers.comparesEqualTo(true)
+            fork.json().getString(ORGANIZATION),
+            Matchers.equalTo(organization)
         );
+        container.stop();
     }
 
     /**
@@ -91,5 +123,18 @@ public final class RtForksTest {
         Mockito.doReturn(new Coordinates.Simple("test", "forks"))
             .when(repo).coordinates();
         return repo;
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param organization The organization of the fork
+     * @return JsonObject
+     */
+    private static JsonObject fork(
+        final String organization) {
+        return Json.createObjectBuilder()
+            .add("id", 1)
+            .add(ORGANIZATION, organization)
+            .build();
     }
 }
