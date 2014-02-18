@@ -100,7 +100,16 @@ public final class MkRelease implements Release {
 
     @Override
     public ReleaseAssets assets() {
-        throw new UnsupportedOperationException("Assets not yet implemented.");
+        try {
+            return new MkReleaseAssets(
+                this.storage,
+                this.self,
+                this.coords,
+                this.release
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

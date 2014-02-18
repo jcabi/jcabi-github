@@ -27,93 +27,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Release;
-import com.jcabi.github.ReleaseAsset;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Mock Github release asset.
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github fork.
+ *
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  * @since 0.8
- * @todo #282 Mock for release asset. Let's implements Mock for ReleaseAsset
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
-public final class MkReleaseAsset implements ReleaseAsset {
-    /**
-     * Storage.
-     */
-    private final transient MkStorage storage;
+@EqualsAndHashCode(of = {"request", "num" })
+final class RtFork implements Fork {
 
     /**
-     * Login of the user logged in.
+     * RESTful request.
      */
-    private final transient String self;
+    private final transient Request request;
 
     /**
-     * Repository coordinates.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Release id.
-     */
-    private final transient int rel;
-
-    /**
-     * The asset id.
+     * Fork number.
      */
     private final transient int num;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @param release Release ID
-     * @param asset Asset ID
-     * @checkstyle ParameterNumber (5 lines)
+     * @param req Request
+     * @param repo Repository
+     * @param number Number of the get
      */
-    MkReleaseAsset(final MkStorage stg, final String login,
-        final Coordinates rep, final int release, final int asset) {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
-        this.rel = release;
-        this.num = asset;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
-    }
-
-    @Override
-    public Release release() {
-        return new MkRelease(
-            this.storage,
-            this.self,
-            this.coords,
-            this.rel
-        );
+    RtFork(final Request req, final Repo repo, final int number) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/forks")
+            .path(Integer.toString(number))
+            .back();
+        this.num = number;
     }
 
     @Override
@@ -122,8 +83,14 @@ public final class MkReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    public void remove() throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        throws IOException {
+        new RtJson(this.request).patch(json);
     }
 
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 }

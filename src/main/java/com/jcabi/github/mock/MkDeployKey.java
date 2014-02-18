@@ -108,4 +108,9 @@ public final class MkDeployKey implements DeployKey {
         );
     }
 
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
 }
