@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
@@ -48,6 +49,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -178,12 +180,36 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Change its tag name.
+         * @param text Tag name
+         * @throws IOException If there is any I/O problem
+         */
+        public void tag(final String text) throws IOException {
+            this.release.patch(
+                Json.createObjectBuilder().add("tag_name", text).build()
+            );
+        }
+
+        /**
          * Get release target commitish.
          * @return Release target commitish value
          * @throws IOException If there is any I/O problem
          */
         public String commitish() throws IOException {
             return this.jsn.text("target_commitish");
+        }
+
+        /**
+         * Change its target commitish.
+         * @param text Target commitish.
+         * @throws IOException If there is any I/O problem
+         */
+        public void commitish(final String text) throws IOException {
+            this.release.patch(
+                Json.createObjectBuilder()
+                    .add("target_commitish", text)
+                    .build()
+            );
         }
 
         /**
@@ -196,12 +222,34 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Change its name.
+         * @param text Name of release.
+         * @throws IOException If there is any I/O problem
+         */
+        public void name(final String text) throws IOException {
+            this.release.patch(
+                Json.createObjectBuilder().add("name", text).build()
+            );
+        }
+
+        /**
          * Get release body.
          * @return Release body
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
             return this.jsn.text("body");
+        }
+
+        /**
+         * Change its body.
+         * @param text Text describing the contents of the tag
+         * @throws IOException If there is any I/O problem
+         */
+        public void body(final String text) throws IOException {
+            this.release.patch(
+                Json.createObjectBuilder().add("body", text).build()
+            );
         }
 
         /**
@@ -242,12 +290,34 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Change its status.
+         * @param draft True makes the release a draft.
+         * @throws IOException If there is any I/O problem
+         */
+        public void draft(final boolean draft) throws IOException {
+            this.release.patch(
+                Json.createObjectBuilder().add("draft", draft).build()
+            );
+        }
+
+        /**
          * Is it prerelease.
          * @return Returns true if it's prerelease
          * @throws IOException If there is any I/O problem
          */
         public boolean prerelease() throws IOException {
             return booleanValue("prerelease");
+        }
+
+        /**
+         * Change its prerelease.
+         * @param pre True to identify the release as a prerelease.
+         * @throws IOException If there is any I/O problem
+         */
+        public void prerelease(final boolean pre) throws IOException {
+            this.release.patch(
+                Json.createObjectBuilder().add("prerelease", pre).build()
+            );
         }
 
         /**
