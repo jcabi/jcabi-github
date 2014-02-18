@@ -139,6 +139,19 @@ public final class RtReleaseAssetTest {
     }
 
     /**
+     * RtReleaseAsset can stream raw content.
+     * @throws Exception If a problem occurs.
+     * @todo #282 RtReleaseAsset should be able to stream raw content. Implement
+     *  this method and include a unit test here. When done, remove this puzzle
+     *  and the Ignore annotation from this test method.
+     */
+    @Test
+    @Ignore
+    public void rawAsset() throws Exception {
+        // To be implemented.
+    }
+
+    /**
      * This method returns a Release for testing.
      * @return Release to be used for test.
      * @throws Exception - if anything goes wrong.

@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -111,6 +112,11 @@ public final class RtReleaseAsset implements ReleaseAsset {
     @Override
     public void remove() throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
+    }
+
+    @Override
+    public InputStream raw() throws IOException {
+        throw new UnsupportedOperationException("Raw not yet implemented.");
     }
 
 }
