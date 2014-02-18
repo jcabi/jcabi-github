@@ -29,10 +29,15 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import java.io.IOException;
 import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Mock Github release asset.
@@ -43,7 +48,53 @@ import javax.json.JsonObject;
  *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
  *  tests.
  */
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
 public final class MkReleaseAsset implements ReleaseAsset {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repository coordinates.
+     */
+    private final transient Coordinates coords;
+
+    /**
+     * Release id.
+     */
+    private final transient int rel;
+
+    /**
+     * The asset id.
+     */
+    private final transient int num;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @param release Release ID
+     * @param asset Asset ID
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkReleaseAsset(final MkStorage stg, final String login,
+        final Coordinates rep, final int release, final int asset) {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
+        this.rel = release;
+        this.num = asset;
+    }
 
     @Override
     public JsonObject json() throws IOException {
@@ -57,12 +108,17 @@ public final class MkReleaseAsset implements ReleaseAsset {
 
     @Override
     public Release release() {
-        throw new UnsupportedOperationException("Release not yet implemented.");
+        return new MkRelease(
+            this.storage,
+            this.self,
+            this.coords,
+            this.rel
+        );
     }
 
     @Override
     public int number() {
-        throw new UnsupportedOperationException("Number not yet implemented.");
+        return this.num;
     }
 
     @Override
