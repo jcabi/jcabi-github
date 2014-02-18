@@ -49,14 +49,23 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can iterate releases.
+     * @throws Exception if something goes wrong
      */
     @Test
-    public void canFetchAllReleases() {
+    public void canFetchAllReleases() throws Exception {
         final Releases releases = RtReleasesITCase.releases();
-        MatcherAssert.assertThat(
-            releases.iterate(),
-            Matchers.not(Matchers.emptyIterableOf(Release.class))
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
+        final int number = release.number();
+        try {
+            MatcherAssert.assertThat(
+                releases.iterate(),
+                Matchers.not(Matchers.emptyIterableOf(Release.class))
+            );
+        } finally {
+            releases.remove(number);
+        }
     }
 
     /**
