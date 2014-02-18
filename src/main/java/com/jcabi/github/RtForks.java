@@ -36,7 +36,9 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -47,15 +49,17 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
- * @todo #440 Create RtFork class which will implement Fork interface, RtForkTest
- *  will be necessary as well, implement number() and patch() method,
- *  lastly change RtForks to return an RtFork instance instead  of an anonymous
- *  Fork object. Don't forget to remove this to do tag after finishing.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "owner" })
 public final class RtForks implements Forks {
+
+    /**
+     * Fork's id name in JSON object.
+     */
+    public static final String ID = "id";
+
     /**
      * Restful Request.
      */
@@ -89,26 +93,11 @@ public final class RtForks implements Forks {
     public Iterable<Fork> iterate(
         @NotNull(message = "sort can't be NULL") final String sort) {
         return new RtPagination<Fork>(
-            this.request.uri()
-                .queryParam("sort", sort).back(),
+            this.request.uri().queryParam("sort", sort).back(),
             new RtPagination.Mapping<Fork, JsonObject>() {
                 @Override
-                public Fork map(final JsonObject value) {
-                    return new Fork() {
-                        @Override
-                        public JsonObject json() throws IOException {
-                            return value;
-                        }
-                        @Override
-                        public int number() {
-                            throw new UnsupportedOperationException("");
-                        }
-                        @Override
-                        public void patch(
-                            final JsonObject json) throws IOException {
-                            throw new UnsupportedOperationException("");
-                        }
-                    };
+                public Fork map(final JsonObject object) {
+                    return RtForks.this.get(object.getInt(ID));
                 }
             }
         );
@@ -117,24 +106,26 @@ public final class RtForks implements Forks {
     @Override
     public Fork create(
         @NotNull(message = "organization can't be NULL")
-        final String organization) {
-        return new Fork() {
-            @Override
-            public JsonObject json() throws IOException {
-                return RtForks.this.request.method(Request.POST)
-                    .fetch()
-                    .as(RestResponse.class)
-                    .assertStatus(HttpURLConnection.HTTP_ACCEPTED)
-                    .as(JsonResponse.class).json().readObject();
-            }
-            @Override
-            public int number() {
-                throw new UnsupportedOperationException("");
-            }
-            @Override
-            public void patch(final JsonObject json) throws IOException {
-                throw new UnsupportedOperationException("");
-            }
-        };
+        final String organization) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("organization", organization)
+            .build();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_ACCEPTED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt(ID)
+        );
+    }
+
+    /**
+     * Get fork by number.
+     * @param number Fork number
+     * @return Fork
+     */
+    private RtFork get(final Integer number) {
+        return new RtFork(this.request, this.owner, number);
     }
 }

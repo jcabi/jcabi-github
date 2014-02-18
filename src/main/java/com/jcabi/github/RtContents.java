@@ -50,11 +50,12 @@ import lombok.EqualsAndHashCode;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiterals (200 lines)
+ * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContents implements Contents {
 
     /**
@@ -94,44 +95,85 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public Content readme() {
-        throw new UnsupportedOperationException("Create not yet implemented.");
+    public Content readme() throws IOException {
+        return new RtContent(
+            this.entry, this.owner,
+            this.entry.uri()
+                .path("/repos")
+                .path(this.owner.coordinates().user())
+                .path(this.owner.coordinates().repo())
+                .path("/readme")
+                .back()
+                .method(Request.GET)
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
+        );
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Content create(
-        final String path,
-        final String message,
-        final String content,
-        final String branch,
-        final Map<String, String> committer,
-        final Map<String, String> author)
-        throws IOException {
-        final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : committer.entrySet()) {
-            cmtBuilder.add(entr.getKey(), entr.getValue());
-        }
-        final JsonObjectBuilder atrBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : author.entrySet()) {
-            atrBuilder.add(entr.getKey(), entr.getValue());
-        }
+    public Content readme(final String branch) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-            .add("message", message)
-            .add("content", content)
-            .add("branch", branch)
-            .add("committer", cmtBuilder.build())
-            .add("author", atrBuilder.build())
+            .add("ref", branch)
             .build();
         return new RtContent(
             this.entry, this.owner,
-            this.request.method(Request.PUT)
+            this.entry.uri()
+                .path("/repos")
+                .path(this.owner.coordinates().user())
+                .path(this.owner.coordinates().repo())
+                .path("/readme")
+                .back()
+                .method(Request.GET)
                 .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
+        );
+    }
+
+    @Override
+    public Content create(final JsonObject content)
+        throws IOException {
+        if (!content.containsKey("path")) {
+            throw new IllegalStateException(
+                "Content should have path parameter"
+            );
+        }
+        final String path = content.getString("path");
+        return new RtContent(
+            this.entry, this.owner,
+            this.request.method(Request.PUT)
+                .uri().path(path).back()
+                .body().set(content).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
                 .json().readObject().getJsonObject("content").getString("path")
+        );
+    }
+
+    @Override
+    public Content get(final String path, final String ref)
+        throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("ref", ref)
+            .build();
+        return new RtContent(
+            this.entry, this.owner,
+            this.request.method(Request.GET)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
         );
     }
 

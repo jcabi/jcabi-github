@@ -29,6 +29,16 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.PullComment;
+import com.jcabi.github.PullComments;
+import com.jcabi.github.Repo;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -44,75 +54,156 @@ public final class MkPullCommentsTest {
      * MkPullComments can fetch a single comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch a single pull comment.
-     *  Implement {@link MkPullComments#get(int)} and don't forget to include a
-     *  test here. When done, remove this puzzle and the Ignore annotation of
-     *  this test method.
      */
     @Test
-    @Ignore
     public void fetchesPullComment() throws Exception {
-        // To be implemented.
+        final PullComments comments = this.comments();
+        final PullComment comment = comments.post("comment", "commit", "/", 1);
+        MatcherAssert.assertThat(
+            comments.get(comment.number()).number(),
+            Matchers.equalTo(comment.number())
+        );
     }
 
     /**
      * MkPullComments can fetch all pull comments for a repo.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link MkPullComments#iterate(java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesRepoPullComments() throws Exception {
-        // To be implemented.
+        final PullComments comments = comments();
+        comments.pull()
+            .repo()
+            .pulls()
+            .create("new", "", "")
+            .comments()
+            .post("new pull comment", "new commit", "/p", 1);
+        comments.post("test 1", "tesst 1", "/test1", 1);
+        MatcherAssert.assertThat(
+            comments.iterate(
+                comments.pull().number(),
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            comments.iterate(
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(2)
+        );
     }
 
     /**
      * MkPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all comments of a pull
-     *  request. Implement {@link MkPullComments#iterate(int, java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesPullRequestComments() throws Exception {
-        // To be implemented.
+        final PullComments comments = comments();
+        comments.post("comment 1", "commit 1", "/commit1", 1);
+        comments.post("comment 2", "commit 2", "/commit2", 2);
+        MatcherAssert.assertThat(
+            comments.iterate(
+                comments.pull().number(),
+                Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(2)
+        );
     }
 
     /**
      * MkPullComments can create a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to create a new pull comment.
-     *  Implement {@link MkPullComments#post(String, String, String, int)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void postsPullComment() throws Exception {
-        // To be implemented.
+        final MkStorage storage = new MkStorage.InFile();
+        final String commit = "commit_id";
+        final String path = "path";
+        final String bodytext = "some text as a body";
+        MkPullCommentsTest.repo(storage).pulls()
+            .create("pullrequest1", "head", "base").comments()
+            .post(bodytext, commit, path, 1);
+        final String[] fields = {commit, path};
+        for (final String element : fields) {
+            MkPullCommentsTest.assertFieldContains(storage, element);
+        }
+        final List<String> position = storage.xml().xpath(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()"
+        );
+        MatcherAssert.assertThat(
+            position.get(0), Matchers.notNullValue()
+        );
+        final List<String> body = storage.xml().xpath(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/body/text()"
+        );
+        MatcherAssert.assertThat(body.get(0), Matchers.equalTo(bodytext));
+    }
+
+    /**
+     * Create a test repo.
+     * @param storage The storage
+     * @return Test repo
+     * @throws IOException If any I/O error occurs.
+     */
+    private static Repo repo(
+        final MkStorage storage) throws IOException {
+        // @checkstyle MultipleStringLiteralsCheck (3 lines)
+        final String login = "test";
+        return new MkGithub(storage, login).repos().create(
+            Json.createObjectBuilder().add("name", login).build()
+        );
+    }
+
+    /**
+     * Assert if fields doesn't contain value.
+     * @param storage The storage
+     * @param element The element to be tested and the value.
+     * @throws IOException If any I/O error occurs.
+     */
+    private static void assertFieldContains(final MkStorage storage,
+        final String element) throws IOException {
+        final String xpath = String.format(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
+            element
+        );
+        MatcherAssert.assertThat(
+            storage.xml().xpath(xpath).get(0),
+            Matchers.is(element)
+        );
     }
 
     /**
      * MkPullComments can reply to an existing pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link MkPullComments#reply(String, int))}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void createsPullCommentReply() throws Exception {
-        // To be implemented.
+        final PullComments comments = this.comments();
+        final int orig = comments.post(
+            "Orig Comment",
+            "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "file1.txt",
+            1
+        ).number();
+        final String body = "Reply Comment";
+        final JsonObject reply = comments.reply(body, orig).json();
+        MatcherAssert.assertThat(
+            reply.getString("body"),
+            Matchers.is(body)
+        );
+        MatcherAssert.assertThat(
+            reply.getString("original_position"),
+            Matchers.is(Integer.toString(orig))
+        );
     }
 
     /**
@@ -128,6 +219,17 @@ public final class MkPullCommentsTest {
     @Ignore
     public void removesPullComment() throws Exception {
         // To be implemented.
+    }
+
+    /**
+     * Generate pull comments for test.
+     * @return The pull comments
+     * @throws IOException If an IO Exception occurs
+     */
+    private PullComments comments() throws IOException {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).pulls().create("hello", "", "").comments();
     }
 
 }

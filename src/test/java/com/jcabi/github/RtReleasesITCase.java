@@ -41,22 +41,28 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @todo #123 RtReleases should be able to edit release.
- *  When done, remove this puzzle and Ignore annotation from
- *  the methods.
  */
 public final class RtReleasesITCase {
 
     /**
      * RtReleases can iterate releases.
+     * @throws Exception if something goes wrong
      */
     @Test
-    public void canFetchAllReleases() {
+    public void canFetchAllReleases() throws Exception {
         final Releases releases = RtReleasesITCase.releases();
-        MatcherAssert.assertThat(
-            releases.iterate(),
-            Matchers.not(Matchers.emptyIterableOf(Release.class))
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
+        final int number = release.number();
+        try {
+            MatcherAssert.assertThat(
+                releases.iterate(),
+                Matchers.not(Matchers.emptyIterableOf(Release.class))
+            );
+        } finally {
+            releases.remove(number);
+        }
     }
 
     /**
@@ -123,6 +129,44 @@ public final class RtReleasesITCase {
             releases.iterate(),
             Matchers.not(Matchers.hasItem(release))
         );
+    }
+
+    /**
+     * RtReleases can edit release tag.
+     * @throws Exception if any problem inside.
+     */
+    @Test
+    public void canEditTag() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
+        new Release.Smart(release).tag(tag);
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.get(release.number())).tag(),
+            Matchers.equalTo(tag)
+        );
+        releases.remove(release.number());
+    }
+
+    /**
+     * RtReleases can edit release body.
+     * @throws Exception if any problem inside.
+     */
+    @Test
+    public void canEditBody() throws Exception {
+        final Releases releases = RtReleasesITCase.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final String body = "Description of the release";
+        new Release.Smart(release).body(body);
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.get(release.number())).body(),
+            Matchers.equalTo(body)
+        );
+        releases.remove(release.number());
     }
 
     /**

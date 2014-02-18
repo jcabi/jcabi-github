@@ -30,90 +30,75 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Release;
-import com.jcabi.github.ReleaseAsset;
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComment;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github release asset.
+ * Mock Github pull comment.
+ *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
- * @todo #282 Mock for release asset. Let's implements Mock for ReleaseAsset
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
-public final class MkReleaseAsset implements ReleaseAsset {
+@EqualsAndHashCode(of = { "storage", "repo", "owner", "num" })
+public final class MkPullComment implements PullComment {
     /**
      * Storage.
      */
     private final transient MkStorage storage;
 
     /**
-     * Login of the user logged in.
+     * Repo name.
      */
-    private final transient String self;
+    private final transient Coordinates repo;
 
     /**
-     * Repository coordinates.
+     * Owner of comments.
      */
-    private final transient Coordinates coords;
+    private final transient Pull owner;
 
     /**
-     * Release id.
-     */
-    private final transient int rel;
-
-    /**
-     * The asset id.
+     * Comment number.
      */
     private final transient int num;
 
     /**
      * Public ctor.
      * @param stg Storage
-     * @param login User to login
      * @param rep Repo
-     * @param release Release ID
-     * @param asset Asset ID
+     * @param pull Pull
+     * @param number Comment number
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkReleaseAsset(final MkStorage stg, final String login,
-        final Coordinates rep, final int release, final int asset) {
+    MkPullComment(final MkStorage stg,
+        final Coordinates rep, final Pull pull, final int number) {
         this.storage = stg;
-        this.self = login;
-        this.coords = rep;
-        this.rel = release;
-        this.num = asset;
+        this.repo = rep;
+        this.owner = pull;
+        this.num = number;
     }
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    public Release release() {
-        return new MkRelease(
-            this.storage,
-            this.self,
-            this.coords,
-            this.rel
-        );
+    public Pull pull() {
+        return this.owner;
     }
 
     @Override
@@ -122,8 +107,19 @@ public final class MkReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    public void remove() throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+    public int compareTo(final PullComment other) {
+        return this.number() - other.number();
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment[id='%d']",
+            this.repo, this.owner.number(), this.num
+        );
+    }
 }

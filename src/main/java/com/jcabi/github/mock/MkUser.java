@@ -51,11 +51,6 @@ import org.xembly.Directives;
  * @todo #2:30min Organizations of a user.
  *  Let's implements a new method organizations(),
  *  which should return a mock instance of interface Organisations.
- * @todo #17 MkUser should be able to fetch a list of user's emails. Let's
- *  implement the method emails() that returns an object with interface
- *  {@link UserEmails} with methods: iterate(), add(), and remove().
- *  The methods should be tested in unit tests. See
- *  http://developer.github.com/v3/users/emails/. When done, remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -115,7 +110,11 @@ final class MkUser implements User {
 
     @Override
     public UserEmails emails() {
-        throw new UnsupportedOperationException("Not implemented");
+        try {
+            return new MkUserEmails(this.storage, this.self);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

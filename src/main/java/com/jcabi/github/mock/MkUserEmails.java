@@ -31,28 +31,27 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Release;
-import com.jcabi.github.ReleaseAsset;
+import com.jcabi.github.UserEmails;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
- * Mock Github release asset.
+ * Mock Github User Emails.
+ *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @todo #282 Mock for release asset. Let's implements Mock for ReleaseAsset
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
-public final class MkReleaseAsset implements ReleaseAsset {
+@EqualsAndHashCode(of = { "storage", "self" })
+public final class MkUserEmails implements UserEmails {
+
     /**
      * Storage.
      */
@@ -64,66 +63,80 @@ public final class MkReleaseAsset implements ReleaseAsset {
     private final transient String self;
 
     /**
-     * Repository coordinates.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Release id.
-     */
-    private final transient int rel;
-
-    /**
-     * The asset id.
-     */
-    private final transient int num;
-
-    /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @param rep Repo
-     * @param release Release ID
-     * @param asset Asset ID
-     * @checkstyle ParameterNumber (5 lines)
+     * @throws IOException If there is any I/O problem
      */
-    MkReleaseAsset(final MkStorage stg, final String login,
-        final Coordinates rep, final int release, final int asset) {
+    MkUserEmails(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
-        this.coords = rep;
-        this.rel = release;
-        this.num = asset;
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
-    }
-
-    @Override
-    public Release release() {
-        return new MkRelease(
-            this.storage,
-            this.self,
-            this.coords,
-            this.rel
+        this.storage.apply(
+            new Directives().xpath(this.userXpath()).addIf("emails")
         );
     }
 
     @Override
-    public int number() {
-        return this.num;
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
-    public void remove() throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+    public Iterable<String> iterate() throws IOException {
+        return new MkIterable<String>(
+            this.storage,
+            String.format("%s/email", this.xpath()),
+            new MkIterable.Mapping<String>() {
+                @Override
+                public String map(final XML xml) {
+                    return xml.xpath("./text()").get(0);
+                }
+            }
+        );
     }
 
+    @Override
+    public Iterable<String> add(final Iterable<String> emails)
+        throws IOException {
+        this.storage.lock();
+        try {
+            final Directives directives = new Directives().xpath(this.xpath());
+            for (final String email : emails) {
+                directives.add("email").set(email).up();
+            }
+            this.storage.apply(directives);
+        } finally {
+            this.storage.unlock();
+        }
+        return emails;
+    }
+
+    @Override
+    public void remove(final Iterable<String> emails) throws IOException {
+        final Directives directives = new Directives();
+        for (final String email : emails) {
+            directives.xpath(
+                String.format("%s/email[.='%s']", this.xpath(), email)
+            ).remove();
+        }
+        this.storage.apply(directives);
+    }
+
+    /**
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String userXpath() {
+        return String.format("/github/users/user[login='%s']", this.self);
+    }
+
+    /**
+     * XPath of user element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format("%s/emails", this.userXpath());
+    }
 }

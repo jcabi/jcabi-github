@@ -42,7 +42,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -128,14 +127,27 @@ public final class RtReleaseAssetTest {
     /**
      * RtReleaseAsset can remove itself.
      * @throws Exception If a problem occurs.
-     * @todo #282 RtReleaseAsset should be able to support removal. Implement
-     *  this method and include a unit test here. When done, remove this puzzle
-     *  and the Ignore annotation from this test method.
      */
     @Test
-    @Ignore
     public void removesAsset() throws Exception {
-        // To be implemented.
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final RtReleaseAsset asset = new RtReleaseAsset(
+            new ApacheRequest(container.home()),
+            release(),
+            3
+        );
+        try {
+            asset.remove();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

@@ -43,17 +43,23 @@ import org.junit.Test;
  * @version $Id$
  * @todo #117 Add test getCommit() to check that commit actually got.
  *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
- *
+ * @todo #439 Implement test compareCommitsPatch to check that
+ *  two commits can be compared and result is in patch format.
+ *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
+ * @todo #439 Implement test compareCommitsDiff to check that
+ *  two commits can be compared and result is in diff format.
+ *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
  */
 public class RtRepoCommitsITCase {
     /**
-     * RtRepoCommits can fetch commits.
+     * RtRepoCommits can fetch repo commits.
      * @throws Exception if there is no github key provided
      */
     @Test
     public final void fetchCommits() throws Exception {
-        final Iterator<Commit> iterator = repo().commits().iterate().iterator();
-        final List<String> shas = new ArrayList<String>();
+        final Iterator<RepoCommit> iterator =
+            RtRepoCommitsITCase.repo().commits().iterate().iterator();
+        final List<String> shas = new ArrayList<String>(5);
         shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
         shas.add("940dd5081fada0ead07762933036bf68a005cc40");
         shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");
@@ -69,6 +75,24 @@ public class RtRepoCommitsITCase {
             found,
             Matchers.equalTo(shas.size())
         );
+    }
+
+    /**
+     * RtRepoCommits can compare two commits and return result in patch mode.
+     * @throws Exception if there is no github key provided
+     */
+    @Test
+    public final void compareCommitsPatch() throws Exception {
+        // To be implemented
+    }
+
+    /**
+     * RtRepoCommits can compare two commits and return result in diff mode.
+     * @throws Exception if there is no github key provided
+     */
+    @Test
+    public final void compareCommitsDiff() throws Exception {
+        // To be implemented
     }
 
     /**

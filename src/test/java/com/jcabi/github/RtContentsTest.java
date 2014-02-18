@@ -42,7 +42,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,60 +50,142 @@ import org.mockito.Mockito;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (300 lines)
+ * @checkstyle MultipleStringLiteralsCheck (350 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsTest {
 
     /**
      * RtContents can fetch the default branch readme file.
-     * @todo #119 RtContents should fetch the readme file for the default
-     *  branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     *
      * @throws Exception if some problem inside.
      */
     @Test
-    @Ignore
     public void canFetchReadmeFile() throws Exception {
+        final String path = "README.md";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .build();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
         ).start();
-        final Contents contents = new RtContents(
-            new ApacheRequest(container.home()), RtContentsTest.repo()
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
         );
-        MatcherAssert.assertThat(
-            contents.readme(),
-            Matchers.notNullValue()
-        );
-        container.stop();
+        try {
+            MatcherAssert.assertThat(
+                contents.readme().path(),
+                Matchers.is(path)
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/readme")
+            );
+            MatcherAssert.assertThat(
+                query.body().length(),
+                Matchers.is(0)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
      * RtContents can fetch the readme file from the specified branch.
      *
-     * @todo #119 RtContents should fetch the readme file for any branch.
-     *  Let's implement a test here and a method of RtContents.
-     *  The method should receive the branch name as a parameter.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
-    public void canFetchReadmeFileFromSpecifiedBranch() {
-        // to be implemented
+    public void canFetchReadmeFileFromSpecifiedBranch() throws Exception {
+        final String path = "README.md";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .build();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
+        ).start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                contents.readme("test-branch").path(),
+                Matchers.is(path)
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/readme")
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.is("{\"ref\":\"test-branch\"}")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
      * RtContents can fetch files from the repository.
      *
-     * @todo #119 RtContents should be able to fetch files from the repository.
-     *  Let's implement a test here and a method of RtContents.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws Exception if some problem inside.
+     * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    @Ignore
-    public void canFetchFilesFromRepository() {
-        // to be implemented
+    public void canFetchFilesFromRepository() throws Exception {
+        final String path = "test/file";
+        final String name = "file";
+        final JsonObject body = Json.createObjectBuilder()
+            .add("path", path)
+            .add("name", name)
+            .build();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add("path", path)
+                    .add("name", name)
+                    .build().toString()
+            )
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
+            .start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            final Content.Smart smart = new Content.Smart(
+                contents.get(path, "master")
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents")
+            );
+            MatcherAssert.assertThat(
+                smart.path(),
+                Matchers.is(path)
+            );
+            MatcherAssert.assertThat(
+                smart.name(),
+                Matchers.is(name)
+            );
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.GET)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/repos/test/contents/contents/test/file")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -116,7 +197,7 @@ public final class RtContentsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canCreateFilesFromRepository() throws Exception {
+    public void canCreateFileInRepository() throws Exception {
         final String path = "test/thefile";
         final String name = "thefile";
         final JsonObject body = Json.createObjectBuilder()
@@ -135,20 +216,18 @@ public final class RtContentsTest {
             new ApacheRequest(container.home()),
             repo()
         );
+        final JsonObject content = Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", "theMessage")
+            .add("content", "blah")
+            .build();
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.create(
-                    path,
-                    "theMessage",
-                    "blah",
-                    "master",
-                    Collections.<String, String>emptyMap(),
-                    Collections.<String, String>emptyMap()
-                )
+                contents.create(content)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents")
+                Matchers.endsWith(path)
             );
             MatcherAssert.assertThat(
                 smart.path(),
