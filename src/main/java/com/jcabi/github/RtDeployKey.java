@@ -36,6 +36,7 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -95,5 +96,12 @@ public final class RtDeployKey implements DeployKey {
         this.request.method(Request.DELETE).fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        throws IOException {
+        new RtJson(this.request).patch(json);
     }
 }
