@@ -106,8 +106,7 @@ public final class RtForks implements Forks {
     @Override
     public Fork create(
         @NotNull(message = "organization can't be NULL")
-        final String organization)
-        throws IOException {
+        final String organization) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("organization", organization)
             .build();

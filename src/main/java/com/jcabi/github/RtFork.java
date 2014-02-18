@@ -29,18 +29,25 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github fork.
  *
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
+ * @since 0.8
  */
-public final class RtFork implements Fork {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = {"request", "num" })
+final class RtFork implements Fork {
 
     /**
      * RESTful request.

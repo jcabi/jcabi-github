@@ -55,30 +55,30 @@ public final class RtForkTest {
      */
     @Test
     public void patchAndCheckJsonFork() throws IOException {
-        final String idName = "id";
-        final String orgName = "organization";
+        final String nidentifier = "id";
+        final String norganization = "organization";
         final int identifier = 1;
         final String organization = "some organization";
         final String porganization = "some patched organization";
         final MkAnswer first = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(orgName, organization)
-                .add(idName, identifier)
+                .add(norganization, organization)
+                .add(nidentifier, identifier)
                 .build().toString()
         );
         final MkAnswer second = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(orgName, porganization)
-                .add(idName, identifier)
+                .add(norganization, porganization)
+                .add(nidentifier, identifier)
                 .build().toString()
         );
         final MkAnswer third = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(orgName, organization)
-                .add(idName, identifier)
+                .add(norganization, organization)
+                .add(nidentifier, identifier)
                 .build().toString()
         );
         final MkContainer container =
@@ -95,12 +95,12 @@ public final class RtForkTest {
             new ApacheRequest(container.home()), repo, identifier
         );
         fork.patch(Json.createObjectBuilder()
-            .add(orgName, porganization)
-            .add(idName, identifier)
+            .add(norganization, porganization)
+            .add(nidentifier, identifier)
             .build()
         );
         MatcherAssert.assertThat(
-            fork.json().getString(orgName),
+            fork.json().getString(norganization),
             Matchers.equalTo(porganization)
         );
         container.stop();

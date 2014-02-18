@@ -93,10 +93,10 @@ public final class RtForksTest {
             )
         ).next(answer).start();
         final Repo owner = Mockito.mock(Repo.class);
-        final Coordinates coordinates = Mockito.mock(Coordinates.class);
+        final Coordinates coordinates = new Coordinates.Simple(
+            "test_user", "test_repo"
+        );
         Mockito.doReturn(coordinates).when(owner).coordinates();
-        Mockito.doReturn("test_user").when(coordinates).user();
-        Mockito.doReturn("test_repo").when(coordinates).repo();
         final RtForks forks = new RtForks(
             new JdkRequest(container.home()),
             owner
@@ -129,10 +129,9 @@ public final class RtForksTest {
      * Create and return JsonObject to test.
      * @param organization The organization of the fork
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
     private static JsonObject fork(
-        final String organization) throws Exception {
+        final String organization) {
         return Json.createObjectBuilder()
             .add("id", 1)
             .add(ORGANIZATION, organization)
