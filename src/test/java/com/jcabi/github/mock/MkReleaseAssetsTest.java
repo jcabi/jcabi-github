@@ -35,7 +35,6 @@ import com.jcabi.github.ReleaseAssets;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,7 +53,6 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public void uploadsNewAsset() throws Exception {
         final ReleaseAssets assets = release().assets();
         final ReleaseAsset asset = assets.upload(
@@ -72,7 +70,6 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public void fetchesSingleAsset() throws Exception {
         final ReleaseAssets assets = release().assets();
         final ReleaseAsset asset = assets.upload(
@@ -90,7 +87,6 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public void iteratesAssets() throws Exception {
         final ReleaseAssets assets = release().assets();
         assets.upload(

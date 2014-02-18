@@ -100,12 +100,16 @@ public final class MkRelease implements Release {
 
     @Override
     public ReleaseAssets assets() {
-        return new MkReleaseAssets(
-            this.storage,
-            this.self,
-            this.coords,
-            this.release
-        );
+        try {
+            return new MkReleaseAssets(
+                this.storage,
+                this.self,
+                this.coords,
+                this.release
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

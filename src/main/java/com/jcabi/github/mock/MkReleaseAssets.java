@@ -32,12 +32,15 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Github;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github Release Assets.
@@ -77,14 +80,24 @@ public final class MkReleaseAssets implements ReleaseAssets {
      * @param login User to login
      * @param rep Repo
      * @param number Release ID
+     * @throws IOException If an IO Exception occurs
      * @checkstyle ParameterNumber (5 lines)
      */
     MkReleaseAssets(final MkStorage stg, final String login,
-        final Coordinates rep, final int number) {
+        final Coordinates rep, final int number) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
         this.rel = number;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    // @checkstyle LineLengthCheck (1 line)
+                    "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
+                    this.coords, this.rel
+                )
+            ).addIf("assets")
+        );
     }
 
     @Override
@@ -99,17 +112,66 @@ public final class MkReleaseAssets implements ReleaseAssets {
 
     @Override
     public Iterable<ReleaseAsset> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new MkIterable<ReleaseAsset>(
+            this.storage,
+            String.format("%s/asset", this.xpath()),
+            new MkIterable.Mapping<ReleaseAsset>() {
+                @Override
+                public ReleaseAsset map(final XML xml) {
+                    return MkReleaseAssets.this.get(
+                        Integer.parseInt(xml.xpath("id/text()").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
     public ReleaseAsset upload(final byte[] content,
         final String type, final String name) throws IOException {
-        throw new UnsupportedOperationException("Upload not yet implemented.");
+        this.storage.lock();
+        final int number;
+        try {
+            number = 1 + this.storage.xml().xpath(
+                String.format("%s/asset/id/text()", this.xpath())
+            ).size();
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("asset")
+                    .add("id").set(Integer.toString(number)).up()
+                    .add("name").set(name).up()
+                    .add("content").set(new String(content)).up()
+                    .add("size").set(Integer.toString(content.length)).up()
+                    .add("download_count").set("42").up()
+                    .add("created_at").set(new Github.Time().toString()).up()
+                    .add("updated_at").set(new Github.Time().toString()).up()
+                    .add("url").set("http://localhost/1").up()
+                    .add("html_url").set("http://localhost/2").up()
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(number);
     }
 
     @Override
     public ReleaseAsset get(final int number) {
-        throw new UnsupportedOperationException("Number not yet implemented.");
+        return new MkReleaseAsset(
+            this.storage,
+            this.self,
+            this.coords,
+            this.rel,
+            number
+        );
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets",
+            this.coords, this.rel
+        );
     }
 }
