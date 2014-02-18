@@ -115,6 +115,21 @@ public final class RtIssueITCase {
     }
 
     /**
+     * RtIssue can fetch assignee.
+     * @throws Exception if any problem inside.
+     */
+    @Test
+    public void identifyAssignee() throws Exception {
+        final Issue issue = RtIssueITCase.issue();
+        final String login = issue.repo().github().users().self().login();
+        new Issue.Smart(issue).assign(login);
+        final User assignee = new Issue.Smart(issue).assignee();
+        MatcherAssert.assertThat(
+            assignee.login(),
+            Matchers.equalTo(login)
+        );
+    }
+    /**
      * RtIssue can check whether it is a pull request.
      * @throws Exception If some problem inside
      */
