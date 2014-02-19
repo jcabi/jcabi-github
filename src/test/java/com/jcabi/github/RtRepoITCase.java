@@ -62,6 +62,8 @@ public final class RtRepoITCase {
     @Test
     public void iteratesEvents() throws Exception {
         final Repo repo = RtRepoITCase.repo();
+        final Issue issue = repo.issues().create("Test", "This is a bug");
+        new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
             repo.events(),
             Matchers.not(Matchers.emptyIterable())
