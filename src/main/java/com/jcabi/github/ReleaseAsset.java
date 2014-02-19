@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -202,6 +203,28 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
             } catch (ParseException ex) {
                 throw new IllegalStateException(ex);
             }
+        }
+
+        /**
+         * Change its name.
+         * @param text Name of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        public void name(final String text) throws IOException {
+            this.releaseAsset.patch(
+                Json.createObjectBuilder().add("name", text).build()
+            );
+        }
+
+        /**
+         * Change its label.
+         * @param text label of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        public void label(final String text) throws IOException {
+            this.releaseAsset.patch(
+                Json.createObjectBuilder().add("label", text).build()
+            );
         }
 
         @Override

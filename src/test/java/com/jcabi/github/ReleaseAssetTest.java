@@ -103,4 +103,32 @@ public final class ReleaseAssetTest {
             Matchers.notNullValue()
         );
     }
+
+    /**
+     * ReleaseAsset.Smart can update the name property of ReleaseAsset.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void updatesName() throws Exception {
+        final ReleaseAsset ra = Mockito.mock(ReleaseAsset.class);
+        final String prop = "new_name";
+        new ReleaseAsset.Smart(ra).name(prop);
+        Mockito.verify(ra).patch(
+            Json.createObjectBuilder().add("name", prop).build()
+        );
+    }
+
+    /**
+     * ReleaseAsset.Smart can update the label property of ReleaseAsset.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void updatesLabel() throws Exception {
+        final ReleaseAsset ra = Mockito.mock(ReleaseAsset.class);
+        final String prop = "new_label";
+        new ReleaseAsset.Smart(ra).label(prop);
+        Mockito.verify(ra).patch(
+            Json.createObjectBuilder().add("label", prop).build()
+        );
+    }
 }
