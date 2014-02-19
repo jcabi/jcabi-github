@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Implementation of Collaborators.
- * @todo #371:1hr Implement isCollaborator, add and remove methods.
+ * @todo #371 Implement isCollaborator, add and remove methods.
  *  They should be implemented as described at
  *  http://developer.github.com/v3/repos/collaborators/
  *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
