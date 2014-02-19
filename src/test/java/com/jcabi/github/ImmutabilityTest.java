@@ -56,12 +56,11 @@ public final class ImmutabilityTest {
     /**
      * Test for immutability.
      * Checks that all classes in package {@code com.jcabi.github }
-     * have {@code @EqualsAndHashCode} annotation.
+     * have {@code @Immutable} annotation.
      *
      * @throws Exception If some problem inside
      */
     @Test
-    //@Ignore
     public void checkImmutability() throws Exception {
         final Collection<Class<?>> result = classpath.allTypes();
         final Class<? extends Annotation> expected = Immutable.class;
