@@ -29,15 +29,142 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import java.io.IOException;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Integration test for {@link RtReleaseAssets}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #282 Need to implement integration test for RtReleaseAsset. This class
- *  should contain test cases that operate against a real github repository.
- *  Need to test the following methods: iterate, upload, get.
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @todo #509:30m The returnsNoAssets() and iteratesAssets() methods are ignored
+ *  because {@link RtReleaseAssets#iterate()} is not yet implemented. When this
+ *  is implemented, remove the ignore annotation and revise the tests as needed.
  */
-public class RtReleaseAssetsITCase {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class RtReleaseAssetsITCase {
+
+    /**
+     * RtReleaseAssets can upload release assets.
+     * @throws Exception If an exception occurs.
+     */
+    @Test
+    public void uploadsAssets() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
+        try {
+            final String name = "upload.txt";
+            final ReleaseAsset uploaded = assets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                uploaded.json().getString("name"),
+                Matchers.is(name)
+            );
+        } finally {
+            releases.remove(release.number());
+        }
+    }
+
+    /**
+     * RtReleaseAssets can fetch release assets using the get method.
+     * @throws Exception If an exception occurs.
+     */
+    @Test
+    public void fetchesAssets() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
+        try {
+            final ReleaseAsset uploaded = assets.upload(
+                "fetch".getBytes(),
+                "text/plain",
+                "fetch.txt"
+            );
+            MatcherAssert.assertThat(
+                assets.get(uploaded.number()),
+                Matchers.is(uploaded)
+            );
+        } finally {
+            releases.remove(release.number());
+        }
+    }
+
+    /**
+     * RtReleaseAssets can iterate through multiple release assets.
+     * @throws Exception If an exception occurs.
+     */
+    @Test
+    @Ignore
+    public void iteratesAssets() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
+        try {
+            final ReleaseAsset first = assets.upload(
+                "first".getBytes(),
+                "text/plain",
+                "first.txt"
+            );
+            final ReleaseAsset second = assets.upload(
+                "second".getBytes(),
+                "text/plain",
+                "second.txt"
+            );
+            MatcherAssert.assertThat(
+                assets.iterate(),
+                Matchers.contains(first, second)
+            );
+        } finally {
+            releases.remove(release.number());
+        }
+    }
+
+    /**
+     * RtReleaseAssets can return an empty list of release assets.
+     * @throws Exception If an exception occurs.
+     */
+    @Test
+    @Ignore
+    public void returnsNoAssets() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
+        try {
+            MatcherAssert.assertThat(
+                assets.iterate(),
+                Matchers.emptyIterable()
+            );
+        } finally {
+            releases.remove(release.number());
+        }
+    }
+
+    /**
+     * Create and return Release object to test.
+     * @return Releases
+     * @throws IOException If an IO Exception occurs.
+     */
+    private static Releases releases() throws IOException {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).releases();
+    }
 
 }

@@ -117,7 +117,7 @@ public final class RtReleaseAssetTest {
             );
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/john/test/releases/1/assets/2")
+                Matchers.endsWith("/repos/john/test/releases/assets/2")
             );
         } finally {
             container.stop();
