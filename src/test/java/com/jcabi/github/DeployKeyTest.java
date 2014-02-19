@@ -27,50 +27,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommits;
-import java.io.IOException;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
+import javax.json.Json;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link MkRepoCommits).
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link DeployKey}.
+ *
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (150 lines)
  */
-public final class MkRepoCommitsTest {
+public final class DeployKeyTest {
 
     /**
-     * MkRepoCommits can return commits' iterator.
-     * @throws IOException If some problem inside
+     * DeployKey.Smart can update the key value of DeployKey.
+     * @throws Exception If a problem occurs.
      */
-    @Ignore
     @Test
-    public void returnIterator() throws IOException {
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            new Coordinates.Simple("testuser1", "testrepo1")
+    public void updatesKey() throws Exception {
+        final DeployKey key = Mockito.mock(DeployKey.class);
+        final String value = "sha-rsa BBB...";
+        new DeployKey.Smart(key).key(value);
+        Mockito.verify(key).patch(
+            Json.createObjectBuilder().add("key", value).build()
         );
-        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
     }
 
     /**
-     * MkRepoCommits can get a commit.
-     * @throws IOException if some problem inside
+     * DeployKey.Smart can update the title property of DeployKey.
+     * @throws Exception If a problem occurs.
      */
-    @Ignore
     @Test
-    public void getCommit() throws IOException {
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            new Coordinates.Simple("testuser2", "testrepo2")
+    public void updatesTitle() throws Exception {
+        final DeployKey key = Mockito.mock(DeployKey.class);
+        final String prop = "octocat@octomac";
+        new DeployKey.Smart(key).title(prop);
+        Mockito.verify(key).patch(
+            Json.createObjectBuilder().add("title", prop).build()
         );
-        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
     }
 
 }

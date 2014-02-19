@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -140,6 +140,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
                     .add("id").set(Integer.toString(number)).up()
                     .add("name").set(name).up()
                     .add("content").set(new String(content)).up()
+                    .add("content_type").set(type).up()
                     .add("size").set(Integer.toString(content.length)).up()
                     .add("download_count").set("42").up()
                     .add("created_at").set(new Github.Time().toString()).up()

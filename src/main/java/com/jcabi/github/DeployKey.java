@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.URL;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github deploy key.
@@ -39,14 +46,10 @@ import java.io.IOException;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
- * @todo #231 Deploy key object should be able to edit a deploy key. Let's
- *  create a test for for this method, declare it here, implement it in
- *  RtDeployKey and MkDeployKey, and add an integration test for it. See
- *  http://developer.github.com/v3/repos/keys/#edit. When done, remove this
- *  puzzle.
  */
 @Immutable
-public interface DeployKey extends JsonReadable {
+@SuppressWarnings("PMD.TooManyMethods")
+public interface DeployKey extends JsonReadable, JsonPatchable {
 
     /**
      * Get id of a deploy key.
@@ -60,5 +63,108 @@ public interface DeployKey extends JsonReadable {
      * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
      */
     void remove() throws IOException;
+
+    /**
+     * Smart DeployKey with extra features.
+     * @checkstyle MultipleStringLiterals (500 lines)
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "key", "jsn" })
+    final class Smart implements DeployKey {
+
+        /**
+         * Encapsulated deploy key.
+         */
+        private final transient DeployKey key;
+
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+
+        /**
+         * Public ctor.
+         * @param dkey Deploy key
+         */
+        public Smart(
+            @NotNull(message = "deploy key is never NULL") final DeployKey dkey
+        ) {
+            this.key = dkey;
+            this.jsn = new SmartJson(dkey);
+        }
+
+        /**
+         * Get its key value.
+         * @return Value of deploy key
+         * @throws IOException If there is any I/O problem
+         */
+        public String key() throws IOException {
+            return this.jsn.text("key");
+        }
+
+        /**
+         * Change its value.
+         * @param value Title of deploy key
+         * @throws IOException If there is any I/O problem
+         */
+        public void key(final String value) throws IOException {
+            this.key.patch(
+                Json.createObjectBuilder().add("key", value).build()
+            );
+        }
+
+        /**
+         * Get its URL.
+         * @return URL of deploy key
+         * @throws IOException If there is any I/O problem
+         */
+        public URL url() throws IOException {
+            return new URL(this.jsn.text("url"));
+        }
+
+        /**
+         * Get its title.
+         * @return Title of deploy key
+         * @throws IOException If there is any I/O problem
+         */
+        public String title() throws IOException {
+            return this.jsn.text("title");
+        }
+
+        /**
+         * Change its title.
+         * @param text Title of deploy key
+         * @throws IOException If there is any I/O problem
+         */
+        public void title(final String text) throws IOException {
+            this.key.patch(
+                Json.createObjectBuilder().add("title", text).build()
+            );
+        }
+
+        @Override
+        public JsonObject json() throws IOException {
+            return this.key.json();
+        }
+
+        @Override
+        public void patch(
+            @NotNull(message = "JSON is never NULL") final JsonObject json
+        ) throws IOException {
+            this.key.patch(json);
+        }
+
+        @Override
+        public int number() {
+            return this.key.number();
+        }
+
+        @Override
+        public void remove() throws IOException {
+            this.key.remove();
+        }
+    }
 
 }
