@@ -149,25 +149,6 @@ public final class MkPullTest {
     }
 
     /**
-     * MkPull includes the number of comments from its JSON representation.
-     *
-     * @throws Exception If a problem occurs.
-     */
-    @Test
-    public void canRetrieveCommentsAsJson() throws Exception {
-        final Pull pull = repo().pulls().create(
-            "Test Pull Comment",
-            "commentHead",
-            "commentBase"
-        );
-        pull.comments().post("theComment", "abcdef", "/comment", 1);
-        MatcherAssert.assertThat(
-            pull.json().getInt("comments"),
-            Matchers.is(1)
-        );
-    }
-
-    /**
      * MkPull can perform JSON patch operation.
      *
      * @throws Exception If a problem occurs.
