@@ -49,11 +49,14 @@ public final class ReleaseAssetTest {
      */
     @Test
     public void fetchesProperties() throws Exception {
-
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+        // @checkstyle MagicNumber (20 lines)
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("url", "https://api.github.com/repos/octocat/Hello-World/releases/assets/1")
+                .add(
+                    "url",
+                    "https://api.github.com/repos/octo/Hello/releases/assets/1"
+                )
                 .add("name", "assetname.ext")
                 .add("label", "short description")
                 .add("state", "uploaded")
@@ -64,7 +67,6 @@ public final class ReleaseAssetTest {
                 .add("updated_at", "2013-02-27T19:35:32Z")
                 .build()
         ).when(releaseAsset).json();
-
         final ReleaseAsset.Smart smart = new ReleaseAsset.Smart(releaseAsset);
         MatcherAssert.assertThat(
             smart.url(),
@@ -110,10 +112,10 @@ public final class ReleaseAssetTest {
      */
     @Test
     public void updatesName() throws Exception {
-        final ReleaseAsset ra = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_name";
-        new ReleaseAsset.Smart(ra).name(prop);
-        Mockito.verify(ra).patch(
+        new ReleaseAsset.Smart(releaseAsset).name(prop);
+        Mockito.verify(releaseAsset).patch(
             Json.createObjectBuilder().add("name", prop).build()
         );
     }
@@ -124,10 +126,10 @@ public final class ReleaseAssetTest {
      */
     @Test
     public void updatesLabel() throws Exception {
-        final ReleaseAsset ra = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_label";
-        new ReleaseAsset.Smart(ra).label(prop);
-        Mockito.verify(ra).patch(
+        new ReleaseAsset.Smart(releaseAsset).label(prop);
+        Mockito.verify(releaseAsset).patch(
             Json.createObjectBuilder().add("label", prop).build()
         );
     }

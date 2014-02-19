@@ -45,25 +45,18 @@ import lombok.ToString;
  * Github release asset.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #282 Implement a Smart decorator for ReleaseAsset for the purposes of
- * JSON parsing. This class should be able to return the various attributes of
- * the JSON response for fetching comments, such as the ID, commit ID, URL, and
- * comment body. Smart should also be able to handle editing the attributes
- * of an existing comment by using
- * {@link JsonPatchable#patch(javax.json.JsonObject)}. Also include an example
- * of how to do this in the Javadoc comment above. You can refer to
- * {@link PublicKey} on how to do this.
  * @todo #282 We should be able to fetch a release asset's binary contents. See
- * http://developer.github.com/v3/repos/releases/#get-a-single-release-asset
- * for details on how this needs to be done. The ReleaseAsset interface should
- * be able to expose this function through a method, which we can name
- * something like "content", "body" or "raw", whichever is most appropriate.
- * I'm not sure what the return type should be at the moment but it will likely
- * be either a byte array or a stream implementation.
+ *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset
+ *  for details on how this needs to be done. The ReleaseAsset interface should
+ *  be able to expose this function through a method, which we can name
+ *  something like "content", "body" or "raw", whichever is most appropriate.
+ *  I'm not sure what the return type should be at the moment but it will likely
+ *  be either a byte array or a stream implementation.
  * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  * @since 0.8
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
@@ -88,11 +81,12 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * Smart ReleaseAsset with extra features.
+     * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {"releaseAsset", "jsn"})
+    @EqualsAndHashCode(of = {"releaseAsset", "jsn" })
     final class Smart implements ReleaseAsset {
         /**
          * Encapsulated Release Asset.
@@ -105,11 +99,11 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
-         * @param ra releaseAsset
+         * @param asset Release asset
          */
-        public Smart(final ReleaseAsset ra) {
-            this.releaseAsset = ra;
-            this.jsn = new SmartJson(ra);
+        public Smart(final ReleaseAsset asset) {
+            this.releaseAsset = asset;
+            this.jsn = new SmartJson(asset);
         }
 
         /**
@@ -123,7 +117,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its name.
-         * @return name of release asset
+         * @return Name of release asset
          * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
@@ -132,7 +126,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its label.
-         * @return label of release asset
+         * @return Label of release asset
          * @throws IOException If there is any I/O problem
          */
         public String label() throws IOException {
@@ -141,7 +135,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its state.
-         * @return state of release asset
+         * @return State of release asset
          * @throws IOException If there is any I/O problem
          */
         public String state() throws IOException {
@@ -150,7 +144,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its content type.
-         * @return content type of release asset
+         * @return Content type of release asset
          * @throws IOException If there is any I/O problem
          */
         public String contentType() throws IOException {
@@ -159,7 +153,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its size.
-         * @return size of release asset
+         * @return Size of release asset
          * @throws IOException If there is any I/O problem
          */
         public int size() throws IOException {
@@ -168,7 +162,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its downloadCount.
-         * @return downloadCount of release asset
+         * @return Download count of release asset
          * @throws IOException If there is any I/O problem
          */
         public int downloadCount() throws IOException {
@@ -218,7 +212,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Change its label.
-         * @param text label of release asset
+         * @param text Label of release asset
          * @throws IOException If there is any I/O problem
          */
         public void label(final String text) throws IOException {
