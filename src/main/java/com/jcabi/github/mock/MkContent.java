@@ -37,6 +37,7 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -57,6 +58,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords", "location" })
 final class MkContent implements Content {
 
     /**
