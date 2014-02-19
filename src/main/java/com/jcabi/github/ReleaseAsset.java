@@ -216,19 +216,19 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         @Override
         public void remove() throws IOException {
-            throw new UnsupportedOperationException();
+            this.releaseAsset.remove();
         }
 
         @Override
-        public void patch(@NotNull(message = "JSON is never NULL") final JsonObject json) throws IOException {
-            throw new UnsupportedOperationException();
+        public void patch(
+            @NotNull(message = "JSON is never NULL") final JsonObject json
+        ) throws IOException {
+            this.releaseAsset.patch(json);
         }
 
         @Override
         public JsonObject json() throws IOException {
-            throw new UnsupportedOperationException();
+            return this.releaseAsset.json();
         }
     }
-
-
 }
