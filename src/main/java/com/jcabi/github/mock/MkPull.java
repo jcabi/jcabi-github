@@ -169,7 +169,7 @@ final class MkPull implements Pull {
     private String comment() {
         return String.format(
             // @checkstyle LineLengthCheck (1 line)
-            "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments/comment",
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment",
             this.coords, this.num
         );
     }
