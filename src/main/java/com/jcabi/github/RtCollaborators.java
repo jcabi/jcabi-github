@@ -72,7 +72,7 @@ public final class RtCollaborators implements Collaborators {
      * @param repo Repo
      * @param req Request
      */
-    public RtCollaborators(final Request req, final Repo repo) {
+    RtCollaborators(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
