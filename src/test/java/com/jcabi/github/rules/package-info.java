@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2012-2013, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,37 +27,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
-
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
- * Github Assignees.
+ * Object Oriented Github API, tests.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.7
+ * @since 0.1
  */
-@Immutable
-public interface Assignees {
-
-    /**
-     * Iterate all available assignees.
-     * @return Iterator of available assignees to which issues may be assigned
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate();
-
-    /**
-     * Check check if a particular user is an assignee for a repository.
-     * @param login Login of user to be checked
-     * @return True if given assignee login belongs to an assignee for the repository
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
-     */
-    @NotNull(message = "check is never NULL")
-    boolean check(String login) throws IOException;
-}
+package com.jcabi.github.rules;

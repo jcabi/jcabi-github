@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +45,7 @@ import javax.validation.constraints.NotNull;
  *  for the purposes for code searching. At the moment, we don't have a way to
  *  represent codes in the API.
  */
+@Immutable
 public interface Search {
 
     /**

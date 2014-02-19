@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.User;
@@ -46,6 +47,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version $Id$
  * @since 0.7
  */
+@Immutable
 final class MkAssignees implements Assignees {
 
     /**

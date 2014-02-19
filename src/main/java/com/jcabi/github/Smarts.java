@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.log.Logger;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
