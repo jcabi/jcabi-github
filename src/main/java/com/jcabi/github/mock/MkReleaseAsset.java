@@ -38,15 +38,13 @@ import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock Github release asset.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @todo #282 Mock for release asset. Let's implements Mock for ReleaseAsset
- *  using MkStorage. Don't forget about @EqualsAndHashCode and include unit
- *  tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -98,12 +96,14 @@ public final class MkReleaseAsset implements ReleaseAsset {
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("Json yet implemented.");
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException("Patch not yet implemented.");
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
@@ -123,7 +123,20 @@ public final class MkReleaseAsset implements ReleaseAsset {
 
     @Override
     public void remove() throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).strict(1).remove()
+        );
     }
 
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets/asset[id='%d']",
+            this.coords, this.rel, this.num
+        );
+    }
 }
