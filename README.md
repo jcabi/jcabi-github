@@ -77,3 +77,9 @@ $ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfails
 
 Replace `<token>` with the OAuth access token, and `<repo>` with the name of
 repository you create in your account (for test purposes only), for example `yegor256/test`.
+
+In order to run static analysis checks only use this:
+
+```
+$ mvn clean install -DskipTests -Dinvoker.skip=true -Pqulice
+```
