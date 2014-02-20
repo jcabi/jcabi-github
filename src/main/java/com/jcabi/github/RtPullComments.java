@@ -100,9 +100,8 @@ public final class RtPullComments implements PullComments {
             new RtPagination.Mapping<PullComment, JsonObject>() {
                 @Override
                 public PullComment map(final JsonObject value) {
-                    return new RtPullComment(
-                        RtPullComments.this.request,
-                        RtPullComments.this.owner, value.getInt("id")
+                    return RtPullComments.this.get(
+                        value.getInt("id")
                     );
                 }
             }
