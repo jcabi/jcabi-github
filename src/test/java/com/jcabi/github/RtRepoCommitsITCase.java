@@ -46,9 +46,6 @@ import org.junit.Test;
  * @todo #439 Implement test compareCommitsPatch to check that
  *  two commits can be compared and result is in patch format.
  *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
- * @todo #439 Implement test compareCommitsDiff to check that
- *  two commits can be compared and result is in diff format.
- *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
  */
 public class RtRepoCommitsITCase {
     /**
@@ -93,7 +90,14 @@ public class RtRepoCommitsITCase {
      */
     @Test
     public final void compareCommitsDiff() throws Exception {
-        // To be implemented
+        final String diff = RtRepoCommitsITCase.repo().commits().diff(
+            "5339b8e35b",
+            "9b2e6efde9"
+        );
+        MatcherAssert.assertThat(
+            diff,
+            Matchers.startsWith("diff --git")
+        );
     }
 
     /**
