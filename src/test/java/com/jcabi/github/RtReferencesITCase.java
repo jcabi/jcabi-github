@@ -29,44 +29,12 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-
 /**
- * Github Git Data Reference.
+ * Test case for {@link RtReferences}.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  */
-@Immutable
-public interface Reference {
-    /**
-     * Return its owner repo.
-     * @return Repo
-     */
-    Repo repo();
-
-    /**
-     * Return its name.
-     * @return String
-     */
-    String ref();
-
-    /**
-     * Return its Json.
-     * @return JsonObject
-     * @throws IOException - If something goes wrong.
-     */
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If there is any I/O problem
-     */
-    void patch(@NotNull(message = "JSON is never null") JsonObject json)
-        throws IOException;
+public final class RtReferencesITCase {
 
 }

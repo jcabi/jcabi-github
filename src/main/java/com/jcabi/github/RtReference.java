@@ -27,46 +27,76 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github Git Data Reference.
+ * Github reference.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  */
 @Immutable
-public interface Reference {
-    /**
-     * Return its owner repo.
-     * @return Repo
-     */
-    Repo repo();
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "name" })
+final class RtReference implements Reference {
 
     /**
-     * Return its name.
-     * @return String
+     * RESTful request.
      */
-    String ref();
+    private final transient Request request;
 
     /**
-     * Return its Json.
-     * @return JsonObject
-     * @throws IOException - If something goes wrong.
+     * Repository.
      */
-    JsonObject json() throws IOException;
+    private final transient Repo owner;
 
     /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If there is any I/O problem
+     * Name of the reference.
      */
-    void patch(@NotNull(message = "JSON is never null") JsonObject json)
-        throws IOException;
+    private final transient String name;
 
+    /**
+     * Public constructor.
+     * @param req RESTful request.
+     * @param repo Owner of this reference.
+     * @param ref The name of the reference.
+     */
+    RtReference(final Request req, final Repo repo, final String ref) {
+        this.request = req.uri()
+            .path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path(ref).back();
+        this.owner = repo;
+        this.name = ref;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String ref() {
+        return this.name;
+    }
+
+    @Override
+    public void patch(
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
 }
