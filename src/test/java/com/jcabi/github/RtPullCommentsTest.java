@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,8 +37,11 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
+import java.util.Collections;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -74,15 +77,42 @@ public final class RtPullCommentsTest {
      * RtPullComments can fetch all pull comments for a repo.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 RtPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link RtPullComments#iterate(java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesRepoPullComments() throws Exception {
-        // To be implemented.
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(comment("comment 1"))
+                    .add(comment("comment 2"))
+                    .build().toString()
+            )
+        ).start();
+        final RtPullComments comments = new RtPullComments(
+            new JdkRequest(container.home()), pull
+        );
+        MatcherAssert.assertThat(
+            comments.iterate(Collections.<String, String>emptyMap()),
+            Matchers.<PullComment>iterableWithSize(2)
+        );
+        container.stop();
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param bodytext Body of the comment
+     * @return JsonObject
+     * @throws Exception If something goes wrong.
+     */
+    private static JsonObject comment(final String bodytext)
+        throws Exception {
+        return Json.createObjectBuilder()
+            .add("id", 1)
+            .add("body", bodytext)
+            .build();
     }
 
     /**

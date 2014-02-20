@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,8 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Release;
+import com.jcabi.github.ReleaseAsset;
+import com.jcabi.github.ReleaseAssets;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -40,6 +42,8 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 public final class MkReleaseAssetTest {
 
@@ -68,6 +72,76 @@ public final class MkReleaseAssetTest {
         MatcherAssert.assertThat(
             rel.assets().get(1).number(),
             Matchers.is(1)
+        );
+    }
+
+    /**
+     * MkReleaseAsset can be removed.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void removesAsset() throws Exception {
+        final ReleaseAssets assets = release().assets();
+        final ReleaseAsset asset = assets.upload(
+            "testRemove".getBytes(), "text/plain", "remove.txt"
+        );
+        MatcherAssert.assertThat(
+            assets.iterate(),
+            Matchers.<ReleaseAsset>iterableWithSize(1)
+        );
+        asset.remove();
+        MatcherAssert.assertThat(
+            assets.iterate(),
+            Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * MkReleaseAsset can be represented in JSON format.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canRepresentAsJson() throws Exception {
+        final String name = "json.txt";
+        final String type = "text/plain";
+        final ReleaseAsset asset = release().assets().upload(
+            "testJson".getBytes(), type, name
+        );
+        MatcherAssert.assertThat(
+            asset.json().getString("content_type"),
+            Matchers.is(type)
+        );
+        MatcherAssert.assertThat(
+            asset.json().getString("name"),
+            Matchers.is(name)
+        );
+    }
+
+    /**
+     * MkReleaseAsset can patch its JSON representation.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canPatchJson() throws Exception {
+        final String orig = "orig.txt";
+        final ReleaseAsset asset = release().assets().upload(
+            "testPatch".getBytes(), "text/plain", orig
+        );
+        final String attribute = "name";
+        MatcherAssert.assertThat(
+            asset.json().getString(attribute),
+            Matchers.is(orig)
+        );
+        final String patched = "patched.txt";
+        asset.patch(
+            Json.createObjectBuilder().add(attribute, patched).build()
+        );
+        MatcherAssert.assertThat(
+            asset.json().getString(attribute),
+            Matchers.is(patched)
         );
     }
 
