@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,10 +27,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.rules;
+package com.jcabi.github;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -56,7 +56,7 @@ public final class ClasspathRule implements TestRule {
      * Provides all classes in package 'com.jcabi.github'.
      * @return Classes
      */
-    public Collection<Class<?>> allTypes() {
+    public Iterable<Class<?>> allTypes() {
         final List<ClassLoader> classloaders = new LinkedList<ClassLoader>();
         classloaders.add(ClasspathHelper.contextClassLoader());
         classloaders.add(ClasspathHelper.staticClassLoader());
@@ -75,18 +75,23 @@ public final class ClasspathRule implements TestRule {
                     )
                 )
         ).getSubTypesOf(Object.class);
-        final Collection<Class<?>> result = new ArrayList<Class<?>>(0);
-        result.addAll(all);
-        for (final Class<?> clazz : all) {
-            final String name = clazz.getName();
-            if (name.endsWith("Test")
-                || name.endsWith("ITCase")
-                || name.contains("$")
-                || name.endsWith("ClasspathRule")) {
-                result.remove(clazz);
-            }
-        }
-        return result;
+        return Iterables.filter(
+            all,
+            new Predicate<Class<?>>() {
+                @Override
+                public boolean apply(final Class<?> input) {
+                    final String name = input.getName();
+                    // @checkstyle BooleanExpressionComplexityCheck (10 lines)
+                    if (name.endsWith("Test")
+                        || name.endsWith("ITCase")
+                        || name.endsWith("ClasspathRule")
+                        || (input.getEnclosingClass() != null
+                        && !name.endsWith("Smart"))) {
+                        return false;
+                    }
+                    return true;
+                }
+            });
     }
 
     @Override
@@ -94,6 +99,7 @@ public final class ClasspathRule implements TestRule {
         final Description description) {
         return new Statement() {
             @Override
+            // @checkstyle IllegalThrowsCheck (1 line)
             public void evaluate() throws Throwable {
                 statement.evaluate();
             }

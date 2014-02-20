@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,12 @@
  */
 package com.jcabi.github;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.rules.ClasspathRule;
-import java.lang.annotation.Annotation;
-import java.util.Collection;
 import java.util.Set;
+import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -50,6 +50,10 @@ import org.junit.Test;
  */
 public final class ImmutabilityTest {
 
+    /**
+     * ClasspathRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
     @Rule
     public final transient ClasspathRule classpath = new ClasspathRule();
 
@@ -62,25 +66,31 @@ public final class ImmutabilityTest {
      */
     @Test
     public void checkImmutability() throws Exception {
-        final Collection<Class<?>> result = classpath.allTypes();
-        final Class<? extends Annotation> expected = Immutable.class;
-        final Set<String> skip = this.skip();
-        for (final Class<?> clazz : result) {
-            if (skip.contains(clazz.getName())) {
-                continue;
-            }
-            MatcherAssert.assertThat(
-                String.format(
-                    "Class %s should have annotation %s",
-                    clazz.getName(),
-                    expected.getSimpleName()
-                ),
-                clazz.isAnnotationPresent(expected),
-                Matchers.is(true)
-            );
-        }
+        MatcherAssert.assertThat(
+            Iterables.filter(
+                this.classpath.allTypes(),
+                new Predicate<Class<?>>() {
+                    @Override
+                    public boolean apply(final Class<?> input) {
+                        return !skip().contains(input.getName());
+                    }
+                }
+            ),
+            Matchers.everyItem(
+                new CustomTypeSafeMatcher<Class<?>>("annotated type") {
+                    @Override
+                    protected boolean matchesSafely(final Class<?> item) {
+                        return item.isAnnotationPresent(Immutable.class);
+                    }
+                }
+            )
+        );
     }
 
+    /**
+     * Get set of class names to be skipped.
+     * @return Set
+     */
     private Set<String> skip() {
         return ImmutableSet.<String>builder()
             .add("com.jcabi.github.mock.JsonNode")
