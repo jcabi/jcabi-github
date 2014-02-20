@@ -32,10 +32,12 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Content;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -56,7 +58,45 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
+@EqualsAndHashCode(of = { "storage", "self", "coords", "location" })
 final class MkContent implements Content {
+
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repo name.
+     */
+    private final transient Coordinates coords;
+
+    /**
+     * Path of this content.
+     */
+    private final transient String location;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @param path Path of this file
+     * @throws IOException If there is any I/O problem
+     * @checkstyle ParameterNumberCheck (3 lines)
+     */
+    public MkContent(final MkStorage stg, final String login,
+        final Coordinates rep, final String path) throws IOException {
+        this.storage = stg;
+        this.self = login;
+        this.coords = rep;
+        this.location = path;
+    }
 
     @Override
     public int compareTo(final Content cont) {
@@ -72,16 +112,29 @@ final class MkContent implements Content {
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkContent#json()");
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException("MkContent#repo()");
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     public String path() {
-        throw new UnsupportedOperationException("MkContent#path()");
+        return this.location;
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return The XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
+            this.coords, this.location
+        );
     }
 }
