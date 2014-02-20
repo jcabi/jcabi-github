@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -37,20 +40,118 @@ import org.junit.Test;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @todo #119 RtDeployKeys should be able to fetch a list of deploy keys from
- *  a real Github repository, a single deploy key, create, edit and remove
- *  deploy keys.
- *  When done, remove this puzzle and Ignore annotation from the method.
  */
-public class RtDeployKeysITCase {
+public final class RtDeployKeysITCase {
 
     /**
      * RtDeployKeys can iterate deploy keys.
      * @throws Exception If some problem inside
+     * @todo #224 RtDeployKeysITCase#canFetchAllDeployKeys() is ignored because
+     *  at the moment, {@link RtDeployKeys#iterate()} is not fully implemented
+     *  and only returns empty iterators. Once {@link RtDeployKeys#iterate()}
+     *  has been implemented, remove the Ignore annotation here to enable the
+     *  integration test. Revise this test method if necessary.
      */
     @Test
     @Ignore
     public void canFetchAllDeployKeys() throws Exception {
-        // to be implemented
+        final DeployKeys keys = repo().keys();
+        final String title = "Test Iterate Key";
+        final DeployKey key = keys.create(title, key());
+        try {
+            MatcherAssert.assertThat(
+                keys.iterate(),
+                Matchers.contains(key)
+            );
+        } finally {
+            key.remove();
+        }
+    }
+
+    /**
+     * RtDeployKeys can create a deploy key.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void createsDeployKey() throws Exception {
+        final DeployKeys keys = repo().keys();
+        final String title = "Test Create Key";
+        final DeployKey key = keys.create(title, key());
+        try {
+            MatcherAssert.assertThat(
+                new DeployKey.Smart(key).title(),
+                Matchers.is(title)
+            );
+        } finally {
+            key.remove();
+        }
+    }
+
+    /**
+     * RtDeployKeys can get a single deploy key.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void getsDeployKey() throws Exception {
+        final DeployKeys keys = repo().keys();
+        final String title = "Test Get Key";
+        final DeployKey key = keys.create(title, key());
+        try {
+            MatcherAssert.assertThat(
+                keys.get(key.number()),
+                Matchers.is(key)
+            );
+        } finally {
+            key.remove();
+        }
+    }
+
+    /**
+     * RtDeployKeys can remove a deploy key.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void removesDeployKey() throws Exception {
+        final DeployKeys keys = repo().keys();
+        final String title = "Test Remove Key";
+        final DeployKey key = keys.create(title, key());
+        try {
+            MatcherAssert.assertThat(
+                keys.get(key.number()),
+                Matchers.notNullValue()
+            );
+        } finally {
+            key.remove();
+        }
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.not(Matchers.contains(key))
+        );
+    }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
+    }
+
+    /**
+     * Returns a key for test.
+     * @return The key
+     */
+    private static String key() {
+        return new StringBuilder()
+            .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJVIonvktkpOzYaGdNn")
+            .append("kz2u6XqAKOmEJrU3HCZjXrkUPmEmmtsPgvqQDH2hWYSoSkQlc0lkBp8pe")
+            .append("rSUv/3wlBK9qSJJ3s60F1q4nlNHBEz3OxqzSxJaweXEweyK72K2a+XGXT")
+            .append("zfPoJXQolN/yxzgedQkVd3O6ZZz+0YL8tSbeTnQ==")
+            .toString();
     }
 }
