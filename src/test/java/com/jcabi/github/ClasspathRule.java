@@ -31,8 +31,6 @@ package com.jcabi.github;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -57,17 +55,13 @@ public final class ClasspathRule implements TestRule {
      * @return Classes
      */
     public Iterable<Class<?>> allTypes() {
-        final List<ClassLoader> classloaders = new LinkedList<ClassLoader>();
-        classloaders.add(ClasspathHelper.contextClassLoader());
-        classloaders.add(ClasspathHelper.staticClassLoader());
         final Set<Class<?>> all = new Reflections(
             new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(false), new ResourcesScanner())
                 .setUrls(
                     ClasspathHelper.forClassLoader(
-                        classloaders.toArray(
-                            new ClassLoader[classloaders.size()]
-                        )
+                        ClasspathHelper.contextClassLoader(),
+                        ClasspathHelper.staticClassLoader()
                     )
                 ).filterInputsBy(
                     new FilterBuilder().include(
