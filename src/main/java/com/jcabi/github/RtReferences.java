@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -88,8 +87,8 @@ final class RtReferences implements References {
     @Override
     public Reference create(final String ref, final String sha)
         throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("ref", ref).add("sha", sha).build();
+        final JsonObject json = Json.createObjectBuilder()
+            .add("sha", sha).add("ref", ref).build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()

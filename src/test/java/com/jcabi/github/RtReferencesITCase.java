@@ -29,12 +29,83 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
+
 /**
  * Test case for {@link RtReferences}.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtReferencesITCase {
+
+    /**
+     * RtReference can create a reference.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void createsReference() throws Exception {
+        final References refs = repo().git().references();
+        final Reference reference = refs.create(
+            "refs/tags/foo",
+            "8004bea5f2ed15c729579297ce3d3d969e0e1a90"
+        );
+        MatcherAssert.assertThat(
+            reference,
+            Matchers.notNullValue()
+        );
+        refs.remove("tags/foo");
+    }
+
+    /**
+     * RtReference can iterate over references.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesReferences() throws Exception {
+        final References refs = repo().git().references();
+        refs.create(
+            "refs/heads/foo",
+            "8004bea5f2ed15c729579297ce3d3d969e0e1a90"
+        );
+        MatcherAssert.assertThat(
+            refs.iterate(),
+            Matchers.<Reference>iterableWithSize(2)
+        );
+        refs.remove("heads/foo");
+        MatcherAssert.assertThat(
+            refs.iterate(),
+            Matchers.<Reference>iterableWithSize(1)
+        );
+    }
+
+    /**
+     * RtReferences can return its repo.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void returnsRepo() throws Exception {
+        final References refs = repo().git().references();
+        MatcherAssert.assertThat(
+            refs.repo().toString(),
+            Matchers.is("amihaiemil/forTest")
+        );
+    }
+
+    /**
+     * Returns the repo for test.
+     * @return Repo
+     */
+    public static Repo repo() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final String keyrepo = System.getProperty("failsafe.github.repo");
+        Assume.assumeThat(keyrepo, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(new Coordinates.Simple(keyrepo));
+    }
 
 }

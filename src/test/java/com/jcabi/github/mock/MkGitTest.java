@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
 import com.jcabi.github.RtGit;
+import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -54,7 +55,7 @@ public final class MkGitTest {
     public void canFetchOwnRepo() throws Exception {
         final Repo repo = repo();
         MatcherAssert.assertThat(
-            new RtGit(repo).repo(),
+            new RtGit(repo, new FakeRequest()).repo(),
             Matchers.is(repo)
         );
     }
