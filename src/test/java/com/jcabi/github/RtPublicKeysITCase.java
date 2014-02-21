@@ -40,8 +40,6 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #301 Implement an integration test for RtPublicKeys that creates
- *  a real public key for a user.
  * @todo #551 RtPublicKeysITCase is disabled since it doesn't work
  *  with real Github account. Let's fix it and remove all
  *  Ignore annotations from all its methods.
@@ -101,12 +99,40 @@ public class RtPublicKeysITCase {
     @Ignore
     public final void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("rsa", "rsa sh");
+        final PublicKey key = keys.create("", "");
         MatcherAssert.assertThat(
             keys.iterate() ,
             Matchers.hasItem(key)
         );
         keys.remove(key.number());
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.not(Matchers.hasItem(key))
+        );
+    }
+
+    /**
+     * RtPublicKeys should be able to create a key.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public final void createsKey() throws Exception {
+        final PublicKeys keys = this.keys();
+        final PublicKey key = keys.create("rsa", "rsa sh");
+        MatcherAssert.assertThat(
+            keys.iterate().iterator().next(),
+            Matchers.equalTo(key)
+        );
+        MatcherAssert.assertThat(
+            key.user(),
+            Matchers.equalTo(
+                keys.user()
+            )
+        );
+        keys.remove(
+            key.number()
+        );
         MatcherAssert.assertThat(
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
