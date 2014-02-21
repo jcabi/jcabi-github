@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import java.util.Set;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -55,37 +54,37 @@ public final class ClasspathRule implements TestRule {
      * @return Classes
      */
     public Iterable<Class<?>> allTypes() {
-        final Set<Class<?>> all = new Reflections(
-            new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
-                .setUrls(
-                    ClasspathHelper.forClassLoader(
-                        ClasspathHelper.contextClassLoader(),
-                        ClasspathHelper.staticClassLoader()
-                    )
-                ).filterInputsBy(
+        return Iterables.filter(
+            new Reflections(
+                new ConfigurationBuilder()
+                    .setScanners(
+                        new SubTypesScanner(false),
+                        new ResourcesScanner()
+                )
+                    .setUrls(
+                        ClasspathHelper.forClassLoader(
+                            ClasspathHelper.contextClassLoader(),
+                            ClasspathHelper.staticClassLoader()
+                        )
+                    ).filterInputsBy(
                     new FilterBuilder().include(
                         FilterBuilder.prefix("com.jcabi.github")
                     )
-                )
-        ).getSubTypesOf(Object.class);
-        return Iterables.filter(
-            all,
+                    )
+            ).getSubTypesOf(Object.class),
             new Predicate<Class<?>>() {
                 @Override
                 public boolean apply(final Class<?> input) {
                     final String name = input.getName();
-                    // @checkstyle BooleanExpressionComplexityCheck (10 lines)
-                    if (name.endsWith("Test")
-                        || name.endsWith("ITCase")
-                        || name.endsWith("ClasspathRule")
-                        || (input.getEnclosingClass() != null
-                        && !name.endsWith("Smart"))) {
-                        return false;
-                    }
-                    return true;
+                    // @checkstyle BooleanExpressionComplexityCheck (6 lines)
+                    return !name.endsWith("Test")
+                        && !name.endsWith("ITCase")
+                        && !name.endsWith("ClasspathRule")
+                        && (input.getEnclosingClass() == null
+                        || name.endsWith("Smart"));
                 }
-            });
+            }
+        );
     }
 
     @Override
