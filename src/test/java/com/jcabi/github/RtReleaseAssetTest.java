@@ -37,6 +37,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -142,13 +143,33 @@ public final class RtReleaseAssetTest {
      * RtReleaseAsset can stream raw content.
      * @throws Exception If a problem occurs.
      * @todo #282 RtReleaseAsset should be able to stream raw content. Implement
-     *  this method and include a unit test here. When done, remove this puzzle
-     *  and the Ignore annotation from this test method.
+     *  RtReleaseAsset method. When done, remove this puzzle and the Ignore
+     *  annotation from this test method.
      */
     @Test
     @Ignore
     public void rawAsset() throws Exception {
-        // To be implemented.
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+        ).start();
+        final RtReleaseAsset asset = new RtReleaseAsset(
+            new ApacheRequest(container.home()),
+            release(),
+            4
+        );
+        try {
+            final InputStream stream = asset.raw();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(), Matchers.equalTo(Request.GET)
+            );
+            MatcherAssert.assertThat(
+                stream,
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
