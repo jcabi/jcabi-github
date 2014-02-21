@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import javax.json.Json;
@@ -101,9 +100,8 @@ public final class MkPullTest {
     public void canGetCommentsNumberIfNonZero() throws Exception {
         final Repo repo =  MkPullTest.repo();
         final Pull pull = repo.pulls().create("", "", "");
-        final Issue issue = repo.issues().get(pull.number());
-        issue.comments().post("how are you?");
-        issue.comments().post("how are you2?");
+        pull.comments().post("comment1", "path1", "how are you?", 1);
+        pull.comments().post("comment2", "path2", "how are you2?", 2);
         MatcherAssert.assertThat(
             pull.json().getInt("comments"),
             Matchers.is(2)
