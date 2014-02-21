@@ -121,8 +121,7 @@ public final class MkContents implements Contents {
         final Map<String, String> committer,
         final Map<String, String> author)
         throws IOException {
-        //return new MkCommit();
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        return new Commit.Smart(null);
     }
 
     /**

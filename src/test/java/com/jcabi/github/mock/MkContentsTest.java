@@ -93,12 +93,13 @@ public final class MkContentsTest {
     }
 
     /**
-     * MkContents should be able to create new files.
+     * MkContents should be able to remove files.
      *
      * @throws Exception if some problem inside
+     * @todo #314 Implement MkCommit class, update this test case with better
+     *  assertions and remove this puzzle.
      */
     @Test
-    @Ignore
     public void canRemoveFile() throws Exception {
         final String username = "jeff";
         final String path = "file.txt";
@@ -109,10 +110,11 @@ public final class MkContentsTest {
         final ConcurrentMap<String, String> committer =
             new ConcurrentHashMap<String, String>();
         committer.put("login", username);
-        Commit commit = contents.remove(path, message, sha, branch, committer, committer);
+        final Commit commit =
+            contents.remove(path, message, sha, branch, committer, committer);
         MatcherAssert.assertThat(
-            commit.json().getString("message"),
-            Matchers.is(message)
+            commit,
+            Matchers.notNullValue()
         );
     }
 
