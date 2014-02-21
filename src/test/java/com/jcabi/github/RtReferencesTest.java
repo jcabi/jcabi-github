@@ -107,7 +107,7 @@ public final class RtReferencesTest {
 
     /**
      * RtReferences should be able to remove a Reference.
-     * @throws Exception - if somethins goes wrong.
+     * @throws Exception - If somethins goes wrong.
      */
     @Test
     public void removesReference() throws Exception {
@@ -118,7 +118,7 @@ public final class RtReferencesTest {
             new ApacheRequest(container.home()),
             repo()
         );
-        refs.remove("refs/heads/feature-a");
+        refs.remove("heads/feature-a");
         try {
             MatcherAssert.assertThat(
                 container.take().method(),
@@ -128,6 +128,7 @@ public final class RtReferencesTest {
             container.stop();
         }
     }
+
     /**
      * This method returns a Repo for testing.
      * @return Repo - a repo to be used for test.

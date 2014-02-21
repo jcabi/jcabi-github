@@ -89,16 +89,16 @@ public final class RtReferenceTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                "{\"ref\":\"refs/heads/featureA\"}"
+                "{\"ref\":\"refs/heads/featureB\"}"
             )
         ).start();
         final Reference reference = new RtReference(
-            new ApacheRequest(container.home()), repo(), "refs/heads/featureA"
+            new ApacheRequest(container.home()), repo(), "refs/heads/featureB"
         );
         try {
             MatcherAssert.assertThat(
                 reference.json().getString("ref"),
-                Matchers.is("refs/heads/featureA")
+                Matchers.is("refs/heads/featureB")
             );
         } finally {
             container.stop();
@@ -114,16 +114,16 @@ public final class RtReferenceTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                "{\"ref\":\"refs/heads/featureA\"}"
+                "{\"ref\":\"refs/heads/featureC\"}"
             )
         ).start();
         final Reference reference = new RtReference(
-            new ApacheRequest(container.home()), repo(), "refs/heads/featureA"
+            new ApacheRequest(container.home()), repo(), "refs/heads/featureC"
         );
         try {
             MatcherAssert.assertThat(
                 reference.ref(),
-                Matchers.is("refs/heads/featureA")
+                Matchers.is("refs/heads/featureC")
             );
         } finally {
             container.stop();
@@ -140,11 +140,11 @@ public final class RtReferenceTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                "{\"ref\":\"refs/heads/featureA\"}"
+                "{\"ref\":\"refs/heads/featureD\"}"
             )
         ).start();
         final Reference reference = new RtReference(
-            new ApacheRequest(container.home()), owner, "refs/heads/featureA"
+            new ApacheRequest(container.home()), owner, "refs/heads/featureD"
         );
         try {
             MatcherAssert.assertThat(
