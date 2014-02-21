@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -106,6 +106,11 @@ public final class MkDeployKey implements DeployKey {
             this.owner.coordinates(),
             this.key
         );
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
 }

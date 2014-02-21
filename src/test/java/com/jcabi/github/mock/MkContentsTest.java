@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import java.util.concurrent.ConcurrentHashMap;
@@ -80,15 +81,34 @@ public final class MkContentsTest {
      * MkContents should be able to create new files.
      *
      * @throws Exception if some problem inside
-     * @todo #314 MkContents should support the creation of mock contents.
-     *  This method should create a new instance of MkContent. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
      */
     @Test
-    @Ignore
     public void canCreateFile() throws Exception {
-        //To be implemented.
+        final Contents contents = MkContentsTest.repo().contents();
+        final String path = "file.txt";
+        final JsonObject json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", "theCreateMessage")
+            .add("content", "newContent")
+            .add(
+                "committer",
+                Json.createObjectBuilder()
+                    .add("name", "joe")
+                    .add("email", "joe@contents.com")
+            ).build();
+        final Content.Smart content = new Content.Smart(contents.create(json));
+        MatcherAssert.assertThat(
+            content.path(),
+            Matchers.is(path)
+        );
+        MatcherAssert.assertThat(
+            content.name(),
+            Matchers.is(path)
+        );
+        MatcherAssert.assertThat(
+            content.sha(),
+            Matchers.not(Matchers.isEmptyOrNullString())
+        );
     }
 
     /**

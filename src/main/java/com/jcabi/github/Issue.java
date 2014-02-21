@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -223,6 +223,19 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public void body(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("body", text).build()
+            );
+        }
+
+        /**
+         * Get its assignee.
+         * @return User Assignee of issue
+         * @throws IOException If there is any I/O problem
+         */
+        public User assignee() throws IOException {
+            return this.issue.repo().github().users().get(
+                this.jsn.value(
+                    "assignee", JsonObject.class
+                ).getString("login")
             );
         }
         /**
