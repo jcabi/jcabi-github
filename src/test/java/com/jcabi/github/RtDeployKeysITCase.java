@@ -57,7 +57,15 @@ public final class RtDeployKeysITCase {
     public void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Iterate Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(
+            title,
+            new StringBuilder()
+                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDGlOZAXP4XlJ0g2")
+                .append("tj0rTZ8TYRLi1e9ADpDmz0FgiUEhB1VsudTOxceWPuylf5AfGePRH")
+                .append("zUklHU2txFG48MkOIGaiSMFcf5nKOZd0ewqQFTA5rmGweMtcl+YSQ")
+                .append("6h1Pne5gUn2BM9BZpRaq3KgMNOXFU5dJ5+etQSgf/gain54LsBQ==")
+                .toString()
+        );
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
@@ -76,7 +84,15 @@ public final class RtDeployKeysITCase {
     public void createsDeployKey() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Create Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(
+            title,
+            new StringBuilder()
+                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQC2hZYMju2NywH/g")
+                .append("t0sxtSOFTIjlxImGq8m72hOnm/HjCAQSYXTF2v0kWyh9PZC1frPMf")
+                .append("U+clfy0MpetWJ76tKz4qVS3aA35WK5vLmQYjA5lyhVwq/1TkZikIy")
+                .append("21Bvc+KmlguI+bd4HWaN6D3uylQetoCTcxvzf4F2IBZFKmLjTrQ==")
+                .toString()
+        );
         try {
             MatcherAssert.assertThat(
                 new DeployKey.Smart(key).title(),
@@ -95,7 +111,15 @@ public final class RtDeployKeysITCase {
     public void getsDeployKey() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Get Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(
+            title,
+            new StringBuilder()
+                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCyMMT1KP0TvZltl")
+                .append("IZmGG4oNf2fLbzqKUU24BV4ln25yCL0yqQACdKXRheXVGE6/4gX0i")
+                .append("FtpuwePlccGSVJXWgU0uOkQUmMGLQoU+XjBzSa1GaW/r/Igabd1CX")
+                .append("cZpeRSsVZ8GQX/XlxPBYeg+ES3ZjqasUBSgn9sZ7ym/G3jsJAlQ==")
+                .toString()
+        );
         try {
             MatcherAssert.assertThat(
                 keys.get(key.number()),
@@ -114,7 +138,15 @@ public final class RtDeployKeysITCase {
     public void removesDeployKey() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Remove Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(
+            title,
+            new StringBuilder()
+                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCWMIIddQkxDUr2/")
+                .append("opU50nkyAQYb95p0JvLgbIGkU6VUOYjj4XZEQ8DFUHOf8acG1AGv1")
+                .append("KbvpKuJ2StUxXVsWjhrniYKZ0UrQ4pKRHVKQBf2RmKr8fw70Z57oi")
+                .append("mRpipnpYTmT2cK2FFPTUZ7bYahZ/KctelIwGXAf5PHIqZFxkwyw==")
+                .toString()
+        );
         try {
             MatcherAssert.assertThat(
                 keys.get(key.number()),
@@ -142,16 +174,4 @@ public final class RtDeployKeysITCase {
         );
     }
 
-    /**
-     * Returns a key for test.
-     * @return The key
-     */
-    private static String key() {
-        return new StringBuilder()
-            .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJVIonvktkpOzYaGdNn")
-            .append("kz2u6XqAKOmEJrU3HCZjXrkUPmEmmtsPgvqQDH2hWYSoSkQlc0lkBp8pe")
-            .append("rSUv/3wlBK9qSJJ3s60F1q4nlNHBEz3OxqzSxJaweXEweyK72K2a+XGXT")
-            .append("zfPoJXQolN/yxzgedQkVd3O6ZZz+0YL8tSbeTnQ==")
-            .toString();
-    }
 }
