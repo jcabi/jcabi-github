@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -49,9 +52,17 @@ public class RtForksITCase {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
     public void retrievesForks() throws Exception {
-        //To be implemented.
+        final Iterable<Fork> forks = RtForksITCase.repo().forks()
+            .iterate("newest");
+        MatcherAssert.assertThat(forks, Matchers.notNullValue());
+        int count = 0;
+        for (final Fork fork : forks) {
+            MatcherAssert.assertThat(fork, Matchers.notNullValue());
+            count += 1;
+        }
+        MatcherAssert.assertThat("Test repo should have at leas 1 fork",
+            count, Matchers.greaterThan(0));
     }
 
     /**
@@ -64,4 +75,26 @@ public class RtForksITCase {
     public void createsFork() throws Exception {
         //To be implemented.
     }
+
+    /**
+     * Create and return repo to test.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(RtForksITCase.coordinates());
+    }
+
+    /**
+     * Create and return repo coordinates to test on.
+     * @return Coordinates
+     */
+    private static Coordinates coordinates() {
+        return new Coordinates.Simple(
+                System.getProperty("failsafe.github.repo")
+        );
+    }
+
 }
