@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import com.jcabi.github.Forks;
@@ -45,6 +46,7 @@ import org.xembly.Directives;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
+@Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkForks implements Forks {
 

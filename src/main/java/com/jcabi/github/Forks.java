@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -40,6 +41,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
  */
+@Immutable
 public interface Forks {
 
     /**
