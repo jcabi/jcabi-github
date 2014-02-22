@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.7
  */
+@Immutable
 public interface Assignees {
 
     /**
