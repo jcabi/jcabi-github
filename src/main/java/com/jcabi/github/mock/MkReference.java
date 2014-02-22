@@ -27,35 +27,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
+import com.jcabi.github.Reference;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
 import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Mock of Github Reference.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+@EqualsAndHashCode(of = { "storage", "self", "coords", "name" })
+public final class MkReference implements Reference {
 
     /**
      * Storage.
@@ -73,25 +65,26 @@ public final class MkGit implements Git {
     private final transient Coordinates coords;
 
     /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * The Reference's name.
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
+    private final transient String name;
+
+    /**
+     * Public constructor.
+     * @param strg Storage.
+     * @param login Login name.
+     * @param crds Repo coordinates.
+     * @param reference Name of the reference.
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkReference(
+        final MkStorage strg, final String login, final Coordinates crds,
+        final String reference
+    ) {
+        this.storage = strg;
         this.self = login;
-        this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("git")
-        );
+        this.coords = crds;
+        this.name = reference;
     }
 
     @Override
@@ -100,32 +93,31 @@ public final class MkGit implements Git {
     }
 
     @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
+    public String ref() {
+        return this.name;
     }
 
     @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
-    public References references() {
-        try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
-    @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
+    /**
+     * XPath of this element in XML tree.
+     *
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/refs/reference[ref='%s']",
+            this.coords, this.name
+        );
     }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }
