@@ -86,7 +86,7 @@ final class MkAssignees implements Assignees {
             assignees.add(new MkUser(this.storage, this.self));
             final Iterable<User> collaborators = new MkIterable<User>(
                 this.storage,
-                this.xpath(),
+                String.format("%s/user", this.xpath()),
                 new MkIterable.Mapping<User>() {
                     @Override
                     public User map(final XML xml) {
@@ -114,7 +114,7 @@ final class MkAssignees implements Assignees {
     public boolean check(final String login) {
         try {
             final List<String> xpath = this.storage.xml().xpath(
-                this.xpath()
+                String.format("%s/user/login/text()", this.xpath())
             );
             return this.self.equalsIgnoreCase(login) || (
                 !xpath.isEmpty()

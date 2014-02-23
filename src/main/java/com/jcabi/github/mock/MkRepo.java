@@ -185,7 +185,11 @@ final class MkRepo implements Repo {
 
     @Override
     public Collaborators collaborators() {
-        throw new UnsupportedOperationException("Not implemented");
+        try {
+            return new MkCollaborators(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
