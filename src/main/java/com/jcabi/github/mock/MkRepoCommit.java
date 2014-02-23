@@ -29,51 +29,70 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommits;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommit;
 import java.io.IOException;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Test;
+import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Test case for {@link MkRepoCommits).
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Mock Github commit.
+ * @author Carlos Crespo (carlos.a.crespo@gmail.com)
  * @version $Id$
+ * @todo #166 Should implement the compareTo method in MkRepoCommit.
+ *  Once implemented please remove this puzzle.
+ * @todo #166 Should implement the json method in MkRepoCommit.
+ *  Once implemented please remove this puzzle.
+ * @todo #166 Should create test class for MkRepoCommit.
+ *  Once created please remove this puzzle.
  */
-public final class MkRepoCommitsTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "repository", "hash" })
+final class MkRepoCommit implements RepoCommit {
 
     /**
-     * MkRepoCommits can return commits' iterator.
-     * @throws IOException If some problem inside
+     * Commit SHA.
      */
-    @Ignore
-    @Test
-    public void returnIterator() throws IOException {
-        final String user =  "testuser1";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo1")
-        );
-        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
+    private final transient String hash;
+
+    /**
+     * The repository.
+     */
+    private final transient Repo repository;
+
+    /**
+     * Public ctor.
+     * @param repo The repository
+     * @param sha Commit SHA
+     */
+    MkRepoCommit(final Repo repo, final String sha) {
+        this.repository = repo;
+        this.hash = sha;
     }
 
-    /**
-     * MkRepoCommits can get a commit.
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void getCommit() throws IOException {
-        final String user =  "testuser2";
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo2")
-        );
-        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
+    @Override
+    public int compareTo(final RepoCommit other) {
+        throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("MkRepoCommit#json()");
+    }
+
+    @Override
+    public Repo repo() {
+        return this.repository;
+    }
+
+    @Override
+    public String sha() {
+        return this.hash;
     }
 
 }
