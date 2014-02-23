@@ -131,7 +131,7 @@ final class MkAssignees implements Assignees {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[@coords='%s']/collaborators/",
+            "/github/repos/repo[@coords='%s']/collaborators",
             this.coords
         );
     }
