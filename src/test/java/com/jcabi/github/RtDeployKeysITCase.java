@@ -32,7 +32,6 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -53,7 +52,6 @@ public final class RtDeployKeysITCase {
      *  integration test. Revise this test method if necessary.
      */
     @Test
-    @Ignore
     public void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Iterate Key";

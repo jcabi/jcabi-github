@@ -29,17 +29,20 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+
+import lombok.EqualsAndHashCode;
+
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Collections;
-import javax.json.Json;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
 
 /**
  * Github deploy keys.
@@ -90,9 +93,19 @@ public final class RtDeployKeys implements DeployKeys {
 
     @Override
     public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
+       
+    	return new RtPagination<DeployKey>(
+    	            this.request,
+    	            new RtPagination.Mapping<DeployKey, JsonObject>() {
+    	                @Override
+    	                public DeployKey map(final JsonObject object) {
+    	                    return RtDeployKeys.this.get(object.getInt("id"));
+    	                }
+    	            }
+    	        );
+    	
     }
-
+  
     @Override
     public DeployKey get(final int number) {
         return new RtDeployKey(this.entry, number, this.owner);
