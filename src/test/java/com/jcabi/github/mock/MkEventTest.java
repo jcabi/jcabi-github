@@ -53,7 +53,7 @@ public final class MkEventTest {
                     "test_user", "test_repo"
                 ), "test_type"
             ).json().getString("created_at"),
-            Matchers.equalTo("2008-01-14T04:33:35Z")
+            Matchers.notNullValue()
         );
     }
 }
