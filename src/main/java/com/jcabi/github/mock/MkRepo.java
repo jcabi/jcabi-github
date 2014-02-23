@@ -213,7 +213,7 @@ final class MkRepo implements Repo {
 
     @Override
     public RepoCommits commits() {
-        return new MkRepoCommits(this.storage, this.coordinates());
+        return new MkRepoCommits(this.storage, this.self, this.coordinates());
     }
 
     @Override
