@@ -29,7 +29,7 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Repo;
+import com.jcabi.github.Collaborators;
 import com.jcabi.github.User;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -37,60 +37,64 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkAssignees}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link MkCollaborators}.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.7
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkAssigneesTest {
+public final class MkCollaboratorsTest {
 
     /**
-     * MkAssignees can iterate over assignees.
-     * @throws Exception Exception If some problem inside
-     */
-    @Test
-    public void iteratesAssignees() throws Exception {
-        MatcherAssert.assertThat(
-            repo().assignees().iterate(),
-            Matchers.not(Matchers.emptyIterableOf(User.class))
-        );
-    }
-
-    /**
-     * MkAssignees can check if a collaborator is an assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
-    @Test
-    public void checkCollaboratorIsAssigneeForRepo() throws Exception {
-        final Repo repo = repo();
-        repo.collaborators().add("Vladimir");
-        MatcherAssert.assertThat(
-            repo.assignees().check("Vladimir"),
-            Matchers.is(true)
-        );
-    }
-
-    /**
-     * MkAssignees can check if the owner is an assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
-    @Test
-    public void checkOwnerIsAssigneeForRepo() throws Exception {
-        MatcherAssert.assertThat(
-            repo().assignees().check("Jonathan"),
-            Matchers.is(true)
-        );
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
+     * MkCollaborators can add, remove and iterate collaborators.
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+    @Test
+    public void addAndRemove() throws Exception {
+        final Collaborators collaborators = this.collaborators();
+        final String login = "some_user";
+        collaborators.add(login);
+        MatcherAssert.assertThat(
+            collaborators.iterate(),
+            Matchers.<User>iterableWithSize(1)
         );
+        MatcherAssert.assertThat(
+            collaborators.iterate().iterator().next().login(),
+            Matchers.equalTo(login)
+        );
+        collaborators.remove(login);
+        MatcherAssert.assertThat(
+            collaborators.iterate(),
+            Matchers.<User>iterableWithSize(0)
+        );
+    }
+
+    /**
+     * MkCollaborators can check whether  user is collaborator or not.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void isCollaborator() throws Exception {
+        final Collaborators collaborators = this.collaborators();
+        final String collaborator = "collaborator";
+        final String stranger = "stranger";
+        collaborators.add(collaborator);
+        MatcherAssert.assertThat(
+            collaborators.isCollaborator(collaborator),
+            Matchers.equalTo(true)
+        );
+        MatcherAssert.assertThat(
+            collaborators.isCollaborator(stranger),
+            Matchers.equalTo(false)
+        );
+    }
+
+    /**
+     * Create a collaborators to work with.
+     * @return Collaborators just created
+     * @throws Exception If some problem inside
+     */
+    private Collaborators collaborators() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).collaborators();
     }
 }
