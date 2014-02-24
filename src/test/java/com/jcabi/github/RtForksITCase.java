@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -73,7 +74,9 @@ public class RtForksITCase {
     @Test
     @Ignore
     public void createsFork() throws Exception {
-        //To be implemented.
+        final Fork fork = RtForksITCase.repo().forks()
+            .create(RtForksITCase.coordinates().user());
+        MatcherAssert.assertThat(fork, Matchers.notNullValue());
     }
 
     /**
