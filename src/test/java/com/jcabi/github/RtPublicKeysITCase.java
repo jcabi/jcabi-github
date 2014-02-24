@@ -120,19 +120,20 @@ public class RtPublicKeysITCase {
     public final void createsKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("rsa", "rsa sh");
-        MatcherAssert.assertThat(
-            keys.iterate().iterator().next(),
-            Matchers.equalTo(key)
-        );
-        MatcherAssert.assertThat(
-            key.user(),
-            Matchers.equalTo(
-                keys.user()
-            )
-        );
-        keys.remove(
-            key.number()
-        );
+        try {
+            MatcherAssert.assertThat(
+                keys.iterate(),
+                Matchers.hasItem(key)
+            );
+            MatcherAssert.assertThat(
+                key.user(),
+                Matchers.equalTo(
+                    keys.user()
+                )
+            );
+        } finally {
+            keys.remove(key.number());
+        }
         MatcherAssert.assertThat(
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
