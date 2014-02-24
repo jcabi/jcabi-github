@@ -109,6 +109,13 @@ public final class RtReleaseAsset implements ReleaseAsset {
         new RtJson(this.request).patch(json);
     }
 
+    /**
+     * Remove asset.
+     *
+     * @throws IOException If there is any I/O problem
+     * @todo #282 RtReleaseAsset should be able to remove files. Implement
+     *  RtReleaseAsset method. When done, remove this puzzle.
+     */
     @Override
     public void remove() throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
