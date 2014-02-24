@@ -31,90 +31,77 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
+import com.jcabi.github.Blob;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
 import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Mock Git.
+ * Mock Github Blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
-
+@EqualsAndHashCode(of = { "storage", "coords", "hash" })
+final class MkBlob implements Blob {
     /**
      * Storage.
      */
     private final transient MkStorage storage;
 
     /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Repo name.
+     * Repository coordinates.
      */
     private final transient Coordinates coords;
 
     /**
+     * Blob SHA hash.
+     */
+    private final transient String hash;
+
+    /**
      * Public ctor.
      * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * @param sha Blob sha
+     * @param repo Repo name
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkBlob(final MkStorage stg, final String sha, final Coordinates repo) {
         this.storage = stg;
-        this.self = login;
-        this.coords = rep;
+        this.hash = sha;
+        this.coords = repo;
     }
 
     @Override
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
+    public String sha() {
+        return this.hash;
     }
 
     @Override
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
-    @Override
-    public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/blobs/blob[sha='%s']",
+            this.coords, this.sha()
         );
-    }
-
-    @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
     }
 
 }

@@ -30,31 +30,24 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Blob;
 import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.xembly.Directives;
 
 /**
- * Github Mock Git.
+ * Mock Github blobs.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+final class MkBlobs implements Blobs {
 
     /**
      * Storage.
@@ -76,45 +69,73 @@ public final class MkGit implements Git {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * @throws java.io.IOException If there is any I/O problem
      */
-    public MkGit(final MkStorage stg, final String login,
+    public MkBlobs(final MkStorage stg, final String login,
         final Coordinates rep) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    this.coords
+                )
+            ).addIf("blobs")
+        );
     }
 
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
-
+    /**
+     * Gets a mocked Blob.
+     * @param sha Blob sha
+     * @return Mocked Blob
+     */
+    public Blob get(final String sha) {
+        return new MkBlob(this.storage, sha, this.coords);
+    }
     @Override
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    public Blob create(final String content, final String encoding)
+        throws IOException {
+        this.storage.lock();
+        final String sha = fakeSha();
+        try {
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("blob")
+                    .add("sha").set(sha).up()
+                    .add("url").set("http://localhost/1").up()
+                    .attr("content", content)
+                    .attr("encoding", encoding)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+        return this.get(sha);
     }
 
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/blobs",
+            this.coords
         );
     }
 
-    @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    /**
+     * Generate a random fake SHA hex string.
+     *
+     * @return Fake SHA string.
+     */
+    private static String fakeSha() {
+        // @checkstyle MagicNumberCheck (1 line)
+        return RandomStringUtils.random(40, "0123456789abcdef");
     }
 
 }

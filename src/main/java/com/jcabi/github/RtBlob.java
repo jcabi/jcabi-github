@@ -27,94 +27,70 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
+import com.jcabi.http.Request;
 import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Github Mock Git.
+ * Github Blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+@EqualsAndHashCode(of = {"request", "hash" })
+final class RtBlob implements Blob {
 
     /**
-     * Storage.
+     * RESTful request.
      */
-    private final transient MkStorage storage;
+    private final transient Request request;
 
     /**
-     * Login of the user logged in.
+     * Blob SHA hash.
      */
-    private final transient String self;
-
-    /**
-     * Repo name.
-     */
-    private final transient Coordinates coords;
+    private final transient String hash;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * @param req Request
+     * @param repo Repository
+     * @param sha Number of the get
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
+    RtBlob(final Request req, final Repo repo, final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/blobs")
+            .path(sha)
+            .back();
+        this.hash = sha;
     }
 
     @Override
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
+    public String sha() {
+        return this.hash;
     }
 
     @Override
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        throws IOException {
+        new RtJson(this.request).patch(json);
     }
 
     @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
-
-    @Override
-    public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
-        );
-    }
-
-    @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }

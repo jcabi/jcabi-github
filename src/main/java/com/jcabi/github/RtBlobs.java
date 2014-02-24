@@ -27,94 +27,86 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Git Data Blobs.
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+@EqualsAndHashCode(of = { "entry", "owner", "request" })
+final class RtBlobs implements Blobs {
 
     /**
-     * Storage.
+     * API entry point.
      */
-    private final transient MkStorage storage;
+    private final transient Request entry;
 
     /**
-     * Login of the user logged in.
+     * RESTful request.
      */
-    private final transient String self;
+    private final transient Request request;
 
     /**
-     * Repo name.
+     * Repository.
      */
-    private final transient Coordinates coords;
+    private final transient Repo owner;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * @param req Request
+     * @param repo Repository
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
+    public RtBlobs(final Request req, final Repo repo) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/blobs")
+            .back();
+        this.owner = repo;
     }
 
     @Override
     public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
+        return this.owner;
     }
 
     @Override
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    public Blob get(final String sha) {
+        return new RtBlob(this.entry, this.owner, sha);
     }
 
     @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
+    public Blob create(final String content, final String encoding)
+        throws IOException {
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("content", content)
+                        .add("encoding", encoding)
+                        .build()
+                ).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
         );
     }
-
-    @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }
