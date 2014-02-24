@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
+import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -107,6 +108,6 @@ final class MkEvent implements Event {
     public JsonObject json() {
         return Json.createObjectBuilder().add("event", this.type).add(
             "actor", Json.createObjectBuilder().add("login", "test").build()
-        ).build();
+        ).add("created_at", new Github.Time().toString()).build();
     }
 }

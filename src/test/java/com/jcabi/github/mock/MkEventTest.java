@@ -30,50 +30,30 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommits;
-import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkRepoCommits).
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Test case for {@link MkEvent}.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public final class MkRepoCommitsTest {
+public final class MkEventTest {
 
     /**
-     * MkRepoCommits can return commits' iterator.
-     * @throws IOException If some problem inside
-     */
-    @Ignore
-    @Test
-    public void returnIterator() throws IOException {
-        final String user =  "testuser1";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo1")
-        );
-        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
-    }
-
-    /**
-     * MkRepoCommits can get a commit.
-     * @throws IOException if some problem inside
+     * Can get created_at value from json object.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void getCommit() throws IOException {
-        final String user =  "testuser2";
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo2")
+    public void canGetCreatedAt() throws Exception {
+        MatcherAssert.assertThat(
+            new MkEvent(
+                new MkStorage.InFile(), "test", new Coordinates.Simple(
+                    "test_user", "test_repo"
+                ), "test_type"
+            ).json().getString("created_at"),
+            Matchers.notNullValue()
         );
-        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
     }
-
 }
