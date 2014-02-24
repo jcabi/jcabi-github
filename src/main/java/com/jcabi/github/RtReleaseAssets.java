@@ -37,6 +37,7 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -51,6 +52,11 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
 public final class RtReleaseAssets implements ReleaseAssets {
+
+    /**
+     * ReleaseAsset's id name in JSON object.
+     */
+    public static final String ID = "id";
 
     /**
      * API entry point.
@@ -94,7 +100,18 @@ public final class RtReleaseAssets implements ReleaseAssets {
 
     @Override
     public Iterable<ReleaseAsset> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new RtPagination<ReleaseAsset>(
+            this.request.uri().back()
+                .method(Request.GET),
+            new RtPagination.Mapping<ReleaseAsset, JsonObject>() {
+                @Override
+                public ReleaseAsset map(final JsonObject value) {
+                    return RtReleaseAssets.this.get(
+                        value.getInt(ID)
+                    );
+                }
+            }
+        );
     }
 
     @Override
@@ -118,7 +135,7 @@ public final class RtReleaseAssets implements ReleaseAssets {
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt("id")
+                .json().readObject().getInt(ID)
         );
     }
 
