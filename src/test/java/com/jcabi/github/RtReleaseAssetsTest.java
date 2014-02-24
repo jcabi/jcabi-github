@@ -49,17 +49,19 @@ public final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can list assets for a release.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtReleaseAssets should be able to list assets for a release.
-     *  Let's implement this method, add integration test, declare a method in
-     *  ReleaseAssets and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#list-assets-for-a-release.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     *
+     * @throws Exception If something goes wrong.
      */
     @Test
-    @Ignore
-    public void listReleaseAssets() {
-        // to be implemented
+    public void listReleaseAssets() throws Exception {
+        final ReleaseAssets assets = new RtReleaseAssets(
+            new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
+                .withBody("[{\"id\":1},{\"id\":2}]"), release()
+        );
+        MatcherAssert.assertThat(
+            assets.iterate(),
+            Matchers.<ReleaseAsset>iterableWithSize(2)
+        );
     }
 
     /**
