@@ -121,7 +121,24 @@ public final class MkContents implements Contents {
         final Map<String, String> committer,
         final Map<String, String> author)
         throws IOException {
-        return new Commit.Smart(null);
+        return new Commit() {
+            @Override
+            public Repo repo() {
+                return null;
+            }
+            @Override
+            public String sha() {
+                return null;
+            }
+            @Override
+            public int compareTo(final Commit comm) {
+                return 0;
+            }
+            @Override
+            public JsonObject json() throws IOException {
+                return null;
+            }
+        };
     }
 
     /**
