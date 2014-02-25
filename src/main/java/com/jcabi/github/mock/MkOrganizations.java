@@ -150,7 +150,7 @@ final class MkOrganizations implements Organizations {
                     .add("followers", MkOrganizations.RAND.nextInt())
                     .add("following", MkOrganizations.RAND.nextInt())
                     .add("html_url", "https://github.com/octocat")
-                    .add("created_at", "2008-01-14T04:33:35Z")
+                    .add("created_at", new Github.Time().toString())
                     .add("type", "Organization")
                     .build();
             }
