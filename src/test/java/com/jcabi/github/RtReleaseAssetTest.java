@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -164,7 +165,7 @@ public final class RtReleaseAssetTest {
                 query.method(), Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
-                stream,
+                IOUtils.toString(stream),
                 Matchers.notNullValue()
             );
         } finally {
