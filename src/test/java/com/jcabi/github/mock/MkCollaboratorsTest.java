@@ -27,88 +27,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Collaborators;
+import com.jcabi.github.User;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link MkCollaborators}.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class RtRepoITCase {
+public final class MkCollaboratorsTest {
 
     /**
-     * RtRepo can identify itself.
+     * MkCollaborators can add, remove and iterate collaborators.
      * @throws Exception If some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+    public void addAndRemove() throws Exception {
+        final Collaborators collaborators = this.collaborators();
+        final String login = "some_user";
+        collaborators.add(login);
         MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.notNullValue()
+            collaborators.iterate(),
+            Matchers.<User>iterableWithSize(1)
         );
-    }
-
-    /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     * @todo #551 IteratesEvents() is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove its
-     *  Ignore annotation.
-     */
-    @Test
-    @Ignore
-    public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        final Issue issue = repo.issues().create("Test", "This is a bug");
-        new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            repo.events(),
-            Matchers.not(Matchers.emptyIterable())
+            collaborators.iterate().iterator().next().login(),
+            Matchers.equalTo(login)
         );
-    }
-
-    /**
-     * RtRepo can fetch its commits.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * RtRepo can fetch assignees.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesAssignees() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
+        collaborators.remove(login);
         MatcherAssert.assertThat(
-            repo.assignees().iterate(),
-            Matchers.not(Matchers.emptyIterable())
+            collaborators.iterate(),
+            Matchers.<User>iterableWithSize(0)
         );
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
+     * MkCollaborators can check whether  user is collaborator or not.
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+    @Test
+    public void isCollaborator() throws Exception {
+        final Collaborators collaborators = this.collaborators();
+        final String collaborator = "collaborator";
+        final String stranger = "stranger";
+        collaborators.add(collaborator);
+        MatcherAssert.assertThat(
+            collaborators.isCollaborator(collaborator),
+            Matchers.equalTo(true)
+        );
+        MatcherAssert.assertThat(
+            collaborators.isCollaborator(stranger),
+            Matchers.equalTo(false)
         );
     }
 
+    /**
+     * Create a collaborators to work with.
+     * @return Collaborators just created
+     * @throws Exception If some problem inside
+     */
+    private Collaborators collaborators() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).collaborators();
+    }
 }

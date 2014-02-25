@@ -202,7 +202,11 @@ public final class MkPullComments implements PullComments {
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/comment[id='%d']", this.xpath(), number)
+            ).remove()
+        );
     }
 
     /**
