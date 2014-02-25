@@ -27,70 +27,75 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Repo;
-import com.jcabi.github.User;
-import javax.json.Json;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.jcabi.aspects.Immutable;
+import java.util.Set;
+import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkAssignees}.
+ * Test for immutability.
+ * Checks that all classes in package {@code com.jcabi.github }
+ * have {@code @Immutable} annotation.
+ *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.7
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkAssigneesTest {
+public final class ImmutabilityTest {
 
     /**
-     * MkAssignees can iterate over assignees.
-     * @throws Exception Exception If some problem inside
+     * ClasspathRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Test
-    public void iteratesAssignees() throws Exception {
-        MatcherAssert.assertThat(
-            repo().assignees().iterate(),
-            Matchers.not(Matchers.emptyIterableOf(User.class))
-        );
-    }
+    @Rule
+    public final transient ClasspathRule classpath = new ClasspathRule();
 
     /**
-     * MkAssignees can check if a collaborator is an assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
-    @Test
-    public void checkCollaboratorIsAssigneeForRepo() throws Exception {
-        final Repo repo = repo();
-        repo.collaborators().add("Vladimir");
-        MatcherAssert.assertThat(
-            repo.assignees().check("Vladimir"),
-            Matchers.is(true)
-        );
-    }
-
-    /**
-     * MkAssignees can check if the owner is an assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
-    @Test
-    public void checkOwnerIsAssigneeForRepo() throws Exception {
-        MatcherAssert.assertThat(
-            repo().assignees().check("Jonathan"),
-            Matchers.is(true)
-        );
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
+     * Test for immutability.
+     * Checks that all classes in package {@code com.jcabi.github }
+     * have {@code @Immutable} annotation.
+     *
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+    @Test
+    public void checkImmutability() throws Exception {
+        MatcherAssert.assertThat(
+            Iterables.filter(
+                this.classpath.allTypes(),
+                new Predicate<Class<?>>() {
+                    @Override
+                    public boolean apply(final Class<?> input) {
+                        return !skip().contains(input.getName());
+                    }
+                }
+            ),
+            Matchers.everyItem(
+                new CustomTypeSafeMatcher<Class<?>>("annotated type") {
+                    @Override
+                    protected boolean matchesSafely(final Class<?> item) {
+                        return item.isAnnotationPresent(Immutable.class);
+                    }
+                }
+            )
         );
+    }
+
+    /**
+     * Get set of class names to be skipped.
+     * @return Set
+     */
+    private Set<String> skip() {
+        return ImmutableSet.<String>builder()
+            .add("com.jcabi.github.mock.JsonNode")
+            .add("com.jcabi.github.Bulk")
+            .add("com.jcabi.github.Smarts")
+            .build();
     }
 }

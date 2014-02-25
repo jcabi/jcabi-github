@@ -51,9 +51,11 @@ public final class MkRepoCommitsTest {
     @Ignore
     @Test
     public void returnIterator() throws IOException {
+        final String user =  "testuser1";
         final RepoCommits commits = new MkRepoCommits(
             new MkStorage.InFile(),
-            new Coordinates.Simple("testuser1", "testrepo1")
+            user,
+            new Coordinates.Simple(user, "testrepo1")
         );
         MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
     }
@@ -62,13 +64,14 @@ public final class MkRepoCommitsTest {
      * MkRepoCommits can get a commit.
      * @throws IOException if some problem inside
      */
-    @Ignore
     @Test
     public void getCommit() throws IOException {
+        final String user =  "testuser2";
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
         final RepoCommits commits = new MkRepoCommits(
             new MkStorage.InFile(),
-            new Coordinates.Simple("testuser2", "testrepo2")
+            user,
+            new Coordinates.Simple(user, "testrepo2")
         );
         MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
     }

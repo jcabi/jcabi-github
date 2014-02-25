@@ -126,25 +126,7 @@ public final class MkContents implements Contents {
                     .add("git_url").set("http://localhost/2").up()
                     .add("html_url").set("http://localhost/3").up()
             );
-            final Directives commit = new Directives().xpath(this.commitXpath())
-                .add("commit")
-                .add("sha").set(fakeSha()).up()
-                .add("url").set("http://localhost/4").up()
-                .add("html_url").set("http://localhost/5").up()
-                .add("message").set(json.getString("message")).up();
-            if (json.containsKey("committer")) {
-                final JsonObject committer = json.getJsonObject("committer");
-                commit.add("committer")
-                    .add("email").set(committer.getString("email")).up()
-                    .add("name").set(committer.getString("name")).up();
-            }
-            if (json.containsKey("author")) {
-                final JsonObject author = json.getJsonObject("author");
-                commit.add("author")
-                    .add("email").set(author.getString("email")).up()
-                    .add("name").set(author.getString("name")).up();
-            }
-            this.storage.apply(commit);
+            this.storage.apply(this.commit(json));
         } finally {
             this.storage.unlock();
         }
@@ -179,7 +161,12 @@ public final class MkContents implements Contents {
     @Override
     public void update(final String path, final JsonObject json)
         throws IOException {
-        new JsonPatch(this.storage).patch(path, json);
+        try {
+            new JsonPatch(this.storage).patch(path, json);
+            this.storage.apply(this.commit(json));
+        } finally {
+            this.storage.unlock();
+        }
     }
 
     /**
@@ -202,6 +189,34 @@ public final class MkContents implements Contents {
             "/github/repos/repo[@coords='%s']/commits",
             this.coords
         );
+    }
+
+    /**
+     * XML Directives for commit creation.
+     * @param json Source
+     * @return Directives
+     */
+    private Directives commit(final JsonObject json) {
+        // @checkstyle MultipleStringLiterals (40 lines)
+        final Directives commit = new Directives().xpath(this.commitXpath())
+            .add("commit")
+            .add("sha").set(fakeSha()).up()
+            .add("url").set("http://localhost/4").up()
+            .add("html_url").set("http://localhost/5").up()
+            .add("message").set(json.getString("message")).up();
+        if (json.containsKey("committer")) {
+            final JsonObject committer = json.getJsonObject("committer");
+            commit.add("committer")
+                .add("email").set(committer.getString("email")).up()
+                .add("name").set(committer.getString("name")).up();
+        }
+        if (json.containsKey("author")) {
+            final JsonObject author = json.getJsonObject("author");
+            commit.add("author")
+                .add("email").set(author.getString("email")).up()
+                .add("name").set(author.getString("name")).up();
+        }
+        return commit;
     }
 
     /**

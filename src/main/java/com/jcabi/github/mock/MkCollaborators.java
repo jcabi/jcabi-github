@@ -30,22 +30,23 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Collaborators;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Milestone;
-import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
+import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Map;
+import javax.validation.constraints.NotNull;
 import org.xembly.Directives;
 
 /**
- * Mock Github milestones.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Mock Github repository collaborators.
+ *
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
 @Immutable
-public final class MkMilestones implements Milestones {
+final class MkCollaborators implements Collaborators {
 
     /**
      * Storage.
@@ -63,73 +64,93 @@ public final class MkMilestones implements Milestones {
     private final transient Coordinates coords;
 
     /**
-     * MkMilestones ctor.
+     * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @param rep Repo
-     * @throws IOException - if any I/O problem occurs
+     * @param crds Coordinates
+     * @throws IOException If there is any I/O problem
      */
-    MkMilestones(
-        final MkStorage stg, final String login, final Coordinates rep
+    public MkCollaborators(
+        final MkStorage stg, final String login, final Coordinates crds
     ) throws IOException {
         this.storage = stg;
         this.self = login;
-        this.coords = rep;
+        this.coords = crds;
         this.storage.apply(
             new Directives().xpath(
-                String.format("/github/repos/repo[@coords='%s']", this.coords)
-            ).addIf("milestones")
+                String.format(
+                    "/github/repos/repo[@coords='%s']", this.coords
+                )
+            ).addIf("collaborators")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public Milestone create(final String title) throws IOException {
-        final int number;
-        number = 1 + this.storage.xml().xpath(
-            String.format("%s/milestone/number/text()", this.xpath())
-        ).size();
+    public boolean isCollaborator(
+        @NotNull(message = "User is never null") final String user
+    ) throws IOException {
+        return !this.storage.xml().xpath(
+            String.format("%s/user[login='%s']/text()", this.xpath(), user)
+        ).isEmpty();
+    }
+
+    @Override
+    public void add(
+        @NotNull(message = "User is never null") final String user
+    ) throws IOException {
+        this.storage.lock();
+        try {
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("user").add("login")
+                    .set(user)
+            );
+        } finally {
+            this.storage.unlock();
+        }
+    }
+
+    @Override
+    public void remove(final String user) throws IOException {
         this.storage.apply(
-            new Directives().xpath(this.xpath()).add("milestone")
-                .add("number").set(Integer.toString(number)).up()
-                .add("title").set(title).up()
-                .add("state").set(Milestone.OPEN_STATE).up()
-                .add("description").set("mock milestone").up()
+            new Directives().xpath(
+                String.format("%s/user[login='%s']", this.xpath(), user)
+            ).remove()
         );
-        return this.get(number);
     }
 
     @Override
-    public Milestone get(final int number) {
-        return new MkMilestone(this.storage, this.self, this.coords, number);
-    }
-
-    @Override
-    public Iterable<Milestone> iterate(final Map<String, String> params) {
-        return new MkIterable<Milestone>(
-            this.storage,
-            String.format("%s/milestone", this.xpath()),
-            new MkIterable.Mapping<Milestone>() {
+    public Iterable<User> iterate() {
+        return new MkIterable<User>(
+            this.storage, String.format("%s/user", this.xpath()),
+            new MkIterable.Mapping<User>() {
                 @Override
-                public Milestone map(final XML xml) {
-                    return MkMilestones.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
+                public User map(final XML xml) {
+                    try {
+                        return new MkUser(
+                            MkCollaborators.this.storage,
+                            xml.xpath("login/text()").get(0)
+                        );
+                    } catch (final IOException ex) {
+                        throw new IllegalStateException(ex);
+                    }
                 }
             }
         );
     }
 
-    @Override
-    public void remove(final int number) throws IOException {
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("%s/milestone[number='%d']", this.xpath(), number)
-            ).remove()
-        );
+    /**
+     * Gets a mocked User.
+     * @param login User login
+     * @return Mocked User
+     * @throws IOException If there is any I/O problem
+     */
+    public User get(final String login) throws IOException {
+        return new MkUser(this.storage, login);
     }
 
     /**
@@ -138,7 +159,7 @@ public final class MkMilestones implements Milestones {
      */
     private String xpath() {
         return String.format(
-            "/github/repos/repo[@coords='%s']/milestones",
+            "/github/repos/repo[@coords='%s']/collaborators",
             this.coords
         );
     }

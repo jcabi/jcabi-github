@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
@@ -41,6 +42,7 @@ import javax.json.JsonObject;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@Immutable
 public final class MkMilestone implements Milestone {
 
     /**

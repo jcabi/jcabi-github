@@ -27,37 +27,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.validation.constraints.NotNull;
+import com.jcabi.github.Coordinates;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Assignees.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link MkEvent}.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.7
  */
-@Immutable
-public interface Assignees {
+public final class MkEventTest {
 
     /**
-     * Iterate all available assignees.
-     * @return Iterator of available assignees to which issues may be assigned
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
+     * Can get created_at value from json object.
+     * @throws Exception If some problem inside
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate();
-
-    /**
-     * Check check if a particular user is an assignee for a repository.
-     * @param login Login of user to be checked
-     * @return True if given assignee login belongs to an assignee for the repository
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
-     */
-    @NotNull(message = "check is never NULL")
-    boolean check(String login) throws IOException;
+    @Test
+    public void canGetCreatedAt() throws Exception {
+        MatcherAssert.assertThat(
+            new MkEvent(
+                new MkStorage.InFile(), "test", new Coordinates.Simple(
+                    "test_user", "test_repo"
+                ), "test_type"
+            ).json().getString("created_at"),
+            Matchers.notNullValue()
+        );
+    }
 }

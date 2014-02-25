@@ -31,88 +31,68 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.xml.XML;
+import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommit;
 import java.io.IOException;
-import java.util.Iterator;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock iterable.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Mock Github commit.
+ * @author Carlos Crespo (carlos.a.crespo@gmail.com)
  * @version $Id$
- * @since 0.5
+ * @todo #166 Should implement the compareTo method in MkRepoCommit.
+ *  Once implemented please remove this puzzle.
+ * @todo #166 Should implement the json method in MkRepoCommit.
+ *  Once implemented please remove this puzzle.
+ * @todo #166 Should create test class for MkRepoCommit.
+ *  Once created please remove this puzzle.
  */
+@Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@Immutable
-@EqualsAndHashCode(of = { "storage", "xpath", "mapping" })
-final class MkIterable<T> implements Iterable<T> {
+@EqualsAndHashCode(of = { "repository", "hash" })
+final class MkRepoCommit implements RepoCommit {
 
     /**
-     * Storage to get XML from.
+     * Commit SHA.
      */
-    private final transient MkStorage storage;
+    private final transient String hash;
 
     /**
-     * XPath.
+     * The repository.
      */
-    private final transient String xpath;
-
-    /**
-     * Mapping.
-     */
-    private final transient MkIterable.Mapping<T> mapping;
+    private final transient Repo repository;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @param path Path to search
-     * @param map Mapping
+     * @param repo The repository
+     * @param sha Commit SHA
      */
-    MkIterable(final MkStorage stg, final String path,
-        final MkIterable.Mapping<T> map) {
-        this.storage = stg;
-        this.xpath = path;
-        this.mapping = map;
+    MkRepoCommit(final Repo repo, final String sha) {
+        this.repository = repo;
+        this.hash = sha;
     }
 
     @Override
-    public Iterator<T> iterator() {
-        final Iterator<XML> nodes;
-        try {
-            nodes = this.storage.xml().nodes(this.xpath).iterator();
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-        return new Iterator<T>() {
-            @Override
-            public boolean hasNext() {
-                return nodes.hasNext();
-            }
-            @Override
-            public T next() {
-                return MkIterable.this.mapping.map(nodes.next());
-            }
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("#remove()");
-            }
-        };
+    public int compareTo(final RepoCommit other) {
+        throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
     }
 
-    /**
-     * Mapping.
-     */
-    @Immutable
-    public interface Mapping<X> {
-        /**
-         * Map from XML to X.
-         * @param xml The XML to get it from
-         * @return X
-         */
-        X map(XML xml);
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException("MkRepoCommit#json()");
+    }
+
+    @Override
+    public Repo repo() {
+        return this.repository;
+    }
+
+    @Override
+    public String sha() {
+        return this.hash;
     }
 
 }
