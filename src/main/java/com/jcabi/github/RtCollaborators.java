@@ -50,6 +50,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.SingularField")
 public final class RtCollaborators implements Collaborators {
 
     /**
@@ -113,11 +114,8 @@ public final class RtCollaborators implements Collaborators {
             new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
-                    return new RtUser(
-                        RtCollaborators.this.owner.github(),
-                        RtCollaborators.this.entry,
-                        object.getString("login")
-                    );
+                    return RtCollaborators.this.owner.github().users()
+                        .get(object.getString("login"));
                 }
             }
         );

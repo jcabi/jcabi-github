@@ -30,6 +30,8 @@
 
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkStorage;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -117,11 +119,14 @@ public final class RtCollaboratorsTest {
     /**
      * Create and return repo for testing.
      * @return Repo
+     * @throws Exception If some problem inside
      */
-    private Repo repo() {
+    private Repo repo() throws Exception {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "collaboratorrepo"))
             .when(repo).coordinates();
+        Mockito.doReturn(new MkGithub(new MkStorage.InFile(), "userLogin"))
+            .when(repo).github();
         return repo;
     }
 }
