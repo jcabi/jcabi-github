@@ -50,7 +50,6 @@ public final class RtGistITCase {
      *  Ignore annotation.
      */
     @Test
-    @org.junit.Ignore
     public void readsAndWritesGists() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
