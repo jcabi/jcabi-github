@@ -178,7 +178,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Git git() {
-        return new RtGit(this);
+        return new RtGit(this.entry, this);
     }
 
     @Override

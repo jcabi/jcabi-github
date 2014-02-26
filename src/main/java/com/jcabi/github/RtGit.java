@@ -31,6 +31,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -49,12 +51,18 @@ public final class RtGit implements Git {
      * Repository.
      */
     private final transient Repo owner;
+    /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * Public ctor.
+     * @param req Request
      * @param repo Repository
      */
-    public RtGit(final Repo repo) {
+    public RtGit(final Request req, final Repo repo) {
+        this.entry = req;
         this.owner = repo;
     }
 
@@ -64,8 +72,8 @@ public final class RtGit implements Git {
     }
 
     @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
+    public Blobs blobs() throws IOException {
+        return new RtBlobs(this.entry, this.repo());
     }
 
     @Override
