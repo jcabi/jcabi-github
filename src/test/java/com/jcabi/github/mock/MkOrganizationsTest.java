@@ -87,14 +87,14 @@ public final class MkOrganizationsTest {
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile(), "testCreatedAt"
         );
-        final String createdat = "created_at";
+        final String created = "created_at";
         final Date early = new Github.Time(orgs
-            .get("testCreatedAt").json().getString(createdat)
+            .get("testCreatedAt").json().getString(created)
         ).date();
-        final long sleepfor = 1000;
-        Thread.sleep(sleepfor);
+        final long sleep = 1000;
+        Thread.sleep(sleep);
         final Date later = new Github.Time(orgs
-            .get("testCreatedAt").json().getString(createdat)
+            .get("testCreatedAt").json().getString(created)
         ).date();
         MatcherAssert.assertThat(later, Matchers.greaterThanOrEqualTo(early));
     }
