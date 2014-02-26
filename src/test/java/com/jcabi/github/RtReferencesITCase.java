@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -50,15 +51,21 @@ public final class RtReferencesITCase {
     @Test
     public void createsReference() throws Exception {
         final References refs = repo().git().references();
+        final String name = randomName(5);
+        final StringBuilder builder = new StringBuilder();
+        builder.append("refs/tags/").append(name);
         final Reference reference = refs.create(
-            "refs/tags/foo",
-            "8004bea5f2ed15c729579297ce3d3d969e0e1a90"
+            builder.toString(),
+            refs.get("refs/heads/master").json().getJsonObject("object")
+            .getString("sha")
         );
         MatcherAssert.assertThat(
             reference,
             Matchers.notNullValue()
         );
-        refs.remove("tags/foo");
+        builder.delete(0, builder.length());
+        builder.append("tags/").append(name);
+        refs.remove(builder.toString());
     }
 
     /**
@@ -68,19 +75,21 @@ public final class RtReferencesITCase {
     @Test
     public void iteratesReferences() throws Exception {
         final References refs = repo().git().references();
+        final String name = randomName(6);
+        final StringBuilder builder = new StringBuilder();
+        builder.append("refs/heads/").append(name);
         refs.create(
-            "refs/heads/foo",
-            "8004bea5f2ed15c729579297ce3d3d969e0e1a90"
+            builder.toString(),
+            refs.get("refs/heads/master").json().getJsonObject("object")
+            .getString("sha")
         );
         MatcherAssert.assertThat(
             refs.iterate(),
-            Matchers.<Reference>iterableWithSize(2)
+            Matchers.notNullValue()
         );
-        refs.remove("heads/foo");
-        MatcherAssert.assertThat(
-            refs.iterate(),
-            Matchers.<Reference>iterableWithSize(1)
-        );
+        builder.delete(0, builder.length());
+        builder.append("heads/").append(name);
+        refs.remove(builder.toString());
     }
 
     /**
@@ -91,8 +100,8 @@ public final class RtReferencesITCase {
     public void returnsRepo() throws Exception {
         final References refs = repo().git().references();
         MatcherAssert.assertThat(
-            refs.repo().toString(),
-            Matchers.is("amihaiemil/forTest")
+            refs.repo(),
+            Matchers.notNullValue()
         );
     }
 
@@ -106,6 +115,21 @@ public final class RtReferencesITCase {
         final String keyrepo = System.getProperty("failsafe.github.repo");
         Assume.assumeThat(keyrepo, Matchers.notNullValue());
         return new RtGithub(key).repos().get(new Coordinates.Simple(keyrepo));
+    }
+
+    /**
+     * Generate a random name for every Reference.
+     * @param length The length of the name.
+     * @return String
+     */
+    public static String randomName(final int length) {
+        final Random rnd = new Random();
+        final String characters = "abcdefghijklmnopqrstuvwxyz";
+        final char[] name = new char[length];
+        for (int index = 0; index < length; index = index + 1) {
+            name[index] = characters.charAt(rnd.nextInt(characters.length()));
+        }
+        return new String(name);
     }
 
 }
