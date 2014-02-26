@@ -32,8 +32,10 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
+import java.io.InputStream;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -99,6 +101,29 @@ public final class MkContentTest {
             content.json().getString("name"),
             Matchers.is(path)
         );
+    }
+
+    /**
+     * MkContent should be able to fetch its raw representation.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void fetchesRawRepresentation() throws Exception {
+        final Contents contents = MkContentTest.repo().contents();
+        final String raw = "raw test";
+        final InputStream stream = contents.create(
+            jsonContent("raw.txt", "for raw", raw)
+        ).raw();
+        try {
+            MatcherAssert.assertThat(
+                // @checkstyle MultipleStringLiterals (1 line)
+                IOUtils.toString(stream),
+                Matchers.is(raw)
+            );
+        } finally {
+            stream.close();
+        }
     }
 
     /**

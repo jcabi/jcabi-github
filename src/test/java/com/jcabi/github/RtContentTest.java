@@ -37,8 +37,11 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.ws.rs.core.HttpHeaders;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -130,6 +133,37 @@ public final class RtContentTest {
         MatcherAssert.assertThat(
             greater.compareTo(greater), Matchers.is(0)
         );
+    }
+
+    /**
+     * RtContent should be able to fetch raw content.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchesRawContent() throws Exception {
+        final String raw = "the raw";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
+        ).start();
+        final InputStream stream = new RtContent(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            "raw"
+        ).raw();
+        try {
+            MatcherAssert.assertThat(
+                IOUtils.toString(stream),
+                Matchers.is(raw)
+            );
+            MatcherAssert.assertThat(
+                container.take().headers().get(HttpHeaders.ACCEPT).get(0),
+                Matchers.is("application/vnd.github.v3.raw")
+            );
+        } finally {
+            stream.close();
+            container.stop();
+        }
     }
 
     /**

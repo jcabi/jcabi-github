@@ -34,7 +34,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Content;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -125,6 +127,15 @@ final class MkContent implements Content {
     @Override
     public String path() {
         return this.location;
+    }
+
+    @Override
+    public InputStream raw() throws IOException {
+        return new ByteArrayInputStream(
+            this.storage.xml().xpath(
+                String.format("%s/content/text()", this.xpath())
+            ).get(0).getBytes()
+        );
     }
 
     /**
