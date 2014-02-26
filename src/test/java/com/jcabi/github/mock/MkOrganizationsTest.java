@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
+import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -87,12 +88,12 @@ public final class MkOrganizationsTest {
             new MkStorage.InFile(), "testCreatedAt"
         );
         final String createdat = "created_at";
-        final java.util.Date early = new Github.Time(orgs
+        final Date early = new Github.Time(orgs
             .get("testCreatedAt").json().getString(createdat)
         ).date();
         final long sleepfor = 1000;
         Thread.sleep(sleepfor);
-        final java.util.Date later = new Github.Time(orgs
+        final Date later = new Github.Time(orgs
             .get("testCreatedAt").json().getString(createdat)
         ).date();
         MatcherAssert.assertThat(later, Matchers.greaterThanOrEqualTo(early));
