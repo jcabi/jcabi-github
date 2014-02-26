@@ -195,4 +195,23 @@ public class ContentTest {
             Matchers.is(new URL(prop))
         );
     }
+
+    /**
+     * Content.Smart can fetch encoded content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesContent() throws Exception {
+        final Content content = Mockito.mock(Content.class);
+        final String prop = "dGVzdCBlbmNvZGU=";
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("content", prop)
+                .build()
+        ).when(content).json();
+        MatcherAssert.assertThat(
+            new Content.Smart(content).content(),
+            Matchers.is(prop)
+        );
+    }
 }

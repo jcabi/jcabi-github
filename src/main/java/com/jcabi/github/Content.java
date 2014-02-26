@@ -71,6 +71,7 @@ public interface Content extends Comparable<Content>,
      * @throws IOException If an IO error occurs
      * @return Input stream of the raw content
      */
+    @NotNull(message = "raw is never NULL")
     InputStream raw() throws IOException;
 
     /**
@@ -154,6 +155,14 @@ public interface Content extends Comparable<Content>,
          */
         public URL gitUrl() throws IOException {
             return new URL(this.jsn.text("git_url"));
+        }
+        /**
+         * Get its encoded content.
+         * @return Base64 encoded content
+         * @throws IOException If there is any I/O problem
+         */
+        public String content() throws IOException {
+            return this.jsn.text("content");
         }
         @Override
         public int compareTo(final Content cont) {
