@@ -173,7 +173,7 @@ final class RtRepo implements Repo {
 
     @Override
     public Collaborators collaborators() {
-        return new RtCollaborators();
+        return new RtCollaborators(this.entry, this);
     }
 
     @Override
