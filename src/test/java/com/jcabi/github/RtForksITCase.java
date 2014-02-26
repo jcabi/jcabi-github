@@ -32,7 +32,6 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -40,9 +39,6 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #121 Create an integration test case for RtForks that fetches from
- *  a real Github repository. The test should exercise the iteration of
- *  existing forks and creation of new forks.
  */
 public class RtForksITCase {
 
@@ -73,10 +69,13 @@ public class RtForksITCase {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
     public final void createsFork() throws Exception {
+        final String organization = System.getProperty(
+            "failsafe.github.organisation"
+        );
+        Assume.assumeThat(organization, Matchers.notNullValue());
         final Fork fork = RtForksITCase.repo().forks()
-            .create(RtForksITCase.coordinates().user());
+            .create(organization);
         MatcherAssert.assertThat(fork, Matchers.notNullValue());
     }
 
