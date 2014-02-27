@@ -27,91 +27,97 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import com.jcabi.http.response.JsonResponse;
-import com.jcabi.http.response.RestResponse;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Reference;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Collections;
-import javax.json.Json;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github deploy keys.
- *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * Mock of Github Reference.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "entry" })
-public final class RtDeployKeys implements DeployKeys {
-    /**
-     * Repository.
-     */
-    private final transient Repo owner;
+@EqualsAndHashCode(of = { "storage", "self", "coords", "name" })
+public final class MkReference implements Reference {
 
     /**
-     * RESTful API entry point.
+     * Storage.
      */
-    private final transient Request entry;
+    private final transient MkStorage storage;
 
     /**
-     * RESTful API request for these deploy keys.
+     * Login of the user logged in.
      */
-    private final transient Request request;
+    private final transient String self;
 
     /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param repo Repository
+     * Repo name.
      */
-    RtDeployKeys(final Request req, final Repo repo) {
-        this.owner = repo;
-        this.entry = req;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .back();
+    private final transient Coordinates coords;
+
+    /**
+     * The Reference's name.
+     */
+    private final transient String name;
+
+    /**
+     * Public constructor.
+     * @param strg Storage.
+     * @param login Login name.
+     * @param crds Repo coordinates.
+     * @param reference Name of the reference.
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkReference(
+        final MkStorage strg, final String login, final Coordinates crds,
+        final String reference
+    ) {
+        this.storage = strg;
+        this.self = login;
+        this.coords = crds;
+        this.name = reference;
     }
 
     @Override
     public Repo repo() {
-        return this.owner;
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
+    public String ref() {
+        return this.name;
     }
 
     @Override
-    public DeployKey get(final int number) {
-        return new RtDeployKey(this.entry, number, this.owner);
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
-    public DeployKey create(final String title, final String key)
-        throws IOException {
-        return this.get(
-            this.request.method(Request.POST)
-                .body().set(
-                    Json.createObjectBuilder()
-                        .add("title", title)
-                        .add("key", key)
-                        .build()
-                ).back()
-                .fetch().as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                .json().readObject().getInt("id")
+    public void patch(final JsonObject json) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     *
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/refs/reference[ref='%s']",
+            this.coords, this.name
         );
     }
 }

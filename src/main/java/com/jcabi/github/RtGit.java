@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -51,11 +52,18 @@ public final class RtGit implements Git {
     private final transient Repo owner;
 
     /**
+     * RESTful entry.
+     */
+    private final transient Request entry;
+
+    /**
      * Public ctor.
      * @param repo Repository
+     * @param req Entry request
      */
-    public RtGit(final Repo repo) {
+    public RtGit(final Repo repo, final Request req) {
         this.owner = repo;
+        this.entry = req;
     }
 
     @Override
@@ -75,9 +83,7 @@ public final class RtGit implements Git {
 
     @Override
     public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
-        );
+        return new RtReferences(this.entry, this.owner);
     }
 
     @Override
