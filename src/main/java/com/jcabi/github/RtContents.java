@@ -179,7 +179,7 @@ public final class RtContents implements Contents {
 
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Commit remove(
+    public RepoCommit remove(
         final String path,
         final String message,
         final String sha,
@@ -202,7 +202,7 @@ public final class RtContents implements Contents {
             .add("committer", cmtBuilder.build())
             .add("author", atrBuilder.build())
             .build();
-        return new RtCommit(
+        return new RtRepoCommit(
             this.entry,
             this.owner,
             this.request.method(Request.DELETE)
