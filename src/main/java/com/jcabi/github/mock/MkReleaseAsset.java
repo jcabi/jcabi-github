@@ -35,6 +35,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -121,11 +122,23 @@ public final class MkReleaseAsset implements ReleaseAsset {
         return this.num;
     }
 
+    /**
+     * Remove asset.
+     *
+     * @throws IOException If there is any I/O problem
+     * @todo #282 MkReleaseAsset should be able to remove files. Implement
+     *  MkReleaseAsset method. When done, remove this puzzle.
+     */
     @Override
     public void remove() throws IOException {
         this.storage.apply(
             new Directives().xpath(this.xpath()).strict(1).remove()
         );
+    }
+
+    @Override
+    public InputStream raw() throws IOException {
+        throw new UnsupportedOperationException("Raw not yet implemented.");
     }
 
     /**
