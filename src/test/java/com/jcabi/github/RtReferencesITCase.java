@@ -29,7 +29,8 @@
  */
 package com.jcabi.github;
 
-import java.util.Random;
+import com.jcabi.aspects.Tv;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -51,7 +52,7 @@ public final class RtReferencesITCase {
     @Test
     public void createsReference() throws Exception {
         final References refs = repo().git().references();
-        final String name = randomName(5);
+        final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
         final StringBuilder builder = new StringBuilder();
         builder.append("refs/tags/").append(name);
         final Reference reference = refs.create(
@@ -75,7 +76,7 @@ public final class RtReferencesITCase {
     @Test
     public void iteratesReferences() throws Exception {
         final References refs = repo().git().references();
-        final String name = randomName(6);
+        final String name = RandomStringUtils.randomAlphabetic(Tv.SIX);
         final StringBuilder builder = new StringBuilder();
         builder.append("refs/heads/").append(name);
         refs.create(
@@ -93,43 +94,15 @@ public final class RtReferencesITCase {
     }
 
     /**
-     * RtReferences can return its repo.
-     * @throws Exception - If something goes wrong.
-     */
-    @Test
-    public void returnsRepo() throws Exception {
-        final References refs = repo().git().references();
-        MatcherAssert.assertThat(
-            refs.repo(),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
      * Returns the repo for test.
      * @return Repo
      */
-    public static Repo repo() {
+    private static Repo repo() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final String keyrepo = System.getProperty("failsafe.github.repo");
         Assume.assumeThat(keyrepo, Matchers.notNullValue());
         return new RtGithub(key).repos().get(new Coordinates.Simple(keyrepo));
-    }
-
-    /**
-     * Generate a random name for every Reference.
-     * @param length The length of the name.
-     * @return String
-     */
-    public static String randomName(final int length) {
-        final Random rnd = new Random();
-        final String characters = "abcdefghijklmnopqrstuvwxyz";
-        final char[] name = new char[length];
-        for (int index = 0; index < length; index = index + 1) {
-            name[index] = characters.charAt(rnd.nextInt(characters.length()));
-        }
-        return new String(name);
     }
 
 }
