@@ -71,7 +71,7 @@ public class RtForksITCase {
     @Test
     public final void createsFork() throws Exception {
         final String organization = System.getProperty(
-            "failsafe.github.organisation"
+            "failsafe.github.organization"
         );
         Assume.assumeThat(organization, Matchers.notNullValue());
         final Fork fork = RtForksITCase.repo().forks()
