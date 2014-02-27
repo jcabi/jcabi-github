@@ -216,16 +216,22 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public void update(
+    public RepoCommit update(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "json is never NULL") final JsonObject json)
         throws IOException {
-        this.request.uri().path(path).back()
-            .method(Request.PUT)
-            .body().set(json).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        return new RtRepoCommit(
+            this.entry,
+            this.owner,
+            this.request.uri().path(path).back()
+                .method(Request.PUT)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class).json()
+                .readObject().getJsonObject("commit").getString("sha")
+        );
     }
 
 }

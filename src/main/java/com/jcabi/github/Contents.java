@@ -130,10 +130,11 @@ public interface Contents {
      * Updates a file.
      * @param path The content path.
      * @param json JSON object containing updates to the content.
+     * @return Commit referring to this operation
      * @throws IOException If any I/O problems occur.
      * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
      */
-    void update(
+    RepoCommit update(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "json is never NULL") final JsonObject json)
         throws IOException;
