@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import javax.json.Json;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -114,21 +113,5 @@ public final class RtDeployKeys implements DeployKeys {
                 .as(JsonResponse.class)
                 .json().readObject().getInt("id")
         );
-    }
-
-    /**
-     * Remove a deploy key by its id.
-     * @param number Id of the key to be remove.
-     * @throws IOException if something goes wrong.
-     */
-    public void remove(
-        @NotNull(message = "id can't be NULL") final int number)
-        throws IOException {
-        this.request.uri()
-            .path(Integer.toString(number))
-            .back()
-            .method(Request.DELETE)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 }

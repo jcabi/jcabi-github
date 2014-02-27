@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.xml.XML;
 import java.io.IOException;
@@ -45,6 +46,7 @@ import lombok.ToString;
  */
 @Loggable(Loggable.DEBUG)
 @ToString
+@Immutable
 @EqualsAndHashCode(of = { "storage", "xpath", "mapping" })
 final class MkIterable<T> implements Iterable<T> {
 
@@ -103,6 +105,7 @@ final class MkIterable<T> implements Iterable<T> {
     /**
      * Mapping.
      */
+    @Immutable
     public interface Mapping<X> {
         /**
          * Map from XML to X.

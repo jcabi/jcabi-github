@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,13 +32,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Implementation of Collaborators.
- * @todo #116:1hr Implement methods. They should be implemented as described at
+ * @todo #371 Implement isCollaborator, add and remove methods.
+ *  They should be implemented as described at
  *  http://developer.github.com/v3/repos/collaborators/
- *  and repo() method should return Repo instance it is created with.
  *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
@@ -46,11 +49,45 @@ import javax.validation.constraints.NotNull;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.SingularField")
 public final class RtCollaborators implements Collaborators {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repository we're in.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Public ctor.
+     * @param repo Repo
+     * @param req Request
+     */
+    RtCollaborators(final Request req, final Repo repo) {
+        this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/collaborators")
+            .back();
+        this.owner = repo;
+    }
 
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException();
+        return this.owner;
     }
 
     @Override
@@ -72,6 +109,15 @@ public final class RtCollaborators implements Collaborators {
 
     @Override
     public Iterable<User> iterate() {
-        throw new UnsupportedOperationException();
+        return new RtPagination<User>(
+            this.request,
+            new RtPagination.Mapping<User, JsonObject>() {
+                @Override
+                public User map(final JsonObject object) {
+                    return RtCollaborators.this.owner.github().users()
+                        .get(object.getString("login"));
+                }
+            }
+        );
     }
 }

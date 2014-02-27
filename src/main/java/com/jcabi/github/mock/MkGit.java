@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@ import com.jcabi.github.Trees;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Github Mock Git.
@@ -83,6 +84,14 @@ public final class MkGit implements Git {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("git")
+        );
     }
 
     @Override
@@ -102,9 +111,11 @@ public final class MkGit implements Git {
 
     @Override
     public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
-        );
+        try {
+            return new MkReferences(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

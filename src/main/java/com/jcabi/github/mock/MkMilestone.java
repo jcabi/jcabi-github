@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
@@ -41,6 +42,7 @@ import javax.json.JsonObject;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@Immutable
 public final class MkMilestone implements Milestone {
 
     /**

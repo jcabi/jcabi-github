@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,9 +47,6 @@ import lombok.ToString;
  * @todo #117 MkRepoCommits should be able to fetch commits. Let's
  *  implement this method. When done, remove this puzzle and
  *  Ignore annotation from a test for the method.
- * @todo #117 MkRepoCommits should be able to get commit. Let's implement
- *  this method. When done, remove this puzzle and Ignore annotation
- *  from a test for the method.
  * @todo #273 MkRepoCommits should be able to compare two commits. Let's
  *  create a test for this method and implement the method. When done, remove
  *  this puzzle.
@@ -67,13 +64,18 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords" })
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkRepoCommits implements RepoCommits {
 
     /**
      * Storage.
      */
     private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
 
     /**
      * Repo coordinates.
@@ -83,10 +85,13 @@ final class MkRepoCommits implements RepoCommits {
     /**
      * Public ctor.
      * @param stg Storage
+     * @param login User to login
      * @param repo Repository coordinates
      */
-    MkRepoCommits(final MkStorage stg, final Coordinates repo) {
+    MkRepoCommits(final MkStorage stg, final String login,
+        final Coordinates repo) {
         this.storage = stg;
+        this.self = login;
         this.coords = repo;
     }
 
@@ -97,7 +102,9 @@ final class MkRepoCommits implements RepoCommits {
 
     @Override
     public RepoCommit get(final String sha) {
-        throw new UnsupportedOperationException();
+        return new MkRepoCommit(
+            new MkRepo(this.storage, this.self, this.coords), sha
+        );
     }
 
     @Override

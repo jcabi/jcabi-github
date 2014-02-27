@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -193,6 +193,21 @@ public class ContentTest {
         MatcherAssert.assertThat(
             new Content.Smart(content).htmlUrl(),
             Matchers.is(new URL(prop))
+        );
+    }
+
+    /**
+     * Content.Smart can get underlying repo.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void smartCanGetUnderlyingRepo() throws Exception {
+        final Content content = Mockito.mock(Content.class);
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(repo).when(content).repo();
+        MatcherAssert.assertThat(
+            new Content.Smart(content).repo(),
+            Matchers.is(repo)
         );
     }
 }

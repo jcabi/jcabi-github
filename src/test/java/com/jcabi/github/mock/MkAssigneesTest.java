@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,6 @@ import com.jcabi.github.User;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -61,18 +60,8 @@ public final class MkAssigneesTest {
     /**
      * MkAssignees can check if a collaborator is an assignee for this repo.
      * @throws Exception Exception If some problem inside
-     * @todo #92:1h MkAssignee should be able to check if a collaborator is also
-     *  an assignee for a repo. At the moment, this does not work since
-     *  {@link MkRepo#collaborators()} is not implemented. We need to implement
-     *  MkCollaborators, which should represent a mock instance of
-     *  Collaborators. We should also provide implementations for all
-     *  methods declared in the Collaborators as well as unit test cases
-     *  for each method. {@link MkRepo#collaborators()} should return an
-     *  instance of MkCollaborators. Once done, update this test method and
-     *  remove the Ignore annotation as well as this puzzle.
      */
     @Test
-    @Ignore
     public void checkCollaboratorIsAssigneeForRepo() throws Exception {
         final Repo repo = repo();
         repo.collaborators().add("Vladimir");

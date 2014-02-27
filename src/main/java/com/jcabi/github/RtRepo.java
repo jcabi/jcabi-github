@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -173,12 +173,12 @@ final class RtRepo implements Repo {
 
     @Override
     public Collaborators collaborators() {
-        return new RtCollaborators();
+        return new RtCollaborators(this.entry, this);
     }
 
     @Override
     public Git git() {
-        return new RtGit(this);
+        return new RtGit(this, this.entry);
     }
 
     @Override

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.7
  */
+@Immutable
 public interface Assignees {
 
     /**

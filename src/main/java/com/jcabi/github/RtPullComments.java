@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -94,8 +95,17 @@ public final class RtPullComments implements PullComments {
 
     @Override
     public Iterable<PullComment> iterate(final Map<String, String> params) {
-        //@checkstyle MultipleStringLiteralsCheck (1 line)
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new RtPagination<PullComment>(
+            this.request.uri().queryParams(params).back(),
+            new RtPagination.Mapping<PullComment, JsonObject>() {
+                @Override
+                public PullComment map(final JsonObject value) {
+                    return RtPullComments.this.get(
+                        value.getInt("id")
+                    );
+                }
+            }
+        );
     }
 
     @Override

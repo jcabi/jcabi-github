@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
+
 /**
  * Github fork.
  *
@@ -39,6 +41,7 @@ package com.jcabi.github;
  * @todo #121 Implement a Smart decorator for this class for the purposes of
  *  JSON parsing.
  */
+@Immutable
 public interface Fork extends JsonReadable, JsonPatchable {
     /**
      * Fork id.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013, JCabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -210,15 +209,29 @@ public final class MkPullCommentsTest {
      * MkPullComments can remove a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 MkPullComments should be able remove a pull comment.
-     *  Implement {@link MkPullComments#iterate(java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void removesPullComment() throws Exception {
-        // To be implemented.
+        final PullComments comments = this.comments();
+        final int orig = comments.post(
+            "Origg Comment",
+            "6dcb09b5b57875f334f61aebed695e2e4193db5d",
+            "file2.txt",
+            1
+        ).number();
+        MatcherAssert.assertThat(
+            comments.iterate(
+                orig, Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(1)
+        );
+        comments.remove(orig);
+        MatcherAssert.assertThat(
+            comments.iterate(
+                orig, Collections.<String, String>emptyMap()
+            ),
+            Matchers.<PullComment>iterableWithSize(0)
+        );
     }
 
     /**
