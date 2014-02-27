@@ -27,46 +27,76 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
-import com.jcabi.http.request.FakeRequest;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link RtGit}.
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github reference.
+ *
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-public final class RtGitTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "name" })
+final class RtReference implements Reference {
 
     /**
-     * RtGit can fetch its own repo.
-     *
-     * @throws Exception If something goes wrong.
+     * RESTful request.
      */
-    @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = repo();
-        MatcherAssert.assertThat(
-            new RtGit(repo, new FakeRequest()).repo(),
-            Matchers.is(repo)
-        );
-    }
+    private final transient Request request;
 
     /**
-     * Create and return repo for testing.
-     *
-     * @return Repo
+     * Repository.
      */
-    private static Repo repo() {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "git"))
-            .when(repo).coordinates();
-        return repo;
+    private final transient Repo owner;
+
+    /**
+     * Name of the reference.
+     */
+    private final transient String name;
+
+    /**
+     * Public constructor.
+     * @param req RESTful request.
+     * @param repo Owner of this reference.
+     * @param ref The name of the reference.
+     */
+    RtReference(final Request req, final Repo repo, final String ref) {
+        this.request = req.uri()
+            .path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path(ref).back();
+        this.owner = repo;
+        this.name = ref;
     }
 
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String ref() {
+        return this.name;
+    }
+
+    @Override
+    public void patch(
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
 }

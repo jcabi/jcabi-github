@@ -29,44 +29,44 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.request.FakeRequest;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
- * Test case for {@link RtGit}.
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Git Data Reference.
+ *
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-public final class RtGitTest {
-
+@Immutable
+public interface Reference {
     /**
-     * RtGit can fetch its own repo.
-     *
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = repo();
-        MatcherAssert.assertThat(
-            new RtGit(repo, new FakeRequest()).repo(),
-            Matchers.is(repo)
-        );
-    }
-
-    /**
-     * Create and return repo for testing.
-     *
+     * Return its owner repo.
      * @return Repo
      */
-    private static Repo repo() {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "git"))
-            .when(repo).coordinates();
-        return repo;
-    }
+    Repo repo();
+
+    /**
+     * Return its name.
+     * @return String
+     */
+    String ref();
+
+    /**
+     * Return its Json.
+     * @return JsonObject
+     * @throws IOException - If something goes wrong.
+     */
+    JsonObject json() throws IOException;
+
+    /**
+     * Patch using this JSON object.
+     * @param json JSON object
+     * @throws IOException If there is any I/O problem
+     */
+    void patch(@NotNull(message = "JSON is never null") JsonObject json)
+        throws IOException;
 
 }

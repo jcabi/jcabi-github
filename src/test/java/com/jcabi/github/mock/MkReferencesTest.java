@@ -27,56 +27,93 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Reference;
+import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.RtGit;
-import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkGit}.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for {@link MkReferences}.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkGitTest {
+public final class MkReferencesTest {
 
     /**
-     * MkGit can fetch its own repo.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = repo();
-        MatcherAssert.assertThat(
-            new RtGit(repo, new FakeRequest()).repo(),
-            Matchers.is(repo)
-        );
-    }
-
-    /**
-     * MkGit can return references.
+     * MkReferences can create a MkReference.
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void givesReferences() throws Exception {
+    public void createsMkReference() throws Exception {
+        final References refs = this.repo().git().references();
         MatcherAssert.assertThat(
-            repo().git().references(), Matchers.notNullValue()
+            refs.create("refs/heads/branch1", "abcderf122"),
+            Matchers.notNullValue()
         );
     }
 
     /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * MkReference can return its owner.
+     * @throws Exception - If something goes wrong.
      */
-    private static Repo repo() throws Exception {
+    @Test
+    public void returnsRepo() throws Exception {
+        final References refs = this.repo().git().references();
+        MatcherAssert.assertThat(
+            refs.repo(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkReferences can iterate over references.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesReferences() throws Exception {
+        final Repo owner = this.repo();
+        final References refs = owner.git().references();
+        refs.create("refs/heads/br", "qweqwe");
+        refs.create("refs/tags/t1", "111t222");
+        MatcherAssert.assertThat(
+            refs.iterate(),
+            Matchers.<Reference>iterableWithSize(2)
+        );
+    }
+
+    /**
+     * MkReferences can remove a Reference.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void removesReference() throws Exception {
+        final Repo owner = this.repo();
+        final References refs = owner.git().references();
+        refs.create("refs/heads/testbr", "qweqwe22");
+        refs.create("refs/tags/t2", "111teee");
+        MatcherAssert.assertThat(
+            refs.iterate(),
+            Matchers.<Reference>iterableWithSize(2)
+        );
+        refs.remove("refs/tags/t2");
+        MatcherAssert.assertThat(
+            refs.iterate(),
+            Matchers.<Reference>iterableWithSize(1)
+        );
+    }
+    /**
+     * Repo for testing.
+     * @return Repo
+     * @throws Exception - if something goes wrong.
+     */
+    private Repo repo() throws Exception {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
         );
