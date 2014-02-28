@@ -31,7 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
@@ -142,7 +141,7 @@ public final class MkContents implements Contents {
 
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Commit remove(
+    public RepoCommit remove(
         final String path,
         final String message,
         final String sha,
