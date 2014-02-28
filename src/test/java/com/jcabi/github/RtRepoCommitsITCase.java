@@ -35,7 +35,6 @@ import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,11 +43,19 @@ import org.junit.Test;
  * @version $Id$
  * @todo #117 Add test getCommit() to check that commit actually got.
  *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
- * @todo #439 Implement test compareCommitsPatch to check that
- *  two commits can be compared and result is in patch format.
- *  See http://developer.github.com/v3/repos/commits/#compare-two-commits.
  */
 public class RtRepoCommitsITCase {
+
+    /**
+     * Base commit for comparison.
+     */
+    public static final String BASE = "5339b8e35b";
+
+    /**
+     * Head commit for comparison.
+     */
+    public static final String HEAD = "9b2e6efde9";
+
     /**
      * RtRepoCommits can fetch repo commits.
      * @throws Exception if there is no github key provided
@@ -82,22 +89,33 @@ public class RtRepoCommitsITCase {
      */
     @Test
     public final void compareCommitsPatch() throws Exception {
-        // To be implemented
+        final String patch = RtRepoCommitsITCase.repo().commits().patch(
+            BASE,
+            HEAD
+        );
+        MatcherAssert.assertThat(
+            patch,
+            Matchers.startsWith(
+                "From 9b2e6efde94fabec5876dc481b38811e8b4e992f"
+            )
+        );
+        MatcherAssert.assertThat(
+            patch,
+            Matchers.containsString(
+                "Subject: [PATCH] Issue #430 RepoCommit interface was added"
+            )
+        );
     }
 
     /**
      * RtRepoCommits can compare two commits and return result in diff mode.
      * @throws Exception if there is no github key provided
-     * @todo #551 CompareCommitsDiff is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove the
-     *  Ignore annotation.
      */
     @Test
-    @Ignore
     public final void compareCommitsDiff() throws Exception {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
-            "5339b8e35b",
-            "9b2e6efde9"
+            BASE,
+            HEAD
         );
         MatcherAssert.assertThat(
             diff,
