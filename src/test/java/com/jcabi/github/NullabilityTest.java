@@ -30,7 +30,12 @@
 package com.jcabi.github;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ContiguousSet;
+import com.google.common.collect.DiscreteDomain;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Range;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -47,6 +52,9 @@ import org.junit.Test;
  * Checks that all public methods in clases in package {@code com.jcabi.github }
  * have {@code @NotNull} annotation for return value and for input arguments
  * (if they are not scalar).
+ * @todo #592 Add @NotNull were it is needed. Remove @Ignore annotation from
+ *  test and add @NotNull annotation all public methods in all classes
+ *  for return value and for input arguments
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
@@ -80,7 +88,7 @@ public final class NullabilityTest {
                     protected boolean matchesSafely(final Method item) {
                         return item.getReturnType().isPrimitive()
                             || item.isAnnotationPresent(NotNull.class)
-                            && allParamsAnnotated(item, NotNull.class);
+                            && allParamsAnnotated(item);
                     }
                 }
             )
@@ -90,32 +98,31 @@ public final class NullabilityTest {
     /**
      * Checks if all params in method have given annotation.
      * @param method Method to be checked
-     * @param annotation Annotation to be checked for
      * @return True if all parameters of method have given annotation
      */
-    private boolean allParamsAnnotated(
-        final Method method, final Class<?> annotation) {
-        final Class<?> [] types = method.getParameterTypes();
-        final Function<Annotation, Class<? extends Annotation>> filter =
-            new Transformer();
-        boolean allAnnotated = true;
-        for (int index = 0; index < types.length; index += 1) {
-            if (!types[index].isPrimitive()
-                && !Collections2.transform(
-                    Arrays.asList(method.getParameterAnnotations()[index]),
-                    filter
-                ).contains(annotation)) {
-                allAnnotated =  false;
+    private boolean allParamsAnnotated(final Method method) {
+        return Iterables.all(
+            ContiguousSet.create(
+                Range.openClosed(0, method.getParameterTypes().length),
+                DiscreteDomain.integers()
+            ),
+            new Predicate<Integer>() {
+                @Override
+                public boolean apply(final Integer index) {
+                    return !method.getParameterTypes()[index].isPrimitive()
+                        && !Collections2.transform(
+                            // @checkstyle LineLength (2 lines)
+                            Arrays.asList(method.getParameterAnnotations()[index]),
+                            new Function<Annotation, Class<? extends Annotation>>() {
+                                @Override
+                                public Class<? extends Annotation> apply(
+                                    final Annotation input) {
+                                    return input.annotationType();
+                                }
+                            }
+                        ).contains(NotNull.class);
+                }
             }
-        }
-        return allAnnotated;
-    }
-
-    private class Transformer implements
-        Function<Annotation, Class<? extends Annotation>> {
-        @Override
-        public Class<? extends Annotation> apply(final Annotation input) {
-            return input.annotationType();
-        }
+        );
     }
 }
