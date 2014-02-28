@@ -180,7 +180,7 @@ public interface Content extends Comparable<Content>,
         }
         @Override
         public Repo repo() {
-            return this.repo();
+            return this.content.repo();
         }
         @Override
         public String path() {

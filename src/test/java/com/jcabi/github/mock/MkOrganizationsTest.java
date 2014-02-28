@@ -29,6 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Github;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -74,6 +77,30 @@ public final class MkOrganizationsTest {
             orgs.get("orgTestGet"),
             Matchers.notNullValue()
         );
+    }
+
+    /**
+     * Organization created_at field should be variable.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void testCreatedAt() throws Exception {
+        final MkOrganizations orgs = new MkOrganizations(
+            new MkStorage.InFile(), "testCreatedAt"
+        );
+        final String created = "created_at";
+        final Date early = new Github.Time(
+            orgs.get("testCreatedAt")
+                .json()
+                .getString(created)
+        ).date();
+        TimeUnit.SECONDS.sleep(1L);
+        final Date later = new Github.Time(
+            orgs.get("testCreatedAt")
+                .json()
+                .getString(created)
+        ).date();
+        MatcherAssert.assertThat(later, Matchers.greaterThanOrEqualTo(early));
     }
 
 }

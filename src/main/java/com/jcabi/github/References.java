@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -47,7 +48,43 @@ public interface References {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
+    @NotNull(message = "repository is never null")
     Repo repo();
 
+    /**
+     * Creates a reference.
+     * @param ref The name of the fully qualified reference (ie: refs/heads/master).
+     * @param sha The SHA1 value to set this reference to.
+     * @return Reference - The newly created Reference
+     * @throws IOException - If there are any errors.
+     */
+    @NotNull(message = "reference is never null")
+    Reference create(
+        @NotNull(message = "ref can't be NULL") String ref,
+        @NotNull(message = "sha can't be NULL") String sha
+    ) throws IOException;
+
+    /**
+     * Get Reference by identifier.
+     * @param identifier Reference's name.
+     * @return Reference The reference with the given name
+     */
+    @NotNull(message = "reference is never null")
+    Reference get(
+        @NotNull(message = "identifier can't be null") String identifier
+    );
+
+    /**
+     * Iterates all references.
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Reference> iterate();
+
+    /**
+     * Removes a reference by its identifier.
+     * @param identifier Reference's identifier.
+     * @throws IOException If there is any I/O problem.
+     */
+    void remove(String identifier) throws IOException;
 }

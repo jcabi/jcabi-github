@@ -30,21 +30,51 @@
 
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkStorage;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.JdkRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Tests for {@link RtCollaborators}.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
+ * @since 0.8
  */
-public class RtCollaboratorsTest {
+public final class RtCollaboratorsTest {
     /**
      * RtCollaborators can iterate over a list of collaborators.
      * @throws Exception if any error occurs.
      */
     @Test
     public void canIterate() throws Exception {
-        // to be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(json("octocat"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Collaborators users = new RtCollaborators(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        MatcherAssert.assertThat(
+            users.iterate(),
+            Matchers.<User>iterableWithSize(2)
+        );
+        container.stop();
     }
 
     /**
@@ -72,5 +102,31 @@ public class RtCollaboratorsTest {
     @Test
     public void userCanBeRemoved() throws Exception {
         // to be implemented
+    }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param login Username to login
+     * @return JsonObject
+     * @throws Exception If some problem inside
+     */
+    private static JsonObject json(final String login) throws Exception {
+        return Json.createObjectBuilder()
+            .add("login", login)
+            .build();
+    }
+
+    /**
+     * Create and return repo for testing.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private Repo repo() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test", "collaboratorrepo"))
+            .when(repo).coordinates();
+        Mockito.doReturn(new MkGithub(new MkStorage.InFile(), "userLogin"))
+            .when(repo).github();
+        return repo;
     }
 }
