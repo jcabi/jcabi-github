@@ -78,7 +78,7 @@ public final class RtReleaseAssetsITCase {
     }
 
     /**
-     * RtReleaseAssets can fetch release assets using the get method.
+     * RtReleaseAssets can fetch release assets by asset ID.
      * @throws Exception If an exception occurs.
      */
     @Test
