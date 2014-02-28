@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -132,9 +133,11 @@ final class MkContent implements Content {
     @Override
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
-            this.storage.xml().xpath(
-                String.format("%s/content/text()", this.xpath())
-            ).get(0).getBytes()
+            DatatypeConverter.parseBase64Binary(
+                this.storage.xml().xpath(
+                    String.format("%s/content/text()", this.xpath())
+                ).get(0)
+            )
         );
     }
 

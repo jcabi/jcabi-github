@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.ws.rs.core.HttpHeaders;
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -142,7 +143,7 @@ public final class RtContentTest {
      */
     @Test
     public void fetchesRawContent() throws Exception {
-        final String raw = "the raw";
+        final String raw = "the raw \u20ac";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
         ).start();
@@ -153,7 +154,7 @@ public final class RtContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
-                IOUtils.toString(stream),
+                IOUtils.toString(stream, Charsets.UTF_8),
                 Matchers.is(raw)
             );
             MatcherAssert.assertThat(

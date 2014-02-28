@@ -35,6 +35,7 @@ import com.jcabi.github.Repo;
 import java.io.InputStream;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -111,13 +112,12 @@ public final class MkContentTest {
     @Test
     public void fetchesRawRepresentation() throws Exception {
         final Contents contents = MkContentTest.repo().contents();
-        final String raw = "raw test";
+        final String raw = "raw test \u20ac\u0000";
         final InputStream stream = contents.create(
             jsonContent("raw.txt", "for raw", raw)
         ).raw();
         try {
             MatcherAssert.assertThat(
-                // @checkstyle MultipleStringLiterals (1 line)
                 IOUtils.toString(stream),
                 Matchers.is(raw)
             );
@@ -141,8 +141,10 @@ public final class MkContentTest {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("message", message)
-            .add("content", content)
-            .build();
+            .add(
+                "content",
+                DatatypeConverter.printBase64Binary(content.getBytes())
+            ).build();
     }
 
     /**
