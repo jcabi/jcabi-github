@@ -270,7 +270,7 @@ public final class RtContentsTest {
             repo()
         );
         try {
-            final Commit commit = contents.remove(
+            final RepoCommit commit = contents.remove(
                 "to/remove",
                 "Delete me",
                 "fileSha",

@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -78,6 +79,14 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Release Asset</a>
      */
     void remove() throws IOException;
+
+    /**
+     * Gets release asset raw content.
+     * @return Release asset number
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
+     */
+    InputStream raw() throws IOException;
 
     /**
      * Smart ReleaseAsset with extra features.
@@ -234,6 +243,11 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
         @Override
         public void remove() throws IOException {
             this.releaseAsset.remove();
+        }
+
+        @Override
+        public InputStream raw() throws IOException {
+            return this.releaseAsset.raw();
         }
 
         @Override

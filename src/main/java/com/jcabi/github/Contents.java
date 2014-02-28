@@ -109,13 +109,13 @@ public interface Contents {
      * @param branch The branch name
      * @param committer Committer parameter, which is a hash containing information about the committer
      * @param author Author parameter is optional and is filled in with the committer information if omitted
-     * @return Commit referring to this operation
+     * @return RepoCommit referring to this operation
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
      * @checkstyle ParameterNumberCheck (11 lines)
      */
     @NotNull(message = "Content is never NULL")
-    Commit remove(
+    RepoCommit remove(
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
         @NotNull(message = "sha is never NULL") String sha,

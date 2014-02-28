@@ -83,9 +83,7 @@ public final class RtGit implements Git {
 
     @Override
     public References references() {
-        throw new UnsupportedOperationException(
-            "References not yet implemented"
-        );
+        return new RtReferences(this.entry, this.owner);
     }
 
     @Override

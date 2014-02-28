@@ -37,11 +37,14 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -144,6 +147,39 @@ public final class RtReleaseAssetTest {
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtReleaseAsset can stream raw content.
+     * @throws Exception If a problem occurs.
+     * @todo #282 RtReleaseAsset should be able to stream raw content. Implement
+     *  RtReleaseAsset method. When done, remove this puzzle and the Ignore
+     *  annotation from this test method.
+     */
+    @Test
+    @Ignore
+    public void rawAsset() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+        ).start();
+        final RtReleaseAsset asset = new RtReleaseAsset(
+            new ApacheRequest(container.home()),
+            release(),
+            4
+        );
+        try {
+            final InputStream stream = asset.raw();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(), Matchers.equalTo(Request.GET)
+            );
+            MatcherAssert.assertThat(
+                IOUtils.toString(stream),
+                Matchers.notNullValue()
             );
         } finally {
             container.stop();

@@ -27,59 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.response.JsonResponse;
-import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Collections;
-import javax.json.Json;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github deploy keys.
+ * Github reference.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "entry" })
-public final class RtDeployKeys implements DeployKeys {
+@EqualsAndHashCode(of = { "request", "owner", "name" })
+final class RtReference implements Reference {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
     /**
      * Repository.
      */
     private final transient Repo owner;
 
     /**
-     * RESTful API entry point.
+     * Name of the reference.
      */
-    private final transient Request entry;
+    private final transient String name;
 
     /**
-     * RESTful API request for these deploy keys.
+     * Public constructor.
+     * @param req RESTful request.
+     * @param repo Owner of this reference.
+     * @param ref The name of the reference.
      */
-    private final transient Request request;
-
-    /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param repo Repository
-     */
-    RtDeployKeys(final Request req, final Repo repo) {
-        this.owner = repo;
-        this.entry = req;
+    RtReference(final Request req, final Repo repo, final String ref) {
         this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .back();
+            .path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path(ref).back();
+        this.owner = repo;
+        this.name = ref;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 
     @Override
@@ -88,30 +89,14 @@ public final class RtDeployKeys implements DeployKeys {
     }
 
     @Override
-    public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
+    public String ref() {
+        return this.name;
     }
 
     @Override
-    public DeployKey get(final int number) {
-        return new RtDeployKey(this.entry, number, this.owner);
-    }
-
-    @Override
-    public DeployKey create(final String title, final String key)
-        throws IOException {
-        return this.get(
-            this.request.method(Request.POST)
-                .body().set(
-                    Json.createObjectBuilder()
-                        .add("title", title)
-                        .add("key", key)
-                        .build()
-                ).back()
-                .fetch().as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                .json().readObject().getInt("id")
-        );
+    public void patch(
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
 }

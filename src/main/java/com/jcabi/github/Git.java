@@ -81,19 +81,6 @@ public interface Git {
      * Get its references.
      * @return References
      * @see <a href="http://developer.github.com/v3/git/references/">References API</a>
-     * @todo #115:1hr Implement the Git Data References API. We need to
-     *  implement the following:
-     *  1) Add the operations in http://developer.github.com/v3/git/references/
-     *  to the References interface.
-     *  2) A class RtReferences, which performs RESTful request operations
-     *  against the References API.
-     *  3) A class MkReferences, which mocks the References interface.
-     *  4) An interface Reference, which represents a single Reference of the
-     *  Git Data API.
-     *  5) RtReferences, a Reference implementation which fetches and modifies
-     *  Reference information according to the References API, and
-     *  6) MkReference, which mocks a single Reference object.
-     *  Don't forget to implement unit tests and integration tests.
      */
     @NotNull(message = "References is never NULL")
     References references();

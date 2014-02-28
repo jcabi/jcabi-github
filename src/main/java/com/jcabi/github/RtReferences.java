@@ -36,25 +36,21 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github deploy keys.
+ * Github references.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "entry" })
-public final class RtDeployKeys implements DeployKeys {
-    /**
-     * Repository.
-     */
-    private final transient Repo owner;
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
+final class RtReferences implements References {
 
     /**
      * RESTful API entry point.
@@ -62,24 +58,25 @@ public final class RtDeployKeys implements DeployKeys {
     private final transient Request entry;
 
     /**
-     * RESTful API request for these deploy keys.
+     * RESTful request for the commits.
      */
     private final transient Request request;
 
     /**
-     * Public ctor.
-     * @param req RESTful API entry point
-     * @param repo Repository
+     * Repository.
      */
-    RtDeployKeys(final Request req, final Repo repo) {
-        this.owner = repo;
+    private final transient Repo owner;
+
+    /**
+     * Public constructor.
+     * @param req RESTful request.
+     * @param repo The owner repo.
+     */
+    RtReferences(final Request req, final Repo repo) {
         this.entry = req;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .back();
+        this.owner = repo;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path("/refs").back();
     }
 
     @Override
@@ -88,30 +85,44 @@ public final class RtDeployKeys implements DeployKeys {
     }
 
     @Override
-    public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public DeployKey get(final int number) {
-        return new RtDeployKey(this.entry, number, this.owner);
-    }
-
-    @Override
-    public DeployKey create(final String title, final String key)
+    public Reference create(final String ref, final String sha)
         throws IOException {
+        final JsonObject json = Json.createObjectBuilder()
+            .add("sha", sha).add("ref", ref).build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(
-                    Json.createObjectBuilder()
-                        .add("title", title)
-                        .add("key", key)
-                        .build()
-                ).back()
+                .body().set(json).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt("id")
+                .json().readObject().getString("ref")
         );
     }
+
+    @Override
+    public Reference get(final String identifier) {
+        return new RtReference(this.entry, this.owner, identifier);
+    }
+
+    @Override
+    public Iterable<Reference> iterate() {
+        return new RtPagination<Reference>(
+            this.request,
+            new RtPagination.Mapping<Reference, JsonObject>() {
+                @Override
+                public Reference map(final JsonObject object) {
+                    return RtReferences.this.get(object.getString("ref"));
+                }
+            }
+        );
+    }
+
+    @Override
+    public void remove(final String identifier) throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(identifier).back().fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
 }

@@ -27,57 +27,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Blob;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Repo;
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
- * Test case for {@link MkBlobs).
- * @author Alexander Lukashevich (sanai56967@gmail.com)
+ * Github Git Data Reference.
+ *
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  */
-public final class MkBlobsTest {
-
+@Immutable
+public interface Reference {
     /**
-     * MkBlobs should be able to create a blob.
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    public void canCreate() throws Exception {
-        final Blobs blobs = repo().git().blobs();
-        final Blob blob = blobs.create("content1", "encoding1");
-        MatcherAssert.assertThat(
-            blobs.get(blob.sha()),
-            Matchers.equalTo(blob)
-        );
-    }
-
-    /**
-     * Create a repo to work with.
+     * Return its owner repo.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-    }
+    Repo repo();
 
     /**
-     * MkRepoCommits can get a commit.
-     * @throws Exception if some problem inside
+     * Return its name.
+     * @return String
      */
-    @Test
-    public void getBlob() throws Exception {
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-        final Blobs blobs = repo().git().blobs();
-        MatcherAssert.assertThat(blobs.get(sha), Matchers.notNullValue());
-    }
+    String ref();
+
+    /**
+     * Return its Json.
+     * @return JsonObject
+     * @throws IOException - If something goes wrong.
+     */
+    JsonObject json() throws IOException;
+
+    /**
+     * Patch using this JSON object.
+     * @param json JSON object
+     * @throws IOException If there is any I/O problem
+     */
+    void patch(@NotNull(message = "JSON is never null") JsonObject json)
+        throws IOException;
+
 }

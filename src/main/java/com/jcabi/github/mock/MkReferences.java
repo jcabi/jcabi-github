@@ -27,35 +27,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
+import com.jcabi.github.Reference;
 import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Mock of Github References.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+public final class MkReferences implements References {
 
     /**
      * Storage.
@@ -73,24 +68,25 @@ public final class MkGit implements Git {
     private final transient Coordinates coords;
 
     /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * Public constructor.
+     * @param stg Storage.
+     * @param login Login name.
+     * @param rep Repo coordinates.
+     * @throws IOException - If something goes wrong.
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkReferences(
+        final MkStorage stg, final String login, final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
         this.storage.apply(
             new Directives().xpath(
                 String.format(
-                    "/github/repos/repo[@coords='%s']",
+                    "/github/repos/repo[@coords='%s']/git",
                     this.coords
                 )
-            ).addIf("git")
+            ).addIf("refs")
         );
     }
 
@@ -100,32 +96,60 @@ public final class MkGit implements Git {
     }
 
     @Override
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    public Reference create(
+        final String ref, final String sha
+    ) throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("reference")
+                .add("ref").set(ref).up()
+                .add("sha").set(sha).up()
+        );
+        return this.get(ref);
     }
 
     @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+    public Reference get(final String identifier) {
+        return new MkReference(
+            this.storage, this.self, this.coords, identifier
+        );
     }
 
     @Override
-    public References references() {
-        try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public Iterable<Reference> iterate() {
+        return new MkIterable<Reference>(
+            this.storage,
+            String.format("%s/reference", this.xpath()),
+            new MkIterable.Mapping<Reference>() {
+                @Override
+                public Reference map(final XML xml) {
+                    return MkReferences.this.get(
+                        xml.xpath("ref/text()").get(0)
+                    );
+                }
+            }
+        );
     }
 
     @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
+    public void remove(final String identifier) throws IOException {
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "%s/reference[ref='%s']", this.xpath(), identifier
+                )
+            ).remove()
+        );
     }
 
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/refs",
+            this.coords
+        );
     }
 
 }
