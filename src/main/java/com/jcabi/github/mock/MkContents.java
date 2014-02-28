@@ -156,6 +156,7 @@ public final class MkContents implements Contents {
      * Updates a file.
      * @param path The content path.
      * @param json JSON object containing updates to the content.
+     * @return Commit related to this update.
      * @throws IOException If any I/O problem occurs.
      */
     @Override
@@ -195,8 +196,9 @@ public final class MkContents implements Contents {
      * XML Directives for commit creation.
      * @param json Source
      * @return SHA string
+     * @throws IOException If an IO Exception occurs
      */
-    private MkRepoCommit commit(final JsonObject json) {
+    private MkRepoCommit commit(final JsonObject json) throws IOException {
         final String sha = fakeSha();
         // @checkstyle MultipleStringLiterals (40 lines)
         final Directives commit = new Directives().xpath(this.commitXpath())
@@ -217,6 +219,7 @@ public final class MkContents implements Contents {
                 .add("email").set(author.getString("email")).up()
                 .add("name").set(author.getString("name")).up();
         }
+        this.storage.apply(commit);
         return new MkRepoCommit(this.repo(), sha);
     }
 
