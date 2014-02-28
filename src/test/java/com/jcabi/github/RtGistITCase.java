@@ -50,7 +50,7 @@ public final class RtGistITCase {
      */
     @Test
     public void readsAndWritesGists() throws Exception {
-        final String filename = "filename.txt";
+        final String filename = RandomStringUtils.randomAlphabetic(Tv.TEN) + ".txt";
         final String content = "content of file";
         final Gists gists = RtGistITCase.github().gists();
         Gist.Smart smart = null;
