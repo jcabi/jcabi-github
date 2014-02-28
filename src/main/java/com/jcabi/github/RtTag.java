@@ -27,24 +27,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Tag.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+@EqualsAndHashCode(of = {"request", "owner", "sha" })
+final class RtTag implements Tag {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
 
     /**
      * Repository.
@@ -52,18 +59,34 @@ public final class RtGit implements Git {
     private final transient Repo owner;
 
     /**
-     * RESTful entry.
+     * SHA of the tag.
      */
-    private final transient Request entry;
+    private final transient String sha;
 
     /**
-     * Public ctor.
-     * @param repo Repository
-     * @param req Entry request
+     * Public constructor.
+     * @param req The request.
+     * @param repo The owner repo.
+     * @param key The sha.
      */
-    public RtGit(final Repo repo, final Request req) {
+    RtTag(final Request req, final Repo repo, final String key) {
+        this.sha = key;
         this.owner = repo;
-        this.entry = req;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path("/tags")
+            .path(this.sha).back();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public void patch(
+        @NotNull(message = "JSON object can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
     }
 
     @Override
@@ -72,28 +95,8 @@ public final class RtGit implements Git {
     }
 
     @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    public String key() {
+        return this.sha;
     }
 
 }

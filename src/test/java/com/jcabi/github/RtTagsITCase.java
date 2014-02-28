@@ -27,48 +27,56 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
- * Github Git Data Tags.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Integration testcase for RtTags.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Tags {
+public final class RtTagsITCase {
 
     /**
-     * Owner of them.
+     * RtTags creates a tag.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void createsTag() throws Exception {
+        final References refs = repo().git().references();
+        final Tags tags = repo().git().tags();
+        final String objectsha = refs.get("refs/heads/master").json()
+            .getJsonObject("object").getString("sha");
+        final JsonObject tagger = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "scott@gmail.com")
+            .add("date", "2013-06-17T14:53:35-07:00").build();
+        final JsonObject input = Json.createObjectBuilder()
+            .add("tag", "v.0.1").add("message", "initial version")
+            .add("object", objectsha).add("type", "commit")
+            .add("tagger", tagger).build();
+        final Tag tag = tags.create(input);
+        MatcherAssert.assertThat(tag, Matchers.notNullValue());
+        refs.remove("tags/v.0.1");
+    }
+
+    /**
+     * Returns the repo for test.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Create a Tag object.
-     * @param params The input for creating the Tag.
-     * @return Tag
-     * @throws IOException - If anything goes wrong.
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
-     * @return Tag
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
+    private static Repo repo() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final String keyrepo = System.getProperty("failsafe.github.repo");
+        Assume.assumeThat(keyrepo, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(new Coordinates.Simple(keyrepo));
+    }
 
 }

@@ -27,73 +27,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import lombok.EqualsAndHashCode;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Repo;
+import com.jcabi.github.Tags;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for MkTags.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+public final class MkTagsTest {
 
     /**
-     * Repository.
+     * MkTags can create tags.
+     * @throws Exception If something goes wrong.
      */
-    private final transient Repo owner;
+    @Test
+    public void createsMkTag() throws Exception {
+        final Tags tags = repo().git().tags();
+        final JsonObject tagger = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "Scott@gmail.com").build();
+        final JsonObject json = Json.createObjectBuilder().add("name", "v.0.1")
+            .add("message", "test tag").add("sha", "abcsha12")
+            .add("tagger", tagger).build();
+        MatcherAssert.assertThat(
+            tags.create(json),
+            Matchers.notNullValue()
+        );
+    }
 
     /**
-     * RESTful entry.
+     * Repo for testing.
+     * @return Repo
+     * @throws Exception - if something goes wrong.
      */
-    private final transient Request entry;
-
-    /**
-     * Public ctor.
-     * @param repo Repository
-     * @param req Entry request
-     */
-    public RtGit(final Repo repo, final Request req) {
-        this.owner = repo;
-        this.entry = req;
-    }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
 
 }

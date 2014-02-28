@@ -30,70 +30,44 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import lombok.EqualsAndHashCode;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
- * Github Git.
+ * Github Git Data Tag.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+public interface Tag {
 
     /**
-     * Repository.
+     * Fetch the Json representation of the Tag.
+     * @return JsonObject
+     * @throws IOException If something goes wrong.
      */
-    private final transient Repo owner;
+    JsonObject json() throws IOException;
 
     /**
-     * RESTful entry.
+     * Patch this tag with the given json.
+     * @param json The Json to patch the Tag with.
+     * @throws IOException If something goes wrong.
      */
-    private final transient Request entry;
+    void patch(@NotNull(message = "json can't be null") JsonObject json)
+        throws IOException;
 
     /**
-     * Public ctor.
-     * @param repo Repository
-     * @param req Entry request
+     * Return owner repo.
+     * @return Repo
      */
-    public RtGit(final Repo repo, final Request req) {
-        this.owner = repo;
-        this.entry = req;
-    }
+    Repo repo();
 
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
+    /**
+     * Return its sha.
+     * @return String
+     */
+    String key();
 
 }
