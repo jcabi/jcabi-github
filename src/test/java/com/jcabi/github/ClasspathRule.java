@@ -30,7 +30,13 @@
 package com.jcabi.github;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -97,5 +103,30 @@ public final class ClasspathRule implements TestRule {
                 statement.evaluate();
             }
         };
+    }
+
+    /**
+     * Provides all public methods from classes in package 'com.jcabi.github'.
+     * @return Methods
+     */
+    public Iterable<Method> allPublicMethods() {
+        final Collection<Method> methods = new ArrayList<Method>(0);
+        final Predicate<Method> predicate = new MethodPredicate();
+        for (final Class<?> clazz : this.allTypes()) {
+            methods.addAll(
+                Collections2.filter(
+                    Arrays.asList(clazz.getDeclaredMethods()),
+                    predicate
+                )
+            );
+        }
+        return methods;
+    }
+
+    private static class MethodPredicate implements Predicate<Method> {
+        @Override
+        public boolean apply(final Method input) {
+            return Modifier.isPublic(input.getModifiers());
+        }
     }
 }
