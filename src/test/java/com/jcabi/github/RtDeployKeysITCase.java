@@ -112,13 +112,7 @@ public final class RtDeployKeysITCase {
         final DeployKeys keys = repo().keys();
         final String title = "Test Get Key";
         final DeployKey key = keys.create(
-            title,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCyMMT1KP0TvZltl")
-                .append("IZmGG4oNf2fLbzqKUU24BV4ln25yCL0yqQACdKXRheXVGE6/4gX0i")
-                .append("FtpuwePlccGSVJXWgU0uOkQUmMGLQoU+XjBzSa1GaW/r/Igabd1CX")
-                .append("cZpeRSsVZ8GQX/XlxPBYeg+ES3ZjqasUBSgn9sZ7ym/G3jsJAlQ==")
-                .toString()
+            title, "utf-8"
         );
         try {
             MatcherAssert.assertThat(

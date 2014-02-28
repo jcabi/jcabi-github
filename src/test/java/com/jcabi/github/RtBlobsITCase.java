@@ -38,6 +38,7 @@ import org.junit.Test;
  * Test case for {@link RtBlobs}.
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtBlobsITCase {
 
@@ -48,22 +49,14 @@ public final class RtBlobsITCase {
     @Test
     public void createsBlob() throws Exception {
         final Blobs blobs = repo().git().blobs();
-        final String sha = "Test Create Sha";
         final Blob blob = blobs.create(
-            sha,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQC2hZYMju2NywH/g")
-                .append("t0sxtSOFTIjlxImGq8m72hOnm/HjCAQSYXTF2v0kWyh9PZC1frPMf")
-                .append("U+clfy0MpetWJ76tKz4qVS3aA35WK5vLmQYjA5lyhVwq/1TkZikIy")
-                .append("21Bvc+KmlguI+bd4HWaN6D3uylQetoCTcxvzf4F2IBZFKmLjTrQ==")
-                .toString()
+            "Test Content", "utf-8"
         );
         MatcherAssert.assertThat(
-            new Blob.Smart(blob).sha(),
-            Matchers.is(sha)
+            blob.sha(),
+            Matchers.equalTo(blob.json().getString("sha"))
         );
     }
-
     /**
      * RtBlobs can get a blob.
      * @throws Exception If something goes wrong
@@ -71,19 +64,18 @@ public final class RtBlobsITCase {
     @Test
     public void getsBlob() throws Exception {
         final Blobs blobs = repo().git().blobs();
-        final String sha = "Test Get Sha";
+        final String content = "Content of the blob";
+        final String encoding = "base64";
         final Blob blob = blobs.create(
-            sha,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCyMMT1KP0TvZltl")
-                .append("IZmGG4oNf2fLbzqKUU24BV4ln25yCL0yqQACdKXRheXVGE6/4gX0i")
-                .append("FtpuwePlccGSVJXWgU0uOkQUmMGLQoU+XjBzSa1GaW/r/Igabd1CX")
-                .append("cZpeRSsVZ8GQX/XlxPBYeg+ES3ZjqasUBSgn9sZ7ym/G3jsJAlQ==")
-                .toString()
+            content, encoding
         );
         MatcherAssert.assertThat(
-            blobs.get(blob.sha()),
-            Matchers.is(blob)
+            blobs.get(blob.sha()).json().getString("sha"),
+            Matchers.equalTo(blob.sha())
+        );
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()).json().getString("encoding"),
+            Matchers.equalTo(encoding)
         );
     }
 
@@ -99,5 +91,4 @@ public final class RtBlobsITCase {
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
     }
-
 }
