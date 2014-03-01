@@ -30,8 +30,10 @@
 
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -54,7 +56,7 @@ public final class RtTagsITCase {
         final References refs = repo().git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
-        final String name = "v.0.1";
+        final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
