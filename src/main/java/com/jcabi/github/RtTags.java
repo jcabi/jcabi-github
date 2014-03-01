@@ -98,10 +98,10 @@ final class RtTags implements Tags {
                 .json().readObject().getString("sha")
         );
         final References refs = new RtReferences(this.refsEntry, this.owner);
-        final StringBuilder builder = new StringBuilder();
-        builder.append("refs/tags/").append(params.getString("tag"));
         refs.create(
-            builder.toString(),
+            new StringBuilder().append("refs/tags/").append(
+                params.getString("tag")
+            ).toString(),
             created.key()
         );
         return created;

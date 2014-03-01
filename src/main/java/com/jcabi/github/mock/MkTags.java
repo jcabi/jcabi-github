@@ -38,8 +38,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Tag;
 import com.jcabi.github.Tags;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
@@ -99,10 +97,7 @@ final class MkTags implements Tags {
     @Override
     public Tag create(final JsonObject params) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
-        final Set<String> keys = params.keySet();
-        final Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()) {
-            final String key = iterator.next();
+        for (String key : params.keySet()) {
             if (params.get(key).toString().contains("}")) {
                 dirs.add(key).set(params.get(key).toString()).up();
             } else {
@@ -113,9 +108,12 @@ final class MkTags implements Tags {
         final References refs = new MkReferences(
             this.storage, this.self, this.coords
         );
-        final StringBuilder builder = new StringBuilder();
-        builder.append("refs/tags/").append(params.getString("name"));
-        refs.create(builder.toString(), params.getString("sha"));
+        refs.create(
+            new StringBuilder().append("refs/tags/").append(
+                params.getString("name")
+            ).toString(),
+            params.getString("sha")
+        );
         return this.get(params.getString("sha"));
     }
 

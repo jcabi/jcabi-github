@@ -53,25 +53,30 @@ public final class RtTagITCase {
     public void fetchesJson() throws Exception {
         final String object = "object";
         final String message = "message";
+        final String content = "initial version";
+        final String name = "v.0.1";
         final References refs = repo().git().references();
         final Tags tags = repo().git().tags();
-        final String objectsha = refs.get("refs/heads/master").json()
+        final String sha = refs.get("refs/heads/master").json()
             .getJsonObject(object).getString("sha");
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
-        final JsonObject input = Json.createObjectBuilder()
-            .add("tag", "v.0.1").add(message, "initial version")
-            .add(object, objectsha).add("type", "commit")
-            .add("tagger", tagger).build();
-        final Tag tag = tags.create(input);
+        final Tag tag = tags.create(
+            Json.createObjectBuilder().add("tag", name)
+                .add(message, content)
+                .add(object, sha).add("type", "commit")
+                .add("tagger", tagger).build()
+        );
         try {
             MatcherAssert.assertThat(
                 tag.json().getString(message),
-                Matchers.is("initial version")
+                Matchers.is(content)
             );
         } finally {
-            refs.remove("tags/v.0.1");
+            refs.remove(
+                new StringBuilder().append("tags/").append(name).toString()
+            );
         }
     }
 
@@ -82,9 +87,9 @@ public final class RtTagITCase {
     private static Repo repo() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final String keyrepo = System.getProperty("failsafe.github.repo");
-        Assume.assumeThat(keyrepo, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(new Coordinates.Simple(keyrepo));
+        final String repo = System.getProperty("failsafe.github.repo");
+        Assume.assumeThat(repo, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(new Coordinates.Simple(repo));
     }
 
 }
