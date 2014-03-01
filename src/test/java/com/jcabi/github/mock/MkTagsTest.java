@@ -31,7 +31,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -52,14 +51,14 @@ public final class MkTagsTest {
      */
     @Test
     public void createsMkTag() throws Exception {
-        final Tags tags = repo().git().tags();
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com").build();
-        final JsonObject json = Json.createObjectBuilder().add("name", "v.0.1")
-            .add("message", "test tag").add("sha", "abcsha12")
-            .add("tagger", tagger).build();
         MatcherAssert.assertThat(
-            tags.create(json),
+            repo().git().tags().create(
+                Json.createObjectBuilder().add("name", "v.0.1")
+                    .add("message", "test tag").add("sha", "abcsha12")
+                    .add("tagger", tagger).build()
+            ),
             Matchers.notNullValue()
         );
     }
