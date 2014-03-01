@@ -35,7 +35,6 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -70,40 +69,6 @@ public final class RtTagITCase {
             MatcherAssert.assertThat(
                 tag.json().getString(message),
                 Matchers.is("initial version")
-            );
-        } finally {
-            refs.remove("tags/v.0.1");
-        }
-    }
-
-    /**
-     * RtTag should be able to patch itself.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    @Ignore
-    public void patchesItself() throws Exception {
-        final String object = "object";
-        final String message = "message";
-        final References refs = repo().git().references();
-        final Tags tags = repo().git().tags();
-        final String objectsha = refs.get("refs/heads/master").json()
-            .getJsonObject(object).getString("sha");
-        final JsonObject tagger = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "scott@gmail.com")
-            .add("date", "2013-06-17T14:53:35-09:00").build();
-        final JsonObject input = Json.createObjectBuilder()
-            .add("tag", "v.0.1").add(message, "initial version")
-            .add(object, objectsha).add("type", "commit")
-            .add("tagger", tagger).build();
-        final Tag tag = tags.create(input);
-        final JsonObject update = Json.createObjectBuilder()
-            .add(message, "second version").build();
-        try {
-            tag.patch(update);
-            MatcherAssert.assertThat(
-                tag.json().getString(message),
-                Matchers.is("second version")
             );
         } finally {
             refs.remove("tags/v.0.1");

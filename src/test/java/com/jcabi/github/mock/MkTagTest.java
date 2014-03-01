@@ -60,28 +60,6 @@ public final class MkTagTest {
     }
 
     /**
-     * MkTag should be able to patch itself.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void appliesPatch() throws Exception {
-        final String message = "message";
-        final Tag tag = tag();
-        MatcherAssert.assertThat(
-            tag.json().getString(message),
-            Matchers.is("test tag")
-        );
-        final JsonObject json = Json.createObjectBuilder()
-            .add("sha", "abcsha12").add(message, "test tag update")
-            .add("name", "v.0.2").build();
-        tag.patch(json);
-        MatcherAssert.assertThat(
-            tag.json().getString(message),
-            Matchers.is("test tag update")
-        );
-    }
-
-    /**
      * Return a Tag for testing.
      * @return Tag
      * @throws Exception If something goes wrong.

@@ -30,9 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Tag.
@@ -41,22 +38,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  */
 @Immutable
-public interface Tag {
-
-    /**
-     * Fetch the Json representation of the Tag.
-     * @return JsonObject
-     * @throws IOException If something goes wrong.
-     */
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch this tag with the given json.
-     * @param json The Json to patch the Tag with.
-     * @throws IOException If something goes wrong.
-     */
-    void patch(@NotNull(message = "json can't be null") JsonObject json)
-        throws IOException;
+public interface Tag extends JsonReadable {
 
     /**
      * Return owner repo.

@@ -95,11 +95,6 @@ final class MkTag implements Tag {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
-    }
-
-    @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }

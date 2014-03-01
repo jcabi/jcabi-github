@@ -31,14 +31,12 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -70,34 +68,6 @@ public final class RtTagTest {
             MatcherAssert.assertThat(
                 tag.json().getString("tag"),
                 Matchers.is("v.0.1")
-            );
-        } finally {
-            container.stop();
-        }
-    }
-
-    /**
-     * RtTag should be able to do the patch operation.
-     * @throws Exception - If something goes wrong.
-     */
-    @Test
-    public void patchesTag() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                ""
-            )
-        ).start();
-        final Tag tag = new RtTag(
-            new ApacheRequest(container.home()), repo(), "abdes00test"
-        );
-        final JsonObject json = Json.createObjectBuilder().add("tag", "v.0.3")
-            .build();
-        try {
-            tag.patch(json);
-            MatcherAssert.assertThat(
-                container.take().method(),
-                Matchers.equalTo(Request.PATCH)
             );
         } finally {
             container.stop();
