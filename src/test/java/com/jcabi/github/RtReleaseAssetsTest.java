@@ -71,6 +71,7 @@ public final class RtReleaseAssetsTest {
     public void uploadReleaseAsset() throws Exception {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
+                //@checkstyle MultipleStringLiteralsCheck (1 line)
                 .withBody("{\"id\":1}"),
             release()
         );
@@ -83,17 +84,20 @@ public final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can get a single release asset.
-     * @checkstyle LineLength (4 lines)
-     * @todo #180 RtReleaseAssets should be able to get a single release asset.
-     *  Let's implement this method, add integration test, declare a method in
-     *  ReleaseAssets and implement it. See
-     *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset.
-     *  When done, remove this puzzle and Ignore annotation from this method.
+     *
+     * @throws Exception if something goes wrong.
      */
     @Test
-    @Ignore
-    public void getReleaseAsset() {
-        // to be implemented
+    public void getReleaseAsset() throws Exception {
+        final ReleaseAssets assets = new RtReleaseAssets(
+            new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
+                .withBody("{\"id\":1}"),
+                release()
+        );
+        MatcherAssert.assertThat(
+            assets.get(1).number(),
+            Matchers.is(1)
+        );
     }
 
     /**
