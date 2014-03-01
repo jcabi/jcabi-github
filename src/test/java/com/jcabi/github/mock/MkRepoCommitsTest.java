@@ -76,4 +76,20 @@ public final class MkRepoCommitsTest {
         MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
     }
 
+    /**
+     * MkRepoCommits can compare commits.
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void canCompare() throws IOException {
+        final String user =  "testuser3";
+        MatcherAssert.assertThat(
+            new MkRepoCommits(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo3")
+            ).compare("5339b8e35b", "9b2e6efde9"),
+            Matchers.notNullValue()
+        );
+    }
 }

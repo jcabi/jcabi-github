@@ -109,7 +109,7 @@ final class MkRepoCommits implements RepoCommits {
 
     @Override
     public CommitsComparison compare(final String base, final String head) {
-        throw new UnsupportedOperationException();
+        return new MkCommitsComparison();
     }
 
     @Override
