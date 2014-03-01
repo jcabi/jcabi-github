@@ -121,7 +121,7 @@
 <a class="jxr_linenumber" name="111" href="#111">111</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number;
 <a class="jxr_linenumber" name="112" href="#112">112</a>         <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="113" href="#113">113</a>             number = 1 + <strong class="jxr_keyword">this</strong>.storage.xml().xpath(
-<a class="jxr_linenumber" name="114" href="#114">114</a>                 String.format(<span class="jxr_string">"%s/issue/number"</span>, <strong class="jxr_keyword">this</strong>.xpath())
+<a class="jxr_linenumber" name="114" href="#114">114</a>                 String.format(<span class="jxr_string">"%s/issue/number/text()"</span>, <strong class="jxr_keyword">this</strong>.xpath())
 <a class="jxr_linenumber" name="115" href="#115">115</a>             ).size();
 <a class="jxr_linenumber" name="116" href="#116">116</a>             <strong class="jxr_keyword">this</strong>.storage.apply(
 <a class="jxr_linenumber" name="117" href="#117">117</a>                 <strong class="jxr_keyword">new</strong> Directives().xpath(<strong class="jxr_keyword">this</strong>.xpath()).add(<span class="jxr_string">"issue"</span>)
