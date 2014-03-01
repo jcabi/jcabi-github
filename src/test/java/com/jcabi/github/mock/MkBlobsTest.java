@@ -27,74 +27,57 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import java.io.IOException;
-import lombok.EqualsAndHashCode;
+import com.jcabi.github.Blob;
+import com.jcabi.github.Blobs;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Test case for {@link MkBlobs).
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+public final class MkBlobsTest {
 
     /**
-     * Repository.
+     * MkBlobs should be able to create a blob.
+     *
+     * @throws Exception if a problem occurs.
      */
-    private final transient Repo owner;
+    @Test
+    public void canCreate() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final Blob blob = blobs.create("content1", "encoding1");
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()),
+            Matchers.equalTo(blob)
+        );
+    }
 
     /**
-     * RESTful entry.
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
      */
-    private final transient Request entry;
+    private static Repo repo() throws Exception {
+        return new MkGithub("Jonathan").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 
     /**
-     * Public ctor.
-     * @param repo Repository
-     * @param req Entry request
+     * MkRepoCommits can get a commit.
+     * @throws Exception if some problem inside
      */
-    public RtGit(final Repo repo, final Request req) {
-        this.owner = repo;
-        this.entry = req;
+    @Test
+    public void getBlob() throws Exception {
+        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
+        final Blobs blobs = repo().git().blobs();
+        MatcherAssert.assertThat(blobs.get(sha), Matchers.notNullValue());
     }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }
