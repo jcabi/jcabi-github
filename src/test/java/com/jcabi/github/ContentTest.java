@@ -215,7 +215,7 @@ public class ContentTest {
         );
     }
 
-	/**
+    /**
      * Content.Smart can get underlying repo.
      * @throws Exception If some problem inside
      */
