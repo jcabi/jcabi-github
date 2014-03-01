@@ -51,10 +51,8 @@ public final class MkTagTest {
      */
     @Test
     public void fetchesContent() throws Exception {
-        final Tag tag = tag();
-        final JsonObject fetched = tag.json();
         MatcherAssert.assertThat(
-            fetched.getString("message"),
+            tag().json().getString("message"),
             Matchers.is("test tag")
         );
     }

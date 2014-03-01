@@ -36,6 +36,7 @@ import com.jcabi.aspects.Immutable;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
+ * @since 0.8
  */
 @Immutable
 public interface Tag extends JsonReadable {

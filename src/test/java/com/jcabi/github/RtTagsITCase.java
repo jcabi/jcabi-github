@@ -52,14 +52,13 @@ public final class RtTagsITCase {
     @Test
     public void createsTag() throws Exception {
         final References refs = repo().git().references();
-        final Tags tags = repo().git().tags();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
         final String name = "v.0.1";
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
-        final Tag tag = tags.create(
+        final Tag tag = repo().git().tags().create(
             Json.createObjectBuilder()
                 .add("tag", name).add("message", "initial version")
                 .add("object", sha).add("type", "commit")

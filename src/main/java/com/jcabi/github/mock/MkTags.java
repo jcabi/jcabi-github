@@ -33,7 +33,6 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Tag;
 import com.jcabi.github.Tags;
@@ -105,10 +104,7 @@ final class MkTags implements Tags {
             }
         }
         this.storage.apply(dirs);
-        final References refs = new MkReferences(
-            this.storage, this.self, this.coords
-        );
-        refs.create(
+        new MkReferences(this.storage, this.self, this.coords).create(
             new StringBuilder().append("refs/tags/").append(
                 params.getString("name")
             ).toString(),

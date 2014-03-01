@@ -97,8 +97,7 @@ final class RtTags implements Tags {
                 .as(JsonResponse.class)
                 .json().readObject().getString("sha")
         );
-        final References refs = new RtReferences(this.refsEntry, this.owner);
-        refs.create(
+        new RtReferences(this.refsEntry, this.owner).create(
             new StringBuilder().append("refs/tags/").append(
                 params.getString("tag")
             ).toString(),
