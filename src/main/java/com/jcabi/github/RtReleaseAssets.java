@@ -54,11 +54,6 @@ import lombok.EqualsAndHashCode;
 public final class RtReleaseAssets implements ReleaseAssets {
 
     /**
-     * ReleaseAsset's id name in JSON object.
-     */
-    public static final String ID = "id";
-
-    /**
      * API entry point.
      */
     private final transient Request entry;
@@ -107,7 +102,8 @@ public final class RtReleaseAssets implements ReleaseAssets {
                 @Override
                 public ReleaseAsset map(final JsonObject value) {
                     return RtReleaseAssets.this.get(
-                        value.getInt(ID)
+                    //@checkstyle MultipleStringLiteralsCheck (1 line)
+                        value.getInt("id")
                     );
                 }
             }
@@ -135,7 +131,7 @@ public final class RtReleaseAssets implements ReleaseAssets {
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt(ID)
+                .json().readObject().getInt("id")
         );
     }
 
