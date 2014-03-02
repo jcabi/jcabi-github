@@ -95,12 +95,12 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {"releaseAsset", "jsn" })
+    @EqualsAndHashCode(of = {"asset", "jsn" })
     final class Smart implements ReleaseAsset {
         /**
          * Encapsulated Release Asset.
          */
-        private final transient ReleaseAsset releaseAsset;
+        private final transient ReleaseAsset asset;
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -108,11 +108,11 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
-         * @param asset Release asset
+         * @param ast Release asset
          */
-        public Smart(final ReleaseAsset asset) {
-            this.releaseAsset = asset;
-            this.jsn = new SmartJson(asset);
+        public Smart(final ReleaseAsset ast) {
+            this.asset = ast;
+            this.jsn = new SmartJson(ast);
         }
 
         /**
@@ -214,7 +214,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void name(final String text) throws IOException {
-            this.releaseAsset.patch(
+            this.asset.patch(
                 Json.createObjectBuilder().add("name", text).build()
             );
         }
@@ -225,41 +225,41 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void label(final String text) throws IOException {
-            this.releaseAsset.patch(
+            this.asset.patch(
                 Json.createObjectBuilder().add("label", text).build()
             );
         }
 
         @Override
         public Release release() {
-            return this.releaseAsset.release();
+            return this.asset.release();
         }
 
         @Override
         public int number() {
-            return this.releaseAsset.number();
+            return this.asset.number();
         }
 
         @Override
         public void remove() throws IOException {
-            this.releaseAsset.remove();
+            this.asset.remove();
         }
 
         @Override
         public InputStream raw() throws IOException {
-            return this.releaseAsset.raw();
+            return this.asset.raw();
         }
 
         @Override
         public void patch(
             @NotNull(message = "JSON is never NULL") final JsonObject json
         ) throws IOException {
-            this.releaseAsset.patch(json);
+            this.asset.patch(json);
         }
 
         @Override
         public JsonObject json() throws IOException {
-            return this.releaseAsset.json();
+            return this.asset.json();
         }
     }
 }

@@ -139,7 +139,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
                 new Directives().xpath(this.xpath()).add("asset")
                     .add("id").set(Integer.toString(number)).up()
                     .add("name").set(name).up()
-                    .add("content").set(new String(content)).up()
+                    .add("content").set(new String(content, "UTF-8")).up()
                     .add("content_type").set(type).up()
                     .add("size").set(Integer.toString(content.length)).up()
                     .add("download_count").set("42").up()
