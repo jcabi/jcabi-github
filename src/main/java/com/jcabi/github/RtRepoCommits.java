@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.RequestURI;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -82,15 +83,14 @@ final class RtRepoCommits implements RepoCommits {
     RtRepoCommits(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
-        this.request = req.uri()
+        final RequestURI rep = req.uri()
             .path("/repos")
             .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
+            .path(repo.coordinates().repo());
+        this.request = rep
             .path("/commits")
             .back();
-        this.comp = this.request.uri()
-            .path("/repos")
-            .path(this.owner.coordinates().toString())
+        this.comp = rep
             .path("/compare")
             .back();
     }
