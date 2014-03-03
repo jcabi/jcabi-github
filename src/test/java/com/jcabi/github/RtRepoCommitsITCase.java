@@ -39,22 +39,18 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RepoCommits}.
+ *
+ * <p>
+ * WARNING: As there is no way to create Commit directly it was decided to use
+ * real commits from jcabi-github repository for integration testing of
+ * RtRepoCommits
+ *
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  * @todo #117 Add test getCommit() to check that commit actually got.
  *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
 public class RtRepoCommitsITCase {
-
-    /**
-     * Base commit for comparison.
-     */
-    public static final String BASE = "5339b8e35b";
-
-    /**
-     * Head commit for comparison.
-     */
-    public static final String HEAD = "9b2e6efde9";
 
     /**
      * RtRepoCommits can fetch repo commits.
@@ -90,8 +86,8 @@ public class RtRepoCommitsITCase {
     @Test
     public final void compareCommitsPatch() throws Exception {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
-            BASE,
-            HEAD
+            "5339b8e35b",
+            "9b2e6efde9"
         );
         MatcherAssert.assertThat(
             patch,
@@ -114,8 +110,8 @@ public class RtRepoCommitsITCase {
     @Test
     public final void compareCommitsDiff() throws Exception {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
-            BASE,
-            HEAD
+            "2b3814e",
+            "b828dfa"
         );
         MatcherAssert.assertThat(
             diff,
