@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -74,9 +76,18 @@ public class RtForksITCase {
             "failsafe.github.organization"
         );
         Assume.assumeThat(organization, Matchers.notNullValue());
-        final Fork fork = RtForksITCase.repo().forks()
-            .create(organization);
-        MatcherAssert.assertThat(fork, Matchers.notNullValue());
+        final Repo repo = RtForksITCase.repos().create(
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
+        );
+        try {
+            final Fork fork = repo.forks().create(organization);
+            MatcherAssert.assertThat(fork, Matchers.notNullValue());
+        } finally {
+            RtForksITCase.repos().remove(repo.coordinates());
+        }
     }
 
     /**
@@ -85,9 +96,26 @@ public class RtForksITCase {
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
+        return RtForksITCase.repos().get(RtForksITCase.coordinates());
+    }
+
+    /**
+     * Returns the authentication key, passed as system property
+     * -Dfailsafe.github.key.
+     * @return The key.
+     */
+    private static String key() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(RtForksITCase.coordinates());
+        return key;
+    }
+
+    /**
+     * Returns github repos.
+     * @return Github repos.
+     */
+    private static Repos repos() {
+        return new RtGithub(RtForksITCase.key()).repos();
     }
 
     /**
