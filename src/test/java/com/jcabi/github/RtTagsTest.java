@@ -58,7 +58,7 @@ public final class RtTagsTest {
      */
     @Test
     public void createsTag() throws Exception {
-        final MkContainer tagscontainer = new MkGrizzlyContainer().next(
+        final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 "{\"sha\":\"0abcd89jcabitest\",\"tag\":\"v.0.1\"}"
@@ -70,7 +70,7 @@ public final class RtTagsTest {
             )
         ).start();
         final Tags tags = new RtTags(
-            new ApacheRequest(tagscontainer.home()),
+            new ApacheRequest(container.home()),
             repo()
         );
         final JsonObject tagger = Json.createObjectBuilder()
@@ -86,15 +86,15 @@ public final class RtTagsTest {
                 Matchers.instanceOf(Tag.class)
             );
             MatcherAssert.assertThat(
-                tagscontainer.take().method(),
+                container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                tagscontainer.take().method(),
+                container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
         } finally {
-            tagscontainer.stop();
+            container.stop();
         }
     }
 
