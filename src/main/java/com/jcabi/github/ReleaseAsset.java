@@ -46,14 +46,6 @@ import lombok.ToString;
  * Github release asset.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #282 We should be able to fetch a release asset's binary contents. See
- *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset
- *  for details on how this needs to be done. The ReleaseAsset interface should
- *  be able to expose this function through a method, which we can name
- *  something like "content", "body" or "raw", whichever is most appropriate.
- *  I'm not sure what the return type should be at the moment but it will likely
- *  be either a byte array or a stream implementation.
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  * @since 0.8
  */
 @Immutable

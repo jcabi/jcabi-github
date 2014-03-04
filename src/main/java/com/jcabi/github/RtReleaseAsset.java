@@ -125,6 +125,15 @@ public final class RtReleaseAsset implements ReleaseAsset {
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
+    /**
+     * Get raw release asset content.
+     *
+     * @todo #282 Implement RtReleaseAsset method to retrieve raw release
+     *  asset content. When done remove this puzzle.
+     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     * @return Stream with content
+     * @throws IOException If some problem inside.
+     */
     @Override
     public InputStream raw() throws IOException {
         throw new UnsupportedOperationException("Raw not yet implemented.");
