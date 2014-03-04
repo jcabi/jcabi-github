@@ -51,6 +51,26 @@ import lombok.EqualsAndHashCode;
 public final class RtPullComments implements PullComments {
 
     /**
+     * The parameter id from the json.
+     */
+    private static final String ID = "id";
+
+    /**
+     * Constant for comments path variable.
+     */
+    private static final String COMMENTS = "/comments";
+
+    /**
+     * Constant for comments path variable.
+     */
+    private static final String REPOS = "/repos";
+
+    /**
+     * Constant for comments path variable.
+     */
+    private static final String PULLS = "/pulls";
+
+    /**
      * API entry point.
      */
     private final transient Request entry;
@@ -74,11 +94,11 @@ public final class RtPullComments implements PullComments {
         this.entry = req;
         final Coordinates coords = pull.repo().coordinates();
         this.request = this.entry.uri()
-            .path("/repos")
+            .path(REPOS)
             .path(coords.user())
             .path(coords.repo())
-            .path("/pulls")
-            .path("/comments")
+            .path(PULLS)
+            .path(COMMENTS)
             .back();
         this.owner = pull;
     }
@@ -101,7 +121,7 @@ public final class RtPullComments implements PullComments {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(
-                        value.getInt("id")
+                        value.getInt(ID)
                     );
                 }
             }
@@ -111,7 +131,26 @@ public final class RtPullComments implements PullComments {
     @Override
     public Iterable<PullComment> iterate(final int number,
         final Map<String, String> params) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        final Coordinates coordinates = this.pull().repo().coordinates();
+        final Request newRequest = this.entry.uri()
+            .path(REPOS)
+            .path(coordinates.user())
+            .path(coordinates.repo())
+            .path(PULLS)
+            .path(Integer.toString(number))
+            .path(COMMENTS)
+            .back();
+        return new RtPagination<PullComment>(
+            newRequest.uri().queryParams(params).back(),
+            new RtPagination.Mapping<PullComment, JsonObject>() {
+                @Override
+                public PullComment map(final JsonObject value) {
+                    return RtPullComments.this.get(
+                        value.getInt(ID)
+                    );
+                }
+            }
+        );
     }
 
     // @checkstyle ParameterNumberCheck (3 lines)
