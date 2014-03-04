@@ -34,7 +34,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import java.io.IOException;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -43,8 +45,6 @@ import lombok.ToString;
  * @author Carlos Crespo (carlos.a.crespo@gmail.com)
  * @version $Id$
  * @todo #166 Should implement the compareTo method in MkRepoCommit.
- *  Once implemented please remove this puzzle.
- * @todo #166 Should implement the json method in MkRepoCommit.
  *  Once implemented please remove this puzzle.
  * @todo #166 Should create test class for MkRepoCommit.
  *  Once created please remove this puzzle.
@@ -82,7 +82,7 @@ final class MkRepoCommit implements RepoCommit {
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkRepoCommit#json()");
+        return Json.createObjectBuilder().add("hash", this.hash).build();
     }
 
     @Override
