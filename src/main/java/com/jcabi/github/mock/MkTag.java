@@ -84,7 +84,8 @@ final class MkTag implements Tag {
         this.storage = strg;
         this.self = login;
         this.coords = crds;
-        this.sha = identifier;
+        this.sha = new StringBuilder().append('"').append(identifier)
+            .append('"').toString();
     }
 
     @Override

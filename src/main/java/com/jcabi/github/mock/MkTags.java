@@ -37,7 +37,9 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Tag;
 import com.jcabi.github.Tags;
 import java.io.IOException;
+import java.util.Map.Entry;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -96,12 +98,8 @@ final class MkTags implements Tags {
     @Override
     public Tag create(final JsonObject params) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
-        for (final String key : params.keySet()) {
-            if (params.get(key).toString().contains("}")) {
-                dirs.add(key).set(params.get(key).toString()).up();
-            } else {
-                dirs.add(key).set(params.getString(key)).up();
-            }
+        for (final Entry<String, JsonValue> entry : params.entrySet()) {
+            dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
         }
         this.storage.apply(dirs);
         new MkReferences(this.storage, this.self, this.coords).create(
