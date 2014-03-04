@@ -54,6 +54,7 @@ public final class RtTagsTest {
     /**
      * RtTags can create a tag.
      * @throws Exception - If something goes wrong.
+     * @checkstyle IndentationCheck (20 lines)
      */
     @Test
     public void createsTag() throws Exception {
@@ -62,8 +63,7 @@ public final class RtTagsTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"sha\":\"0abcd89jcabitest\",\"tag\":\"v.0.1\"}"
             )
-        ).start();
-        final MkContainer refscontainer = new MkGrizzlyContainer().next(
+        ).next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 "{\"ref\":\"refs/heads/feature-a\"}"
@@ -71,7 +71,6 @@ public final class RtTagsTest {
         ).start();
         final Tags tags = new RtTags(
             new ApacheRequest(tagscontainer.home()),
-            new ApacheRequest(refscontainer.home()),
             repo()
         );
         final JsonObject tagger = Json.createObjectBuilder()
@@ -91,12 +90,11 @@ public final class RtTagsTest {
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                refscontainer.take().method(),
+                tagscontainer.take().method(),
                 Matchers.equalTo(Request.POST)
             );
         } finally {
             tagscontainer.stop();
-            refscontainer.stop();
         }
     }
 

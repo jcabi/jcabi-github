@@ -59,11 +59,6 @@ final class RtTags implements Tags {
     private final transient Request request;
 
     /**
-     * Entry for references.
-     */
-    private final transient Request refsEntry;
-
-    /**
      * Repository.
      */
     private final transient Repo owner;
@@ -71,11 +66,9 @@ final class RtTags implements Tags {
     /**
      * Public constructor.
      * @param req The entry request.
-     * @param refs The request for References.
      * @param repo The owner repo.
      */
-    RtTags(final Request req, final Request refs, final Repo repo) {
-        this.refsEntry = refs;
+    RtTags(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
         this.request = req.uri().path("/repos").path(repo.coordinates().user())
@@ -97,7 +90,7 @@ final class RtTags implements Tags {
                 .as(JsonResponse.class)
                 .json().readObject().getString("sha")
         );
-        new RtReferences(this.refsEntry, this.owner).create(
+        new RtReferences(this.entry, this.owner).create(
             new StringBuilder().append("refs/tags/").append(
                 params.getString("tag")
             ).toString(),

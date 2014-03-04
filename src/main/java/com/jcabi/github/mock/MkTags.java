@@ -96,7 +96,7 @@ final class MkTags implements Tags {
     @Override
     public Tag create(final JsonObject params) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
-        for (String key : params.keySet()) {
+        for (final String key : params.keySet()) {
             if (params.get(key).toString().contains("}")) {
                 dirs.add(key).set(params.get(key).toString()).up();
             } else {

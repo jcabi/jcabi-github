@@ -88,7 +88,7 @@ public final class RtGit implements Git {
 
     @Override
     public Tags tags() {
-        return new RtTags(this.entry, this.entry, this.owner);
+        return new RtTags(this.entry, this.owner);
     }
 
     @Override
