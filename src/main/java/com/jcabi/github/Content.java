@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -64,6 +65,14 @@ public interface Content extends Comparable<Content>,
      */
     @NotNull(message = "path is never NULL")
     String path();
+
+    /**
+     * Get the raw contents.
+     * @throws IOException If an IO error occurs
+     * @return Input stream of the raw content
+     */
+    @NotNull(message = "raw is never NULL")
+    InputStream raw() throws IOException;
 
     /**
      * Smart Content with extra features.
@@ -147,6 +156,14 @@ public interface Content extends Comparable<Content>,
         public URL gitUrl() throws IOException {
             return new URL(this.jsn.text("git_url"));
         }
+        /**
+         * Get its encoded content.
+         * @return Base64 encoded content
+         * @throws IOException If there is any I/O problem
+         */
+        public String content() throws IOException {
+            return this.jsn.text("content");
+        }
         @Override
         public int compareTo(final Content cont) {
             return this.content.compareTo(cont);
@@ -168,6 +185,10 @@ public interface Content extends Comparable<Content>,
         @Override
         public String path() {
             return this.content.path();
+        }
+        @Override
+        public InputStream raw() throws IOException {
+            return this.content.raw();
         }
     }
 }

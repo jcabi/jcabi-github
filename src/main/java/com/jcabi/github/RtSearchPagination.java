@@ -137,7 +137,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
             final String method) {
             return this.request.method(method);
         }
-
         /**
          * Hide everything from the body but items.
          * @return Response
@@ -145,57 +144,72 @@ final class RtSearchPagination<T> implements Iterable<T> {
          */
         @Override
         public Response fetch() throws IOException {
-            final Response response = this.request.fetch();
-            // @checkstyle AnonInnerLength (44 lines)
-            return new Response() {
-                @Override
-                public Request back() {
-                    return response.back();
-                }
-                @Override
-                public int status() {
-                    return response.status();
-                }
-                @Override
-                public String reason() {
-                    return response.reason();
-                }
-                @Override
-                public Map<String, List<String>> headers() {
-                    return response.headers();
-                }
-                @Override
-                public String body() {
-                    return Json.createReader(new StringReader(response.body()))
-                        .readObject().getJsonArray("items").toString();
-                }
-                @Override
-                public byte[] binary() {
-                    return response.binary();
-                }
-                // @checkstyle MethodName (3 lines)
-                @Override
-                @SuppressWarnings("PMD.ShortMethodName")
-                public <T> T as(final Class<T> type) {
-                    try {
-                        return type.getDeclaredConstructor(Response.class)
-                            .newInstance(this);
-                    } catch (final InstantiationException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final IllegalAccessException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final InvocationTargetException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final NoSuchMethodException ex) {
-                        throw new IllegalStateException(ex);
-                    }
-                }
-            };
+            return new RtSearchPagination.Hidden(this.request.fetch());
         }
         @Override
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
             return this.request.through(type, args);
+        }
+    }
+
+    /**
+     * Response to return.
+     */
+    @Immutable
+    private static final class Hidden implements Response {
+        /**
+         * Original response.
+         */
+        private final transient Response response;
+        /**
+         * Ctor.
+         * @param resp Response
+         */
+        Hidden(final Response resp) {
+            this.response = resp;
+        }
+        @Override
+        public Request back() {
+            return this.response.back();
+        }
+        @Override
+        public int status() {
+            return this.response.status();
+        }
+        @Override
+        public String reason() {
+            return this.response.reason();
+        }
+        @Override
+        public Map<String, List<String>> headers() {
+            return this.response.headers();
+        }
+        @Override
+        public String body() {
+            return Json.createReader(new StringReader(this.response.body()))
+                .readObject().getJsonArray("items").toString();
+        }
+        @Override
+        public byte[] binary() {
+            return this.response.binary();
+        }
+        // @checkstyle MethodName (3 lines)
+        @Override
+        @SuppressWarnings("PMD.ShortMethodName")
+        public <T> T as(final Class<T> type) {
+            try {
+                return type.getDeclaredConstructor(Response.class)
+                    .newInstance(this);
+            } catch (final InstantiationException ex) {
+                throw new IllegalStateException(ex);
+            } catch (final IllegalAccessException ex) {
+                throw new IllegalStateException(ex);
+            } catch (final InvocationTargetException ex) {
+                throw new IllegalStateException(ex);
+            } catch (final NoSuchMethodException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
     }
 
