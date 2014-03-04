@@ -139,7 +139,7 @@ public final class MkReleaseAsset implements ReleaseAsset {
     /**
      * Get raw release asset content.
      *
-     * @todo #282 Implement RtReleaseAsset method to retrieve raw release
+     * @todo #282 Implement MkReleaseAsset method to retrieve raw release
      *  asset content. When done remove this puzzle.
      * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
      * @return Stream with content
