@@ -51,17 +51,13 @@ public class RtForksITCase {
      */
     @Test
     public final void retrievesForks() throws Exception {
-        final Iterable<Fork> forks = RtForksITCase.repo().forks()
-            .iterate("newest");
+        final Iterable<Fork> forks = RtForksITCase.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).forks().iterate("newest");
         MatcherAssert.assertThat(forks, Matchers.notNullValue());
-        int count = 0;
-        for (final Fork fork : forks) {
-            MatcherAssert.assertThat(fork, Matchers.notNullValue());
-            count += 1;
-        }
         MatcherAssert.assertThat(
-            "Test repo should have at leas 1 fork", count,
-            Matchers.greaterThan(0)
+            forks,
+            Matchers.not(Matchers.emptyIterable())
         );
     }
 
@@ -91,41 +87,13 @@ public class RtForksITCase {
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return RtForksITCase.repos().get(RtForksITCase.coordinates());
-    }
-
-    /**
-     * Returns the authentication key, passed as system property
-     * -Dfailsafe.github.key.
-     * @return The key.
-     */
-    private static String key() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return key;
-    }
-
-    /**
      * Returns github repos.
      * @return Github repos.
      */
     private static Repos repos() {
-        return new RtGithub(RtForksITCase.key()).repos();
-    }
-
-    /**
-     * Create and return repo coordinates to test on.
-     * @return Coordinates
-     */
-    private static Coordinates coordinates() {
-        return new Coordinates.Simple(
-            System.getProperty("failsafe.github.repo")
-        );
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos();
     }
 
 }
