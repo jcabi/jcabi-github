@@ -27,48 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git Data Tags.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Test case for {@link MkRepoCommit).
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
  */
-@Immutable
-public interface Tags {
+public final class MkRepoCommitTest {
 
     /**
-     * Owner of them.
+     * MkRepoCommit can return repository.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void getRepo() throws IOException {
+        final Repo repo = this.repo();
+        MatcherAssert.assertThat(
+            new MkRepoCommit(
+                repo, "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            ).repo(), Matchers.equalTo(repo)
+        );
+    }
+
+    /**
+     * MkRepoCommit can return sha.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void getSha() throws IOException {
+        final String sha = "51cabb8e759852a6a40a7a2a76ef0afd4beef96d";
+        MatcherAssert.assertThat(
+            new MkRepoCommit(this.repo(), sha).sha(),
+            Matchers.equalTo(sha)
+        );
+    }
+
+    /**
+     * Create repository for test.
      * @return Repo
+     * @throws IOException If some problem inside
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Create a Tag object.
-     * @param params The input for creating the Tag.
-     * @return Tag
-     * @throws IOException - If anything goes wrong.
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
-     * @return Tag
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
-
+    private Repo repo() throws IOException {
+        final String login = "test_login";
+        return new MkRepo(
+            new MkStorage.InFile(),
+            login,
+            new Coordinates.Simple(login, "test_repo")
+        );
+    }
 }

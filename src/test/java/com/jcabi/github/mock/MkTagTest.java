@@ -27,48 +27,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Tag;
+import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git Data Tags.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for MkTag.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Tags {
+public final class MkTagTest {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * MkTag should return its json.
+     * @throws Exception If something goes wrong.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @Test
+    public void fetchesContent() throws Exception {
+        MatcherAssert.assertThat(
+            tag().json().getString("message"),
+            Matchers.is("\"test tag\"")
+        );
+    }
 
     /**
-     * Create a Tag object.
-     * @param params The input for creating the Tag.
+     * Return a Tag for testing.
      * @return Tag
-     * @throws IOException - If anything goes wrong.
+     * @throws Exception If something goes wrong.
      */
-    @NotNull(message = "tag is never NULL")
-    Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
-     * @return Tag
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
+    private Tag tag() throws Exception {
+        final JsonObject json = Json.createObjectBuilder()
+            .add("sha", "abcsha12").add("message", "test tag")
+            .add("name", "v.0.1").build();
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).git().tags().create(json);
+    }
 
 }

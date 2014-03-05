@@ -27,70 +27,81 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Repo;
-import com.jcabi.github.RepoCommit;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
- * Mock Github commit.
- * @author Carlos Crespo (carlos.a.crespo@gmail.com)
+ * Github Tags.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @todo #166 Should implement the compareTo method in MkRepoCommit.
- *  Once implemented please remove this puzzle.
- * @todo #166 Should implement the json method in MkRepoCommit.
- *  Once implemented please remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "repository", "hash" })
-final class MkRepoCommit implements RepoCommit {
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
+final class RtTags implements Tags {
+    /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
 
     /**
-     * Commit SHA.
+     * RESTful request for the commits.
      */
-    private final transient String hash;
+    private final transient Request request;
 
     /**
-     * The repository.
+     * Repository.
      */
-    private final transient Repo repository;
+    private final transient Repo owner;
 
     /**
-     * Public ctor.
-     * @param repo The repository
-     * @param sha Commit SHA
+     * Public constructor.
+     * @param req The entry request.
+     * @param repo The owner repo.
      */
-    MkRepoCommit(final Repo repo, final String sha) {
-        this.repository = repo;
-        this.hash = sha;
-    }
-
-    @Override
-    public int compareTo(final RepoCommit other) {
-        throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkRepoCommit#json()");
+    RtTags(final Request req, final Repo repo) {
+        this.entry = req;
+        this.owner = repo;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path("/tags").back();
     }
 
     @Override
     public Repo repo() {
-        return this.repository;
+        return this.owner;
     }
 
     @Override
-    public String sha() {
-        return this.hash;
+    public Tag create(final JsonObject params) throws IOException {
+        final Tag created = this.get(
+            this.request.method(Request.POST)
+                .body().set(params).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
+        );
+        new RtReferences(this.entry, this.owner).create(
+            new StringBuilder().append("refs/tags/").append(
+                params.getString("tag")
+            ).toString(),
+            created.key()
+        );
+        return created;
+    }
+
+    @Override
+    public Tag get(final String sha) {
+        return new RtTag(this.entry, this.owner, sha);
     }
 
 }
