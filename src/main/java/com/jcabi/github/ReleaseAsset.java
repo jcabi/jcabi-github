@@ -46,14 +46,6 @@ import lombok.ToString;
  * Github release asset.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #282 We should be able to fetch a release asset's binary contents. See
- *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset
- *  for details on how this needs to be done. The ReleaseAsset interface should
- *  be able to expose this function through a method, which we can name
- *  something like "content", "body" or "raw", whichever is most appropriate.
- *  I'm not sure what the return type should be at the moment but it will likely
- *  be either a byte array or a stream implementation.
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
  * @since 0.8
  */
 @Immutable
@@ -95,12 +87,12 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {"releaseAsset", "jsn" })
+    @EqualsAndHashCode(of = {"asset", "jsn" })
     final class Smart implements ReleaseAsset {
         /**
          * Encapsulated Release Asset.
          */
-        private final transient ReleaseAsset releaseAsset;
+        private final transient ReleaseAsset asset;
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -108,11 +100,11 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
-         * @param asset Release asset
+         * @param ast Release asset
          */
-        public Smart(final ReleaseAsset asset) {
-            this.releaseAsset = asset;
-            this.jsn = new SmartJson(asset);
+        public Smart(final ReleaseAsset ast) {
+            this.asset = ast;
+            this.jsn = new SmartJson(ast);
         }
 
         /**
@@ -214,7 +206,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void name(final String text) throws IOException {
-            this.releaseAsset.patch(
+            this.asset.patch(
                 Json.createObjectBuilder().add("name", text).build()
             );
         }
@@ -225,41 +217,41 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void label(final String text) throws IOException {
-            this.releaseAsset.patch(
+            this.asset.patch(
                 Json.createObjectBuilder().add("label", text).build()
             );
         }
 
         @Override
         public Release release() {
-            return this.releaseAsset.release();
+            return this.asset.release();
         }
 
         @Override
         public int number() {
-            return this.releaseAsset.number();
+            return this.asset.number();
         }
 
         @Override
         public void remove() throws IOException {
-            this.releaseAsset.remove();
+            this.asset.remove();
         }
 
         @Override
         public InputStream raw() throws IOException {
-            return this.releaseAsset.raw();
+            return this.asset.raw();
         }
 
         @Override
         public void patch(
             @NotNull(message = "JSON is never NULL") final JsonObject json
         ) throws IOException {
-            this.releaseAsset.patch(json);
+            this.asset.patch(json);
         }
 
         @Override
         public JsonObject json() throws IOException {
-            return this.releaseAsset.json();
+            return this.asset.json();
         }
     }
 }

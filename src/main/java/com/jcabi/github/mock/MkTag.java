@@ -27,35 +27,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
+import com.jcabi.github.Tag;
 import java.io.IOException;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Mock of Github Tag.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+@EqualsAndHashCode(of = { "storage", "self", "coords", "sha" })
+final class MkTag implements Tag {
 
     /**
      * Storage.
@@ -73,25 +65,34 @@ public final class MkGit implements Git {
     private final transient Coordinates coords;
 
     /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * The Tag's sha.
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
-        this.storage = stg;
+    private final transient String sha;
+
+    /**
+     * Public constructor.
+     * @param strg The storage.
+     * @param login The login name
+     * @param crds Credential
+     * @param identifier Tag's sha.
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    MkTag(
+        final MkStorage strg, final String login, final Coordinates crds,
+        final String identifier
+    ) {
+        this.storage = strg;
         this.self = login;
-        this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("git")
-        );
+        this.coords = crds;
+        this.sha = new StringBuilder().append('"').append(identifier)
+            .append('"').toString();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
@@ -100,36 +101,20 @@ public final class MkGit implements Git {
     }
 
     @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
+    public String key() {
+        return this.sha;
     }
 
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    public Tags tags() {
-        try {
-            return new MkTags(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    /**
+     * XPath of this element in XML tree.
+     *
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords = '%s']/git/tags/tag[sha = '%s']",
+            this.coords, this.sha
+        );
     }
 
 }

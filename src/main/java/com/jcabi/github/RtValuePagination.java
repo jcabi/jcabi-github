@@ -124,7 +124,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
     /**
      * Iterator.
      */
-    @EqualsAndHashCode(of = { "mapping", "request", "objects", "hasMore" })
+    @EqualsAndHashCode(of = { "mapping", "request", "objects", "more" })
     private static final class Items<X, P extends JsonValue> implements
         Iterator<X> {
         /**
@@ -142,7 +142,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
         /**
          * Current entry can be used to fetch objects.
          */
-        private transient boolean hasMore = true;
+        private transient boolean more = true;
         /**
          * Ctor.
          * @param entry Entry
@@ -172,7 +172,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
         public boolean hasNext() {
             synchronized (this.mapping) {
                 if ((this.objects == null || this.objects.isEmpty())
-                    && this.hasMore) {
+                    && this.more) {
                     try {
                         this.fetch();
                     } catch (IOException ex) {
@@ -196,14 +196,14 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
                 .links()
                 .get("next");
             if (link == null) {
-                this.hasMore = false;
+                this.more = false;
             } else {
                 this.request = response.jump(link.uri());
             }
             final JsonArray arr = response.as(JsonResponse.class).json()
                 .readArray();
             final Queue<P> list = new LinkedList<P>();
-            for (JsonValue value : arr) {
+            for (final JsonValue value : arr) {
                 list.add((P) value);
             }
             this.objects = list;
