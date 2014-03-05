@@ -38,9 +38,9 @@ import com.jcabi.github.RepoCommits;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
-import org.xembly.Directives;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock commits of a Github repository.
@@ -86,7 +86,7 @@ final class MkRepoCommits implements RepoCommits {
      * @param stg Storage
      * @param login User to login
      * @param repo Repository coordinates
-     * @throws IOException 
+     * @throws IOException If something goes wrong.
      */
     MkRepoCommits(final MkStorage stg, final String login,
         final Coordinates repo) throws IOException {
@@ -108,7 +108,8 @@ final class MkRepoCommits implements RepoCommits {
                 @Override
                 public RepoCommit map(final XML xml) {
                     return MkRepoCommits.this.get(
-                        xml.xpath("sha/text()").get(0));
+                        xml.xpath("sha/text()").get(0)
+                    );
                 }
             }
         );
