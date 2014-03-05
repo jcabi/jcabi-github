@@ -217,7 +217,11 @@ final class MkRepo implements Repo {
 
     @Override
     public RepoCommits commits() {
-        return new MkRepoCommits(this.storage, this.self, this.coordinates());
+        try {
+            return new MkRepoCommits(this.storage, this.self, this.coordinates());
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
