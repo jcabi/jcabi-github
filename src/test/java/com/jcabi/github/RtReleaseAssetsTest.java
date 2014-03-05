@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
@@ -91,12 +92,12 @@ public final class RtReleaseAssetsTest {
     public void getReleaseAsset() throws Exception {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
-                .withBody("{\"id\":1}"),
+                .withBody("{\"id\":3}"),
                 release()
         );
         MatcherAssert.assertThat(
-            assets.get(1).number(),
-            Matchers.is(1)
+            assets.get(Tv.THREE).number(),
+            Matchers.is(Tv.THREE)
         );
     }
 
