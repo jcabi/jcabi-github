@@ -54,11 +54,14 @@ public final class RtGistsITCase {
             Collections.singletonMap(filename, content)
         );
         final Gist.Smart smart = new Gist.Smart(gist);
-        MatcherAssert.assertThat(
-            smart.read(filename),
-            Matchers.equalTo(content)
-        );
-        gists.remove(smart.identifier());
+        try {
+            MatcherAssert.assertThat(
+                smart.read(filename),
+                Matchers.equalTo(content)
+            );
+        } finally {
+            gists.remove(smart.identifier());
+        }
     }
 
     /**
