@@ -27,48 +27,68 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github Git Data Tags.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Tag.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
  */
 @Immutable
-public interface Tags {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = {"request", "owner", "sha" })
+final class RtTag implements Tag {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * RESTful request.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private final transient Request request;
 
     /**
-     * Create a Tag object.
-     * @param params The input for creating the Tag.
-     * @return Tag
-     * @throws IOException - If anything goes wrong.
+     * Repository.
      */
-    @NotNull(message = "tag is never NULL")
-    Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
+    private final transient Repo owner;
 
     /**
-     * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
-     * @return Tag
+     * SHA of the tag.
      */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
+    private final transient String sha;
+
+    /**
+     * Public constructor.
+     * @param req The request.
+     * @param repo The owner repo.
+     * @param key The sha.
+     */
+    RtTag(final Request req, final Repo repo, final String key) {
+        this.sha = key;
+        this.owner = repo;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path("/tags")
+            .path(this.sha).back();
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String key() {
+        return this.sha;
+    }
 
 }

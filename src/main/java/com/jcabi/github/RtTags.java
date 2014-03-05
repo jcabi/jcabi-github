@@ -32,19 +32,31 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Tags.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
+final class RtTags implements Tags {
+    /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request for the commits.
+     */
+    private final transient Request request;
 
     /**
      * Repository.
@@ -52,18 +64,15 @@ public final class RtGit implements Git {
     private final transient Repo owner;
 
     /**
-     * RESTful entry.
+     * Public constructor.
+     * @param req The entry request.
+     * @param repo The owner repo.
      */
-    private final transient Request entry;
-
-    /**
-     * Public ctor.
-     * @param repo Repository
-     * @param req Entry request
-     */
-    public RtGit(final Repo repo, final Request req) {
-        this.owner = repo;
+    RtTags(final Request req, final Repo repo) {
         this.entry = req;
+        this.owner = repo;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path("/tags").back();
     }
 
     @Override
@@ -72,28 +81,27 @@ public final class RtGit implements Git {
     }
 
     @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
+    public Tag create(final JsonObject params) throws IOException {
+        final Tag created = this.get(
+            this.request.method(Request.POST)
+                .body().set(params).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
+        );
+        new RtReferences(this.entry, this.owner).create(
+            new StringBuilder().append("refs/tags/").append(
+                params.getString("tag")
+            ).toString(),
+            created.key()
+        );
+        return created;
     }
 
     @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    public Tag get(final String sha) {
+        return new RtTag(this.entry, this.owner, sha);
     }
 
 }
