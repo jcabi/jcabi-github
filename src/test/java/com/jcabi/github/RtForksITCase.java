@@ -51,36 +51,29 @@ public class RtForksITCase {
      */
     @Test
     public final void retrievesForks() throws Exception {
-        final Iterable<Fork> forks = RtForksITCase.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).forks().iterate("newest");
-        MatcherAssert.assertThat(forks, Matchers.notNullValue());
-        MatcherAssert.assertThat(
-            forks,
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * RtForks should be able to create a new fork.
-     *
-     * @throws Exception if a problem occurs.
-     */
-    @Test
-    public final void createsFork() throws Exception {
         final String organization = System.getProperty(
-            "failsafe.github.organization"
+                "failsafe.github.organization"
         );
         Assume.assumeThat(organization, Matchers.notNullValue());
         final Repo repo = RtForksITCase.repos().create(
-            Json.createObjectBuilder().add(
-                // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
-            ).build()
+                Json.createObjectBuilder().add(
+                        // @checkstyle MagicNumber (1 line)
+                        "name", RandomStringUtils.randomNumeric(5)
+                ).build()
         );
         try {
             final Fork fork = repo.forks().create(organization);
             MatcherAssert.assertThat(fork, Matchers.notNullValue());
+            final Iterable<Fork> forks = repo.forks().iterate("newest");
+            MatcherAssert.assertThat(forks, Matchers.notNullValue());
+            MatcherAssert.assertThat(
+                    forks,
+                    Matchers.not(Matchers.emptyIterable())
+            );
+            MatcherAssert.assertThat(
+                forks,
+                Matchers.contains(fork)
+            );
         } finally {
             RtForksITCase.repos().remove(repo.coordinates());
         }
