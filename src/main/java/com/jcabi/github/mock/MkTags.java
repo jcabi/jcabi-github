@@ -27,35 +27,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Tag;
 import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
 import java.io.IOException;
+import java.util.Map.Entry;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Mock of Github Tags.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+final class MkTags implements Tags {
 
     /**
      * Storage.
@@ -68,68 +65,66 @@ public final class MkGit implements Git {
     private final transient String self;
 
     /**
-     * Repo name.
+     * Repo's name.
      */
     private final transient Coordinates coords;
-
     /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * Public constructor.
+     * @param stg The storage.
+     * @param login The login name.
+     * @param rep Repo's coordinates.
+     * @throws IOException If something goes wrong.
      */
-    public MkGit(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkTags(
+        final MkStorage stg, final String login, final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
         this.storage.apply(
             new Directives().xpath(
                 String.format(
-                    "/github/repos/repo[@coords='%s']",
+                    "/github/repos/repo[@coords='%s']/git",
                     this.coords
                 )
-            ).addIf("git")
+            ).addIf("tags")
         );
     }
-
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public Blobs blobs() {
-        throw new UnsupportedOperationException("Blobs not yet implemented");
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
+    public Tag create(final JsonObject params) throws IOException {
+        final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
+        for (final Entry<String, JsonValue> entry : params.entrySet()) {
+            dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
         }
+        this.storage.apply(dirs);
+        new MkReferences(this.storage, this.self, this.coords).create(
+            new StringBuilder().append("refs/tags/").append(
+                params.getString("name")
+            ).toString(),
+            params.getString("sha")
+        );
+        return this.get(params.getString("sha"));
     }
 
     @Override
-    public Tags tags() {
-        try {
-            return new MkTags(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public Tag get(final String sha) {
+        return new MkTag(this.storage, this.self, this.coords, sha);
     }
 
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/tags",
+            this.coords
+        );
     }
 
 }
