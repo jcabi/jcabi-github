@@ -44,20 +44,16 @@ import org.junit.Test;
 public final class MkRepoCommitTest {
 
     /**
-     * Test commit's SHA.
-     */
-    public static final String SHA = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-
-    /**
      * MkRepoCommit can return repository.
      * @throws IOException If some problem inside
      */
     @Test
     public void getRepo() throws IOException {
         final Repo repo = this.repo();
-        MatcherAssert.assertThat(new MkRepoCommit(
-            repo, SHA
-        ).repo(), Matchers.equalTo(repo)
+        MatcherAssert.assertThat(
+            new MkRepoCommit(
+                repo, "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            ).repo(), Matchers.equalTo(repo)
         );
     }
 
@@ -67,9 +63,10 @@ public final class MkRepoCommitTest {
      */
     @Test
     public void getSha() throws IOException {
-        MatcherAssert.assertThat(new MkRepoCommit(
-            this.repo(), SHA
-        ).sha(), Matchers.equalTo(SHA)
+        final String sha = "51cabb8e759852a6a40a7a2a76ef0afd4beef96d";
+        MatcherAssert.assertThat(
+            new MkRepoCommit(this.repo(), sha).sha(),
+            Matchers.equalTo(sha)
         );
     }
 
