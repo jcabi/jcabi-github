@@ -29,68 +29,58 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-import com.jcabi.github.RepoCommit;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mock Github commit.
- * @author Carlos Crespo (carlos.a.crespo@gmail.com)
+ * Test case for {@link MkRepoCommit).
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @todo #166 Should implement the compareTo method in MkRepoCommit.
- *  Once implemented please remove this puzzle.
- * @todo #166 Should implement the json method in MkRepoCommit.
- *  Once implemented please remove this puzzle.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "repository", "hash" })
-final class MkRepoCommit implements RepoCommit {
+public final class MkRepoCommitTest {
 
     /**
-     * Commit SHA.
+     * MkRepoCommit can return repository.
+     * @throws IOException If some problem inside
      */
-    private final transient String hash;
+    @Test
+    public void getRepo() throws IOException {
+        final Repo repo = this.repo();
+        MatcherAssert.assertThat(
+            new MkRepoCommit(
+                repo, "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            ).repo(), Matchers.equalTo(repo)
+        );
+    }
 
     /**
-     * The repository.
+     * MkRepoCommit can return sha.
+     * @throws IOException If some problem inside
      */
-    private final transient Repo repository;
+    @Test
+    public void getSha() throws IOException {
+        final String sha = "51cabb8e759852a6a40a7a2a76ef0afd4beef96d";
+        MatcherAssert.assertThat(
+            new MkRepoCommit(this.repo(), sha).sha(),
+            Matchers.equalTo(sha)
+        );
+    }
 
     /**
-     * Public ctor.
-     * @param repo The repository
-     * @param sha Commit SHA
+     * Create repository for test.
+     * @return Repo
+     * @throws IOException If some problem inside
      */
-    MkRepoCommit(final Repo repo, final String sha) {
-        this.repository = repo;
-        this.hash = sha;
+    private Repo repo() throws IOException {
+        final String login = "test_login";
+        return new MkRepo(
+            new MkStorage.InFile(),
+            login,
+            new Coordinates.Simple(login, "test_repo")
+        );
     }
-
-    @Override
-    public int compareTo(final RepoCommit other) {
-        throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException("MkRepoCommit#json()");
-    }
-
-    @Override
-    public Repo repo() {
-        return this.repository;
-    }
-
-    @Override
-    public String sha() {
-        return this.hash;
-    }
-
 }
