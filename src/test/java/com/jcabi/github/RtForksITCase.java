@@ -52,14 +52,14 @@ public class RtForksITCase {
     @Test
     public final void retrievesForks() throws Exception {
         final String organization = System.getProperty(
-                "failsafe.github.organization"
+            "failsafe.github.organization"
         );
         Assume.assumeThat(organization, Matchers.notNullValue());
         final Repo repo = RtForksITCase.repos().create(
-                Json.createObjectBuilder().add(
-                        // @checkstyle MagicNumber (1 line)
-                        "name", RandomStringUtils.randomNumeric(5)
-                ).build()
+            Json.createObjectBuilder().add(
+                // @checkstyle MagicNumber (1 line)
+                "name", RandomStringUtils.randomNumeric(5)
+            ).build()
         );
         try {
             final Fork fork = repo.forks().create(organization);
@@ -67,8 +67,8 @@ public class RtForksITCase {
             final Iterable<Fork> forks = repo.forks().iterate("newest");
             MatcherAssert.assertThat(forks, Matchers.notNullValue());
             MatcherAssert.assertThat(
-                    forks,
-                    Matchers.not(Matchers.emptyIterable())
+                forks,
+                Matchers.not(Matchers.emptyIterable())
             );
             MatcherAssert.assertThat(
                 forks,
