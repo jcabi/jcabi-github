@@ -31,11 +31,11 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommit;
 import java.io.IOException;
 import java.util.Map;
 import javax.json.JsonObject;
@@ -126,7 +126,7 @@ public final class MkContents implements Contents {
                     .add("git_url").set("http://localhost/2").up()
                     .add("html_url").set("http://localhost/3").up()
             );
-            this.storage.apply(this.commit(json));
+            this.commit(json);
         } finally {
             this.storage.unlock();
         }
@@ -141,7 +141,7 @@ public final class MkContents implements Contents {
 
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Commit remove(
+    public RepoCommit remove(
         final String path,
         final String message,
         final String sha,
@@ -156,14 +156,15 @@ public final class MkContents implements Contents {
      * Updates a file.
      * @param path The content path.
      * @param json JSON object containing updates to the content.
+     * @return Commit related to this update.
      * @throws IOException If any I/O problem occurs.
      */
     @Override
-    public void update(final String path, final JsonObject json)
+    public RepoCommit update(final String path, final JsonObject json)
         throws IOException {
         try {
             new JsonPatch(this.storage).patch(path, json);
-            this.storage.apply(this.commit(json));
+            return this.commit(json);
         } finally {
             this.storage.unlock();
         }
@@ -194,13 +195,15 @@ public final class MkContents implements Contents {
     /**
      * XML Directives for commit creation.
      * @param json Source
-     * @return Directives
+     * @return SHA string
+     * @throws IOException If an IO Exception occurs
      */
-    private Directives commit(final JsonObject json) {
+    private MkRepoCommit commit(final JsonObject json) throws IOException {
+        final String sha = fakeSha();
         // @checkstyle MultipleStringLiterals (40 lines)
         final Directives commit = new Directives().xpath(this.commitXpath())
             .add("commit")
-            .add("sha").set(fakeSha()).up()
+            .add("sha").set(sha).up()
             .add("url").set("http://localhost/4").up()
             .add("html_url").set("http://localhost/5").up()
             .add("message").set(json.getString("message")).up();
@@ -216,7 +219,8 @@ public final class MkContents implements Contents {
                 .add("email").set(author.getString("email")).up()
                 .add("name").set(author.getString("name")).up();
         }
-        return commit;
+        this.storage.apply(commit);
+        return new MkRepoCommit(this.repo(), sha);
     }
 
     /**

@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -77,7 +78,6 @@ public final class RtReleaseAsset implements ReleaseAsset {
             .path(coords.user())
             .path(coords.repo())
             .path("/releases")
-            .path(Integer.toString(release.number()))
             .path("/assets")
             .path(Integer.toString(number))
             .back();
@@ -110,11 +110,32 @@ public final class RtReleaseAsset implements ReleaseAsset {
         new RtJson(this.request).patch(json);
     }
 
+    /**
+     * Remove asset.
+     *
+     * @throws IOException If there is any I/O problem
+     * @todo #282 RtReleaseAsset should be able to remove files. Implement
+     *  RtReleaseAsset method. When done, remove this puzzle.
+     */
     @Override
     public void remove() throws IOException {
         this.request.method(Request.DELETE).fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Get raw release asset content.
+     *
+     * @todo #282 Implement RtReleaseAsset method to retrieve raw release
+     *  asset content. When done remove this puzzle.
+     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     * @return Stream with content
+     * @throws IOException If some problem inside.
+     */
+    @Override
+    public InputStream raw() throws IOException {
+        throw new UnsupportedOperationException("Raw not yet implemented.");
     }
 
 }

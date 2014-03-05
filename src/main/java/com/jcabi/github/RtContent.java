@@ -32,9 +32,14 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -106,5 +111,18 @@ public final class RtContent implements Content {
     public void patch(@NotNull(message = "JSON object can't be NULL")
         final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    public InputStream raw() throws IOException {
+        return new ByteArrayInputStream(
+            this.request.reset(HttpHeaders.ACCEPT)
+                .header(
+                    HttpHeaders.ACCEPT,
+                    "application/vnd.github.v3.raw"
+                ).fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK).binary()
+        );
     }
 }

@@ -179,7 +179,7 @@ public final class RtContents implements Contents {
 
     // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Commit remove(
+    public RepoCommit remove(
         final String path,
         final String message,
         final String sha,
@@ -202,7 +202,7 @@ public final class RtContents implements Contents {
             .add("committer", cmtBuilder.build())
             .add("author", atrBuilder.build())
             .build();
-        return new RtCommit(
+        return new RtRepoCommit(
             this.entry,
             this.owner,
             this.request.method(Request.DELETE)
@@ -216,16 +216,22 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public void update(
+    public RepoCommit update(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "json is never NULL") final JsonObject json)
         throws IOException {
-        this.request.uri().path(path).back()
-            .method(Request.PUT)
-            .body().set(json).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        return new RtRepoCommit(
+            this.entry,
+            this.owner,
+            this.request.uri().path(path).back()
+                .method(Request.PUT)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class).json()
+                .readObject().getJsonObject("commit").getString("sha")
+        );
     }
 
 }

@@ -155,6 +155,15 @@ final class MkOrganizations implements Organizations {
                     .build();
             }
             @Override
+            public boolean equals(final Object obj) {
+                return obj instanceof Organization
+                    && login.equals(Organization.class.cast(obj).login());
+            }
+            @Override
+            public int hashCode() {
+                return login.hashCode();
+            }
+            @Override
             public int compareTo(final Organization obj) {
                 return this.login().compareTo(obj.login());
             }

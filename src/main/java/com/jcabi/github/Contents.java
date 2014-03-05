@@ -109,13 +109,13 @@ public interface Contents {
      * @param branch The branch name
      * @param committer Committer parameter, which is a hash containing information about the committer
      * @param author Author parameter is optional and is filled in with the committer information if omitted
-     * @return Commit referring to this operation
+     * @return RepoCommit referring to this operation
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
      * @checkstyle ParameterNumberCheck (11 lines)
      */
     @NotNull(message = "Content is never NULL")
-    Commit remove(
+    RepoCommit remove(
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "message is never NULL") String message,
         @NotNull(message = "sha is never NULL") String sha,
@@ -130,10 +130,11 @@ public interface Contents {
      * Updates a file.
      * @param path The content path.
      * @param json JSON object containing updates to the content.
+     * @return Commit referring to this operation
      * @throws IOException If any I/O problems occur.
      * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
      */
-    void update(
+    RepoCommit update(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "json is never NULL") final JsonObject json)
         throws IOException;

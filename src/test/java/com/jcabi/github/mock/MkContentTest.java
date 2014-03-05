@@ -32,8 +32,11 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
+import java.io.InputStream;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -102,6 +105,28 @@ public final class MkContentTest {
     }
 
     /**
+     * MkContent should be able to fetch its raw representation.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void fetchesRawRepresentation() throws Exception {
+        final Contents contents = MkContentTest.repo().contents();
+        final String raw = "raw test \u20ac\u0000";
+        final InputStream stream = contents.create(
+            jsonContent("raw.txt", "for raw", raw)
+        ).raw();
+        try {
+            MatcherAssert.assertThat(
+                IOUtils.toString(stream),
+                Matchers.is(raw)
+            );
+        } finally {
+            stream.close();
+        }
+    }
+
+    /**
      * Get a JSON object for content creation.
      * @param path The path of the file
      * @param message Commit message
@@ -116,8 +141,10 @@ public final class MkContentTest {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("message", message)
-            .add("content", content)
-            .build();
+            .add(
+                "content",
+                DatatypeConverter.printBase64Binary(content.getBytes())
+            ).build();
     }
 
     /**
