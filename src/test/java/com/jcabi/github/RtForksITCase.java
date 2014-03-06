@@ -29,8 +29,6 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -55,28 +53,21 @@ public class RtForksITCase {
             "failsafe.github.organization"
         );
         Assume.assumeThat(organization, Matchers.notNullValue());
-        final Repo repo = RtForksITCase.repos().create(
-            Json.createObjectBuilder().add(
-                // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
-            ).build()
+        final Repo repo = RtForksITCase.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
-        try {
-            final Fork fork = repo.forks().create(organization);
-            MatcherAssert.assertThat(fork, Matchers.notNullValue());
-            final Iterable<Fork> forks = repo.forks().iterate("newest");
-            MatcherAssert.assertThat(forks, Matchers.notNullValue());
-            MatcherAssert.assertThat(
-                forks,
-                Matchers.not(Matchers.emptyIterable())
-            );
-            MatcherAssert.assertThat(
-                forks,
-                Matchers.contains(fork)
-            );
-        } finally {
-            RtForksITCase.repos().remove(repo.coordinates());
-        }
+        final Fork fork = repo.forks().create(organization);
+        MatcherAssert.assertThat(fork, Matchers.notNullValue());
+        final Iterable<Fork> forks = repo.forks().iterate("newest");
+        MatcherAssert.assertThat(forks, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            forks,
+            Matchers.not(Matchers.emptyIterable())
+        );
+        MatcherAssert.assertThat(
+            forks,
+            Matchers.contains(fork)
+        );
     }
 
     /**
