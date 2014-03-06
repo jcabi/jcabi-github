@@ -29,7 +29,9 @@
  */
 package com.jcabi.github;
 
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -37,9 +39,6 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #121 Create an integration test case for RtForks that fetches from
- *  a real Github repository. The test should exercise the iteration of
- *  existing forks and creation of new forks.
  */
 public class RtForksITCase {
 
@@ -49,19 +48,36 @@ public class RtForksITCase {
      * @throws Exception if a problem occurs.
      */
     @Test
-    @Ignore
-    public void retrievesForks() throws Exception {
-        //To be implemented.
+    public final void retrievesForks() throws Exception {
+        final String organization = System.getProperty(
+            "failsafe.github.organization"
+        );
+        Assume.assumeThat(organization, Matchers.notNullValue());
+        final Repo repo = RtForksITCase.repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
+        final Fork fork = repo.forks().create(organization);
+        MatcherAssert.assertThat(fork, Matchers.notNullValue());
+        final Iterable<Fork> forks = repo.forks().iterate("newest");
+        MatcherAssert.assertThat(forks, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            forks,
+            Matchers.not(Matchers.emptyIterable())
+        );
+        MatcherAssert.assertThat(
+            forks,
+            Matchers.contains(fork)
+        );
     }
 
     /**
-     * RtForks should be able to create a new fork.
-     *
-     * @throws Exception if a problem occurs.
+     * Returns github repos.
+     * @return Github repos.
      */
-    @Test
-    @Ignore
-    public void createsFork() throws Exception {
-        //To be implemented.
+    private static Repos repos() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos();
     }
+
 }
