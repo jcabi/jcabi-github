@@ -27,23 +27,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Tag;
+import com.jcabi.github.Tags;
 import java.io.IOException;
+import java.util.Map.Entry;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
+import lombok.EqualsAndHashCode;
+import org.xembly.Directives;
 
 /**
- * Mock Github milestone.
+ * Mock of Github Tags.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public final class MkMilestone implements Milestone {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+final class MkTags implements Tags {
 
     /**
      * Storage.
@@ -56,79 +65,66 @@ public final class MkMilestone implements Milestone {
     private final transient String self;
 
     /**
-     * Repo name.
+     * Repo's name.
      */
     private final transient Coordinates coords;
-
     /**
-     * The number of the MkMilestone.
+     * Public constructor.
+     * @param stg The storage.
+     * @param login The login name.
+     * @param rep Repo's coordinates.
+     * @throws IOException If something goes wrong.
      */
-    private final transient int code;
-
-    /**
-     * MkMilestone constructor.
-     * @param strg The storage
-     * @param login The user to login with
-     * @param crds The repo
-     * @param num The number of the MkMilestone
-     * @checkstyle ParameterNumber (5 lines)
-     */
-    MkMilestone(
-        final MkStorage strg, final String login, final Coordinates crds,
-        final int num
-    ) {
+    MkTags(
+        final MkStorage stg, final String login, final Coordinates rep
+    ) throws IOException {
+        this.storage = stg;
         this.self = login;
-        this.coords = crds;
-        this.storage = strg;
-        this.code = num;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        return obj instanceof Milestone
-            && this.code == Milestone.class.cast(obj).number();
-    }
-
-    @Override
-    public int hashCode() {
-        return this.code;
-    }
-
-    @Override
-    public int compareTo(final Milestone milestone) {
-        assert this.self != null;
-        assert this.coords != null;
-        assert this.storage != null;
-        assert this.code != -1;
-        throw new UnsupportedOperationException(
-            "This method is not implemented yet."
+        this.coords = rep;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    this.coords
+                )
+            ).addIf("tags")
         );
     }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException(
-            "Unimplemented operation."
-        );
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        throw new UnsupportedOperationException(
-            "This operation is not available yet."
-        );
-    }
-
     @Override
     public Repo repo() {
-        throw new UnsupportedOperationException(
-            "This is not available yet"
-        );
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public int number() {
-        return this.code;
+    public Tag create(final JsonObject params) throws IOException {
+        final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
+        for (final Entry<String, JsonValue> entry : params.entrySet()) {
+            dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
+        }
+        this.storage.apply(dirs);
+        new MkReferences(this.storage, this.self, this.coords).create(
+            new StringBuilder().append("refs/tags/").append(
+                params.getString("name")
+            ).toString(),
+            params.getString("sha")
+        );
+        return this.get(params.getString("sha"));
+    }
+
+    @Override
+    public Tag get(final String sha) {
+        return new MkTag(this.storage, this.self, this.coords, sha);
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/tags",
+            this.coords
+        );
     }
 
 }

@@ -113,6 +113,6 @@ public class RtMilestone implements Milestone {
     public final int compareTo(
         @NotNull(message = "Milestone object can't be NULL")
         final Milestone milestone) {
-        return new Integer(this.number()).compareTo(milestone.number());
+        return Integer.valueOf(this.number()).compareTo(milestone.number());
     }
 }

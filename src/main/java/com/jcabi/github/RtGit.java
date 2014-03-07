@@ -89,7 +89,7 @@ public final class RtGit implements Git {
 
     @Override
     public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
+        return new RtTags(this.entry, this.owner);
     }
 
     @Override

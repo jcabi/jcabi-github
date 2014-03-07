@@ -86,22 +86,9 @@ public interface Git {
     References references();
 
     /**
-     * Get its trees.
+     * Get its tags.
      * @return Tags
      * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
-     * @todo #115:1hr Implement the Git Data Tags API. We need to
-     *  implement the following:
-     *  1) Add the operations in http://developer.github.com/v3/git/tags/
-     *  to the Tags interface.
-     *  2) A class RtTags, which performs RESTful request operations
-     *  against the Tags API.
-     *  3) A class MkTags, which mocks the Tags interface.
-     *  4) An interface Tag, which represents a single Tag of the
-     *  Git Data API.
-     *  5) RtTags, a Tag implementation which fetches and modifies
-     *  Tag information according to the Tags API, and
-     *  6) MkTag, which mocks a single Reference object.
-     *  Don't forget to implement unit tests and integration tests.
      */
     @NotNull(message = "Tags is never NULL")
     Tags tags();

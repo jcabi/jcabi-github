@@ -27,48 +27,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git Data Tags.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for RtTag.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Tags {
+public final class RtTagTest {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * RtTag can fetch its json.
+     * @throws Exception - If something goes wrong.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @Test
+    public void fetchesContent() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{\"sha\":\"abdes00test\",\"tag\":\"v.0.1\"}"
+            )
+        ).start();
+        final Tag tag = new RtTag(
+            new ApacheRequest(container.home()), repo(), "abdes00test"
+        );
+        try {
+            MatcherAssert.assertThat(
+                tag.json().getString("tag"),
+                Matchers.is("v.0.1")
+            );
+        } finally {
+            container.stop();
+        }
+    }
 
     /**
-     * Create a Tag object.
-     * @param params The input for creating the Tag.
-     * @return Tag
-     * @throws IOException - If anything goes wrong.
+     * This method returns a Repo for testing.
+     * @return Repo - a repo to be used for test.
+     * @throws Exception - if anything goes wrong.
      */
-    @NotNull(message = "tag is never NULL")
-    Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
-     * @return Tag
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 
 }

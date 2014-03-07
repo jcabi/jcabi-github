@@ -53,6 +53,17 @@ import org.xembly.Directives;
 public final class MkUserEmails implements UserEmails {
 
     /**
+     * Mapping.
+     */
+    private static final MkIterable.Mapping<String> MAPPING =
+        new MkIterable.Mapping<String>() {
+            @Override
+            public String map(final XML xml) {
+                return xml.xpath("./text()").get(0);
+            }
+        };
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -84,16 +95,11 @@ public final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    public Iterable<String> iterate() throws IOException {
+    public Iterable<String> iterate() {
         return new MkIterable<String>(
             this.storage,
             String.format("%s/email", this.xpath()),
-            new MkIterable.Mapping<String>() {
-                @Override
-                public String map(final XML xml) {
-                    return xml.xpath("./text()").get(0);
-                }
-            }
+            MkUserEmails.MAPPING
         );
     }
 

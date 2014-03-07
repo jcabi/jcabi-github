@@ -97,7 +97,7 @@ public final class RtReleaseITCase {
         this.release.patch(patch);
         final JsonObject json = this.repo.releases()
             .get(this.release.number()).json();
-        for (String key : patch.keySet()) {
+        for (final String key : patch.keySet()) {
             MatcherAssert.assertThat(
                 json.getString(key),
                 Matchers.equalTo(patch.getString(key))

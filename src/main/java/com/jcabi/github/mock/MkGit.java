@@ -120,7 +120,11 @@ public final class MkGit implements Git {
 
     @Override
     public Tags tags() {
-        throw new UnsupportedOperationException("Tags not yet implemented.");
+        try {
+            return new MkTags(this.storage, this.self, this.coords);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
