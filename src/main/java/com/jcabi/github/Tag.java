@@ -30,45 +30,27 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
- * Github Git Data Tags.
+ * Github Git Data Tag.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
  */
 @Immutable
-public interface Tags {
+public interface Tag extends JsonReadable {
 
     /**
-     * Owner of them.
+     * Return owner repo.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
-     * Create a Tag object.
-     * @param params The input for creating the Tag.
-     * @return Tag
-     * @throws IOException - If anything goes wrong.
+     * Return its sha.
+     * @return String
      */
-    @NotNull(message = "tag is never NULL")
-    Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
-     * @return Tag
-     */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
+    String key();
 
 }

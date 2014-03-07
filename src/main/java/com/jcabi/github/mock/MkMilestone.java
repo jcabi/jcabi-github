@@ -84,6 +84,17 @@ public final class MkMilestone implements Milestone {
     }
 
     @Override
+    public boolean equals(final Object obj) {
+        return obj instanceof Milestone
+            && this.code == Milestone.class.cast(obj).number();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.code;
+    }
+
+    @Override
     public int compareTo(final Milestone milestone) {
         assert this.self != null;
         assert this.coords != null;

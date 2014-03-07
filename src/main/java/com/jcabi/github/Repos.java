@@ -76,6 +76,10 @@ public interface Repos {
 
     /**
      * Remove repository by name.
+     *
+     * <p>Note: Deleting a repository requires admin access.
+     * If OAuth is used, the delete_repo scope is required.
+     *
      * @param coords Repository name in "user/repo" format
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/#delete-a-repository">Delete a Repository</a>

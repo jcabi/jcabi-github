@@ -46,8 +46,6 @@ import lombok.ToString;
  *  Once implemented please remove this puzzle.
  * @todo #166 Should implement the json method in MkRepoCommit.
  *  Once implemented please remove this puzzle.
- * @todo #166 Should create test class for MkRepoCommit.
- *  Once created please remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
