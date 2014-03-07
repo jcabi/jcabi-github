@@ -44,7 +44,6 @@ import javax.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -161,7 +160,6 @@ public final class RtReleaseAssetTest {
      *  annotation from this test method.
      */
     @Test
-    @Ignore
     public void rawAsset() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
