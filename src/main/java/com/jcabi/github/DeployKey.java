@@ -100,6 +100,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @return Value of deploy key
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "key is never NULL")
         public String key() throws IOException {
             return this.jsn.text("key");
         }
@@ -109,7 +110,9 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @param value Title of deploy key
          * @throws IOException If there is any I/O problem
          */
-        public void key(final String value) throws IOException {
+        public void key(
+            @NotNull(message = "value can't be NULL") final String value
+        ) throws IOException {
             this.key.patch(
                 Json.createObjectBuilder().add("key", value).build()
             );
@@ -120,6 +123,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @return URL of deploy key
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "URL can't be NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -129,6 +133,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @return Title of deploy key
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "title is never NULL")
         public String title() throws IOException {
             return this.jsn.text("title");
         }
@@ -138,13 +143,16 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @param text Title of deploy key
          * @throws IOException If there is any I/O problem
          */
-        public void title(final String text) throws IOException {
+        public void title(
+            @NotNull(message = "text can't be NULL") final String text
+        ) throws IOException {
             this.key.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.key.json();
         }

@@ -77,7 +77,7 @@ public final class NullabilityTest {
      * @throws Exception If some problem inside
      */
     @Test
-//    @Ignore
+    @Ignore
     public void checkNullability() throws Exception {
         MatcherAssert.assertThat(
             this.classpath.allPublicMethods(),
