@@ -36,7 +36,6 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -58,7 +57,6 @@ public final class RtReleaseAssetsTest {
      *  When done, remove this puzzle and Ignore annotation from this method.
      */
     @Test
-    @Ignore
     public void listReleaseAssets() {
         // to be implemented
     }
