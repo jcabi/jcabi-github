@@ -89,17 +89,21 @@ final class RtOrganization implements Organization {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "login is never NULL")
     public String login() {
         return this.self;
     }
 
     @Override
-    public int compareTo(final Organization other) {
+    public int compareTo(
+        @NotNull(message = "other can't be NULL") final Organization other
+    ) {    
         return this.login().compareTo(other.login());
     }
 
@@ -111,6 +115,7 @@ final class RtOrganization implements Organization {
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

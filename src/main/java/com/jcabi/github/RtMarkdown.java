@@ -82,11 +82,13 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "render is never NULL")
     public String render(
         @NotNull(message = "JSON can't be NULL") final JsonObject json)
         throws IOException {
@@ -109,6 +111,7 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
+    @NotNull(message = "raw is never NULL")
     public String raw(
         @NotNull(message = "Markdown can't be NULL") final String text)
         throws IOException {

@@ -160,6 +160,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
      * @return Collaborators
      * @see <a href="http://developer.github.com/v3/repos/collaborators/">Collaborators API</a>
      */
+    @NotNull(message = "Collaborators is never NULL")
     Collaborators collaborators();
 
     /**
@@ -167,6 +168,7 @@ public interface Repo extends JsonReadable, JsonPatchable {
      * @return Collaborators
      * @see <a href="http://developer.github.com/v3/git/">Git Data API</a>
      */
+    @NotNull(message = "Git is never NULL")
     Git git();
 
     /**

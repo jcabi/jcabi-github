@@ -93,16 +93,19 @@ final class RtPulls implements Pulls {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "pull is never NULL")
     public Pull get(final int number) {
         return new RtPull(this.entry, this.owner, number);
     }
 
     @Override
+    @NotNull(message = "pull is never NULL")
     public Pull create(
         @NotNull(message = "pull title is never NULL") final String title,
         @NotNull(message = "head is never NULL") final String head,
@@ -124,6 +127,7 @@ final class RtPulls implements Pulls {
     }
 
     @Override
+    @NotNull(message = "Iterable of pulls is never NULL")
     public Iterable<Pull> iterate() {
         return new RtPagination<Pull>(
             this.request,

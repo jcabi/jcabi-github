@@ -63,6 +63,7 @@ public interface Labels {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
      */
+    @NotNull(message = "Label is never NULL")
     Label create(
         @NotNull(message = "label name can't be NULL") String name,
         @NotNull(message = "label color can't be NULL") String color)
@@ -74,6 +75,7 @@ public interface Labels {
      * @return The label
      * @see <a href="http://developer.github.com/v3/issues/labels/#get-a-single-label">Get a single label</a>
      */
+    @NotNull(message = "Label is never NULL")
     Label get(@NotNull(message = "label name can't be NULL") String name);
 
     /**

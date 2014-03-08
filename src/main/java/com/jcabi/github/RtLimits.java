@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import javax.validation.constraints.NotNull;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
@@ -67,11 +68,13 @@ final class RtLimits implements Limits {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "Limit is never NULL")
     public Limit get(final String resource) {
         return new RtLimit(this.ghub, this.entry, resource);
     }

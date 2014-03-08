@@ -92,11 +92,13 @@ public class RtMilestones implements Milestones {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public final Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "milestone is never NULL")
     public final Milestone create(
         @NotNull(message = "title can't be NULL") final String title)
         throws IOException {
@@ -114,6 +116,7 @@ public class RtMilestones implements Milestones {
     }
 
     @Override
+    @NotNull(message = "Milestone is never NULL")
     public final Milestone get(final int number) {
         return new RtMilestone(this.entry, this.owner, number);
     }
@@ -128,6 +131,7 @@ public class RtMilestones implements Milestones {
     }
 
     @Override
+    @NotNull(message = "Iterable of Milestones is never NULL")
     public final Iterable<Milestone> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {

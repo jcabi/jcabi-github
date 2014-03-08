@@ -86,6 +86,7 @@ public final class RtCollaborators implements Collaborators {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -103,11 +104,14 @@ public final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    public void remove(final String user) {
+    public void remove(
+        @NotNull(message = "user is never NULL") final String user
+    ) {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    @NotNull(message = "iterable of users is never NULL")
     public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,

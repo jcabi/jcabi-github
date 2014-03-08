@@ -39,6 +39,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -88,17 +89,22 @@ final class RtGistComments implements GistComments {
     }
 
     @Override
+    @NotNull(message = "gist can't be NULL")
     public Gist gist() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "comment can't be NULL")
     public GistComment get(final int number) {
         return new RtGistComment(this.entry, this.owner, number);
     }
 
     @Override
-    public GistComment post(final String text) throws IOException {
+    @NotNull(message = "GistComment is never NULL")
+    public GistComment post(
+        @NotNull(message = "text can't be NULL") final String text
+    ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("body", text)
             .build();
@@ -115,6 +121,7 @@ final class RtGistComments implements GistComments {
     }
 
     @Override
+    @NotNull(message = "iterable of GistComment can't be NULL")
     public Iterable<GistComment> iterate() {
         return new RtPagination<GistComment>(
             this.request,

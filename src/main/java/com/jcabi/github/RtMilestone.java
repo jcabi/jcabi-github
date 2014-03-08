@@ -88,6 +88,7 @@ public class RtMilestone implements Milestone {
     }
 
     @Override
+    @NotNull(message = "Repository can't be NULL")
     public final Repo repo() {
         return this.owner;
     }
@@ -98,6 +99,7 @@ public class RtMilestone implements Milestone {
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

@@ -79,11 +79,13 @@ final class RtRepos implements Repos {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo create(@NotNull(message = "JSON can't be NULL")
         final JsonObject json) throws IOException {
         return this.get(
@@ -100,6 +102,7 @@ final class RtRepos implements Repos {
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo get(@NotNull(message = "coordinates can't be NULL")
         final Coordinates name) {
         return new RtRepo(this.ghub, this.entry, name);

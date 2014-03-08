@@ -94,16 +94,19 @@ final class RtIssues implements Issues {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "Issue is never NULL")
     public Issue get(final int number) {
         return new RtIssue(this.entry, this.owner, number);
     }
 
     @Override
+    @NotNull(message = "Issue is never NULL")
     public Issue create(
         @NotNull(message = "title can't be NULL") final String title,
         @NotNull(message = "body can't be NULL")final String body)
@@ -123,6 +126,7 @@ final class RtIssues implements Issues {
     }
 
     @Override
+    @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {

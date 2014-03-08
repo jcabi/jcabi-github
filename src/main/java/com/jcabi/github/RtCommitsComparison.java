@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -76,6 +77,7 @@ final class RtCommitsComparison implements CommitsComparison {
     }
 
     @Override
+    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -86,6 +88,7 @@ final class RtCommitsComparison implements CommitsComparison {
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

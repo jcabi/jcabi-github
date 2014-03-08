@@ -63,7 +63,7 @@ public interface Organizations {
      * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
      */
     @NotNull(message = "organization is never NULL")
-    Organization get(String login);
+    Organization get(@NotNull(message = "login is never NULL") String login);
 
     /**
      * Iterate them all.
@@ -83,5 +83,7 @@ public interface Organizations {
      * @since 0.8
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Organization> iterate(String username);
+    Iterable<Organization> iterate(
+        @NotNull(message = "username is never NULL") String username
+    );
 }

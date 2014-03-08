@@ -101,6 +101,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
      */
+    @NotNull(message = "PullComments is never NULL")
     PullComments comments() throws IOException;
 
     /**

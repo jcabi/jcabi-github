@@ -68,7 +68,8 @@ public interface Limits {
      * @param resource Name of resource
      * @return Limit
      */
-    Limit get(String resource);
+    @NotNull(message = "Limit si never NULL")
+    Limit get(@NotNull(message = "resource is never NULL") String resource);
 
     /**
      * Throttled Limits.

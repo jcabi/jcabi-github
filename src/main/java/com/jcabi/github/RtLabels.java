@@ -92,11 +92,13 @@ final class RtLabels implements Labels {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "label is never NULL")
     public Label create(
         @NotNull(message = "label name can't be NULL") final String name,
         @NotNull(message = "label color can't be NULL") final String color)
@@ -117,6 +119,7 @@ final class RtLabels implements Labels {
     }
 
     @Override
+    @NotNull(message = "Label is never NULL")
     public Label get(@NotNull(message = "label name can't be NULL")
         final String name) {
         return new RtLabel(this.entry, this.owner, name);
@@ -133,6 +136,7 @@ final class RtLabels implements Labels {
     }
 
     @Override
+    @NotNull(message = "Iterable of labels is never NULL")
     public Iterable<Label> iterate() {
         return new RtPagination<Label>(
             this.request,

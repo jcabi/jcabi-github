@@ -87,6 +87,7 @@ public final class RtDeployKey implements DeployKey {
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

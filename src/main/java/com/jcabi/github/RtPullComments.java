@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -84,16 +85,19 @@ public final class RtPullComments implements PullComments {
     }
 
     @Override
+    @NotNull(message = "Pull is never NUll")
     public Pull pull() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "PullComment is never NULL")
     public PullComment get(final int number) {
         return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
+    @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(final Map<String, String> params) {
         return new RtPagination<PullComment>(
             this.request.uri().queryParams(params).back(),
@@ -109,21 +113,33 @@ public final class RtPullComments implements PullComments {
     }
 
     @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
+    @NotNull(message = "Iterable of pull comments is never NULL")
+    public Iterable<PullComment> iterate(
+        final int number,
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    ) {
         throw new UnsupportedOperationException("Iterate not yet implemented.");
     }
 
     // @checkstyle ParameterNumberCheck (3 lines)
     @Override
-    public PullComment post(final String body, final String commit,
-        final String path, final int position) throws IOException {
+    @NotNull(message = "PullComment is never NULL")
+    public PullComment post(
+        @NotNull(message = "body can't be NULL") final String body,
+        @NotNull(message = "commit can't be NULL") final String commit,
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "position can't be NULL") final int position
+    ) throws IOException {
         throw new UnsupportedOperationException("Post not yet implemented.");
     }
 
     @Override
-    public PullComment reply(final String text,
-        final int comment) throws IOException {
+    @NotNull(message = "pull comment is never NULL")
+    public PullComment reply(
+        @NotNull(message = "text can't be NULL") final String text,
+        @NotNull(message = "comment can't be NULL") final int comment
+    ) throws IOException {
         throw new UnsupportedOperationException("Reply not yet implemented.");
     }
 

@@ -96,12 +96,16 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
+    @NotNull(message = "Iterable of commits is never NULL")
     public Iterable<RepoCommit> iterate() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public RepoCommit get(final String sha) {
+    @NotNull(message = "commit is never NULL")
+    public RepoCommit get(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
         return new RtRepoCommit(this.entry, this.owner, sha);
     }
 
@@ -151,6 +155,7 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

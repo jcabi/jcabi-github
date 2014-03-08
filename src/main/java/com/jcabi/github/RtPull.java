@@ -102,6 +102,7 @@ final class RtPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -112,6 +113,7 @@ final class RtPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "Iterable of commits is never NULL")
     public Iterable<Commit> commits() throws IOException {
         return new RtPagination<Commit>(
             this.request.uri().path("/commits").back(),
@@ -129,6 +131,7 @@ final class RtPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "Iterable of files is never NULL")
     public Iterable<JsonObject> files() throws IOException {
         return this.request
             .uri().path("/files").back()
@@ -155,11 +158,13 @@ final class RtPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "PullComments is never NULL")
     public PullComments comments() throws IOException {
         return new RtPullComments(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -171,7 +176,9 @@ final class RtPull implements Pull {
     }
 
     @Override
-    public int compareTo(final Pull pull) {
+    public int compareTo(
+        @NotNull(message = "pull can't be NULL") final Pull pull
+    ) {
         return this.number() - pull.number();
     }
 

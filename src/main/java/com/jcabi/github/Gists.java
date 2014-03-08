@@ -88,5 +88,7 @@ public interface Gists {
      * @param identifier Identifier of the gist to be removed.
      * @throws IOException If there is any I/O problem
      */
-    void remove(String identifier) throws IOException;
+    void remove(
+        @NotNull(message = "identifier is never NULL") String identifier
+    ) throws IOException;
 }

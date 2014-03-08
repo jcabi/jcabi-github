@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -91,6 +92,7 @@ public final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
+    @NotNull(message = "release is never NULL")
     public Release release() {
         return this.owner;
     }
@@ -101,12 +103,15 @@ public final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
@@ -134,6 +139,7 @@ public final class RtReleaseAsset implements ReleaseAsset {
      * @throws IOException If some problem inside.
      */
     @Override
+    @NotNull(message = "InputStream is never NULL")
     public InputStream raw() throws IOException {
         throw new UnsupportedOperationException("Raw not yet implemented.");
     }

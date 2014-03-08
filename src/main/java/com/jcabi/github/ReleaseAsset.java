@@ -78,6 +78,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
      */
+    @NotNull(message = "InputStream is never NULL")
     InputStream raw() throws IOException;
 
     /**

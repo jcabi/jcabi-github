@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -89,22 +90,27 @@ final class RtRepoCommit implements RepoCommit {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.hash;
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public int compareTo(final RepoCommit commit) {
+    public int compareTo(
+        @NotNull(message = "commit can't be NULL") final RepoCommit commit
+    ) {
         return this.sha().compareTo(commit.sha());
     }
 }
