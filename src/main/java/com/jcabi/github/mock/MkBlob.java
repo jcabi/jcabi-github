@@ -35,6 +35,7 @@ import com.jcabi.github.Blob;
 import com.jcabi.github.Coordinates;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -70,7 +71,10 @@ final class MkBlob implements Blob {
      * @param sha Blob sha
      * @param repo Repo name
      */
-    MkBlob(final MkStorage stg, final String sha, final Coordinates repo) {
+    MkBlob(
+        @NotNull(message = "Storage can't be NULL") final MkStorage stg,
+        @NotNull(message = "Sha can't be NULL") final String sha,
+        @NotNull(message = "Repo can't be NULL") final Coordinates repo) {
         this.storage = stg;
         this.hash = sha;
         this.coords = repo;
@@ -86,11 +90,6 @@ final class MkBlob implements Blob {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
-    }
-
-    @Override
-    public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     /**

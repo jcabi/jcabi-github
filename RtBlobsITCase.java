@@ -27,60 +27,68 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Blob;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Repo;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkBlobs).
+ * Test case for {@link RtBlobs}.
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkBlobsTest {
+public final class RtBlobsITCase {
 
     /**
-     * MkBlobs should be able to create a blob.
-     *
-     * @throws Exception if a problem occurs.
+     * RtBlobs can create a blob.
+     * @throws Exception If something goes wrong
      */
     @Test
-    public void canCreateBlob() throws Exception {
+    public void createsBlob() throws Exception {
         final Blobs blobs = repo().git().blobs();
-        final Blob blob = blobs.create("content1", "encoding1");
+        final Blob blob = blobs.create(
+            "Test Content", "utf-8"
+        );
         MatcherAssert.assertThat(
-            blobs.get(blob.sha()),
-            Matchers.equalTo(blob)
+            blob.sha(),
+            Matchers.equalTo(blob.json().getString("sha"))
+        );
+    }
+    /**
+     * RtBlobs can get a blob.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void getsBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final String content = "Content of the blob";
+        final String encoding = "base64";
+        final Blob blob = blobs.create(
+            content, encoding
+        );
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()).sha(),
+            Matchers.equalTo(blob.sha())
+        );
+        MatcherAssert.assertThat(
+            new Blob.Smart(blobs.get(blob.sha())).encoding(),
+            Matchers.equalTo(encoding)
         );
     }
 
     /**
-     * MkBlobs can get a blob.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    public void getBlob() throws Exception {
-        final Blobs blobs = repo().git().blobs();
-        final Blob created =  blobs.create("content", "base64");
-        MatcherAssert.assertThat(
-            blobs.get(created.sha()),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * Create a repo to work with.
+     * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
     }
 }

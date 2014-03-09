@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -47,7 +46,7 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public interface Blob extends JsonReadable, JsonPatchable {
+public interface Blob extends JsonReadable {
     /**
      * SHA of it.
      * @return SHA
@@ -74,69 +73,29 @@ public interface Blob extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param blb Blob
          */
-        public Smart(final Blob blb) {
+        public Smart(
+            @NotNull(message = "Blob can't be NULL") final Blob blb) {
             this.blob = blb;
             this.jsn = new SmartJson(blb);
-        }
-
-        /**
-         * Get its state.
-         * @return State of blob request
-         * @throws IOException If there is any I/O problem
-         */
-        public String state() throws IOException {
-            return this.jsn.text("state");
-        }
-        /**
-         * Change its state.
-         * @param state State of blob request
-         * @throws IOException If there is any I/O problem
-         */
-        public void state(final String state) throws IOException {
-            this.blob.patch(
-                Json.createObjectBuilder().add("state", state).build()
-            );
-        }
-        /**
-         * Get its body.
-         * @return Body of blob request
-         * @throws IOException If there is any I/O problem
-         */
-        public String url() throws IOException {
-            return this.jsn.text("url");
-        }
-
-        /**
-         * Get its title.
-         * @return Title of blob request
-         * @throws IOException If there is any I/O problem
-         */
-        public String body() throws IOException {
-            return this.jsn.text("body");
-        }
-        /**
-         * Change its body.
-         * @param text Body of blob request
-         * @throws IOException If there is any I/O problem
-         */
-        public void body(final String text) throws IOException {
-            this.blob.patch(
-                Json.createObjectBuilder().add("body", text).build()
-            );
         }
 
         @Override
         public JsonObject json() throws IOException {
             return this.blob.json();
         }
-        @Override
-        public void patch(final JsonObject json) throws IOException {
-            this.blob.patch(json);
-        }
 
         @Override
         public String sha() {
             return this.blob.sha();
+        }
+
+        /**
+         * Get its url.
+         * @return Url of blob request
+         * @throws IOException If there is any I/O problem
+         */
+        public String url() throws IOException {
+            return this.jsn.text("url");
         }
     }
 }

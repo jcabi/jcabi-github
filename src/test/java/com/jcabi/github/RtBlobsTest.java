@@ -69,16 +69,19 @@ public final class RtBlobsTest {
             new ApacheRequest(container.home()),
             repo()
         );
-        final Blob blob = blobs.create(content, "utf-8");
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            new Blob.Smart(blob).url(),
-            Matchers.equalTo("http://localhost/1")
-        );
-        container.stop();
+        try {
+            final Blob blob = blobs.create(content, "utf-8");
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new Blob.Smart(blob).url(),
+                Matchers.equalTo("http://localhost/1")
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

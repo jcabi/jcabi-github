@@ -58,7 +58,9 @@ public interface Blobs {
      * @see <a href="http://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
      */
     @NotNull(message = "Blob is never NULL")
-    Blob get(String sha);
+    Blob get(
+        @NotNull(message = "Sha is never null") String sha
+    );
 
     /**
      * Create a blob.
@@ -69,6 +71,9 @@ public interface Blobs {
      * @see <a href="http://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
      */
     @NotNull(message = "Blob is never NULL")
-    Blob create(String content, String encoding) throws IOException;
+    Blob create(
+        @NotNull(message = "Content is never null") String content,
+        @NotNull(message = "Encoding is never null") String encoding
+    ) throws IOException;
 
 }

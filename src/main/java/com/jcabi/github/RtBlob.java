@@ -64,7 +64,10 @@ final class RtBlob implements Blob {
      * @param repo Repository
      * @param sha Number of the get
      */
-    RtBlob(final Request req, final Repo repo, final String sha) {
+    RtBlob(
+        @NotNull(message = "Request can't be NULL") final Request req,
+        @NotNull(message = "Repo can't be NULL") final Repo repo,
+        @NotNull(message = "Sha can't be NULL") final String sha) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
             .path("/repos")
@@ -80,13 +83,6 @@ final class RtBlob implements Blob {
     @Override
     public String sha() {
         return this.hash;
-    }
-
-    @Override
-    public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
-        throws IOException {
-        new RtJson(this.request).patch(json);
     }
 
     @Override

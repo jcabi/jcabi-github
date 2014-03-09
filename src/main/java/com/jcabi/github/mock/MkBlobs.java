@@ -35,6 +35,7 @@ import com.jcabi.github.Blobs;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
@@ -95,11 +96,14 @@ final class MkBlobs implements Blobs {
      * @param sha Blob sha
      * @return Mocked Blob
      */
-    public Blob get(final String sha) {
+    public Blob get(
+        @NotNull(message = "Sha can't be NULL") final String sha) {
         return new MkBlob(this.storage, sha, this.coords);
     }
     @Override
-    public Blob create(final String content, final String encoding)
+    public Blob create(
+        @NotNull(message = "Content can't be NULL") final String content,
+        @NotNull(message = "Encoding can't be NULL") final String encoding)
         throws IOException {
         this.storage.lock();
         final String sha = fakeSha();
