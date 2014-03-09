@@ -52,10 +52,10 @@ import org.junit.Test;
  * Checks that all public methods in clases in package {@code com.jcabi.github }
  * have {@code @NotNull} annotation for return value and for input arguments
  * (if they are not scalar).
- * @todo #592 Add @NotNull were it is needed. Remove @Ignore annotation from
- *  test and add @NotNull annotation all public methods in all classes
- *  for return value and for input arguments
- *
+ * @todo #625 Fix checkNullabilityTest and remove the ignore annotation. 
+ * The test also verifies the mock packages, when it should verify only 
+ * com.jabi.github. Also, got IndexOutOfBounds exception. Please have a look
+ * into it.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */

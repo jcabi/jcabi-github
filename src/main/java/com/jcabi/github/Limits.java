@@ -93,16 +93,23 @@ public interface Limits {
          * @param limits Original limits
          * @param allowed Maximum allowed
          */
-        public Throttled(final Limits limits, final int allowed) {
+        public Throttled(
+            @NotNull(message = "limits can't be NULL") final Limits limits,
+            final int allowed
+        ) {
             this.origin = limits;
             this.max = allowed;
         }
         @Override
+        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.origin.github();
         }
         @Override
-        public Limit get(final String resource) {
+        @NotNull(message = "limit is never NULL")
+        public Limit get(
+            @NotNull(message = "resource can't be NULL") final String resource
+        ) {
             return new Limit.Throttled(this.origin.get(resource), this.max);
         }
     }

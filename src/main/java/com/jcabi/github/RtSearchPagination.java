@@ -203,7 +203,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
                 .readObject().getJsonArray("items").toString();
         }
         @Override
-        @NotNull(message = "binary is never NULL")
         public byte[] binary() {
             return this.response.binary();
         }

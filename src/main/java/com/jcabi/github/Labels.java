@@ -111,7 +111,9 @@ public interface Labels {
          * Public ctor.
          * @param lbl Labels
          */
-        public Smart(final Labels lbl) {
+        public Smart(
+            @NotNull(message = "lbl can't be NULL") final Labels lbl
+        ) {
             this.labels = lbl;
         }
         /**
@@ -119,7 +121,9 @@ public interface Labels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
-        public boolean contains(final String name) {
+        public boolean contains(
+            @NotNull(message = "name can't be NULL") final String name
+        ) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
                 if (label.name().equals(name)) {
@@ -135,7 +139,10 @@ public interface Labels {
          * @return Label found or created
          * @throws IOException If there is any I/O problem
          */
-        public Label createOrGet(final String name) throws IOException {
+        @NotNull(message = "label is never NULL")
+        public Label createOrGet(
+            @NotNull(message = "name can't be NULL") final String name
+        ) throws IOException {
             return this.createOrGet(name, "c0c0c0");
         }
         /**
@@ -146,8 +153,11 @@ public interface Labels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public Label createOrGet(final String name,
-            final String color) throws IOException {
+        @NotNull(message = "label is never NULL")
+        public Label createOrGet(
+            @NotNull(message = "name can't be NULL") final String name,
+            @NotNull(message = "color can't be NULL") final String color
+        ) throws IOException {
             final Label.Smart label;
             if (this.contains(name)) {
                 label = new Label.Smart(this.labels.get(name));
@@ -160,24 +170,34 @@ public interface Labels {
             return label;
         }
         @Override
+        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.labels.repo();
         }
         @Override
-        public Label create(final String name, final String color)
-            throws IOException {
+        @NotNull(message = "label is never NULL")
+        public Label create(
+            @NotNull(message = "name can't be NULL") final String name,
+            @NotNull(message = "color can't be NULL") final String color
+        ) throws IOException {
             return this.labels.create(name, color);
         }
         @Override
-        public Label get(final String name) {
+        @NotNull(message = "label is never NULL")
+        public Label get(
+            @NotNull(message = "name can't be NULL") final String name
+        ) {
             return this.labels.get(name);
         }
         @Override
+        @NotNull(message = "Iterable of labels is never NULL")
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
         @Override
-        public void delete(final String name) throws IOException {
+        public void delete(
+            @NotNull(message = "name can't be NULL") final String name
+        ) throws IOException {
             this.labels.delete(name);
         }
     }

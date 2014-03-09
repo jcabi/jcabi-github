@@ -116,7 +116,9 @@ public interface IssueLabels {
          * Public ctor.
          * @param lbl Labels
          */
-        public Smart(final IssueLabels lbl) {
+        public Smart(
+            @NotNull(message = "lbl can't be NULL") final IssueLabels lbl
+        ) {
             this.labels = lbl;
         }
         /**
@@ -124,7 +126,9 @@ public interface IssueLabels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
-        public boolean contains(final String name) {
+        public boolean contains(
+            @NotNull(message = "name can't be NULL") final String name
+        ) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
                 if (label.name().equals(name)) {
@@ -140,7 +144,10 @@ public interface IssueLabels {
          * @return Label found (exception if not found)
          * @since 0.7
          */
-        public Label get(final String name) {
+        @NotNull(message = "label is never NULL")
+        public Label get(
+            @NotNull(message = "name can't be NULL") final String name
+        ) {
             Label label = null;
             int count = 0;
             for (final Label opt : this.labels.iterate()) {
@@ -167,7 +174,9 @@ public interface IssueLabels {
          * @return TRUE if it was added
          * @throws IOException If there is any I/O problem
          */
-        public boolean addIfAbsent(final String name) throws IOException {
+        public boolean addIfAbsent(
+            @NotNull(message = "name can't be NULL") final String name
+        ) throws IOException {
             final boolean added;
             if (this.contains(name)) {
                 added = false;
@@ -187,7 +196,10 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public boolean addIfAbsent(final String name, final String color)
+        public boolean addIfAbsent(
+            @NotNull(message = "name can't be NULL") final String name,
+            @NotNull(message = "color can't be NULL") final String color
+        )
             throws IOException {
             Label label = null;
             for (final Label opt : new Bulk<Label>(this.labels.iterate())) {
@@ -216,7 +228,10 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public Collection<Label> findByColor(final String color)
+        @NotNull(message = "collection is never NULL")
+        public Collection<Label> findByColor(
+            @NotNull(message = "color can't be NULL") final String color
+        )
             throws IOException {
             final Collection<Label> found = new LinkedList<Label>();
             for (final Label label : this.labels.iterate()) {
@@ -233,7 +248,9 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public boolean removeIfExists(final String name)
+        public boolean removeIfExists(
+            @NotNull(message = "name can't be NULL") final String name
+        )
             throws IOException {
             boolean removed = false;
             for (final Label label : this.labels.iterate()) {
@@ -246,23 +263,33 @@ public interface IssueLabels {
             return removed;
         }
         @Override
+        @NotNull(message = "issue is never NULL")
         public Issue issue() {
             return this.labels.issue();
         }
         @Override
-        public void add(final Iterable<String> names) throws IOException {
+        public void add(
+            @NotNull(message = "names can't be NULL")
+            final Iterable<String> names
+        ) throws IOException {
             this.labels.add(names);
         }
         @Override
-        public void replace(final Iterable<String> names) throws IOException {
+        public void replace(
+            @NotNull(message = "names can't be NULL")
+            final Iterable<String> names
+        ) throws IOException {
             this.labels.replace(names);
         }
         @Override
+        @NotNull(message = "Iterable of labels is never NULL")
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
         @Override
-        public void remove(final String name) throws IOException {
+        public void remove(
+            @NotNull(message = "name can't be NULL") final String name
+        ) throws IOException {
             this.labels.remove(name);
         }
         @Override

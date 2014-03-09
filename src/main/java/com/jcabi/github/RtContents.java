@@ -200,8 +200,8 @@ public final class RtContents implements Contents {
         @NotNull(message = "committer can't be NULL")
         final Map<String, String> committer,
         @NotNull(message = "author can't be NULL")
-        final Map<String, String> author)
-        throws IOException {
+        final Map<String, String> author
+    ) throws IOException {
         final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
         for (final Map.Entry<String, String> entr : committer.entrySet()) {
             cmtBuilder.add(entr.getKey(), entr.getValue());

@@ -116,7 +116,7 @@ public final class RtReleaseAssets implements ReleaseAssets {
     @Override
     @NotNull(message = "ReleaseAsset is never NULL")
     public ReleaseAsset upload(
-        @NotNull(message = "content can't be NULL") final byte[] content,
+        final byte[] content,
         @NotNull(message = "type can't be NULL") final String type,
         @NotNull(message = "name can't be NULL") final String name
     ) throws IOException {
