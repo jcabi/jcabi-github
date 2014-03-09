@@ -36,6 +36,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
 import java.io.IOException;
+import java.util.Map;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -96,7 +97,7 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    public Iterable<RepoCommit> iterate() {
+    public Iterable<RepoCommit> iterate(final Map<String, String> params) {
         throw new UnsupportedOperationException();
     }
 

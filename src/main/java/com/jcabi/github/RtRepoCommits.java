@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
@@ -96,8 +97,16 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public Iterable<RepoCommit> iterate() {
-        throw new UnsupportedOperationException();
+    public  Iterable<RepoCommit> iterate(final Map<String, String> params) {
+        return new RtPagination<RepoCommit>(
+            this.request.uri().queryParams(params).back(),
+            new RtPagination.Mapping<RepoCommit, JsonObject>() {
+                @Override
+                public RepoCommit map(final JsonObject value) {
+                    return RtRepoCommits.this.get(value.getString("sha"));
+                }
+            }
+        );
     }
 
     @Override
