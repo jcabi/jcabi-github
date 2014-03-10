@@ -109,7 +109,7 @@ final class RtTags implements Tags {
 
     @Override
     @NotNull(message = "tag is never NULL")
-    public Tag get (
+    public Tag get(
         @NotNull(message = "sha can't be NULL") final String sha
     ) {
         return new RtTag(this.entry, this.owner, sha);

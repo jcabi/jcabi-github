@@ -118,7 +118,7 @@ final class RtOrganizations implements Organizations {
     @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate(
         @NotNull(message = "username can't be NULL") final String username
-    ) { 
+    ) {
         return new RtPagination<Organization>(
             this.entry.uri().path("/users").path(username).path("/orgs").back(),
             new RtPagination.Mapping<Organization, JsonObject>() {

@@ -83,9 +83,8 @@ public final class IssueTest {
     /**
      * Issue.Smart can detect a pull request.
      * @throws Exception If some problem inside
-     * @todo #625 This test fails because it violates 
-     * constraint "pull is never NULL".Fix this.
-     * 
+     * @todo #625 This test fails because it violates
+     *  constraint "pull is never NULL".Fix this.
      */
     @Test
     @Ignore
@@ -133,8 +132,8 @@ public final class IssueTest {
     /**
      * Issue.Smart can fetch issue's labels in read-only mode.
      * @throws IOException If some problem inside.
-     * @todo #625 This test fails because it violates 
-     * constraint "repository is never NULL".Fix this.
+     * @todo #625 This test fails because it violates
+     *  constraint "repository is never NULL".Fix this.
      */
     @Test
     @Ignore

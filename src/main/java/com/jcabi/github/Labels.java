@@ -122,7 +122,7 @@ public interface Labels {
          * @return TRUE if it exists
          */
         public boolean contains(
-            @NotNull(message = "name can't be NULL") final String name
+            @NotNull(message = "name cannot be NULL") final String name
         ) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
@@ -139,9 +139,9 @@ public interface Labels {
          * @return Label found or created
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "label is never NULL")
+        @NotNull(message = "label should never be NULL")
         public Label createOrGet(
-            @NotNull(message = "name can't be NULL") final String name
+            @NotNull(message = "name is not NULL") final String name
         ) throws IOException {
             return this.createOrGet(name, "c0c0c0");
         }
@@ -153,9 +153,9 @@ public interface Labels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        @NotNull(message = "label is never NULL")
+        @NotNull(message = "label should not be NULL")
         public Label createOrGet(
-            @NotNull(message = "name can't be NULL") final String name,
+            @NotNull(message = "name shouldn't be NULL") final String name,
             @NotNull(message = "color can't be NULL") final String color
         ) throws IOException {
             final Label.Smart label;
@@ -175,7 +175,7 @@ public interface Labels {
             return this.labels.repo();
         }
         @Override
-        @NotNull(message = "label is never NULL")
+        @NotNull(message = "label is never null")
         public Label create(
             @NotNull(message = "name can't be NULL") final String name,
             @NotNull(message = "color can't be NULL") final String color

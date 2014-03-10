@@ -76,7 +76,8 @@ public interface CommitsComparison extends JsonReadable {
          * @param cmprsn Commits comparison
          */
         public Smart(
-            @NotNull(message = "cmprsn can't be NULL") final CommitsComparison cmprsn
+            @NotNull(message = "cmprsn can't be NULL")
+            final CommitsComparison cmprsn
         ) {
             this.comparison = cmprsn;
         }

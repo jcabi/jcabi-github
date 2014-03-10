@@ -146,7 +146,7 @@ public interface IssueLabels {
          */
         @NotNull(message = "label is never NULL")
         public Label get(
-            @NotNull(message = "name can't be NULL") final String name
+            @NotNull(message = "name cant be NULL") final String name
         ) {
             Label label = null;
             int count = 0;
@@ -175,7 +175,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          */
         public boolean addIfAbsent(
-            @NotNull(message = "name can't be NULL") final String name
+            @NotNull(message = "name should not be NULL") final String name
         ) throws IOException {
             final boolean added;
             if (this.contains(name)) {
@@ -197,7 +197,7 @@ public interface IssueLabels {
          * @since 0.7
          */
         public boolean addIfAbsent(
-            @NotNull(message = "name can't be NULL") final String name,
+            @NotNull(message = "name is never NULL") final String name,
             @NotNull(message = "color can't be NULL") final String color
         )
             throws IOException {
@@ -249,7 +249,7 @@ public interface IssueLabels {
          * @since 0.7
          */
         public boolean removeIfExists(
-            @NotNull(message = "name can't be NULL") final String name
+            @NotNull(message = "name cannot be NULL") final String name
         )
             throws IOException {
             boolean removed = false;

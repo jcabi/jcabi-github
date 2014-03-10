@@ -146,7 +146,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
+        @NotNull(message = "URL cannot be NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -156,7 +156,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release html url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
+        @NotNull(message = "URL cannot possibly be NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -166,7 +166,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release assets url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
+        @NotNull(message = "URL isn't ever NULL")
         public URL assetsUrl() throws IOException {
             return new URL(this.jsn.text("assets_url"));
         }
@@ -197,7 +197,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void tag(
-            @NotNull(message = "text can't be NULL") final String text
+            @NotNull(message = "text cannot be NULL") final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("tag_name", text).build()
@@ -220,7 +220,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void commitish(
-            @NotNull(message = "text can't be NULL") final String text
+            @NotNull(message = "text shouldn't be NULL") final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder()
@@ -245,7 +245,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void name(
-            @NotNull(message = "text can't be NULL") final String text
+            @NotNull(message = "text should not be NULL") final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("name", text).build()

@@ -224,7 +224,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
+        @NotNull(message = "date shouldn't NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -239,7 +239,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
+        @NotNull(message = "date is not NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -254,7 +254,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of closing
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
+        @NotNull(message = "date can't NULL")
         public Date closedAt() throws IOException {
             try {
                 return new Github.Time(

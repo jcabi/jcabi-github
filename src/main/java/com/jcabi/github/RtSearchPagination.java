@@ -115,7 +115,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
             this.request = req;
         }
         @Override
-        @NotNull(message = "Request is never NULL")
+        @NotNull(message = "Request isn't ever NULL")
         public RequestURI uri() {
             return this.request.uri();
         }
@@ -154,7 +154,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
             return new RtSearchPagination.Hidden(this.request.fetch());
         }
         @Override
-        @NotNull(message = "Request is never NULL")
+        @NotNull(message = "Request should never be NULL")
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
             return this.request.through(type, args);
@@ -178,7 +178,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
             this.response = resp;
         }
         @Override
-        @NotNull(message = "Request is never NULL")
+        @NotNull(message = "Request cannot be NULL")
         public Request back() {
             return this.response.back();
         }
@@ -206,7 +206,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         public byte[] binary() {
             return this.response.binary();
         }
-        // @checkstyle MethodName (3 lines)
+        // @checkstyle MethodName (4 lines)
         @Override
         @SuppressWarnings("PMD.ShortMethodName")
         @NotNull(message = "T is never NULL")

@@ -96,7 +96,7 @@ public final class RtPullComment implements PullComment {
     }
 
     @Override
-    public void patch (
+    public void patch(
         @NotNull(message = "JSON can't be NULL") final JsonObject json
     ) throws IOException {
         new RtJson(this.request).patch(json);

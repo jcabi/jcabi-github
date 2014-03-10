@@ -40,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface RepoCommits extends JsonReadable {
 
     /**

@@ -29,10 +29,10 @@
  */
 package com.jcabi.github;
 
-import javax.validation.constraints.NotNull;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**

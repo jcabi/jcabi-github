@@ -143,7 +143,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void identifier(
-            @NotNull(message = "value can't be NULL") final String value
+            @NotNull(message = "value cannot be NULL") final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(ID, value).build()
@@ -166,7 +166,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void commitId(
-            @NotNull(message = "value can't be NULL") final String value
+            @NotNull(message = "value shouldn't be NULL") final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(COMMIT_ID, value).build()
@@ -189,7 +189,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void url(
-            @NotNull(message = "value can't be NULL") final String value
+            @NotNull(message = "value is never NULL") final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(URL, value).build()
@@ -232,7 +232,8 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         @Override
         public int compareTo(
-            @NotNull(message = "comment can't be NULL") final PullComment comment
+            @NotNull(message = "comment can't be NULL")
+            final PullComment comment
         ) {
             return this.cmnt.compareTo(comment);
         }

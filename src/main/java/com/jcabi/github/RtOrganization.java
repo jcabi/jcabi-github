@@ -103,7 +103,7 @@ final class RtOrganization implements Organization {
     @Override
     public int compareTo(
         @NotNull(message = "other can't be NULL") final Organization other
-    ) {    
+    ) {
         return this.login().compareTo(other.login());
     }
 
