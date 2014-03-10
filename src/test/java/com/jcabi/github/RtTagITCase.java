@@ -27,8 +27,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,79 +40,57 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtRepos}.
- *
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
+ * Integration testcase for RtTag.
+ * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RtReposITCase {
-    /**
-     * The key for name in JSON.
-     */
-    private static final String NAME_KEY = "name";
+public final class RtTagITCase {
 
     /**
-     * RtRepos create repository test.
-     *
-     * @throws Exception If some problem inside
+     * RtTag should return its json representation.
+     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void create() throws Exception {
-        final String name = RandomStringUtils.randomNumeric(5);
-        final Repos repos = RtReposITCase.github().repos();
+    public void fetchesJson() throws Exception {
+        final String object = "object";
+        final String message = "message";
+        final String content = "initial version";
+        final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final References refs = repo().git().references();
+        final String sha = refs.get("refs/heads/master").json()
+            .getJsonObject(object).getString("sha");
+        final JsonObject tagger = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "scott@gmail.com")
+            .add("date", "2013-06-17T14:53:35-07:00").build();
+        final Tag tag = repo().git().tags().create(
+            Json.createObjectBuilder().add("tag", name)
+                .add(message, content)
+                .add(object, sha).add("type", "commit")
+                .add("tagger", tagger).build()
+        );
         try {
             MatcherAssert.assertThat(
-                repos.create(RtReposITCase.request(name)),
-                Matchers.notNullValue()
+                tag.json().getString(message),
+                Matchers.is(content)
             );
         } finally {
-            final Coordinates.Simple coordinates = new Coordinates.Simple(
-                RtReposITCase.github().users().self().login(), name
-            );
-            repos.remove(coordinates);
-        }
-    }
-
-    /**
-     * RtRepos should fail on creation of two repos with the same name.
-     * @throws Exception If some problem inside
-     */
-    @Test(expected = AssertionError.class)
-    public final void failsOnCreationOfTwoRepos() throws Exception {
-        final String name = RandomStringUtils.randomNumeric(5);
-        final Repos repos = RtReposITCase.github().repos();
-        repos.create(RtReposITCase.request(name));
-        try {
-            repos.create(RtReposITCase.request(name));
-        } finally {
-            repos.remove(
-                new Coordinates.Simple(
-                    RtReposITCase.github().users().self().login(), name
-                )
+            refs.remove(
+                new StringBuilder().append("tags/").append(name).toString()
             );
         }
     }
 
     /**
-     * Create and return JsonObject to test request.
-     *
-     * @param name Repo name
-     * @return JsonObject
-     * @throws Exception If some problem inside
-     */
-    private static JsonObject request(final String name) throws Exception {
-        return Json.createObjectBuilder().add(NAME_KEY, name).build();
-    }
-
-    /**
-     * Create and return repo to test.
-     *
+     * Returns the repo for test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Github github() throws Exception {
+    private static Repo repo() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
+        final String repo = System.getProperty("failsafe.github.repo");
+        Assume.assumeThat(repo, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(new Coordinates.Simple(repo));
     }
+
 }
