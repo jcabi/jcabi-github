@@ -29,9 +29,11 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -69,7 +71,9 @@ public final class RtReleaseITCase {
         this.repo = github.repos().get(
             new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
-        this.release = this.repo.releases().create("jcabi_test_tag");
+        this.release = this.repo.releases().create(
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        );
     }
 
     /**
@@ -90,7 +94,7 @@ public final class RtReleaseITCase {
     @Test
     public void canEditRelease() throws Exception {
         final JsonObject patch = Json.createObjectBuilder()
-            .add("tag_name", "v23")
+            .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
             .add("name", "JCabi Github test release")
             .add("body", "JCabi Github was here!")
             .build();
