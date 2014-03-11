@@ -58,12 +58,12 @@ public final class RtGit implements Git {
 
     /**
      * Public ctor.
+     * @param req Request
      * @param repo Repository
-     * @param req Entry request
      */
-    public RtGit(final Repo repo, final Request req) {
-        this.owner = repo;
+    public RtGit(final Request req, final Repo repo) {
         this.entry = req;
+        this.owner = repo;
     }
 
     @Override
