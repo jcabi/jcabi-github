@@ -35,18 +35,17 @@ import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * Mock commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 MkRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
  * @todo #273 MkRepoCommits should be able to compare two commits. Let's
  *  create a test for this method and implement the method. When done, remove
  *  this puzzle.
@@ -87,17 +86,33 @@ final class MkRepoCommits implements RepoCommits {
      * @param stg Storage
      * @param login User to login
      * @param repo Repository coordinates
+     * @throws IOException If something goes wrong.
      */
     MkRepoCommits(final MkStorage stg, final String login,
-        final Coordinates repo) {
+        final Coordinates repo) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = repo;
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", this.coords)
+            ).addIf("commits")
+        );
     }
 
     @Override
     public Iterable<RepoCommit> iterate() {
-        throw new UnsupportedOperationException();
+        return new MkIterable<RepoCommit>(
+            this.storage, String.format("%s/commit", this.xpath()),
+            new MkIterable.Mapping<RepoCommit>() {
+                @Override
+                public RepoCommit map(final XML xml) {
+                    return MkRepoCommits.this.get(
+                        xml.xpath("sha/text()").get(0)
+                    );
+                }
+            }
+        );
     }
 
     @Override
