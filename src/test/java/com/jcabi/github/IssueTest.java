@@ -130,6 +130,22 @@ public final class IssueTest {
     }
 
     /**
+     * Issue.Smart can detect an full absence of a pull request.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void detectsFullPullRequestAbsence() throws Exception {
+        final Issue issue = Mockito.mock(Issue.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().build()
+        ).when(issue).json();
+        MatcherAssert.assertThat(
+            new Issue.Smart(issue).isPull(),
+            Matchers.is(false)
+        );
+    }
+
+    /**
      * Issue.Smart can fetch issue's labels in read-only mode.
      * @throws IOException If some problem inside.
      * @todo #625 This test fails because it violates

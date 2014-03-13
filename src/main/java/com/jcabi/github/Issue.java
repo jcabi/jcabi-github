@@ -315,9 +315,9 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean isPull() throws IOException {
-            return !this.jsn.value(
-                "pull_request", JsonObject.class
-            ).isNull("html_url");
+            return this.json().containsKey("pull_request")
+                && !this.jsn.value("pull_request", JsonObject.class)
+                    .isNull("html_url");
         }
         /**
          * Get pull request.
