@@ -27,6 +27,7 @@
         <script src="./js/jquery-1.8.3.min.js"></script>
         <script src="./js/highlight-7.3.min.js"></script>
         <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+        <link href="./css/jcabi.css" rel="stylesheet"/>
         <script>
             $(document).ready(
                 function() {
@@ -49,28 +50,12 @@
                 }
             );
         </script>
-        <style>
-            @import url("./css/wide.css") (min-width: 1200px) and (max-width:5000px);
-            @import url("./css/900-1199.css") (min-width: 900px) and (max-width:1199px);
-            @import url("./css/600-899.css") (min-width: 600px) and (max-width:899px);
-            @import url("./css/100-599.css") (min-width: 100px) and (max-width:599px);
-        </style>
     </head>
-    <body style="background: url('./images/background.png') fixed;">
+    <body>
                 <div class="page">
             <div class="menu-section">
                 <ul id="menu">
                                                                                     <li>
-                            Parent Project
-                                                            <ul>
-                                                                                                    <li>
-                                                                                    <a href="../www.jcabi.com/index.html" title="jcabi">jcabi</a>
-                                                                                                                                                                        <ul>
-                                                                    </ul>
-                                                    </li>
-                                                                                        </ul>
-                                                    </li>
-                                            <li>
                             Overview
                                                             <ul>
                                                                                                     <li>
@@ -79,7 +64,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li>
-                                                                                    <a href="apidocs-0.7.3/index.html" title="API 0.7.3 (JavaDoc)">API 0.7.3 (JavaDoc)</a>
+                                                                                    <a href="apidocs-0.7.5/index.html" title="API 0.7.5 (JavaDoc)">API 0.7.5 (JavaDoc)</a>
                                                                                                                                                                         <ul>
                                                                     </ul>
                                                     </li>
@@ -161,18 +146,18 @@
                     <i class="menu-button fa fa-align-justify"></i>
                     <div class="logo-section">
                         <a href="../" title="${decoration.bannerLeft.title}">
-                            <img src="http://img.jcabi.com/logo.png"
+                            <img src="http://img.jcabi.com/logo-square.png"
                                 alt="jcabi"
-                                                                    width="200"
-                                                                                                    height="48"
+                                                                    width="59"
+                                                                                                    height="59"
                                                             />
                         </a>
                     </div>
                     <div class="date">
                         <div class="date-numbers">
+                            <strong>0.7.5</strong>
                             
-                            01-Mar-2014
-                            0.7.3
+                            13-Mar-2014
                         </div>
                                                                             <div class="github">
                                 <iframe
@@ -195,7 +180,7 @@
                                 </iframe>
                             </div>
                                             </div>
-                    <div id="here-goes-menu"></div>
+                    <div id="here-goes-menu" class="menu-off"></div>
                     <article>
                         <div class="section">
                             <div class="section">
@@ -241,7 +226,7 @@
 <td>jcabi-github</td></tr>
 <tr class="b">
 <td>Version</td>
-<td>0.7.3</td></tr>
+<td>0.7.5</td></tr>
 <tr class="a">
 <td>Type</td>
 <td>jar</td></tr>
@@ -252,7 +237,8 @@
 <h3>Download<a name="Download"></a></h3><a name="Download"></a><a class="externalLink" href="https://oss.sonatype.org/content/groups/public">https://oss.sonatype.org/content/groups/public</a></div></div>
                         </div>
                     </article>
-                    <img class="maven-mobile" src="./images/built-by-maven.png" style="float:right" width="80px"/>
+                    <img class="maven-mobile" src="./images/built-by-maven.png"
+                        alt="built by maven" style="float:right" width="80"/>
                 </div>
                 <div class="legal-notes">
                     <div class="copyright">

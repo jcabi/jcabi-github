@@ -290,9 +290,9 @@
 <a class="jxr_linenumber" name="280" href="#280">280</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="281" href="#281">281</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="282" href="#282">282</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isPull() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="283" href="#283">283</a>             <strong class="jxr_keyword">return</strong> !<strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).value(
-<a class="jxr_linenumber" name="284" href="#284">284</a>                 <span class="jxr_string">"pull_request"</span>, JsonObject.<strong class="jxr_keyword">class</strong>
-<a class="jxr_linenumber" name="285" href="#285">285</a>             ).isNull(<span class="jxr_string">"html_url"</span>);
+<a class="jxr_linenumber" name="283" href="#283">283</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.json().containsKey(<span class="jxr_string">"pull_request"</span>)
+<a class="jxr_linenumber" name="284" href="#284">284</a>                 &amp;&amp; !<strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(<strong class="jxr_keyword">this</strong>).value(<span class="jxr_string">"pull_request"</span>, JsonObject.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="285" href="#285">285</a>                     .isNull(<span class="jxr_string">"html_url"</span>);
 <a class="jxr_linenumber" name="286" href="#286">286</a>         }
 <a class="jxr_linenumber" name="287" href="#287">287</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="288" href="#288">288</a> <em class="jxr_javadoccomment">         * Get pull request.</em>

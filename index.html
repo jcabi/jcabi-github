@@ -27,6 +27,7 @@
         <script src="./js/jquery-1.8.3.min.js"></script>
         <script src="./js/highlight-7.3.min.js"></script>
         <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+        <link href="./css/jcabi.css" rel="stylesheet"/>
         <script>
             $(document).ready(
                 function() {
@@ -49,28 +50,12 @@
                 }
             );
         </script>
-        <style>
-            @import url("./css/wide.css") (min-width: 1200px) and (max-width:5000px);
-            @import url("./css/900-1199.css") (min-width: 900px) and (max-width:1199px);
-            @import url("./css/600-899.css") (min-width: 600px) and (max-width:899px);
-            @import url("./css/100-599.css") (min-width: 100px) and (max-width:599px);
-        </style>
     </head>
-    <body style="background: url('./images/background.png') fixed;">
+    <body>
                 <div class="page">
             <div class="menu-section">
                 <ul id="menu">
                                                                                     <li>
-                            Parent Project
-                                                            <ul>
-                                                                                                    <li>
-                                                                                    <a href="../www.jcabi.com/index.html" title="jcabi">jcabi</a>
-                                                                                                                                                                        <ul>
-                                                                    </ul>
-                                                    </li>
-                                                                                        </ul>
-                                                    </li>
-                                            <li>
                             Overview
                                                             <ul>
                                                                                                     <li>
@@ -80,7 +65,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li>
-                                                                                    <a href="apidocs-0.7.3/index.html" title="API 0.7.3 (JavaDoc)">API 0.7.3 (JavaDoc)</a>
+                                                                                    <a href="apidocs-0.7.5/index.html" title="API 0.7.5 (JavaDoc)">API 0.7.5 (JavaDoc)</a>
                                                                                                                                                                         <ul>
                                                                     </ul>
                                                     </li>
@@ -114,18 +99,18 @@
                     <i class="menu-button fa fa-align-justify"></i>
                     <div class="logo-section">
                         <a href="../" title="${decoration.bannerLeft.title}">
-                            <img src="http://img.jcabi.com/logo.png"
+                            <img src="http://img.jcabi.com/logo-square.png"
                                 alt="jcabi"
-                                                                    width="200"
-                                                                                                    height="48"
+                                                                    width="59"
+                                                                                                    height="59"
                                                             />
                         </a>
                     </div>
                     <div class="date">
                         <div class="date-numbers">
+                            <strong>0.7.5</strong>
                             
-                            01-Mar-2014
-                            0.7.3
+                            13-Mar-2014
                         </div>
                                                                             <div class="github">
                                 <iframe
@@ -148,7 +133,7 @@
                                 </iframe>
                             </div>
                                             </div>
-                    <div id="here-goes-menu"></div>
+                    <div id="here-goes-menu" class="menu-off"></div>
                     <article>
                         <div class="section">
                             <h1>Object Oriented Github API</h1>
@@ -168,7 +153,7 @@ public class Main {
   }
 }
 </pre></div>
-<p>Read <a href="./apidocs-0.7.3/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
+<p>Read <a href="./apidocs-0.7.5/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
 <p>There are <a class="externalLink" href="http://developer.github.com/libraries/">a few other Java adapters</a> of Github API, but our implementation has its advantages, including:</p>
 
 <ul>
@@ -191,13 +176,13 @@ public class Main {
 <li>
 <p>Entire Github API is available, at least through a configurable HTTP request</p></li>
 </ul>
-<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.7.3/jcabi-github-0.7.3.jar"><tt>jcabi-github-0.7.3.jar</tt></a> and add it to the classpath):</p>
+<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.7.5/jcabi-github-0.7.5.jar"><tt>jcabi-github-0.7.5.jar</tt></a> and add it to the classpath):</p>
 
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.7.3&lt;/version&gt;
+  &lt;version&gt;0.7.5&lt;/version&gt;
 &lt;/dependency&gt;
 </pre></div>
 <p>If you want to use current version of the product, you can do it with this configuration in your <tt>pom.xml</tt>:</p>
@@ -219,7 +204,8 @@ public class Main {
 </pre></div>
                         </div>
                     </article>
-                    <img class="maven-mobile" src="./images/built-by-maven.png" style="float:right" width="80px"/>
+                    <img class="maven-mobile" src="./images/built-by-maven.png"
+                        alt="built by maven" style="float:right" width="80"/>
                 </div>
                 <div class="legal-notes">
                     <div class="copyright">
