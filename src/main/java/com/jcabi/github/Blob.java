@@ -31,70 +31,71 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
 import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github Git.
+ * Github Git blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
-
+public interface Blob extends JsonReadable {
     /**
-     * Repository.
+     * SHA of it.
+     * @return SHA
      */
-    private final transient Repo owner;
-
+    @NotNull(message = "commit SHA is never NULL")
+    String sha();
     /**
-     * RESTful entry.
+     * Smart Blob with extra features.
      */
-    private final transient Request entry;
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "blob", "jsn" })
+    final class Smart implements Blob {
+        /**
+         * Encapsulated blob.
+         */
+        private final transient Blob blob;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
+         * Public ctor.
+         * @param blb Blob
+         */
+        public Smart(
+            @NotNull(message = "Blob can't be NULL") final Blob blb) {
+            this.blob = blb;
+            this.jsn = new SmartJson(blb);
+        }
 
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     */
-    public RtGit(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
+        @Override
+        public JsonObject json() throws IOException {
+            return this.blob.json();
+        }
+
+        @Override
+        public String sha() {
+            return this.blob.sha();
+        }
+
+        /**
+         * Get its url.
+         * @return Url of blob request
+         * @throws IOException If there is any I/O problem
+         */
+        public String url() throws IOException {
+            return this.jsn.text("url");
+        }
     }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }

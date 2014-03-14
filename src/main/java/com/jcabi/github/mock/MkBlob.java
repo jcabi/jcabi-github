@@ -27,74 +27,80 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
+import com.jcabi.github.Blob;
+import com.jcabi.github.Coordinates;
 import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github Git.
+ * Mock Github Blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords", "hash" })
+final class MkBlob implements Blob {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
 
     /**
-     * Repository.
+     * Repository coordinates.
      */
-    private final transient Repo owner;
+    private final transient Coordinates coords;
 
     /**
-     * RESTful entry.
+     * Blob SHA hash.
      */
-    private final transient Request entry;
+    private final transient String hash;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
+     * @param stg Storage
+     * @param sha Blob sha
+     * @param repo Repo name
      */
-    public RtGit(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
+    MkBlob(
+        @NotNull(message = "Storage can't be NULL") final MkStorage stg,
+        @NotNull(message = "Sha can't be NULL") final String sha,
+        @NotNull(message = "Repo can't be NULL") final Coordinates repo) {
+        this.storage = stg;
+        this.hash = sha;
+        this.coords = repo;
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
+    public String sha() {
+        return this.hash;
     }
 
     @Override
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/blobs/blob[sha='%s']",
+            this.coords, this.sha()
+        );
     }
 
 }
