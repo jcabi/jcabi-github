@@ -112,7 +112,7 @@ final class MkIssues implements Issues {
 
     @Override
     @NotNull(message = "created issue is never NULL")
-    public Issue create(@NotNull(message = "") 
+    public Issue create(@NotNull(message = "")
         final String title,
         @NotNull(message = "body is cannot be NULL") final String body
     )

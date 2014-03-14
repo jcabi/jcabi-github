@@ -155,7 +155,8 @@ public final class MkContents implements Contents {
     @Override
     @NotNull(message = "commit is never NULL")
     public RepoCommit remove(
-        @NotNull(message = "content should not be NULL") final JsonObject content
+        @NotNull(message = "content should not be NULL")
+        final JsonObject content
     ) throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }

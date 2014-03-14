@@ -118,7 +118,8 @@ public final class MkMilestones implements Milestones {
     @Override
     @NotNull(message = "Iterable of milestones is never NULL")
     public Iterable<Milestone> iterate(
-        @NotNull(message = "params is never NULL") final Map<String, String> params
+        @NotNull(message = "params is never NULL")
+        final Map<String, String> params
     ) {
         return new MkIterable<Milestone>(
             this.storage,

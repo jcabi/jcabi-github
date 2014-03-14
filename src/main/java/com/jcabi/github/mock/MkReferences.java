@@ -142,7 +142,8 @@ public final class MkReferences implements References {
 
     @Override
     public void remove(
-        @NotNull(message = "identifier shouldn't be NULL") final String identifier
+        @NotNull(message = "identifier shouldn't be NULL")
+        final String identifier
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(

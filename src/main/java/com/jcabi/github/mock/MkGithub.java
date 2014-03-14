@@ -117,6 +117,7 @@ public final class MkGithub implements Github {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.storage.toString();
     }

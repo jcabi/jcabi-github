@@ -112,7 +112,7 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void add(@NotNull(message = "labels can't be NULL") 
+    public void add(@NotNull(message = "labels can't be NULL")
         final Iterable<String> labels
     ) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath());
