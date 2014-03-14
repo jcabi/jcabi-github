@@ -37,7 +37,6 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -271,12 +270,11 @@ public final class RtContentsTest {
         );
         try {
             final RepoCommit commit = contents.remove(
-                "to/remove",
-                "Delete me",
-                "fileSha",
-                "master",
-                Collections.<String, String>emptyMap(),
-                Collections.<String, String>emptyMap()
+                Json.createObjectBuilder()
+                    .add("path", "to/remove")
+                    .add("message", "Delete me")
+                    .add("sha", "fileSha")
+                    .build()
             );
             MatcherAssert.assertThat(
                 commit.sha(),
