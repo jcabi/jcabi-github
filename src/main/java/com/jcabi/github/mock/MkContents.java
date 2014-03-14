@@ -37,7 +37,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import java.io.IOException;
-import java.util.Map;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -139,15 +138,8 @@ public final class MkContents implements Contents {
         return new MkContent(this.storage, this.self, this.coords, path);
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public RepoCommit remove(
-        final String path,
-        final String message,
-        final String sha,
-        final String branch,
-        final Map<String, String> committer,
-        final Map<String, String> author)
+    public RepoCommit remove(final JsonObject content)
         throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
