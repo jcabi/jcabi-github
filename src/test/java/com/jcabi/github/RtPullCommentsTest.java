@@ -40,6 +40,7 @@ import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import java.util.Collections;
+import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -53,7 +54,9 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtPullCommentsTest {
 
     /**
@@ -110,6 +113,7 @@ public final class RtPullCommentsTest {
     private static JsonObject comment(final String bodytext)
         throws Exception {
         return Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (2 line)
             .add("id", 1)
             .add("body", bodytext)
             .build();
@@ -134,15 +138,39 @@ public final class RtPullCommentsTest {
      * RtPullComments can post a new a pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 RtPullComments should be able to create a new pull comment.
-     *  Implement {@link RtPullComments#post(String, String, String, int)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void createsPullComment() throws Exception {
-        // To be implemented.
+        final String body = "test-body";
+        final String commit = "test-commit-id";
+        final String path = "test-path";
+        final int position = 4;
+        final String response = pulls(body, commit, path, position).toString();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
+            .start();
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
+        final RtPullComments pullComments = new RtPullComments(
+            new ApacheRequest(container.home()),
+                pull
+        );
+        try {
+            final PullComment pullComment = pullComments.post(
+                body, commit, path, position
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new PullComment.Smart(pullComment).commitId(),
+                Matchers.equalTo(commit)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -200,4 +228,25 @@ public final class RtPullCommentsTest {
         );
     }
 
+    /**
+     * Create and return JsonObject to test.
+     * @param body The body
+     * @param commit Commit
+     * @param path Path
+     * @param position Position
+     * @return JsonObject
+     * @throws Exception - if anything goes wrong
+     * @checkstyle ParameterNumberCheck (10 lines)
+     */
+    private static JsonObject pulls(final String body, final String commit,
+        final String path, final int position) throws Exception {
+        return Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (2 line)
+            .add("id", new Random().nextInt())
+            .add("body", body)
+            .add("commit_id", commit)
+            .add("path", path)
+            .add("position", position)
+            .build();
+    }
 }
