@@ -102,8 +102,9 @@ public final class MkContents implements Contents {
     }
 
     @Override
-    public Content readme(final String branch) {
-        throw new UnsupportedOperationException("Readme not yet implemented.");
+    public Content readme(final String branch)
+        throws IOException {
+        return new MkContent(this.storage, this.self, this.coords, branch);
     }
 
     @Override

@@ -80,15 +80,16 @@ public final class MkContentsTest {
      * MkContents should be able to create new files.
      *
      * @throws Exception if some problem inside
-     * @todo #323 MkContents should be able to fetch the readme of the specified
-     *  branch. This method should create a new instance of MkContent. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
      */
     @Test
     @Ignore
     public void canFetchReadmeFromBranch() throws Exception {
-        //To be implemented.
+        final String branch = "master";
+        final Contents contents = MkContentsTest.repo().contents();
+        MatcherAssert.assertThat(
+            contents.readme(branch),
+            Matchers.notNullValue()
+        );
     }
 
     /**
