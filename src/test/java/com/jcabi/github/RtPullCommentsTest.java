@@ -150,7 +150,8 @@ public final class RtPullCommentsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
             .start();
-        final Pull pull = createPull();
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
         final RtPullComments pullComments = new RtPullComments(
             new ApacheRequest(container.home()),
                 pull
@@ -247,40 +248,5 @@ public final class RtPullCommentsTest {
             .add("path", path)
             .add("position", position)
             .build();
-    }
-    /**
-     * Create and return JsonObject to test.
-     * @param title The title of the pull request
-     * @return JsonObject
-     * @throws Exception If some problem inside
-     */
-    private static JsonObject pull(final String title) throws Exception {
-        return Json.createObjectBuilder()
-            .add("number", new Random().nextInt())
-            .add("state", Issue.OPEN_STATE)
-            .add("title", title)
-            .build();
-    }
-
-    /**
-     * Create PullS.
-     * @return Pull
-     * @throws Exception - there are some problems..
-     */
-    private Pull createPull() throws Exception {
-        final String title = "new feature";
-        final String body = pull(title).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
-        final RtPulls pulls = new RtPulls(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
-            return pulls.create(title, "octocat", "master");
-        } finally {
-            container.stop();
-        }
     }
 }
