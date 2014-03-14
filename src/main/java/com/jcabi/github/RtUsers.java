@@ -78,6 +78,7 @@ final class RtUsers implements Users {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

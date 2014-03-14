@@ -82,6 +82,7 @@ public final class RtDeployKey implements DeployKey {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

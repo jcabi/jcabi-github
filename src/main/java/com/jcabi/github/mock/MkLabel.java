@@ -36,6 +36,7 @@ import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -80,8 +81,12 @@ final class MkLabel implements Label {
      * @param name Label name
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkLabel(final MkStorage stg, final String login,
-        final Coordinates rep, final String name) {
+    MkLabel(@NotNull(message = "stg can't be NULL")
+        final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        @NotNull(message = "name can't be NULL") final String name
+    ) {
         this.storage = stg;
         this.self = login;
         this.owner = rep;
@@ -89,21 +94,26 @@ final class MkLabel implements Label {
     }
 
     @Override
+    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.owner);
     }
 
     @Override
+    @NotNull(message = "name is never NULL")
     public String name() {
         return this.label;
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(@NotNull(message = "json cannot be NULL")
+        final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -114,6 +124,7 @@ final class MkLabel implements Label {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/labels/label[name='%s']",
@@ -122,7 +133,9 @@ final class MkLabel implements Label {
     }
 
     @Override
-    public int compareTo(final Label lbl) {
+    public int compareTo(@NotNull(message = "lbl cannot be NULL")
+        final Label lbl
+    ) {
         return this.label.compareTo(lbl.name());
     }
 }

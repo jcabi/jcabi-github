@@ -136,6 +136,7 @@ public final class RtPublicKeys implements PublicKeys {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

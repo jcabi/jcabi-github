@@ -188,7 +188,10 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public RepoCommit remove(final JsonObject content)
+    @NotNull(message = "Repo commit is never NULL")
+    public RepoCommit remove(@NotNull(message = "content can't be NULL")
+        final JsonObject content
+    )
         throws IOException {
         if (!content.containsKey("path")) {
             throw new IllegalStateException(

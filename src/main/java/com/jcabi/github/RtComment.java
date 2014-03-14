@@ -87,6 +87,7 @@ final class RtComment implements Comment {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

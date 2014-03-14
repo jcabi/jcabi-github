@@ -35,6 +35,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -68,27 +69,34 @@ final class MkRepoCommit implements RepoCommit {
      * @param repo The repository
      * @param sha Commit SHA
      */
-    MkRepoCommit(final Repo repo, final String sha) {
+    MkRepoCommit(
+        @NotNull(message = "repo is never NULL") final Repo repo,
+        @NotNull(message = "sha is never NULL") final String sha) {
         this.repository = repo;
         this.hash = sha;
     }
 
     @Override
-    public int compareTo(final RepoCommit other) {
+    public int compareTo(
+        @NotNull(message = "other can't be NULL") final RepoCommit other
+    ) {
         throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         throw new UnsupportedOperationException("MkRepoCommit#json()");
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.repository;
     }
 
     @Override
+    @NotNull(message = "sha should no be NULL")
     public String sha() {
         return this.hash;
     }

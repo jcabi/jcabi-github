@@ -35,6 +35,7 @@ import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
  * Mock Github milestone.
@@ -74,7 +75,9 @@ public final class MkMilestone implements Milestone {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkMilestone(
-        final MkStorage strg, final String login, final Coordinates crds,
+        @NotNull(message = "strg can't be NULL") final MkStorage strg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "crds can't be NULL") final Coordinates crds,
         final int num
     ) {
         this.self = login;
@@ -84,7 +87,9 @@ public final class MkMilestone implements Milestone {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(
+        @NotNull(message = "obj should not be NULL") final Object obj
+    ) {
         return obj instanceof Milestone
             && this.code == Milestone.class.cast(obj).number();
     }
@@ -95,7 +100,9 @@ public final class MkMilestone implements Milestone {
     }
 
     @Override
-    public int compareTo(final Milestone milestone) {
+    public int compareTo(
+        @NotNull(message = "milestone can't be NULL") final Milestone milestone
+    ) {
         assert this.self != null;
         assert this.coords != null;
         assert this.storage != null;
@@ -106,6 +113,7 @@ public final class MkMilestone implements Milestone {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         throw new UnsupportedOperationException(
             "Unimplemented operation."
@@ -113,13 +121,16 @@ public final class MkMilestone implements Milestone {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         throw new UnsupportedOperationException(
             "This operation is not available yet."
         );
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         throw new UnsupportedOperationException(
             "This is not available yet"

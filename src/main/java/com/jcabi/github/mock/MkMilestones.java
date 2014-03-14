@@ -37,6 +37,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
+import javax.validation.constraints.NotNull;
 import org.xembly.Directives;
 
 /**
@@ -70,7 +71,9 @@ public final class MkMilestones implements Milestones {
      * @throws IOException - if any I/O problem occurs
      */
     MkMilestones(
-        final MkStorage stg, final String login, final Coordinates rep
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -82,12 +85,16 @@ public final class MkMilestones implements Milestones {
         );
     }
     @Override
+    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public Milestone create(final String title) throws IOException {
+    @NotNull(message = "created milestone is never NULL")
+    public Milestone create(
+        @NotNull(message = "title can't be NULL") final String title
+    ) throws IOException {
         final int number;
         number = 1 + this.storage.xml().xpath(
             String.format("%s/milestone/number/text()", this.xpath())
@@ -103,12 +110,16 @@ public final class MkMilestones implements Milestones {
     }
 
     @Override
+    @NotNull(message = "milestone is never NULL")
     public Milestone get(final int number) {
         return new MkMilestone(this.storage, this.self, this.coords, number);
     }
 
     @Override
-    public Iterable<Milestone> iterate(final Map<String, String> params) {
+    @NotNull(message = "Iterable of milestones is never NULL")
+    public Iterable<Milestone> iterate(
+        @NotNull(message = "params is never NULL") final Map<String, String> params
+    ) {
         return new MkIterable<Milestone>(
             this.storage,
             String.format("%s/milestone", this.xpath()),
@@ -136,6 +147,7 @@ public final class MkMilestones implements Milestones {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/milestones",

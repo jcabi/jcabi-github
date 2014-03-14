@@ -74,6 +74,7 @@ final class RtRepos implements Repos {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.entry.uri().get().toString();
     }

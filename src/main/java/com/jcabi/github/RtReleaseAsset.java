@@ -74,7 +74,11 @@ public final class RtReleaseAsset implements ReleaseAsset {
      * @param release Release
      * @param number Number of the release asset.
      */
-    RtReleaseAsset(final Request req, final Release release, final int number) {
+    RtReleaseAsset(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "release can't be NULL") final Release release,
+        final int number
+    ) {
         final Coordinates coords = release.repo().coordinates();
         this.request = req.uri()
             .path("/repos")
@@ -89,6 +93,7 @@ public final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

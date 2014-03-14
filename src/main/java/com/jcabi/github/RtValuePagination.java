@@ -84,6 +84,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.entry.uri().get().toString();
     }

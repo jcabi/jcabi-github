@@ -77,6 +77,7 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

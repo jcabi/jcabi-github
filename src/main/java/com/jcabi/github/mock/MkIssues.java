@@ -40,6 +40,7 @@ import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -79,8 +80,11 @@ final class MkIssues implements Issues {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    MkIssues(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkIssues(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -95,17 +99,23 @@ final class MkIssues implements Issues {
     }
 
     @Override
+    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "Issue is never NULL")
     public Issue get(final int number) {
         return new MkIssue(this.storage, this.self, this.coords, number);
     }
 
     @Override
-    public Issue create(final String title, final String body)
+    @NotNull(message = "created issue is never NULL")
+    public Issue create(@NotNull(message = "") 
+        final String title,
+        @NotNull(message = "body is cannot be NULL") final String body
+    )
         throws IOException {
         this.storage.lock();
         final int number;
@@ -136,7 +146,10 @@ final class MkIssues implements Issues {
     }
 
     @Override
-    public Iterable<Issue> iterate(final Map<String, String> params) {
+    @NotNull(message = "Iterable of issues is never NULL")
+    public Iterable<Issue> iterate(@NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    ) {
         return new MkIterable<Issue>(
             this.storage,
             String.format("%s/issue", this.xpath()),
@@ -155,6 +168,7 @@ final class MkIssues implements Issues {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues",

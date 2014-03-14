@@ -90,6 +90,7 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.coords.toString();
     }

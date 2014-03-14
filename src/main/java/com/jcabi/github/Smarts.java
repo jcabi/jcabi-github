@@ -75,6 +75,7 @@ public final class Smarts<T> implements Iterable<T> {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.origin.toString();
     }

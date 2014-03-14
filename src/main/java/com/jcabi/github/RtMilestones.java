@@ -87,6 +87,7 @@ public class RtMilestones implements Milestones {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public final String toString() {
         return this.request.uri().get().toString();
     }
