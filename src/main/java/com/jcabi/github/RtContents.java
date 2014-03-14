@@ -36,10 +36,8 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -177,37 +175,21 @@ public final class RtContents implements Contents {
         );
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public RepoCommit remove(
-        final String path,
-        final String message,
-        final String sha,
-        final String branch,
-        final Map<String, String> committer,
-        final Map<String, String> author)
+    public RepoCommit remove(final JsonObject content)
         throws IOException {
-        final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : committer.entrySet()) {
-            cmtBuilder.add(entr.getKey(), entr.getValue());
+        if (!content.containsKey("path")) {
+            throw new IllegalStateException(
+                "Content should have path parameter"
+            );
         }
-        final JsonObjectBuilder atrBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : author.entrySet()) {
-            atrBuilder.add(entr.getKey(), entr.getValue());
-        }
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("message", message)
-            .add("sha", sha)
-            .add("branch", branch)
-            .add("committer", cmtBuilder.build())
-            .add("author", atrBuilder.build())
-            .build();
+        final String path = content.getString("path");
         return new RtRepoCommit(
             this.entry,
             this.owner,
             this.request.method(Request.DELETE)
                 .uri().path(path).back()
-                .body().set(json).back().fetch()
+                .body().set(content).back().fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class).json()
