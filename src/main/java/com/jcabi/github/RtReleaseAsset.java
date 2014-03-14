@@ -33,11 +33,13 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -115,13 +117,6 @@ public final class RtReleaseAsset implements ReleaseAsset {
         new RtJson(this.request).patch(json);
     }
 
-    /**
-     * Remove asset.
-     *
-     * @throws IOException If there is any I/O problem
-     * @todo #282 RtReleaseAsset should be able to remove files. Implement
-     *  RtReleaseAsset method. When done, remove this puzzle.
-     */
     @Override
     public void remove() throws IOException {
         this.request.method(Request.DELETE).fetch()
@@ -132,8 +127,6 @@ public final class RtReleaseAsset implements ReleaseAsset {
     /**
      * Get raw release asset content.
      *
-     * @todo #282 Implement RtReleaseAsset method to retrieve raw release
-     *  asset content. When done remove this puzzle.
      * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
      * @return Stream with content
      * @throws IOException If some problem inside.
@@ -141,7 +134,17 @@ public final class RtReleaseAsset implements ReleaseAsset {
     @Override
     @NotNull(message = "InputStream is never NULL")
     public InputStream raw() throws IOException {
-        throw new UnsupportedOperationException("Raw not yet implemented.");
+        return new ByteArrayInputStream(
+            this.request.method(Request.GET)
+                .reset(HttpHeaders.ACCEPT).header(
+                    HttpHeaders.ACCEPT,
+                    "application/vnd.github.v3.raw"
+                )
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .binary()
+        );
     }
 
 }

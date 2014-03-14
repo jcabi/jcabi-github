@@ -36,10 +36,8 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -189,40 +187,21 @@ public final class RtContents implements Contents {
         );
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    @NotNull(message = "RepoCommit can't be NULL")
-    public RepoCommit remove(
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "message can't be NULL") final String message,
-        @NotNull(message = "sha can't be NULL") final String sha,
-        @NotNull(message = "branch can't be NULL") final String branch,
-        @NotNull(message = "committer can't be NULL")
-        final Map<String, String> committer,
-        @NotNull(message = "author can't be NULL")
-        final Map<String, String> author
-    ) throws IOException {
-        final JsonObjectBuilder cmtBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : committer.entrySet()) {
-            cmtBuilder.add(entr.getKey(), entr.getValue());
+    public RepoCommit remove(final JsonObject content)
+        throws IOException {
+        if (!content.containsKey("path")) {
+            throw new IllegalStateException(
+                "Content should have path parameter"
+            );
         }
-        final JsonObjectBuilder atrBuilder = Json.createObjectBuilder();
-        for (final Map.Entry<String, String> entr : author.entrySet()) {
-            atrBuilder.add(entr.getKey(), entr.getValue());
-        }
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("message", message)
-            .add("sha", sha)
-            .add("branch", branch)
-            .add("committer", cmtBuilder.build())
-            .add("author", atrBuilder.build())
-            .build();
+        final String path = content.getString("path");
         return new RtRepoCommit(
             this.entry,
             this.owner,
             this.request.method(Request.DELETE)
                 .uri().path(path).back()
-                .body().set(json).back().fetch()
+                .body().set(content).back().fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class).json()
