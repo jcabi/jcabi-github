@@ -51,11 +51,6 @@ import lombok.ToString;
  *  create a test for this method and implement the method. When done, remove
  *  this puzzle.
  * @todo #439 MkRepoCommits should be able to compare two commits and return
- *  comparison in diff format.
- *  Let's create a test for this method and implement the method.
- *  When done, remove this puzzle.
- *  See http://developer.github.com/v3/repos/commits/#compare-two-commits
- * @todo #439 MkRepoCommits should be able to compare two commits and return
  *  comparison in patch format.
  *  Let's create a test for this method and implement the method.
  *  When done, remove this puzzle.
@@ -109,7 +104,7 @@ final class MkRepoCommits implements RepoCommits {
 
     @Override
     public CommitsComparison compare(final String base, final String head) {
-        return new MkCommitsComparison();
+        return new MkCommitsComparison(this.storage, this.self, this.coords);
     }
 
     @Override

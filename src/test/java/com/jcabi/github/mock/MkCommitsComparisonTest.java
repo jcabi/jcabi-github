@@ -29,63 +29,31 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.ToString;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Mock commits' comparison of a Github repository.
+ * Test case for {@link MkCommitsComparison).
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @todo #553 MkRepoCommits.json() should return JSON object of comparison.
- *  Let's create a test for this method and implement the method.
- *  When done, remove this puzzle.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-final class MkCommitsComparison implements CommitsComparison {
+public final class MkCommitsComparisonTest {
 
     /**
-     * Storage.
+     * MkCommitsComparison can get a repo.
+     * @throws IOException if some problem inside
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Repo coordinates.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param repo Repository coordinates
-     */
-    MkCommitsComparison(final MkStorage stg, final String login,
-        final Coordinates repo) {
-        this.storage = stg;
-        this.self = login;
-        this.coords = repo;
-    }
-
-    @Override
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
-    }
-
-    @Override
-    public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException();
+    @Test
+    public void getRepo() throws IOException {
+        final String user = "test_user";
+        MatcherAssert.assertThat(new MkCommitsComparison(
+            new MkStorage.InFile(), user, new Coordinates.Simple(
+                user, "test_repo"
+            )
+        ).repo(), Matchers.notNullValue()
+        );
     }
 }
