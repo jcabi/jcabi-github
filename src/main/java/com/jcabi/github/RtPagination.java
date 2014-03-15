@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github pagination.
@@ -50,7 +51,8 @@ final class RtPagination<T> extends RtValuePagination<T, JsonObject> {
      * @param mpp Mapping
      */
     RtPagination(
-        final Request req,
+        @NotNull(message = "request can't be NULL") final Request req,
+        @NotNull(message = "mapping can't be NULL")
         final RtValuePagination.Mapping<T, JsonObject> mpp
     ) {
         super(req, mpp);

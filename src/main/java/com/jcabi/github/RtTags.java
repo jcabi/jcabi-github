@@ -37,6 +37,7 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -68,7 +69,10 @@ final class RtTags implements Tags {
      * @param req The entry request.
      * @param repo The owner repo.
      */
-    RtTags(final Request req, final Repo repo) {
+    RtTags(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "repo can't be NULL") final Repo repo
+    ) {
         this.entry = req;
         this.owner = repo;
         this.request = req.uri().path("/repos").path(repo.coordinates().user())
@@ -76,12 +80,16 @@ final class RtTags implements Tags {
     }
 
     @Override
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Tag create(final JsonObject params) throws IOException {
+    @NotNull(message = "tag is never NULL")
+    public Tag create(
+        @NotNull(message = "params can't be NULL") final JsonObject params
+    ) throws IOException {
         final Tag created = this.get(
             this.request.method(Request.POST)
                 .body().set(params).back()
@@ -100,7 +108,10 @@ final class RtTags implements Tags {
     }
 
     @Override
-    public Tag get(final String sha) {
+    @NotNull(message = "tag is never NULL")
+    public Tag get(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
         return new RtTag(this.entry, this.owner, sha);
     }
 

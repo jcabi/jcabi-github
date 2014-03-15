@@ -71,7 +71,9 @@ final class MkCollaborators implements Collaborators {
      * @throws IOException If there is any I/O problem
      */
     public MkCollaborators(
-        final MkStorage stg, final String login, final Coordinates crds
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "crds can't be NULL") final Coordinates crds
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -86,6 +88,7 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -115,7 +118,9 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
-    public void remove(final String user) throws IOException {
+    public void remove(
+        @NotNull(message = "user should not be NULL") final String user
+    ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
                 String.format("%s/user[login='%s']", this.xpath(), user)
@@ -124,6 +129,7 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
+    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> iterate() {
         return new MkIterable<User>(
             this.storage, String.format("%s/user", this.xpath()),
@@ -149,7 +155,9 @@ final class MkCollaborators implements Collaborators {
      * @return Mocked User
      * @throws IOException If there is any I/O problem
      */
-    public User get(final String login) throws IOException {
+    public User get(
+        @NotNull(message = "login should not be NULL") final String login
+    ) throws IOException {
         return new MkUser(this.storage, login);
     }
 
@@ -157,6 +165,7 @@ final class MkCollaborators implements Collaborators {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/collaborators",

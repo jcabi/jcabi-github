@@ -76,11 +76,13 @@ public final class RtGitignores implements Gitignores {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "iterable is never NULL")
     public Iterable<String> iterate() throws IOException {
         final RestResponse response = this.request.fetch()
             .as(RestResponse.class)
@@ -95,6 +97,7 @@ public final class RtGitignores implements Gitignores {
     }
 
     @Override
+    @NotNull(message = "template is never NULL")
     public String template(
         @NotNull(message = "Template name can't be NULL")
         final String name)

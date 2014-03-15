@@ -52,7 +52,7 @@ public final class RtGitTest {
     public void canFetchOwnRepo() throws Exception {
         final Repo repo = repo();
         MatcherAssert.assertThat(
-            new RtGit(repo, new FakeRequest()).repo(),
+            new RtGit(new FakeRequest(), repo).repo(),
             Matchers.is(repo)
         );
     }

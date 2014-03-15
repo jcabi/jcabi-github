@@ -81,6 +81,7 @@ public final class RtPublicKey implements PublicKey {
     }
 
     @Override
+    @NotNull(message = "user is never NULL")
     public User user() {
         return this.owner;
     }
@@ -91,6 +92,7 @@ public final class RtPublicKey implements PublicKey {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

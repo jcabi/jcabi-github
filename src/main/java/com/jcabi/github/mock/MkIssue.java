@@ -47,6 +47,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -92,8 +93,12 @@ final class MkIssue implements Issue {
      * @param number Issue number
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkIssue(final MkStorage stg, final String login,
-        final Coordinates rep, final int number) {
+    MkIssue(
+        @NotNull(message = "stg is never NULL") final MkStorage stg,
+        @NotNull(message = "login is never NULL") final String login,
+        @NotNull(message = "rep is never NULL") final Coordinates rep,
+        final int number
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -101,6 +106,7 @@ final class MkIssue implements Issue {
     }
 
     @Override
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -111,6 +117,7 @@ final class MkIssue implements Issue {
     }
 
     @Override
+    @NotNull(message = "comments is never NULL")
     public Comments comments() {
         try {
             return new MkComments(
@@ -122,6 +129,7 @@ final class MkIssue implements Issue {
     }
 
     @Override
+    @NotNull(message = "labels is never NULL")
     public IssueLabels labels() {
         try {
             return new MkIssueLabels(
@@ -133,6 +141,7 @@ final class MkIssue implements Issue {
     }
 
     @Override
+    @NotNull(message = "Iterable of events is never NULL")
     public Iterable<Event> events() throws IOException {
         final Collection<Event> events = new LinkedList<Event>();
         if (!new Issue.Smart(this).isOpen()) {
@@ -147,16 +156,21 @@ final class MkIssue implements Issue {
     }
 
     @Override
-    public int compareTo(final Issue issue) {
+    public int compareTo(
+        @NotNull(message = "issue should not be NULL") final Issue issue
+    ) {
         return this.number() - issue.number();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         final JsonObject obj = new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -184,6 +198,7 @@ final class MkIssue implements Issue {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",

@@ -35,6 +35,7 @@ import com.jcabi.github.DeployKey;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -71,7 +72,11 @@ public final class MkDeployKey implements DeployKey {
      * @param number Id
      * @param repo Repository
      */
-    MkDeployKey(final MkStorage stg, final int number, final Repo repo) {
+    MkDeployKey(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        final int number,
+        @NotNull(message = "repo can't be NULL") final Repo repo
+    ) {
         this.storage = stg;
         this.key = number;
         this.owner = repo;
@@ -83,6 +88,7 @@ public final class MkDeployKey implements DeployKey {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -100,6 +106,7 @@ public final class MkDeployKey implements DeployKey {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/deploykeys/deploykey[id='%d']",
@@ -109,7 +116,9 @@ public final class MkDeployKey implements DeployKey {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json shouldn't be NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 

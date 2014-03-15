@@ -65,7 +65,7 @@ final class RtUserEmails implements UserEmails {
      * Ctor.
      * @param req RESTful API entry point
      */
-    RtUserEmails(final Request req) {
+    RtUserEmails(@NotNull(message = "req can't be NULL") final Request req) {
         this.request = req.header("Accept", "application/vnd.github.v3")
             .uri().path("/user/emails").back();
     }
@@ -126,6 +126,7 @@ final class RtUserEmails implements UserEmails {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

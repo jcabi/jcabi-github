@@ -34,7 +34,6 @@ import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -48,7 +47,6 @@ public final class MkRepoCommitsTest {
      * MkRepoCommits can return commits' iterator.
      * @throws IOException If some problem inside
      */
-    @Ignore
     @Test
     public void returnIterator() throws IOException {
         final String user =  "testuser1";

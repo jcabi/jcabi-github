@@ -35,7 +35,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,12 +53,8 @@ public class RtReposITCase {
      * RtRepos create repository test.
      *
      * @throws Exception If some problem inside
-     * @todo #551 Create() is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove the
-     *  Ignore annotation.
      */
     @Test
-    @Ignore
     public final void create() throws Exception {
         final String name = RandomStringUtils.randomNumeric(5);
         final Repos repos = RtReposITCase.github().repos();

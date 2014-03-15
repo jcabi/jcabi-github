@@ -72,7 +72,10 @@ final class RtUser implements User {
      * @param github Github
      * @param req Request
      */
-    RtUser(final Github github, final Request req) {
+    RtUser(
+        @NotNull(message = "github can't be NULL") final Github github,
+        @NotNull(message = "req can't be NULL") final Request req
+    ) {
         this(github, req, "");
     }
 
@@ -82,7 +85,11 @@ final class RtUser implements User {
      * @param req Request
      * @param login User identity/identity
      */
-    RtUser(final Github github, final Request req, final String login) {
+    RtUser(
+        @NotNull(message = "github can't be NULL") final Github github,
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "login can't be NULL") final String login
+    ) {
         this.ghub = github;
         if (login.isEmpty()) {
             this.request = req.uri().path("/user").back();
@@ -93,16 +100,19 @@ final class RtUser implements User {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "login is never NULL")
     public String login() throws IOException {
         final String login;
         if (this.self.isEmpty()) {
@@ -114,11 +124,13 @@ final class RtUser implements User {
     }
 
     @Override
+    @NotNull(message = "organizations is never NULL")
     public Organizations organizations() {
         return new RtOrganizations(this.ghub, this.ghub.entry(), this);
     }
 
     @Override
+    @NotNull(message = "PublicKeys is never NULL")
     public PublicKeys keys() {
         return new RtPublicKeys(this.request, this);
     }
@@ -130,6 +142,7 @@ final class RtUser implements User {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

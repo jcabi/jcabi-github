@@ -93,8 +93,12 @@ final class MkContent implements Content {
      * @throws IOException If there is any I/O problem
      * @checkstyle ParameterNumberCheck (3 lines)
      */
-    public MkContent(final MkStorage stg, final String login,
-        final Coordinates rep, final String path) throws IOException {
+    public MkContent(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        @NotNull(message = "path can't be NULL") final String path
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -102,7 +106,9 @@ final class MkContent implements Content {
     }
 
     @Override
-    public int compareTo(final Content cont) {
+    public int compareTo(
+        @NotNull(message = "cont should not be NULL") final Content cont
+    ) {
         throw new UnsupportedOperationException("MkContent#compareTo()");
     }
 
@@ -114,6 +120,7 @@ final class MkContent implements Content {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -121,16 +128,19 @@ final class MkContent implements Content {
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "path is never NULL")
     public String path() {
         return this.location;
     }
 
     @Override
+    @NotNull(message = "input stream is never NULL")
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             DatatypeConverter.parseBase64Binary(
@@ -145,6 +155,7 @@ final class MkContent implements Content {
      * XPath of this element in XML tree.
      * @return The XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/contents/content[path='%s']",

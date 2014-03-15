@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import javax.json.Json;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -83,22 +84,29 @@ public final class RtDeployKeys implements DeployKeys {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "Iterable of DeployKey can't be NULL")
     public Iterable<DeployKey> iterate() {
         return Collections.emptyList();
     }
 
     @Override
+    @NotNull(message = "DeployKey can't be NULL")
     public DeployKey get(final int number) {
         return new RtDeployKey(this.entry, number, this.owner);
     }
 
     @Override
-    public DeployKey create(final String title, final String key)
+    @NotNull(message = "DeployKey is never NULL")
+    public DeployKey create(
+        @NotNull(message = "title can't be NULL") final String title,
+        @NotNull(message = "key can't be NULL") final String key
+    )
         throws IOException {
         return this.get(
             this.request.method(Request.POST)
