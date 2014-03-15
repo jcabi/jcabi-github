@@ -81,11 +81,13 @@ final class RtBlob implements Blob {
     }
 
     @Override
+    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.hash;
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

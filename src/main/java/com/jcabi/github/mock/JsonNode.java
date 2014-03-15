@@ -33,6 +33,7 @@ import com.jcabi.xml.XML;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.validation.constraints.NotNull;
 import org.w3c.dom.Node;
 
 /**
@@ -53,7 +54,7 @@ final class JsonNode {
      * Public ctor.
      * @param src Source
      */
-    JsonNode(final XML src) {
+    JsonNode(@NotNull(message = "src can't be NULL") final XML src) {
         this.xml = src;
     }
 
@@ -62,6 +63,7 @@ final class JsonNode {
      * @return JSON
      */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final XML child : this.xml.nodes("* ")) {

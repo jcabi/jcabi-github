@@ -46,12 +46,14 @@ public interface Reference {
      * Return its owner repo.
      * @return Repo
      */
+    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
      * Return its name.
      * @return String
      */
+    @NotNull(message = "ref is never NULL")
     String ref();
 
     /**
@@ -59,6 +61,7 @@ public interface Reference {
      * @return JsonObject
      * @throws IOException - If something goes wrong.
      */
+    @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;
 
     /**

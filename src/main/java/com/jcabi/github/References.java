@@ -86,5 +86,7 @@ public interface References {
      * @param identifier Reference's identifier.
      * @throws IOException If there is any I/O problem.
      */
-    void remove(String identifier) throws IOException;
+    void remove(
+        @NotNull(message = "identifier can't be NULL") String identifier
+    ) throws IOException;
 }

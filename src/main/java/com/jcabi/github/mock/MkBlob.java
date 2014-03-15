@@ -81,11 +81,13 @@ final class MkBlob implements Blob {
     }
 
     @Override
+    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.hash;
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -96,6 +98,7 @@ final class MkBlob implements Blob {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/blobs/blob[sha='%s']",

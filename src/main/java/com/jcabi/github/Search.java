@@ -70,8 +70,8 @@ public interface Search {
     Iterable<Repo> repos(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order)
-        throws IOException;
+        @NotNull(message = "Sort order can't be NULL") String order
+    ) throws IOException;
 
     /**
      * Search issues.

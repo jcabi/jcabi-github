@@ -42,6 +42,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import javax.json.JsonArray;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -73,7 +74,9 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
      * @param req Request
      * @param mpp Mapping
      */
-    RtValuePagination(final Request req,
+    RtValuePagination(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "map can't be null")
         final RtValuePagination.Mapping<T, P> mpp
     ) {
         this.entry = req;
@@ -81,11 +84,13 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.entry.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         return new RtValuePagination.Items<T, P>(this.entry, this.map);
     }
@@ -94,6 +99,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
      * Entry.
      * @return Entry point
      */
+    @NotNull(message = "Request is never NULL")
     public Request request() {
         return this.entry;
     }
@@ -102,6 +108,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
      * Mapping.
      * @return Mapping
      */
+    @NotNull(message = "map is never NULLs")
     public RtValuePagination.Mapping<T, P> mapping() {
         return this.map;
     }

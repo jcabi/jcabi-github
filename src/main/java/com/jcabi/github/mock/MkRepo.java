@@ -50,6 +50,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -89,24 +90,30 @@ final class MkRepo implements Repo {
      * @param login User to login
      * @param repo Repo name
      */
-    MkRepo(final MkStorage stg, final String login,
-        final Coordinates repo) {
+    MkRepo(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "repo can't be NULL") final Coordinates repo
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = repo;
     }
 
     @Override
+    @NotNull(message = "github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
+    @NotNull(message = "coordinates is never NULL")
     public Coordinates coordinates() {
         return this.coords;
     }
 
     @Override
+    @NotNull(message = "issue is never NULL")
     public Issues issues() {
         try {
             return new MkIssues(this.storage, this.self, this.coords);
@@ -116,6 +123,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "milestones is never NULL")
     public Milestones milestones() {
         try {
             return new MkMilestones(this.storage, this.self, this.coords);
@@ -125,6 +133,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "pulls is never NULL")
     public Pulls pulls() {
         try {
             return new MkPulls(this.storage, this.self, this.coords);
@@ -134,6 +143,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "hooks is never NULL")
     public Hooks hooks() {
         try {
             return new MkHooks(this.storage, this.self, this.coords);
@@ -143,11 +153,13 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Iterable of events is never NULL")
     public Iterable<Event> events() {
         return null;
     }
 
     @Override
+    @NotNull(message = "labels is never NULL")
     public Labels labels() {
         try {
             return new MkLabels(this.storage, this.self, this.coords);
@@ -157,6 +169,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Assignees is never NULL")
     public Assignees assignees() {
         try {
             return new MkAssignees(this.storage, this.self, this.coords);
@@ -166,6 +179,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "releases is never NULL")
     public Releases releases() {
         try {
             return new MkReleases(this.storage, this.self, this.coords);
@@ -175,6 +189,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "forks is never NULL")
     public Forks forks() {
         try {
             return new MkForks(this.storage, this.self, this.coords);
@@ -184,6 +199,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "collaborators is never NULL")
     public Collaborators collaborators() {
         try {
             return new MkCollaborators(this.storage, this.self, this.coords);
@@ -193,6 +209,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "keys is never NULL")
     public DeployKeys keys() {
         try {
             return new MkDeployKeys(this.storage, this.self, this.coords);
@@ -202,6 +219,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "contents is never NULL")
     public Contents contents() {
         try {
             return new MkContents(this.storage, this.self, this.coords);
@@ -211,11 +229,14 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "JSON is never NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
+    @NotNull(message = "commits is never NULL")
     public RepoCommits commits() {
         try {
             return new MkRepoCommits(
@@ -227,6 +248,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Git is never NULL")
     public Git git() {
         try {
             return new MkGit(this.storage, this.self, this.coords);
@@ -236,6 +258,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -246,6 +269,7 @@ final class MkRepo implements Repo {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']",

@@ -86,17 +86,20 @@ final class RtBlobs implements Blobs {
     }
 
     @Override
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "blob is never NULL")
     public Blob get(
         @NotNull(message = "Sha can't be NULL") final String sha) {
         return new RtBlob(this.entry, this.owner, sha);
     }
 
     @Override
+    @NotNull(message = "created blob is never NULL")
     public Blob create(
         @NotNull(message = "content can't be NULL") final String content,
         @NotNull(message = "encoding can't be NULL") final String encoding)

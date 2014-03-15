@@ -37,6 +37,7 @@ import com.jcabi.github.ReleaseAsset;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -84,10 +85,15 @@ public final class MkReleaseAsset implements ReleaseAsset {
      * @param rep Repo
      * @param release Release ID
      * @param asset Asset ID
-     * @checkstyle ParameterNumber (5 lines)
+     * @checkstyle ParameterNumber (7 lines)
      */
-    MkReleaseAsset(final MkStorage stg, final String login,
-        final Coordinates rep, final int release, final int asset) {
+    MkReleaseAsset(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final int release,
+        final int asset
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -96,6 +102,7 @@ public final class MkReleaseAsset implements ReleaseAsset {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -103,11 +110,14 @@ public final class MkReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
+    @NotNull(message = "Release is never NULL")
     public Release release() {
         return new MkRelease(
             this.storage,
@@ -146,6 +156,7 @@ public final class MkReleaseAsset implements ReleaseAsset {
      * @throws IOException If some problem inside.
      */
     @Override
+    @NotNull(message = "Input stream is never NULL")
     public InputStream raw() throws IOException {
         throw new UnsupportedOperationException("Raw not yet implemented.");
     }
@@ -154,6 +165,7 @@ public final class MkReleaseAsset implements ReleaseAsset {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

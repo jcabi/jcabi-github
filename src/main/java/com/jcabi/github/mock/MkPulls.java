@@ -38,6 +38,7 @@ import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -77,8 +78,11 @@ final class MkPulls implements Pulls {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    MkPulls(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkPulls(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be ") final String login,
+        @NotNull(message = "rep can't be") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -93,18 +97,24 @@ final class MkPulls implements Pulls {
     }
 
     @Override
+    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "Pull is never NULL")
     public Pull get(final int number) {
         return new MkPull(this.storage, this.self, this.coords, number);
     }
 
     @Override
-    public Pull create(final String title, final String head,
-        final String base) throws IOException {
+    @NotNull(message = "created pull is never NULL")
+    public Pull create(
+        @NotNull(message = "title can't be NULL") final String title,
+        @NotNull(message = "head can't be NULL") final String head,
+        @NotNull(message = "base can't be NULL") final String base
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -123,6 +133,7 @@ final class MkPulls implements Pulls {
     }
 
     @Override
+    @NotNull(message = "Iterable of pulls is never NULL")
     public Iterable<Pull> iterate() {
         return new MkIterable<Pull>(
             this.storage,
@@ -142,6 +153,7 @@ final class MkPulls implements Pulls {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/pulls",

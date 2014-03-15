@@ -80,11 +80,13 @@ public interface Blob extends JsonReadable {
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.blob.json();
         }
 
         @Override
+        @NotNull(message = "sha is never NULL")
         public String sha() {
             return this.blob.sha();
         }
@@ -94,6 +96,7 @@ public interface Blob extends JsonReadable {
          * @return Url of blob request
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "url is never NULL")
         public String url() throws IOException {
             return this.jsn.text("url");
         }

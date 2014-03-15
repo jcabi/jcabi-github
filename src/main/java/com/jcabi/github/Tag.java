@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Tag.
@@ -45,12 +46,14 @@ public interface Tag extends JsonReadable {
      * Return owner repo.
      * @return Repo
      */
+    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
      * Return its sha.
      * @return String
      */
+    @NotNull(message = "key is never NULL")
     String key();
 
 }
