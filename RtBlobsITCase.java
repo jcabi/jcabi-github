@@ -29,44 +29,66 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtGit}.
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Test case for {@link RtBlobs}.
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtGitTest {
+public final class RtBlobsITCase {
 
     /**
-     * RtGit can fetch its own repo.
-     *
-     * @throws Exception If something goes wrong.
+     * RtBlobs can create a blob.
+     * @throws Exception If something goes wrong
      */
     @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = repo();
+    public void createsBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final Blob blob = blobs.create(
+            "Test Content", "utf-8"
+        );
         MatcherAssert.assertThat(
-            new RtGit(new FakeRequest(), repo).repo(),
-            Matchers.is(repo)
+            blob.sha(),
+            Matchers.equalTo(blob.json().getString("sha"))
+        );
+    }
+    /**
+     * RtBlobs can get a blob.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void getsBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final String content = "Content of the blob";
+        final String encoding = "base64";
+        final Blob blob = blobs.create(
+            content, encoding
+        );
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()).sha(),
+            Matchers.equalTo(blob.sha())
+        );
+        MatcherAssert.assertThat(
+            new Blob.Smart(blobs.get(blob.sha())).encoding(),
+            Matchers.equalTo(encoding)
         );
     }
 
     /**
-     * Create and return repo for testing.
-     *
+     * Create and return repo to test.
      * @return Repo
+     * @throws Exception If some problem inside
      */
-    private static Repo repo() {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "git"))
-            .when(repo).coordinates();
-        return repo;
+    private static Repo repo() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        );
     }
-
 }

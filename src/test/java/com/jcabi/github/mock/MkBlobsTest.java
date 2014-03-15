@@ -27,74 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import java.io.IOException;
-import lombok.EqualsAndHashCode;
+import com.jcabi.github.Blob;
+import com.jcabi.github.Blobs;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Test case for {@link MkBlobs).
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+public final class MkBlobsTest {
 
     /**
-     * Repository.
+     * MkBlobs should be able to create a blob.
+     *
+     * @throws Exception if a problem occurs.
      */
-    private final transient Repo owner;
+    @Test
+    public void canCreateBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final Blob blob = blobs.create("content1", "encoding1");
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()),
+            Matchers.equalTo(blob)
+        );
+    }
 
     /**
-     * RESTful entry.
+     * MkBlobs can get a blob.
+     * @throws Exception if some problem inside
      */
-    private final transient Request entry;
+    @Test
+    public void getBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final Blob created =  blobs.create("content", "base64");
+        MatcherAssert.assertThat(
+            blobs.get(created.sha()),
+            Matchers.notNullValue()
+        );
+    }
 
     /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
      */
-    public RtGit(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
+    private static Repo repo() throws Exception {
+        return new MkGithub("Jonathan").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
     }
-
-    @Override
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
-    }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }

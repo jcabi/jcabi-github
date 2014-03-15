@@ -33,68 +33,60 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
+ * Github Blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+@EqualsAndHashCode(of = {"request", "hash" })
+final class RtBlob implements Blob {
 
     /**
-     * Repository.
+     * RESTful request.
      */
-    private final transient Repo owner;
+    private final transient Request request;
 
     /**
-     * RESTful entry.
+     * Blob SHA hash.
      */
-    private final transient Request entry;
+    private final transient String hash;
 
     /**
      * Public ctor.
      * @param req Request
      * @param repo Repository
+     * @param sha Number of the get
      */
-    public RtGit(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
+    RtBlob(
+        @NotNull(message = "Request can't be NULL") final Request req,
+        @NotNull(message = "Repo can't be NULL") final Repo repo,
+        @NotNull(message = "Sha can't be NULL") final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/blobs")
+            .path(sha)
+            .back();
+        this.hash = sha;
     }
 
     @Override
-    public Repo repo() {
-        return this.owner;
+    public String sha() {
+        return this.hash;
     }
 
     @Override
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
-
-    @Override
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }
