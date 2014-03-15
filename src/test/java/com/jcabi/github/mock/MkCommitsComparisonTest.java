@@ -49,11 +49,11 @@ public final class MkCommitsComparisonTest {
     @Test
     public void getRepo() throws IOException {
         final String user = "test_user";
-        MatcherAssert.assertThat(new MkCommitsComparison(
-            new MkStorage.InFile(), user, new Coordinates.Simple(
-                user, "test_repo"
-            )
-        ).repo(), Matchers.notNullValue()
+        MatcherAssert.assertThat(
+            new MkCommitsComparison(
+                new MkStorage.InFile(), user,
+                new Coordinates.Simple(user, "test_repo")
+            ).repo(), Matchers.notNullValue()
         );
     }
 }
