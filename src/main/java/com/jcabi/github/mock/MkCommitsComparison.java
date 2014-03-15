@@ -29,65 +29,63 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommits;
+import com.jcabi.github.Repo;
 import java.io.IOException;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import javax.json.JsonObject;
+import lombok.ToString;
 
 /**
- * Test case for {@link MkRepoCommits).
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Mock commits' comparison of a Github repository.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
+ * @todo #553 MkRepoCommits.json() should return JSON object of comparison.
+ *  Let's create a test for this method and implement the method.
+ *  When done, remove this puzzle.
  */
-public final class MkRepoCommitsTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+final class MkCommitsComparison implements CommitsComparison {
 
     /**
-     * MkRepoCommits can return commits' iterator.
-     * @throws IOException If some problem inside
+     * Storage.
      */
-    @Test
-    public void returnIterator() throws IOException {
-        final String user =  "testuser1";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo1")
-        );
-        MatcherAssert.assertThat(commits.iterate(), Matchers.notNullValue());
+    private final transient MkStorage storage;
+
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
+     * Repo coordinates.
+     */
+    private final transient Coordinates coords;
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param repo Repository coordinates
+     */
+    MkCommitsComparison(final MkStorage stg, final String login,
+        final Coordinates repo) {
+        this.storage = stg;
+        this.self = login;
+        this.coords = repo;
     }
 
-    /**
-     * MkRepoCommits can get a commit.
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void getCommit() throws IOException {
-        final String user =  "testuser2";
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo2")
-        );
-        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
+    @Override
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
-    /**
-     * MkRepoCommits can compare commits.
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void canCompare() throws IOException {
-        final String user =  "testuser3";
-        MatcherAssert.assertThat(
-            new MkRepoCommits(
-                new MkStorage.InFile(),
-                user,
-                new Coordinates.Simple(user, "testrepo3")
-            ).compare("5339b8e35b", "9b2e6efde9"),
-            Matchers.notNullValue()
-        );
+    @Override
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException();
     }
 }

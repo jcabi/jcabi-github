@@ -51,11 +51,6 @@ import org.xembly.Directives;
  *  create a test for this method and implement the method. When done, remove
  *  this puzzle.
  * @todo #439 MkRepoCommits should be able to compare two commits and return
- *  comparison in diff format.
- *  Let's create a test for this method and implement the method.
- *  When done, remove this puzzle.
- *  See http://developer.github.com/v3/repos/commits/#compare-two-commits
- * @todo #439 MkRepoCommits should be able to compare two commits and return
  *  comparison in patch format.
  *  Let's create a test for this method and implement the method.
  *  When done, remove this puzzle.
@@ -136,7 +131,7 @@ final class MkRepoCommits implements RepoCommits {
         @NotNull(message = "base can't be NULL") final String base,
         @NotNull(message = "head can't be NULL") final String head
     ) {
-        throw new UnsupportedOperationException();
+        return new MkCommitsComparison(this.storage, this.self, this.coords);
     }
 
     @Override
