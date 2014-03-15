@@ -27,53 +27,83 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Blob;
+import com.jcabi.github.Coordinates;
 import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github Git Data Blobs.
+ * Mock Github Blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
  */
 @Immutable
-public interface Blobs {
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = { "storage", "coords", "hash" })
+final class MkBlob implements Blob {
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
 
     /**
-     * Owner of them.
-     * @return Repo
+     * Repository coordinates.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private final transient Coordinates coords;
 
     /**
-     * Get specific blob by sha.
-     * @param sha SHA of a blob
-     * @return Blob
-     * @see <a href="http://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
+     * Blob SHA hash.
      */
-    @NotNull(message = "Blob is never NULL")
-    Blob get(
-        @NotNull(message = "Sha is never null") String sha
-    );
+    private final transient String hash;
 
     /**
-     * Create a blob.
-     * @param content Content
-     * @param encoding Encoding
-     * @return A new blob
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
+     * Public ctor.
+     * @param stg Storage
+     * @param sha Blob sha
+     * @param repo Repo name
      */
-    @NotNull(message = "Blob is never NULL")
-    Blob create(
-        @NotNull(message = "Content is never null") String content,
-        @NotNull(message = "Encoding is never null") String encoding
-    ) throws IOException;
+    MkBlob(
+        @NotNull(message = "Storage can't be NULL") final MkStorage stg,
+        @NotNull(message = "Sha can't be NULL") final String sha,
+        @NotNull(message = "Repo can't be NULL") final Coordinates repo) {
+        this.storage = stg;
+        this.hash = sha;
+        this.coords = repo;
+    }
+
+    @Override
+    @NotNull(message = "sha is never NULL")
+    public String sha() {
+        return this.hash;
+    }
+
+    @Override
+    @NotNull(message = "JSON is never NULL")
+    public JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/blobs/blob[sha='%s']",
+            this.coords, this.sha()
+        );
+    }
 
 }

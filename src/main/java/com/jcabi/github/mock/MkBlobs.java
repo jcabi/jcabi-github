@@ -30,33 +30,25 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Blob;
 import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
 
 /**
- * Github Mock Git.
+ * Mock Github blobs.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+final class MkBlobs implements Blobs {
 
     /**
      * Storage.
@@ -78,12 +70,12 @@ public final class MkGit implements Git {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * @throws java.io.IOException If there is any I/O problem
      */
-    public MkGit(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    public MkBlobs(
+        @NotNull(message = "stg is never NULL") final MkStorage stg,
+        @NotNull(message = "login is never NULL") final String login,
+        @NotNull(message = "rep is never NULL") final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -91,10 +83,10 @@ public final class MkGit implements Git {
         this.storage.apply(
             new Directives().xpath(
                 String.format(
-                    "/github/repos/repo[@coords='%s']",
+                    "/github/repos/repo[@coords='%s']/git",
                     this.coords
                 )
-            ).addIf("git")
+            ).addIf("blobs")
         );
     }
 
@@ -103,43 +95,58 @@ public final class MkGit implements Git {
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
-
-    @Override
-    @NotNull(message = "blobs is never NULL")
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    /**
+     * Gets a mocked Blob.
+     * @param sha Blob sha
+     * @return Mocked Blob
+     */
+    @NotNull(message = "blob is never NULL")
+    public Blob get(
+        @NotNull(message = "Sha can't be NULL") final String sha) {
+        return new MkBlob(this.storage, sha, this.coords);
     }
-
     @Override
-    @NotNull(message = "commits is never NULL")
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    @NotNull(message = "References is never NULL")
-    public References references() {
+    @NotNull(message = "created blob is never NULL")
+    public Blob create(
+        @NotNull(message = "Content can't be NULL") final String content,
+        @NotNull(message = "Encoding can't be NULL") final String encoding)
+        throws IOException {
+        this.storage.lock();
+        final String sha = fakeSha();
         try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("blob")
+                    .add("sha").set(sha).up()
+                    .add("url").set("http://localhost/1").up()
+                    .attr("content", content)
+                    .attr("encoding", encoding)
+            );
+        } finally {
+            this.storage.unlock();
         }
+        return this.get(sha);
     }
 
-    @Override
-    @NotNull(message = "Tags is never NULL")
-    public Tags tags() {
-        try {
-            return new MkTags(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/blobs",
+            this.coords
+        );
     }
 
-    @Override
-    @NotNull(message = "Trees is never NULL")
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+    /**
+     * Generate a random fake SHA hex string.
+     *
+     * @return Fake SHA string.
+     */
+    private static String fakeSha() {
+        // @checkstyle MagicNumberCheck (1 line)
+        return RandomStringUtils.random(40, "0123456789abcdef");
     }
 
 }

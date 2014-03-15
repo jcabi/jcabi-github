@@ -30,50 +30,75 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github Git Data Blobs.
+ * Github Git blob.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public interface Blobs {
-
+public interface Blob extends JsonReadable {
     /**
-     * Owner of them.
-     * @return Repo
+     * SHA of it.
+     * @return SHA
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
+    @NotNull(message = "commit SHA is never NULL")
+    String sha();
     /**
-     * Get specific blob by sha.
-     * @param sha SHA of a blob
-     * @return Blob
-     * @see <a href="http://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
+     * Smart Blob with extra features.
      */
-    @NotNull(message = "Blob is never NULL")
-    Blob get(
-        @NotNull(message = "Sha is never null") String sha
-    );
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "blob", "jsn" })
+    final class Smart implements Blob {
+        /**
+         * Encapsulated blob.
+         */
+        private final transient Blob blob;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
+         * Public ctor.
+         * @param blb Blob
+         */
+        public Smart(
+            @NotNull(message = "Blob can't be NULL") final Blob blb) {
+            this.blob = blb;
+            this.jsn = new SmartJson(blb);
+        }
 
-    /**
-     * Create a blob.
-     * @param content Content
-     * @param encoding Encoding
-     * @return A new blob
-     * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
-     */
-    @NotNull(message = "Blob is never NULL")
-    Blob create(
-        @NotNull(message = "Content is never null") String content,
-        @NotNull(message = "Encoding is never null") String encoding
-    ) throws IOException;
+        @Override
+        @NotNull(message = "JSON is never NULL")
+        public JsonObject json() throws IOException {
+            return this.blob.json();
+        }
 
+        @Override
+        @NotNull(message = "sha is never NULL")
+        public String sha() {
+            return this.blob.sha();
+        }
+
+        /**
+         * Get its url.
+         * @return Url of blob request
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "url is never NULL")
+        public String url() throws IOException {
+            return this.jsn.text("url");
+        }
+    }
 }

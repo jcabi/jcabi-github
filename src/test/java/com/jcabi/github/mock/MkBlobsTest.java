@@ -27,46 +27,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.http.request.FakeRequest;
+import com.jcabi.github.Blob;
+import com.jcabi.github.Blobs;
+import com.jcabi.github.Repo;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtGit}.
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Test case for {@link MkBlobs).
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-public final class RtGitTest {
+public final class MkBlobsTest {
 
     /**
-     * RtGit can fetch its own repo.
+     * MkBlobs should be able to create a blob.
      *
-     * @throws Exception If something goes wrong.
+     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = repo();
+    public void canCreateBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final Blob blob = blobs.create("content1", "encoding1");
         MatcherAssert.assertThat(
-            new RtGit(new FakeRequest(), repo).repo(),
-            Matchers.is(repo)
+            blobs.get(blob.sha()),
+            Matchers.equalTo(blob)
         );
     }
 
     /**
-     * Create and return repo for testing.
-     *
-     * @return Repo
+     * MkBlobs can get a blob.
+     * @throws Exception if some problem inside
      */
-    private static Repo repo() {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "git"))
-            .when(repo).coordinates();
-        return repo;
+    @Test
+    public void getBlob() throws Exception {
+        final Blobs blobs = repo().git().blobs();
+        final Blob created =  blobs.create("content", "base64");
+        MatcherAssert.assertThat(
+            blobs.get(created.sha()),
+            Matchers.notNullValue()
+        );
     }
 
+    /**
+     * Create a repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo() throws Exception {
+        return new MkGithub("Jonathan").repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 }

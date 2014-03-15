@@ -194,7 +194,7 @@ final class RtRepo implements Repo {
     @Override
     @NotNull(message = "Git is never NULL")
     public Git git() {
-        return new RtGit(this, this.entry);
+        return new RtGit(this.entry, this);
     }
 
     @Override

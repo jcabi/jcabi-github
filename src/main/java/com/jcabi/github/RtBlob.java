@@ -29,44 +29,66 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.request.FakeRequest;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.mockito.Mockito;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link RtGit}.
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Blob.
+ *
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
-public final class RtGitTest {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = {"request", "hash" })
+final class RtBlob implements Blob {
 
     /**
-     * RtGit can fetch its own repo.
-     *
-     * @throws Exception If something goes wrong.
+     * RESTful request.
      */
-    @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = repo();
-        MatcherAssert.assertThat(
-            new RtGit(new FakeRequest(), repo).repo(),
-            Matchers.is(repo)
-        );
-    }
+    private final transient Request request;
 
     /**
-     * Create and return repo for testing.
-     *
-     * @return Repo
+     * Blob SHA hash.
      */
-    private static Repo repo() {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(new Coordinates.Simple("test", "git"))
-            .when(repo).coordinates();
-        return repo;
+    private final transient String hash;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     * @param repo Repository
+     * @param sha Number of the get
+     */
+    RtBlob(
+        @NotNull(message = "Request can't be NULL") final Request req,
+        @NotNull(message = "Repo can't be NULL") final Repo repo,
+        @NotNull(message = "Sha can't be NULL") final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/blobs")
+            .path(sha)
+            .back();
+        this.hash = sha;
     }
 
+    @Override
+    @NotNull(message = "sha is never NULL")
+    public String sha() {
+        return this.hash;
+    }
+
+    @Override
+    @NotNull(message = "JSON is never NULL")
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 }

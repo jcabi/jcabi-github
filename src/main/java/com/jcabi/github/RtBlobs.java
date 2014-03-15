@@ -32,21 +32,33 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Git Data Blobs.
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+@EqualsAndHashCode(of = { "entry", "owner", "request" })
+final class RtBlobs implements Blobs {
+
+    /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
 
     /**
      * Repository.
@@ -54,54 +66,56 @@ public final class RtGit implements Git {
     private final transient Repo owner;
 
     /**
-     * RESTful entry.
-     */
-    private final transient Request entry;
-
-    /**
      * Public ctor.
      * @param req Request
      * @param repo Repository
      */
-    public RtGit(final Request req, final Repo repo) {
+    public RtBlobs(
+        @NotNull(message = "Request can't be NULL") final Request req,
+        @NotNull(message = "Repo can't be NULL") final Repo repo) {
         this.entry = req;
+        final Coordinates coords = repo.coordinates();
+        this.request = this.entry.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/blobs")
+            .back();
         this.owner = repo;
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "blobs can't be NULL")
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
+    @NotNull(message = "blob is never NULL")
+    public Blob get(
+        @NotNull(message = "Sha can't be NULL") final String sha) {
+        return new RtBlob(this.entry, this.owner, sha);
     }
 
     @Override
-    @NotNull(message = "commits can't be NULL")
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+    @NotNull(message = "created blob is never NULL")
+    public Blob create(
+        @NotNull(message = "content can't be NULL") final String content,
+        @NotNull(message = "encoding can't be NULL") final String encoding)
+        throws IOException {
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("content", content)
+                        .add("encoding", encoding)
+                        .build()
+                ).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
+        );
     }
-
-    @Override
-    @NotNull(message = "references can't be NULL")
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "tags can't be NULL")
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "trees can't be NULL")
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }
