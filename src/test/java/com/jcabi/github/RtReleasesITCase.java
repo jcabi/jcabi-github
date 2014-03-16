@@ -30,11 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import java.io.IOException;
+import javax.json.Json;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -42,9 +44,6 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @todo #551 RtReleasesITCase is disabled since it doesn't work
- *  with real Github account. Let's fix it and remove all
- *  Ignore annotations from all its test methods.
  */
 public final class RtReleasesITCase {
 
@@ -53,20 +52,23 @@ public final class RtReleasesITCase {
      * @throws Exception if something goes wrong
      */
     @Test
-    @Ignore
     public void canFetchAllReleases() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
-        final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
-        );
-        final int number = release.number();
+        final Repo repo = RtReleasesITCase.repo();
         try {
-            MatcherAssert.assertThat(
-                releases.iterate(),
-                Matchers.not(Matchers.emptyIterableOf(Release.class))
+            final Releases releases = repo.releases();
+            final Release release = releases.create(
+                RandomStringUtils.randomAlphabetic(Tv.TEN)
             );
+            try {
+                MatcherAssert.assertThat(
+                    releases.iterate(),
+                    Matchers.not(Matchers.emptyIterableOf(Release.class))
+                );
+            } finally {
+                releases.remove(release.number());
+            }
         } finally {
-            releases.remove(number);
+            RtReleasesITCase.remove(repo);
         }
     }
 
@@ -75,20 +77,24 @@ public final class RtReleasesITCase {
      * @throws Exception if any error inside
      */
     @Test
-    @Ignore
     public void canFetchRelease() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
-        final String tag = "v1.0";
-        final Release release = releases.create(tag);
-        MatcherAssert.assertThat(
-            releases.get(release.number()).number(),
-            Matchers.equalTo(release.number())
-        );
-        MatcherAssert.assertThat(
-            releases.get(release.number()).json().getString("tag_name"),
-            Matchers.equalTo(tag)
-        );
-        releases.remove(release.number());
+        final Repo repo = RtReleasesITCase.repo();
+        try {
+            final Releases releases = repo.releases();
+            final String tag = "v1.0";
+            final Release release = releases.create(tag);
+            MatcherAssert.assertThat(
+                releases.get(release.number()).number(),
+                Matchers.equalTo(release.number())
+            );
+            MatcherAssert.assertThat(
+                releases.get(release.number()).json().getString("tag_name"),
+                Matchers.equalTo(tag)
+            );
+            releases.remove(release.number());
+        } finally {
+            RtReleasesITCase.remove(repo);
+        }
     }
 
     /**
@@ -96,24 +102,27 @@ public final class RtReleasesITCase {
      * @throws Exception if any error inside
      */
     @Test
-    @Ignore
     public void canCreateRelease() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
-        final String tag = "0.1";
-        final Release created = releases.create(tag);
-        final int number = created.number();
+        final Repo repo = RtReleasesITCase.repo();
         try {
-            final Release obtained = releases.get(number);
-            MatcherAssert.assertThat(
-                created,
-                Matchers.is(obtained)
-            );
-            MatcherAssert.assertThat(
-                new Release.Smart(created).tag(),
-                Matchers.equalTo(new Release.Smart(obtained).tag())
-            );
+            final Releases releases = repo.releases();
+            final Release created = releases.create("0.1");
+            final int number = created.number();
+            try {
+                final Release obtained = releases.get(number);
+                MatcherAssert.assertThat(
+                    created,
+                    Matchers.is(obtained)
+                );
+                MatcherAssert.assertThat(
+                    new Release.Smart(created).tag(),
+                    Matchers.equalTo(new Release.Smart(obtained).tag())
+                );
+            } finally {
+                releases.remove(number);
+            }
         } finally {
-            releases.remove(number);
+            RtReleasesITCase.remove(repo);
         }
     }
 
@@ -122,21 +131,25 @@ public final class RtReleasesITCase {
      * @throws Exception if any problem inside
      */
     @Test
-    @Ignore
     public void canRemoveRelease() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
-        final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
-        );
-        MatcherAssert.assertThat(
-            releases.iterate(),
-            Matchers.hasItem(release)
-        );
-        releases.remove(release.number());
-        MatcherAssert.assertThat(
-            releases.iterate(),
-            Matchers.not(Matchers.hasItem(release))
-        );
+        final Repo repo = RtReleasesITCase.repo();
+        try {
+            final Releases releases = repo.releases();
+            final Release release = releases.create(
+                RandomStringUtils.randomAlphabetic(Tv.TEN)
+            );
+            MatcherAssert.assertThat(
+                releases.iterate(),
+                Matchers.hasItem(release)
+            );
+            releases.remove(release.number());
+            MatcherAssert.assertThat(
+                releases.iterate(),
+                Matchers.not(Matchers.hasItem(release))
+            );
+        } finally {
+            RtReleasesITCase.remove(repo);
+        }
     }
 
     /**
@@ -144,19 +157,23 @@ public final class RtReleasesITCase {
      * @throws Exception if any problem inside.
      */
     @Test
-    @Ignore
     public void canEditTag() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
-        final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
-        );
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
-        new Release.Smart(release).tag(tag);
-        MatcherAssert.assertThat(
-            new Release.Smart(releases.get(release.number())).tag(),
-            Matchers.equalTo(tag)
-        );
-        releases.remove(release.number());
+        final Repo repo = RtReleasesITCase.repo();
+        try {
+            final Releases releases = repo.releases();
+            final Release release = releases.create(
+                RandomStringUtils.randomAlphabetic(Tv.TEN)
+            );
+            final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
+            new Release.Smart(release).tag(tag);
+            MatcherAssert.assertThat(
+                new Release.Smart(releases.get(release.number())).tag(),
+                Matchers.equalTo(tag)
+            );
+            releases.remove(release.number());
+        } finally {
+            RtReleasesITCase.remove(repo);
+        }
     }
 
     /**
@@ -164,31 +181,64 @@ public final class RtReleasesITCase {
      * @throws Exception if any problem inside.
      */
     @Test
-    @Ignore
     public void canEditBody() throws Exception {
-        final Releases releases = RtReleasesITCase.releases();
-        final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
-        );
-        final String body = "Description of the release";
-        new Release.Smart(release).body(body);
-        MatcherAssert.assertThat(
-            new Release.Smart(releases.get(release.number())).body(),
-            Matchers.equalTo(body)
-        );
-        releases.remove(release.number());
+        final Repo repo = RtReleasesITCase.repo();
+        try {
+            final Releases releases = repo.releases();
+            final Release release = releases.create(
+                RandomStringUtils.randomAlphabetic(Tv.TEN)
+            );
+            final String body = "Description of the release";
+            new Release.Smart(release).body(body);
+            MatcherAssert.assertThat(
+                new Release.Smart(releases.get(release.number())).body(),
+                Matchers.equalTo(body)
+            );
+            releases.remove(release.number());
+        } finally {
+            RtReleasesITCase.remove(repo);
+        }
     }
 
     /**
-     * Create and return RtReleases object to test.
-     * @return Releases
+     * Create and return not empty RtRepo object to test.
+     * @return Repo
+     * @throws IOException if any problem inside.
      */
-    private static Releases releases() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).releases();
+    private static Repo repo() throws IOException {
+        final Repo repo = RtReleasesITCase.repos().create(
+            Json.createObjectBuilder().add(
+                "name", String.format("repo_%d", System.currentTimeMillis())
+            ).build()
+        );
+        repo.contents().create(Json.createObjectBuilder()
+            .add("path", RandomStringUtils.randomAlphabetic(Tv.TEN))
+            .add("message", "theMessage")
+            .add(
+                "content", new String(
+                    Base64.encodeBase64("some content".getBytes())
+                )
+            ).build()
+        );
+        return repo;
     }
 
+    /**
+     * Get RtRepos of test repository.
+     * @return Repos
+     */
+    private static Repos repos() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos();
+    }
+
+    /**
+     * Remove specified repo.
+     * @param repo Repo
+     * @throws IOException if any problem inside.
+     */
+    private static void remove(final Repo repo) throws IOException {
+        RtReleasesITCase.repos().remove(repo.coordinates());
+    }
 }
