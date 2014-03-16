@@ -74,7 +74,13 @@ final class MkRepoCommit implements RepoCommit {
      * @param repo The repository
      * @param sha Commit SHA
      */
-    MkRepoCommit(final MkStorage stg, final Repo repo, final String sha) {
+    MkRepoCommit(
+        @NotNull(message = "storage must not be NULL")
+        final MkStorage stg,
+        @NotNull(message = "repo must not be null")
+        final Repo repo,
+        @NotNull(message = "sha must not be NULL")
+        final String sha) {
         this.storage = stg;
         this.repository = repo;
         this.hash = sha;
