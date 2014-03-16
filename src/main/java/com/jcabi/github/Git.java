@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -53,21 +54,10 @@ public interface Git {
      * Get its blobs.
      * @return Blobs
      * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
-     * @todo #115:1hr Implement the Git Data Blobs API. We need to implement the
-     *  following:
-     *  1) Add the operations in http://developer.github.com/v3/git/blobs/ to
-     *  the Blobs interface.
-     *  2) A class RtBlobs, which performs RESTful request operations against
-     *  the Blobs API.
-     *  3) A class MkBlobs, which mocks the Blobs interface
-     *  4) an interface Blob, which represents a single Blob of the Git Data API
-     *  5) RtBlob, a Blob implementation which fetches and
-     *  modifies Blob information according to the Blob API. and
-     *  6) MkBlob, which mocks a single Blob object.
-     *  Don't forget to implement unit and integration tests.
+     * @throws IOException If some io problem occurs
      */
     @NotNull(message = "Blobs is never NULL")
-    Blobs blobs();
+    Blobs blobs() throws IOException;
 
     /**
      * Get its commits.
@@ -96,22 +86,9 @@ public interface Git {
     References references();
 
     /**
-     * Get its trees.
+     * Get its tags.
      * @return Tags
      * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
-     * @todo #115:1hr Implement the Git Data Tags API. We need to
-     *  implement the following:
-     *  1) Add the operations in http://developer.github.com/v3/git/tags/
-     *  to the Tags interface.
-     *  2) A class RtTags, which performs RESTful request operations
-     *  against the Tags API.
-     *  3) A class MkTags, which mocks the Tags interface.
-     *  4) An interface Tag, which represents a single Tag of the
-     *  Git Data API.
-     *  5) RtTags, a Tag implementation which fetches and modifies
-     *  Tag information according to the Tags API, and
-     *  6) MkTag, which mocks a single Reference object.
-     *  Don't forget to implement unit tests and integration tests.
      */
     @NotNull(message = "Tags is never NULL")
     Tags tags();

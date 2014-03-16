@@ -128,7 +128,9 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * Public ctor.
          * @param evt Event
          */
-        public Smart(final Event evt) {
+        public Smart(
+            @NotNull(message = "evt can't be NULL") final Event evt
+        ) {
             this.event = evt;
             this.jsn = new SmartJson(evt);
         }
@@ -137,6 +139,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "user is never NULL")
         public User author() throws IOException {
             return this.event.repo().github().users().get(
                 this.event.json().getJsonObject("actor").getString("login")
@@ -147,6 +150,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "type can't be NULL")
         public String type() throws IOException {
             return this.jsn.text("event");
         }
@@ -155,6 +159,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -163,6 +168,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "Date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -173,6 +179,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
             }
         }
         @Override
+        @NotNull(message = "Repository is never NULL")
         public Repo repo() {
             return this.event.repo();
         }
@@ -181,11 +188,14 @@ public interface Event extends Comparable<Event>, JsonReadable {
             return this.event.number();
         }
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.event.json();
         }
         @Override
-        public int compareTo(final Event obj) {
+        public int compareTo(
+            @NotNull(message = "obj can't be NULL") final Event obj
+        ) {
             return this.event.compareTo(obj);
         }
     }

@@ -36,6 +36,7 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -88,6 +89,7 @@ public final class RtRelease implements Release {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -98,22 +100,27 @@ public final class RtRelease implements Release {
     }
 
     @Override
+    @NotNull(message = "ReleaseAssets is never NULL")
     public ReleaseAssets assets() {
         return new RtReleaseAssets(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new RtJson(this.request).patch(json);
     }
 

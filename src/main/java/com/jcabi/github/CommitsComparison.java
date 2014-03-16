@@ -75,7 +75,10 @@ public interface CommitsComparison extends JsonReadable {
          * Public ctor.
          * @param cmprsn Commits comparison
          */
-        public Smart(final CommitsComparison cmprsn) {
+        public Smart(
+            @NotNull(message = "cmprsn can't be NULL")
+            final CommitsComparison cmprsn
+        ) {
             this.comparison = cmprsn;
         }
 
@@ -84,6 +87,7 @@ public interface CommitsComparison extends JsonReadable {
          * @return Commits
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "Iterable of commits is never NULL")
         public Iterable<RepoCommit> commits() throws IOException {
             final JsonArray array = this.comparison.json()
                 .getJsonArray("commits");
@@ -103,16 +107,19 @@ public interface CommitsComparison extends JsonReadable {
          * @return JSON-array
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "json array is never NULL")
         public JsonArray files() throws IOException {
             return this.comparison.json().getJsonArray("files");
         }
 
         @Override
+        @NotNull(message = "Repository is never NULL")
         public Repo repo() {
             return this.comparison.repo();
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.comparison.json();
         }

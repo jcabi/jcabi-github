@@ -101,6 +101,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
      */
+    @NotNull(message = "PullComments is never NULL")
     PullComments comments() throws IOException;
 
     /**
@@ -123,7 +124,9 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * Public ctor.
          * @param pll Pull request
          */
-        public Smart(final Pull pll) {
+        public Smart(
+            @NotNull(message = "pll can't be NULL") final Pull pll
+        ) {
             this.pull = pll;
             this.jsn = new SmartJson(pll);
         }
@@ -140,6 +143,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return State of pull request
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "state is never NULL")
         public String state() throws IOException {
             return this.jsn.text("state");
         }
@@ -148,7 +152,9 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @param state State of pull request
          * @throws IOException If there is any I/O problem
          */
-        public void state(final String state) throws IOException {
+        public void state(
+            @NotNull(message = "state can't be NULL") final String state
+        ) throws IOException {
             this.pull.patch(
                 Json.createObjectBuilder().add("state", state).build()
             );
@@ -158,6 +164,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Body of pull request
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "title can't be NULL")
         public String title() throws IOException {
             return this.jsn.text("title");
         }
@@ -166,7 +173,9 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @param text Text of pull request
          * @throws IOException If there is any I/O problem
          */
-        public void title(final String text) throws IOException {
+        public void title(
+            @NotNull(message = "text can't be NULL") final String text
+        ) throws IOException {
             this.pull.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
@@ -176,6 +185,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Title of pull request
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "body is never NULL")
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -184,7 +194,9 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @param text Body of pull request
          * @throws IOException If there is any I/O problem
          */
-        public void body(final String text) throws IOException {
+        public void body(
+            @NotNull(message = "text can't be NULL") final String text
+        ) throws IOException {
             this.pull.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -194,6 +206,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return URL of pull request
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "url is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -202,6 +215,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return URL of pull request
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "url is never NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -210,6 +224,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "date shouldn't NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -224,6 +239,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "date is not NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -238,6 +254,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of closing
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "date can't NULL")
         public Date closedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -252,6 +269,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of merging
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "date is never NULL")
         public Date mergedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -280,6 +298,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             return this.jsn.number("comments");
         }
         @Override
+        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.pull.repo();
         }
@@ -288,33 +307,43 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             return this.pull.number();
         }
         @Override
+        @NotNull(message = "Iterable of commits is never NULL")
         public Iterable<Commit> commits() throws IOException {
             return this.pull.commits();
         }
         @Override
+        @NotNull(message = "Iterable if json objects is never NULL")
         public Iterable<JsonObject> files() throws IOException {
             return this.pull.files();
         }
         @Override
-        public void merge(final String msg) throws IOException {
+        public void merge(
+            @NotNull(message = "msg can't be NULL") final String msg
+        ) throws IOException {
             this.pull.merge(msg);
         }
 
         @Override
+        @NotNull(message = "comments is never NULL")
         public PullComments comments() throws IOException {
             return this.pull.comments();
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.pull.json();
         }
         @Override
-        public void patch(final JsonObject json) throws IOException {
+        public void patch(
+            @NotNull(message = "json can't be NULL") final JsonObject json
+        ) throws IOException {
             this.pull.patch(json);
         }
         @Override
-        public int compareTo(final Pull obj) {
+        public int compareTo(
+            @NotNull(message = "obj can't be NULL") final Pull obj
+        ) {
             return this.pull.compareTo(obj);
         }
     }

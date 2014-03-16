@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -80,13 +81,17 @@ final class RtReferences implements References {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Reference create(final String ref, final String sha)
-        throws IOException {
+    @NotNull(message = "reference is never NULL")
+    public Reference create(
+        @NotNull(message = "ref can't be NULL") final String ref,
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) throws IOException {
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", sha).add("ref", ref).build();
         return this.get(
@@ -100,11 +105,15 @@ final class RtReferences implements References {
     }
 
     @Override
-    public Reference get(final String identifier) {
+    @NotNull(message = "reference is never NULL")
+    public Reference get(
+        @NotNull(message = "identifier can't be NULL") final String identifier
+    ) {
         return new RtReference(this.entry, this.owner, identifier);
     }
 
     @Override
+    @NotNull(message = "Iterable of references is never NULL")
     public Iterable<Reference> iterate() {
         return new RtPagination<Reference>(
             this.request,
@@ -118,7 +127,9 @@ final class RtReferences implements References {
     }
 
     @Override
-    public void remove(final String identifier) throws IOException {
+    public void remove(
+        @NotNull(message = "identifier can't be NULL") final String identifier
+    ) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(identifier).back().fetch()
             .as(RestResponse.class)

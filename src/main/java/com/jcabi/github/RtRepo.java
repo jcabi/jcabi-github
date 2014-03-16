@@ -90,41 +90,49 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.coords.toString();
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "Coordinates is never NULL")
     public Coordinates coordinates() {
         return this.coords;
     }
 
     @Override
+    @NotNull(message = "Issues is never NULL")
     public Issues issues() {
         return new RtIssues(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Milestones is never NULL")
     public Milestones milestones() {
         return new RtMilestones(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Pulls is never NULL")
     public Pulls pulls() {
         return new RtPulls(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Hooks is never NULL")
     public Hooks hooks() {
         return new RtHooks(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Iterable of events is never NULL")
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/issues/events").back(),
@@ -142,43 +150,51 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Labels is never NULL")
     public Labels labels() {
         return new RtLabels(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Assignees is never NULL")
     public Assignees assignees() {
         return new RtAssignees(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Releases is never NULL")
     public Releases releases() {
         return new RtReleases(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "DeployKeys is never NULL")
     public DeployKeys keys() {
         return new RtDeployKeys(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Forks is never NULL")
     public Forks forks() {
         return new RtForks(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Contents is never NULL")
     public Contents contents() {
         return new RtContents(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Collaborators is never NULL")
     public Collaborators collaborators() {
         return new RtCollaborators(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "Git is never NULL")
     public Git git() {
-        return new RtGit(this, this.entry);
+        return new RtGit(this.entry, this);
     }
 
     @Override
@@ -189,11 +205,13 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "RepoCommits is never NULL")
     public RepoCommits commits() {
         return new RtRepoCommits(this.entry, this);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
