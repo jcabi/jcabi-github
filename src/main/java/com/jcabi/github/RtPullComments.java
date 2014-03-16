@@ -32,11 +32,15 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -49,7 +53,6 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
 public final class RtPullComments implements PullComments {
-
     /**
      * API entry point.
      */
@@ -84,16 +87,19 @@ public final class RtPullComments implements PullComments {
     }
 
     @Override
+    @NotNull(message = "Pull is never NUll")
     public Pull pull() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "PullComment is never NULL")
     public PullComment get(final int number) {
         return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
+    @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(final Map<String, String> params) {
         return new RtPagination<PullComment>(
             this.request.uri().queryParams(params).back(),
@@ -101,6 +107,7 @@ public final class RtPullComments implements PullComments {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(
+                        // @checkstyle MultipleStringLiterals (1 line)
                         value.getInt("id")
                     );
                 }
@@ -109,21 +116,47 @@ public final class RtPullComments implements PullComments {
     }
 
     @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
+    @NotNull(message = "Iterable of pull comments is never NULL")
+    public Iterable<PullComment> iterate(
+        final int number,
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    ) {
         throw new UnsupportedOperationException("Iterate not yet implemented.");
     }
-
-    // @checkstyle ParameterNumberCheck (3 lines)
+    // @checkstyle ParameterNumberCheck (7 lines)
     @Override
-    public PullComment post(final String body, final String commit,
-        final String path, final int position) throws IOException {
-        throw new UnsupportedOperationException("Post not yet implemented.");
+    @NotNull(message = "PullComment is never NULL")
+    public PullComment post(
+        @NotNull(message = "body can't be NULL") final String body,
+        @NotNull(message = "commit can't be NULL") final String commit,
+        @NotNull(message = "path can't be NULL") final String path,
+        final int position
+    ) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("body", body)
+            .add("commit_id", commit)
+            .add("path", path)
+            .add("position", position)
+            .build();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                // @checkstyle MultipleStringLiterals (1 line)
+                .json().readObject().getInt("id")
+        );
     }
 
     @Override
-    public PullComment reply(final String text,
-        final int comment) throws IOException {
+    @NotNull(message = "pull comment is never NULL")
+    public PullComment reply(
+        @NotNull(message = "text can't be NULL") final String text,
+        @NotNull(message = "comment can't be NULL") final int comment
+    ) throws IOException {
         throw new UnsupportedOperationException("Reply not yet implemented.");
     }
 

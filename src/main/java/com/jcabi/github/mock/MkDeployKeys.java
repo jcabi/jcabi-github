@@ -37,6 +37,7 @@ import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -76,8 +77,11 @@ public final class MkDeployKeys implements DeployKeys {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    MkDeployKeys(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkDeployKeys(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -89,22 +93,29 @@ public final class MkDeployKeys implements DeployKeys {
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "Iterable of deploy keys is never NULL")
     public Iterable<DeployKey> iterate() {
         return Collections.emptyList();
     }
 
     @Override
+    @NotNull(message = "deploy key is never NULL")
     public DeployKey get(final int number) {
         return new MkDeployKey(this.storage, number, this.repo());
     }
 
     @Override
-    public DeployKey create(final String title, final String key)
+    @NotNull(message = "created key is never NULL")
+    public DeployKey create(
+        @NotNull(message = "title can't be NULL") final String title,
+        @NotNull(message = "key can't be NULL") final String key
+    )
         throws IOException {
         this.storage.lock();
         final int number;
@@ -129,6 +140,7 @@ public final class MkDeployKeys implements DeployKeys {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/deploykeys",

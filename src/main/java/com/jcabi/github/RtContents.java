@@ -88,11 +88,13 @@ public final class RtContents implements Contents {
     }
 
     @Override
+    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "Content can't be NULL")
     public Content readme() throws IOException {
         return new RtContent(
             this.entry, this.owner,
@@ -112,7 +114,10 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public Content readme(final String branch) throws IOException {
+    @NotNull(message = "Content can't be NULL")
+    public Content readme(
+        @NotNull(message = "branch can't be NULL") final String branch
+    ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("ref", branch)
             .build();
@@ -135,7 +140,10 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public Content create(final JsonObject content)
+    @NotNull(message = "Content can't be NULL")
+    public Content create(
+        @NotNull(message = "JSON can't be NULL") final JsonObject content
+    )
         throws IOException {
         if (!content.containsKey("path")) {
             throw new IllegalStateException(
@@ -157,7 +165,11 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public Content get(final String path, final String ref)
+    @NotNull(message = "Content can't be NULL")
+    public Content get(
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "ref can't be NULL") final String ref
+    )
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("path", path)
@@ -176,7 +188,10 @@ public final class RtContents implements Contents {
     }
 
     @Override
-    public RepoCommit remove(final JsonObject content)
+    @NotNull(message = "Repo commit is never NULL")
+    public RepoCommit remove(@NotNull(message = "content can't be NULL")
+        final JsonObject content
+    )
         throws IOException {
         if (!content.containsKey("path")) {
             throw new IllegalStateException(
@@ -198,6 +213,7 @@ public final class RtContents implements Contents {
     }
 
     @Override
+    @NotNull(message = "RepoCommit can't be NULL")
     public RepoCommit update(
         @NotNull(message = "path is never NULL") final String path,
         @NotNull(message = "json is never NULL") final JsonObject json)

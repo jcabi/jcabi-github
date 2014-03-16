@@ -37,6 +37,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -72,8 +73,11 @@ final class MkForks implements Forks {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkForks(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    public MkForks(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -87,6 +91,7 @@ final class MkForks implements Forks {
         );
     }
     @Override
+    @NotNull(message = "Repo can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -95,11 +100,15 @@ final class MkForks implements Forks {
      * @param forkid Fork id
      * @return Mocked Fork
      */
+    @NotNull(message = "fork can't be NULL")
     public Fork get(final int forkid) {
         return new MkFork(this.storage, forkid, this.coords);
     }
     @Override
-    public Iterable<Fork> iterate(final String sort) {
+    @NotNull(message = "Iterable of forks can't be NULL")
+    public Iterable<Fork> iterate(
+        @NotNull(message = "sort can't be NULL") final String sort
+    ) {
         return new MkIterable<Fork>(
             this.storage,
             String.format("%s/fork", this.xpath()),
@@ -114,7 +123,10 @@ final class MkForks implements Forks {
         );
     }
     @Override
-    public Fork create(final String org) throws IOException {
+    @NotNull(message = "created fork is never NULLs")
+    public Fork create(
+        @NotNull(message = "org can't be NULL") final String org
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -140,6 +152,7 @@ final class MkForks implements Forks {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/forks",

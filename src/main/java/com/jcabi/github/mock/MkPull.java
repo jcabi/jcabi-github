@@ -43,6 +43,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -87,8 +88,11 @@ final class MkPull implements Pull {
      * @param number Pull request number
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkPull(final MkStorage stg, final String login,
-        final Coordinates rep, final int number) {
+    MkPull(
+        @NotNull(message = "stg is never NULL") final MkStorage stg,
+        @NotNull(message = "login is never NULL") final String login,
+        @NotNull(message = "rep is never NULL") final Coordinates rep,
+        final int number) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -96,6 +100,7 @@ final class MkPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -106,36 +111,46 @@ final class MkPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "Iterable of commits is never NULL")
     public Iterable<Commit> commits() throws IOException {
         return Collections.emptyList();
     }
 
     @Override
+    @NotNull(message = "Iterable of files is never NULL")
     public Iterable<JsonObject> files() throws IOException {
         return Collections.emptyList();
     }
 
     @Override
-    public void merge(final String msg) throws IOException {
+    public void merge(
+        @NotNull(message = "msg can't be NULL") final String msg
+    ) throws IOException {
         // nothing to do here
     }
 
     @Override
+    @NotNull(message = "comments is never NULL")
     public PullComments comments() throws IOException {
         return new MkPullComments(this.storage, this.self, this.coords, this);
     }
 
     @Override
-    public int compareTo(final Pull pull) {
+    public int compareTo(
+        @NotNull(message = "pull cannot be NULL") final Pull pull
+    ) {
         return this.number() - pull.number();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         final JsonObject obj = new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -155,6 +170,7 @@ final class MkPull implements Pull {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
@@ -166,6 +182,7 @@ final class MkPull implements Pull {
      * XPath of issue element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "comment is never NULL")
     private String comment() {
         return String.format(
             // @checkstyle LineLengthCheck (1 line)

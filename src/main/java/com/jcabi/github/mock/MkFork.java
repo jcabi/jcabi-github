@@ -35,6 +35,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -71,7 +72,11 @@ public final class MkFork implements Fork {
      * @param number Fork id
      * @param repo Repo name
      */
-    MkFork(final MkStorage stg, final int number, final Coordinates repo) {
+    MkFork(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        final int number,
+        @NotNull(message = "repo can't be NULL") final Coordinates repo
+    ) {
         this.storage = stg;
         this.num = number;
         this.coords = repo;
@@ -83,6 +88,7 @@ public final class MkFork implements Fork {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -90,7 +96,9 @@ public final class MkFork implements Fork {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -98,6 +106,7 @@ public final class MkFork implements Fork {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/forks/fork[id='%d']",

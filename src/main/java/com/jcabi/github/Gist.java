@@ -141,7 +141,7 @@ public interface Gist extends JsonReadable {
          * Public ctor.
          * @param gst Gist
          */
-        public Smart(final Gist gst) {
+        public Smart(@NotNull(message = "gst can't be NULL") final Gist gst) {
             this.gist = gst;
         }
 
@@ -150,6 +150,7 @@ public interface Gist extends JsonReadable {
          * @return Gist id
          */
         @Override
+        @NotNull(message = "identifier is never NULL")
         public String identifier() {
             return this.gist.identifier();
         }
@@ -159,6 +160,7 @@ public interface Gist extends JsonReadable {
          * @return File names
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "Iterable of files is never NULL")
         public Iterable<String> files() throws IOException {
             final JsonObject array = this.gist.json().getJsonObject("files");
             final Collection<String> files =
@@ -169,16 +171,22 @@ public interface Gist extends JsonReadable {
             return files;
         }
         @Override
+        @NotNull(message = "Github is never NULL")
         public Github github() {
             return this.gist.github();
         }
         @Override
-        public String read(final String name) throws IOException {
+        @NotNull(message = "read is never NULL")
+        public String read(
+            @NotNull(message = "name can't be NULL") final String name
+        ) throws IOException {
             return this.gist.read(name);
         }
         @Override
-        public void write(final String name, final String content)
-            throws IOException {
+        public void write(
+            @NotNull(message = "name can't be NULL") final String name,
+            @NotNull(message = "content can't be NULL") final String content
+        ) throws IOException {
             this.gist.write(name, content);
         }
 
@@ -198,16 +206,19 @@ public interface Gist extends JsonReadable {
         }
 
         @Override
+        @NotNull(message = "fork is never NULL")
         public Gist fork() throws IOException {
             return this.gist.fork();
         }
 
         @Override
+        @NotNull(message = "gist comments is never NULL")
         public GistComments comments() throws IOException {
             return this.gist.comments();
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.gist.json();
         }

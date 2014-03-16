@@ -82,7 +82,6 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
     public void canFetchReadmeFromBranch() throws Exception {
         final String branch = "master";
         final Contents contents = MkContentsTest.repo().contents();

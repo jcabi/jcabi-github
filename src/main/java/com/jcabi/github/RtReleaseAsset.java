@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -73,7 +74,11 @@ public final class RtReleaseAsset implements ReleaseAsset {
      * @param release Release
      * @param number Number of the release asset.
      */
-    RtReleaseAsset(final Request req, final Release release, final int number) {
+    RtReleaseAsset(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "release can't be NULL") final Release release,
+        final int number
+    ) {
         final Coordinates coords = release.repo().coordinates();
         this.request = req.uri()
             .path("/repos")
@@ -88,11 +93,13 @@ public final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "release is never NULL")
     public Release release() {
         return this.owner;
     }
@@ -103,12 +110,15 @@ public final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
@@ -127,6 +137,7 @@ public final class RtReleaseAsset implements ReleaseAsset {
      * @throws IOException If some problem inside.
      */
     @Override
+    @NotNull(message = "InputStream is never NULL")
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             this.request.method(Request.GET)
