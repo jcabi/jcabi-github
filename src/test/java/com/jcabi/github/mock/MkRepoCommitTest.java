@@ -49,10 +49,11 @@ public final class MkRepoCommitTest {
      */
     @Test
     public void getRepo() throws IOException {
-        final Repo repo = this.repo();
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = this.repo(storage);
         MatcherAssert.assertThat(
             new MkRepoCommit(
-                repo, "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+                storage, repo, "6dcb09b5b57875f334f61aebed695e2e4193db5e"
             ).repo(), Matchers.equalTo(repo)
         );
     }
@@ -64,21 +65,23 @@ public final class MkRepoCommitTest {
     @Test
     public void getSha() throws IOException {
         final String sha = "51cabb8e759852a6a40a7a2a76ef0afd4beef96d";
+        final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
-            new MkRepoCommit(this.repo(), sha).sha(),
+            new MkRepoCommit(storage, this.repo(storage), sha).sha(),
             Matchers.equalTo(sha)
         );
     }
 
     /**
      * Create repository for test.
+     * @param storage The storage
      * @return Repo
      * @throws IOException If some problem inside
      */
-    private Repo repo() throws IOException {
+    private Repo repo(final MkStorage storage) throws IOException {
         final String login = "test_login";
         return new MkRepo(
-            new MkStorage.InFile(),
+            storage,
             login,
             new Coordinates.Simple(login, "test_repo")
         );

@@ -108,11 +108,10 @@ public final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "content is never NULL")
-    public Content readme(@NotNull(message = "branch can't be NULL")
-        final String branch
-    ) {
-        throw new UnsupportedOperationException("Readme not yet implemented.");
+    @NotNull(message = "the content is never NULL")
+    public Content readme(final String branch)
+        throws IOException {
+        return new MkContent(this.storage, this.self, this.coords, branch);
     }
 
     @Override
@@ -237,7 +236,7 @@ public final class MkContents implements Contents {
                 .add("name").set(author.getString("name")).up();
         }
         this.storage.apply(commit);
-        return new MkRepoCommit(this.repo(), sha);
+        return new MkRepoCommit(this.storage, this.repo(), sha);
     }
 
     /**
