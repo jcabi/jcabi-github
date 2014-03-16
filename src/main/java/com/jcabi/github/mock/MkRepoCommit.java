@@ -34,9 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import java.io.IOException;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -61,16 +59,22 @@ final class MkRepoCommit implements RepoCommit {
     private final transient String hash;
 
     /**
+     * The storage.
+     */
+    private final transient MkStorage storage;
+    /**
      * The repository.
      */
     private final transient Repo repository;
 
     /**
      * Public ctor.
+     * @param stg The storage
      * @param repo The repository
      * @param sha Commit SHA
      */
-    MkRepoCommit(final Repo repo, final String sha) {
+    MkRepoCommit(final MkStorage stg, final Repo repo, final String sha) {
+        this.storage = stg;
         this.repository = repo;
         this.hash = sha;
     }
@@ -82,7 +86,14 @@ final class MkRepoCommit implements RepoCommit {
 
     @Override
     public JsonObject json() throws IOException {
-        return Json.createObjectBuilder().add("hash", this.hash).build();
+        return new JsonNode(
+            this.storage.xml().nodes(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/commits/commit[sha='%s']",
+                        this.repo().coordinates(), this.hash
+                )
+            ).get(0)
+        ).json();
     }
 
     @Override

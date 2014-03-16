@@ -103,7 +103,7 @@ final class MkRepoCommits implements RepoCommits {
     @Override
     public RepoCommit get(final String sha) {
         return new MkRepoCommit(
-            new MkRepo(this.storage, this.self, this.coords), sha
+            this.storage, new MkRepo(this.storage, this.self, this.coords), sha
         );
     }
 
