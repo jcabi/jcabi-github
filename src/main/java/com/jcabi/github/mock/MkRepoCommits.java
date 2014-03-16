@@ -121,7 +121,7 @@ final class MkRepoCommits implements RepoCommits {
         @NotNull(message = "sha shouldn't be NULL") final String sha
     ) {
         return new MkRepoCommit(
-            new MkRepo(this.storage, this.self, this.coords), sha
+            this.storage, new MkRepo(this.storage, this.self, this.coords), sha
         );
     }
 

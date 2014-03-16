@@ -236,7 +236,7 @@ public final class MkContents implements Contents {
                 .add("name").set(author.getString("name")).up();
         }
         this.storage.apply(commit);
-        return new MkRepoCommit(this.repo(), sha);
+        return new MkRepoCommit(this.storage, this.repo(), sha);
     }
 
     /**
