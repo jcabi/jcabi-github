@@ -35,6 +35,7 @@ import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.ToString;
 
@@ -42,9 +43,6 @@ import lombok.ToString;
  * Mock commits' comparison of a Github repository.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @todo #553 MkRepoCommits.json() should return JSON object of comparison.
- *  Let's create a test for this method and implement the method.
- *  When done, remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -86,6 +84,27 @@ final class MkCommitsComparison implements CommitsComparison {
 
     @Override
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException();
+        return Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (3 lines)
+            .add("status", "test-status")
+            .add("ahead_by", 1)
+            .add("behind_by", 2)
+            .add(
+                "actor",
+                Json.createObjectBuilder()
+                // @checkstyle MultipleStringLiterals (3 lines)
+                    .add("login", "test")
+                    .build()
+            )
+            .add(
+                "files",
+                Json.createObjectBuilder()
+                    .add("sha", "bbcd538c8e72b8c175046e27cc8f907076331401")
+                    .add("filename", "test-file")
+                    // @checkstyle MultipleStringLiterals (1 lines)
+                    .add("status", "test")
+                    .build()
+            )
+            .build();
     }
 }

@@ -56,4 +56,27 @@ public final class MkCommitsComparisonTest {
             ).repo(), Matchers.notNullValue()
         );
     }
+    /**
+     * MkCommitsComparison can get a JSon.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canGetJson() throws Exception {
+        MatcherAssert.assertThat(
+            new MkCommitsComparison(
+                new MkStorage.InFile(), "test1", new Coordinates.Simple(
+                    "test_user1", "test_repo1"
+                )
+            ).json().getString("status"),
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            new MkCommitsComparison(
+                new MkStorage.InFile(), "test2", new Coordinates.Simple(
+                    "test_user2", "test_repo2"
+                )
+            ).json().getInt("ahead_by"),
+            Matchers.notNullValue()
+        );
+    }
 }
