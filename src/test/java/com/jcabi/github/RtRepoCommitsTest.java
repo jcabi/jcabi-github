@@ -149,6 +149,19 @@ public final class RtRepoCommitsTest {
     }
 
     /**
+     * RtRepoCommits can read correctly URL.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void readCorrectURL() throws Exception {
+        MatcherAssert.assertThat(
+            new RtRepoCommits(new FakeRequest(), repo())
+                .compare("base", "head").toString(),
+            Matchers.endsWith("/see-FakeRequest-class/repos/user/repo/compare/base...head")
+        );
+    }
+
+    /**
      * Create repository for tests.
      * @return Repository
      */
