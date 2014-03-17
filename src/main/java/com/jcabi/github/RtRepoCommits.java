@@ -45,9 +45,6 @@ import lombok.EqualsAndHashCode;
  * Commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable

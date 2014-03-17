@@ -47,7 +47,6 @@ public final class RtRepoCommitsTest {
     /**
      * RtRepoCommits can return commits' iterator.
      */
-    @Ignore
     @Test
     public void returnIterator() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";

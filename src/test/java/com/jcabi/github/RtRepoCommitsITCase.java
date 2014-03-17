@@ -55,7 +55,6 @@ public class RtRepoCommitsITCase {
      * @throws Exception if there is no github key provided
      */
     @Test
-    @org.junit.Ignore
     public final void fetchCommits() throws Exception {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
