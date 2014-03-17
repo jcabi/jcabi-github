@@ -41,6 +41,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -87,7 +88,10 @@ final class MkOrganizations implements Organizations {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkOrganizations(final MkStorage stg, final String login)
+    MkOrganizations(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login
+    )
         throws IOException {
         this.storage = stg;
         this.self = login;
@@ -97,11 +101,13 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
+    @NotNull(message = "User is never NULL")
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
@@ -111,7 +117,10 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
-    public Organization get(final String login) {
+    @NotNull(message = "org is never NULL")
+    public Organization get(
+        @NotNull(message = "login is never NULl") final String login
+    ) {
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath())
@@ -150,9 +159,18 @@ final class MkOrganizations implements Organizations {
                     .add("followers", MkOrganizations.RAND.nextInt())
                     .add("following", MkOrganizations.RAND.nextInt())
                     .add("html_url", "https://github.com/octocat")
-                    .add("created_at", "2008-01-14T04:33:35Z")
+                    .add("created_at", new Github.Time().toString())
                     .add("type", "Organization")
                     .build();
+            }
+            @Override
+            public boolean equals(final Object obj) {
+                return obj instanceof Organization
+                    && login.equals(Organization.class.cast(obj).login());
+            }
+            @Override
+            public int hashCode() {
+                return login.hashCode();
             }
             @Override
             public int compareTo(final Organization obj) {
@@ -167,6 +185,7 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
+    @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate() {
         return new MkIterable<Organization>(
             this.storage,
@@ -183,7 +202,10 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
-    public Iterable<Organization> iterate(final String username) {
+    @NotNull(message = "Iterable of orgs is never NULL")
+    public Iterable<Organization> iterate(
+        @NotNull(message = "username is never NULL") final String username
+    ) {
         throw new UnsupportedOperationException(
             "MkOrganizations.iterate(username)"
         );
@@ -193,6 +215,7 @@ final class MkOrganizations implements Organizations {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return "/github/orgs";
     }

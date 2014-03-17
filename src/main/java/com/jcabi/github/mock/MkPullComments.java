@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -85,8 +86,12 @@ public final class MkPullComments implements PullComments {
      * @throws IOException If there is any I/O problem
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkPullComments(final MkStorage stg, final String login,
-        final Coordinates rep, final Pull pull) throws IOException {
+    MkPullComments(
+        @NotNull(message = "stg is never NULL") final MkStorage stg,
+        @NotNull(message = "login is never NULL") final String login,
+        @NotNull(message = "rep is never NULL") final Coordinates rep,
+        @NotNull(message = "pull is never NULL") final Pull pull
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
@@ -101,17 +106,23 @@ public final class MkPullComments implements PullComments {
         );
     }
     @Override
+    @NotNull(message = "pull is never NULL")
     public Pull pull() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "pull comment is never NULL")
     public PullComment get(final int number) {
         return new MkPullComment(this.storage, this.repo, this.owner, number);
     }
 
     @Override
-    public Iterable<PullComment> iterate(final Map<String, String> params) {
+    @NotNull(message = "Iterable of pull comments is never NULL")
+    public Iterable<PullComment> iterate(
+        @NotNull(message = "params is never NULL")
+        final Map<String, String> params
+    ) {
         return new MkIterable<PullComment>(
             this.storage,
             String.format(
@@ -130,8 +141,12 @@ public final class MkPullComments implements PullComments {
     }
 
     @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
+    @NotNull(message = "Iterable is never NULL")
+    public Iterable<PullComment> iterate(
+        final int number,
+        @NotNull(message = "params cannot be NULL")
+        final Map<String, String> params
+    ) {
         return new MkIterable<PullComment>(
             this.storage, String.format("%s/comment", this.xpath()),
             new MkIterable.Mapping<PullComment>() {
@@ -145,10 +160,15 @@ public final class MkPullComments implements PullComments {
         );
     }
 
-    // @checkstyle ParameterNumberCheck (3 lines)
+    // @checkstyle ParameterNumberCheck (7 lines)
     @Override
-    public PullComment post(final String body, final String commit,
-        final String path, final int position) throws IOException {
+    @NotNull(message = "pull comment isn't ever NULL")
+    public PullComment post(
+        @NotNull(message = "body can't be NULL") final String body,
+        @NotNull(message = "commit can't be NULL") final String commit,
+        @NotNull(message = "path can't be NULL") final String path,
+        final int position
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -179,7 +199,11 @@ public final class MkPullComments implements PullComments {
     }
 
     @Override
-    public PullComment reply(final String body, final int comment)
+    @NotNull(message = "reply is never NULL")
+    public PullComment reply(
+        @NotNull(message = "body can't be NULL") final String body,
+        final int comment
+    )
         throws IOException {
         this.storage.lock();
         try {
@@ -202,13 +226,18 @@ public final class MkPullComments implements PullComments {
 
     @Override
     public void remove(final int number) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.apply(
+            new Directives().xpath(
+                String.format("%s/comment[id='%d']", this.xpath(), number)
+            ).remove()
+        );
     }
 
     /**
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

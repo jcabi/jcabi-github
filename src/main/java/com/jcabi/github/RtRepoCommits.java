@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.RequestURI;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -80,20 +81,20 @@ final class RtRepoCommits implements RepoCommits {
     RtRepoCommits(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
-        this.request = req.uri()
+        final RequestURI rep = req.uri()
             .path("/repos")
             .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
+            .path(repo.coordinates().repo());
+        this.request = rep
             .path("/commits")
             .back();
-        this.comp = this.request.uri()
-            .path("/repos")
-            .path(this.owner.coordinates().toString())
+        this.comp = rep
             .path("/compare")
             .back();
     }
 
     @Override
+    @NotNull(message = "Iterable of commits is never NULL")
     public  Iterable<RepoCommit> iterate(final Map<String, String> params) {
         return new RtPagination<RepoCommit>(
             this.request.uri().queryParams(params).back(),
@@ -107,7 +108,10 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public RepoCommit get(final String sha) {
+    @NotNull(message = "commit is never NULL")
+    public RepoCommit get(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
         return new RtRepoCommit(this.entry, this.owner, sha);
     }
 
@@ -152,11 +156,13 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

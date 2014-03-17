@@ -103,15 +103,19 @@ public interface Coordinates extends Comparable<Coordinates> {
             return String.format("%s/%s", this.usr, this.rpo);
         }
         @Override
+        @NotNull(message = "user is never NULL")
         public String user() {
             return this.usr;
         }
         @Override
+        @NotNull(message = "repo is never NULL")
         public String repo() {
             return this.rpo;
         }
         @Override
-        public int compareTo(final Coordinates other) {
+        public int compareTo(
+            @NotNull(message = "other can't be NULL") final Coordinates other
+        ) {
             return new CompareToBuilder()
                 .append(this.usr, other.user())
                 .append(this.rpo, other.repo())

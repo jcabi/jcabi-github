@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public final class RtGitTest {
     public void canFetchOwnRepo() throws Exception {
         final Repo repo = repo();
         MatcherAssert.assertThat(
-            new RtGit(repo).repo(),
+            new RtGit(new FakeRequest(), repo).repo(),
             Matchers.is(repo)
         );
     }

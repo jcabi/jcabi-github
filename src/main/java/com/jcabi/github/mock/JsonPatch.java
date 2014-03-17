@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.Map;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
@@ -56,7 +57,7 @@ final class JsonPatch {
      * Public ctor.
      * @param stg Storage to use
      */
-    JsonPatch(final MkStorage stg) {
+    JsonPatch(@NotNull(message = "stg can't be NULL") final MkStorage stg) {
         this.storage = stg;
     }
 
@@ -66,8 +67,10 @@ final class JsonPatch {
      * @param obj Object to apply
      * @throws IOException If there is any I/O problem
      */
-    public void patch(final String xpath, final JsonObject obj)
-        throws IOException {
+    public void patch(
+        @NotNull(message = "xpath can't be NULL") final String xpath,
+        @NotNull(message = "obj can't be NULL") final JsonObject obj
+    ) throws IOException {
         final Directives dirs = new Directives().xpath(xpath);
         for (final Map.Entry<String, JsonValue> entry : obj.entrySet()) {
             dirs.addIf(entry.getKey())

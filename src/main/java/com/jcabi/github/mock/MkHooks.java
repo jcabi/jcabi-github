@@ -38,6 +38,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -76,8 +77,11 @@ public final class MkHooks implements Hooks {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkHooks(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    public MkHooks(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -92,11 +96,13 @@ public final class MkHooks implements Hooks {
     }
 
     @Override
+    @NotNull(message = "Repo can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "Iterable of hooks can't be NULL")
     public Iterable<Hook> iterate() {
         return new MkIterable<Hook>(
             this.storage,
@@ -113,13 +119,18 @@ public final class MkHooks implements Hooks {
     }
 
     @Override
+    @NotNull(message = "hook is never NULL")
     public Hook get(final int number) {
         return new MkHook(this.storage, this.self, this.coords, number);
     }
 
     @Override
-    public Hook create(final String name, final Map<String, String> config)
-        throws IOException {
+    @NotNull(message = "created hook is never NULL")
+    public Hook create(
+        @NotNull(message = "name can't be NULL") final String name,
+        @NotNull(message = "config can't be NULL")
+        final Map<String, String> config
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -156,6 +167,7 @@ public final class MkHooks implements Hooks {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/hooks",

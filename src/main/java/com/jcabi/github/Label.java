@@ -88,7 +88,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Public ctor.
          * @param lbl Label
          */
-        public Smart(final Label lbl) {
+        public Smart(@NotNull(message = "lbl can't be NULL") final Label lbl) {
             this.label = lbl;
             this.jsn = new SmartJson(lbl);
         }
@@ -107,33 +107,42 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @param color Color to set
          * @throws IOException If there is any I/O problem
          */
-        public void color(final String color) throws IOException {
+        public void color(
+            @NotNull(message = "color can't be NULL") final String color
+        ) throws IOException {
             this.label.patch(
                 Json.createObjectBuilder().add("color", color).build()
             );
         }
 
         @Override
+        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.label.repo();
         }
 
         @Override
+        @NotNull(message = "name is never NULL")
         public String name() {
             return this.label.name();
         }
 
         @Override
-        public int compareTo(final Label lbl) {
+        public int compareTo(
+            @NotNull(message = "lbl can't be NULL") final Label lbl
+        ) {
             return this.label.compareTo(lbl);
         }
 
         @Override
-        public void patch(final JsonObject json) throws IOException {
+        public void patch(
+            @NotNull(message = "json can't be NULL") final JsonObject json
+        ) throws IOException {
             this.label.patch(json);
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.label.json();
         }
@@ -161,23 +170,30 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @param rep Repo
          * @param object String
          */
-        public Unmodified(final Repo rep, final String object) {
+        public Unmodified(
+            @NotNull(message = "rep can't be NULL") final Repo rep,
+            @NotNull(message = "object can't be NULL") final String object
+        ) {
             this.repo = rep;
             this.obj = object;
         }
 
         @Override
+        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.repo;
         }
 
         @Override
+        @NotNull(message = "name is never NULL")
         public String name() {
             return this.json().getString("name");
         }
 
         @Override
-        public int compareTo(final Label label) {
+        public int compareTo(
+            @NotNull(message = "label can't be NULL") final Label label
+        ) {
             return new CompareToBuilder()
                 .append(this.repo().coordinates(), label.repo().coordinates())
                 .append(this.obj, label.name())
@@ -185,11 +201,14 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(final JsonObject json) throws IOException {
+        public void patch(
+            @NotNull(message = "json can't be NULL") final JsonObject json
+        ) throws IOException {
             throw new UnsupportedOperationException("#patch()");
         }
 
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() {
             return Json.createReader(new StringReader(this.obj)).readObject();
         }

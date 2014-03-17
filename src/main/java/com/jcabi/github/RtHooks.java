@@ -87,11 +87,13 @@ public final class RtHooks implements Hooks {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "iterable of hooks is never NULL")
     public Iterable<Hook> iterate() {
         return new RtPagination<Hook>(
             this.request,
@@ -115,11 +117,13 @@ public final class RtHooks implements Hooks {
     }
 
     @Override
+    @NotNull(message = "Hook is never NULL")
     public Hook get(final int number) {
         return new RtHook(this.entry, this.owner, number);
     }
 
     @Override
+    @NotNull(message = "Hook is never NULL")
     public Hook create(
         @NotNull(message = "name can't be NULL") final String name,
         @NotNull(message = "config can't be NULL")

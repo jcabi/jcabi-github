@@ -80,11 +80,13 @@ public interface Collaborators {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
      */
-    void remove(String user) throws IOException;
+    void remove(@NotNull(message = "user is never NULL") String user)
+        throws IOException;
 
     /**
      * Iterates over repo collaborators.
      * @return Iterator on repo collaborators.
      */
+    @NotNull(message = "iterator is never NULL")
     Iterable<User> iterate();
 }

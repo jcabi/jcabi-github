@@ -37,10 +37,10 @@
     </skin>
     <bannerLeft>
         <name>jcabi</name>
-        <src>http://img.jcabi.com/logo.png</src>
+        <src>http://img.jcabi.com/logo-square.png</src>
         <href>http://www.jcabi.com/</href>
-        <width>200</width>
-        <height>48</height>
+        <width>59</width>
+        <height>59</height>
     </bannerLeft>
     <googleAnalyticsAccountId>UA-1963507-23</googleAnalyticsAccountId>
     <body>
@@ -48,7 +48,6 @@
             <link href="http://img.jcabi.com/favicon.ico" rel="shortcut icon"/>
             <link href="https://plus.google.com/u/0/114792568016408327418?rel=author" rel="author"/>
         </head>
-        <menu ref="parent"/>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
             <item name="Respect limits" href="respect-limits.html"/>

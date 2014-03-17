@@ -93,21 +93,25 @@ final class RtGist implements Gist {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "github can't be NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "identifier can't be NULL")
     public String identifier() {
         return this.gist;
     }
 
     @Override
+    @NotNull(message = "file content can't be NULL")
     public String read(@NotNull(message = "file name can't be NULL")
         final String file) throws IOException {
         final Response response = this.request.fetch();
@@ -171,6 +175,7 @@ final class RtGist implements Gist {
     }
 
     @Override
+    @NotNull(message = "Gist can't be NULL")
     public Gist fork() throws IOException {
         return new RtGist(
             this.ghub, this.entry,
@@ -184,11 +189,13 @@ final class RtGist implements Gist {
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
+    @NotNull(message = "GistComments can't be NULL")
     public GistComments comments() throws IOException {
         return new RtGistComments(this.entry, this);
     }

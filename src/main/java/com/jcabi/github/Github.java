@@ -201,7 +201,9 @@ public interface Github {
          * @param text ISO date/time
          * @throws ParseException If fails
          */
-        public Time(final String text) throws ParseException {
+        public Time(
+            @NotNull(message = "text can't be NULL") final String text
+        ) throws ParseException {
             this(Github.Time.format().parse(text));
         }
 
@@ -209,7 +211,7 @@ public interface Github {
          * Ctor.
          * @param date Date to encapsulate
          */
-        public Time(final Date date) {
+        public Time(@NotNull(message = "date can't be NULL") final Date date) {
             this(date.getTime());
         }
 
@@ -230,6 +232,7 @@ public interface Github {
          * Get date.
          * @return Date
          */
+        @NotNull(message = "date is never NULL")
         public Date date() {
             return new Date(this.msec);
         }
