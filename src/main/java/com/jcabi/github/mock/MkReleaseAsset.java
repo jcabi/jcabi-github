@@ -136,8 +136,6 @@ public final class MkReleaseAsset implements ReleaseAsset {
      * Remove asset.
      *
      * @throws IOException If there is any I/O problem
-     * @todo #282 MkReleaseAsset should be able to remove files. Implement
-     *  MkReleaseAsset method. When done, remove this puzzle.
      */
     @Override
     public void remove() throws IOException {
