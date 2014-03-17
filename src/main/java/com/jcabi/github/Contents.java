@@ -73,7 +73,8 @@ public interface Contents {
      * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
     @NotNull(message = "Content is never NULL")
-    Content readme(String branch) throws IOException;
+    Content readme(@NotNull(message = "branch is never NULL") String branch)
+        throws IOException;
 
     /**
      * Create new file.

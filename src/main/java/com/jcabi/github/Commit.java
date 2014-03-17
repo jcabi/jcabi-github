@@ -91,7 +91,9 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * Public ctor.
          * @param cmt Commit
          */
-        public Smart(final Commit cmt) {
+        public Smart(
+            @NotNull(message = "cmt can't be NULL") final Commit cmt
+        ) {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
         }
@@ -100,6 +102,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @return Message of commit
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "message is never NULL")
         public String message() throws IOException {
             return this.jsn.text("message");
         }
@@ -108,23 +111,29 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
         @Override
+        @NotNull(message = "repository is never NULL")
         public Repo repo() {
             return this.commit.repo();
         }
         @Override
+        @NotNull(message = "sha is never NULL")
         public String sha() {
             return this.commit.sha();
         }
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.commit.json();
         }
         @Override
-        public int compareTo(final Commit obj) {
+        public int compareTo(
+            @NotNull(message = "obj can't be NULL") final Commit obj
+        ) {
             return this.commit.compareTo(obj);
         }
     }

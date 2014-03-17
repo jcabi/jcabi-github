@@ -90,11 +90,13 @@ final class RtIssueLabels implements IssueLabels {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "issue is never NULL")
     public Issue issue() {
         return this.owner;
     }
@@ -152,6 +154,7 @@ final class RtIssueLabels implements IssueLabels {
     }
 
     @Override
+    @NotNull(message = "Iterable of labels is never NULL")
     public Iterable<Label> iterate() {
         return new RtPagination<Label>(
             this.request,

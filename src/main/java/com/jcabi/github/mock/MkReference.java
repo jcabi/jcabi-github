@@ -37,6 +37,7 @@ import com.jcabi.github.Reference;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -78,8 +79,10 @@ public final class MkReference implements Reference {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkReference(
-        final MkStorage strg, final String login, final Coordinates crds,
-        final String reference
+        @NotNull(message = "strg can't be NULL") final MkStorage strg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "crds can't be NULL") final Coordinates crds,
+        @NotNull(message = "reference can't be NULL") final String reference
     ) {
         this.storage = strg;
         this.self = login;
@@ -88,16 +91,19 @@ public final class MkReference implements Reference {
     }
 
     @Override
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "Ref is never NULL")
     public String ref() {
         return this.name;
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -105,7 +111,9 @@ public final class MkReference implements Reference {
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -114,6 +122,7 @@ public final class MkReference implements Reference {
      *
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/refs/reference[ref='%s']",

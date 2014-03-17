@@ -84,16 +84,19 @@ final class RtGists implements Gists {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "Github can't be NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "Gist can't be NULL")
     public Gist create(@NotNull(message = "list of files can't be NULL")
         final Map<String, String> files) throws IOException {
         JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -117,12 +120,14 @@ final class RtGists implements Gists {
     }
 
     @Override
+    @NotNull(message = "Gist can't be NULL")
     public Gist get(@NotNull(message = "gist name can't be NULL")
         final String name) {
         return new RtGist(this.ghub, this.entry, name);
     }
 
     @Override
+    @NotNull(message = "Iterable of Gist can't be NULL")
     public Iterable<Gist> iterate() {
         return new RtPagination<Gist>(
             this.request,
@@ -136,7 +141,9 @@ final class RtGists implements Gists {
     }
 
     @Override
-    public void remove(final String identifier) throws IOException {
+    public void remove(
+        @NotNull(message = "identifier can't be NULL") final String identifier
+    ) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(identifier).back()
             .fetch()

@@ -36,6 +36,7 @@ import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -61,7 +62,7 @@ final class SmartJson {
      * Public ctor.
      * @param obj Readable object
      */
-    SmartJson(final JsonReadable obj) {
+    SmartJson(@NotNull(message = "obj can't be NULL") final JsonReadable obj) {
         this.object = obj;
     }
 
@@ -71,7 +72,10 @@ final class SmartJson {
      * @return Value
      * @throws IOException If there is any I/O problem
      */
-    public String text(final String name) throws IOException {
+    @NotNull(message = "text is never NULL")
+    public String text(
+        @NotNull(message = "name can't be NULL") final String name
+    ) throws IOException {
         return this.value(name, JsonString.class).getString();
     }
 
@@ -81,7 +85,9 @@ final class SmartJson {
      * @return Value
      * @throws IOException If there is any I/O problem
      */
-    public int number(final String name) throws IOException {
+    public int number(
+        @NotNull(message = "name can't be NULL") final String name
+    ) throws IOException {
         return this.value(name, JsonNumber.class).intValue();
     }
 
@@ -93,8 +99,11 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      * @param <T> Type expected
      */
-    public <T> T value(final String name, final Class<T> type)
-        throws IOException {
+    @NotNull(message = "T is never NULL")
+    public <T> T value(
+        @NotNull(message = "name can't be NULL") final String name,
+        @NotNull(message = "type can't be NULL") final Class<T> type
+    ) throws IOException {
         final JsonObject json = this.object.json();
         if (!json.containsKey(name)) {
             throw new IllegalStateException(

@@ -85,21 +85,25 @@ final class RtLabel implements Label {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "name is never NULL")
     public String name() {
         return this.txt;
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -111,7 +115,9 @@ final class RtLabel implements Label {
     }
 
     @Override
-    public int compareTo(final Label label) {
+    public int compareTo(
+        @NotNull(message = "label can't be NULL") final Label label
+    ) {
         return label.name().compareTo(label.name());
     }
 
