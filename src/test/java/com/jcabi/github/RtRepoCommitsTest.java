@@ -156,7 +156,9 @@ public final class RtRepoCommitsTest {
         MatcherAssert.assertThat(
             new RtRepoCommits(new FakeRequest(), repo())
                 .compare("base", "head").toString(),
-            Matchers.endsWith("/see-FakeRequest-class/repos/user/repo/compare/base...head")
+            Matchers.endsWith(
+                "/see-FakeRequest-class/repos/user/repo/compare/base...head"
+            )
         );
     }
 
