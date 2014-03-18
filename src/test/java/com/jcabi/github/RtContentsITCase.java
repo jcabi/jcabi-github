@@ -87,7 +87,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void getContent() throws Exception {
-        final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+        final String path = String.valueOf(System.currentTimeMillis());
         final String message = String.format("testMessage");
         final String cont = new String(
             Base64.encodeBase64(
