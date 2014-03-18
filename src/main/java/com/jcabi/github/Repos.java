@@ -51,6 +51,7 @@ public interface Repos {
      */
     @NotNull(message = "github is never NULL")
     Github github();
+    //byte[]
 
     /**
      * Create repository.

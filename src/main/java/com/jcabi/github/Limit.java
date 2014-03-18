@@ -74,7 +74,9 @@ public interface Limit extends JsonReadable {
          * Public ctor.
          * @param limit Limit
          */
-        public Smart(final Limit limit) {
+        public Smart(
+            @NotNull(message = "limit can't be NULL") final Limit limit
+        ) {
             this.origin = limit;
         }
         /**
@@ -98,16 +100,19 @@ public interface Limit extends JsonReadable {
          * @return Date when this will happen
          * @throws IOException If it fails
          */
+        @NotNull(message = "date is never NULL")
         public Date reset() throws IOException {
             return new Date(
                 (long) new SmartJson(this.origin).number("reset")
             );
         }
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.origin.json();
         }
         @Override
+        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.origin.github();
         }
@@ -139,12 +144,16 @@ public interface Limit extends JsonReadable {
          * @param limit Original limit
          * @param allowed Maximum allowed
          */
-        public Throttled(final Limit limit, final int allowed) {
+        public Throttled(
+            @NotNull(message = "limit is never NULL") final Limit limit,
+            final int allowed
+        ) {
             this.origin = limit;
             this.max = allowed;
             this.jsn = new SmartJson(limit);
         }
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             final int limit = new SmartJson(this.origin).number("limit");
             final int remaining = this.max - (
@@ -157,6 +166,7 @@ public interface Limit extends JsonReadable {
                 .build();
         }
         @Override
+        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.origin.github();
         }

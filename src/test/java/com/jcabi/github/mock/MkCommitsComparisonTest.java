@@ -27,49 +27,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Coordinates;
 import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git Data Reference.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Test case for {@link MkCommitsComparison).
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-@Immutable
-public interface Reference {
-    /**
-     * Return its owner repo.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+public final class MkCommitsComparisonTest {
 
     /**
-     * Return its name.
-     * @return String
+     * MkCommitsComparison can get a repo.
+     * @throws IOException if some problem inside
      */
-    @NotNull(message = "ref is never NULL")
-    String ref();
-
-    /**
-     * Return its Json.
-     * @return JsonObject
-     * @throws IOException - If something goes wrong.
-     */
-    @NotNull(message = "JSON is never NULL")
-    JsonObject json() throws IOException;
-
-    /**
-     * Patch using this JSON object.
-     * @param json JSON object
-     * @throws IOException If there is any I/O problem
-     */
-    void patch(@NotNull(message = "JSON is never null") JsonObject json)
-        throws IOException;
-
+    @Test
+    public void getRepo() throws IOException {
+        final String user = "test_user";
+        MatcherAssert.assertThat(
+            new MkCommitsComparison(
+                new MkStorage.InFile(), user,
+                new Coordinates.Simple(user, "test_repo")
+            ).repo(), Matchers.notNullValue()
+        );
+    }
 }

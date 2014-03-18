@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -82,21 +83,25 @@ final class RtOrganizations implements Organizations {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "user is never NULL")
     public User user() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "organization is never NULL")
     public Organization get(final String login) {
         return new RtOrganization(this.ghub, this.entry, login);
     }
 
     @Override
+    @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate() {
         return new RtPagination<Organization>(
             this.request,
@@ -110,7 +115,10 @@ final class RtOrganizations implements Organizations {
     }
 
     @Override
-    public Iterable<Organization> iterate(final String username) {
+    @NotNull(message = "Iterable of orgs is never NULL")
+    public Iterable<Organization> iterate(
+        @NotNull(message = "username can't be NULL") final String username
+    ) {
         return new RtPagination<Organization>(
             this.entry.uri().path("/users").path(username).path("/orgs").back(),
             new RtPagination.Mapping<Organization, JsonObject>() {

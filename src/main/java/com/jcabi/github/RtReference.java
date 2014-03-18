@@ -79,16 +79,19 @@ final class RtReference implements Reference {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "ref is never NULL")
     public String ref() {
         return this.name;
     }

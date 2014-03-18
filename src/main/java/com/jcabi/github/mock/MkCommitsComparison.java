@@ -31,28 +31,25 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Event;
-import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
-import javax.json.Json;
+import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github event.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Mock commits' comparison of a Github repository.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.6.1
+ * @todo #553 MkRepoCommits.json() should return JSON object of comparison.
+ *  Let's create a test for this method and implement the method.
+ *  When done, remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = "type")
-final class MkEvent implements Event {
+final class MkCommitsComparison implements CommitsComparison {
 
     /**
      * Storage.
@@ -65,58 +62,30 @@ final class MkEvent implements Event {
     private final transient String self;
 
     /**
-     * Repo name.
+     * Repo coordinates.
      */
     private final transient Coordinates coords;
-
-    /**
-     * Type of event.
-     */
-    private final transient String type;
 
     /**
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @param rep Repo
-     * @param tpe Type
-     * @checkstyle ParameterNumber (5 lines)
+     * @param repo Repository coordinates
      */
-    MkEvent(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
-        @NotNull(message = "tpe can't be NULL") final String tpe
-    ) {
+    MkCommitsComparison(final MkStorage stg, final String login,
+        final Coordinates repo) {
         this.storage = stg;
         this.self = login;
-        this.coords = rep;
-        this.type = tpe;
+        this.coords = repo;
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public int number() {
-        return 0;
-    }
-
-    @Override
-    public int compareTo(
-        @NotNull(message = "event can't be NULL") final Event event
-    ) {
-        throw new UnsupportedOperationException("#compareTo()");
-    }
-
-    @Override
-    @NotNull(message = "JSON is never NULL")
-    public JsonObject json() {
-        return Json.createObjectBuilder().add("event", this.type).add(
-            "actor", Json.createObjectBuilder().add("login", "test").build()
-        ).add("created_at", new Github.Time().toString()).build();
+    public JsonObject json() throws IOException {
+        throw new UnsupportedOperationException();
     }
 }

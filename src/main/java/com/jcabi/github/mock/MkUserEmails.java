@@ -35,6 +35,7 @@ import com.jcabi.github.UserEmails;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -79,7 +80,10 @@ public final class MkUserEmails implements UserEmails {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkUserEmails(final MkStorage stg, final String login) throws IOException {
+    MkUserEmails(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
@@ -88,6 +92,7 @@ public final class MkUserEmails implements UserEmails {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -95,6 +100,7 @@ public final class MkUserEmails implements UserEmails {
     }
 
     @Override
+    @NotNull(message = "Iterable is never NULL")
     public Iterable<String> iterate() {
         return new MkIterable<String>(
             this.storage,
@@ -104,8 +110,10 @@ public final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    public Iterable<String> add(final Iterable<String> emails)
-        throws IOException {
+    @NotNull(message = "Iterable can't be NULL")
+    public Iterable<String> add(
+        @NotNull(message = "emails can't be NULL") final Iterable<String> emails
+    ) throws IOException {
         this.storage.lock();
         try {
             final Directives directives = new Directives().xpath(this.xpath());
@@ -120,7 +128,10 @@ public final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    public void remove(final Iterable<String> emails) throws IOException {
+    public void remove(
+        @NotNull(message = "emails should not be NULL")
+        final Iterable<String> emails
+    ) throws IOException {
         final Directives directives = new Directives();
         for (final String email : emails) {
             directives.xpath(
@@ -134,14 +145,16 @@ public final class MkUserEmails implements UserEmails {
      * XPath of user element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "User's xpath is never NULL")
     private String userXpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }
 
     /**
-     * XPath of user element in XML tree.
+     * XPath of user emails element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "xpath is never NULL")
     private String xpath() {
         return String.format("%s/emails", this.userXpath());
     }

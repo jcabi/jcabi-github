@@ -68,34 +68,42 @@ final class RtUsers implements Users {
      * @param github Github
      * @param req Request
      */
-    RtUsers(final Github github, final Request req) {
+    RtUsers(
+        @NotNull(message = "github can't be NULL") final Github github,
+        @NotNull(message = "req can't be NULL") final Request req
+    ) {
         this.entry = req;
         this.ghub = github;
         this.request = this.entry.uri().path("/users").back();
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "user is never NULL")
     public User self() {
         return new RtUser(this.ghub, this.entry, "");
     }
 
     @Override
+    @NotNull(message = "user is never NULL")
     public User get(@NotNull(message = "login can't be NULL")
         final String login) {
         return new RtUser(this.ghub, this.entry, login);
     }
 
     @Override
+    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> iterate(@NotNull(message = "login is never NULL")
         final String login) {
         return new RtPagination<User>(

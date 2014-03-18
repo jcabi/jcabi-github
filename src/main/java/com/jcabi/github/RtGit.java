@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -68,31 +69,37 @@ public final class RtGit implements Git {
     }
 
     @Override
+    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "blobs can't be NULL")
     public Blobs blobs() throws IOException {
         return new RtBlobs(this.entry, this.repo());
     }
 
     @Override
+    @NotNull(message = "commits can't be NULL")
     public Commits commits() {
         throw new UnsupportedOperationException("Commits not yet implemented");
     }
 
     @Override
+    @NotNull(message = "references can't be NULL")
     public References references() {
         return new RtReferences(this.entry, this.owner);
     }
 
     @Override
+    @NotNull(message = "tags can't be NULL")
     public Tags tags() {
         return new RtTags(this.entry, this.owner);
     }
 
     @Override
+    @NotNull(message = "trees can't be NULL")
     public Trees trees() {
         throw new UnsupportedOperationException("Trees not yet implemented");
     }
