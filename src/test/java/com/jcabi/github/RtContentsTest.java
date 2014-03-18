@@ -164,7 +164,7 @@ public final class RtContentsTest {
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents")
+                Matchers.endsWith("/repos/test/contents/contents/test/file")
             );
             MatcherAssert.assertThat(
                 smart.path(),
