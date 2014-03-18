@@ -83,11 +83,8 @@ public final class IssueTest {
     /**
      * Issue.Smart can detect a pull request.
      * @throws Exception If some problem inside
-     * @todo #625 This test fails because it violates
-     *  constraint "pull is never NULL".Fix this.
      */
     @Test
-    @Ignore
     public void detectsPullRequest() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
@@ -100,8 +97,10 @@ public final class IssueTest {
         ).when(issue).json();
         final Pulls pulls = Mockito.mock(Pulls.class);
         final Repo repo = Mockito.mock(Repo.class);
+        final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo).when(issue).repo();
         Mockito.doReturn(pulls).when(repo).pulls();
+        Mockito.when(pulls.get(Mockito.eq(1))).thenReturn(pull);
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
