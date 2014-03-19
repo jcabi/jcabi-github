@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.7
  */
+@Immutable
 public interface Assignees {
 
     /**
@@ -57,5 +59,6 @@ public interface Assignees {
      * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
      */
     @NotNull(message = "check is never NULL")
-    boolean check(String login) throws IOException;
+    boolean check(@NotNull(message = "login is never NULL") String login)
+        throws IOException;
 }

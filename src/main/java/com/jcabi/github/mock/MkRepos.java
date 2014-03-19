@@ -73,19 +73,26 @@ final class MkRepos implements Repos {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkRepos(final MkStorage stg, final String login) throws IOException {
+    MkRepos(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.storage.apply(new Directives().xpath("/github").addIf("repos"));
     }
 
     @Override
+    @NotNull(message = "github can't be NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    public Repo create(final JsonObject json) throws IOException {
+    @NotNull(message = "repo is never NULL")
+    public Repo create(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         final String name = json.getString("name");
         final Coordinates coords = new Coordinates.Simple(this.self, name);
         this.storage.apply(
@@ -103,7 +110,10 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public Repo get(final Coordinates coords) {
+    @NotNull(message = "Repo is never NULL")
+    public Repo get(
+        @NotNull(message = "coords can't be NULL") final Coordinates coords
+    ) {
         try {
             final String xpath = String.format(
                 "%s/repo[@coords='%s']", this.xpath(), coords
@@ -138,6 +148,7 @@ final class MkRepos implements Repos {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return "/github/repos";
     }

@@ -30,38 +30,31 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.ParseException;
+import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github release asset.
- *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
- * @todo #282 Implement a Smart decorator for ReleaseAsset for the purposes of
- *  JSON parsing. This class should be able to return the various attributes of
- *  the JSON response for fetching comments, such as the ID, commit ID, URL, and
- *  comment body. Smart should also be able to handle editing the attributes
- *  of an existing comment by using
- *  {@link JsonPatchable#patch(javax.json.JsonObject)}. Also include an example
- *  of how to do this in the Javadoc comment above. You can refer to
- *  {@link PublicKey} on how to do this.
- * @todo #282 We should be able to fetch a release asset's binary contents. See
- *  http://developer.github.com/v3/repos/releases/#get-a-single-release-asset
- *  for details on how this needs to be done. The ReleaseAsset interface should
- *  be able to expose this function through a method, which we can name
- *  something like "content", "body" or "raw", whichever is most appropriate.
- *  I'm not sure what the return type should be at the moment but it will likely
- *  be either a byte array or a stream implementation.
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * The release we're in.
-     * @return Issue
+     * @return Release
      */
     @NotNull(message = "release is never NULL")
     Release release();
@@ -79,4 +72,203 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      */
     void remove() throws IOException;
 
+    /**
+     * Gets release asset raw content.
+     * @return Release asset number
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
+     */
+    @NotNull(message = "InputStream is never NULL")
+    InputStream raw() throws IOException;
+
+    /**
+     * Smart ReleaseAsset with extra features.
+     * @checkstyle MultipleStringLiterals (500 lines)
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = {"asset", "jsn" })
+    final class Smart implements ReleaseAsset {
+        /**
+         * Encapsulated Release Asset.
+         */
+        private final transient ReleaseAsset asset;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+
+        /**
+         * Public ctor.
+         * @param ast Release asset
+         */
+        public Smart(
+            @NotNull(message = "ast can't be NULL") final ReleaseAsset ast
+        ) {
+            this.asset = ast;
+            this.jsn = new SmartJson(ast);
+        }
+
+        /**
+         * Get its URL.
+         * @return URL of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "URL is never NULL")
+        public URL url() throws IOException {
+            return new URL(this.jsn.text("url"));
+        }
+
+        /**
+         * Get its name.
+         * @return Name of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "name is never NULL")
+        public String name() throws IOException {
+            return this.jsn.text("name");
+        }
+
+        /**
+         * Get its label.
+         * @return Label of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "label is never NULL")
+        public String label() throws IOException {
+            return this.jsn.text("label");
+        }
+
+        /**
+         * Get its state.
+         * @return State of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "state is never NULL")
+        public String state() throws IOException {
+            return this.jsn.text("state");
+        }
+
+        /**
+         * Get its content type.
+         * @return Content type of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "type is never NULL")
+        public String contentType() throws IOException {
+            return this.jsn.text("content_type");
+        }
+
+        /**
+         * Get its size.
+         * @return Size of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        public int size() throws IOException {
+            return this.jsn.number("size");
+        }
+
+        /**
+         * Get its downloadCount.
+         * @return Download count of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        public int downloadCount() throws IOException {
+            return this.jsn.number("download_count");
+        }
+
+        /**
+         * When it was created.
+         * @return Date of creation
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "date is never NULL")
+        public Date createdAt() throws IOException {
+            try {
+                return new Github.Time(
+                    this.jsn.text("created_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        /**
+         * When it was updated.
+         * @return Date of update
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "date is never NULL")
+        public Date updatedAt() throws IOException {
+            try {
+                return new Github.Time(
+                    this.jsn.text("updated_at")
+                ).date();
+            } catch (ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        /**
+         * Change its name.
+         * @param text Name of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        public void name(
+            @NotNull(message = "text can't be NULL") final String text
+        ) throws IOException {
+            this.asset.patch(
+                Json.createObjectBuilder().add("name", text).build()
+            );
+        }
+
+        /**
+         * Change its label.
+         * @param text Label of release asset
+         * @throws IOException If there is any I/O problem
+         */
+        public void label(
+            @NotNull(message = "text can't be NULL") final String text
+        ) throws IOException {
+            this.asset.patch(
+                Json.createObjectBuilder().add("label", text).build()
+            );
+        }
+
+        @Override
+        @NotNull(message = "release is never NULL")
+        public Release release() {
+            return this.asset.release();
+        }
+
+        @Override
+        public int number() {
+            return this.asset.number();
+        }
+
+        @Override
+        public void remove() throws IOException {
+            this.asset.remove();
+        }
+
+        @Override
+        @NotNull(message = "input stream is never NULL")
+        public InputStream raw() throws IOException {
+            return this.asset.raw();
+        }
+
+        @Override
+        public void patch(
+            @NotNull(message = "JSON is never NULL") final JsonObject json
+        ) throws IOException {
+            this.asset.patch(json);
+        }
+
+        @Override
+        @NotNull(message = "JSON is never NULL")
+        public JsonObject json() throws IOException {
+            return this.asset.json();
+        }
+    }
 }

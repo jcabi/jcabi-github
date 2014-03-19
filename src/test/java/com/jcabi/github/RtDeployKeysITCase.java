@@ -29,6 +29,9 @@
  */
 package com.jcabi.github;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.KeyPair;
+import java.io.ByteArrayOutputStream;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -57,15 +60,7 @@ public final class RtDeployKeysITCase {
     public void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Iterate Key";
-        final DeployKey key = keys.create(
-            title,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDGlOZAXP4XlJ0g2")
-                .append("tj0rTZ8TYRLi1e9ADpDmz0FgiUEhB1VsudTOxceWPuylf5AfGePRH")
-                .append("zUklHU2txFG48MkOIGaiSMFcf5nKOZd0ewqQFTA5rmGweMtcl+YSQ")
-                .append("6h1Pne5gUn2BM9BZpRaq3KgMNOXFU5dJ5+etQSgf/gain54LsBQ==")
-                .toString()
-        );
+        final DeployKey key = keys.create(title, key());
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
@@ -84,15 +79,7 @@ public final class RtDeployKeysITCase {
     public void createsDeployKey() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Create Key";
-        final DeployKey key = keys.create(
-            title,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQC2hZYMju2NywH/g")
-                .append("t0sxtSOFTIjlxImGq8m72hOnm/HjCAQSYXTF2v0kWyh9PZC1frPMf")
-                .append("U+clfy0MpetWJ76tKz4qVS3aA35WK5vLmQYjA5lyhVwq/1TkZikIy")
-                .append("21Bvc+KmlguI+bd4HWaN6D3uylQetoCTcxvzf4F2IBZFKmLjTrQ==")
-                .toString()
-        );
+        final DeployKey key = keys.create(title, key());
         try {
             MatcherAssert.assertThat(
                 new DeployKey.Smart(key).title(),
@@ -111,15 +98,7 @@ public final class RtDeployKeysITCase {
     public void getsDeployKey() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Get Key";
-        final DeployKey key = keys.create(
-            title,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCyMMT1KP0TvZltl")
-                .append("IZmGG4oNf2fLbzqKUU24BV4ln25yCL0yqQACdKXRheXVGE6/4gX0i")
-                .append("FtpuwePlccGSVJXWgU0uOkQUmMGLQoU+XjBzSa1GaW/r/Igabd1CX")
-                .append("cZpeRSsVZ8GQX/XlxPBYeg+ES3ZjqasUBSgn9sZ7ym/G3jsJAlQ==")
-                .toString()
-        );
+        final DeployKey key = keys.create(title, key());
         try {
             MatcherAssert.assertThat(
                 keys.get(key.number()),
@@ -138,15 +117,7 @@ public final class RtDeployKeysITCase {
     public void removesDeployKey() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Remove Key";
-        final DeployKey key = keys.create(
-            title,
-            new StringBuilder()
-                .append("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCWMIIddQkxDUr2/")
-                .append("opU50nkyAQYb95p0JvLgbIGkU6VUOYjj4XZEQ8DFUHOf8acG1AGv1")
-                .append("KbvpKuJ2StUxXVsWjhrniYKZ0UrQ4pKRHVKQBf2RmKr8fw70Z57oi")
-                .append("mRpipnpYTmT2cK2FFPTUZ7bYahZ/KctelIwGXAf5PHIqZFxkwyw==")
-                .toString()
-        );
+        final DeployKey key = keys.create(title, key());
         try {
             MatcherAssert.assertThat(
                 keys.get(key.number()),
@@ -174,4 +145,21 @@ public final class RtDeployKeysITCase {
         );
     }
 
+    /**
+     * Generates a random public key for test.
+     *
+     * @return The encoded SSH public key.
+     * @throws Exception If a problem occurs.
+     */
+    private static String key() throws Exception {
+        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        try {
+            final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
+            kpair.writePublicKey(stream, "");
+            kpair.dispose();
+        } finally {
+            stream.close();
+        }
+        return new String(stream.toByteArray());
+    }
 }

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -40,6 +41,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
  */
+@Immutable
 public interface Forks {
 
     /**
@@ -68,6 +70,7 @@ public interface Forks {
      * @throws IOException  If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
      */
+    @NotNull(message = "Fork is never NULL")
     Fork create(@NotNull(message = "organization can't be NULL")
         String organization) throws IOException;
 }

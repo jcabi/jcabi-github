@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.User;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -46,6 +48,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version $Id$
  * @since 0.7
  */
+@Immutable
 final class MkAssignees implements Assignees {
 
     /**
@@ -70,21 +73,25 @@ final class MkAssignees implements Assignees {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    MkAssignees(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    MkAssignees(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
     }
 
     @Override
+    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> iterate() {
         try {
             final Set<User> assignees = new HashSet<User>();
             assignees.add(new MkUser(this.storage, this.self));
             final Iterable<User> collaborators = new MkIterable<User>(
                 this.storage,
-                this.xpath(),
+                String.format("%s/user", this.xpath()),
                 new MkIterable.Mapping<User>() {
                     @Override
                     public User map(final XML xml) {
@@ -109,10 +116,12 @@ final class MkAssignees implements Assignees {
     }
 
     @Override
-    public boolean check(final String login) {
+    public boolean check(
+        @NotNull(message = "login cannot be NULL") final String login
+    ) {
         try {
             final List<String> xpath = this.storage.xml().xpath(
-                this.xpath()
+                String.format("%s/user/login/text()", this.xpath())
             );
             return this.self.equalsIgnoreCase(login) || (
                 !xpath.isEmpty()

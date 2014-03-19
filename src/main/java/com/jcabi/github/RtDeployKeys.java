@@ -84,22 +84,29 @@ public final class RtDeployKeys implements DeployKeys {
     }
 
     @Override
+    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "Iterable of DeployKey can't be NULL")
     public Iterable<DeployKey> iterate() {
         return Collections.emptyList();
     }
 
     @Override
+    @NotNull(message = "DeployKey can't be NULL")
     public DeployKey get(final int number) {
         return new RtDeployKey(this.entry, number, this.owner);
     }
 
     @Override
-    public DeployKey create(final String title, final String key)
+    @NotNull(message = "DeployKey is never NULL")
+    public DeployKey create(
+        @NotNull(message = "title can't be NULL") final String title,
+        @NotNull(message = "key can't be NULL") final String key
+    )
         throws IOException {
         return this.get(
             this.request.method(Request.POST)
@@ -114,21 +121,5 @@ public final class RtDeployKeys implements DeployKeys {
                 .as(JsonResponse.class)
                 .json().readObject().getInt("id")
         );
-    }
-
-    /**
-     * Remove a deploy key by its id.
-     * @param number Id of the key to be remove.
-     * @throws IOException if something goes wrong.
-     */
-    public void remove(
-        @NotNull(message = "id can't be NULL") final int number)
-        throws IOException {
-        this.request.uri()
-            .path(Integer.toString(number))
-            .back()
-            .method(Request.DELETE)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 }

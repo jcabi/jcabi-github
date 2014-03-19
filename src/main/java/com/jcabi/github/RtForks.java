@@ -85,11 +85,13 @@ public final class RtForks implements Forks {
     }
 
     @Override
+    @NotNull(message = "Repository can't be null")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "iterable of Fork can't be NULL")
     public Iterable<Fork> iterate(
         @NotNull(message = "sort can't be NULL") final String sort) {
         return new RtPagination<Fork>(
@@ -104,6 +106,7 @@ public final class RtForks implements Forks {
     }
 
     @Override
+    @NotNull(message = "Fork can't be NULL")
     public Fork create(
         @NotNull(message = "organization can't be NULL")
         final String organization) throws IOException {

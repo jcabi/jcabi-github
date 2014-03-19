@@ -37,6 +37,7 @@ import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -83,8 +84,12 @@ final class MkIssueLabels implements IssueLabels {
      * @throws IOException If fails
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkIssueLabels(final MkStorage stg, final String login,
-        final Coordinates rep, final int issue) throws IOException {
+    MkIssueLabels(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final int issue
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
@@ -101,12 +106,15 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
+    @NotNull(message = "Issue is never NULL")
     public Issue issue() {
         return new MkIssue(this.storage, this.self, this.repo, this.ticket);
     }
 
     @Override
-    public void add(final Iterable<String> labels) throws IOException {
+    public void add(@NotNull(message = "labels can't be NULL")
+        final Iterable<String> labels
+    ) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath());
         for (final String label : labels) {
             dirs.add("label").set(label).up();
@@ -115,12 +123,15 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void replace(final Iterable<String> labels) throws IOException {
+    public void replace(@NotNull(message = "labels should not be NULL")
+        final Iterable<String> labels
+    ) throws IOException {
         this.clear();
         this.add(labels);
     }
 
     @Override
+    @NotNull(message = "Iterable of labels is never NULL")
     public Iterable<Label> iterate() {
         return new MkIterable<Label>(
             this.storage,
@@ -140,7 +151,9 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void remove(final String name) throws IOException {
+    public void remove(@NotNull(message = "name cannpt be NULL")
+        final String name
+    ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
                 String.format("%s/label[.='%s']", this.xpath(), name)
@@ -161,6 +174,7 @@ final class MkIssueLabels implements IssueLabels {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/labels",

@@ -69,19 +69,62 @@ public final class RtContentsITCase {
     @Test
     public void canCreateFileContent() throws Exception {
         final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
-        final String cont = new String(
-            Base64.encodeBase64("some content".getBytes())
+        MatcherAssert.assertThat(
+            RtContentsITCase.repo().contents().create(
+                jsonObject(
+                    path, new String(
+                        Base64.encodeBase64("some content".getBytes())
+                    ), "theMessage"
+                )
+            ).path(),
+            Matchers.equalTo(path)
         );
-        final JsonObject json = Json.createObjectBuilder()
-            .add("path", path)
-            .add("message", "theMessage")
-            .add("content", cont)
-            .build();
-        final Content content = RtContentsITCase.repo().contents().create(json);
+    }
+
+    /**
+     * RtContents can get content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void getContent() throws Exception {
+        final String path = String.valueOf(System.currentTimeMillis());
+        final String message = String.format("testMessage");
+        final String cont = new String(
+            Base64.encodeBase64(
+                String.format("content%d", System.currentTimeMillis())
+                    .getBytes()
+            )
+        );
+        RtContentsITCase.repo().contents().create(
+            jsonObject(path, cont, message)
+        );
+        final Content content = RtContentsITCase.repo().contents()
+            .get(path, "master");
         MatcherAssert.assertThat(
             content.path(),
             Matchers.equalTo(path)
         );
+        MatcherAssert.assertThat(
+            new Content.Smart(content).content(),
+            Matchers.equalTo(String.format("%s\n", cont))
+        );
+    }
+
+    /**
+     * Create and return JsonObject of content.
+     * @param path Content's path
+     * @param cont Content's Base64 string
+     * @param message Message
+     * @return JsonObject
+     */
+    private JsonObject jsonObject(
+        final String path, final String cont, final String message
+    ) {
+        return Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", message)
+            .add("content", cont)
+            .build();
     }
 
     /**

@@ -87,11 +87,13 @@ final class RtComment implements Comment {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "Issue is never NULL")
     public Issue issue() {
         return this.owner;
     }
@@ -109,6 +111,7 @@ final class RtComment implements Comment {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -120,7 +123,9 @@ final class RtComment implements Comment {
     }
 
     @Override
-    public int compareTo(final Comment comment) {
+    public int compareTo(
+        @NotNull(message = "comment is never NULL") final Comment comment
+    ) {
         return this.number() - comment.number();
     }
 }

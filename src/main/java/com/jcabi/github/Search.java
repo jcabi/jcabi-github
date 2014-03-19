@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +45,7 @@ import javax.validation.constraints.NotNull;
  *  for the purposes for code searching. At the moment, we don't have a way to
  *  represent codes in the API.
  */
+@Immutable
 public interface Search {
 
     /**
@@ -68,8 +70,8 @@ public interface Search {
     Iterable<Repo> repos(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order)
-        throws IOException;
+        @NotNull(message = "Sort order can't be NULL") String order
+    ) throws IOException;
 
     /**
      * Search issues.

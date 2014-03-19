@@ -38,6 +38,7 @@ import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -81,10 +82,14 @@ public final class MkReleaseAssets implements ReleaseAssets {
      * @param rep Repo
      * @param number Release ID
      * @throws IOException If an IO Exception occurs
-     * @checkstyle ParameterNumber (5 lines)
+     * @checkstyle ParameterNumber (7 lines)
      */
-    MkReleaseAssets(final MkStorage stg, final String login,
-        final Coordinates rep, final int number) throws IOException {
+    MkReleaseAssets(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final int number
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -101,6 +106,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
+    @NotNull(message = "release is never NULL")
     public Release release() {
         return new MkRelease(
             this.storage,
@@ -111,6 +117,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
+    @NotNull(message = "Iterable is never NULL")
     public Iterable<ReleaseAsset> iterate() {
         return new MkIterable<ReleaseAsset>(
             this.storage,
@@ -127,8 +134,11 @@ public final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
+    @NotNull(message = "Asset is never NULL")
     public ReleaseAsset upload(final byte[] content,
-        final String type, final String name) throws IOException {
+        @NotNull(message = "type can't be NULL") final String type,
+        @NotNull(message = "name can't be NULL") final String name
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -139,7 +149,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
                 new Directives().xpath(this.xpath()).add("asset")
                     .add("id").set(Integer.toString(number)).up()
                     .add("name").set(name).up()
-                    .add("content").set(new String(content)).up()
+                    .add("content").set(new String(content, "UTF-8")).up()
                     .add("content_type").set(type).up()
                     .add("size").set(Integer.toString(content.length)).up()
                     .add("download_count").set("42").up()
@@ -155,6 +165,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
+    @NotNull(message = "Asset can't be NULL")
     public ReleaseAsset get(final int number) {
         return new MkReleaseAsset(
             this.storage,
@@ -169,6 +180,7 @@ public final class MkReleaseAssets implements ReleaseAssets {
      * XPath of this element in XML tree.
      * @return XPath
      */
+    @NotNull(message = "Xpath si never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets",

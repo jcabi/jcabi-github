@@ -37,9 +37,11 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -117,7 +119,7 @@ public final class RtReleaseAssetTest {
             );
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/john/test/releases/1/assets/2")
+                Matchers.endsWith("/repos/john/test/releases/assets/2")
             );
         } finally {
             container.stop();
@@ -144,6 +146,35 @@ public final class RtReleaseAssetTest {
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtReleaseAsset can stream raw content.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void rawAsset() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+        ).start();
+        final RtReleaseAsset asset = new RtReleaseAsset(
+            new ApacheRequest(container.home()),
+            release(),
+            4
+        );
+        try {
+            final InputStream stream = asset.raw();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(), Matchers.equalTo(Request.GET)
+            );
+            MatcherAssert.assertThat(
+                IOUtils.toString(stream),
+                Matchers.notNullValue()
             );
         } finally {
             container.stop();

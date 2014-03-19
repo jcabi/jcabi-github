@@ -33,9 +33,11 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
+import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -80,8 +82,12 @@ final class MkEvent implements Event {
      * @param tpe Type
      * @checkstyle ParameterNumber (5 lines)
      */
-    MkEvent(final MkStorage stg, final String login,
-        final Coordinates rep, final String tpe) {
+    MkEvent(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        @NotNull(message = "tpe can't be NULL") final String tpe
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -89,6 +95,7 @@ final class MkEvent implements Event {
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -99,14 +106,17 @@ final class MkEvent implements Event {
     }
 
     @Override
-    public int compareTo(final Event event) {
+    public int compareTo(
+        @NotNull(message = "event can't be NULL") final Event event
+    ) {
         throw new UnsupportedOperationException("#compareTo()");
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() {
         return Json.createObjectBuilder().add("event", this.type).add(
             "actor", Json.createObjectBuilder().add("login", "test").build()
-        ).build();
+        ).add("created_at", new Github.Time().toString()).build();
     }
 }

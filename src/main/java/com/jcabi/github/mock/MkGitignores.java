@@ -71,22 +71,25 @@ public final class MkGitignores implements Gitignores {
      * Public ctor.
      * @param github The github
      */
-    MkGitignores(@NotNull(message = "github is never NULL")
+    MkGitignores(@NotNull(message = "github can't NULL")
         final MkGithub github) {
         this.ghub = github;
     }
 
     @Override
+    @NotNull(message = "github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "Iterable is never NULL")
     public Iterable<String> iterate() throws IOException {
         return GITIGNORES.keySet();
     }
 
     @Override
+    @NotNull(message = "template is never NULL")
     public String template(
         @NotNull(message = "Template name can't be NULL")
         final String name) throws IOException {

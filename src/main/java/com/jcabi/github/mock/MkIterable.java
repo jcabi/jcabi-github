@@ -29,10 +29,12 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Iterator;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -45,6 +47,7 @@ import lombok.ToString;
  */
 @Loggable(Loggable.DEBUG)
 @ToString
+@Immutable
 @EqualsAndHashCode(of = { "storage", "xpath", "mapping" })
 final class MkIterable<T> implements Iterable<T> {
 
@@ -69,14 +72,18 @@ final class MkIterable<T> implements Iterable<T> {
      * @param path Path to search
      * @param map Mapping
      */
-    MkIterable(final MkStorage stg, final String path,
-        final MkIterable.Mapping<T> map) {
+    MkIterable(@NotNull(message = "stg can't be NULL")
+        final MkStorage stg,
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "map can't be NULL") final MkIterable.Mapping<T> map
+    ) {
         this.storage = stg;
         this.xpath = path;
         this.mapping = map;
     }
 
     @Override
+    @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         final Iterator<XML> nodes;
         try {
@@ -103,6 +110,7 @@ final class MkIterable<T> implements Iterable<T> {
     /**
      * Mapping.
      */
+    @Immutable
     public interface Mapping<X> {
         /**
          * Map from XML to X.
