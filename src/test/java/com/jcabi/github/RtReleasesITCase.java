@@ -88,7 +88,7 @@ public final class RtReleasesITCase {
                 Matchers.equalTo(release.number())
             );
             MatcherAssert.assertThat(
-                releases.get(release.number()).json().getString("tag_name"),
+                new Release.Smart(releases.get(release.number())).tag(),
                 Matchers.equalTo(tag)
             );
             releases.remove(release.number());
