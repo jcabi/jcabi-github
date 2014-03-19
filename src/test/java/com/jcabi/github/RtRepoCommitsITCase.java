@@ -47,8 +47,6 @@ import org.junit.Test;
  *
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 Add test getCommit() to check that commit actually got.
- *  See http://developer.github.com/v3/repos/commits/#get-a-single-commit.
  */
 public class RtRepoCommitsITCase {
 
@@ -116,6 +114,19 @@ public class RtRepoCommitsITCase {
         MatcherAssert.assertThat(
             diff,
             Matchers.startsWith("diff --git")
+        );
+    }
+
+    /**
+     * Check that commit actually got.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void getCommit() throws Exception {
+        final String sha = "94e4216";
+        MatcherAssert.assertThat(
+            RtRepoCommitsITCase.repo().commits().get(sha).sha(),
+            Matchers.equalTo(sha)
         );
     }
 
