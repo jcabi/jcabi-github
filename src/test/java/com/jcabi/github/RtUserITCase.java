@@ -35,14 +35,14 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link RtUser}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
 public final class RtUserITCase {
 
     /**
-     * Github can understand who am I.
+     * RtUser can understand who am I.
      * @throws Exception If some problem inside
      */
     @Test
@@ -52,6 +52,18 @@ public final class RtUserITCase {
         MatcherAssert.assertThat(
             self.login(),
             Matchers.not(Matchers.isEmptyString())
+        );
+    }
+
+    /**
+     * RtUser can read verified public keys.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void readKeys() throws Exception {
+        MatcherAssert.assertThat(
+            github().users().self().keys().toString(),
+            Matchers.equalTo("https://api.github.com/user/keys")
         );
     }
 

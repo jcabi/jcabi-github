@@ -132,7 +132,7 @@ final class RtUser implements User {
     @Override
     @NotNull(message = "PublicKeys is never NULL")
     public PublicKeys keys() {
-        return new RtPublicKeys(this.request, this);
+        return new RtPublicKeys(this.ghub.entry(), this);
     }
 
     @Override
