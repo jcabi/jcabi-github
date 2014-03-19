@@ -178,6 +178,7 @@ public final class RtContents implements Contents {
         return new RtContent(
             this.entry, this.owner,
             this.request.method(Request.GET)
+                .uri().path(path).back()
                 .body().set(json).back()
                 .fetch()
                 .as(RestResponse.class)

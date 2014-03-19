@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommits;
 import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -51,16 +50,13 @@ public final class MkRepoCommitsTest {
     @Test
     public void returnIterator() throws IOException {
         final String user =  "testuser1";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo1")
-        );
         MatcherAssert.assertThat(
-            commits.iterate(
-                Collections.<String, String>emptyMap()
-            ),
-                Matchers.notNullValue()
+            new MkRepoCommits(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo1")
+            ).iterate(Collections.<String, String>emptyMap()),
+            Matchers.notNullValue()
         );
     }
 
@@ -72,12 +68,14 @@ public final class MkRepoCommitsTest {
     public void getCommit() throws IOException {
         final String user =  "testuser2";
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
-        final RepoCommits commits = new MkRepoCommits(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo2")
+        MatcherAssert.assertThat(
+            new MkRepoCommits(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo2")
+            ).get(sha),
+            Matchers.notNullValue()
         );
-        MatcherAssert.assertThat(commits.get(sha), Matchers.notNullValue());
     }
 
     /**
