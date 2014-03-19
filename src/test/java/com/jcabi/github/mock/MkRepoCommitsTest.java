@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import java.io.IOException;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public final class MkRepoCommitsTest {
                 new MkStorage.InFile(),
                 user,
                 new Coordinates.Simple(user, "testrepo1")
-            ).iterate(),
+            ).iterate(Collections.<String, String>emptyMap()),
             Matchers.notNullValue()
         );
     }

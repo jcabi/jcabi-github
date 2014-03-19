@@ -30,10 +30,10 @@
 package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
+import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,7 +46,6 @@ public final class RtRepoCommitsTest {
     /**
      * RtRepoCommits can return commits' iterator.
      */
-    @Ignore
     @Test
     public void returnIterator() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
@@ -60,7 +59,9 @@ public final class RtRepoCommitsTest {
             RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
-            commits.iterate().iterator().next().sha(),
+            commits.iterate(
+                Collections.<String, String>emptyMap()
+            ).iterator().next().sha(),
             Matchers.equalTo(sha)
         );
     }

@@ -36,6 +36,7 @@ import com.jcabi.http.RequestURI;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
@@ -45,9 +46,6 @@ import lombok.EqualsAndHashCode;
  * Commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #117 RtRepoCommits should be able to fetch commits. Let's
- *  implement this method. When done, remove this puzzle and
- *  Ignore annotation from a test for the method.
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
@@ -97,8 +95,16 @@ final class RtRepoCommits implements RepoCommits {
 
     @Override
     @NotNull(message = "Iterable of commits is never NULL")
-    public Iterable<RepoCommit> iterate() {
-        throw new UnsupportedOperationException();
+    public  Iterable<RepoCommit> iterate(final Map<String, String> params) {
+        return new RtPagination<RepoCommit>(
+            this.request.uri().queryParams(params).back(),
+            new RtPagination.Mapping<RepoCommit, JsonObject>() {
+                @Override
+                public RepoCommit map(final JsonObject value) {
+                    return RtRepoCommits.this.get(value.getString("sha"));
+                }
+            }
+        );
     }
 
     @Override

@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.hamcrest.MatcherAssert;
@@ -55,10 +56,11 @@ public class RtRepoCommitsITCase {
      * @throws Exception if there is no github key provided
      */
     @Test
-    @org.junit.Ignore
     public final void fetchCommits() throws Exception {
         final Iterator<RepoCommit> iterator =
-            RtRepoCommitsITCase.repo().commits().iterate().iterator();
+            RtRepoCommitsITCase.repo().commits().iterate(
+                Collections.<String, String>emptyMap()
+            ).iterator();
         final List<String> shas = new ArrayList<String>(5);
         shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
         shas.add("940dd5081fada0ead07762933036bf68a005cc40");
