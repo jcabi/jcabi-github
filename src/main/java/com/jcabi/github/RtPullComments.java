@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.RequestURI;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
@@ -54,21 +53,6 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
 public final class RtPullComments implements PullComments {
-
-    /**
-     * Path element that retrieves repository details.
-     */
-    private static final String REPOS_PATH = "/repos";
-
-    /**
-     * Path element that retrieves pull requests.
-     */
-    private static final String PULLS_PATH = "/pulls";
-
-    /**
-     * Path element that retrieves comments.
-     */
-    private static final String COMMENTS_PATH = "/comments";
 
     /**
      * API entry point.
@@ -93,34 +77,16 @@ public final class RtPullComments implements PullComments {
     RtPullComments(final Request req, final Pull pull) {
         this.entry = req;
         this.owner = pull;
-        this.request = constructRequest(null);
-    }
-
-    /**
-     * Constructs a request against the GitHub API.
-     * @param pullrequest A identified of a Pull request.  Can be null
-     * @return A <code>Request</code> object
-     */
-    private Request constructRequest(final Integer pullrequest) {
-        final Coordinates coords = this.owner.repo().coordinates();
-        RequestURI requesturi;
-        if (pullrequest == null) {
-            requesturi = this.entry.uri()
-                .path(REPOS_PATH)
-                .path(coords.user())
-                .path(coords.repo())
-                .path(PULLS_PATH)
-                .path(COMMENTS_PATH);
-        } else {
-            requesturi = this.entry.uri()
-                .path(REPOS_PATH)
-                .path(coords.user())
-                .path(coords.repo())
-                .path(PULLS_PATH)
-                .path(pullrequest.toString())
-                .path(COMMENTS_PATH);
-        }
-        return requesturi.back();
+        this.request = this.entry.uri()
+            // @checkstyle MultipleStringLiterals (1 line)
+            .path("/repos")
+            .path(pull.repo().coordinates().user())
+            .path(pull.repo().coordinates().repo())
+            // @checkstyle MultipleStringLiterals (1 line)
+            .path("/pulls")
+            // @checkstyle MultipleStringLiterals (1 line)
+            .path("/comments")
+            .back();
     }
 
     @Override
@@ -153,9 +119,22 @@ public final class RtPullComments implements PullComments {
     }
 
     @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
-        final Request newreq = this.constructRequest(number);
+    @NotNull(message = "Iterable of pull comments is never NULL")
+    public Iterable<PullComment> iterate(
+        @NotNull(message = "number can't be NULL") final int number,
+        // @checkstyle LineLengthCheck (1 line)
+        @NotNull(message = "params can't be NULL") final Map<String, String> params) {
+        final Request newreq = this.entry.uri()
+            // @checkstyle MultipleStringLiterals (1 line)
+            .path("/repos")
+            .path(this.owner.repo().coordinates().user())
+            .path(this.owner.repo().coordinates().repo())
+            // @checkstyle MultipleStringLiterals (1 line)
+            .path("/pulls")
+            .path(String.valueOf(number))
+            // @checkstyle MultipleStringLiterals (1 line)
+            .path("/comments")
+            .back();
         return new RtPagination<PullComment>(
             newreq.uri().queryParams(params).back(),
             new RtPagination.Mapping<PullComment, JsonObject>() {

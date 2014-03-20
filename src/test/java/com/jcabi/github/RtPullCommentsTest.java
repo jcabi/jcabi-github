@@ -94,14 +94,17 @@ public final class RtPullCommentsTest {
                     .build().toString()
             )
         ).start();
-        final RtPullComments comments = new RtPullComments(
-            new JdkRequest(container.home()), pull
-        );
-        MatcherAssert.assertThat(
-            comments.iterate(Collections.<String, String>emptyMap()),
-            Matchers.<PullComment>iterableWithSize(2)
-        );
-        container.stop();
+        try {
+            final RtPullComments comments = new RtPullComments(
+                new JdkRequest(container.home()), pull
+            );
+            MatcherAssert.assertThat(
+                comments.iterate(Collections.<String, String>emptyMap()),
+                Matchers.<PullComment>iterableWithSize(2)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -137,14 +140,17 @@ public final class RtPullCommentsTest {
                     .build().toString()
             )
         ).start();
-        final RtPullComments comments = new RtPullComments(
-            new JdkRequest(container.home()), pull
-        );
-        MatcherAssert.assertThat(
-            comments.iterate(1, Collections.<String, String>emptyMap()),
-            Matchers.<PullComment>iterableWithSize(2)
-        );
-        container.stop();
+        try {
+            final RtPullComments comments = new RtPullComments(
+                new JdkRequest(container.home()), pull
+            );
+            MatcherAssert.assertThat(
+                comments.iterate(1, Collections.<String, String>emptyMap()),
+                Matchers.<PullComment>iterableWithSize(2)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
