@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.json.Json;
@@ -48,8 +49,6 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class IssueTest {
-
-    private static final int ONE = 1;
 
     /**
      * Rule for checking thrown exception.
@@ -93,7 +92,7 @@ public final class IssueTest {
             Json.createObjectBuilder().add(
                 "pull_request",
                 Json.createObjectBuilder().add(
-                    "html_url", "http://ibm.com/pulls/1"
+                    "html_url", "http://ibm.com/pulls/3"
                 )
             ).build()
         ).when(issue).json();
@@ -102,13 +101,13 @@ public final class IssueTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo).when(issue).repo();
         Mockito.doReturn(pulls).when(repo).pulls();
-        Mockito.when(pulls.get(Mockito.eq(ONE))).thenReturn(pull);
+        Mockito.when(pulls.get(Mockito.eq(Tv.THREE))).thenReturn(pull);
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
         );
         new Issue.Smart(issue).pull();
-        Mockito.verify(pulls).get(1);
+        Mockito.verify(pulls).get(Tv.THREE);
     }
 
     /**
