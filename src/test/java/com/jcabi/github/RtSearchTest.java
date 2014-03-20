@@ -29,7 +29,9 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.http.Response;
 import com.jcabi.http.request.FakeRequest;
+import com.jcabi.http.response.JsonResponse;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -123,6 +125,21 @@ public final class RtSearchTest {
         MatcherAssert.assertThat(
             search.users("test", "joined", "desc").iterator().next().login(),
             Matchers.equalTo(login)
+        );
+    }
+
+    /**
+     * RtSearch can read non-unicode.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void readNonUnicode() throws Exception {
+        final Response resp = new FakeRequest()
+            .withBody("{\"help\": \"\u001Fblah\u0001cwhoa\u0000!\"}").fetch();
+        final JsonResponse response = new JsonResponse(resp);
+        MatcherAssert.assertThat(
+            response.json().readObject().getString("help"),
+            Matchers.is("\u001Fblah\u0001cwhoa\u0000!")
         );
     }
 
