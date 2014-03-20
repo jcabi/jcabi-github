@@ -49,6 +49,8 @@ import org.mockito.Mockito;
  */
 public final class IssueTest {
 
+    private static final int ONE = 1;
+
     /**
      * Rule for checking thrown exception.
      * @checkstyle VisibilityModifier (3 lines)
@@ -100,7 +102,7 @@ public final class IssueTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo).when(issue).repo();
         Mockito.doReturn(pulls).when(repo).pulls();
-        Mockito.when(pulls.get(Mockito.eq(1))).thenReturn(pull);
+        Mockito.when(pulls.get(Mockito.eq(ONE))).thenReturn(pull);
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
