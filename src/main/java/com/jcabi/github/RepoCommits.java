@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -46,11 +47,11 @@ public interface RepoCommits extends JsonReadable {
     /**
      * Iterate all repository's commits.
      * @return All commits
+     * @param params Url's parameters
      * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<RepoCommit> iterate();
-
+    Iterable<RepoCommit> iterate(final Map<String, String> params);
     /**
      * Get single repository's commits.
      *

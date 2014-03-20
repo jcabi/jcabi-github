@@ -37,6 +37,7 @@ import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Map;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -101,7 +102,7 @@ final class MkRepoCommits implements RepoCommits {
 
     @Override
     @NotNull(message = "Iterable of commits can't be NULL")
-    public Iterable<RepoCommit> iterate() {
+    public Iterable<RepoCommit> iterate(final Map<String, String> params) {
         return new MkIterable<RepoCommit>(
             this.storage, String.format("%s/commit", this.xpath()),
             new MkIterable.Mapping<RepoCommit>() {
