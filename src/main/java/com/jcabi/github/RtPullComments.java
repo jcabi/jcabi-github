@@ -78,13 +78,11 @@ public final class RtPullComments implements PullComments {
         this.entry = req;
         this.owner = pull;
         this.request = this.entry.uri()
-            // @checkstyle MultipleStringLiterals (2 lines)
+            // @checkstyle MultipleStringLiterals (8 lines)
             .path("/repos")
             .path(pull.repo().coordinates().user())
             .path(pull.repo().coordinates().repo())
-            // @checkstyle MultipleStringLiterals (2 lines)
             .path("/pulls")
-            // @checkstyle MultipleStringLiterals (2 lines)
             .path("/comments")
             .back();
     }
@@ -122,8 +120,8 @@ public final class RtPullComments implements PullComments {
     @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(
         @NotNull(message = "number can't be NULL") final int number,
-        // @checkstyle LineLengthCheck (1 line)
-        @NotNull(message = "params can't be NULL") final Map<String, String> params) {
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params) {
         final Request newreq = this.entry.uri()
             .path("/repos")
             .path(this.owner.repo().coordinates().user())
