@@ -53,6 +53,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
 public final class RtPullComments implements PullComments {
+
     /**
      * API entry point.
      */
@@ -75,15 +76,15 @@ public final class RtPullComments implements PullComments {
      */
     RtPullComments(final Request req, final Pull pull) {
         this.entry = req;
-        final Coordinates coords = pull.repo().coordinates();
+        this.owner = pull;
         this.request = this.entry.uri()
+            // @checkstyle MultipleStringLiterals (8 lines)
             .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
+            .path(pull.repo().coordinates().user())
+            .path(pull.repo().coordinates().repo())
             .path("/pulls")
             .path("/comments")
             .back();
-        this.owner = pull;
     }
 
     @Override
@@ -107,7 +108,7 @@ public final class RtPullComments implements PullComments {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(
-                        // @checkstyle MultipleStringLiterals (1 line)
+                        // @checkstyle MultipleStringLiterals (3 lines)
                         value.getInt("id")
                     );
                 }
@@ -118,12 +119,30 @@ public final class RtPullComments implements PullComments {
     @Override
     @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(
-        final int number,
+        @NotNull(message = "number can't be NULL") final int number,
         @NotNull(message = "params can't be NULL")
-        final Map<String, String> params
-    ) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        final Map<String, String> params) {
+        final Request newreq = this.entry.uri()
+            .path("/repos")
+            .path(this.owner.repo().coordinates().user())
+            .path(this.owner.repo().coordinates().repo())
+            .path("/pulls")
+            .path(String.valueOf(number))
+            .path("/comments")
+            .back();
+        return new RtPagination<PullComment>(
+            newreq.uri().queryParams(params).back(),
+            new RtPagination.Mapping<PullComment, JsonObject>() {
+                @Override
+                public PullComment map(final JsonObject value) {
+                    return RtPullComments.this.get(
+                        value.getInt("id")
+                    );
+                }
+            }
+        );
     }
+
     // @checkstyle ParameterNumberCheck (7 lines)
     @Override
     @NotNull(message = "PullComment is never NULL")
@@ -146,7 +165,6 @@ public final class RtPullComments implements PullComments {
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                // @checkstyle MultipleStringLiterals (1 line)
                 .json().readObject().getInt("id")
         );
     }
