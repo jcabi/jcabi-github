@@ -78,13 +78,13 @@ public final class RtPullComments implements PullComments {
         this.entry = req;
         this.owner = pull;
         this.request = this.entry.uri()
-            // @checkstyle MultipleStringLiterals (1 line)
+            // @checkstyle MultipleStringLiterals (2 lines)
             .path("/repos")
             .path(pull.repo().coordinates().user())
             .path(pull.repo().coordinates().repo())
-            // @checkstyle MultipleStringLiterals (1 line)
+            // @checkstyle MultipleStringLiterals (2 lines)
             .path("/pulls")
-            // @checkstyle MultipleStringLiterals (1 line)
+            // @checkstyle MultipleStringLiterals (2 lines)
             .path("/comments")
             .back();
     }
@@ -110,7 +110,7 @@ public final class RtPullComments implements PullComments {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(
-                        // @checkstyle MultipleStringLiterals (1 line)
+                        // @checkstyle MultipleStringLiterals (3 lines)
                         value.getInt("id")
                     );
                 }
@@ -125,14 +125,11 @@ public final class RtPullComments implements PullComments {
         // @checkstyle LineLengthCheck (1 line)
         @NotNull(message = "params can't be NULL") final Map<String, String> params) {
         final Request newreq = this.entry.uri()
-            // @checkstyle MultipleStringLiterals (1 line)
             .path("/repos")
             .path(this.owner.repo().coordinates().user())
             .path(this.owner.repo().coordinates().repo())
-            // @checkstyle MultipleStringLiterals (1 line)
             .path("/pulls")
             .path(String.valueOf(number))
-            // @checkstyle MultipleStringLiterals (1 line)
             .path("/comments")
             .back();
         return new RtPagination<PullComment>(
@@ -141,7 +138,6 @@ public final class RtPullComments implements PullComments {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(
-                        // @checkstyle MultipleStringLiterals (1 line)
                         value.getInt("id")
                     );
                 }
@@ -171,7 +167,6 @@ public final class RtPullComments implements PullComments {
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                // @checkstyle MultipleStringLiterals (1 line)
                 .json().readObject().getInt("id")
         );
     }
