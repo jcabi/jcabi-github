@@ -121,6 +121,7 @@ public final class VisibilityTest {
         .add("com.jcabi.github.Users")
         .add("com.jcabi.github.RtGithub")
         .add("com.jcabi.github.mock.MkStorage")
+        .add("com.jcabi.github.mock.MkGithub")
         .build();
 
     /**
