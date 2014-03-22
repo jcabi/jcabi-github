@@ -98,7 +98,8 @@ final class RtGists implements Gists {
     @Override
     @NotNull(message = "Gist can't be NULL")
     public Gist create(@NotNull(message = "list of files can't be NULL")
-        final Map<String, String> files) throws IOException {
+        final Map<String, String> files, final boolean visible
+    ) throws IOException {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final Map.Entry<String, String> file : files.entrySet()) {
             builder = builder.add(
@@ -108,6 +109,7 @@ final class RtGists implements Gists {
         }
         final JsonStructure json = Json.createObjectBuilder()
             .add("files", builder)
+            .add("public", visible)
             .build();
         return this.get(
             this.request.method(Request.POST)

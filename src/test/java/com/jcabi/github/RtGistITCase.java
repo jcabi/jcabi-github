@@ -58,7 +58,7 @@ public final class RtGistITCase {
         Gist.Smart smart = null;
         try {
             final Gist gist = gists.create(
-                Collections.singletonMap(filename, content)
+                Collections.singletonMap(filename, content), false
             );
             smart = new Gist.Smart(gist);
             final String file = smart.files().iterator().next();
@@ -88,7 +88,7 @@ public final class RtGistITCase {
         final Gists gists2 = RtGistITCase.github("failsafe.github.key.second")
             .gists();
         final Gist gist = gists1.get(
-            gists2.create(Collections.singletonMap(filename, content))
+            gists2.create(Collections.singletonMap(filename, content), false)
                 .identifier()
         );
         final Gist forked = gist.fork();
