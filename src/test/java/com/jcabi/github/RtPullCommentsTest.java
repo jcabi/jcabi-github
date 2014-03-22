@@ -94,14 +94,17 @@ public final class RtPullCommentsTest {
                     .build().toString()
             )
         ).start();
-        final RtPullComments comments = new RtPullComments(
-            new JdkRequest(container.home()), pull
-        );
-        MatcherAssert.assertThat(
-            comments.iterate(Collections.<String, String>emptyMap()),
-            Matchers.<PullComment>iterableWithSize(2)
-        );
-        container.stop();
+        try {
+            final RtPullComments comments = new RtPullComments(
+                new JdkRequest(container.home()), pull
+            );
+            MatcherAssert.assertThat(
+                comments.iterate(Collections.<String, String>emptyMap()),
+                Matchers.<PullComment>iterableWithSize(2)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -123,15 +126,31 @@ public final class RtPullCommentsTest {
      * RtPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 RtPullComments should be able to fetch all comments of a pull
-     *  request. Implement {@link RtPullComments#iterate(int, java.util.Map)}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void iteratesPullRequestComments() throws Exception {
-        // To be implemented.
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(comment("comment 3"))
+                    .add(comment("comment 4"))
+                    .build().toString()
+            )
+        ).start();
+        try {
+            final RtPullComments comments = new RtPullComments(
+                new JdkRequest(container.home()), pull
+            );
+            MatcherAssert.assertThat(
+                comments.iterate(1, Collections.<String, String>emptyMap()),
+                Matchers.<PullComment>iterableWithSize(2)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
