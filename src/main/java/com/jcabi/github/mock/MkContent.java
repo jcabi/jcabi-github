@@ -34,22 +34,21 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Content;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock Github content.
  *
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
- * @todo #166 Content mock should be implemented.
- *  Need to implement the methods of MkContent: 1) compareTo,
- *  2) json, 3) patch
- *  Don't forget to update the unit test class {@link MkContent}.
- *  See http://developer.github.com/v3/repos/contents
  * @todo #314:30m MkContent should be able to return its own repository when
  *  the repo() method is invoked, and its own path when the path() method
  *  is invoked. Don't forget to implement unit tests.
@@ -90,8 +89,12 @@ final class MkContent implements Content {
      * @throws IOException If there is any I/O problem
      * @checkstyle ParameterNumberCheck (3 lines)
      */
-    public MkContent(final MkStorage stg, final String login,
-        final Coordinates rep, final String path) throws IOException {
+    public MkContent(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        @NotNull(message = "path can't be NULL") final String path
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -99,18 +102,24 @@ final class MkContent implements Content {
     }
 
     @Override
-    public int compareTo(final Content cont) {
-        throw new UnsupportedOperationException("MkContent#compareTo()");
+    public int compareTo(
+        @NotNull(message = "cont should not be NULL") final Content cont
+    ) {
+        return new CompareToBuilder()
+            .append(this.path(), cont.path())
+                .append(this.repo().coordinates(), cont.repo().coordinates())
+            .build();
     }
 
     @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
-        throw new UnsupportedOperationException("MkContent#patch()");
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -118,19 +127,34 @@ final class MkContent implements Content {
     }
 
     @Override
+    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "path is never NULL")
     public String path() {
         return this.location;
+    }
+
+    @Override
+    @NotNull(message = "input stream is never NULL")
+    public InputStream raw() throws IOException {
+        return new ByteArrayInputStream(
+            DatatypeConverter.parseBase64Binary(
+                this.storage.xml().xpath(
+                    String.format("%s/content/text()", this.xpath())
+                ).get(0)
+            )
+        );
     }
 
     /**
      * XPath of this element in XML tree.
      * @return The XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/contents/content[path='%s']",

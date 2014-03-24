@@ -67,6 +67,7 @@ public interface PublicKeys {
      * @return A single public key.
      * @see <a href="http://developer.github.com/v3/users/keys#get-a-single-public-key/">Get a single public key.</a>
      */
+    @NotNull(message = "PublicKey is never NULL")
     PublicKey get(int number);
 
     /**
@@ -78,7 +79,11 @@ public interface PublicKeys {
      * @throws IOException If an IO problem occurs.
      * @see <a href="http://developer.github.com/v3/users/keys/#create-a-public-key/">Create a public key.</a>
      */
-    PublicKey create(String title, String key) throws IOException;
+    @NotNull(message = "PublicKey is never NULL")
+    PublicKey create(
+        @NotNull(message = "title is never NULL") String title,
+        @NotNull(message = "key is never NULL") String key
+    ) throws IOException;
 
     /**
      * Remove a public key.

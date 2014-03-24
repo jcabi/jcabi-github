@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommit;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -79,15 +80,15 @@ public final class MkContentsTest {
      * MkContents should be able to create new files.
      *
      * @throws Exception if some problem inside
-     * @todo #323 MkContents should be able to fetch the readme of the specified
-     *  branch. This method should create a new instance of MkContent. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
      */
     @Test
-    @Ignore
     public void canFetchReadmeFromBranch() throws Exception {
-        //To be implemented.
+        final String branch = "master";
+        final Contents contents = MkContentsTest.repo().contents();
+        MatcherAssert.assertThat(
+            contents.readme(branch),
+            Matchers.notNullValue()
+        );
     }
 
     /**
@@ -206,11 +207,12 @@ public final class MkContentsTest {
         final JsonObject update = MkContentsTest
             .content(path, "theMessage", "blah")
             .build();
-        contents.update(path, update);
-        final Content.Smart content =
-            new Content.Smart(contents.get(path, "master"));
         MatcherAssert.assertThat(
-            content.path(),
+            new RepoCommit.Smart(contents.update(path, update)).sha(),
+            Matchers.not(Matchers.isEmptyOrNullString())
+        );
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.get(path, "master")).path(),
             Matchers.is(path)
         );
         MatcherAssert.assertThat(

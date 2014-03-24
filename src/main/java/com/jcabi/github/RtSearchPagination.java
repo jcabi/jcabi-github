@@ -90,6 +90,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
     }
 
     @Override
+    @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         return new RtPagination<T>(
             new RtSearchPagination.SearchRequest(this.request), this.mapping
@@ -114,88 +115,114 @@ final class RtSearchPagination<T> implements Iterable<T> {
             this.request = req;
         }
         @Override
+        @NotNull(message = "Request isn't ever NULL")
         public RequestURI uri() {
             return this.request.uri();
         }
         @Override
+        @NotNull(message = "body is never NULL")
         public RequestBody body() {
             return this.request.body();
         }
         @Override
+        @NotNull(message = "header is nerver NULL")
         public Request header(@NotNull(message = "header name can't be NULL")
             final String name, @NotNull(message = "header value can't be NULL")
             final Object value) {
             return this.request.header(name, value);
         }
         @Override
+        @NotNull(message = "Request is nerver NULL")
         public Request reset(@NotNull(message = "header name can't be NULL")
             final String name) {
             return this.request.reset(name);
         }
         @Override
+        @NotNull(message = "Request is never NULL")
         public Request method(@NotNull(message = "method can't be NULL")
             final String method) {
             return this.request.method(method);
         }
-
         /**
          * Hide everything from the body but items.
          * @return Response
          * @throws IOException If any I/O problem occurs
          */
         @Override
+        @NotNull(message = "Response is never NULL")
         public Response fetch() throws IOException {
-            final Response response = this.request.fetch();
-            // @checkstyle AnonInnerLength (44 lines)
-            return new Response() {
-                @Override
-                public Request back() {
-                    return response.back();
-                }
-                @Override
-                public int status() {
-                    return response.status();
-                }
-                @Override
-                public String reason() {
-                    return response.reason();
-                }
-                @Override
-                public Map<String, List<String>> headers() {
-                    return response.headers();
-                }
-                @Override
-                public String body() {
-                    return Json.createReader(new StringReader(response.body()))
-                        .readObject().getJsonArray("items").toString();
-                }
-                @Override
-                public byte[] binary() {
-                    return response.binary();
-                }
-                // @checkstyle MethodName (3 lines)
-                @Override
-                @SuppressWarnings("PMD.ShortMethodName")
-                public <T> T as(final Class<T> type) {
-                    try {
-                        return type.getDeclaredConstructor(Response.class)
-                            .newInstance(this);
-                    } catch (final InstantiationException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final IllegalAccessException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final InvocationTargetException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final NoSuchMethodException ex) {
-                        throw new IllegalStateException(ex);
-                    }
-                }
-            };
+            return new RtSearchPagination.Hidden(this.request.fetch());
         }
         @Override
+        @NotNull(message = "Request should never be NULL")
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
             return this.request.through(type, args);
+        }
+    }
+
+    /**
+     * Response to return.
+     */
+    @Immutable
+    private static final class Hidden implements Response {
+        /**
+         * Original response.
+         */
+        private final transient Response response;
+        /**
+         * Ctor.
+         * @param resp Response
+         */
+        Hidden(final Response resp) {
+            this.response = resp;
+        }
+        @Override
+        @NotNull(message = "Request cannot be NULL")
+        public Request back() {
+            return this.response.back();
+        }
+        @Override
+        public int status() {
+            return this.response.status();
+        }
+        @Override
+        @NotNull(message = "reason is never NULL")
+        public String reason() {
+            return this.response.reason();
+        }
+        @Override
+        @NotNull(message = "headers is never NULL")
+        public Map<String, List<String>> headers() {
+            return this.response.headers();
+        }
+        @Override
+        @NotNull(message = "body is never NULL")
+        public String body() {
+            return Json.createReader(new StringReader(this.response.body()))
+                .readObject().getJsonArray("items").toString();
+        }
+        @Override
+        public byte[] binary() {
+            return this.response.binary();
+        }
+        // @checkstyle MethodName (4 lines)
+        @Override
+        @SuppressWarnings("PMD.ShortMethodName")
+        @NotNull(message = "T is never NULL")
+        public <T> T as(final Class<T> type) {
+            try {
+                return type.getDeclaredConstructor(Response.class)
+                    .newInstance(this);
+            } catch (final InstantiationException ex) {
+                throw new IllegalStateException(ex);
+            } catch (final IllegalAccessException ex) {
+                throw new IllegalStateException(ex);
+            } catch (final InvocationTargetException ex) {
+                throw new IllegalStateException(ex);
+            } catch (final NoSuchMethodException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
     }
 

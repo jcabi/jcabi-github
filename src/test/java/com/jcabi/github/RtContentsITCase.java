@@ -49,6 +49,7 @@ import org.junit.Test;
  *  from a real Github repository, fetch files, create, update and remove
  *  files.
  *  When done, remove this puzzle and Ignore annotation from the method.
+ * @checkstyle MultipleStringLiterals (300 lines)
  */
 public final class RtContentsITCase {
 
@@ -68,40 +69,92 @@ public final class RtContentsITCase {
      */
     @Test
     public void canCreateFileContent() throws Exception {
-        final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
-        final String cont = new String(
-            Base64.encodeBase64("some content".getBytes())
+        final Repos repos = github().repos();
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).build()
         );
-        final JsonObject json = Json.createObjectBuilder()
+        try {
+            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            MatcherAssert.assertThat(
+                repos.get(repo.coordinates()).contents().create(
+                    this.jsonObject(
+                        path, new String(
+                            Base64.encodeBase64("some content".getBytes())
+                        ), "theMessage"
+                    )
+                ).path(),
+                Matchers.equalTo(path)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtContents can get content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void getContent() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).build()
+        );
+        try {
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String message = String.format("testMessage");
+            final String cont = new String(
+                Base64.encodeBase64(
+                    String.format("content%d", System.currentTimeMillis())
+                        .getBytes()
+                )
+            );
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(this.jsonObject(path, cont, message));
+            final Content content = contents.get(path, "master");
+            MatcherAssert.assertThat(
+                content.path(),
+                Matchers.equalTo(path)
+            );
+            MatcherAssert.assertThat(
+                new Content.Smart(content).content(),
+                Matchers.equalTo(String.format("%s\n", cont))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * Create and return JsonObject of content.
+     * @param path Content's path
+     * @param cont Content's Base64 string
+     * @param message Message
+     * @return JsonObject
+     */
+    private JsonObject jsonObject(
+        final String path, final String cont, final String message
+    ) {
+        return Json.createObjectBuilder()
             .add("path", path)
-            .add("message", "theMessage")
+            .add("message", message)
             .add("content", cont)
             .build();
-        final Content content = RtContentsITCase.repo().contents().create(json);
-        MatcherAssert.assertThat(
-            content.path(),
-            Matchers.equalTo(path)
-        );
     }
 
     /**
      * Create and return repo to test.
+     *
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(RtContentsITCase.coordinates());
-    }
-
-    /**
-     * Create and return repo coordinates to test on.
-     * @return Coordinates
-     */
-    private static Coordinates coordinates() {
-        return new Coordinates.Simple(
-            System.getProperty("failsafe.github.repo")
-        );
+        return new RtGithub(key);
     }
 }

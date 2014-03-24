@@ -32,11 +32,15 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -72,31 +76,62 @@ public final class RtPullComments implements PullComments {
      */
     RtPullComments(final Request req, final Pull pull) {
         this.entry = req;
-        final Coordinates coords = pull.repo().coordinates();
+        this.owner = pull;
         this.request = this.entry.uri()
+            // @checkstyle MultipleStringLiterals (8 lines)
             .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
+            .path(pull.repo().coordinates().user())
+            .path(pull.repo().coordinates().repo())
             .path("/pulls")
             .path("/comments")
             .back();
-        this.owner = pull;
     }
 
     @Override
+    @NotNull(message = "Pull is never NUll")
     public Pull pull() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "PullComment is never NULL")
     public PullComment get(final int number) {
         return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
+    @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(final Map<String, String> params) {
         return new RtPagination<PullComment>(
             this.request.uri().queryParams(params).back(),
+            new RtPagination.Mapping<PullComment, JsonObject>() {
+                @Override
+                public PullComment map(final JsonObject value) {
+                    return RtPullComments.this.get(
+                        // @checkstyle MultipleStringLiterals (3 lines)
+                        value.getInt("id")
+                    );
+                }
+            }
+        );
+    }
+
+    @Override
+    @NotNull(message = "Iterable of pull comments is never NULL")
+    public Iterable<PullComment> iterate(
+        @NotNull(message = "number can't be NULL") final int number,
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params) {
+        final Request newreq = this.entry.uri()
+            .path("/repos")
+            .path(this.owner.repo().coordinates().user())
+            .path(this.owner.repo().coordinates().repo())
+            .path("/pulls")
+            .path(String.valueOf(number))
+            .path("/comments")
+            .back();
+        return new RtPagination<PullComment>(
+            newreq.uri().queryParams(params).back(),
             new RtPagination.Mapping<PullComment, JsonObject>() {
                 @Override
                 public PullComment map(final JsonObject value) {
@@ -108,22 +143,38 @@ public final class RtPullComments implements PullComments {
         );
     }
 
+    // @checkstyle ParameterNumberCheck (7 lines)
     @Override
-    public Iterable<PullComment> iterate(final int number,
-        final Map<String, String> params) {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+    @NotNull(message = "PullComment is never NULL")
+    public PullComment post(
+        @NotNull(message = "body can't be NULL") final String body,
+        @NotNull(message = "commit can't be NULL") final String commit,
+        @NotNull(message = "path can't be NULL") final String path,
+        final int position
+    ) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("body", body)
+            .add("commit_id", commit)
+            .add("path", path)
+            .add("position", position)
+            .build();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
     }
 
-    // @checkstyle ParameterNumberCheck (3 lines)
     @Override
-    public PullComment post(final String body, final String commit,
-        final String path, final int position) throws IOException {
-        throw new UnsupportedOperationException("Post not yet implemented.");
-    }
-
-    @Override
-    public PullComment reply(final String text,
-        final int comment) throws IOException {
+    @NotNull(message = "pull comment is never NULL")
+    public PullComment reply(
+        @NotNull(message = "text can't be NULL") final String text,
+        @NotNull(message = "comment can't be NULL") final int comment
+    ) throws IOException {
         throw new UnsupportedOperationException("Reply not yet implemented.");
     }
 
