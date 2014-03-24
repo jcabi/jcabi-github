@@ -29,15 +29,14 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.request.FakeRequest;
 import com.jcabi.aspects.Tv;
+import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
