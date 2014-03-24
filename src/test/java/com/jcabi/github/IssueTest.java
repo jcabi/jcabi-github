@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.json.Json;
@@ -84,31 +85,30 @@ public final class IssueTest {
     /**
      * Issue.Smart can detect a pull request.
      * @throws Exception If some problem inside
-     * @todo #625 This test fails because it violates
-     *  constraint "pull is never NULL".Fix this.
      */
     @Test
-    @Ignore
     public void detectsPullRequest() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
                 "pull_request",
                 Json.createObjectBuilder().add(
-                    "html_url", "http://ibm.com/pulls/1"
+                    "html_url", "http://ibm.com/pulls/3"
                 )
             ).build()
         ).when(issue).json();
         final Pulls pulls = Mockito.mock(Pulls.class);
         final Repo repo = Mockito.mock(Repo.class);
+        final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo).when(issue).repo();
         Mockito.doReturn(pulls).when(repo).pulls();
+        Mockito.when(pulls.get(Mockito.eq(Tv.THREE))).thenReturn(pull);
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
         );
         new Issue.Smart(issue).pull();
-        Mockito.verify(pulls).get(1);
+        Mockito.verify(pulls).get(Tv.THREE);
     }
 
     /**
