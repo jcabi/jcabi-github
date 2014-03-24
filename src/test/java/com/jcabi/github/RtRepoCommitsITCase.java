@@ -29,8 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.immutable.ArrayMap;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.hamcrest.MatcherAssert;
@@ -59,7 +59,9 @@ public class RtRepoCommitsITCase {
     public final void fetchCommits() throws Exception {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
-                Collections.<String, String>emptyMap()
+                new ArrayMap<String, String>()
+                    .with("since", "2014-01-26T00:00:00Z")
+                    .with("until", "2014-01-27T00:00:00Z")
             ).iterator();
         final List<String> shas = new ArrayList<String>(5);
         shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
