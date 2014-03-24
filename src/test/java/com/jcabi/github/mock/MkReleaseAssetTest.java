@@ -45,6 +45,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkReleaseAssetTest {
 
     /**
@@ -91,6 +92,35 @@ public final class MkReleaseAssetTest {
             Matchers.<ReleaseAsset>iterableWithSize(1)
         );
         asset.remove();
+        MatcherAssert.assertThat(
+            assets.iterate(),
+            Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * MkReleaseAsset can be removed several times.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void removesSeveralAssets() throws Exception {
+        final ReleaseAssets assets = release().assets();
+        // @checkstyle MagicNumberCheck (1 line)
+        final int limit = 3;
+        final ReleaseAsset[] bodies = new ReleaseAsset[limit];
+        for (int idx = 0; idx < limit; ++idx) {
+            bodies[idx] = assets.upload(
+                "testRemove".getBytes(), "text/plain", "remove.txt"
+            );
+        }
+        MatcherAssert.assertThat(
+            assets.iterate(),
+            Matchers.<ReleaseAsset>iterableWithSize(limit)
+        );
+        for (int idx = 0; idx < limit; ++idx) {
+            bodies[idx].remove();
+        }
         MatcherAssert.assertThat(
             assets.iterate(),
             Matchers.emptyIterable()

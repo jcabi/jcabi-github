@@ -83,11 +83,13 @@ public class RtMilestone implements Milestone {
     }
 
     @Override
+    @NotNull(message = "toString is never NULL")
     public final String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "Repository can't be NULL")
     public final Repo repo() {
         return this.owner;
     }
@@ -98,6 +100,7 @@ public class RtMilestone implements Milestone {
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -113,6 +116,6 @@ public class RtMilestone implements Milestone {
     public final int compareTo(
         @NotNull(message = "Milestone object can't be NULL")
         final Milestone milestone) {
-        return new Integer(this.number()).compareTo(milestone.number());
+        return Integer.valueOf(this.number()).compareTo(milestone.number());
     }
 }

@@ -147,6 +147,7 @@ public final class RtGithub implements Github {
     }
 
     @Override
+    @NotNull(message = "request can't be NULL")
     public Request entry() {
         return this.request;
     }
@@ -170,16 +171,19 @@ public final class RtGithub implements Github {
     }
 
     @Override
+    @NotNull(message = "limmits can't be NULL")
     public Limits limits() {
         return new RtLimits(this, this.request);
     }
 
     @Override
+    @NotNull(message = "search is never NULL")
     public Search search() {
         return new RtSearch(this, this.request);
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject meta() throws IOException {
         return this.request.uri().path("meta").back().fetch()
             .as(JsonResponse.class)
@@ -187,6 +191,7 @@ public final class RtGithub implements Github {
     }
 
     @Override
+    @NotNull(message = "JSON is never NULL")
     public JsonObject emojis() throws IOException {
         return this.request.uri().path("emojis").back().fetch()
             .as(JsonResponse.class)
@@ -194,11 +199,13 @@ public final class RtGithub implements Github {
     }
 
     @Override
+    @NotNull(message = "GitIgnores is never NULL")
     public Gitignores gitignores() throws IOException {
         return new RtGitignores(this);
     }
 
     @Override
+    @NotNull(message = "Markdown is never NULL")
     public Markdown markdown() {
         return new RtMarkdown(this, this.request);
     }

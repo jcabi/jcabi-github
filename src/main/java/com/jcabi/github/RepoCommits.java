@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -40,16 +41,17 @@ import javax.validation.constraints.NotNull;
  * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface RepoCommits extends JsonReadable {
 
     /**
      * Iterate all repository's commits.
      * @return All commits
+     * @param params Url's parameters
      * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<RepoCommit> iterate();
-
+    Iterable<RepoCommit> iterate(final Map<String, String> params);
     /**
      * Get single repository's commits.
      *
@@ -58,7 +60,7 @@ public interface RepoCommits extends JsonReadable {
      * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
      */
     @NotNull(message = "RepoCommit is never NULL")
-    RepoCommit get(String sha);
+    RepoCommit get(@NotNull(message = "sha is never NULL") String sha);
 
     /**
      * Compare two commits.
@@ -80,7 +82,10 @@ public interface RepoCommits extends JsonReadable {
      * @since 0.8
      */
     @NotNull(message = "repo commits comparison is never NULL")
-    String diff(String base, String head) throws IOException;
+    String diff(
+        @NotNull(message = "base is never NULL") String base,
+        @NotNull(message = "head is never NULL") String head
+    ) throws IOException;
 
     /**
      * Compare two commits and provide result in patch format.
@@ -91,5 +96,8 @@ public interface RepoCommits extends JsonReadable {
      * @since 0.8
      */
     @NotNull(message = "repo commits comparison is never NULL")
-    String patch(String base, String head) throws IOException;
+    String patch(
+        @NotNull(message = "base is never NULL") String base,
+        @NotNull(message = "head is never NULL") String head
+    ) throws IOException;
 }

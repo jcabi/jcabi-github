@@ -31,14 +31,14 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import com.jcabi.github.RepoCommit;
 import java.io.IOException;
-import java.util.Map;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -80,8 +80,11 @@ public final class MkContents implements Contents {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkContents(final MkStorage stg, final String login,
-        final Coordinates rep) throws IOException {
+    public MkContents(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -93,23 +96,29 @@ public final class MkContents implements Contents {
     }
 
     @Override
+    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
         return new MkContent(this.storage, this.self, this.coords, "README.md");
     }
 
     @Override
-    public Content readme(final String branch) {
-        throw new UnsupportedOperationException("Readme not yet implemented.");
+    @NotNull(message = "the content is never NULL")
+    public Content readme(final String branch)
+        throws IOException {
+        return new MkContent(this.storage, this.self, this.coords, branch);
     }
 
     @Override
-    public Content create(final JsonObject json)
-        throws IOException {
+    @NotNull(message = "created content is never NULL")
+    public Content create(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
         this.storage.lock();
         // @checkstyle MultipleStringLiterals (40 lines)
         final String path = json.getString("path");
@@ -126,7 +135,7 @@ public final class MkContents implements Contents {
                     .add("git_url").set("http://localhost/2").up()
                     .add("html_url").set("http://localhost/3").up()
             );
-            this.storage.apply(this.commit(json));
+            this.commit(json);
         } finally {
             this.storage.unlock();
         }
@@ -134,21 +143,20 @@ public final class MkContents implements Contents {
     }
 
     @Override
-    public Content get(final String path, final String ref)
-        throws IOException {
+    @NotNull(message = "retrieved content is never NULL")
+    public Content get(
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
         return new MkContent(this.storage, this.self, this.coords, path);
     }
 
-    // @checkstyle ParameterNumberCheck (9 lines)
     @Override
-    public Commit remove(
-        final String path,
-        final String message,
-        final String sha,
-        final String branch,
-        final Map<String, String> committer,
-        final Map<String, String> author)
-        throws IOException {
+    @NotNull(message = "commit is never NULL")
+    public RepoCommit remove(
+        @NotNull(message = "content should not be NULL")
+        final JsonObject content
+    ) throws IOException {
         throw new UnsupportedOperationException("Remove not yet implemented.");
     }
 
@@ -156,14 +164,18 @@ public final class MkContents implements Contents {
      * Updates a file.
      * @param path The content path.
      * @param json JSON object containing updates to the content.
+     * @return Commit related to this update.
      * @throws IOException If any I/O problem occurs.
      */
     @Override
-    public void update(final String path, final JsonObject json)
-        throws IOException {
+    @NotNull(message = "updated commit is never NULL")
+    public RepoCommit update(
+        @NotNull(message = "path cannot be NULL") final String path,
+        @NotNull(message = "json should not be NULL") final JsonObject json
+    ) throws IOException {
         try {
             new JsonPatch(this.storage).patch(path, json);
-            this.storage.apply(this.commit(json));
+            return this.commit(json);
         } finally {
             this.storage.unlock();
         }
@@ -173,6 +185,7 @@ public final class MkContents implements Contents {
      * XPath of this element in XML tree.
      * @return The XPath
      */
+    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/contents",
@@ -184,6 +197,7 @@ public final class MkContents implements Contents {
      * Xpath of the commits element in XML tree.
      * @return Xpath
      */
+    @NotNull(message = "commit xpath is never NULL")
     private String commitXpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/commits",
@@ -194,13 +208,18 @@ public final class MkContents implements Contents {
     /**
      * XML Directives for commit creation.
      * @param json Source
-     * @return Directives
+     * @return SHA string
+     * @throws IOException If an IO Exception occurs
      */
-    private Directives commit(final JsonObject json) {
+    @NotNull(message = "MkRepoCommit is never NULL")
+    private MkRepoCommit commit(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
+        final String sha = fakeSha();
         // @checkstyle MultipleStringLiterals (40 lines)
         final Directives commit = new Directives().xpath(this.commitXpath())
             .add("commit")
-            .add("sha").set(fakeSha()).up()
+            .add("sha").set(sha).up()
             .add("url").set("http://localhost/4").up()
             .add("html_url").set("http://localhost/5").up()
             .add("message").set(json.getString("message")).up();
@@ -216,7 +235,8 @@ public final class MkContents implements Contents {
                 .add("email").set(author.getString("email")).up()
                 .add("name").set(author.getString("name")).up();
         }
-        return commit;
+        this.storage.apply(commit);
+        return new MkRepoCommit(this.storage, this.repo(), sha);
     }
 
     /**
@@ -224,6 +244,7 @@ public final class MkContents implements Contents {
      *
      * @return Fake SHA string.
      */
+    @NotNull(message = "fake sha can't be NULL")
     private static String fakeSha() {
         // @checkstyle MagicNumberCheck (1 line)
         return RandomStringUtils.random(40, "0123456789abcdef");

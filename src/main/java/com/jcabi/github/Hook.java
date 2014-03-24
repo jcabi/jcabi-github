@@ -81,7 +81,7 @@ public interface Hook extends JsonReadable {
          * Public ctor.
          * @param hoo Hook
          */
-        public Smart(final Hook hoo) {
+        public Smart(@NotNull(message = "hook can't be NULL") final Hook hoo) {
             this.hook = hoo;
             this.jsn = new SmartJson(hoo);
         }
@@ -90,10 +90,12 @@ public interface Hook extends JsonReadable {
          * @return Name of hook
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "name is never NULL")
         public String name() throws IOException {
             return this.jsn.text("name");
         }
         @Override
+        @NotNull(message = "Repository is never NULL")
         public Repo repo() {
             return this.hook.repo();
         }
@@ -102,6 +104,7 @@ public interface Hook extends JsonReadable {
             return this.hook.number();
         }
         @Override
+        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.hook.json();
         }

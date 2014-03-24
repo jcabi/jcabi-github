@@ -32,9 +32,14 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -83,21 +88,26 @@ public final class RtContent implements Content {
     }
 
     @Override
+    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "string path can't be NULL")
     public String path() {
         return this.location;
     }
 
     @Override
-    public int compareTo(final Content other) {
+    public int compareTo(
+        @NotNull(message = "other can't be NULL") final Content other
+    ) {
         return this.path().compareTo(other.path());
     }
 
     @Override
+    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -106,5 +116,19 @@ public final class RtContent implements Content {
     public void patch(@NotNull(message = "JSON object can't be NULL")
         final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
+    }
+
+    @Override
+    @NotNull(message = "InputStream can't be NULL")
+    public InputStream raw() throws IOException {
+        return new ByteArrayInputStream(
+            this.request.reset(HttpHeaders.ACCEPT)
+                .header(
+                    HttpHeaders.ACCEPT,
+                    "application/vnd.github.v3.raw"
+                ).fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK).binary()
+        );
     }
 }

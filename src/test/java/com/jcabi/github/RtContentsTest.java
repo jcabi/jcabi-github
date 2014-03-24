@@ -37,7 +37,6 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -165,7 +164,7 @@ public final class RtContentsTest {
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents")
+                Matchers.endsWith("/repos/test/contents/contents/test/file")
             );
             MatcherAssert.assertThat(
                 smart.path(),
@@ -270,13 +269,12 @@ public final class RtContentsTest {
             repo()
         );
         try {
-            final Commit commit = contents.remove(
-                "to/remove",
-                "Delete me",
-                "fileSha",
-                "master",
-                Collections.<String, String>emptyMap(),
-                Collections.<String, String>emptyMap()
+            final RepoCommit commit = contents.remove(
+                Json.createObjectBuilder()
+                    .add("path", "to/remove")
+                    .add("message", "Delete me")
+                    .add("sha", "fileSha")
+                    .build()
             );
             MatcherAssert.assertThat(
                 commit.sha(),
@@ -305,9 +303,18 @@ public final class RtContentsTest {
      */
     @Test
     public void canUpdateFilesInRepository() throws Exception {
+        final String sha = "2f97253a513bbe26658881c29e27910082fef900";
+        final JsonObject resp = Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (1 line)
+            .add("sha", sha).build();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{}")
-        ).start();
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder().add("commit", resp)
+                    .build().toString()
+            )
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
+            .start();
         try {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -319,7 +326,10 @@ public final class RtContentsTest {
                 .add("content", "bmV3IHRlc3Q=")
                 .add("sha", "90b67dda6d5944ad167e20ec52bfed8fd56986c8")
                 .build();
-            contents.update(path, json);
+            MatcherAssert.assertThat(
+                new RepoCommit.Smart(contents.update(path, json)).sha(),
+                Matchers.is(sha)
+            );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),

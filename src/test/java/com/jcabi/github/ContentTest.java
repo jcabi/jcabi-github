@@ -195,4 +195,38 @@ public class ContentTest {
             Matchers.is(new URL(prop))
         );
     }
+
+    /**
+     * Content.Smart can fetch encoded content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesContent() throws Exception {
+        final Content content = Mockito.mock(Content.class);
+        final String prop = "dGVzdCBlbmNvZGU=";
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("content", prop)
+                .build()
+        ).when(content).json();
+        MatcherAssert.assertThat(
+            new Content.Smart(content).content(),
+            Matchers.is(prop)
+        );
+    }
+
+    /**
+     * Content.Smart can get underlying repo.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void smartCanGetUnderlyingRepo() throws Exception {
+        final Content content = Mockito.mock(Content.class);
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(repo).when(content).repo();
+        MatcherAssert.assertThat(
+            new Content.Smart(content).repo(),
+            Matchers.is(repo)
+        );
+    }
 }

@@ -78,11 +78,13 @@ public final class RtSearch implements Search {
     }
 
     @Override
+    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
+    @NotNull(message = "Iterable of repos is never NULL")
     public Iterable<Repo> repos(
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
@@ -103,6 +105,7 @@ public final class RtSearch implements Search {
     }
 
     @Override
+    @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> issues(
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
@@ -131,6 +134,7 @@ public final class RtSearch implements Search {
     }
 
     @Override
+    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> users(
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,

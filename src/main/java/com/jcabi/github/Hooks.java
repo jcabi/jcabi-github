@@ -86,5 +86,8 @@ public interface Hooks {
      * @see <a href="http://developer.github.com/v3/repos/hooks/#create-a-hook">Create a hook</a>
      */
     @NotNull(message = "hook is never NULL")
-    Hook create(String name, Map<String, String> config)throws IOException;
+    Hook create(
+        @NotNull(message = "name is never NULL") String name,
+        @NotNull(message = "config is never NULL") Map<String, String> config
+    ) throws IOException;
 }

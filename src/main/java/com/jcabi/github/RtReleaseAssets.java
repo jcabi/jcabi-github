@@ -37,6 +37,8 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -88,18 +90,36 @@ public final class RtReleaseAssets implements ReleaseAssets {
     }
 
     @Override
+    @NotNull(message = "release is never NULL")
     public Release release() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "Iterable of ReleaseAsset is never NULL")
     public Iterable<ReleaseAsset> iterate() {
-        throw new UnsupportedOperationException("Iterate not yet implemented.");
+        return new RtPagination<ReleaseAsset>(
+            this.request.uri().back()
+                .method(Request.GET),
+            new RtPagination.Mapping<ReleaseAsset, JsonObject>() {
+                @Override
+                public ReleaseAsset map(final JsonObject value) {
+                    return RtReleaseAssets.this.get(
+                    //@checkstyle MultipleStringLiteralsCheck (1 line)
+                        value.getInt("id")
+                    );
+                }
+            }
+        );
     }
 
     @Override
-    public ReleaseAsset upload(final byte[] content,
-        final String type, final String name) throws IOException {
+    @NotNull(message = "ReleaseAsset is never NULL")
+    public ReleaseAsset upload(
+        final byte[] content,
+        @NotNull(message = "type can't be NULL") final String type,
+        @NotNull(message = "name can't be NULL") final String name
+    ) throws IOException {
         return this.get(
             this.request.uri()
                 .set(URI.create("https://uploads.github.com"))
@@ -123,6 +143,7 @@ public final class RtReleaseAssets implements ReleaseAssets {
     }
 
     @Override
+    @NotNull(message = "ReleaseAsset is never NULL")
     public ReleaseAsset get(final int number) {
         return new RtReleaseAsset(this.entry, this.owner, number);
     }

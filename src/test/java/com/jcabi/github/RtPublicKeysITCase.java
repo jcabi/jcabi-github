@@ -40,8 +40,6 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #301 Implement an integration test for RtPublicKeys that creates
- *  a real public key for a user.
  * @todo #551 RtPublicKeysITCase is disabled since it doesn't work
  *  with real Github account. Let's fix it and remove all
  *  Ignore annotations from all its methods.
@@ -101,12 +99,42 @@ public class RtPublicKeysITCase {
     @Ignore
     public final void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("rsa", "rsa sh");
+        final PublicKey key = keys.create("", "");
         MatcherAssert.assertThat(
             keys.iterate() ,
             Matchers.hasItem(key)
         );
         keys.remove(key.number());
+        MatcherAssert.assertThat(
+            keys.iterate(),
+            Matchers.not(Matchers.hasItem(key))
+        );
+    }
+
+    /**
+     * RtPublicKeys should be able to create a key.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public final void createsKey() throws Exception {
+        final PublicKeys keys = this.keys();
+        // @checkstyle LineLength (1 line)
+        final PublicKey key = keys.create("rsa", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS+TF7+bae4UKj6nec1oipiP9Ysc6mBPszB80z13tMZBlsPCOiLVAMO2ER/wpnKHd/VylmYr5c6wc3kSj88846VHUhQDN7fLd/km06KTdW4+9db7HBfvr0063eDdi1lg8jlnccegeeqKsG39+iVQban7ugcPyJtjQE9k7JjYBT+SOgupWkYPVO+5Z3xF6VJL8gUTIMgoovgTabFx60t5h5UPtNaGbdcSlHhLOlWn8I7tHvwbYdhZVqlCC450rieXo8PpjndG3crcuHPZPDVSSXyqRpguIxVEVjXd3B/0vrhXJQJC4u0ukOOytLNL6Gzz3oK7SIB0mqWJ4Mo0Wp+zeX jac.wshmstr@gmail.com");
+        try {
+            MatcherAssert.assertThat(
+                keys.iterate(),
+                Matchers.hasItem(key)
+            );
+            MatcherAssert.assertThat(
+                key.user(),
+                Matchers.equalTo(
+                    keys.user()
+                )
+            );
+        } finally {
+            keys.remove(key.number());
+        }
         MatcherAssert.assertThat(
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
