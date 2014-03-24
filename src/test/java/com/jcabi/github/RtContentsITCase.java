@@ -49,6 +49,7 @@ import org.junit.Test;
  *  from a real Github repository, fetch files, create, update and remove
  *  files.
  *  When done, remove this puzzle and Ignore annotation from the method.
+ * @checkstyle MultipleStringLiterals (300 lines)
  */
 public final class RtContentsITCase {
 
@@ -68,17 +69,27 @@ public final class RtContentsITCase {
      */
     @Test
     public void canCreateFileContent() throws Exception {
-        final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
-        MatcherAssert.assertThat(
-            RtContentsITCase.repo().contents().create(
-                jsonObject(
-                    path, new String(
-                        Base64.encodeBase64("some content".getBytes())
-                    ), "theMessage"
-                )
-            ).path(),
-            Matchers.equalTo(path)
+        final Repos repos = github().repos();
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).build()
         );
+        try {
+            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            MatcherAssert.assertThat(
+                repos.get(repo.coordinates()).contents().create(
+                    this.jsonObject(
+                        path, new String(
+                            Base64.encodeBase64("some content".getBytes())
+                        ), "theMessage"
+                    )
+                ).path(),
+                Matchers.equalTo(path)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -87,27 +98,35 @@ public final class RtContentsITCase {
      */
     @Test
     public void getContent() throws Exception {
-        final String path = String.valueOf(System.currentTimeMillis());
-        final String message = String.format("testMessage");
-        final String cont = new String(
-            Base64.encodeBase64(
-                String.format("content%d", System.currentTimeMillis())
-                    .getBytes()
-            )
+        final Repos repos = github().repos();
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).build()
         );
-        RtContentsITCase.repo().contents().create(
-            jsonObject(path, cont, message)
-        );
-        final Content content = RtContentsITCase.repo().contents()
-            .get(path, "master");
-        MatcherAssert.assertThat(
-            content.path(),
-            Matchers.equalTo(path)
-        );
-        MatcherAssert.assertThat(
-            new Content.Smart(content).content(),
-            Matchers.equalTo(String.format("%s\n", cont))
-        );
+        try {
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String message = String.format("testMessage");
+            final String cont = new String(
+                Base64.encodeBase64(
+                    String.format("content%d", System.currentTimeMillis())
+                        .getBytes()
+                )
+            );
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(this.jsonObject(path, cont, message));
+            final Content content = contents.get(path, "master");
+            MatcherAssert.assertThat(
+                content.path(),
+                Matchers.equalTo(path)
+            );
+            MatcherAssert.assertThat(
+                new Content.Smart(content).content(),
+                Matchers.equalTo(String.format("%s\n", cont))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -129,22 +148,13 @@ public final class RtContentsITCase {
 
     /**
      * Create and return repo to test.
+     *
      * @return Repo
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Github github() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(RtContentsITCase.coordinates());
-    }
-
-    /**
-     * Create and return repo coordinates to test on.
-     * @return Coordinates
-     */
-    private static Coordinates coordinates() {
-        return new Coordinates.Simple(
-            System.getProperty("failsafe.github.repo")
-        );
+        return new RtGithub(key);
     }
 }

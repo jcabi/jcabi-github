@@ -81,6 +81,7 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-http</artifactId>
+            <version>1.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.rexsl</groupId>
