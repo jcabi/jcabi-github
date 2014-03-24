@@ -253,20 +253,23 @@ public final class RtGistTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}")
         ).start();
-        final RtGist gist = new RtGist(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "patch"
-        );
-        gist.patch(
-            Json.createObjectBuilder()
-                .add("content", "hi you!")
-                .build()
-        );
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.PATCH)
-        );
-        container.stop();
+        try {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "patch"
+            );
+            gist.patch(
+                Json.createObjectBuilder()
+                    .add("content", "hi you!")
+                    .build()
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+        } finally {
+            container.stop();
+        }
     }
 }
