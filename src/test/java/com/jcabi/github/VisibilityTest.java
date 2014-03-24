@@ -59,6 +59,7 @@ public final class VisibilityTest {
     private static final Set<String> SKIP = ImmutableSet.<String>builder()
         .add("com.jcabi.github.RtGithub")
         .add("com.jcabi.github.mock.MkGithub")
+        .add("com.jcabi.github.mock.MkStorage")
         .build();
 
     /**
