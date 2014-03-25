@@ -50,7 +50,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Gist extends JsonReadable {
+public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Github we're in.
@@ -221,6 +221,13 @@ public interface Gist extends JsonReadable {
         @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.gist.json();
+        }
+
+        @Override
+        public void patch(
+            @NotNull(message = "json can't be NULL") final JsonObject json
+        ) throws IOException {
+            this.gist.patch(json);
         }
     }
 
