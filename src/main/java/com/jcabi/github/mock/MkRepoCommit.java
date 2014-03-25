@@ -46,9 +46,6 @@ import lombok.ToString;
  * @todo #166 Should implement the compareTo() method in MkRepoCommit.
  *  Implement the method and a unit test for it.
  *  Once implemented please remove this puzzle.
- * @todo #166 Should create test class for MkRepoCommit. Don't forget
- *  to test all existing methods.
- *  Once created please remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
