@@ -32,7 +32,6 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -52,7 +51,6 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void retrievesKeys() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("key", "ssh 1AA");
@@ -79,7 +77,6 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void retrievesSingleKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("Title", "Key");
@@ -96,7 +93,6 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("", "");
