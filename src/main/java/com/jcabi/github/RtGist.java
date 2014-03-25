@@ -41,7 +41,6 @@ import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
@@ -137,13 +136,10 @@ final class RtGist implements Gist {
         throws IOException {
         final JsonObjectBuilder builder = Json.createObjectBuilder()
             .add("content", content);
-        final JsonStructure json = Json.createObjectBuilder()
+        final JsonObject json = Json.createObjectBuilder()
             .add("files", Json.createObjectBuilder().add(file, builder))
             .build();
-        this.request.method(Request.PATCH)
-            .body().set(json).back().fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        this.patch(json);
     }
 
     @Override
@@ -200,4 +196,9 @@ final class RtGist implements Gist {
         return new RtGistComments(this.entry, this);
     }
 
+    @Override
+    public void patch(@NotNull(message = "JSON can't be NULL")
+        final JsonObject json) throws IOException {
+        new RtJson(this.request).patch(json);
+    }
 }
