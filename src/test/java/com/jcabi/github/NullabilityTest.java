@@ -108,8 +108,9 @@ public final class NullabilityTest {
             new Predicate<Integer>() {
                 @Override
                 public boolean apply(final Integer index) {
-                    return method.getParameterTypes()[index].isPrimitive()
-                        || (!method.getParameterTypes()[index].isPrimitive()
+                    final boolean primitive = method.getParameterTypes()[index]
+                        .isPrimitive();
+                    return primitive || (!primitive
                         && Collections2.transform(
                             // @checkstyle LineLength (2 lines)
                             Arrays.asList(method.getParameterAnnotations()[index]),
