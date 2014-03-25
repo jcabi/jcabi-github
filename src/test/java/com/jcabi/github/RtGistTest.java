@@ -38,6 +38,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -240,5 +241,35 @@ public final class RtGistTest {
             Matchers.isEmptyOrNullString()
         );
         container.stop();
+    }
+
+    /**
+     * RtGist can execute PATCH request.
+     *
+     * @throws Exception if there is any problem
+     */
+    @Test
+    public void executePatchRequest() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}")
+        ).start();
+        try {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "patch"
+            );
+            gist.patch(
+                Json.createObjectBuilder()
+                    .add("content", "hi you!")
+                    .build()
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+        } finally {
+            container.stop();
+        }
     }
 }
