@@ -117,23 +117,6 @@ public final class MkContentsTest {
     }
 
     /**
-     * Creates a new file.
-     * @param repo The repository
-     * @param path Content path
-     * @return Created content
-     * @throws Exception if some problem inside
-     */
-    private Content createFile(
-        final Repo repo, final String path) throws Exception {
-        final Contents contents = repo.contents();
-        final JsonObject json = MkContentsTest
-            .content(path, "theCreateMessage", "newContent")
-            .add("committer", MkContentsTest.committer())
-            .build();
-        return contents.create(json);
-    }
-
-    /**
      * MkContents can create new file in non default branch.
      *
      * @throws Exception if some problem inside
@@ -160,6 +143,10 @@ public final class MkContentsTest {
             .build();
         final RepoCommit commit = repo.contents().remove(json);
         MatcherAssert.assertThat(commit, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            commit.json().getString("message"),
+            Matchers.equalTo("theDeleteMessage")
+        );
     }
 
     /**
@@ -236,6 +223,23 @@ public final class MkContentsTest {
             storage.xml().nodes(xpath),
             Matchers.<XML>iterableWithSize(2)
         );
+    }
+
+    /**
+     * Creates a new file.
+     * @param repo The repository
+     * @param path Content path
+     * @return Created content
+     * @throws Exception if some problem inside
+     */
+    private Content createFile(
+        final Repo repo, final String path) throws Exception {
+        final Contents contents = repo.contents();
+        final JsonObject json = MkContentsTest
+            .content(path, "theCreateMessage", "newContent")
+            .add("committer", MkContentsTest.committer())
+            .build();
+        return contents.create(json);
     }
 
     /**
