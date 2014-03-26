@@ -157,7 +157,19 @@ public final class MkContents implements Contents {
         @NotNull(message = "content should not be NULL")
         final JsonObject content
     ) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.lock();
+        final String path = content.getString("path");
+        try {
+            this.storage.apply(
+                new Directives()
+                    .xpath(this.xpath())
+                    .xpath(String.format("content[path='%s']", path))
+                    .remove()
+            );
+            return this.commit(content);
+        } finally {
+            this.storage.unlock();
+        }
     }
 
     /**
