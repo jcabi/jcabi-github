@@ -98,13 +98,10 @@ public final class MkContentsTest {
      */
     @Test
     public void canCreateFile() throws Exception {
-        final Contents contents = MkContentsTest.repo().contents();
         final String path = "file.txt";
-        final JsonObject json = MkContentsTest
-            .content(path, "theCreateMessage", "newContent")
-            .add("committer", MkContentsTest.committer())
-            .build();
-        final Content.Smart content = new Content.Smart(contents.create(json));
+        final Content.Smart content = new Content.Smart(
+            createFile(MkContentsTest.repo(), path)
+        );
         MatcherAssert.assertThat(
             content.path(),
             Matchers.is(path)
@@ -134,15 +131,22 @@ public final class MkContentsTest {
      * MkContents should be able to create new files.
      *
      * @throws Exception if some problem inside
-     * @todo #311 MkContents should support the removal of mock contents.
-     *  This method should return a new instance of MkCommit. Do not
-     *  forget to implement a unit test for it here and remove the Ignore
-     *  annotation.
      */
     @Test
-    @Ignore
     public void canRemoveFile() throws Exception {
-        //To be implemented.
+        final Repo repo = MkContentsTest.repo();
+        final String path = "removeme.txt";
+        this.createFile(repo, path);
+        final JsonObject json = MkContentsTest
+            .content(path, "theDeleteMessage")
+            .add("committer", MkContentsTest.committer())
+            .build();
+        final RepoCommit commit = repo.contents().remove(json);
+        MatcherAssert.assertThat(commit, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            commit.json().getString("message"),
+            Matchers.equalTo("theDeleteMessage")
+        );
     }
 
     /**
@@ -219,6 +223,38 @@ public final class MkContentsTest {
             storage.xml().nodes(xpath),
             Matchers.<XML>iterableWithSize(2)
         );
+    }
+
+    /**
+     * Creates a new file.
+     * @param repo The repository
+     * @param path Content path
+     * @return Created content
+     * @throws Exception if some problem inside
+     */
+    private Content createFile(
+        final Repo repo, final String path) throws Exception {
+        final Contents contents = repo.contents();
+        final JsonObject json = MkContentsTest
+            .content(path, "theCreateMessage", "newContent")
+            .add("committer", MkContentsTest.committer())
+            .build();
+        return contents.create(json);
+    }
+
+    /**
+     * Create content JsonObjectBuilder.
+     * @param path Content path
+     * @param message Commit message
+     * @return JsonObjectBuilder
+     * @throws Exception If some problem inside
+     */
+    private static JsonObjectBuilder content(
+        final String path, final String message)
+        throws Exception {
+        return Json.createObjectBuilder()
+            .add("path", path)
+            .add("message", message);
     }
 
     /**
