@@ -30,13 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -148,23 +148,20 @@ public final class IssueTest {
     /**
      * Issue.Smart can fetch issue's labels in read-only mode.
      * @throws IOException If some problem inside.
-     * @todo #625 This test fails because it violates
-     *  constraint "repository is never NULL".Fix this.
      */
     @Test
-    @Ignore
     public void fetchLabelsRO() throws IOException {
         final String name = "bug";
-        final Issue issue = Mockito.mock(Issue.class);
-        Mockito.when(issue.json()).thenReturn(
-            Json.createObjectBuilder().add(
-                "labels",
-                Json.createArrayBuilder().add(
-                    Json.createObjectBuilder()
-                        .add("name", name)
-                        .add("color", "f29513")
-                )
-            ).build()
+        final JsonObject json = Json.createObjectBuilder().add(
+            "labels",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("name", name)
+                    .add("color", "f29513")
+            )
+        ).build();
+        final Issue issue = new RtIssue(
+            new FakeRequest().withBody(json.toString()), this.repo(), 1
         );
         final IssueLabels labels = new Issue.Smart(issue).roLabels();
         this.thrown.expect(UnsupportedOperationException.class);
@@ -179,5 +176,18 @@ public final class IssueTest {
         MatcherAssert.assertThat(label, Matchers.notNullValue());
         this.thrown.expect(UnsupportedOperationException.class);
         label.patch(Mockito.mock(JsonObject.class));
+    }
+
+    /**
+     * Mock repo for GhIssue creation.
+     * @return The mock repo.
+     */
+    private Repo repo() {
+        final Repo repo = Mockito.mock(Repo.class);
+        final Coordinates coords = Mockito.mock(Coordinates.class);
+        Mockito.doReturn(coords).when(repo).coordinates();
+        Mockito.doReturn("user").when(coords).user();
+        Mockito.doReturn("repo").when(coords).repo();
+        return repo;
     }
 }
