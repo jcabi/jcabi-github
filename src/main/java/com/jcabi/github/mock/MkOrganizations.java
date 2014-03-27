@@ -203,7 +203,7 @@ final class MkOrganizations implements Organizations {
     ) {
         return new MkIterable<Organization>(
             this.storage,
-            "/github/orgs/org/login",
+            String.format("%s/org/login", this.xpath()),
             new MkIterable.Mapping<Organization>() {
                 @Override
                 public Organization map(final XML xml) {

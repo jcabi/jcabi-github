@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
+import com.jcabi.github.Organization;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
@@ -74,9 +75,9 @@ public final class MkOrganizationsTest {
             new MkStorage.InFile(),
             login
         );
-        orgs.get(login);
+        final Organization org = orgs.get(login);
         MatcherAssert.assertThat(
-            orgs.iterate(login),
+            orgs.iterate(org.login()),
             Matchers.not(Matchers.emptyIterable())
         );
     }
