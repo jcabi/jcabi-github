@@ -35,7 +35,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,9 +43,6 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #509:30m The returnsNoAssets() and iteratesAssets() methods are ignored
- *  because {@link RtReleaseAssets#iterate()} is not yet implemented. When this
- *  is implemented, remove the ignore annotation and revise the tests as needed.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtReleaseAssetsITCase {
@@ -107,7 +103,6 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    @Ignore
     public void iteratesAssets() throws Exception {
         final Releases releases = releases();
         final Release release = releases
@@ -138,7 +133,6 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    @Ignore
     public void returnsNoAssets() throws Exception {
         final Releases releases = releases();
         final Release release = releases
