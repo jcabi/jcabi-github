@@ -39,9 +39,10 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #551 RtPublicKeysITCase is disabled since it doesn't work
- *  with real Github account. Let's fix it and remove all
- *  Ignore annotations from all its methods.
+ * @todo #1 RtPublicKeysITCase is disabled since it doesn't work
+ *  with real Github account. The problem is that guthub can't remove
+ *  keys properly, so we forced to generate valid key each new run
+ *  Let's fix it and remove all Ignore annotations from all its methods.
  */
 public class RtPublicKeysITCase {
 
@@ -120,6 +121,7 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
+    @Ignore
     public final void createsKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("rsa", RSAKEY);
