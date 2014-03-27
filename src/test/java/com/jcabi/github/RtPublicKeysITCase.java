@@ -32,7 +32,6 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -48,15 +47,21 @@ import org.junit.Test;
 public class RtPublicKeysITCase {
 
     /**
+     * The test rsa key.
+     */
+    private static final String RSAKEY =
+        // @checkstyle LineLength (1 line)
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS+TF7+bae4UKj6nec1oipiP9Ysc6mBPszB80z13tMZBlsPCOiLVAMO2ER/wpnKHd/VylmYr5c6wc3kSj88846VHUhQDN7fLd/km06KTdW4+9db7HBfvr0063eDdi1lg8jlnccegeeqKsG39+iVQban7ugcPyJtjQE9k7JjYBT+SOgupWkYPVO+5Z3xF6VJL8gUTIMgoovgTabFx60t5h5UPtNaGbdcSlHhLOlWn8I7tHvwbYdhZVqlCC450rieXo8PpjndG3crcuHPZPDVSSXyqRpguIxVEVjXd3B/0vrhXJQJC4u0ukOOytLNL6Gzz3oK7SIB0mqWJ4Mo0Wp+zeX jac.wshmstr@gmail.com";
+
+    /**
      * RtPublicKeys should be able to retrieve its keys.
      *
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void retrievesKeys() throws Exception {
         final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("key", "ssh 1AA");
+        final PublicKey key = keys.create("key", RSAKEY);
         MatcherAssert.assertThat(
             keys.iterate(),
             Matchers.hasItem(key)
@@ -80,7 +85,6 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void retrievesSingleKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("Title", "Key");
@@ -97,7 +101,6 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("", "");
@@ -121,8 +124,7 @@ public class RtPublicKeysITCase {
     @Ignore
     public final void createsKey() throws Exception {
         final PublicKeys keys = this.keys();
-        // @checkstyle LineLength (1 line)
-        final PublicKey key = keys.create("rsa", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS+TF7+bae4UKj6nec1oipiP9Ysc6mBPszB80z13tMZBlsPCOiLVAMO2ER/wpnKHd/VylmYr5c6wc3kSj88846VHUhQDN7fLd/km06KTdW4+9db7HBfvr0063eDdi1lg8jlnccegeeqKsG39+iVQban7ugcPyJtjQE9k7JjYBT+SOgupWkYPVO+5Z3xF6VJL8gUTIMgoovgTabFx60t5h5UPtNaGbdcSlHhLOlWn8I7tHvwbYdhZVqlCC450rieXo8PpjndG3crcuHPZPDVSSXyqRpguIxVEVjXd3B/0vrhXJQJC4u0ukOOytLNL6Gzz3oK7SIB0mqWJ4Mo0Wp+zeX jac.wshmstr@gmail.com");
+        final PublicKey key = keys.create("rsa", RSAKEY);
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
