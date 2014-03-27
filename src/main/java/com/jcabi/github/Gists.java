@@ -56,13 +56,14 @@ public interface Gists {
      * Create a new gist.
      *
      * @param files Names and content of files
+     * @param visible Indicates whether the gist is public
      * @return Gist
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#create-a-gist">Create a Gist</a>
      */
     @NotNull(message = "gist is never NULL")
     Gist create(@NotNull(message = "list of files can't be NULL")
-        Map<String, String> files) throws IOException;
+        Map<String, String> files, boolean visible) throws IOException;
 
     /**
      * Get gist by name.

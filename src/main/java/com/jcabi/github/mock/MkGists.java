@@ -92,7 +92,7 @@ final class MkGists implements Gists {
     @NotNull(message = "created gist is never NULL")
     public Gist create(
         @NotNull(message = "map of files can't be NULL")
-        final Map<String, String> files
+        final Map<String, String> files, final boolean visible
     ) throws IOException {
         this.storage.lock();
         final String number;
@@ -105,6 +105,7 @@ final class MkGists implements Gists {
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("gist")
                 .add("id").set(number).up()
+                .add("public").set(String.valueOf(visible)).up()
                 .add("files");
             for (final Map.Entry<String, String> file : files.entrySet()) {
                 dirs.add("file")

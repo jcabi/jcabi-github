@@ -56,7 +56,7 @@ public final class RtGistsITCase {
         final String content = "content of file";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
-            Collections.singletonMap(filename, content)
+            Collections.singletonMap(filename, content), false
         );
         final Gist.Smart smart = new Gist.Smart(gist);
         MatcherAssert.assertThat(
@@ -74,7 +74,7 @@ public final class RtGistsITCase {
     public void iterateGists() throws Exception {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
-            Collections.singletonMap("test.txt", "content")
+            Collections.singletonMap("test.txt", "content"), false
         );
         MatcherAssert.assertThat(
             gists.iterate(),
@@ -91,7 +91,7 @@ public final class RtGistsITCase {
         final String filename = "single-name.txt";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
-            Collections.singletonMap(filename, "body")
+            Collections.singletonMap(filename, "body"), false
         );
         MatcherAssert.assertThat(
             gists.get(gist.identifier()).identifier(),
@@ -107,7 +107,8 @@ public final class RtGistsITCase {
     public void removesGistByName() throws Exception {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
-            Collections.singletonMap("fileName.txt", "content of test file")
+            Collections.singletonMap("fileName.txt", "content of test file"),
+            false
         );
         MatcherAssert.assertThat(
             gists.iterate(),
