@@ -94,4 +94,21 @@ public final class MkRepoCommitsTest {
             Matchers.notNullValue()
         );
     }
+
+    /**
+     * MkRepoCommits can compare commits as diff fromat.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canCompareAsDiffFormat() throws Exception {
+        final String user =  "testuser4";
+        MatcherAssert.assertThat(
+            new MkRepoCommits(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo4")
+            ).diff("base", "head"),
+            Matchers.notNullValue()
+        );
+    }
 }

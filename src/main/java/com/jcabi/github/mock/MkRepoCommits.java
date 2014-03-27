@@ -37,6 +37,7 @@ import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -48,20 +49,40 @@ import org.xembly.Directives;
  * Mock commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #273 MkRepoCommits should be able to compare two commits. Let's
- *  create a test for this method and implement the method. When done, remove
- *  this puzzle.
  * @todo #439 MkRepoCommits should be able to compare two commits and return
  *  comparison in patch format.
  *  Let's create a test for this method and implement the method.
  *  When done, remove this puzzle.
  *  See http://developer.github.com/v3/repos/commits/#compare-two-commits
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.UseConcurrentHashMap")
 final class MkRepoCommits implements RepoCommits {
+
+    /**
+     * The repo commits comparison the templates of diff format.
+     *
+     * @checkstyle StaticVariableNameCheck (3 lines)
+     */
+    private static final Map<String, String> DIFF_B =
+        Collections.singletonMap(
+            "base",
+                "+diff -git -format"
+        );
+    /**
+     * The repo commits comparison the templates of diff format.
+     *
+     * @checkstyle StaticVariableNameCheck (3 lines)
+     */
+    private static final Map<String, String> DIFF_H =
+        Collections.singletonMap(
+            "head",
+                "-diff -git -format"
+        );
 
     /**
      * Storage.
@@ -141,7 +162,15 @@ final class MkRepoCommits implements RepoCommits {
         @NotNull(message = "base should not be NULL") final String base,
         @NotNull(message = "head should not be NULL") final String head
     ) throws IOException {
-        throw new UnsupportedOperationException("MkRepoCommits#diff()");
+        final String baseTemplate = DIFF_B.get(base);
+        final String headTemplate = DIFF_H.get(head);
+        if (baseTemplate == null) {
+            throw new IllegalArgumentException("base template not found.");
+        }
+        if (headTemplate == null) {
+            throw new IllegalArgumentException("head template not found.");
+        }
+        return baseTemplate + System.lineSeparator() + headTemplate;
     }
 
     @Override
