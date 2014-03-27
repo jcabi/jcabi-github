@@ -73,6 +73,41 @@ public final class MkRepoCommitTest {
     }
 
     /**
+     * MkRepoCommit can compare equal commits.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void compareEqual() throws Exception {
+        final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = this.repo(storage);
+        final MkRepoCommit commit = new MkRepoCommit(storage, repo, sha);
+        final MkRepoCommit other = new MkRepoCommit(storage, repo, sha);
+        MatcherAssert.assertThat(
+            commit.compareTo(other), Matchers.equalTo(0)
+        );
+    }
+
+    /**
+     * MkRepoCommit can compare different commits.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void compareDifferent() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = this.repo(storage);
+        final MkRepoCommit commit = new MkRepoCommit(
+            storage, repo, "6dcd4ce23d88e2ee9568ba546c007c63d9131c1b"
+        );
+        final MkRepoCommit other = new MkRepoCommit(
+            storage, repo, "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98"
+        );
+        MatcherAssert.assertThat(
+            commit.compareTo(other), Matchers.not(0)
+        );
+    }
+
+    /**
      * Create repository for test.
      * @param storage The storage
      * @return Repo

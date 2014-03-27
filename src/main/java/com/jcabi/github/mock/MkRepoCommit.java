@@ -92,7 +92,7 @@ final class MkRepoCommit implements RepoCommit {
     public int compareTo(
         @NotNull(message = "other can't be NULL") final RepoCommit other
     ) {
-        throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
+        return this.sha().compareTo(other.sha());
     }
 
     @Override
