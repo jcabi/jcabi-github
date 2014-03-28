@@ -30,12 +30,17 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -66,16 +71,31 @@ public final class RtDeployKeysTest {
     /**
      * RtDeployKeys can fetch non empty list of deploy keys.
      *
-     * @todo #119 RtDepoyKeys should iterate multiple deploy keys. Let's
-     *  implement a test here and a method of RtDeployKeys. The method should
-     *  iterate multiple deploy keys.
-     *  See how it's done in other classes with GhPagination.
-     *  When done, remove this puzzle and Ignore annotation from the method.
+     * @throws IOException If some problem inside.
      */
     @Test
-    @Ignore
-    public void canFetchNonEmptyListOfDeployKeys() {
-        // to be implemented
+    public void canFetchNonEmptyListOfDeployKeys() throws IOException {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(key(1))
+                    .add(key(2))
+                    .build().toString()
+            )
+        );
+        container.start();
+        try {
+            MatcherAssert.assertThat(
+                new RtDeployKeys(
+                    new ApacheRequest(container.home()),
+                    RtDeployKeysTest.repo()
+                ).iterate(),
+                Matchers.<DeployKey>iterableWithSize(2)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -91,6 +111,7 @@ public final class RtDeployKeysTest {
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
+            // @checkstyle MultipleStringLiterals (1 line)
             keys.get(number).json().getInt("id"),
             Matchers.equalTo(number)
         );
@@ -124,5 +145,17 @@ public final class RtDeployKeysTest {
         Mockito.doReturn(new Coordinates.Simple("test", "keys"))
             .when(repo).coordinates();
         return repo;
+    }
+
+    /**
+     * Create and return key to test.
+     * @param number Deploy Key Id
+     * @return JsonObject
+     */
+    private static JsonObject key(final int number) {
+        return Json.createObjectBuilder()
+            .add("id", number)
+            .add("key", "ssh-rsa AAA")
+            .build();
     }
 }
