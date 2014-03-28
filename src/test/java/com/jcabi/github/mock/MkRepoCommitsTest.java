@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -92,6 +93,25 @@ public final class MkRepoCommitsTest {
                 new Coordinates.Simple(user, "testrepo3")
             ).compare("5339b8e35b", "9b2e6efde9"),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkRepoCommits can compare commits as diff fromat.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canCompareAsDiffFormat() throws Exception {
+        final String user =  "testuser4";
+        final String base =  "c034abc";
+        final String head =  "a0ed832";
+        MatcherAssert.assertThat(
+            new MkRepoCommits(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo4")
+            ).diff(base, head),
+            Matchers.stringContainsInOrder(Arrays.asList(base, head))
         );
     }
 }
