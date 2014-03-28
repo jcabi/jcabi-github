@@ -102,13 +102,14 @@ public final class MkRepoCommitsTest {
     @Test
     public void canCompareAsDiffFormat() throws Exception {
         final String user =  "testuser4";
+        final String head =  "a0ed832";
         MatcherAssert.assertThat(
             new MkRepoCommits(
                 new MkStorage.InFile(),
                 user,
                 new Coordinates.Simple(user, "testrepo4")
-            ).diff("base", "head"),
-            Matchers.notNullValue()
+            ).diff("c034abc", head),
+            Matchers.containsString(head)
         );
     }
 }
