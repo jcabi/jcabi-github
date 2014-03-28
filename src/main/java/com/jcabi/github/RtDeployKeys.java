@@ -36,8 +36,8 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -92,7 +92,16 @@ public final class RtDeployKeys implements DeployKeys {
     @Override
     @NotNull(message = "Iterable of DeployKey can't be NULL")
     public Iterable<DeployKey> iterate() {
-        return Collections.emptyList();
+        return new RtPagination<DeployKey>(
+            this.request,
+            new RtPagination.Mapping<DeployKey, JsonObject>() {
+                @Override
+                public DeployKey map(final JsonObject object) {
+                    // @checkstyle MultipleStringLiteralsCheck (2 lines)
+                    return RtDeployKeys.this.get(object.getInt("id"));
+                }
+            }
+        );
     }
 
     @Override
