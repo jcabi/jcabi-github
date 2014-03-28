@@ -47,6 +47,7 @@ import org.junit.Test;
  *
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtForkTest {
 
@@ -54,6 +55,11 @@ public final class RtForkTest {
      * Fork's organization field name in JSON object.
      */
     public static final String ORGANIZATION = "organization";
+
+    /**
+     * Fork's name field in JSON object.
+     */
+    public static final String NAME = "name";
 
     /**
      * RtFork can patch comment and return new json.
@@ -78,8 +84,12 @@ public final class RtForkTest {
         );
         fork.patch(fork(patched));
         MatcherAssert.assertThat(
-            fork.json().getString(ORGANIZATION),
+            new Fork.Smart(fork).organization(),
             Matchers.equalTo(patched)
+        );
+        MatcherAssert.assertThat(
+            new Fork.Smart(fork).name(),
+            Matchers.notNullValue()
         );
         container.stop();
         forksContainer.stop();
@@ -104,8 +114,8 @@ public final class RtForkTest {
      */
     private static JsonObject fork(final String organization) {
         return Json.createObjectBuilder()
-            .add("id", 1)
             .add(ORGANIZATION, organization)
+            .add(NAME, NAME)
             .build();
     }
 }
