@@ -38,6 +38,7 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock Github commit.
@@ -92,7 +93,10 @@ final class MkRepoCommit implements RepoCommit {
     public int compareTo(
         @NotNull(message = "other can't be NULL") final RepoCommit other
     ) {
-        return this.sha().compareTo(other.sha());
+        return new CompareToBuilder().append(
+            this.repo().coordinates(),
+            other.repo().coordinates()
+        ).append(this.sha(), other.sha()).build();
     }
 
     @Override

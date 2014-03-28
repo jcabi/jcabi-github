@@ -86,6 +86,9 @@ public final class MkRepoCommitTest {
         MatcherAssert.assertThat(
             commit.compareTo(other), Matchers.equalTo(0)
         );
+        MatcherAssert.assertThat(
+            other.compareTo(commit), Matchers.equalTo(0)
+        );
     }
 
     /**
@@ -104,6 +107,9 @@ public final class MkRepoCommitTest {
         );
         MatcherAssert.assertThat(
             commit.compareTo(other), Matchers.not(0)
+        );
+        MatcherAssert.assertThat(
+            other.compareTo(commit), Matchers.not(0)
         );
     }
 
