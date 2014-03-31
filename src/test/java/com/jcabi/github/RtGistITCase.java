@@ -29,7 +29,9 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import java.util.Collections;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -45,14 +47,13 @@ public final class RtGistITCase {
     /**
      * RtGist can text and write files.
      * @throws Exception If some problem inside
-     * @todo #551 ReadsAndWritesGists is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove the
-     *  Ignore annotation.
      */
     @Test
-    @org.junit.Ignore
     public void readsAndWritesGists() throws Exception {
-        final String filename = "filename.txt";
+        final String filename = String.format(
+            "%s.txt",
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
         final String content = "content of file";
         final Gists gists = RtGistITCase.github().gists();
         Gist.Smart smart = null;
