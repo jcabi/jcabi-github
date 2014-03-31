@@ -38,6 +38,7 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock Github commit.
@@ -46,9 +47,6 @@ import lombok.ToString;
  * @todo #166 Should implement the compareTo() method in MkRepoCommit.
  *  Implement the method and a unit test for it.
  *  Once implemented please remove this puzzle.
- * @todo #166 Should create test class for MkRepoCommit. Don't forget
- *  to test all existing methods.
- *  Once created please remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -92,7 +90,10 @@ final class MkRepoCommit implements RepoCommit {
     public int compareTo(
         @NotNull(message = "other can't be NULL") final RepoCommit other
     ) {
-        throw new UnsupportedOperationException("MkRepoCommit#compareTo()");
+        return new CompareToBuilder().append(
+            this.repo().coordinates(),
+            other.repo().coordinates()
+        ).append(this.sha(), other.sha()).build();
     }
 
     @Override

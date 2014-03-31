@@ -54,11 +54,6 @@ import org.xembly.Directives;
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCoupling (200 lines)
- * @todo #367 MkOrganizations should be able to iterate over organizations
- *  of any user. Method iterate(username) should iterate over:
- *  1) public and private organizations if username matches to login of
- *  authenticated user
- *  2) public organizations otherwise. Don't forget about unit tests
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -204,10 +199,19 @@ final class MkOrganizations implements Organizations {
     @Override
     @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate(
-        @NotNull(message = "username is never NULL") final String username
+        @NotNull(message = "login is never NULL") final String login
     ) {
-        throw new UnsupportedOperationException(
-            "MkOrganizations.iterate(username)"
+        return new MkIterable<Organization>(
+            this.storage,
+            String.format("%s/org/login", this.xpath()),
+            new MkIterable.Mapping<Organization>() {
+                @Override
+                public Organization map(final XML xml) {
+                    return MkOrganizations.this.get(
+                        xml.xpath("login/text()").get(0)
+                    );
+                }
+            }
         );
     }
 

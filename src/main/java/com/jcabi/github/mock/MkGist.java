@@ -238,6 +238,13 @@ final class MkGist implements Gist {
         ).json();
     }
 
+    @Override
+    public void patch(
+        @NotNull(message = "json can't be NULL") final JsonObject json
+    ) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath

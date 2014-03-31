@@ -84,7 +84,7 @@ public final class RtReleaseAssets implements ReleaseAssets {
             .path(coords.repo())
             .path("/releases")
             .path(Integer.toString(release.number()))
-            .path("/comments")
+            .path("/assets")
             .back();
         this.owner = release;
     }

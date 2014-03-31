@@ -52,8 +52,9 @@ import org.junit.Test;
  * Checks that all public methods in clases in package {@code com.jcabi.github }
  * have {@code @NotNull} annotation for return value and for input arguments
  * (if they are not scalar).
- * @todo #625 Fix checkNullabilityTest and remove the ignore annotation.
- *  Got IndexOutOfBounds exception. Please have a look into it.
+ * @todo #661:30min Ensure that all methods return values and input arguments
+ *  are annotated with {@code @NotNull} and remove the {@code @Ignore}
+ *  annotation.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
@@ -101,14 +102,16 @@ public final class NullabilityTest {
     private boolean allParamsAnnotated(final Method method) {
         return Iterables.all(
             ContiguousSet.create(
-                Range.openClosed(0, method.getParameterTypes().length),
+                Range.closedOpen(0, method.getParameterTypes().length),
                 DiscreteDomain.integers()
             ),
             new Predicate<Integer>() {
                 @Override
                 public boolean apply(final Integer index) {
-                    return !method.getParameterTypes()[index].isPrimitive()
-                        && !Collections2.transform(
+                    final boolean primitive = method.getParameterTypes()[index]
+                        .isPrimitive();
+                    return primitive || (!primitive
+                        && Collections2.transform(
                             // @checkstyle LineLength (2 lines)
                             Arrays.asList(method.getParameterAnnotations()[index]),
                             new Function<Annotation, Class<? extends Annotation>>() {
@@ -118,7 +121,7 @@ public final class NullabilityTest {
                                     return input.annotationType();
                                 }
                             }
-                        ).contains(NotNull.class);
+                        ).contains(NotNull.class));
                 }
             }
         );
