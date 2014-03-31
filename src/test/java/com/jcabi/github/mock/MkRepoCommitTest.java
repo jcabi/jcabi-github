@@ -121,20 +121,14 @@ public final class MkRepoCommitTest {
     /**
      * MkRepoCommit can get a JSON.
      * @throws Exception if some problem inside
-     * @todo #693 After correcting issue #691
-     *  please remove ignore test and verify
-     *  that method canGetJson() test is ok.
-     *  Remove this puzzle after.
      */
     @Test
-    @Ignore
     public void canGetJson() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github").add("repos")
                 .add("repo").attr("coords", "test_login/test_repo")
-                .add("commits").add("commit").attr("sha", SHA1)
-                .set("Hello world")
+                .add("commits").add("commit").add("sha").set(SHA1)
         );
         final MkRepoCommit repoCommit = new MkRepoCommit(
             storage, this.repo(storage), SHA1
