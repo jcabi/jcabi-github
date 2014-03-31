@@ -111,11 +111,11 @@ public final class RtContentsITCase {
     }
 
     /**
-     * RtContents can get remove a file.
+     * RtContents can remove and throw an exception when get an absent content.
      * @throws Exception If some problem inside
      */
     @Test(expected = AssertionError.class)
-    public void canRemoveContent() throws Exception {
+    public void throwsWhenTryingToGetAnAbsentContent() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = RtContentsITCase.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -136,10 +136,7 @@ public final class RtContentsITCase {
                     .add("message", message)
                     .add("sha", new Content.Smart(content).sha()).build()
             );
-            MatcherAssert.assertThat(
-                contents.get(path, "master").path(),
-                Matchers.equalTo(path)
-            );
+            contents.get(path, "master");
         } finally {
             repos.remove(repo.coordinates());
         }
