@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
+import com.jcabi.github.Organization;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
@@ -42,7 +43,7 @@ import org.junit.Test;
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 public final class MkOrganizationsTest {
 
@@ -59,6 +60,24 @@ public final class MkOrganizationsTest {
         orgs.get("orgTestIterate");
         MatcherAssert.assertThat(
             orgs.iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * MkOrganizations can list user organizations.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iteratesUserOrganizations() throws Exception {
+        final String login = "orgTestIterate";
+        final MkOrganizations orgs = new MkOrganizations(
+            new MkStorage.InFile(),
+            login
+        );
+        final Organization org = orgs.get(login);
+        MatcherAssert.assertThat(
+            orgs.iterate(org.login()),
             Matchers.not(Matchers.emptyIterable())
         );
     }

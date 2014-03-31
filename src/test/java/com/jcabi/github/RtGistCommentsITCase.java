@@ -104,6 +104,8 @@ public final class RtGistCommentsITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         return new RtGithub(key)
             .gists()
-            .create(Collections.singletonMap("file.txt",  "file content"));
+            .create(
+                Collections.singletonMap("file.txt",  "file content"), false
+            );
     }
 }

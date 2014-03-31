@@ -120,13 +120,12 @@ public final class MkContents implements Contents {
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
         this.storage.lock();
-        // @checkstyle MultipleStringLiterals (40 lines)
-        final String path = json.getString("path");
+        // @checkstyle MultipleStringLiterals (18 lines)
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("content")
-                    .add("name").set(path).up()
-                    .add("path").set(path).up()
+                    .add("name").set(json.getString("path")).up()
+                    .add("path").set(json.getString("path")).up()
                     .add("content").set(json.getString("content")).up()
                     .add("type").set("file").up()
                     .add("encoding").set("base64").up()
@@ -139,7 +138,9 @@ public final class MkContents implements Contents {
         } finally {
             this.storage.unlock();
         }
-        return new MkContent(this.storage, this.self, this.coords, path);
+        return new MkContent(
+            this.storage, this.self, this.coords, json.getString("path")
+        );
     }
 
     @Override
@@ -157,7 +158,19 @@ public final class MkContents implements Contents {
         @NotNull(message = "content should not be NULL")
         final JsonObject content
     ) throws IOException {
-        throw new UnsupportedOperationException("Remove not yet implemented.");
+        this.storage.lock();
+        final String path = content.getString("path");
+        try {
+            this.storage.apply(
+                new Directives()
+                    .xpath(this.xpath())
+                    .xpath(String.format("content[path='%s']", path))
+                    .remove()
+            );
+            return this.commit(content);
+        } finally {
+            this.storage.unlock();
+        }
     }
 
     /**
