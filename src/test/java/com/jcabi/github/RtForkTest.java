@@ -52,16 +52,6 @@ import org.junit.Test;
 public final class RtForkTest {
 
     /**
-     * Fork's organization field name in JSON object.
-     */
-    public static final String ORGANIZATION = "organization";
-
-    /**
-     * Fork's name field in JSON object.
-     */
-    public static final String NAME = "name";
-
-    /**
      * RtFork can patch comment and return new json.
      * @throws java.io.IOException if has some problems with json parsing.
      */
@@ -114,8 +104,8 @@ public final class RtForkTest {
      */
     private static JsonObject fork(final String organization) {
         return Json.createObjectBuilder()
-            .add(ORGANIZATION, organization)
-            .add(NAME, "nm")
+            .add("organization", organization)
+            .add("name", "nm")
             .build();
     }
 }
