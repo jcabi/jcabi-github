@@ -45,7 +45,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
- *  JSON parsing.
+ * @todo #121 Add more Fork attributes to Smart decorator for this class. Don't forget to add them to unit test.
  */
 @Immutable
 public interface Fork extends JsonReadable, JsonPatchable {
@@ -91,26 +91,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
         }
 
         /**
-         * Get its fork.
-         * @return Fork
-         * @throws java.io.IOException If there is any I/O problem
-         */
-        @NotNull(message = "fork is never NULL")
-        public String fork() throws IOException {
-            return this.jsn.text("fork");
-        }
-
-        /**
-         * Get its owner.
-         * @return Owner
-         * @throws java.io.IOException If there is any I/O problem
-         */
-        @NotNull(message = "owner is never NULL")
-        public String owner() throws IOException {
-            return this.jsn.text("owner");
-        }
-
-        /**
          * Get its organization.
          * @return Organization
          * @throws java.io.IOException If there is any I/O problem
@@ -118,16 +98,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
         @NotNull(message = "organization is never NULL")
         public String organization() throws IOException {
             return this.jsn.text("organization");
-        }
-
-        /**
-         * Get its size.
-         * @return Size
-         * @throws java.io.IOException If there is any I/O problem
-         */
-        @NotNull(message = "size is never NULL")
-        public String size() throws IOException {
-            return this.jsn.text("size");
         }
 
         /**

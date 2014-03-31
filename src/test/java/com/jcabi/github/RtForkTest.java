@@ -115,7 +115,7 @@ public final class RtForkTest {
     private static JsonObject fork(final String organization) {
         return Json.createObjectBuilder()
             .add(ORGANIZATION, organization)
-            .add(NAME, NAME)
+            .add(NAME, "nm")
             .build();
     }
 }
