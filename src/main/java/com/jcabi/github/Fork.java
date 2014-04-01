@@ -30,6 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import java.io.IOException;
+import java.net.URL;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github fork.
@@ -38,8 +45,7 @@ import com.jcabi.aspects.Immutable;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
- * @todo #121 Implement a Smart decorator for this class for the purposes of
- *  JSON parsing.
+ * @todo #121 Add more Fork attributes to Smart decorator for this class. Don't forget to add them to unit test.
  */
 @Immutable
 public interface Fork extends JsonReadable, JsonPatchable {
@@ -48,4 +54,78 @@ public interface Fork extends JsonReadable, JsonPatchable {
      * @return Id
      */
     int number();
+
+    /**
+     * Smart Fork with extra features.
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = { "fork", "jsn" })
+    final class Smart implements Fork {
+        /**
+         * Encapsulated Fork.
+         */
+        private final transient Fork fork;
+        /**
+         * SmartJson object for convenient JSON parsing.
+         */
+        private final transient SmartJson jsn;
+        /**
+         * Public ctor.
+         * @param frk Fork
+         */
+        public Smart(@NotNull(message = "fork can't be NULL") final Fork frk) {
+            this.fork = frk;
+            this.jsn = new SmartJson(frk);
+        }
+
+        /**
+         * Get its name.
+         * @return Name of fork
+         * @throws java.io.IOException If there is any I/O problem
+         */
+        @NotNull(message = "name is never NULL")
+        public String name() throws IOException {
+            return this.jsn.text("name");
+        }
+
+        /**
+         * Get its organization.
+         * @return Organization
+         * @throws java.io.IOException If there is any I/O problem
+         */
+        @NotNull(message = "organization is never NULL")
+        public String organization() throws IOException {
+            return this.jsn.text("organization");
+        }
+
+        /**
+         * Get its URL.
+         * @return URL of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "url is never NULL")
+        public URL url() throws IOException {
+            return new URL(this.jsn.text("url"));
+        }
+
+        @Override
+        public int number() {
+            return this.fork.number();
+        }
+
+        @Override
+        @NotNull(message = "JSON is never NULL")
+        public JsonObject json() throws IOException {
+            return this.fork.json();
+        }
+
+        @Override
+        public void patch(
+            @NotNull(message = "JSON is never NULL")final JsonObject json)
+            throws IOException {
+            this.fork.patch(json);
+        }
+    }
 }
