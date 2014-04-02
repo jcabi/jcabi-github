@@ -48,9 +48,6 @@ import org.xembly.Directives;
  * Mock commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #273 MkRepoCommits should be able to compare two commits. Let's
- *  create a test for this method and implement the method. When done, remove
- *  this puzzle.
  * @todo #439 MkRepoCommits should be able to compare two commits and return
  *  comparison in patch format.
  *  Let's create a test for this method and implement the method.
@@ -141,7 +138,12 @@ final class MkRepoCommits implements RepoCommits {
         @NotNull(message = "base should not be NULL") final String base,
         @NotNull(message = "head should not be NULL") final String head
     ) throws IOException {
-        throw new UnsupportedOperationException("MkRepoCommits#diff()");
+        return
+        String.format(
+            "%s%sindex %s..%s",
+            "diff --git a/README b/README",
+            System.lineSeparator(), base, head
+        );
     }
 
     @Override
