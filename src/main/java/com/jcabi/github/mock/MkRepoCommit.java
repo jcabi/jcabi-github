@@ -44,9 +44,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
  * Mock Github commit.
  * @author Carlos Crespo (carlos.a.crespo@gmail.com)
  * @version $Id$
- * @todo #166 Should implement the compareTo() method in MkRepoCommit.
- *  Implement the method and a unit test for it.
- *  Once implemented please remove this puzzle.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
