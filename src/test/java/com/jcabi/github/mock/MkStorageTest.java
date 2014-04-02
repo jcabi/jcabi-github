@@ -72,7 +72,7 @@ public final class MkStorageTest {
     public void locksAndUnlocks() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Runnable secondThread = new Runnable() {
+        final Runnable second = new Runnable() {
             @Override
             public void run() {
                 try {
@@ -83,20 +83,23 @@ public final class MkStorageTest {
             }
         };
         storage.lock();
-        Future<?> future = executor.submit(secondThread);
+        Future<?> future = executor.submit(second);
         try {
             future.get(1, TimeUnit.SECONDS);
-            MatcherAssert.assertThat("timeout should happen", false);
+            MatcherAssert.assertThat("timeout SHOULD happen", false);
         } catch (TimeoutException ex) {
             future.cancel(true);
+        } finally {
+            storage.unlock();
         }
-        storage.unlock();
-        future = executor.submit(secondThread);
+        future = executor.submit(second);
         try {
             future.get(1, TimeUnit.SECONDS);
         } catch (TimeoutException ex) {
-            MatcherAssert.assertThat("timeout should NOT happen", false);
+            MatcherAssert.assertThat("timeout SHOULD NOT happen", false);
+            future.cancel(true);
         }
+        executor.shutdown();
     }
 
 }
