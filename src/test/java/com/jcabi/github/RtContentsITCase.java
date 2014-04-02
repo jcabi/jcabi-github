@@ -228,7 +228,7 @@ public final class RtContentsITCase {
         return repos.create(
             Json.createObjectBuilder().add(
                 "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).build()
+            ).add("auto_init", true).build()
         );
     }
 
