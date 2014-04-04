@@ -186,6 +186,7 @@ public final class MkContents implements Contents {
         @NotNull(message = "path cannot be NULL") final String path,
         @NotNull(message = "json should not be NULL") final JsonObject json
     ) throws IOException {
+        this.storage.lock();
         try {
             new JsonPatch(this.storage).patch(path, json);
             return this.commit(json);
