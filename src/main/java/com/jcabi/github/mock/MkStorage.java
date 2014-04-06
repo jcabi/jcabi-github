@@ -35,6 +35,7 @@ import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.io.Charsets;
@@ -94,6 +95,10 @@ public interface MkStorage {
          */
         private final transient String name;
         /**
+         * Lock object.
+         */
+        private final transient ReentrantLock lock = new ReentrantLock();
+        /**
          * Public ctor.
          * @throws IOException If there is any I/O problem
          */
@@ -146,11 +151,11 @@ public interface MkStorage {
         }
         @Override
         public void lock() throws IOException {
-            // nothing to do
+            this.lock.lock();
         }
         @Override
         public void unlock() throws IOException {
-            // nothing to do
+            this.lock.unlock();
         }
     }
 

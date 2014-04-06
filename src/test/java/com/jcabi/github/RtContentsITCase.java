@@ -37,7 +37,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -45,10 +44,6 @@ import org.junit.Test;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @todo #119 RtContents should be able to get the readme file
- *  from a real Github repository, fetch files, create, update and remove
- *  files.
- *  When done, remove this puzzle and Ignore annotation from the method.
  * @checkstyle MultipleStringLiterals (300 lines)
  */
 public final class RtContentsITCase {
@@ -58,9 +53,93 @@ public final class RtContentsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void canFetchReadmeFiles() throws Exception {
-        // to be implemented
+        final Repos repos = github().repos();
+        final Repo repo = RtContentsITCase.repo(repos);
+        try {
+            MatcherAssert.assertThat(
+                repos.get(repo.coordinates()).contents().readme().path(),
+                Matchers.equalTo("README.md")
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtContents can get update file content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canUpdateFileContent() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = RtContentsITCase.repo(repos);
+        final Contents contents = repos.get(repo.coordinates()).contents();
+        final String message = "commit message";
+        final String text = "new content";
+        try {
+            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final Content content = contents.create(
+                this.jsonObject(
+                    path, new String(
+                        Base64.encodeBase64("init content".getBytes())
+                    ),
+                    message
+                )
+            );
+            contents.update(
+                path,
+                Json.createObjectBuilder()
+                    .add("path", path)
+                    .add("message", message)
+                    .add("content", Base64.encodeBase64String(text.getBytes()))
+                    .add("sha", new Content.Smart(content).sha()).build()
+            );
+            MatcherAssert.assertThat(
+                new String(
+                    Base64.decodeBase64(
+                        new Content.Smart(
+                            contents.get(path, "master")
+                        ).content()
+                    )
+                ),
+                Matchers.equalTo(text)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtContents can remove and throw an exception when get an absent content.
+     * @throws Exception If some problem inside
+     */
+    @Test(expected = AssertionError.class)
+    public void throwsWhenTryingToGetAnAbsentContent() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = RtContentsITCase.repo(repos);
+        final Contents contents = repos.get(repo.coordinates()).contents();
+        final String message = "commit message";
+        try {
+            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final Content content = contents.create(
+                this.jsonObject(
+                    path, new String(
+                        Base64.encodeBase64("first content".getBytes())
+                    ),
+                    message
+                )
+            );
+            contents.remove(
+                Json.createObjectBuilder()
+                    .add("path", path)
+                    .add("message", message)
+                    .add("sha", new Content.Smart(content).sha()).build()
+            );
+            contents.get(path, "master");
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -70,11 +149,7 @@ public final class RtContentsITCase {
     @Test
     public void canCreateFileContent() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).build()
-        );
+        final Repo repo = RtContentsITCase.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
             MatcherAssert.assertThat(
@@ -99,11 +174,7 @@ public final class RtContentsITCase {
     @Test
     public void getContent() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).build()
-        );
+        final Repo repo = RtContentsITCase.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String message = String.format("testMessage");
@@ -148,6 +219,21 @@ public final class RtContentsITCase {
 
     /**
      * Create and return repo to test.
+     *
+     * @param repos Repos
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Repo repo(final Repos repos) throws Exception {
+        return repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Create and return github to test.
      *
      * @return Repo
      * @throws Exception If some problem inside
