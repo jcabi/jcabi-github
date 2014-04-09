@@ -32,7 +32,6 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -59,12 +58,8 @@ public final class RtRepoITCase {
     /**
      * RtRepo can fetch events.
      * @throws Exception If some problem inside
-     * @todo #551 IteratesEvents() is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove its
-     *  Ignore annotation.
      */
     @Test
-    @Ignore
     public void iteratesEvents() throws Exception {
         final Repo repo = RtRepoITCase.repo();
         final Issue issue = repo.issues().create("Test", "This is a bug");
