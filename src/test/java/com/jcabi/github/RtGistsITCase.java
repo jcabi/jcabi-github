@@ -33,7 +33,6 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,7 +49,6 @@ public final class RtGistsITCase {
      *  Ignore annotation.
      */
     @Test
-    @Ignore
     public void createGist() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
