@@ -44,9 +44,6 @@ public final class RtGistsITCase {
     /**
      * RtGists can create a gist.
      * @throws Exception If some problem inside
-     * @todo #551 CreateGist is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove the
-     *  Ignore annotation.
      */
     @Test
     public void createGist() throws Exception {
