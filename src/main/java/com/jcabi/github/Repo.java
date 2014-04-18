@@ -45,7 +45,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Repo extends JsonReadable, JsonPatchable {
+public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get its owner.
@@ -298,6 +298,16 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.repo.json();
+        }
+
+        @Override
+        public int compareTo(final Repo other) {
+            if (!(other instanceof Smart)) {
+                return -1;
+            }
+            final String thisJson = this.jsn.toString();
+            final String otherJson = ((Smart) other).toString();
+            return thisJson.compareTo(otherJson);
         }
     }
 
