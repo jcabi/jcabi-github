@@ -52,7 +52,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-public final class RtPublicKeys implements PublicKeys {
+final class RtPublicKeys implements PublicKeys {
 
     /**
      * API entry point.
