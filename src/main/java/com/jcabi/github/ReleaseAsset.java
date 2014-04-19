@@ -189,7 +189,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("created_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -205,7 +205,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("updated_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
