@@ -49,7 +49,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "owner", "key" })
-public final class MkDeployKey implements DeployKey {
+final class MkDeployKey implements DeployKey {
 
     /**
      * Storage.
