@@ -217,15 +217,15 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    public int compareTo(final Repo repos) {
+    public int compareTo(final Repo repo) {
         int returnValue;
-        if (repos instanceof RtRepo) {
-            final RtRepo otherRepos = (RtRepo) repos;
+        if (repo instanceof RtRepo) {
+            final RtRepo rtRepo = (RtRepo) repo;
             returnValue = this.entry.uri().get().compareTo(
-                otherRepos.entry.uri().get()
+                rtRepo.entry.uri().get()
             );
             if (returnValue == 0) {
-                returnValue = this.coords.compareTo(otherRepos.coords);
+                returnValue = this.coords.compareTo(rtRepo.coords);
             }
         } else {
             returnValue = -1;
