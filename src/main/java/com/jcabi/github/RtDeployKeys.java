@@ -51,7 +51,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "entry" })
-public final class RtDeployKeys implements DeployKeys {
+final class RtDeployKeys implements DeployKeys {
     /**
      * Repository.
      */

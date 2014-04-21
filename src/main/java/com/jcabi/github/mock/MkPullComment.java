@@ -48,7 +48,7 @@ import lombok.ToString;
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "storage", "repo", "owner", "num" })
-public final class MkPullComment implements PullComment {
+final class MkPullComment implements PullComment {
     /**
      * Storage.
      */

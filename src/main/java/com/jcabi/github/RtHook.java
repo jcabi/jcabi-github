@@ -47,7 +47,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtHook implements Hook {
+final class RtHook implements Hook {
 
     /**
      * RESTful request.

@@ -53,7 +53,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "request" })
-public final class RtHooks implements Hooks {
+final class RtHooks implements Hooks {
     /**
      * API entry point.
      */

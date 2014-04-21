@@ -46,7 +46,7 @@ import org.xembly.Directives;
  * @version $Id$
  */
 @Immutable
-public final class MkMilestones implements Milestones {
+final class MkMilestones implements Milestones {
 
     /**
      * Storage.

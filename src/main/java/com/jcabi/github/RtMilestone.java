@@ -46,7 +46,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "owner" })
-public class RtMilestone implements Milestone {
+final class RtMilestone implements Milestone {
 
     /**
      * RESTful request.
@@ -84,36 +84,36 @@ public class RtMilestone implements Milestone {
 
     @Override
     @NotNull(message = "toString is never NULL")
-    public final String toString() {
+    public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
     @NotNull(message = "Repository can't be NULL")
-    public final Repo repo() {
+    public Repo repo() {
         return this.owner;
     }
 
     @Override
-    public final int number() {
+    public int number() {
         return this.num;
     }
 
     @Override
     @NotNull(message = "JSON can't be NULL")
-    public final JsonObject json() throws IOException {
+    public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public final void patch(
+    public void patch(
         @NotNull(message = "JSON object can't be NULL")
         final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
-    public final int compareTo(
+    public int compareTo(
         @NotNull(message = "Milestone object can't be NULL")
         final Milestone milestone) {
         return Integer.valueOf(this.number()).compareTo(milestone.number());

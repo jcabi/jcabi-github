@@ -52,7 +52,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "request")
-public final class RtReleases implements Releases {
+final class RtReleases implements Releases {
 
     /**
      * RESTful API entry point.

@@ -50,7 +50,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "ghub")
-public final class RtSearch implements Search {
+final class RtSearch implements Search {
 
     /**
      * Slash pattern for url splitting.

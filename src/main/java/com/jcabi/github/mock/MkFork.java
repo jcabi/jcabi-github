@@ -50,7 +50,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "coords", "num" })
-public final class MkFork implements Fork {
+final class MkFork implements Fork {
     /**
      * Storage.
      */
