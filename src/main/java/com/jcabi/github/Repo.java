@@ -301,12 +301,12 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         }
 
         @Override
-        public int compareTo(final Repo other) {
-            if (!(other instanceof Smart)) {
+        public int compareTo(final Repo repos) {
+            if (!(repos instanceof Smart)) {
                 return -1;
             }
             final String thisJson = this.jsn.toString();
-            final String otherJson = ((Smart) other).toString();
+            final String otherJson = ((Smart) repos).toString();
             return thisJson.compareTo(otherJson);
         }
     }
