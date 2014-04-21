@@ -53,7 +53,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
-public class RtMilestones implements Milestones {
+final class RtMilestones implements Milestones {
     /**
      * API entry point.
      */
@@ -88,19 +88,19 @@ public class RtMilestones implements Milestones {
 
     @Override
     @NotNull(message = "toString is never NULL")
-    public final String toString() {
+    public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
     @NotNull(message = "repository is never NULL")
-    public final Repo repo() {
+    public Repo repo() {
         return this.owner;
     }
 
     @Override
     @NotNull(message = "milestone is never NULL")
-    public final Milestone create(
+    public Milestone create(
         @NotNull(message = "title can't be NULL") final String title)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
@@ -118,12 +118,12 @@ public class RtMilestones implements Milestones {
 
     @Override
     @NotNull(message = "Milestone is never NULL")
-    public final Milestone get(final int number) {
+    public Milestone get(final int number) {
         return new RtMilestone(this.entry, this.owner, number);
     }
 
     @Override
-    public final void remove(final int number) throws IOException {
+    public void remove(final int number) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(Integer.toString(number)).back()
             .fetch()
@@ -133,7 +133,7 @@ public class RtMilestones implements Milestones {
 
     @Override
     @NotNull(message = "Iterable of Milestones is never NULL")
-    public final Iterable<Milestone> iterate(
+    public Iterable<Milestone> iterate(
         @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
         return new RtPagination<Milestone>(

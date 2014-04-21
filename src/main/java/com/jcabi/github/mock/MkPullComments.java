@@ -56,7 +56,7 @@ import org.xembly.Directives;
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "owner" })
-public final class MkPullComments implements PullComments {
+final class MkPullComments implements PullComments {
     /**
      * Storage.
      */

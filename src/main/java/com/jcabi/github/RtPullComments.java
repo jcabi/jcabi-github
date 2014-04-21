@@ -52,7 +52,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
-public final class RtPullComments implements PullComments {
+final class RtPullComments implements PullComments {
 
     /**
      * API entry point.
