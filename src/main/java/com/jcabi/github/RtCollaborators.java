@@ -51,7 +51,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
 @SuppressWarnings("PMD.SingularField")
-public final class RtCollaborators implements Collaborators {
+final class RtCollaborators implements Collaborators {
 
     /**
      * API entry point.

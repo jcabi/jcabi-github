@@ -44,7 +44,7 @@ import javax.validation.constraints.NotNull;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-public final class MkMilestone implements Milestone {
+final class MkMilestone implements Milestone {
 
     /**
      * Storage.
