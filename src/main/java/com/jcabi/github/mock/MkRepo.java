@@ -281,10 +281,10 @@ final class MkRepo implements Repo {
     public int compareTo(final Repo repo) {
         int returnValue;
         if (repo instanceof MkRepo) {
-            final MkRepo otherMkRepo = (MkRepo) repo;
-            returnValue = this.self.compareTo(otherMkRepo.self);
+            final MkRepo mkRepo = (MkRepo) repo;
+            returnValue = this.self.compareTo(mkRepo.self);
             if (returnValue == 0) {
-                returnValue = this.coords.compareTo(otherMkRepo.coords);
+                returnValue = this.coords.compareTo(mkRepo.coords);
             }
         } else {
             returnValue = -1;
