@@ -88,13 +88,18 @@ public final class MkOrganizationsTest {
      */
     @Test
     public void getSingleOrganization() throws Exception {
+        final String login = "orgTestGet";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile(),
-            "orgTestGet"
+            login
         );
         MatcherAssert.assertThat(
-            orgs.get("orgTestGet"),
+            orgs.get(login),
             Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            orgs.get(login).json().getString("login"),
+            Matchers.equalTo(login)
         );
     }
 

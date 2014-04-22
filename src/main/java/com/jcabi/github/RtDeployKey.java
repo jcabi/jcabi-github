@@ -47,7 +47,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "request")
-public final class RtDeployKey implements DeployKey {
+final class RtDeployKey implements DeployKey {
 
     /**
      * RESTful API request for this deploy key.

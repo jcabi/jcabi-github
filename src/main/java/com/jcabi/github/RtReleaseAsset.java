@@ -51,7 +51,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtReleaseAsset implements ReleaseAsset {
+final class RtReleaseAsset implements ReleaseAsset {
 
     /**
      * RESTful request.

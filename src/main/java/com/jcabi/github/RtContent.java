@@ -51,7 +51,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "location", "request", "owner" })
-public final class RtContent implements Content {
+final class RtContent implements Content {
 
     /**
      * RESTful request.

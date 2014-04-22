@@ -48,7 +48,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords", "name" })
-public final class MkReference implements Reference {
+final class MkReference implements Reference {
 
     /**
      * Storage.
