@@ -56,7 +56,7 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkContents implements Contents {
+final class MkContents implements Contents {
 
     /**
      * Storage.

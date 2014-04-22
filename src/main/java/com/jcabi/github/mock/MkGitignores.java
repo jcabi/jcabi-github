@@ -51,7 +51,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = { "ghub" })
 @SuppressWarnings("PMD.UseConcurrentHashMap")
-public final class MkGitignores implements Gitignores {
+final class MkGitignores implements Gitignores {
 
     /**
      * The gitignore templates.

@@ -118,12 +118,6 @@ final class MkOrganizations implements Organizations {
     ) {
         try {
             this.storage.apply(
-                new Directives().xpath(this.xpath())
-                    .add("org")
-                    .add("id")
-                    .set(Integer.toString(RAND.nextInt()))
-            );
-            this.storage.apply(
                 new Directives().xpath(
                     String.format("/github/orgs[not(org[login='%s'])]", login)
                 ).add("org").add("login").set(login)
@@ -144,6 +138,8 @@ final class MkOrganizations implements Organizations {
             @Override
             public JsonObject json() {
                 return Json.createObjectBuilder()
+                    .add("login", login)
+                    .add("id", Integer.toString(RAND.nextInt()))
                     .add("name", "github")
                     .add("company", "GitHub")
                     .add("blog", "https://github.com/blog")
@@ -151,9 +147,14 @@ final class MkOrganizations implements Organizations {
                     .add("email", "octocat@github.com")
                     .add("public_repos", MkOrganizations.RAND.nextInt())
                     .add("public_gists", MkOrganizations.RAND.nextInt())
+                    .add("total_private_repos", MkOrganizations.RAND.nextInt())
+                    .add("owned_private_repos", MkOrganizations.RAND.nextInt())
                     .add("followers", MkOrganizations.RAND.nextInt())
                     .add("following", MkOrganizations.RAND.nextInt())
-                    .add("html_url", "https://github.com/octocat")
+                    .add("url", "https://github.com/orgs/cat")
+                    .add("repos_url", "https://github.com/orgs/cat/repos")
+                    .add("events_url", "https://github.com/orgs/cat/events")
+                    .add("html_url", "https://github.com/cat")
                     .add("created_at", new Github.Time().toString())
                     .add("type", "Organization")
                     .build();
