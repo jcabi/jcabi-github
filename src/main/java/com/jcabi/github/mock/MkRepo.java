@@ -279,17 +279,7 @@ final class MkRepo implements Repo {
 
     @Override
     public int compareTo(final Repo repo) {
-        int returnValue;
-        if (repo instanceof MkRepo) {
-            final MkRepo mkRepo = (MkRepo) repo;
-            returnValue = this.self.compareTo(mkRepo.self);
-            if (returnValue == 0) {
-                returnValue = this.coords.compareTo(mkRepo.coords);
-            }
-        } else {
-            returnValue = -1;
-        }
-        return returnValue;
+        return this.coords.compareTo(repo.coordinates());
     }
 
 }
