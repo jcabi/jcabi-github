@@ -218,18 +218,6 @@ final class RtRepo implements Repo {
 
     @Override
     public int compareTo(final Repo repo) {
-        int returnValue;
-        if (repo instanceof RtRepo) {
-            final RtRepo rtRepo = (RtRepo) repo;
-            returnValue = this.entry.uri().get().compareTo(
-                rtRepo.entry.uri().get()
-            );
-            if (returnValue == 0) {
-                returnValue = this.coords.compareTo(rtRepo.coords);
-            }
-        } else {
-            returnValue = -1;
-        }
-        return returnValue;
+        return this.coords.compareTo(repo.coordinates());
     }
 }
