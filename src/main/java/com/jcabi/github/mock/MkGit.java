@@ -56,7 +56,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkGit implements Git {
+final class MkGit implements Git {
 
     /**
      * Storage.

@@ -53,7 +53,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkHooks implements Hooks {
+final class MkHooks implements Hooks {
 
     /**
      * Storage.

@@ -51,7 +51,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkReferences implements References {
+final class MkReferences implements References {
 
     /**
      * Storage.
