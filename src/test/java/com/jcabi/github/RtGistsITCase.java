@@ -33,7 +33,6 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -45,12 +44,8 @@ public final class RtGistsITCase {
     /**
      * RtGists can create a gist.
      * @throws Exception If some problem inside
-     * @todo #551 CreateGist is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove the
-     *  Ignore annotation.
      */
     @Test
-    @Ignore
     public void createGist() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
@@ -59,11 +54,14 @@ public final class RtGistsITCase {
             Collections.singletonMap(filename, content), false
         );
         final Gist.Smart smart = new Gist.Smart(gist);
-        MatcherAssert.assertThat(
-            smart.read(filename),
-            Matchers.equalTo(content)
-        );
-        gists.remove(smart.identifier());
+        try {
+            MatcherAssert.assertThat(
+                smart.read(filename),
+                Matchers.equalTo(content)
+            );
+        } finally {
+            gists.remove(smart.identifier());
+        }
     }
 
     /**
