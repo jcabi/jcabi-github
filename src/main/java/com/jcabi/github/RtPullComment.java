@@ -47,7 +47,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtPullComment implements PullComment {
+final class RtPullComment implements PullComment {
 
     /**
      * RESTful request.

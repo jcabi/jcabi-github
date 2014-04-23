@@ -51,7 +51,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
-public final class MkHook implements Hook {
+final class MkHook implements Hook {
     /**
      * Storage.
      */
