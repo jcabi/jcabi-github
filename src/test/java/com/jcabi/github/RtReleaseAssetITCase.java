@@ -74,7 +74,7 @@ public final class RtReleaseAssetITCase {
         final String rname = RandomStringUtils.randomAlphanumeric(5);
         final Release release = releases().create(rname);
         final String name = "name";
-        final String nvalue = "v.1.1.1";
+        final String nvalue = RandomStringUtils.randomAlphanumeric(5);
         final String body = "body";
         final String bvalue = "Description of the release";
         try {
