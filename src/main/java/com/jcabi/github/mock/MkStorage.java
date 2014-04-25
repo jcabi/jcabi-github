@@ -121,7 +121,7 @@ public interface MkStorage {
         public String toString() {
             try {
                 return this.xml().toString();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -145,7 +145,7 @@ public interface MkStorage {
                     ).toString(),
                     Charsets.UTF_8
                 );
-            } catch (ImpossibleModificationException ex) {
+            } catch (final ImpossibleModificationException ex) {
                 throw new IllegalArgumentException(ex);
             }
         }

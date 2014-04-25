@@ -88,7 +88,7 @@ final class MkIterable<T> implements Iterable<T> {
         final Iterator<XML> nodes;
         try {
             nodes = this.storage.xml().nodes(this.xpath).iterator();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
         return new Iterator<T>() {

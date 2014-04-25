@@ -174,7 +174,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
                 return new Github.Time(
                     this.jsn.text("created_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
