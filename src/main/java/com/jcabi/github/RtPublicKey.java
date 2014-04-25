@@ -108,6 +108,4 @@ final class RtPublicKey implements PublicKey {
     public String toString() {
         return this.request.uri().get().toString();
     }
-
 }
-

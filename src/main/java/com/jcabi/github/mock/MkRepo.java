@@ -277,4 +277,9 @@ final class MkRepo implements Repo {
         );
     }
 
+    @Override
+    public int compareTo(final Repo repo) {
+        return this.coords.compareTo(repo.coordinates());
+    }
+
 }

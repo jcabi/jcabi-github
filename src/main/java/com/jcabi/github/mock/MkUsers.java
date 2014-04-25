@@ -100,7 +100,7 @@ final class MkUsers implements Users {
     ) {
         try {
             return new MkUser(this.storage, login);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
