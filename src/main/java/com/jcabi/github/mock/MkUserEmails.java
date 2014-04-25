@@ -51,7 +51,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-public final class MkUserEmails implements UserEmails {
+final class MkUserEmails implements UserEmails {
 
     /**
      * Mapping.

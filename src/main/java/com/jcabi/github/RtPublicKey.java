@@ -46,7 +46,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-public final class RtPublicKey implements PublicKey {
+final class RtPublicKey implements PublicKey {
 
     /**
      * RESTful request.
@@ -108,5 +108,4 @@ public final class RtPublicKey implements PublicKey {
     public String toString() {
         return this.request.uri().get().toString();
     }
-
 }

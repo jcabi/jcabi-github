@@ -74,6 +74,83 @@ public final class RtReleaseAssetsITCase {
     }
 
     /**
+     * RtReleaseAssets can upload two release assets.
+     * @throws Exception If an exception occurs.
+     */
+    @Test
+    public void uploadsTwoAssets() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
+        try {
+            final String name = "upload.txt";
+            final ReleaseAsset uploaded = assets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                uploaded.json().getString("name"),
+                Matchers.is(name)
+            );
+            final String othername = "upload2.txt";
+            final ReleaseAsset otheruploaded = assets.upload(
+                "upload2".getBytes(),
+                "text/plain",
+                othername
+            );
+            MatcherAssert.assertThat(
+                otheruploaded.json().getString("name"),
+                Matchers.is(othername)
+            );
+        } finally {
+            releases.remove(release.number());
+        }
+    }
+
+    /**
+     * RtReleaseAssets can upload one release assets to two releases.
+     * @throws Exception If an exception occurs.
+     */
+    @Test
+    public void uploadsSameAssetInTwoReleases() throws Exception {
+        final Releases releases = releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final Release otherrelease = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final ReleaseAssets assets = release.assets();
+        final ReleaseAssets otherassets = otherrelease.assets();
+        try {
+            final String name = "upload.txt";
+            final ReleaseAsset uploaded = assets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                uploaded.json().getString("name"),
+                Matchers.is(name)
+            );
+            final ReleaseAsset otheruploaded = otherassets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                otheruploaded.json().getString("name"),
+                Matchers.is(name)
+            );
+        } finally {
+            releases.remove(release.number());
+            releases.remove(otherrelease.number());
+        }
+    }
+
+    /**
      * RtReleaseAssets can fetch release assets by asset ID.
      * @throws Exception If an exception occurs.
      */

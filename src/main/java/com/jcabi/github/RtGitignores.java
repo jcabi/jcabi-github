@@ -52,7 +52,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @EqualsAndHashCode(of = { "ghub" , "request" })
-public final class RtGitignores implements Gitignores {
+final class RtGitignores implements Gitignores {
 
     /**
      * Github.

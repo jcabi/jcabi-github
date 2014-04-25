@@ -37,19 +37,17 @@ import java.util.Set;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Test for visibility.
  * Checks that there are not public classes in package
- * {@code com.jcabi.github}.
+ * {@code com.jcabi.github}. Certain types including all Smart types are
+ * excluded.
  *
  * @author Carlos Crespo (carlos.a.crespo@gmail.com)
  * @version $Id$
- * @todo #604 Make sure that all classes/interfaces not included in the
- *  SKIP set not public and then remove the Ignore annotation.
  */
 public final class VisibilityTest {
 
@@ -58,8 +56,10 @@ public final class VisibilityTest {
      */
     private static final Set<String> SKIP = ImmutableSet.<String>builder()
         .add("com.jcabi.github.RtGithub")
+        .add("com.jcabi.github.Bulk")
+        .add("com.jcabi.github.Smarts")
+        .add("com.jcabi.github.wire.CarefulWire")
         .add("com.jcabi.github.mock.MkGithub")
-        .add("com.jcabi.github.mock.MkStorage")
         .build();
 
     /**
@@ -77,7 +77,6 @@ public final class VisibilityTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkVisibility() throws Exception {
         MatcherAssert.assertThat(
             Iterables.filter(
@@ -85,8 +84,12 @@ public final class VisibilityTest {
                 new Predicate<Class<?>>() {
                     @Override
                     public boolean apply(final Class<?> input) {
-                        return !(input.isInterface()
-                            || SKIP.contains(input.getName()));
+                        return !(
+                            input.isInterface()
+                                || SKIP.contains(input.getName())
+                                || (input.getEnclosingClass() != null
+                                    && input.getName().endsWith("Smart"))
+                            );
                     }
                 }
             ),

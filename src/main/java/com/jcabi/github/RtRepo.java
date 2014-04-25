@@ -215,4 +215,9 @@ final class RtRepo implements Repo {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
+
+    @Override
+    public int compareTo(final Repo repo) {
+        return this.coords.compareTo(repo.coordinates());
+    }
 }

@@ -54,7 +54,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtContents implements Contents {
+final class RtContents implements Contents {
 
     /**
      * API entry point.

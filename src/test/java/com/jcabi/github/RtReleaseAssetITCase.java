@@ -29,16 +29,105 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Test;
+
 /**
  * Integration test for {@link RtReleaseAsset}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @todo #282 Need to implement integration test for RtReleaseAsset. This class
- *  should contain test cases that operate against a real github repository. At
- *  the very least, the json, patch and remove methods should be exercised.
+ * @checkstyle MultipleStringLiterals (300 lines)
  */
 public final class RtReleaseAssetITCase {
+
+    /**
+     * RtReleaseAsset can fetch as JSON object.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void fetchAsJSON() throws Exception {
+        final String name = RandomStringUtils.randomAlphanumeric(5);
+        final Release release = releases().create(name);
+        try {
+            MatcherAssert.assertThat(
+                release.json().getInt("id"),
+                Matchers.equalTo(release.number())
+            );
+        } finally {
+            release.delete();
+        }
+    }
+
+    /**
+     * RtReleaseAsset can execute patch request.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void executePatchRequest() throws Exception {
+        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final Release release = releases().create(rname);
+        final String name = "name";
+        final String nvalue = RandomStringUtils.randomAlphanumeric(5);
+        final String body = "body";
+        final String bvalue = "Description of the release";
+        try {
+            release.patch(Json.createObjectBuilder().add(name, nvalue)
+                .add(body, bvalue).build()
+            );
+            MatcherAssert.assertThat(
+                release.json().getString(name),
+                Matchers.startsWith(nvalue)
+            );
+            MatcherAssert.assertThat(
+                release.json().getString(body),
+                Matchers.startsWith(bvalue)
+            );
+        } finally {
+            release.delete();
+        }
+    }
+
+    /**
+     * RtReleaseAsset can do delete operation.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void removesReleaseAsset() throws Exception {
+        final Releases releases = releases();
+        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final Release release = releases().create(rname);
+        try {
+            MatcherAssert.assertThat(
+                releases.get(release.number()),
+                Matchers.notNullValue()
+            );
+        } finally {
+            release.delete();
+        }
+        MatcherAssert.assertThat(
+            releases().iterate(),
+            Matchers.not(Matchers.contains(release))
+        );
+    }
+
+    /**
+     * Create and return Releases object to test.
+     * @return Releases
+     * @throws IOException If an IO Exception occurs.
+     */
+    private static Releases releases() throws IOException {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).repos().get(
+            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
+        ).releases();
+    }
 
 }

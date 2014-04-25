@@ -52,7 +52,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
-public final class MkReleaseAsset implements ReleaseAsset {
+final class MkReleaseAsset implements ReleaseAsset {
     /**
      * Storage.
      */

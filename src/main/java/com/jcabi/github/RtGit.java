@@ -46,7 +46,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "owner" })
-public final class RtGit implements Git {
+final class RtGit implements Git {
 
     /**
      * Repository.

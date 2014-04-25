@@ -53,7 +53,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "owner" })
-public final class RtForks implements Forks {
+final class RtForks implements Forks {
 
     /**
      * Fork's id name in JSON object.
