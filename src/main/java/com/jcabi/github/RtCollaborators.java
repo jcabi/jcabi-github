@@ -43,7 +43,7 @@ import org.hamcrest.Matchers;
 
 /**
  * Implementation of Collaborators.
- * @todo #552 Implement add() method.
+ * @todo #591 Implement add() method.
  *  It should be implemented as described at
  *  http://developer.github.com/v3/repos/collaborators/
  *  Test as com.jcabi.github.RtCollaboratorsTest should be also implemented.
