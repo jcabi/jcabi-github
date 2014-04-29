@@ -57,7 +57,8 @@ public interface MkStorage {
     /**
      * Get full XML.
      * @return XML
-     * @throws IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem, or if the current
+     *  storage is locked by another thread.
      */
     @NotNull(message = "xml is never NULL")
     XML xml() throws IOException;
@@ -65,20 +66,24 @@ public interface MkStorage {
     /**
      * Update XML with this directives.
      * @param dirs Directives
-     * @throws IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem, or if the current
+     *  storage is locked by another thread.
      */
     void apply(
         @NotNull(message = "dirs can't be NULL") Iterable<Directive> dirs
     ) throws IOException;
 
     /**
-     * Lock storage.
+     * Locks storage to the current thread. If the lock is available, grant it
+     * to the calling thread and block all operations from other threads.
+     * If not available, wait for the holder of the lock to release it with
+     * {@link #unlock()} before any other operations can be performed.
      * @throws IOException If there is any I/O problem
      */
     void lock() throws IOException;
 
     /**
-     * Unlock storage.
+     * Unlock storage. This releases the lock, if held by the current thread.
      * @throws IOException If there is any I/O problem
      */
     void unlock() throws IOException;
