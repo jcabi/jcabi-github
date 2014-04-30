@@ -32,9 +32,11 @@ package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.github.mock.MkStorage;
+import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -49,7 +51,9 @@ import org.mockito.Mockito;
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtCollaboratorsTest {
     /**
      * RtCollaborators can iterate over a list of collaborators.
@@ -92,7 +96,27 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeTestForBeingCollaborator() throws Exception {
-        // to be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                Json.createArrayBuilder()
+                    .add(json("octocat2"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Collaborators users = new RtCollaborators(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                users.isCollaborator("octocat2"),
+                Matchers.equalTo(true)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -101,7 +125,29 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeRemoved() throws Exception {
-        // to be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                Json.createArrayBuilder()
+                    .add(json("octocat2"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Collaborators users = new RtCollaborators(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        try {
+            users.remove("dummy");
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
