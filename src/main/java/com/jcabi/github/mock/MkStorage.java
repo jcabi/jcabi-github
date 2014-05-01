@@ -145,15 +145,23 @@ public interface MkStorage {
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            return new XMLDocument(
-                FileUtils.readFileToString(new File(this.name), Charsets.UTF_8)
-            );
+            this.lock();
+            try {
+                return new XMLDocument(
+                    FileUtils.readFileToString(
+                        new File(this.name), Charsets.UTF_8
+                    )
+                );
+            } finally {
+                this.unlock();
+            }
         }
         @Override
         public void apply(
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
+            this.lock();
             try {
                 FileUtils.write(
                     new File(this.name),
@@ -164,6 +172,8 @@ public interface MkStorage {
                 );
             } catch (final ImpossibleModificationException ex) {
                 throw new IllegalArgumentException(ex);
+            } finally {
+                this.unlock();
             }
         }
         @Override
