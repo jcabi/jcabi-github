@@ -29,9 +29,9 @@
  */
 package com.jcabi.github;
 
-import java.io.ByteArrayOutputStream;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
+import java.io.ByteArrayOutputStream;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
