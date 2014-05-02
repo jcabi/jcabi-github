@@ -45,7 +45,7 @@ You need just this dependency:
 <dependency>
   <groupId>com.jcabi</groupId>
   <artifactId>jcabi-github</artifactId>
-  <version>0.7</version>
+  <version>0.8</version>
 </dependency>
 ```
 
