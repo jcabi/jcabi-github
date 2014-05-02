@@ -30,10 +30,8 @@
 package com.jcabi.github;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPublicKey;
-import org.apache.commons.codec.binary.Base64;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.KeyPair;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -140,26 +138,19 @@ public class RtPublicKeysITCase {
     }
 
     /**
-     * Generates new RSA public key.
-     * @return Generated public key.
+     * Generates a random public key for test.
+     * @return The encoded SSH public key.
      * @throws Exception If a problem occurs.
      */
     private String key() throws Exception {
-        final RSAPublicKey key = (RSAPublicKey) KeyPairGenerator
-            .getInstance("RSA").genKeyPair().getPublic();
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final DataOutputStream dos = new DataOutputStream(baos);
-        final byte[] bytes = "ssh-rsa".getBytes();
-        dos.writeInt(bytes.length);
-        dos.write(bytes);
-        dos.writeInt(key.getPublicExponent().toByteArray().length);
-        dos.write(key.getPublicExponent().toByteArray());
-        dos.writeInt(key.getModulus().toByteArray().length);
-        dos.write(key.getModulus().toByteArray());
-        return String.format(
-            "ssh-rsa %s user%d@email.com", new String(
-                Base64.encodeBase64(baos.toByteArray())
-            ), System.currentTimeMillis()
-        );
+        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        try {
+            final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
+            kpair.writePublicKey(stream, "");
+            kpair.dispose();
+        } finally {
+            stream.close();
+        }
+        return new String(stream.toByteArray());
     }
 }
