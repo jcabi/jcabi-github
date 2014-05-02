@@ -81,13 +81,18 @@ final class MkContent implements Content {
     private final transient String location;
 
     /**
-     * Public ctor.
+     * Branch of this content.
+     */
+    private final transient String branch;
+
+    /**
+     * Public ctor. Uses the default branch "master".
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
      * @param path Path of this file
      * @throws IOException If there is any I/O problem
-     * @checkstyle ParameterNumberCheck (3 lines)
+     * @checkstyle ParameterNumberCheck (5 lines)
      */
     public MkContent(
         @NotNull(message = "stg can't be NULL") final MkStorage stg,
@@ -95,10 +100,31 @@ final class MkContent implements Content {
         @NotNull(message = "rep can't be NULL") final Coordinates rep,
         @NotNull(message = "path can't be NULL") final String path
     ) throws IOException {
+        this(stg, login, rep, path, "master");
+    }
+
+    /**
+     * Public ctor.
+     * @param stg Storage
+     * @param login User to login
+     * @param rep Repo
+     * @param path Path of this file
+     * @param ref Branch of this file
+     * @throws IOException If there is any I/O problem
+     * @checkstyle ParameterNumberCheck (6 lines)
+     */
+    public MkContent(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
         this.location = path;
+        this.branch = ref;
     }
 
     @Override
@@ -157,8 +183,9 @@ final class MkContent implements Content {
     @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
-            "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
-            this.coords, this.location
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
+            this.coords, this.location, this.branch
         );
     }
 }
