@@ -1,228 +1,120 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?xml-stylesheet type='text/xsl' href='puzzles.xsl'?><puzzles>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/Gist.java</file>
-      <prefix> * </prefix>
-      <body>New method star() and starred() for a single gist. Let's add these methods as explained in http://developer.github.com/v3/gists/ The method should be tested by integration and unit tests, and implemented in MkGist as well. When done, remove this comment.</body>
-      <estimate>60</estimate>
-      <lines>50-50</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/Gist.java</file>
-      <prefix> * </prefix>
-      <body>New method fork() to fork a gist. Let's introduce a new method, as explained in http://developer.github.com/v3/gists/#fork-a-gist. The method should be tested in a unit and integration tests. When done, remove this comment.</body>
-      <estimate>60</estimate>
-      <lines>55-55</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/Gist.java</file>
-      <prefix> * </prefix>
-      <body>Gist comments. Let's add new method comments() to this interface, returning an instance of interface GistComments. This new interface should implement methods do iterate, post, delete and read comments, as explained in http://developer.github.com/v3/gists/comments/. New interface should be implemented by GhGistComments class and tested with unit and integration tests.</body>
-      <estimate>60</estimate>
-      <lines>59-65</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/Gists.java</file>
-      <prefix> * </prefix>
-      <body>New method remove() to delete a gist. Let's add a new method to remove a gist by name, as explained in http://developer.github.com/v3/gists/#delete-a-gist. The method should be tested by unit and integration tests.</body>
-      <estimate>60</estimate>
-      <lines>43-46</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/Milestones.java</file>
-      <prefix> * </prefix>
-      <body>New method remove() to delete a Milestone. Let's add a new method to remove a milestone by id, as explained in http://developer.github.com/v3/issues/milestones/#delete-a-milestone. The method should be tested by unit and integration tests.</body>
-      <estimate>60</estimate>
-      <lines>43-46</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/Pull.java</file>
-      <prefix> * </prefix>
-      <body>Pull request comments. Let's add new method comments() to this interface, returning an instance of interface PullComments. This new interface should implement methods do iterate, post, delete and read comments, as explained in http://developer.github.com/v3/pulls/comments/. New interface should be implemented by GhPullComments class and tested with unit and integration tests.</body>
-      <estimate>60</estimate>
-      <lines>52-58</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>16</ticket>
-      <file>src/main/java/com/jcabi/github/RtAssignees.java</file>
-      <prefix> * </prefix>
-      <body>Assignees API should be implemented. Let's implement two methods: 1) iterate() returning a list of Users and 2) check(String) returning TRUE if provided login can be used as an assignee in repository. Also should be implemented method assignees() in RtRepo and MkRepo. Don't forget about @EqualsAndHashCode and other annotations See http://developer.github.com/v3/issues/assignees/</body>
-      <estimate>0</estimate>
-      <lines>41-48</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/RtEvent.java</file>
-      <prefix> * </prefix>
-      <body>Unit test for RtEvent is required. Let's create a simple one, to check that the class implements key functions correctly.</body>
-      <estimate>0</estimate>
-      <lines>46-47</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>64</ticket>
-      <file>src/main/java/com/jcabi/github/RtGists.java</file>
-      <prefix> * </prefix>
-      <body>An integration test is still lacking for this class, although a unit test has already been created.</body>
-      <estimate>0</estimate>
-      <lines>53-54</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>2</ticket>
-      <file>src/main/java/com/jcabi/github/RtOrganization.java</file>
-      <prefix> * </prefix>
-      <body>Default implementation for user's Organization. Provide default implementation for user's organization. Don't forget about @EqualsAndHashCode.</body>
-      <estimate>0</estimate>
-      <lines>42-44</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>2</ticket>
-      <file>src/main/java/com/jcabi/github/RtOrganizations.java</file>
-      <prefix> * </prefix>
-      <body>Default implementation for user's Organizations. Provide default implementation for user's organizations. Don't forget about @EqualsAndHashCode.</body>
-      <estimate>0</estimate>
-      <lines>41-43</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/RtRepos.java</file>
-      <prefix>     * </prefix>
-      <body>Implement GhRepos.create() method. Let's implement this method and test is in unit and integration tests.</body>
-      <estimate>60</estimate>
-      <lines>90-91</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/User.java</file>
-      <prefix> * </prefix>
-      <body>Fetch list of emails of a user. Let's implement a new method emails() that returns an instance of class UserEmails with a few methods: 1) iterate() returning a list of strings, 2) add(String), and 3) remove(String). Let's use the new response format suggested by Github: http://developer.github.com/v3/users/emails/#list-email-addresses-for-a-user This new UserEmails interface should be implemented by GhUserEmails, tested in a unit and integration tests. Besides that, we should implement MkUserEmails class.</body>
-      <estimate>60</estimate>
-      <lines>48-48</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>1</ticket>
-      <file>src/main/java/com/jcabi/github/User.java</file>
-      <prefix> * </prefix>
-      <body>Public keys of a user. Let's implement a new method keys(), which should return an instance of interface PublicKeys. This interface should have at least methods 1) iterate() to list all public keys of a user, 2) get(String) to get a single public key, 3) remove(String) to remove a key. Every key should be an instance of interface PublicKey, extending JsonReadable and JsonPatchable. All of the new classes should be implemented with GhPublicKeys and GhPublicKey classes. We should create integration and unit tests, and implement MkPublicKeys and MkPublicKey classes.</body>
-      <estimate>60</estimate>
-      <lines>57-65</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>16</ticket>
-      <file>src/main/java/com/jcabi/github/mock/MkAssignees.java</file>
-      <prefix> * </prefix>
-      <body>Assignees mock should be implemented. Let's implement two methods: 1) iterate() returning a list of MkUsers and 2) check(String) returning TRUE if provided login can be used as an assignee in repository. See http://developer.github.com/v3/issues/assignees/</body>
-      <estimate>0</estimate>
-      <lines>43-47</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>2</ticket>
-      <file>src/main/java/com/jcabi/github/mock/MkOrganizations.java</file>
-      <prefix> * </prefix>
-      <body>Mock for user's Organizations. Let's implements Mock for user's organizations using MkStorage. Don't forget about @EqualsAndHashCode.</body>
-      <estimate>0</estimate>
-      <lines>47-49</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>9</ticket>
-      <file>src/main/java/com/jcabi/github/mock/MkRepo.java</file>
-      <prefix> * </prefix>
-      <body>Implement milestones() method. Please, implement milestones() method to return MkMilestones. Don't forget about unit tests</body>
-      <estimate>0</estimate>
-      <lines>53-55</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>16</ticket>
-      <file>src/test/java/com/jcabi/github/RtAssigneesITCase.java</file>
-      <prefix> * </prefix>
-      <body>Implement integrations tests for {@link RtAssignees} See http://developer.github.com/v3/issues/assignees/</body>
-      <estimate>0</estimate>
-      <lines>40-41</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>16</ticket>
-      <file>src/test/java/com/jcabi/github/RtAssigneesTest.java</file>
-      <prefix> * </prefix>
-      <body>Implement unit tests for {@link RtAssignees} See http://developer.github.com/v3/issues/assignees/</body>
-      <estimate>0</estimate>
-      <lines>40-41</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>56</ticket>
-      <file>src/test/java/com/jcabi/github/RtCommentTest.java</file>
-      <prefix> * </prefix>
-      <body>This class only tests the compareTo method so far. Test for the other operations should also be implemented.</body>
-      <estimate>0</estimate>
-      <lines>44-45</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>2</ticket>
-      <file>src/test/java/com/jcabi/github/RtOrganizationsITCase.java</file>
-      <prefix> * </prefix>
-      <body>Integration tests for Organizations. Let's implements integration tests for user's organizations. Please, test all public methods</body>
-      <estimate>0</estimate>
-      <lines>38-40</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>16</ticket>
-      <file>src/test/java/com/jcabi/github/RtRepoITCase.java</file>
-      <prefix> * </prefix>
-      <body>Add test iterateAssignees() to check that assignees actually fetched. See http://developer.github.com/v3/issues/assignees/</body>
-      <estimate>0</estimate>
-      <lines>42-44</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>16</ticket>
-      <file>src/test/java/com/jcabi/github/mock/MkAssigneesTest.java</file>
-      <prefix> * </prefix>
-      <body>Implement the tests for {@link MkAssignees} See http://developer.github.com/v3/issues/assignees/</body>
-      <estimate>0</estimate>
-      <lines>40-41</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>2</ticket>
-      <file>src/test/java/com/jcabi/github/mock/MkOrganizationsTest.java</file>
-      <prefix> * </prefix>
-      <body>Integration tests for MkOrganizations. Let's implements integration tests for organizations mock. Please, test all public methods</body>
-      <estimate>0</estimate>
-      <lines>38-40</lines>
-      <owner>someone</owner>
-   </puzzle>
-   <puzzle>
-      <ticket>56</ticket>
-      <file>src/test/java/com/jcabi/github/mock/MkPullTest.java</file>
-      <prefix> * </prefix>
-      <body>This class only tests the compareTo method so far. Test for the other operations should also be implemented.</body>
-      <estimate>0</estimate>
-      <lines>43-44</lines>
-      <owner>someone</owner>
-   </puzzle>
+<puzzle>
+<ticket>1</ticket>
+<file>pom.xml</file>
+<prefix>                </prefix>
+<body>Enable Cobertura profile by default. This code coverage check doesn't work due to some problem with Cobertura plugin. It always reports zero coverage for all classes. I was trying to run it without AspectJ weavling using "mvn clean install -Pcobertura -P\!aspectj", but it doesn't help. Let's fix it and enable by default.</body>
+<estimate>0</estimate>
+<lines>264-269</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>121</ticket>
+<file>src/main/java/com/jcabi/github/Fork.java</file>
+<prefix> * </prefix>
+<body>Add more Fork attributes to Smart decorator for this class. Don't forget to add them to unit test.</body>
+<estimate>0</estimate>
+<lines>48-48</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>115</ticket>
+<file>src/main/java/com/jcabi/github/Git.java</file>
+<prefix>     * </prefix>
+<body>Implement the Git Data Trees API. We need to implement the following: 1) Add the operations in http://developer.github.com/v3/git/trees/ to the Trees interface. 2) A class RtTrees, which performs RESTful request operations against the Trees API. 3) A class MkTrees, which mocks the Trees interface. 4) An interface Tag, which represents a single Tag of the Git Data API. 5) RtTrees, a Tag implementation which fetches and modifies Tag information according to the Trees API, and 6) MkTag, which mocks a single Tag object. Don't forget to implement unit tests and integration tests.</body>
+<estimate>60</estimate>
+<lines>100-112</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>591</ticket>
+<file>src/main/java/com/jcabi/github/RtCollaborators.java</file>
+<prefix> * </prefix>
+<body>Implement add() method. It should be implemented as described at http://developer.github.com/v3/repos/collaborators/ Test as com.jcabi.github.RtCollaboratorsTest should be also implemented.</body>
+<estimate>0</estimate>
+<lines>46-49</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>124</ticket>
+<file>src/main/java/com/jcabi/github/Search.java</file>
+<prefix> * </prefix>
+<body>The {@link Search} interface currently defines methods for searching repos, issues, and users. We need to add a new method codes() for the purposes for code searching. At the moment, we don't have a way to represent codes in the API.</body>
+<estimate>0</estimate>
+<lines>43-46</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>439</ticket>
+<file>src/main/java/com/jcabi/github/mock/MkRepoCommits.java</file>
+<prefix> * </prefix>
+<body>MkRepoCommits should be able to compare two commits and return comparison in patch format. Let's create a test for this method and implement the method. When done, remove this puzzle. See http://developer.github.com/v3/repos/commits/#compare-two-commits</body>
+<estimate>0</estimate>
+<lines>51-55</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>224</ticket>
+<file>src/test/java/com/jcabi/github/RtDeployKeysITCase.java</file>
+<prefix>     * </prefix>
+<body>RtDeployKeysITCase#canFetchAllDeployKeys() is ignored because at the moment, {@link RtDeployKeys#iterate()} is not fully implemented and only returns empty iterators. Once {@link RtDeployKeys#iterate()} has been implemented, remove the Ignore annotation here to enable the integration test. Revise this test method if necessary.</body>
+<estimate>0</estimate>
+<lines>52-56</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>551</ticket>
+<file>src/test/java/com/jcabi/github/RtGistITCase.java</file>
+<prefix>     * </prefix>
+<body>ReadsAndWritesGists is disabled since it doesn't work with real Github account. Let's fix it and remove the Ignore annotation.</body>
+<estimate>0</estimate>
+<lines>48-50</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>551</ticket>
+<file>src/test/java/com/jcabi/github/RtGistsITCase.java</file>
+<prefix>     * </prefix>
+<body>CreateGist is disabled since it doesn't work with real Github account. Let's fix it and remove the Ignore annotation.</body>
+<estimate>0</estimate>
+<lines>48-50</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>1</ticket>
+<file>src/test/java/com/jcabi/github/RtPublicKeysITCase.java</file>
+<prefix> * </prefix>
+<body>RtPublicKeysITCase is disabled since it doesn't work with real Github account. The problem is that guthub can't remove keys properly, so we forced to generate valid key each new run Let's fix it and remove all Ignore annotations from all its methods.</body>
+<estimate>0</estimate>
+<lines>43-46</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>416</ticket>
+<file>src/test/java/com/jcabi/github/RtPullCommentsTest.java</file>
+<prefix>     * </prefix>
+<body>RtPullComments should be able to fetch all pull comments of a repo. Implement {@link RtPullComments#reply(String, int))} and don't forget to include a test here. When done, remove this puzzle and the Ignore annotation of this test method.</body>
+<estimate>0</estimate>
+<lines>199-202</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>524</ticket>
+<file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
+<prefix> * </prefix>
+<body>MkContents should be able to handle branches. In a request for file update or create you may specify a branch. Also, a branch might be specified in a reading request. So, if you changed some file in branch-1, you shouldn't get these changes in the master branch, only in branch-1. Implementation of create, update and get methods of MkContents should be changed. See http://developer.github.com/v3/repos/contents/#update-a-file for details</body>
+<estimate>0</estimate>
+<lines>54-62</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>444</ticket>
+<file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
+<prefix>     * </prefix>
+<body>Methods create() in MkContents and json() in MkContent should be implemented in order for this test to work.</body>
+<estimate>0</estimate>
+<lines>155-156</lines>
+<owner>someone</owner>
+</puzzle>
 </puzzles>
