@@ -104,8 +104,10 @@ final class MkContents implements Contents {
     @Override
     @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
-        // @checkstyle MultipleStringLiterals (1 line)
-        return new MkContent(this.storage, this.self, this.coords, "README.md");
+        // @checkstyle MultipleStringLiterals (2 lines)
+        return new MkContent(
+            this.storage, this.self, this.coords, "README.md", "master"
+        );
     }
 
     @Override
@@ -123,8 +125,8 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         // @checkstyle MultipleStringLiterals (20 lines)
+        final String branch;
         try {
-            final String branch;
             if (json.containsKey("ref")) {
                 branch = json.getString("ref");
             } else {
@@ -148,7 +150,7 @@ final class MkContents implements Contents {
             this.storage.unlock();
         }
         return new MkContent(
-            this.storage, this.self, this.coords, json.getString("path")
+            this.storage, this.self, this.coords, json.getString("path"), branch
         );
     }
 

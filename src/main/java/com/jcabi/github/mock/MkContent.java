@@ -57,7 +57,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords", "location" })
+@EqualsAndHashCode(of = { "storage", "self", "coords", "location", "branch" })
 final class MkContent implements Content {
 
     /**
@@ -84,24 +84,6 @@ final class MkContent implements Content {
      * Branch of this content.
      */
     private final transient String branch;
-
-    /**
-     * Public ctor. Uses the default branch "master".
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @param path Path of this file
-     * @throws IOException If there is any I/O problem
-     * @checkstyle ParameterNumberCheck (5 lines)
-     */
-    public MkContent(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
-        @NotNull(message = "path can't be NULL") final String path
-    ) throws IOException {
-        this(stg, login, rep, path, "master");
-    }
 
     /**
      * Public ctor.
