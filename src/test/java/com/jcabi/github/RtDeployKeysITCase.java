@@ -57,7 +57,7 @@ public final class RtDeployKeysITCase {
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
-                Matchers.contains(key)
+                Matchers.hasItem(key)
             );
         } finally {
             key.remove();
