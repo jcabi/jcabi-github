@@ -172,10 +172,22 @@ final class RtPullComments implements PullComments {
     @Override
     @NotNull(message = "pull comment is never NULL")
     public PullComment reply(
-        @NotNull(message = "text can't be NULL") final String text,
+        @NotNull(message = "text can't be NULL") final String body,
         @NotNull(message = "comment can't be NULL") final int comment
     ) throws IOException {
-        throw new UnsupportedOperationException("Reply not yet implemented.");
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("body", body)
+            .add("in_reply_to", comment)
+            .build();
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
+        );
     }
 
     @Override
