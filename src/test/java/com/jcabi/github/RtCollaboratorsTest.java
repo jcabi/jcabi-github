@@ -87,7 +87,29 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeAddedAsCollaborator() throws Exception {
-        // to be implemented
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_NO_CONTENT,
+                Json.createArrayBuilder()
+                    .add(json("octocat2"))
+                    .add(json("dummy"))
+                    .build().toString()
+            )
+        ).start();
+        final Collaborators users = new RtCollaborators(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        try {
+            users.add("dummy1");
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
