@@ -96,11 +96,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         private static final String COMMIT_ID = "commit_id";
 
         /**
-         * Commit to reply to id field's name in JSON.
-         */
-        private static final String REPLY_ID = "in_reply_to";
-
-        /**
          * Url field's name in JSON.
          */
         private static final String URL = "url";
@@ -195,10 +190,11 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          */
         @NotNull(message = "URL is never NULL")
         public int reply() throws IOException {
-            return this.jsn.number(REPLY_ID);
+            return this.jsn.number("in_reply_to");
         }
 
         /**
+         * 
          * Change its url value.
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem
