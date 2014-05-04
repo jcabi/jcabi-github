@@ -45,7 +45,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -160,6 +159,7 @@ public final class RtPullCommentsTest {
      */
     @Test
     public void createsPullComment() throws Exception {
+        // @checkstyle MultipleStringLiterals (3 line)
         final String body = "test-body";
         final String commit = "test-commit-id";
         final String path = "test-path";

@@ -194,7 +194,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         }
 
         /**
-         * 
          * Change its url value.
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem

@@ -153,6 +153,7 @@ final class RtPullComments implements PullComments {
         final int position
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (4 line)
             .add("body", body)
             .add("commit_id", commit)
             .add("path", path)
