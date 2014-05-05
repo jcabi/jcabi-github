@@ -256,6 +256,37 @@ public final class MkContentsTest {
     }
 
     /**
+     * MkContents can update an content.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void updateContent() throws Exception {
+        final String path = "content-to-update.txt";
+        final String message = "commit message";
+        final String initial = "Hello World!";
+        final String updated = "update content";
+        final String branch = "master";
+        final Contents contents = MkContentsTest.repo().contents();
+        final JsonObject content = MkContentsTest
+            .content(path, message, initial)
+            .add("ref", branch)
+            .build();
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.create(content)).content(),
+            Matchers.is(initial)
+        );
+        final JsonObject jsonPatch = MkContentsTest
+            .content(path, message, updated)
+            .add("ref", branch)
+            .build();
+        contents.update(path, jsonPatch);
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.get(path, branch)).content(),
+            Matchers.is(updated)
+        );
+    }
+
+    /**
      * Creates a new file.
      * @param repo The repository
      * @param path Content path
