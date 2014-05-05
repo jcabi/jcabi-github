@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -56,7 +57,7 @@ public class RtReposITCase {
      */
     @Test
     public final void create() throws Exception {
-        final String name = RandomStringUtils.randomNumeric(5);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Repos repos = RtReposITCase.github().repos();
         try {
             MatcherAssert.assertThat(
@@ -77,7 +78,7 @@ public class RtReposITCase {
      */
     @Test(expected = AssertionError.class)
     public final void failsOnCreationOfTwoRepos() throws Exception {
-        final String name = RandomStringUtils.randomNumeric(5);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Repos repos = RtReposITCase.github().repos();
         repos.create(RtReposITCase.request(name));
         try {
