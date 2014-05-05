@@ -182,7 +182,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
                     && this.more) {
                     try {
                         this.fetch();
-                    } catch (IOException ex) {
+                    } catch (final IOException ex) {
                         throw new IllegalStateException(ex);
                     }
                 }

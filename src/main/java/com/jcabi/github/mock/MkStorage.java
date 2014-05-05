@@ -57,7 +57,8 @@ public interface MkStorage {
     /**
      * Get full XML.
      * @return XML
-     * @throws IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem, or if the current
+     *  storage is locked by another thread.
      */
     @NotNull(message = "xml is never NULL")
     XML xml() throws IOException;
@@ -65,20 +66,36 @@ public interface MkStorage {
     /**
      * Update XML with this directives.
      * @param dirs Directives
-     * @throws IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem, or if the current
+     *  storage is locked by another thread.
      */
     void apply(
         @NotNull(message = "dirs can't be NULL") Iterable<Directive> dirs
     ) throws IOException;
 
     /**
-     * Lock storage.
+     * Locks storage to the current thread.
+     *
+     * <p>If the lock is available, grant it
+     * to the calling thread and block all operations from other threads.
+     * If not available, wait for the holder of the lock to release it with
+     * {@link #unlock()} before any other operations can be performed.
+     *
+     * <p>Locking behavior is reentrant, which means a thread can invoke
+     * {@link #lock()} multiple times, where a hold count is maintained.
      * @throws IOException If there is any I/O problem
      */
     void lock() throws IOException;
 
     /**
      * Unlock storage.
+     *
+     * <p>Locking behavior is reentrant, thus if the thread invoked
+     * {@link #lock()} multiple times, the hold count is decremented. If the
+     * hold count reaches 0, the lock is released.
+     *
+     * <p>If the current thread does not hold the lock, an
+     * {@link IllegalMonitorStateException} will be thrown.
      * @throws IOException If there is any I/O problem
      */
     void unlock() throws IOException;
@@ -121,7 +138,7 @@ public interface MkStorage {
         public String toString() {
             try {
                 return this.xml().toString();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -145,7 +162,7 @@ public interface MkStorage {
                     ).toString(),
                     Charsets.UTF_8
                 );
-            } catch (ImpossibleModificationException ex) {
+            } catch (final ImpossibleModificationException ex) {
                 throw new IllegalArgumentException(ex);
             }
         }

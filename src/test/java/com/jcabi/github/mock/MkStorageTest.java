@@ -77,7 +77,7 @@ public final class MkStorageTest {
             public void run() {
                 try {
                     storage.lock();
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     throw new IllegalStateException(ex);
                 }
             }
@@ -87,7 +87,7 @@ public final class MkStorageTest {
         try {
             future.get(1, TimeUnit.SECONDS);
             MatcherAssert.assertThat("timeout SHOULD happen", false);
-        } catch (TimeoutException ex) {
+        } catch (final TimeoutException ex) {
             future.cancel(true);
         } finally {
             storage.unlock();
@@ -95,7 +95,7 @@ public final class MkStorageTest {
         future = executor.submit(second);
         try {
             future.get(1, TimeUnit.SECONDS);
-        } catch (TimeoutException ex) {
+        } catch (final TimeoutException ex) {
             MatcherAssert.assertThat("timeout SHOULD NOT happen", false);
             future.cancel(true);
         }

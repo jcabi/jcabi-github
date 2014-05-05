@@ -104,14 +104,18 @@ final class MkContents implements Contents {
     @Override
     @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
-        return new MkContent(this.storage, this.self, this.coords, "README.md");
+        // @checkstyle MultipleStringLiterals (2 lines)
+        return new MkContent(
+            this.storage, this.self, this.coords, "README.md", "master"
+        );
     }
 
     @Override
     @NotNull(message = "the content is never NULL")
-    public Content readme(final String branch)
-        throws IOException {
-        return new MkContent(this.storage, this.self, this.coords, branch);
+    public Content readme(final String branch) throws IOException {
+        return new MkContent(
+            this.storage, this.self, this.coords, "README.md", branch
+        );
     }
 
     @Override
@@ -120,10 +124,17 @@ final class MkContents implements Contents {
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
         this.storage.lock();
-        // @checkstyle MultipleStringLiterals (18 lines)
+        // @checkstyle MultipleStringLiterals (20 lines)
+        final String branch;
         try {
+            if (json.containsKey("ref")) {
+                branch = json.getString("ref");
+            } else {
+                branch = "master";
+            }
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("content")
+                    .attr("ref", branch)
                     .add("name").set(json.getString("path")).up()
                     .add("path").set(json.getString("path")).up()
                     .add("content").set(json.getString("content")).up()
@@ -139,7 +150,7 @@ final class MkContents implements Contents {
             this.storage.unlock();
         }
         return new MkContent(
-            this.storage, this.self, this.coords, json.getString("path")
+            this.storage, this.self, this.coords, json.getString("path"), branch
         );
     }
 
@@ -149,7 +160,7 @@ final class MkContents implements Contents {
         @NotNull(message = "path can't be NULL") final String path,
         @NotNull(message = "ref can't be NULL") final String ref
     ) throws IOException {
-        return new MkContent(this.storage, this.self, this.coords, path);
+        return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
     @Override

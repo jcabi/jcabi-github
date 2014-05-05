@@ -114,4 +114,26 @@ public final class MkRepoCommitsTest {
             Matchers.stringContainsInOrder(Arrays.asList(base, head))
         );
     }
+
+    /**
+     * MkRepoCommits can compare commits as patch.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canCompareAsPatch() throws Exception {
+        final String user =  "testuser5";
+        final String head = "9b2e6e7de9";
+        MatcherAssert.assertThat(
+            new MkRepoCommits(
+                new MkStorage.InFile(), user,
+                new Coordinates.Simple(user, "testrepo5")
+            ).patch("5c39b8e35b", head),
+            Matchers.stringContainsInOrder(
+                Arrays.asList(
+                    head, "From:", "Date:", "Subject:", "files changed",
+                    "insertions", "deletions"
+                )
+            )
+        );
+    }
 }

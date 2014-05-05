@@ -172,7 +172,7 @@ public interface GistComment
                 return new Github.Time(
                     this.jsn.text("created_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
@@ -188,7 +188,7 @@ public interface GistComment
                 return new Github.Time(
                     this.jsn.text("updated_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
