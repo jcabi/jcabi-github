@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -55,13 +57,18 @@ public final class MkStorageTest {
     @Test
     public void readsAndWrites() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
-        storage.apply(
-            new Directives().xpath("/github").add("test").set("hello, world")
-        );
-        MatcherAssert.assertThat(
-            storage.xml().xpath("/github/test/text()").get(0),
-            Matchers.endsWith(", world")
-        );
+        storage.lock();
+        try {
+            storage.apply(
+                new Directives().xpath("/github").add("test").set("hello, world")
+            );
+            MatcherAssert.assertThat(
+                storage.xml().xpath("/github/test/text()").get(0),
+                Matchers.endsWith(", world")
+            );
+        } finally {
+            storage.unlock();
+        }
     }
 
     /**
@@ -100,6 +107,26 @@ public final class MkStorageTest {
             future.cancel(true);
         }
         executor.shutdown();
+    }
+
+    /**
+     * MkStorage should require lock on document reading.
+     * @throws Exception If some problem inside
+     */
+    @Test(expected = ConcurrentModificationException.class)
+    public void xmlRequiresLock() throws Exception {
+        new MkStorage.InFile().xml();
+    }
+
+    /**
+     * MkStorage should require lock on document change.
+     * @throws Exception If some problem inside
+     */
+    @Test(expected = ConcurrentModificationException.class)
+    public void applyRequiresLock() throws Exception {
+        new MkStorage.InFile().apply(
+            new Directives().xpath("/github").add("test").set("hello, world")
+        );
     }
 
 }
