@@ -72,7 +72,9 @@ public final class ImmutabilityTest {
                 new Predicate<Class<?>>() {
                     @Override
                     public boolean apply(final Class<?> input) {
-                        return !skip().contains(input.getName());
+                        return !ImmutabilityTest.skip().contains(
+                            input.getName()
+                        );
                     }
                 }
             ),
@@ -91,7 +93,7 @@ public final class ImmutabilityTest {
      * Get set of class names to be skipped.
      * @return Set
      */
-    private Set<String> skip() {
+    private static Set<String> skip() {
         return ImmutableSet.<String>builder()
             .add("com.jcabi.github.mock.JsonNode")
             .add("com.jcabi.github.Bulk")

@@ -52,7 +52,7 @@ public final class MkTagTest {
     @Test
     public void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
-            tag().json().getString("message"),
+            this.tag().json().getString("message"),
             Matchers.is("\"test tag\"")
         );
     }

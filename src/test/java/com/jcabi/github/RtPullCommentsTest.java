@@ -108,21 +108,6 @@ public final class RtPullCommentsTest {
     }
 
     /**
-     * Create and return JsonObject to test.
-     * @param bodytext Body of the comment
-     * @return JsonObject
-     * @throws Exception If something goes wrong.
-     */
-    private static JsonObject comment(final String bodytext)
-        throws Exception {
-        return Json.createObjectBuilder()
-            // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", 1)
-            .add("body", bodytext)
-            .build();
-    }
-
-    /**
      * RtPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
@@ -268,4 +253,20 @@ public final class RtPullCommentsTest {
             .add("position", position)
             .build();
     }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param bodytext Body of the comment
+     * @return JsonObject
+     * @throws Exception If something goes wrong.
+     */
+    private static JsonObject comment(final String bodytext)
+        throws Exception {
+        return Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (2 line)
+            .add("id", 1)
+            .add("body", bodytext)
+            .build();
+    }
+
 }

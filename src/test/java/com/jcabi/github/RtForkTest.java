@@ -53,15 +53,15 @@ public final class RtForkTest {
 
     /**
      * RtFork can patch comment and return new json.
-     * @throws java.io.IOException if has some problems with json parsing.
+     * @throws IOException if has some problems with json parsing.
      */
     @Test
     public void patchAndCheckJsonFork() throws IOException {
         final String original = "some organization";
         final String patched = "some patched organization";
         final MkContainer container =
-            new MkGrizzlyContainer().next(answer(original))
-                .next(answer(patched)).next(answer(original)).start();
+            new MkGrizzlyContainer().next(this.answer(original))
+                .next(this.answer(patched)).next(this.answer(original)).start();
         final MkContainer forksContainer = new MkGrizzlyContainer().start();
         final RtRepo repo =
             new RtRepo(
@@ -72,7 +72,7 @@ public final class RtForkTest {
         final RtFork fork = new RtFork(
             new ApacheRequest(container.home()), repo, 1
         );
-        fork.patch(fork(patched));
+        fork.patch(RtForkTest.fork(patched));
         MatcherAssert.assertThat(
             new Fork.Smart(fork).organization(),
             Matchers.equalTo(patched)
@@ -93,7 +93,7 @@ public final class RtForkTest {
     private MkAnswer.Simple answer(final String organization) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
-            fork(organization).toString()
+            RtForkTest.fork(organization).toString()
         );
     }
 

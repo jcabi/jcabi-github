@@ -65,18 +65,6 @@ public final class MkForksTest {
     }
 
     /**
-     * Create a repo to work with.
-     *
-     * @return Repo
-     * @throws Exception if a problem occurs.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-    }
-
-    /**
      * MkForks can list forks.
      * @throws Exception If some problem inside
      */
@@ -94,4 +82,17 @@ public final class MkForksTest {
             Matchers.hasItem(fork)
         );
     }
+
+    /**
+     * Create a repo to work with.
+     *
+     * @return Repo
+     * @throws Exception if a problem occurs.
+     */
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
+
 }

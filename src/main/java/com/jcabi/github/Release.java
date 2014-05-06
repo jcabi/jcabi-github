@@ -311,7 +311,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean draft() throws IOException {
-            return booleanValue("draft");
+            return this.booleanValue("draft");
         }
 
         /**
@@ -331,7 +331,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean prerelease() throws IOException {
-            return booleanValue("prerelease");
+            return this.booleanValue("prerelease");
         }
 
         /**
@@ -345,6 +345,11 @@ public interface Release extends JsonReadable, JsonPatchable {
             );
         }
 
+        @Override
+        public void delete() throws IOException {
+            this.release.delete();
+        }
+
         /**
          * Get a property as boolean.
          * @param name Parameter name
@@ -353,11 +358,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         private boolean booleanValue(final String name) throws IOException {
             return JsonValue.TRUE.equals(this.json().get(name));
-        }
-
-        @Override
-        public void delete() throws IOException {
-            this.release.delete();
         }
     }
 

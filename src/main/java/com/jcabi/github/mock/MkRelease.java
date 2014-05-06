@@ -134,6 +134,13 @@ final class MkRelease implements Release {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
+    @Override
+    public void delete() throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).strict(1).remove()
+        );
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
@@ -143,13 +150,6 @@ final class MkRelease implements Release {
         return String.format(
             "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
             this.coords, this.release
-        );
-    }
-
-    @Override
-    public void delete() throws IOException {
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).strict(1).remove()
         );
     }
 

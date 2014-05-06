@@ -62,16 +62,6 @@ public class RtPublicKeysITCase {
     }
 
     /**
-     * Create and return PublicKeys object to test.
-     * @return PublicKeys
-     */
-    private PublicKeys keys() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).users().self().keys();
-    }
-
-    /**
      * RtPublicKeys should be able to retrieve a single key.
      *
      * @throws Exception If a problem occurs.
@@ -153,4 +143,15 @@ public class RtPublicKeysITCase {
         }
         return new String(stream.toByteArray());
     }
+
+    /**
+     * Create and return PublicKeys object to test.
+     * @return PublicKeys
+     */
+    private PublicKeys keys() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).users().self().keys();
+    }
+
 }

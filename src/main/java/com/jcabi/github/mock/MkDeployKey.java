@@ -102,6 +102,13 @@ final class MkDeployKey implements DeployKey {
         );
     }
 
+    @Override
+    public void patch(
+        @NotNull(message = "json shouldn't be NULL") final JsonObject json
+    ) throws IOException {
+        new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
@@ -113,13 +120,6 @@ final class MkDeployKey implements DeployKey {
             this.owner.coordinates(),
             this.key
         );
-    }
-
-    @Override
-    public void patch(
-        @NotNull(message = "json shouldn't be NULL") final JsonObject json
-    ) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
 }

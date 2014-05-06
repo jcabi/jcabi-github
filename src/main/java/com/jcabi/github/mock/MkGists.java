@@ -142,15 +142,6 @@ final class MkGists implements Gists {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    @NotNull(message = "Xpath is never NULL")
-    private String xpath() {
-        return "/github/gists";
-    }
-
     @Override
     public void remove(@NotNull(message = "identifier should not be NULL")
         final String identifier
@@ -161,4 +152,14 @@ final class MkGists implements Gists {
             ).remove()
         );
     }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return "/github/gists";
+    }
+
 }

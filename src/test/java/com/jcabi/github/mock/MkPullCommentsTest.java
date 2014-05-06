@@ -146,40 +146,6 @@ public final class MkPullCommentsTest {
     }
 
     /**
-     * Create a test repo.
-     * @param storage The storage
-     * @return Test repo
-     * @throws IOException If any I/O error occurs.
-     */
-    private static Repo repo(
-        final MkStorage storage) throws IOException {
-        // @checkstyle MultipleStringLiteralsCheck (3 lines)
-        final String login = "test";
-        return new MkGithub(storage, login).repos().create(
-            Json.createObjectBuilder().add("name", login).build()
-        );
-    }
-
-    /**
-     * Assert if fields doesn't contain value.
-     * @param storage The storage
-     * @param element The element to be tested and the value.
-     * @throws IOException If any I/O error occurs.
-     */
-    private static void assertFieldContains(final MkStorage storage,
-        final String element) throws IOException {
-        final String xpath = String.format(
-            // @checkstyle LineLength (1 line)
-            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
-            element
-        );
-        MatcherAssert.assertThat(
-            storage.xml().xpath(xpath).get(0),
-            Matchers.is(element)
-        );
-    }
-
-    /**
      * MkPullComments can reply to an existing pull comment.
      *
      * @throws Exception If something goes wrong.
@@ -241,8 +207,42 @@ public final class MkPullCommentsTest {
      */
     private PullComments comments() throws IOException {
         return new MkGithub().repos().create(
+            // @checkstyle MultipleStringLiteralsCheck (3 lines)
             Json.createObjectBuilder().add("name", "test").build()
         ).pulls().create("hello", "", "").comments();
+    }
+
+    /**
+     * Create a test repo.
+     * @param storage The storage
+     * @return Test repo
+     * @throws IOException If any I/O error occurs.
+     */
+    private static Repo repo(
+        final MkStorage storage) throws IOException {
+        final String login = "test";
+        return new MkGithub(storage, login).repos().create(
+            Json.createObjectBuilder().add("name", login).build()
+        );
+    }
+
+    /**
+     * Assert if fields doesn't contain value.
+     * @param storage The storage
+     * @param element The element to be tested and the value.
+     * @throws IOException If any I/O error occurs.
+     */
+    private static void assertFieldContains(final MkStorage storage,
+        final String element) throws IOException {
+        final String xpath = String.format(
+            // @checkstyle LineLength (1 line)
+            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
+            element
+        );
+        MatcherAssert.assertThat(
+            storage.xml().xpath(xpath).get(0),
+            Matchers.is(element)
+        );
     }
 
 }

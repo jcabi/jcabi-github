@@ -298,5 +298,22 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>qulice</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.qulice</groupId>
+                        <artifactId>qulice-maven-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>checkstyle:/src/test/java/com/jcabi/github/NullabilityTest.java</exclude>
+                                <exclude>xml:/src/it/settings.xml</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>

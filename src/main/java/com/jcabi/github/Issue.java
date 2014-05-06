@@ -62,7 +62,7 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
 public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**

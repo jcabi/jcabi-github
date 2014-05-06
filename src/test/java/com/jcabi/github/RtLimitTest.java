@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,9 +51,9 @@ public final class RtLimitTest {
      */
     @Test
     public void describeAsJson() throws Exception {
-        final RtLimit limit = new RtLimit(
+        final JsonReadable limit = new RtLimit(
             Mockito.mock(Github.class),
-            new FakeRequest().withBody(body()),
+            new FakeRequest().withBody(this.body()),
             "core"
         );
         MatcherAssert.assertThat(
@@ -70,9 +71,9 @@ public final class RtLimitTest {
      */
     @Test(expected = IllegalStateException.class)
     public void throwsWhenResourceIsAbsent() throws Exception {
-        final RtLimit limit = new RtLimit(
+        final JsonReadable limit = new RtLimit(
             Mockito.mock(Github.class),
-            new FakeRequest().withBody(body()),
+            new FakeRequest().withBody(this.body()),
             "absent"
         );
         MatcherAssert.assertThat(
@@ -86,12 +87,12 @@ public final class RtLimitTest {
      * @return Body string.
      */
     private String body() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("{\"resources\":{\"core\":{\"limit\":5000,");
-        builder.append("\"remaining\":4999,\"reset\":1372700873},");
-        builder.append("\"search\":{\"limit\":20,\"remaining\":18,");
-        builder.append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,");
-        builder.append("\"remaining\":4999,\"reset\":1372700873}}");
-        return builder.toString();
+        return new StringBuilder(Tv.HUNDRED)
+            .append("{\"resources\":{\"core\":{\"limit\":5000,")
+            .append("\"remaining\":4999,\"reset\":1372700873},")
+            .append("\"search\":{\"limit\":20,\"remaining\":18,")
+            .append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,")
+            .append("\"remaining\":4999,\"reset\":1372700873}}")
+            .toString();
     }
 }

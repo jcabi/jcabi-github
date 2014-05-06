@@ -40,7 +40,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
+import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -65,14 +65,14 @@ public final class RtCollaboratorsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(json("octocat"))
-                    .add(json("dummy"))
+                    .add(RtCollaboratorsTest.json("octocat"))
+                    .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
         ).start();
         final Collaborators users = new RtCollaborators(
             new JdkRequest(container.home()),
-            repo()
+            this.repo()
         );
         MatcherAssert.assertThat(
             users.iterate(),
@@ -91,14 +91,14 @@ public final class RtCollaboratorsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
-                    .add(json("octocat2"))
-                    .add(json("dummy"))
+                    .add(RtCollaboratorsTest.json("octocat2"))
+                    .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
         ).start();
         final Collaborators users = new RtCollaborators(
             new JdkRequest(container.home()),
-            repo()
+            this.repo()
         );
         try {
             users.add("dummy1");
@@ -122,14 +122,14 @@ public final class RtCollaboratorsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
-                    .add(json("octocat2"))
-                    .add(json("dummy"))
+                    .add(RtCollaboratorsTest.json("octocat2"))
+                    .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
         ).start();
         final Collaborators users = new RtCollaborators(
             new JdkRequest(container.home()),
-            repo()
+            this.repo()
         );
         try {
             MatcherAssert.assertThat(
@@ -151,14 +151,14 @@ public final class RtCollaboratorsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
-                    .add(json("octocat2"))
-                    .add(json("dummy"))
+                    .add(RtCollaboratorsTest.json("octocat2"))
+                    .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
         ).start();
         final Collaborators users = new RtCollaborators(
             new JdkRequest(container.home()),
-            repo()
+            this.repo()
         );
         try {
             users.remove("dummy");
@@ -178,7 +178,7 @@ public final class RtCollaboratorsTest {
      * @return JsonObject
      * @throws Exception If some problem inside
      */
-    private static JsonObject json(final String login) throws Exception {
+    private static JsonValue json(final String login) throws Exception {
         return Json.createObjectBuilder()
             .add("login", login)
             .build();
