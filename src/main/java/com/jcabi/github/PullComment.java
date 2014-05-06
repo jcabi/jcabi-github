@@ -184,6 +184,16 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         }
 
         /**
+         * Get its reply id value.
+         * @return Reply id of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "URL is never NULL")
+        public int reply() throws IOException {
+            return this.jsn.number("in_reply_to");
+        }
+
+        /**
          * Change its url value.
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem
