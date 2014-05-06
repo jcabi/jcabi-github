@@ -38,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -46,6 +45,7 @@ import org.xembly.Directives;
  * Test case for {@link MkStorage}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.DoNotUseThreads")
 public final class MkStorageTest {
@@ -60,7 +60,7 @@ public final class MkStorageTest {
         storage.lock();
         try {
             storage.apply(
-                new Directives().xpath("/github").add("test").set("hello, world")
+                new Directives().xpath("/github").add("test").set("abc")
             );
             MatcherAssert.assertThat(
                 storage.xml().xpath("/github/test/text()").get(0),

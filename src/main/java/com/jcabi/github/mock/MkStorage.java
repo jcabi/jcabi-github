@@ -51,6 +51,7 @@ import org.xembly.Xembler;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 public interface MkStorage {
@@ -146,7 +147,7 @@ public interface MkStorage {
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            if(!this.lock.isHeldByCurrentThread()) {
+            if (!this.lock.isHeldByCurrentThread()) {
                 throw new ConcurrentModificationException(
                     "lock should be taken before method call"
                 );
@@ -162,7 +163,7 @@ public interface MkStorage {
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
-            if(!this.lock.isHeldByCurrentThread()) {
+            if (!this.lock.isHeldByCurrentThread()) {
                 throw new ConcurrentModificationException(
                     "lock should be taken before method call"
                 );
