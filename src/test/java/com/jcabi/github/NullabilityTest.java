@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,7 @@ public final class NullabilityTest {
                     protected boolean matchesSafely(final Method item) {
                         return item.getReturnType().isPrimitive()
                             || item.isAnnotationPresent(NotNull.class)
-                            && allParamsAnnotated(item);
+                            && NullabilityTest.allParamsAnnotated(item);
                     }
                 }
             )
@@ -99,7 +99,7 @@ public final class NullabilityTest {
      * @param method Method to be checked
      * @return True if all parameters of method have given annotation
      */
-    private boolean allParamsAnnotated(final Method method) {
+    private static boolean allParamsAnnotated(final Method method) {
         return Iterables.all(
             ContiguousSet.create(
                 Range.closedOpen(0, method.getParameterTypes().length),
@@ -110,18 +110,17 @@ public final class NullabilityTest {
                 public boolean apply(final Integer index) {
                     final boolean primitive = method.getParameterTypes()[index]
                         .isPrimitive();
-                    return primitive || (!primitive
-                        && Collections2.transform(
-                            // @checkstyle LineLength (2 lines)
-                            Arrays.asList(method.getParameterAnnotations()[index]),
-                            new Function<Annotation, Class<? extends Annotation>>() {
-                                @Override
-                                public Class<? extends Annotation> apply(
-                                    final Annotation input) {
-                                    return input.annotationType();
-                                }
+                    return primitive || !primitive && Collections2.transform(
+                        Arrays.asList(method.getParameterAnnotations()[index]),
+                        new Function<Annotation,
+                            Class<? extends Annotation>>() {
+                            @Override
+                            public Class<? extends Annotation> apply(
+                                final Annotation input) {
+                                return input.annotationType();
                             }
-                        ).contains(NotNull.class));
+                        }
+                    ).contains(NotNull.class);
                 }
             }
         );

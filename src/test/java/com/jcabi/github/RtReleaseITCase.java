@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,8 +95,8 @@ public final class RtReleaseITCase {
     public void canEditRelease() throws Exception {
         final JsonObject patch = Json.createObjectBuilder()
             .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
-            .add("name", "JCabi Github test release")
-            .add("body", "JCabi Github was here!")
+            .add("name", "jcabi Github test release")
+            .add("body", "jcabi Github was here!")
             .build();
         this.release.patch(patch);
         final JsonObject json = this.repo.releases()
