@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,16 +59,6 @@ public class RtPublicKeysITCase {
             Matchers.hasItem(key)
         );
         keys.remove(key.number());
-    }
-
-    /**
-     * Create and return PublicKeys object to test.
-     * @return PublicKeys
-     */
-    private PublicKeys keys() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).users().self().keys();
     }
 
     /**
@@ -153,4 +143,15 @@ public class RtPublicKeysITCase {
         }
         return new String(stream.toByteArray());
     }
+
+    /**
+     * Create and return PublicKeys object to test.
+     * @return PublicKeys
+     */
+    private PublicKeys keys() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).users().self().keys();
+    }
+
 }

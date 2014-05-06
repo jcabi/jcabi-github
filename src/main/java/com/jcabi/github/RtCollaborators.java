@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,10 +43,6 @@ import org.hamcrest.Matchers;
 
 /**
  * Implementation of Collaborators.
- * @todo #591 Implement add() method.
- *  It should be implemented as described at
- *  http://developer.github.com/v3/repos/collaborators/
- *  Test as com.jcabi.github.RtCollaboratorsTest should be also implemented.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
@@ -114,8 +110,13 @@ final class RtCollaborators implements Collaborators {
 
     @Override
     public void add(
-        @NotNull(message = "User is never null") final String user) {
-        throw new UnsupportedOperationException();
+        @NotNull(message = "User is never null") final String user)
+        throws IOException {
+        this.request.method(Request.PUT)
+            .uri().path(user).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -108,21 +107,6 @@ public final class RtPullCommentsTest {
     }
 
     /**
-     * Create and return JsonObject to test.
-     * @param bodytext Body of the comment
-     * @return JsonObject
-     * @throws Exception If something goes wrong.
-     */
-    private static JsonObject comment(final String bodytext)
-        throws Exception {
-        return Json.createObjectBuilder()
-            // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", 1)
-            .add("body", bodytext)
-            .build();
-    }
-
-    /**
      * RtPullComments can fetch pull comments for a pull request.
      *
      * @throws Exception If something goes wrong.
@@ -160,6 +144,7 @@ public final class RtPullCommentsTest {
      */
     @Test
     public void createsPullComment() throws Exception {
+        // @checkstyle MultipleStringLiterals (3 line)
         final String body = "test-body";
         final String commit = "test-commit-id";
         final String path = "test-path";
@@ -196,15 +181,43 @@ public final class RtPullCommentsTest {
      * RtPullComments can reply to an existing pull comment.
      *
      * @throws Exception If something goes wrong.
-     * @todo #416 RtPullComments should be able to fetch all pull comments of a
-     *  repo. Implement {@link RtPullComments#reply(String, int))}
-     *  and don't forget to include a test here. When done, remove this puzzle
-     *  and the Ignore annotation of this test method.
      */
     @Test
-    @Ignore
     public void createsPullCommentReply() throws Exception {
-        // To be implemented.
+        final String body = "test-body";
+        final int number = 4;
+        final String response = Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (2 line)
+            .add("id", new Random().nextInt())
+            .add("body", body)
+            .add("in_reply_to", number)
+            .build()
+            .toString();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
+            .start();
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(repo()).when(pull).repo();
+        final RtPullComments pullComments = new RtPullComments(
+            new ApacheRequest(container.home()),
+                pull
+        );
+        try {
+            final PullComment pullComment = pullComments.reply(
+                body, number
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new PullComment.Smart(pullComment).reply(),
+                Matchers.equalTo(number)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
@@ -268,4 +281,20 @@ public final class RtPullCommentsTest {
             .add("position", position)
             .build();
     }
+
+    /**
+     * Create and return JsonObject to test.
+     * @param bodytext Body of the comment
+     * @return JsonObject
+     * @throws Exception If something goes wrong.
+     */
+    private static JsonObject comment(final String bodytext)
+        throws Exception {
+        return Json.createObjectBuilder()
+            // @checkstyle MultipleStringLiterals (2 line)
+            .add("id", 1)
+            .add("body", bodytext)
+            .build();
+    }
+
 }
