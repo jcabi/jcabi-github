@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -120,6 +120,13 @@ final class MkLabel implements Label {
         ).json();
     }
 
+    @Override
+    public int compareTo(@NotNull(message = "lbl cannot be NULL")
+        final Label lbl
+    ) {
+        return this.label.compareTo(lbl.name());
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
@@ -132,10 +139,4 @@ final class MkLabel implements Label {
         );
     }
 
-    @Override
-    public int compareTo(@NotNull(message = "lbl cannot be NULL")
-        final Label lbl
-    ) {
-        return this.label.compareTo(lbl.name());
-    }
 }

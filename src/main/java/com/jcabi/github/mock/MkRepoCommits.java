@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -133,12 +133,12 @@ final class MkRepoCommits implements RepoCommits {
     public String diff(
         @NotNull(message = "base should not be NULL") final String base,
         @NotNull(message = "head should not be NULL") final String head
-    ) throws IOException {
+    ) {
         return
         String.format(
             "%s%sindex %s..%s",
             "diff --git a/README b/README",
-            System.lineSeparator(), base, head
+            System.getProperty("line.separator"), base, head
         );
     }
 
@@ -147,7 +147,7 @@ final class MkRepoCommits implements RepoCommits {
     public String patch(
         @NotNull(message = "base shouldn't be NULL") final String base,
         @NotNull(message = "head shouldn't be NULL") final String head
-    ) throws IOException {
+    ) {
         return StringUtils.join(
             String.format("From %s Mon Sep 17 00:00:00 2001\n", head),
             "From: Some Author <some_author@email.com>\n",

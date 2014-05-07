@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -181,6 +181,16 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         @NotNull(message = "URL is never NULL")
         public String url() throws IOException {
             return this.jsn.text(URL);
+        }
+
+        /**
+         * Get its reply id value.
+         * @return Reply id of pull comment
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "URL is never NULL")
+        public int reply() throws IOException {
+            return this.jsn.number("in_reply_to");
         }
 
         /**

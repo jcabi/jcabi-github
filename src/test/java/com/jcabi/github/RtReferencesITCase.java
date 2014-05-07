@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,10 +51,10 @@ public final class RtReferencesITCase {
      */
     @Test
     public void createsReference() throws Exception {
-        final References refs = repo().git().references();
+        final References refs = RtReferencesITCase.repo().git().references();
         final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
-        final StringBuilder builder = new StringBuilder();
-        builder.append("refs/tags/").append(name);
+        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
+            .append("refs/tags/").append(name);
         final Reference reference = refs.create(
             builder.toString(),
             refs.get("refs/heads/master").json().getJsonObject("object")
@@ -75,10 +75,10 @@ public final class RtReferencesITCase {
      */
     @Test
     public void iteratesReferences() throws Exception {
-        final References refs = repo().git().references();
+        final References refs = RtReferencesITCase.repo().git().references();
         final String name = RandomStringUtils.randomAlphabetic(Tv.SIX);
-        final StringBuilder builder = new StringBuilder();
-        builder.append("refs/heads/").append(name);
+        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
+            .append("refs/heads/").append(name);
         refs.create(
             builder.toString(),
             refs.get("refs/heads/master").json().getJsonObject("object")
