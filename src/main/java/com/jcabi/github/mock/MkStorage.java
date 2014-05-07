@@ -147,27 +147,33 @@ public interface MkStorage {
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            if (!this.lock.isHeldByCurrentThread()) {
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
                 throw new ConcurrentModificationException(
                     "lock should be taken before method call"
                 );
             }
-            return new XMLDocument(
-                FileUtils.readFileToString(
-                    new File(this.name), Charsets.UTF_8
-                )
-            );
+            this.lock.lock();
+            try {
+                return new XMLDocument(
+                    FileUtils.readFileToString(
+                        new File(this.name), Charsets.UTF_8
+                    )
+                );
+            } finally {
+                this.lock.unlock();
+            }
         }
         @Override
         public void apply(
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
-            if (!this.lock.isHeldByCurrentThread()) {
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
                 throw new ConcurrentModificationException(
                     "lock should be taken before method call"
                 );
             }
+            this.lock.lock();
             try {
                 FileUtils.write(
                     new File(this.name),
@@ -178,6 +184,8 @@ public interface MkStorage {
                 );
             } catch (final ImpossibleModificationException ex) {
                 throw new IllegalArgumentException(ex);
+            } finally {
+                this.lock.unlock();
             }
         }
         @Override
