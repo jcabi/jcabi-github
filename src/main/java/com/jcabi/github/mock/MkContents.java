@@ -199,7 +199,11 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         try {
-            new JsonPatch(this.storage).patch(path, json);
+            final String xpath = String.format(
+                "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
+                this.coords, path
+            );
+            new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);
         } finally {
             this.storage.unlock();
