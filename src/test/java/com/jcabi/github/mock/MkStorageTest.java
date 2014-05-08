@@ -113,7 +113,7 @@ public final class MkStorageTest {
 
     /**
      * MkStorage should require lock on document reading.
-     * @todo #30min Update tests to check behaviour in multi-threading
+     * @todo #745:30min Update 2 tests to check behaviour in multi-threading
      *  environment. Remove this comment and @Ignore annotation.
      * @throws Exception If some problem inside
      */
@@ -125,8 +125,6 @@ public final class MkStorageTest {
 
     /**
      * MkStorage should require lock on document change.
-     * @todo #30min Update tests to check behaviour in multi-threading
-     *  environment. Remove this comment and @Ignore annotation.
      * @throws Exception If some problem inside
      */
     @Test(expected = ConcurrentModificationException.class)
