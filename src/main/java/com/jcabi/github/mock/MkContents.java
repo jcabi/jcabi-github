@@ -55,7 +55,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 final class MkContents implements Contents {
 
     /**
@@ -161,6 +161,23 @@ final class MkContents implements Contents {
         @NotNull(message = "ref can't be NULL") final String ref
     ) throws IOException {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @todo #684 Let's implement MkContents.iterate() for returning directory
+     *  contents. Since we are using XML in MkStorage, we don't actually have
+     *  directories. What we can do instead, is use the given path as a prefix,
+     *  with the '/' character as separators. For example, if we have two
+     *  different content objects with paths "foo/bar", "foo/baz, and "baa/boo"
+     *  iterate should return the first two when the path "foo" or "foo/" is
+     *  specified.
+     */
+    @Override
+    @NotNull(message = "Iterable of contents is never NULL")
+    public Iterable<Content> iterate(final String path, final String ref)
+        throws IOException {
+        throw new UnsupportedOperationException("Not yet implemented.");
     }
 
     @Override
