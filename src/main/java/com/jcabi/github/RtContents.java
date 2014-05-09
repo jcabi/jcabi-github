@@ -189,6 +189,32 @@ final class RtContents implements Contents {
     }
 
     @Override
+    @NotNull(message = "Iterable of Content can't be NULL")
+    public Iterable<Content> iterate(
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("ref", ref)
+            .build();
+        return new RtPagination<Content>(
+            this.request.method(Request.GET)
+                .uri().path(path).back()
+                .body().set(json).back(),
+            new RtPagination.Mapping<Content, JsonObject>() {
+                @Override
+                public Content map(final JsonObject object) {
+                    return new RtContent(
+                        RtContents.this.entry, RtContents.this.owner,
+                        object.getString("path")
+                    );
+                };
+            }
+        );
+    }
+
+    @Override
     @NotNull(message = "Repo commit is never NULL")
     public RepoCommit remove(@NotNull(message = "content can't be NULL")
         final JsonObject content
