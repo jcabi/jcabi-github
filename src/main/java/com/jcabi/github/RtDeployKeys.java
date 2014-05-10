@@ -97,7 +97,7 @@ final class RtDeployKeys implements DeployKeys {
             new RtPagination.Mapping<DeployKey, JsonObject>() {
                 @Override
                 public DeployKey map(final JsonObject object) {
-                    //@checkstyle MultipleStringLiteralsCheck (1 line)
+                    // @checkstyle MultipleStringLiteralsCheck (2 lines)
                     return RtDeployKeys.this.get(object.getInt("id"));
                 }
             }
