@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -185,6 +185,32 @@ final class RtContents implements Contents {
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class)
                 .json().readObject().getString("path")
+        );
+    }
+
+    @Override
+    @NotNull(message = "Iterable of Content can't be NULL")
+    public Iterable<Content> iterate(
+        @NotNull(message = "path can't be NULL") final String path,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("path", path)
+            .add("ref", ref)
+            .build();
+        return new RtPagination<Content>(
+            this.request.method(Request.GET)
+                .uri().path(path).back()
+                .body().set(json).back(),
+            new RtPagination.Mapping<Content, JsonObject>() {
+                @Override
+                public Content map(final JsonObject object) {
+                    return new RtContent(
+                        RtContents.this.entry, RtContents.this.owner,
+                        object.getString("path")
+                    );
+                };
+            }
         );
     }
 

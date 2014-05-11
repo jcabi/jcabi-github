@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,17 +42,13 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
  * Mock commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @todo #439 MkRepoCommits should be able to compare two commits and return
- *  comparison in patch format.
- *  Let's create a test for this method and implement the method.
- *  When done, remove this puzzle.
- *  See http://developer.github.com/v3/repos/commits/#compare-two-commits
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -137,12 +133,12 @@ final class MkRepoCommits implements RepoCommits {
     public String diff(
         @NotNull(message = "base should not be NULL") final String base,
         @NotNull(message = "head should not be NULL") final String head
-    ) throws IOException {
+    ) {
         return
         String.format(
             "%s%sindex %s..%s",
             "diff --git a/README b/README",
-            System.lineSeparator(), base, head
+            System.getProperty("line.separator"), base, head
         );
     }
 
@@ -151,8 +147,31 @@ final class MkRepoCommits implements RepoCommits {
     public String patch(
         @NotNull(message = "base shouldn't be NULL") final String base,
         @NotNull(message = "head shouldn't be NULL") final String head
-    ) throws IOException {
-        throw new UnsupportedOperationException("MkRepoCommits#patch()");
+    ) {
+        return StringUtils.join(
+            String.format("From %s Mon Sep 17 00:00:00 2001\n", head),
+            "From: Some Author <some_author@email.com>\n",
+            "Date: Tue, 11 Feb 2014 20:33:49 +0200\n",
+            "Subject: Some subject\n", "\n", "---\n",
+            " .../java/com/jcabi/github/CommitsComparison.java   |   6 +-\n",
+            " src/main/java/com/jcabi/github/RepoCommit.java     | 131 +++++",
+            "++++++++++++++++\n",
+            " src/main/java/com/jcabi/github/RepoCommits.java    |  15 +--\n",
+            " src/main/java/com/jcabi/github/RtRepoCommit.java   | 110 +++++",
+            "++++++++++++\n",
+            " src/main/java/com/jcabi/github/RtRepoCommits.java  |   6 +-\n",
+            " .../java/com/jcabi/github/mock/MkRepoCommits.java  |   6 +-\n",
+            " src/test/java/com/jcabi/github/RepoCommitTest.java |  84 +++++",
+            "++++++++\n",
+            " .../java/com/jcabi/github/RtRepoCommitsITCase.java |   7 +-\n",
+            " 8 files changed, 346 insertions(+), 19 deletions(-)\n",
+            " create mode 100644 src/main/java/com/jcabi/github/",
+            "RepoCommit.java\n",
+            " create mode 100644 src/main/java/com/jcabi/github/RtRepoCommit",
+            ".java\n",
+            " create mode 100644 src/test/java/com/jcabi/github/",
+            "RepoCommitTest.java"
+        );
     }
 
     @Override

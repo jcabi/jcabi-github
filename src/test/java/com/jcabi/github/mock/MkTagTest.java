@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ public final class MkTagTest {
     @Test
     public void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
-            tag().json().getString("message"),
+            this.tag().json().getString("message"),
             Matchers.is("\"test tag\"")
         );
     }

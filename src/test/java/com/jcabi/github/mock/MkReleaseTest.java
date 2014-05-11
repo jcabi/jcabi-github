@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ public final class MkReleaseTest {
      */
     @Test
     public void canDeleteRelease() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = MkReleaseTest.releases();
         final Release release = releases.create("v1.0");
         release.delete();
         MatcherAssert.assertThat(
@@ -75,11 +75,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetUrl() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.url().toString(),
-            Matchers.equalTo(value(release, "url"))
+            Matchers.equalTo(this.value(release, "url"))
         );
     }
 
@@ -89,11 +89,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetAssetsUrl() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.assetsUrl().toString(),
-            Matchers.equalTo(value(release, "assets_url"))
+            Matchers.equalTo(this.value(release, "assets_url"))
         );
     }
 
@@ -103,11 +103,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetHtmlUrl() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.htmlUrl().toString(),
-            Matchers.equalTo(value(release, "html_url"))
+            Matchers.equalTo(this.value(release, "html_url"))
         );
     }
 
@@ -117,11 +117,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetUploadUrl() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.uploadUrl().toString(),
-            Matchers.equalTo(value(release, "upload_url"))
+            Matchers.equalTo(this.value(release, "upload_url"))
         );
     }
 
@@ -131,11 +131,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetTag() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.tag(),
-            Matchers.equalTo(value(release, "tag_name"))
+            Matchers.equalTo(this.value(release, "tag_name"))
         );
     }
 
@@ -145,11 +145,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetCommitish() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.commitish(),
-            Matchers.equalTo(value(release, "target_commitish"))
+            Matchers.equalTo(this.value(release, "target_commitish"))
         );
     }
 
@@ -159,11 +159,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetName() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.name(),
-            Matchers.equalTo(value(release, NAME))
+            Matchers.equalTo(this.value(release, MkReleaseTest.NAME))
         );
     }
 
@@ -173,11 +173,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetBody() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.body(),
-            Matchers.equalTo(value(release, "body"))
+            Matchers.equalTo(this.value(release, "body"))
         );
     }
 
@@ -187,11 +187,11 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetCreatedAt() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.createdAt(),
-            Matchers.equalTo(new Github.Time(value(release, "created_at"))
+            Matchers.equalTo(new Github.Time(this.value(release, "created_at"))
                 .date()
             )
         );
@@ -203,12 +203,12 @@ public final class MkReleaseTest {
      */
     @Test
     public void canGetPublichedAt() throws Exception {
-        final Release release = release();
+        final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.publishedAt(),
-            Matchers.equalTo(new Github.Time(value(release, "published_at"))
-                .date()
+            Matchers.equalTo(
+                new Github.Time(this.value(release, "published_at")).date()
             )
         );
     }
@@ -236,7 +236,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     private static Release release() throws Exception {
-        return releases().create("v1");
+        return MkReleaseTest.releases().create("v1");
     }
 
     /**
@@ -246,7 +246,7 @@ public final class MkReleaseTest {
      */
     private static Releases releases() throws IOException {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add(NAME, "test").build()
+            Json.createObjectBuilder().add(MkReleaseTest.NAME, "test").build()
         ).releases();
     }
 }

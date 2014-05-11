@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 final class MkContents implements Contents {
 
     /**
@@ -104,14 +104,18 @@ final class MkContents implements Contents {
     @Override
     @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
-        return new MkContent(this.storage, this.self, this.coords, "README.md");
+        // @checkstyle MultipleStringLiterals (2 lines)
+        return new MkContent(
+            this.storage, this.self, this.coords, "README.md", "master"
+        );
     }
 
     @Override
     @NotNull(message = "the content is never NULL")
-    public Content readme(final String branch)
-        throws IOException {
-        return new MkContent(this.storage, this.self, this.coords, branch);
+    public Content readme(final String branch) throws IOException {
+        return new MkContent(
+            this.storage, this.self, this.coords, "README.md", branch
+        );
     }
 
     @Override
@@ -120,10 +124,17 @@ final class MkContents implements Contents {
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
         this.storage.lock();
-        // @checkstyle MultipleStringLiterals (18 lines)
+        // @checkstyle MultipleStringLiterals (20 lines)
+        final String branch;
         try {
+            if (json.containsKey("ref")) {
+                branch = json.getString("ref");
+            } else {
+                branch = "master";
+            }
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("content")
+                    .attr("ref", branch)
                     .add("name").set(json.getString("path")).up()
                     .add("path").set(json.getString("path")).up()
                     .add("content").set(json.getString("content")).up()
@@ -139,7 +150,7 @@ final class MkContents implements Contents {
             this.storage.unlock();
         }
         return new MkContent(
-            this.storage, this.self, this.coords, json.getString("path")
+            this.storage, this.self, this.coords, json.getString("path"), branch
         );
     }
 
@@ -149,7 +160,24 @@ final class MkContents implements Contents {
         @NotNull(message = "path can't be NULL") final String path,
         @NotNull(message = "ref can't be NULL") final String ref
     ) throws IOException {
-        return new MkContent(this.storage, this.self, this.coords, path);
+        return new MkContent(this.storage, this.self, this.coords, path, ref);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @todo #684 Let's implement MkContents.iterate() for returning directory
+     *  contents. Since we are using XML in MkStorage, we don't actually have
+     *  directories. What we can do instead, is use the given path as a prefix,
+     *  with the '/' character as separators. For example, if we have two
+     *  different content objects with paths "foo/bar", "foo/baz, and "baa/boo"
+     *  iterate should return the first two when the path "foo" or "foo/" is
+     *  specified.
+     */
+    @Override
+    @NotNull(message = "Iterable of contents is never NULL")
+    public Iterable<Content> iterate(final String path, final String ref)
+        throws IOException {
+        throw new UnsupportedOperationException("Not yet implemented.");
     }
 
     @Override
@@ -188,7 +216,11 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         try {
-            new JsonPatch(this.storage).patch(path, json);
+            final String xpath = String.format(
+                "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
+                this.coords, path
+            );
+            new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);
         } finally {
             this.storage.unlock();
