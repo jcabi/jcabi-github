@@ -209,7 +209,7 @@ public final class RtReleasesITCase {
         final Repo repo = RtReleasesITCase.repos().create(
             Json.createObjectBuilder().add(
                 "name", String.format("repo_%d", System.currentTimeMillis())
-            ).build()
+            ).add("auto_init", true).build()
         );
         repo.contents().create(Json.createObjectBuilder()
             .add("path", RandomStringUtils.randomAlphabetic(Tv.TEN))
