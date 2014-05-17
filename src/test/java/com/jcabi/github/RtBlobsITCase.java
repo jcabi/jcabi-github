@@ -29,6 +29,10 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import java.io.IOException;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -48,14 +52,20 @@ public final class RtBlobsITCase {
      */
     @Test
     public void createsBlob() throws Exception {
-        final Blobs blobs = repo().git().blobs();
-        final Blob blob = blobs.create(
-            "Test Content", "utf-8"
-        );
-        MatcherAssert.assertThat(
-            blob.sha(),
-            Matchers.equalTo(blob.json().getString("sha"))
-        );
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
+        try {
+            final Blobs blobs = repo.git().blobs();
+            final Blob blob = blobs.create(
+                "Test Content", "utf-8"
+            );
+            MatcherAssert.assertThat(
+                blob.sha(),
+                Matchers.equalTo(blob.json().getString("sha"))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
     /**
      * RtBlobs can get a blob.
@@ -63,32 +73,49 @@ public final class RtBlobsITCase {
      */
     @Test
     public void getsBlob() throws Exception {
-        final Blobs blobs = repo().git().blobs();
-        final String content = "Content of the blob";
-        final String encoding = "base64";
-        final Blob blob = blobs.create(
-            content, encoding
-        );
-        MatcherAssert.assertThat(
-            blobs.get(blob.sha()).json().getString("sha"),
-            Matchers.equalTo(blob.sha())
-        );
-        MatcherAssert.assertThat(
-            blobs.get(blob.sha()).json().getString("encoding"),
-            Matchers.equalTo(encoding)
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
+        try {
+            final Blobs blobs = repo.git().blobs();
+            final String content = "Content of the blob";
+            final String encoding = "base64";
+            final Blob blob = blobs.create(
+                content, encoding
+            );
+            MatcherAssert.assertThat(
+                blobs.get(blob.sha()).json().getString("sha"),
+                Matchers.equalTo(blob.sha())
+            );
+            MatcherAssert.assertThat(
+                blobs.get(blob.sha()).json().getString("encoding"),
+                Matchers.equalTo(encoding)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * Create repo for tests.
+     * @param repos Repos
+     * @return Repo
+     * @throws java.io.IOException If an IO Exception occurs.
+     */
+    private static Repo repo(final Repos repos) throws IOException {
+        return repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomNumeric(Tv.TEN)
+            ).add("auto_init", true).build()
         );
     }
 
     /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
+     * Create repos of account with provided github key.
+     * @return Repos
      */
-    private static Repo repo() throws Exception {
+    private static Repos repos() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
+        return new RtGithub(key).repos();
     }
 }
