@@ -30,15 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.After;
 import org.junit.Assume;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -50,62 +47,41 @@ import org.junit.Test;
 public final class RtReleaseITCase {
 
     /**
-     * Test release.
-     */
-    private transient Release release;
-
-    /**
-     * Test repository.
-     */
-    private transient Repo repo;
-
-    /**
-     * Set up test fixtures.
-     * @throws IOException If creating the test release didn't succeed.
-     */
-    @Before
-    public void setUp() throws IOException {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        this.repo = github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
-        this.release = this.repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
-        );
-    }
-
-    /**
-     * Tear down test fixtures.
-     * @throws IOException If deleting the test release didn't succeed.
-     */
-    @After
-    public void tearDown() throws IOException {
-        if (this.release != null) {
-            this.release.delete();
-        }
-    }
-
-    /**
      * RtRelease can edit a release.
      * @throws Exception If any problems during test execution occur.
      */
     @Test
     public void canEditRelease() throws Exception {
-        final JsonObject patch = Json.createObjectBuilder()
-            .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
-            .add("name", "jcabi Github test release")
-            .add("body", "jcabi Github was here!")
-            .build();
-        this.release.patch(patch);
-        final JsonObject json = this.repo.releases()
-            .get(this.release.number()).json();
-        for (final String key : patch.keySet()) {
-            MatcherAssert.assertThat(
-                json.getString(key),
-                Matchers.equalTo(patch.getString(key))
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        final Repos repos = github.repos();
+        final String name = "name";
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                name, RandomStringUtils.randomNumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+        try {
+            final Release release = repo.releases().create(
+                RandomStringUtils.randomAlphanumeric(Tv.TEN)
             );
+            final JsonObject patch = Json.createObjectBuilder()
+                .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
+                .add(name, "jcabi Github test release")
+                .add("body", "jcabi Github was here!")
+                .build();
+            release.patch(patch);
+            final JsonObject json = repo.releases()
+                .get(release.number()).json();
+            for (final String property : patch.keySet()) {
+                MatcherAssert.assertThat(
+                    json.getString(property),
+                    Matchers.equalTo(patch.getString(property))
+                );
+            }
+        } finally {
+            repos.remove(repo.coordinates());
         }
     }
 }
