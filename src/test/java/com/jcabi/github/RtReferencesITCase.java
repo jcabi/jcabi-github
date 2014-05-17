@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import java.io.IOException;
+import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -51,22 +53,28 @@ public final class RtReferencesITCase {
      */
     @Test
     public void createsReference() throws Exception {
-        final References refs = RtReferencesITCase.repo().git().references();
-        final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
-        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
-            .append("refs/tags/").append(name);
-        final Reference reference = refs.create(
-            builder.toString(),
-            refs.get("refs/heads/master").json().getJsonObject("object")
-            .getString("sha")
-        );
-        MatcherAssert.assertThat(
-            reference,
-            Matchers.notNullValue()
-        );
-        builder.delete(0, builder.length());
-        builder.append("tags/").append(name);
-        refs.remove(builder.toString());
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
+        try {
+            final References refs = repo.git().references();
+            final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+            final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
+                .append("refs/tags/").append(name);
+            final Reference reference = refs.create(
+                builder.toString(),
+                refs.get("refs/heads/master").json().getJsonObject("object")
+                    .getString("sha")
+            );
+            MatcherAssert.assertThat(
+                reference,
+                Matchers.notNullValue()
+            );
+            builder.delete(0, builder.length());
+            builder.append("tags/").append(name);
+            refs.remove(builder.toString());
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
@@ -75,34 +83,52 @@ public final class RtReferencesITCase {
      */
     @Test
     public void iteratesReferences() throws Exception {
-        final References refs = RtReferencesITCase.repo().git().references();
-        final String name = RandomStringUtils.randomAlphabetic(Tv.SIX);
-        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
-            .append("refs/heads/").append(name);
-        refs.create(
-            builder.toString(),
-            refs.get("refs/heads/master").json().getJsonObject("object")
-            .getString("sha")
-        );
-        MatcherAssert.assertThat(
-            refs.iterate(),
-            Matchers.notNullValue()
-        );
-        builder.delete(0, builder.length());
-        builder.append("heads/").append(name);
-        refs.remove(builder.toString());
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
+        try {
+            final References refs = repo.git().references();
+            final String name = RandomStringUtils.randomAlphabetic(Tv.SIX);
+            final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
+                .append("refs/heads/").append(name);
+            refs.create(
+                builder.toString(),
+                refs.get("refs/heads/master").json().getJsonObject("object")
+                    .getString("sha")
+            );
+            MatcherAssert.assertThat(
+                refs.iterate(),
+                Matchers.notNullValue()
+            );
+            builder.delete(0, builder.length());
+            builder.append("heads/").append(name);
+            refs.remove(builder.toString());
+        } finally {
+            repos.remove(repo.coordinates());
+        }
     }
 
     /**
-     * Returns the repo for test.
+     * Create repo for tests.
+     * @param repos Repos
      * @return Repo
+     * @throws java.io.IOException If an IO Exception occurs.
      */
-    private static Repo repo() {
+    private static Repo repo(final Repos repos) throws IOException {
+        return repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomNumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Create repos of account with provided github key.
+     * @return Repos
+     */
+    private static Repos repos() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final String keyrepo = System.getProperty("failsafe.github.repo");
-        Assume.assumeThat(keyrepo, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(new Coordinates.Simple(keyrepo));
+        return new RtGithub(key).repos();
     }
 
 }
