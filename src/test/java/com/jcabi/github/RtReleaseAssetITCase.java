@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -53,15 +54,21 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final String name = RandomStringUtils.randomAlphanumeric(5);
-        final Release release = releases().create(name);
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
         try {
-            MatcherAssert.assertThat(
-                release.json().getInt("id"),
-                Matchers.equalTo(release.number())
-            );
+            final String name = RandomStringUtils.randomAlphanumeric(5);
+            final Release release = repo.releases().create(name);
+            try {
+                MatcherAssert.assertThat(
+                    release.json().getInt("id"),
+                    Matchers.equalTo(release.number())
+                );
+            } finally {
+                release.delete();
+            }
         } finally {
-            release.delete();
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -71,26 +78,32 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
-        final Release release = releases().create(rname);
-        final String name = "name";
-        final String nvalue = RandomStringUtils.randomAlphanumeric(5);
-        final String body = "body";
-        final String bvalue = "Description of the release";
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
         try {
-            release.patch(Json.createObjectBuilder().add(name, nvalue)
-                .add(body, bvalue).build()
-            );
-            MatcherAssert.assertThat(
-                release.json().getString(name),
-                Matchers.startsWith(nvalue)
-            );
-            MatcherAssert.assertThat(
-                release.json().getString(body),
-                Matchers.startsWith(bvalue)
-            );
+            final String rname = RandomStringUtils.randomAlphanumeric(5);
+            final Release release = repo.releases().create(rname);
+            final String name = "name";
+            final String nvalue = RandomStringUtils.randomAlphanumeric(5);
+            final String body = "body";
+            final String bvalue = "Description of the release";
+            try {
+                release.patch(Json.createObjectBuilder().add(name, nvalue)
+                    .add(body, bvalue).build()
+                );
+                MatcherAssert.assertThat(
+                    release.json().getString(name),
+                    Matchers.startsWith(nvalue)
+                );
+                MatcherAssert.assertThat(
+                    release.json().getString(body),
+                    Matchers.startsWith(bvalue)
+                );
+            } finally {
+                release.delete();
+            }
         } finally {
-            release.delete();
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -100,34 +113,55 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void removesReleaseAsset() throws Exception {
-        final Releases releases = releases();
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
-        final Release release = releases().create(rname);
+        final Repos repos = repos();
+        final Repo repo = repo(repos);
         try {
+            final Releases releases = repo.releases();
+            final String rname = RandomStringUtils.randomAlphanumeric(5);
+            final Release release = releases.create(rname);
+            try {
+                MatcherAssert.assertThat(
+                    releases.get(release.number()),
+                    Matchers.notNullValue()
+                );
+            } finally {
+                release.delete();
+            }
             MatcherAssert.assertThat(
-                releases.get(release.number()),
-                Matchers.notNullValue()
+                releases.iterate(),
+                Matchers.not(Matchers.contains(release))
             );
         } finally {
-            release.delete();
+            repos.remove(repo.coordinates());
         }
-        MatcherAssert.assertThat(
-            releases().iterate(),
-            Matchers.not(Matchers.contains(release))
-        );
     }
 
     /**
-     * Create and return Releases object to test.
-     * @return Releases
+     * Create repo with releases for tests.
+     * @param repos Repos
+     * @return Repo
      * @throws IOException If an IO Exception occurs.
      */
-    private static Releases releases() throws IOException {
+    private static Repo repo(final Repos repos) throws IOException {
+        final Repo repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomNumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+        repo.releases().create(
+            String.format("repo%d", System.currentTimeMillis())
+        );
+        return repo;
+    }
+
+    /**
+     * Create repos of account with provided github key.
+     * @return Repos
+     */
+    private static Repos repos() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).releases();
+        return new RtGithub(key).repos();
     }
 
 }
