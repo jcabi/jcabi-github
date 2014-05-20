@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -58,7 +59,7 @@ public class RtForksITCase {
         final Repo repo = RtForksITCase.repos().create(
             Json.createObjectBuilder().add(
                 // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).build()
         );
         try {

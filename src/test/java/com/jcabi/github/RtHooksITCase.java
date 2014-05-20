@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import java.util.Collections;
 import javax.json.Json;
@@ -141,7 +142,7 @@ public final class RtHooksITCase {
         return repos.create(
             Json.createObjectBuilder().add(
                 // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).build()
         );
     }

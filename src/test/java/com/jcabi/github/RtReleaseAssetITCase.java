@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -53,7 +54,7 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final String name = RandomStringUtils.randomAlphanumeric(5);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases().create(name);
         try {
             MatcherAssert.assertThat(
@@ -71,10 +72,10 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases().create(rname);
         final String name = "name";
-        final String nvalue = RandomStringUtils.randomAlphanumeric(5);
+        final String nvalue = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final String body = "body";
         final String bvalue = "Description of the release";
         try {
@@ -101,7 +102,7 @@ public final class RtReleaseAssetITCase {
     @Test
     public void removesReleaseAsset() throws Exception {
         final Releases releases = releases();
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases().create(rname);
         try {
             MatcherAssert.assertThat(
