@@ -30,12 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -49,26 +50,61 @@ import org.junit.Test;
 public final class RtReleaseAssetITCase {
 
     /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+        repo.releases().create(
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * RtReleaseAsset can fetch as JSON object.
      * @throws Exception if some problem inside
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final String name = RandomStringUtils.randomAlphanumeric(5);
+        final Release release = repo.releases().create(name);
         try {
-            final String name = RandomStringUtils.randomAlphanumeric(5);
-            final Release release = repo.releases().create(name);
-            try {
-                MatcherAssert.assertThat(
-                    release.json().getInt("id"),
-                    Matchers.equalTo(release.number())
-                );
-            } finally {
-                release.delete();
-            }
+            MatcherAssert.assertThat(
+                release.json().getInt("id"),
+                Matchers.equalTo(release.number())
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            release.delete();
         }
     }
 
@@ -78,32 +114,26 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final Release release = repo.releases().create(rname);
+        final String name = "name";
+        final String nvalue = RandomStringUtils.randomAlphanumeric(5);
+        final String body = "body";
+        final String bvalue = "Description of the release";
         try {
-            final String rname = RandomStringUtils.randomAlphanumeric(5);
-            final Release release = repo.releases().create(rname);
-            final String name = "name";
-            final String nvalue = RandomStringUtils.randomAlphanumeric(5);
-            final String body = "body";
-            final String bvalue = "Description of the release";
-            try {
-                release.patch(Json.createObjectBuilder().add(name, nvalue)
-                    .add(body, bvalue).build()
-                );
-                MatcherAssert.assertThat(
-                    release.json().getString(name),
-                    Matchers.startsWith(nvalue)
-                );
-                MatcherAssert.assertThat(
-                    release.json().getString(body),
-                    Matchers.startsWith(bvalue)
-                );
-            } finally {
-                release.delete();
-            }
+            release.patch(Json.createObjectBuilder().add(name, nvalue)
+                .add(body, bvalue).build()
+            );
+            MatcherAssert.assertThat(
+                release.json().getString(name),
+                Matchers.startsWith(nvalue)
+            );
+            MatcherAssert.assertThat(
+                release.json().getString(body),
+                Matchers.startsWith(bvalue)
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            release.delete();
         }
     }
 
@@ -113,55 +143,21 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void removesReleaseAsset() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final Release release = releases.create(rname);
         try {
-            final Releases releases = repo.releases();
-            final String rname = RandomStringUtils.randomAlphanumeric(5);
-            final Release release = releases.create(rname);
-            try {
-                MatcherAssert.assertThat(
-                    releases.get(release.number()),
-                    Matchers.notNullValue()
-                );
-            } finally {
-                release.delete();
-            }
             MatcherAssert.assertThat(
-                releases.iterate(),
-                Matchers.not(Matchers.contains(release))
+                releases.get(release.number()),
+                Matchers.notNullValue()
             );
         } finally {
-            repos.remove(repo.coordinates());
+            release.delete();
         }
-    }
-
-    /**
-     * Create repo with releases for tests.
-     * @param repos Repos
-     * @return Repo
-     * @throws IOException If an IO Exception occurs.
-     */
-    private static Repo repo(final Repos repos) throws IOException {
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.not(Matchers.contains(release))
         );
-        repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
-        );
-        return repo;
-    }
-
-    /**
-     * Create repos of account with provided github key.
-     * @return Repos
-     */
-    private static Repos repos() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos();
     }
 
 }

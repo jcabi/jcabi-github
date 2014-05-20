@@ -30,12 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -47,62 +48,26 @@ import org.junit.Test;
 public final class RtBlobsITCase {
 
     /**
-     * RtBlobs can create a blob.
-     * @throws Exception If something goes wrong
+     * Test repos.
      */
-    @Test
-    public void createsBlob() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
-        try {
-            final Blobs blobs = repo.git().blobs();
-            final Blob blob = blobs.create(
-                "Test Content", "utf-8"
-            );
-            MatcherAssert.assertThat(
-                blob.sha(),
-                Matchers.equalTo(blob.json().getString("sha"))
-            );
-        } finally {
-            repos.remove(repo.coordinates());
-        }
-    }
-    /**
-     * RtBlobs can get a blob.
-     * @throws Exception If something goes wrong
-     */
-    @Test
-    public void getsBlob() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
-        try {
-            final Blobs blobs = repo.git().blobs();
-            final String content = "Content of the blob";
-            final String encoding = "base64";
-            final Blob blob = blobs.create(
-                content, encoding
-            );
-            MatcherAssert.assertThat(
-                blobs.get(blob.sha()).json().getString("sha"),
-                Matchers.equalTo(blob.sha())
-            );
-            MatcherAssert.assertThat(
-                blobs.get(blob.sha()).json().getString("encoding"),
-                Matchers.equalTo(encoding)
-            );
-        } finally {
-            repos.remove(repo.coordinates());
-        }
-    }
+    private static Repos repos;
 
     /**
-     * Create repo for tests.
-     * @param repos Repos
-     * @return Repo
-     * @throws java.io.IOException If an IO Exception occurs.
+     * Test repo.
      */
-    private static Repo repo(final Repos repos) throws IOException {
-        return repos.create(
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
             Json.createObjectBuilder().add(
                 "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).add("auto_init", true).build()
@@ -110,12 +75,51 @@ public final class RtBlobsITCase {
     }
 
     /**
-     * Create repos of account with provided github key.
-     * @return Repos
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
      */
-    private static Repos repos() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos();
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtBlobs can create a blob.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void createsBlob() throws Exception {
+        final Blobs blobs = repo.git().blobs();
+        final Blob blob = blobs.create(
+            "Test Content", "utf-8"
+        );
+        MatcherAssert.assertThat(
+            blob.sha(),
+            Matchers.equalTo(blob.json().getString("sha"))
+        );
+    }
+
+    /**
+     * RtBlobs can get a blob.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void getsBlob() throws Exception {
+        final Blobs blobs = repo.git().blobs();
+        final String content = "Content of the blob";
+        final String encoding = "base64";
+        final Blob blob = blobs.create(
+            content, encoding
+        );
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()).json().getString("sha"),
+            Matchers.equalTo(blob.sha())
+        );
+        MatcherAssert.assertThat(
+            blobs.get(blob.sha()).json().getString("encoding"),
+            Matchers.equalTo(encoding)
+        );
     }
 }

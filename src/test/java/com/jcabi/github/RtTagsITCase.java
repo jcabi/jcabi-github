@@ -36,7 +36,9 @@ import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -48,6 +50,44 @@ import org.junit.Test;
 public final class RtTagsITCase {
 
     /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * RtTags creates a tag.
      * @throws Exception If something goes wrong.
      */
@@ -55,34 +95,23 @@ public final class RtTagsITCase {
     public void createsTag() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Repos repos = new RtGithub(key).repos();
-        final String name = "name";
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                name, RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+        final References refs = repo.git().references();
+        final String sha = refs.get("refs/heads/master").json()
+            .getJsonObject("object").getString("sha");
+        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final JsonObject tagger = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "scott@gmail.com")
+            .add("date", "2013-06-17T14:53:35-07:00").build();
+        MatcherAssert.assertThat(
+            repo.git().tags().create(
+                Json.createObjectBuilder()
+                    .add("tag", tag).add("message", "initial version")
+                    .add("object", sha).add("type", "commit")
+                    .add("tagger", tagger).build()
+            ), Matchers.notNullValue()
         );
-        try {
-            final References refs = repo.git().references();
-            final String sha = refs.get("refs/heads/master").json()
-                .getJsonObject("object").getString("sha");
-            final String tag = RandomStringUtils.randomAlphabetic(Tv.FIVE);
-            final JsonObject tagger = Json.createObjectBuilder()
-                .add(name, "Scott").add("email", "scott@gmail.com")
-                .add("date", "2013-06-17T14:53:35-07:00").build();
-            MatcherAssert.assertThat(
-                repo.git().tags().create(
-                    Json.createObjectBuilder()
-                        .add("tag", tag).add("message", "initial version")
-                        .add("object", sha).add("type", "commit")
-                        .add("tagger", tagger).build()
-                ), Matchers.notNullValue()
-            );
-            refs.remove(
-                new StringBuilder().append("tags/").append(tag).toString()
-            );
-        } finally {
-            repos.remove(repo.coordinates());
-        }
+        refs.remove(
+            new StringBuilder().append("tags/").append(tag).toString()
+        );
     }
 }

@@ -35,7 +35,9 @@ import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -43,8 +45,47 @@ import org.junit.Test;
  * @author Haris Osmanagic (haris.osmanagic@gmail.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 public final class RtReleaseITCase {
+
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
 
     /**
      * RtRelease can edit a release.
@@ -52,36 +93,23 @@ public final class RtReleaseITCase {
      */
     @Test
     public void canEditRelease() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        final Repos repos = github.repos();
-        final String name = "name";
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                name, RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+        final Release release = repo.releases().create(
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
-        try {
-            final Release release = repo.releases().create(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        final JsonObject patch = Json.createObjectBuilder()
+            .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
+            .add("name", "jcabi Github test release")
+            .add("body", "jcabi Github was here!")
+            .build();
+        release.patch(patch);
+        final JsonObject json = repo.releases()
+            .get(release.number()).json();
+        for (final String property : patch.keySet()) {
+            MatcherAssert.assertThat(
+                json.getString(property),
+                Matchers.equalTo(patch.getString(property))
             );
-            final JsonObject patch = Json.createObjectBuilder()
-                .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
-                .add(name, "jcabi Github test release")
-                .add("body", "jcabi Github was here!")
-                .build();
-            release.patch(patch);
-            final JsonObject json = repo.releases()
-                .get(release.number()).json();
-            for (final String property : patch.keySet()) {
-                MatcherAssert.assertThat(
-                    json.getString(property),
-                    Matchers.equalTo(patch.getString(property))
-                );
-            }
-        } finally {
-            repos.remove(repo.coordinates());
         }
     }
+
 }

@@ -30,12 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -49,34 +50,69 @@ import org.junit.Test;
 public final class RtReleaseAssetsITCase {
 
     /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+        repo.releases().create(
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * RtReleaseAssets can upload release assets.
      * @throws Exception If an exception occurs.
      */
     @Test
     public void uploadsAssets() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases
-                .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
-            final ReleaseAssets assets = release.assets();
-            try {
-                final String name = "upload.txt";
-                final ReleaseAsset uploaded = assets.upload(
-                    "upload".getBytes(),
-                    "text/plain",
-                    name
-                );
-                MatcherAssert.assertThat(
-                    uploaded.json().getString("name"),
-                    Matchers.is(name)
-                );
-            } finally {
-                releases.remove(release.number());
-            }
+            final String name = "upload.txt";
+            final ReleaseAsset uploaded = assets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                uploaded.json().getString("name"),
+                Matchers.is(name)
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            releases.remove(release.number());
         }
     }
 
@@ -86,39 +122,33 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void uploadsTwoAssets() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases
-                .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
-            final ReleaseAssets assets = release.assets();
-            try {
-                final String name = "upload.txt";
-                final ReleaseAsset uploaded = assets.upload(
-                    "upload".getBytes(),
-                    "text/plain",
-                    name
-                );
-                MatcherAssert.assertThat(
-                    uploaded.json().getString("name"),
-                    Matchers.is(name)
-                );
-                final String othername = "upload2.txt";
-                final ReleaseAsset otheruploaded = assets.upload(
-                    "upload2".getBytes(),
-                    "text/plain",
-                    othername
-                );
-                MatcherAssert.assertThat(
-                    otheruploaded.json().getString("name"),
-                    Matchers.is(othername)
-                );
-            } finally {
-                releases.remove(release.number());
-            }
+            final String name = "upload.txt";
+            final ReleaseAsset uploaded = assets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                uploaded.json().getString("name"),
+                Matchers.is(name)
+            );
+            final String othername = "upload2.txt";
+            final ReleaseAsset otheruploaded = assets.upload(
+                "upload2".getBytes(),
+                "text/plain",
+                othername
+            );
+            MatcherAssert.assertThat(
+                otheruploaded.json().getString("name"),
+                Matchers.is(othername)
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            releases.remove(release.number());
         }
     }
 
@@ -128,44 +158,38 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void uploadsSameAssetInTwoReleases() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final Release otherrelease = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final ReleaseAssets assets = release.assets();
+        final ReleaseAssets otherassets = otherrelease.assets();
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases.create(
-                RandomStringUtils.randomAlphabetic(Tv.TEN)
+            final String name = "upload.txt";
+            final ReleaseAsset uploaded = assets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
             );
-            final Release otherrelease = releases.create(
-                RandomStringUtils.randomAlphabetic(Tv.TEN)
+            MatcherAssert.assertThat(
+                uploaded.json().getString("name"),
+                Matchers.is(name)
             );
-            final ReleaseAssets assets = release.assets();
-            final ReleaseAssets otherassets = otherrelease.assets();
-            try {
-                final String name = "upload.txt";
-                final ReleaseAsset uploaded = assets.upload(
-                    "upload".getBytes(),
-                    "text/plain",
-                    name
-                );
-                MatcherAssert.assertThat(
-                    uploaded.json().getString("name"),
-                    Matchers.is(name)
-                );
-                final ReleaseAsset otheruploaded = otherassets.upload(
-                    "upload".getBytes(),
-                    "text/plain",
-                    name
-                );
-                MatcherAssert.assertThat(
-                    otheruploaded.json().getString("name"),
-                    Matchers.is(name)
-                );
-            } finally {
-                releases.remove(release.number());
-                releases.remove(otherrelease.number());
-            }
+            final ReleaseAsset otheruploaded = otherassets.upload(
+                "upload".getBytes(),
+                "text/plain",
+                name
+            );
+            MatcherAssert.assertThat(
+                otheruploaded.json().getString("name"),
+                Matchers.is(name)
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            releases.remove(release.number());
+            releases.remove(otherrelease.number());
         }
     }
 
@@ -175,28 +199,22 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void fetchesAssets() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases
-                .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
-            final ReleaseAssets assets = release.assets();
-            try {
-                final ReleaseAsset uploaded = assets.upload(
-                    "fetch".getBytes(),
-                    "text/plain",
-                    "fetch.txt"
-                );
-                MatcherAssert.assertThat(
-                    assets.get(uploaded.number()),
-                    Matchers.is(uploaded)
-                );
-            } finally {
-                releases.remove(release.number());
-            }
+            final ReleaseAsset uploaded = assets.upload(
+                "fetch".getBytes(),
+                "text/plain",
+                "fetch.txt"
+            );
+            MatcherAssert.assertThat(
+                assets.get(uploaded.number()),
+                Matchers.is(uploaded)
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            releases.remove(release.number());
         }
     }
 
@@ -206,33 +224,27 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void iteratesAssets() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases
-                .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
-            final ReleaseAssets assets = release.assets();
-            try {
-                final ReleaseAsset first = assets.upload(
-                    "first".getBytes(),
-                    "text/plain",
-                    "first.txt"
-                );
-                final ReleaseAsset second = assets.upload(
-                    "second".getBytes(),
-                    "text/plain",
-                    "second.txt"
-                );
-                MatcherAssert.assertThat(
-                    assets.iterate(),
-                    Matchers.contains(first, second)
-                );
-            } finally {
-                releases.remove(release.number());
-            }
+            final ReleaseAsset first = assets.upload(
+                "first".getBytes(),
+                "text/plain",
+                "first.txt"
+            );
+            final ReleaseAsset second = assets.upload(
+                "second".getBytes(),
+                "text/plain",
+                "second.txt"
+            );
+            MatcherAssert.assertThat(
+                assets.iterate(),
+                Matchers.contains(first, second)
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            releases.remove(release.number());
         }
     }
 
@@ -242,52 +254,18 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void returnsNoAssets() throws Exception {
-        final Repos repos = repos();
-        final Repo repo = repo(repos);
+        final Releases releases = repo.releases();
+        final Release release = releases
+            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+        final ReleaseAssets assets = release.assets();
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases
-                .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
-            final ReleaseAssets assets = release.assets();
-            try {
-                MatcherAssert.assertThat(
-                    assets.iterate(),
-                    Matchers.emptyIterable()
-                );
-            } finally {
-                releases.remove(release.number());
-            }
+            MatcherAssert.assertThat(
+                assets.iterate(),
+                Matchers.emptyIterable()
+            );
         } finally {
-            repos.remove(repo.coordinates());
+            releases.remove(release.number());
         }
-    }
-
-    /**
-     * Create repo with releases for tests.
-     * @param repos Repos
-     * @return Repo
-     * @throws IOException If an IO Exception occurs.
-     */
-    private static Repo repo(final Repos repos) throws IOException {
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
-        repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
-        );
-        return repo;
-    }
-
-    /**
-     * Create repos of account with provided github key.
-     * @return Repos
-     */
-    private static Repos repos() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos();
     }
 
 }
