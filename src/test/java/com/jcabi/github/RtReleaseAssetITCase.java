@@ -145,11 +145,11 @@ public final class RtReleaseAssetITCase {
     private static Repo repo(final Repos repos) throws IOException {
         final Repo repo = repos.create(
             Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomNumeric(Tv.TEN)
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).add("auto_init", true).build()
         );
         repo.releases().create(
-            String.format("repo%d", System.currentTimeMillis())
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         return repo;
     }

@@ -208,7 +208,7 @@ public final class RtReleasesITCase {
     private static Repo repo() throws IOException {
         final Repo repo = RtReleasesITCase.repos().create(
             Json.createObjectBuilder().add(
-                "name", String.format("repo_%d", System.currentTimeMillis())
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).add("auto_init", true).build()
         );
         repo.contents().create(Json.createObjectBuilder()

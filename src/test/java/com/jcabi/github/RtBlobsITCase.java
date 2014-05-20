@@ -104,7 +104,7 @@ public final class RtBlobsITCase {
     private static Repo repo(final Repos repos) throws IOException {
         return repos.create(
             Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomNumeric(Tv.TEN)
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).add("auto_init", true).build()
         );
     }

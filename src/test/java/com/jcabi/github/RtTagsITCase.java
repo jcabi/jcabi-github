@@ -59,7 +59,7 @@ public final class RtTagsITCase {
         final String name = "name";
         final Repo repo = repos.create(
             Json.createObjectBuilder().add(
-                name, RandomStringUtils.randomNumeric(Tv.TEN)
+                name, RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).add("auto_init", true).build()
         );
         try {
