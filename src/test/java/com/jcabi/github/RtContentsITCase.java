@@ -214,6 +214,7 @@ public final class RtContentsITCase {
             .add("path", path)
             .add("message", message)
             .add("content", cont)
+            .add("ref", "master")
             .build();
     }
 
