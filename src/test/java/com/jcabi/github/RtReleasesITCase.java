@@ -30,13 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
 import javax.json.Json;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -48,27 +48,60 @@ import org.junit.Test;
 public final class RtReleasesITCase {
 
     /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * RtReleases can iterate releases.
      * @throws Exception if something goes wrong
      */
     @Test
     public void canFetchAllReleases() throws Exception {
-        final Repo repo = RtReleasesITCase.repo();
+        final Releases releases = repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
         try {
-            final Releases releases = repo.releases();
-            final Release release = releases.create(
-                RandomStringUtils.randomAlphabetic(Tv.TEN)
+            MatcherAssert.assertThat(
+                releases.iterate(),
+                Matchers.not(Matchers.emptyIterableOf(Release.class))
             );
-            try {
-                MatcherAssert.assertThat(
-                    releases.iterate(),
-                    Matchers.not(Matchers.emptyIterableOf(Release.class))
-                );
-            } finally {
-                releases.remove(release.number());
-            }
         } finally {
-            RtReleasesITCase.remove(repo);
+            releases.remove(release.number());
         }
     }
 
@@ -78,23 +111,18 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canFetchRelease() throws Exception {
-        final Repo repo = RtReleasesITCase.repo();
-        try {
-            final Releases releases = repo.releases();
-            final String tag = "v1.0";
-            final Release release = releases.create(tag);
-            MatcherAssert.assertThat(
-                releases.get(release.number()).number(),
-                Matchers.equalTo(release.number())
-            );
-            MatcherAssert.assertThat(
-                new Release.Smart(releases.get(release.number())).tag(),
-                Matchers.equalTo(tag)
-            );
-            releases.remove(release.number());
-        } finally {
-            RtReleasesITCase.remove(repo);
-        }
+        final Releases releases = repo.releases();
+        final String tag = "v1.0";
+        final Release release = releases.create(tag);
+        MatcherAssert.assertThat(
+            releases.get(release.number()).number(),
+            Matchers.equalTo(release.number())
+        );
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.get(release.number())).tag(),
+            Matchers.equalTo(tag)
+        );
+        releases.remove(release.number());
     }
 
     /**
@@ -103,26 +131,21 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canCreateRelease() throws Exception {
-        final Repo repo = RtReleasesITCase.repo();
+        final Releases releases = repo.releases();
+        final Release created = releases.create("0.1");
+        final int number = created.number();
         try {
-            final Releases releases = repo.releases();
-            final Release created = releases.create("0.1");
-            final int number = created.number();
-            try {
-                final Release obtained = releases.get(number);
-                MatcherAssert.assertThat(
-                    created,
-                    Matchers.is(obtained)
-                );
-                MatcherAssert.assertThat(
-                    new Release.Smart(created).tag(),
-                    Matchers.equalTo(new Release.Smart(obtained).tag())
-                );
-            } finally {
-                releases.remove(number);
-            }
+            final Release obtained = releases.get(number);
+            MatcherAssert.assertThat(
+                created,
+                Matchers.is(obtained)
+            );
+            MatcherAssert.assertThat(
+                new Release.Smart(created).tag(),
+                Matchers.equalTo(new Release.Smart(obtained).tag())
+            );
         } finally {
-            RtReleasesITCase.remove(repo);
+            releases.remove(number);
         }
     }
 
@@ -132,24 +155,19 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canRemoveRelease() throws Exception {
-        final Repo repo = RtReleasesITCase.repo();
-        try {
-            final Releases releases = repo.releases();
-            final Release release = releases.create(
-                RandomStringUtils.randomAlphabetic(Tv.TEN)
-            );
-            MatcherAssert.assertThat(
-                releases.iterate(),
-                Matchers.hasItem(release)
-            );
-            releases.remove(release.number());
-            MatcherAssert.assertThat(
-                releases.iterate(),
-                Matchers.not(Matchers.hasItem(release))
-            );
-        } finally {
-            RtReleasesITCase.remove(repo);
-        }
+        final Releases releases = repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.hasItem(release)
+        );
+        releases.remove(release.number());
+        MatcherAssert.assertThat(
+            releases.iterate(),
+            Matchers.not(Matchers.hasItem(release))
+        );
     }
 
     /**
@@ -158,22 +176,17 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canEditTag() throws Exception {
-        final Repo repo = RtReleasesITCase.repo();
-        try {
-            final Releases releases = repo.releases();
-            final Release release = releases.create(
-                RandomStringUtils.randomAlphabetic(Tv.TEN)
-            );
-            final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
-            new Release.Smart(release).tag(tag);
-            MatcherAssert.assertThat(
-                new Release.Smart(releases.get(release.number())).tag(),
-                Matchers.equalTo(tag)
-            );
-            releases.remove(release.number());
-        } finally {
-            RtReleasesITCase.remove(repo);
-        }
+        final Releases releases = repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
+        );
+        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
+        new Release.Smart(release).tag(tag);
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.get(release.number())).tag(),
+            Matchers.equalTo(tag)
+        );
+        releases.remove(release.number());
     }
 
     /**
@@ -182,63 +195,16 @@ public final class RtReleasesITCase {
      */
     @Test
     public void canEditBody() throws Exception {
-        final Repo repo = RtReleasesITCase.repo();
-        try {
-            final Releases releases = repo.releases();
-            final Release release = releases.create(
-                RandomStringUtils.randomAlphabetic(Tv.TEN)
-            );
-            final String body = "Description of the release";
-            new Release.Smart(release).body(body);
-            MatcherAssert.assertThat(
-                new Release.Smart(releases.get(release.number())).body(),
-                Matchers.equalTo(body)
-            );
-            releases.remove(release.number());
-        } finally {
-            RtReleasesITCase.remove(repo);
-        }
-    }
-
-    /**
-     * Create and return not empty RtRepo object to test.
-     * @return Repo
-     * @throws IOException if any problem inside.
-     */
-    private static Repo repo() throws IOException {
-        final Repo repo = RtReleasesITCase.repos().create(
-            Json.createObjectBuilder().add(
-                "name", String.format("repo_%d", System.currentTimeMillis())
-            ).build()
+        final Releases releases = repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
-        repo.contents().create(Json.createObjectBuilder()
-            .add("path", RandomStringUtils.randomAlphabetic(Tv.TEN))
-            .add("message", "theMessage")
-            .add(
-                "content", new String(
-                    Base64.encodeBase64("some content".getBytes())
-                )
-            ).build()
+        final String body = "Description of the release";
+        new Release.Smart(release).body(body);
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.get(release.number())).body(),
+            Matchers.equalTo(body)
         );
-        return repo;
-    }
-
-    /**
-     * Get RtRepos of test repository.
-     * @return Repos
-     */
-    private static Repos repos() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos();
-    }
-
-    /**
-     * Remove specified repo.
-     * @param repo Repo
-     * @throws IOException if any problem inside.
-     */
-    private static void remove(final Repo repo) throws IOException {
-        RtReleasesITCase.repos().remove(repo.coordinates());
+        releases.remove(release.number());
     }
 }

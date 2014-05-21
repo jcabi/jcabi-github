@@ -30,15 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assume;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -46,44 +45,45 @@ import org.junit.Test;
  * @author Haris Osmanagic (haris.osmanagic@gmail.com)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 public final class RtReleaseITCase {
 
     /**
-     * Test release.
+     * Test repos.
      */
-    private transient Release release;
+    private static Repos repos;
 
     /**
-     * Test repository.
+     * Test repo.
      */
-    private transient Repo repo;
+    private static Repo repo;
 
     /**
      * Set up test fixtures.
-     * @throws IOException If creating the test release didn't succeed.
+     * @throws Exception If some errors occurred.
      */
-    @Before
-    public void setUp() throws IOException {
+    @BeforeClass
+    public static void setUp() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
-        this.repo = github.repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
-        this.release = this.repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
         );
     }
 
     /**
      * Tear down test fixtures.
-     * @throws IOException If deleting the test release didn't succeed.
+     * @throws Exception If some errors occurred.
      */
-    @After
-    public void tearDown() throws IOException {
-        if (this.release != null) {
-            this.release.delete();
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -93,19 +93,23 @@ public final class RtReleaseITCase {
      */
     @Test
     public void canEditRelease() throws Exception {
+        final Release release = repo.releases().create(
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        );
         final JsonObject patch = Json.createObjectBuilder()
             .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
             .add("name", "jcabi Github test release")
             .add("body", "jcabi Github was here!")
             .build();
-        this.release.patch(patch);
-        final JsonObject json = this.repo.releases()
-            .get(this.release.number()).json();
-        for (final String key : patch.keySet()) {
+        release.patch(patch);
+        final JsonObject json = repo.releases()
+            .get(release.number()).json();
+        for (final String property : patch.keySet()) {
             MatcherAssert.assertThat(
-                json.getString(key),
-                Matchers.equalTo(patch.getString(key))
+                json.getString(property),
+                Matchers.equalTo(patch.getString(property))
             );
         }
     }
+
 }

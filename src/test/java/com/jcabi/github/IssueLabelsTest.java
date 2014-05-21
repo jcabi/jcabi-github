@@ -65,7 +65,7 @@ public final class IssueLabelsTest {
             new IssueLabels.Smart(labels).findByColor("c0c0c0"),
             Matchers.allOf(
                 Matchers.<Label>iterableWithSize(1),
-                Matchers.hasItem(first)
+                Matchers.hasItems(first)
             )
         );
     }
