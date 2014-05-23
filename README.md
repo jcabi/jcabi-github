@@ -1,6 +1,7 @@
 <img src="http://img.jcabi.com/logo-square.png" width="64px" height="64px" />
  
 [![Build Status](https://travis-ci.org/jcabi/jcabi-github.svg?branch=master)](https://travis-ci.org/jcabi/jcabi-github)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/)
 
@@ -39,16 +40,6 @@ public class FooTest {
 }
 ```
 
-You need just this dependency:
-
-```xml
-<dependency>
-  <groupId>com.jcabi</groupId>
-  <artifactId>jcabi-github</artifactId>
-  <version>0.8</version>
-</dependency>
-```
-
 ## Questions?
 
 If you have any questions about the framework, or something doesn't work as expected,
@@ -61,7 +52,7 @@ Fork the repository, make changes, submit a pull request.
 We promise to review your changes same day and apply to
 the `master` branch, if they look correct.
 
-Please run Maven build before submitting a pull request:
+Please run Maven (3.1 or higher!) build before submitting a pull request:
 
 ```
 $ mvn clean install -Pqulice
