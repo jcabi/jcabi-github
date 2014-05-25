@@ -36,7 +36,10 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
+import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -175,9 +178,21 @@ final class MkContents implements Contents {
      */
     @Override
     @NotNull(message = "Iterable of contents is never NULL")
-    public Iterable<Content> iterate(final String path, final String ref)
+    public Iterable<Content> iterate(final String pattern, final String ref)
         throws IOException {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        final Iterable<XML> nodes = this.storage.xml().nodes(
+            String.format("%s/content[@ref='%s']", this.xpath(), ref)
+        );
+        final Collection<Content> result = new LinkedList<Content>();
+        for (final XML node : nodes) {
+            final String path = node.xpath("path/text()").get(0);
+            if (path.startsWith(pattern)) {
+                result.add(
+                    this.mkContent(ref, path)
+                );
+            }
+        }
+        return result;
     }
 
     @Override
@@ -225,6 +240,18 @@ final class MkContents implements Contents {
         } finally {
             this.storage.unlock();
         }
+    }
+
+    /**
+     * Builder method for MkContent.
+     * @param ref Branch name.
+     * @param path Path to MkContent.
+     * @return MkContent instance.
+     * @throws IOException if any I/O error occurs.
+     */
+    private MkContent mkContent(final String ref, final String path)
+        throws IOException {
+        return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
     /**

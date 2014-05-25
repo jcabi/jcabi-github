@@ -55,6 +55,7 @@ import org.junit.Test;
  *  However, the same functionality has not been implemented yet for the
  *  update() and remove() methods. Let's fix it. See
  *  http://developer.github.com/v3/repos/contents for details
+ * @todo #772 MkContents.iterate should be covered by test.
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
 public final class MkContentsTest {
