@@ -30,11 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import java.io.IOException;
+import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -48,12 +50,53 @@ import org.junit.Test;
 public final class RtReleaseAssetsITCase {
 
     /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+        repo.releases().create(
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * RtReleaseAssets can upload release assets.
      * @throws Exception If an exception occurs.
      */
     @Test
     public void uploadsAssets() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -79,7 +122,7 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void uploadsTwoAssets() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -115,7 +158,7 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void uploadsSameAssetInTwoReleases() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
@@ -156,7 +199,7 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void fetchesAssets() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -181,7 +224,7 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void iteratesAssets() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -211,7 +254,7 @@ public final class RtReleaseAssetsITCase {
      */
     @Test
     public void returnsNoAssets() throws Exception {
-        final Releases releases = releases();
+        final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -223,19 +266,6 @@ public final class RtReleaseAssetsITCase {
         } finally {
             releases.remove(release.number());
         }
-    }
-
-    /**
-     * Create and return Release object to test.
-     * @return Releases
-     * @throws IOException If an IO Exception occurs.
-     */
-    private static Releases releases() throws IOException {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).releases();
     }
 
 }
