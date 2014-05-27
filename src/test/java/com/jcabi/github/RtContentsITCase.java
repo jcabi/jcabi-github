@@ -78,7 +78,7 @@ public final class RtContentsITCase {
         final String message = "commit message";
         final String text = "new content";
         try {
-            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -121,7 +121,7 @@ public final class RtContentsITCase {
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "commit message";
         try {
-            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -151,7 +151,7 @@ public final class RtContentsITCase {
         final Repos repos = github().repos();
         final Repo repo = RtContentsITCase.repo(repos);
         try {
-            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             MatcherAssert.assertThat(
                 repos.get(repo.coordinates()).contents().create(
                     this.jsonObject(

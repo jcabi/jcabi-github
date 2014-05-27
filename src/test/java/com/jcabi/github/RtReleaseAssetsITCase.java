@@ -98,7 +98,7 @@ public final class RtReleaseAssetsITCase {
     public void uploadsAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -124,7 +124,7 @@ public final class RtReleaseAssetsITCase {
     public void uploadsTwoAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -160,10 +160,10 @@ public final class RtReleaseAssetsITCase {
     public void uploadsSameAssetInTwoReleases() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         final Release otherrelease = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         final ReleaseAssets assets = release.assets();
         final ReleaseAssets otherassets = otherrelease.assets();
@@ -201,7 +201,7 @@ public final class RtReleaseAssetsITCase {
     public void fetchesAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset uploaded = assets.upload(
@@ -226,7 +226,7 @@ public final class RtReleaseAssetsITCase {
     public void iteratesAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset first = assets.upload(
@@ -256,7 +256,7 @@ public final class RtReleaseAssetsITCase {
     public void returnsNoAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             MatcherAssert.assertThat(
