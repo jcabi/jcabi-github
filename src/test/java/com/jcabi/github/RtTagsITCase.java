@@ -98,7 +98,7 @@ public final class RtTagsITCase {
         final References refs = repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIVE);
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
