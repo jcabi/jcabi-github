@@ -84,7 +84,7 @@ public final class RtAssigneesITCase {
         MatcherAssert.assertThat(
             RtAssigneesITCase.repo()
                 .assignees()
-                .check(RandomStringUtils.randomAlphabetic(Tv.TEN)),
+                .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),
             Matchers.is(false)
         );
     }

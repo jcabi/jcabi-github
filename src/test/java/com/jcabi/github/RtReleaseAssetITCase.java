@@ -96,7 +96,7 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final String name = RandomStringUtils.randomAlphanumeric(5);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = repo.releases().create(name);
         try {
             MatcherAssert.assertThat(
@@ -136,7 +136,7 @@ public final class RtReleaseAssetITCase {
     @Test
     public void removesReleaseAsset() throws Exception {
         final Releases releases = repo.releases();
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases.create(rname);
         try {
             MatcherAssert.assertThat(

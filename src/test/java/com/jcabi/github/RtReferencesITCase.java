@@ -93,7 +93,7 @@ public final class RtReferencesITCase {
     @Test
     public void createsReference() throws Exception {
         final References refs = repo.git().references();
-        final String name = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
             .append("refs/tags/").append(name);
         final Reference reference = refs.create(
@@ -117,7 +117,7 @@ public final class RtReferencesITCase {
     @Test
     public void iteratesReferences() throws Exception {
         final References refs = repo.git().references();
-        final String name = RandomStringUtils.randomAlphabetic(Tv.SIX);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
             .append("refs/heads/").append(name);
         refs.create(

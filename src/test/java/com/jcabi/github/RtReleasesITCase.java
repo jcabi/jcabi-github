@@ -93,7 +93,7 @@ public final class RtReleasesITCase {
     public void canFetchAllReleases() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         try {
             MatcherAssert.assertThat(
@@ -157,7 +157,7 @@ public final class RtReleasesITCase {
     public void canRemoveRelease() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         MatcherAssert.assertThat(
             releases.iterate(),
@@ -178,9 +178,9 @@ public final class RtReleasesITCase {
     public void canEditTag() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
+        final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIFTEEN);
         new Release.Smart(release).tag(tag);
         MatcherAssert.assertThat(
             new Release.Smart(releases.get(release.number())).tag(),
@@ -197,7 +197,7 @@ public final class RtReleasesITCase {
     public void canEditBody() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         final String body = "Description of the release";
         new Release.Smart(release).body(body);

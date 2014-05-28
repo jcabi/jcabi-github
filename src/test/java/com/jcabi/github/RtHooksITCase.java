@@ -141,7 +141,7 @@ public final class RtHooksITCase {
         return repos.create(
             Json.createObjectBuilder().add(
                 // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
+                "name", RandomStringUtils.randomAlphanumeric(10)
             ).build()
         );
     }
