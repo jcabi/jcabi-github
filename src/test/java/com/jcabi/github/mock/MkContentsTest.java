@@ -55,7 +55,6 @@ import org.junit.Test;
  *  However, the same functionality has not been implemented yet for the
  *  update() and remove() methods. Let's fix it. See
  *  http://developer.github.com/v3/repos/contents for details
- * @todo #772 MkContents.iterate should be covered by test.
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
 public final class MkContentsTest {
@@ -288,6 +287,26 @@ public final class MkContentsTest {
     }
 
     /**
+     * Tests if MkContents is iterable by path.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void canIterate() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = repo(storage);
+        final String[] paths = {
+            "foo/bar/1", "foo/bar/2", "foo/baz",
+        };
+        for (final String path : paths) {
+            this.addContent(repo, path);
+        }
+        MatcherAssert.assertThat(
+            repo.contents().iterate("foo/bar", "ref-1"),
+            Matchers.<Content>iterableWithSize(2)
+        );
+    }
+
+    /**
      * Creates a new file.
      * @param repo The repository
      * @param path Content path
@@ -368,6 +387,21 @@ public final class MkContentsTest {
         final String login = "test";
         return new MkGithub(storage, login).repos().create(
             Json.createObjectBuilder().add("name", login).build()
+        );
+    }
+
+    /**
+     * Adds some test content to contents.
+     * @param repo Repo to add content to.
+     * @param path Content path.
+     * @throws IOException If any I/O error occurs.
+     */
+    private void addContent(final Repo repo, final String path)
+        throws IOException {
+        repo.contents().create(
+            Json.createObjectBuilder().add("ref", "ref-1")
+                .add("path", path).add("content", "content-1")
+                .add("message", "msg").build()
         );
     }
 }
