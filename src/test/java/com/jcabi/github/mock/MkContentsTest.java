@@ -35,6 +35,8 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.json.Json;
@@ -288,22 +290,38 @@ public final class MkContentsTest {
 
     /**
      * Tests if MkContents is iterable by path.
-     * @throws Exception if any error occurs.
+     * @throws IOException if any error occurs.
      */
     @Test
-    public void canIterate() throws Exception {
+    public void canIterate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = repo(storage);
-        final String[] paths = {
-            "foo/bar/1", "foo/bar/2", "foo/baz",
-        };
-        for (final String path : paths) {
-            this.addContent(repo, path);
-        }
-        MatcherAssert.assertThat(
-            repo.contents().iterate("foo/bar", "ref-1"),
-            Matchers.<Content>iterableWithSize(2)
+        final Iterable<Content> correct = this.addAllContent(
+            repo, "foo/bar/1", "foo/bar/2"
         );
+        this.addAllContent(repo, "foo/baz", "foo/boo");
+        for (final Content content : correct) {
+            MatcherAssert.assertThat(
+                repo.contents().iterate("foo/bar", "ref-1"),
+                Matchers.hasItem(content)
+            );
+        }
+    }
+
+    /**
+     * Adds colection of test content items.
+     * @param repo The repo.
+     * @param paths Test items to be created inside the repo.
+     * @return Iterable with created items.
+     * @throws IOException If any I/O error occurs.
+     */
+    private Iterable<Content> addAllContent(final Repo repo,
+        final String... paths) throws IOException {
+        final Collection<Content> result = new ArrayList<Content>(paths.length);
+        for (final String path : paths) {
+            result.add(this.addContent(repo, path));
+        }
+        return result;
     }
 
     /**
@@ -394,11 +412,12 @@ public final class MkContentsTest {
      * Adds some test content to contents.
      * @param repo Repo to add content to.
      * @param path Content path.
+     * @return The content created.
      * @throws IOException If any I/O error occurs.
      */
-    private void addContent(final Repo repo, final String path)
+    private Content addContent(final Repo repo, final String path)
         throws IOException {
-        repo.contents().create(
+        return repo.contents().create(
             Json.createObjectBuilder().add("ref", "ref-1")
                 .add("path", path).add("content", path)
                 .add("message", "msg").build()
