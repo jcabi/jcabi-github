@@ -33,7 +33,7 @@
     <parent>
         <groupId>com.jcabi</groupId>
         <artifactId>jcabi</artifactId>
-        <version>1.6.1</version>
+        <version>1.8</version>
     </parent>
     <artifactId>jcabi-github</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -305,17 +305,6 @@
                     <plugin>
                         <groupId>com.qulice</groupId>
                         <artifactId>qulice-maven-plugin</artifactId>
-                        <!--
-                            @todo #766 The Qulice version should be managed by
-                             the parent pom. However, com.jcabi:1.6.1, which is
-                             the current parent, references a buggy version of
-                             the plugin which cannot build on Windows. When a
-                             new version of com.jcabi is released referencing
-                             a fixed Qulice version, let's remove the version
-                             element here and revert it back to being managed by
-                             the parent.
-                            -->
-                        <version>0.8.2</version>
                         <configuration>
                             <excludes>
                                 <exclude>checkstyle:/src/test/java/com/jcabi/github/NullabilityTest.java</exclude>
