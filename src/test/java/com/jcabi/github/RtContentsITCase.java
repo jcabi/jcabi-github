@@ -46,6 +46,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
 
     /**
@@ -214,6 +215,7 @@ public final class RtContentsITCase {
             .add("path", path)
             .add("message", message)
             .add("content", cont)
+            .add("ref", "master")
             .build();
     }
 
