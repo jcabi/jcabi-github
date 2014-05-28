@@ -400,7 +400,7 @@ public final class MkContentsTest {
         throws IOException {
         repo.contents().create(
             Json.createObjectBuilder().add("ref", "ref-1")
-                .add("path", path).add("content", "content-1")
+                .add("path", path).add("content", path)
                 .add("message", "msg").build()
         );
     }
