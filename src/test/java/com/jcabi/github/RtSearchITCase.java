@@ -29,9 +29,11 @@
  */
 package com.jcabi.github;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -79,6 +81,22 @@ public final class RtSearchITCase {
         MatcherAssert.assertThat(
             RtSearchITCase.github().search().users("jcabi", "joined", "desc"),
             Matchers.not(Matchers.emptyIterableOf(User.class))
+        );
+    }
+
+    /**
+     * RtSearch can search for contents.
+     *
+     * @throws Exception if a problem occurs
+     * @todo #217 RtSearchITCase.canSearchForContents() is missing.
+     *  Let's implement it and remove this puzzle
+     *  @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a>
+     *  for details
+     */
+    @Ignore
+    public void canSearchForContents() throws Exception {
+        throw new NotImplementedException(
+            "RtSearchITCase#canSearchForContents"
         );
     }
 
