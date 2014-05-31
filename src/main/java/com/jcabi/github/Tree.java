@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,77 +30,30 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import java.io.IOException;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
+ * Github tree.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
  */
 @Immutable
-@Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-final class RtGit implements Git {
+public interface Tree extends JsonReadable {
 
     /**
-     * Repository.
+     * The repo we're in.
+     * @return Repo
      */
-    private final transient Repo owner;
+    @NotNull(message = "repo is never NULL")
+    Repo repo();
 
     /**
-     * RESTful entry.
+     * SHA of it.
+     * @return SHA
      */
-    private final transient Request entry;
+    @NotNull(message = "tree SHA is never NULL")
+    String sha();
 
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     */
-    public RtGit(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-    }
-
-    @Override
-    @NotNull(message = "repository can't be NULL")
-    public Repo repo() {
-        return this.owner;
-    }
-
-    @Override
-    @NotNull(message = "blobs can't be NULL")
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
-    }
-
-    @Override
-    @NotNull(message = "commits can't be NULL")
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    @NotNull(message = "references can't be NULL")
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "tags can't be NULL")
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "trees can't be NULL")
-    public Trees trees() {
-        return new RtTrees(this.entry, this.repo());
-    }
 }

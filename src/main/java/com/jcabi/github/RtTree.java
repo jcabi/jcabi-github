@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,74 +33,71 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
+import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github tree.
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-final class RtGit implements Git {
+@EqualsAndHashCode(of = { "request", "owner", "hash" })
+final class RtTree implements Tree {
 
     /**
-     * Repository.
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repo we're in.
      */
     private final transient Repo owner;
 
     /**
-     * RESTful entry.
+     * Commit SHA hash.
      */
-    private final transient Request entry;
+    private final transient String hash;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
+     * @param req RESTful request
+     * @param repo Owner of this commit
+     * @param sha Number of the get
      */
-    public RtGit(final Request req, final Repo repo) {
-        this.entry = req;
+    RtTree(final Request req, final Repo repo, final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/trees")
+            .path(sha)
+            .back();
         this.owner = repo;
+        this.hash = sha;
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "blobs can't be NULL")
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
+    public String sha() {
+        return this.hash;
     }
 
     @Override
-    @NotNull(message = "commits can't be NULL")
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
-    }
-
-    @Override
-    @NotNull(message = "references can't be NULL")
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "tags can't be NULL")
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "trees can't be NULL")
-    public Trees trees() {
-        return new RtTrees(this.entry, this.repo());
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
     }
 }
