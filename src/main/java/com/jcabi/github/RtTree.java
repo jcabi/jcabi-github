@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,53 +30,74 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Github Git Data Trees.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github tree.
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
  */
 @Immutable
-public interface Trees {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "request", "owner", "hash" })
+final class RtTree implements Tree {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * RESTful request.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private final transient Request request;
 
     /**
-     * Get specific tree by sha.
-     * @param sha Tree sha
-     * @return Tree
-     * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
+     * Repo we're in.
      */
-    @NotNull(message = "tree is never NULL")
-    Tree get(@NotNull(message = "sha can't be null") String sha);
+    private final transient Repo owner;
 
     /**
-     * Get specific tree recursively by sha.
-     * @param sha Tree sha
-     * @return Tree
-     * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
+     * Commit SHA hash.
      */
-    @NotNull(message = "tree is never NULL")
-    Tree getRec(@NotNull(message = "sha can't be null") String sha);
+    private final transient String hash;
+
     /**
-     * Create new tree.
-     * @param params Parameters to create new tree
-     * @return Tree
-     * @throws java.io.IOException If there is any I/O problem
+     * Public ctor.
+     * @param req RESTful request
+     * @param repo Owner of this commit
+     * @param sha Number of the get
      */
-    @NotNull(message = "Tree is never NULL")
-    Tree create(
-        @NotNull(message = "params can't be null") JsonObject params)
-        throws IOException;
+    RtTree(final Request req, final Repo repo, final String sha) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/git")
+            .path("/trees")
+            .path(sha)
+            .back();
+        this.owner = repo;
+        this.hash = sha;
+    }
+
+    @Override
+    public String toString() {
+        return this.request.uri().get().toString();
+    }
+
+    @Override
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public String sha() {
+        return this.hash;
+    }
+
+    @Override
+    public JsonObject json() throws IOException {
+        return new RtJson(this.request).fetch();
+    }
 }

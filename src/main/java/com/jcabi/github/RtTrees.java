@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2014, JCabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,21 +32,28 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github trees.
  * @version $Id$
- * @since 0.8
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-final class RtGit implements Git {
+@EqualsAndHashCode(of = { "request", "owner", "entry" })
+final class RtTrees implements Trees {
+
+    /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
 
     /**
      * Repository.
@@ -54,54 +61,57 @@ final class RtGit implements Git {
     private final transient Repo owner;
 
     /**
-     * RESTful entry.
+     * RESTful request.
      */
-    private final transient Request entry;
+    private final transient Request request;
 
     /**
      * Public ctor.
-     * @param req Request
+     * @param req Entry point of API
      * @param repo Repository
      */
-    public RtGit(final Request req, final Repo repo) {
+    RtTrees(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
+        this.request = req.uri()
+            .path("/repos")
+            .path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/git")
+            .path("/trees")
+            .back();
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "blobs can't be NULL")
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
+    public Tree get(final String sha) {
+        return new RtTree(this.entry, this.owner, sha);
     }
 
     @Override
-    @NotNull(message = "commits can't be NULL")
-    public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+    public Tree getRec(final String sha) {
+        return new RtTree(
+            this.entry.uri().queryParam("recursive", "1").back(),
+            this.owner, sha
+        );
     }
 
     @Override
-    @NotNull(message = "references can't be NULL")
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
+    @NotNull(message = "tree is never NULL")
+    public Tree create(
+        @NotNull(message = "params can't be NULL") final JsonObject params
+    ) throws IOException {
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(params).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
+        );
     }
-
-    @Override
-    @NotNull(message = "tags can't be NULL")
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "trees can't be NULL")
-    public Trees trees() {
-        return new RtTrees(this.entry, this.repo());
-    }
-
 }
