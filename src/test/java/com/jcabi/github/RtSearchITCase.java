@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -58,19 +59,23 @@ public final class RtSearchITCase {
     }
 
     /**
-     * RtSearch can fetch 1000 results (or just over it) with Github pagination.
+     * RtSearch can fetch multiple pages of a large result (more than 25 items).
      *
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canFetchOverOneThousandResults() throws Exception {
+    public void canFetchMultiplePages() throws Exception {
+        final Iterator<Repo> iter = RtSearchITCase.github().search().repos(
+            "java", "", ""
+        ).iterator();
+        int count = 0;
+        while (iter.hasNext() && count < Tv.HUNDRED) {
+            iter.next();
+            count += 1;
+        }
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search().repos(
-                "java", "", ""
-            ),
-            Matchers.<Repo>iterableWithSize(
-                Matchers.greaterThanOrEqualTo(Tv.THOUSAND)
-            )
+            count,
+            Matchers.greaterThanOrEqualTo(Tv.HUNDRED)
         );
     }
 
