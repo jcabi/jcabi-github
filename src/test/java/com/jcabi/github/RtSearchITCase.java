@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import java.util.Iterator;
 import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -55,6 +57,27 @@ public final class RtSearchITCase {
         MatcherAssert.assertThat(
             RtSearchITCase.github().search().repos("repo", "stars", "desc"),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
+        );
+    }
+
+    /**
+     * RtSearch can fetch multiple pages of a large result (more than 25 items).
+     *
+     * @throws Exception if a problem occurs
+     */
+    @Test
+    public void canFetchMultiplePages() throws Exception {
+        final Iterator<Repo> iter = RtSearchITCase.github().search().repos(
+            "java", "", ""
+        ).iterator();
+        int count = 0;
+        while (iter.hasNext() && count < Tv.HUNDRED) {
+            iter.next();
+            count += 1;
+        }
+        MatcherAssert.assertThat(
+            count,
+            Matchers.greaterThanOrEqualTo(Tv.HUNDRED)
         );
     }
 
