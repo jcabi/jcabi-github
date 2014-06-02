@@ -61,7 +61,7 @@ public final class MkUserEmailsTest {
             added,
             Matchers.allOf(
                 Matchers.<String>iterableWithSize(1),
-                Matchers.contains(email)
+                Matchers.hasItems(email)
             )
         );
     }
@@ -86,8 +86,8 @@ public final class MkUserEmailsTest {
             emails.iterate(),
             Matchers.allOf(
                 Matchers.<String>iterableWithSize(1),
-                Matchers.contains(retained),
-                Matchers.not(Matchers.contains(removed))
+                Matchers.hasItems(retained),
+                Matchers.not(Matchers.hasItems(removed))
             )
         );
     }
@@ -109,7 +109,7 @@ public final class MkUserEmailsTest {
             emails.iterate(),
             Matchers.allOf(
                 Matchers.<String>iterableWithSize(2),
-                Matchers.containsInAnyOrder(added)
+                Matchers.hasItems(added)
             )
         );
     }

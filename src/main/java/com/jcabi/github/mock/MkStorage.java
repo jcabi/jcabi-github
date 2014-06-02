@@ -35,6 +35,7 @@ import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -50,6 +51,7 @@ import org.xembly.Xembler;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 public interface MkStorage {
@@ -145,15 +147,33 @@ public interface MkStorage {
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            return new XMLDocument(
-                FileUtils.readFileToString(new File(this.name), Charsets.UTF_8)
-            );
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
+                throw new ConcurrentModificationException(
+                    "lock should be taken before method call"
+                );
+            }
+            this.lock.lock();
+            try {
+                return new XMLDocument(
+                    FileUtils.readFileToString(
+                        new File(this.name), Charsets.UTF_8
+                    )
+                );
+            } finally {
+                this.lock.unlock();
+            }
         }
         @Override
         public void apply(
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
+                throw new ConcurrentModificationException(
+                    "lock should be taken before method call"
+                );
+            }
+            this.lock.lock();
             try {
                 FileUtils.write(
                     new File(this.name),
@@ -164,6 +184,8 @@ public interface MkStorage {
                 );
             } catch (final ImpossibleModificationException ex) {
                 throw new IllegalArgumentException(ex);
+            } finally {
+                this.lock.unlock();
             }
         }
         @Override

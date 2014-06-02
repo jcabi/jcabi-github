@@ -55,7 +55,7 @@ public final class RtAssigneesTest {
      * RtAssignees can iterate over assignees.
      * @throws Exception Exception If some problem inside
      */
-    @Test
+    @Ignore
     public void iteratesAssignees() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

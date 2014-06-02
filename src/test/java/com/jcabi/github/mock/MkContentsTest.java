@@ -287,6 +287,46 @@ public final class MkContentsTest {
     }
 
     /**
+     * Tests if MkContents is iterable by path.
+     * @throws IOException if any error occurs.
+     */
+    @Test
+    public void canIterate() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = repo(storage);
+        final Content[] correct = this.addContent(
+            repo, "foo/bar/1", "foo/bar/2"
+        );
+        this.addContent(repo, "foo/baz", "foo/boo");
+        MatcherAssert.assertThat(
+            repo.contents().iterate("foo/bar", "ref-1"),
+            Matchers.contains(correct)
+        );
+    }
+
+    /**
+     * Adds colection of test content items.
+     * @param repo The repo.
+     * @param paths Test items to be created inside the repo.
+     * @return Iterable with created items.
+     * @throws IOException If any I/O error occurs.
+     */
+    private Content[] addContent(final Repo repo,
+        final String... paths) throws IOException {
+        final Content[] result = new Content[paths.length];
+        int index = 0;
+        for (final String path : paths) {
+            result[index] = repo.contents().create(
+                Json.createObjectBuilder().add("ref", "ref-1")
+                    .add("path", path).add("content", path)
+                    .add("message", "msg").build()
+            );
+            index += 1;
+        }
+        return result;
+    }
+
+    /**
      * Creates a new file.
      * @param repo The repository
      * @param path Content path
@@ -369,4 +409,5 @@ public final class MkContentsTest {
             Json.createObjectBuilder().add("name", login).build()
         );
     }
+
 }
