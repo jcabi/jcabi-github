@@ -90,7 +90,6 @@ public interface Git {
      * @return Tags
      * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
      */
-
     @NotNull(message = "Tags is never NULL")
     Tags tags();
 
