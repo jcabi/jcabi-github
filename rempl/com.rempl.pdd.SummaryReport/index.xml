@@ -28,39 +28,12 @@
 <owner>someone</owner>
 </puzzle>
 <puzzle>
-<ticket>591</ticket>
-<file>src/main/java/com/jcabi/github/RtCollaborators.java</file>
+<ticket>217</ticket>
+<file>src/main/java/com/jcabi/github/mock/MkSearch.java</file>
 <prefix> * </prefix>
-<body>Implement add() method. It should be implemented as described at http://developer.github.com/v3/repos/collaborators/ Test as com.jcabi.github.RtCollaboratorsTest should be also implemented.</body>
+<body>MkSearch.codes() is not implemented. Let's implement it and remove this puzzle @see &lt;a href="https://developer.github.com/v3/search/#search-code"&gt;Search API&lt;/a&gt; for details</body>
 <estimate>0</estimate>
-<lines>46-49</lines>
-<owner>someone</owner>
-</puzzle>
-<puzzle>
-<ticket>124</ticket>
-<file>src/main/java/com/jcabi/github/Search.java</file>
-<prefix> * </prefix>
-<body>The {@link Search} interface currently defines methods for searching repos, issues, and users. We need to add a new method codes() for the purposes for code searching. At the moment, we don't have a way to represent codes in the API.</body>
-<estimate>0</estimate>
-<lines>43-46</lines>
-<owner>someone</owner>
-</puzzle>
-<puzzle>
-<ticket>439</ticket>
-<file>src/main/java/com/jcabi/github/mock/MkRepoCommits.java</file>
-<prefix> * </prefix>
-<body>MkRepoCommits should be able to compare two commits and return comparison in patch format. Let's create a test for this method and implement the method. When done, remove this puzzle. See http://developer.github.com/v3/repos/commits/#compare-two-commits</body>
-<estimate>0</estimate>
-<lines>51-55</lines>
-<owner>someone</owner>
-</puzzle>
-<puzzle>
-<ticket>224</ticket>
-<file>src/test/java/com/jcabi/github/RtDeployKeysITCase.java</file>
-<prefix>     * </prefix>
-<body>RtDeployKeysITCase#canFetchAllDeployKeys() is ignored because at the moment, {@link RtDeployKeys#iterate()} is not fully implemented and only returns empty iterators. Once {@link RtDeployKeys#iterate()} has been implemented, remove the Ignore annotation here to enable the integration test. Revise this test method if necessary.</body>
-<estimate>0</estimate>
-<lines>52-56</lines>
+<lines>54-57</lines>
 <owner>someone</owner>
 </puzzle>
 <puzzle>
@@ -82,30 +55,21 @@
 <owner>someone</owner>
 </puzzle>
 <puzzle>
-<ticket>1</ticket>
-<file>src/test/java/com/jcabi/github/RtPublicKeysITCase.java</file>
-<prefix> * </prefix>
-<body>RtPublicKeysITCase is disabled since it doesn't work with real Github account. The problem is that guthub can't remove keys properly, so we forced to generate valid key each new run Let's fix it and remove all Ignore annotations from all its methods.</body>
-<estimate>0</estimate>
-<lines>43-46</lines>
-<owner>someone</owner>
-</puzzle>
-<puzzle>
-<ticket>416</ticket>
-<file>src/test/java/com/jcabi/github/RtPullCommentsTest.java</file>
+<ticket>217</ticket>
+<file>src/test/java/com/jcabi/github/RtSearchITCase.java</file>
 <prefix>     * </prefix>
-<body>RtPullComments should be able to fetch all pull comments of a repo. Implement {@link RtPullComments#reply(String, int))} and don't forget to include a test here. When done, remove this puzzle and the Ignore annotation of this test method.</body>
+<body>RtSearchITCase.canSearchForContents() is missing. Let's implement it and remove this puzzle @see &lt;a href="https://developer.github.com/v3/search/#search-code"&gt;Search API&lt;/a&gt; for details</body>
 <estimate>0</estimate>
-<lines>199-202</lines>
+<lines>114-117</lines>
 <owner>someone</owner>
 </puzzle>
 <puzzle>
-<ticket>524</ticket>
+<ticket>590</ticket>
 <file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
 <prefix> * </prefix>
-<body>MkContents should be able to handle branches. In a request for file update or create you may specify a branch. Also, a branch might be specified in a reading request. So, if you changed some file in branch-1, you shouldn't get these changes in the master branch, only in branch-1. Implementation of create, update and get methods of MkContents should be changed. See http://developer.github.com/v3/repos/contents/#update-a-file for details</body>
+<body>MkContents can now create and get files from non-default branches. However, the same functionality has not been implemented yet for the update() and remove() methods. Let's fix it. See http://developer.github.com/v3/repos/contents for details</body>
 <estimate>0</estimate>
-<lines>54-62</lines>
+<lines>54-57</lines>
 <owner>someone</owner>
 </puzzle>
 <puzzle>
@@ -114,7 +78,7 @@
 <prefix>     * </prefix>
 <body>Methods create() in MkContents and json() in MkContent should be implemented in order for this test to work.</body>
 <estimate>0</estimate>
-<lines>155-156</lines>
+<lines>185-186</lines>
 <owner>someone</owner>
 </puzzle>
 </puzzles>

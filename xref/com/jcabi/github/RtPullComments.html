@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/RtPullComments.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2014, JCabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2014, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -161,39 +161,52 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> position
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">final</strong> JsonStructure json = Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>             .add(<span class="jxr_string">"body"</span>, body)
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>             .add(<span class="jxr_string">"commit_id"</span>, commit)
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>             .add(<span class="jxr_string">"path"</span>, path)
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>             .add(<span class="jxr_string">"position"</span>, position)
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             .build();
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>             <strong class="jxr_keyword">this</strong>.request.method(Request.POST)
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>                 .body().set(json).back()
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>                 .fetch()
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>                 .as(RestResponse.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>                 .assertStatus(HttpURLConnection.HTTP_CREATED)
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>                 .as(JsonResponse.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>                 .json().readObject().getInt(<span class="jxr_string">"id"</span>)
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>         );
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>     }
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> 
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>     @Override
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>     @NotNull(message = <span class="jxr_string">"pull comment is never NULL"</span>)
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/PullComment.html">PullComment</a> reply(
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>         @NotNull(message = <span class="jxr_string">"text can't be NULL"</span>) <strong class="jxr_keyword">final</strong> String text,
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>         @NotNull(message = <span class="jxr_string">"comment can't be NULL"</span>) <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> comment
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException(<span class="jxr_string">"Reply not yet implemented."</span>);
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>     @Override
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L183" href="#L183">183</a>         <strong class="jxr_keyword">this</strong>.request.uri().path(String.valueOf(number)).back()
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>             .method(Request.DELETE)
-<a class="jxr_linenumber" name="L185" href="#L185">185</a>             .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>     }
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> }
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (4 line)</em>
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>             .add(<span class="jxr_string">"body"</span>, body)
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>             .add(<span class="jxr_string">"commit_id"</span>, commit)
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>             .add(<span class="jxr_string">"path"</span>, path)
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>             .add(<span class="jxr_string">"position"</span>, position)
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>             .build();
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>             <strong class="jxr_keyword">this</strong>.request.method(Request.POST)
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                 .body().set(json).back()
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>                 .fetch()
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>                 .as(RestResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                 .assertStatus(HttpURLConnection.HTTP_CREATED)
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>                 .as(JsonResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>                 .json().readObject().getInt(<span class="jxr_string">"id"</span>)
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>         );
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>     }
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>     @Override
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     @NotNull(message = <span class="jxr_string">"pull comment is never NULL"</span>)
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/PullComment.html">PullComment</a> reply(
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>         @NotNull(message = <span class="jxr_string">"text can't be NULL"</span>) <strong class="jxr_keyword">final</strong> String body,
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>         @NotNull(message = <span class="jxr_string">"comment can't be NULL"</span>) <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> comment
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>         <strong class="jxr_keyword">final</strong> JsonStructure json = Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>             .add(<span class="jxr_string">"body"</span>, body)
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>             .add(<span class="jxr_string">"in_reply_to"</span>, comment)
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>             .build();
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>             <strong class="jxr_keyword">this</strong>.request.method(Request.POST)
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>                 .body().set(json).back()
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>                 .fetch()
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>                 .as(RestResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>                 .assertStatus(HttpURLConnection.HTTP_CREATED)
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>                 .as(JsonResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>                 .json().readObject().getInt(<span class="jxr_string">"id"</span>)
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>         );
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>     }
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>     @Override
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>         <strong class="jxr_keyword">this</strong>.request.uri().path(String.valueOf(number)).back()
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>             .method(Request.DELETE)
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>             .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>     }
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
