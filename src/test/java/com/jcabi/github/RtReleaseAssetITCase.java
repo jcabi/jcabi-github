@@ -96,7 +96,7 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void fetchAsJSON() throws Exception {
-        final String name = RandomStringUtils.randomAlphanumeric(5);
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = repo.releases().create(name);
         try {
             MatcherAssert.assertThat(
@@ -114,23 +114,15 @@ public final class RtReleaseAssetITCase {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
-        final Release release = repo.releases().create(rname);
-        final String name = "name";
-        final String nvalue = RandomStringUtils.randomAlphanumeric(5);
-        final String body = "body";
-        final String bvalue = "Description of the release";
+        final Release release = repo.releases().create(
+            String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
+        );
+        final String desc = "Description of the release";
         try {
-            release.patch(Json.createObjectBuilder().add(name, nvalue)
-                .add(body, bvalue).build()
-            );
+            release.patch(Json.createObjectBuilder().add("body", desc).build());
             MatcherAssert.assertThat(
-                release.json().getString(name),
-                Matchers.startsWith(nvalue)
-            );
-            MatcherAssert.assertThat(
-                release.json().getString(body),
-                Matchers.startsWith(bvalue)
+                new Release.Smart(release).body(),
+                Matchers.startsWith(desc)
             );
         } finally {
             release.delete();
@@ -144,7 +136,7 @@ public final class RtReleaseAssetITCase {
     @Test
     public void removesReleaseAsset() throws Exception {
         final Releases releases = repo.releases();
-        final String rname = RandomStringUtils.randomAlphanumeric(5);
+        final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases.create(rname);
         try {
             MatcherAssert.assertThat(

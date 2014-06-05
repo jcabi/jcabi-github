@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Content;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
@@ -42,12 +43,18 @@ import java.io.IOException;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock Github search.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @todo #217 MkSearch.codes() is not implemented.
+ *  Let's implement it and remove this puzzle
+ *  @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a>
+ *  for details
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -157,6 +164,16 @@ final class MkSearch implements Search {
                 }
             }
         );
+    }
+
+    @Override
+    @NotNull(message = "iterable of contents is never NULL")
+    public Iterable<Content> codes(
+        @NotNull(message = "keywords shouldn't be NULL") final String keywords,
+        @NotNull(message = "sort shouldn't be NULL") final String sort,
+        @NotNull(message = "order shouldn't be NULL") final String order
+    ) throws IOException {
+        throw new NotImplementedException("MkSearch#contents");
     }
 
 }

@@ -96,7 +96,7 @@ public final class RtTagITCase {
         final String object = "object";
         final String message = "message";
         final String content = "initial version";
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final String tag = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final References refs = repo.git().references();
