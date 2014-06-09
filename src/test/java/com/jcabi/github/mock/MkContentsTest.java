@@ -35,14 +35,11 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -182,39 +179,27 @@ public final class MkContentsTest {
     /**
      * MkContents should be able to update a file.
      * @throws Exception - if anything goes wrong.
-     * @todo #444 Methods create() in MkContents and json() in MkContent
-     *  should be implemented in order for this test to work.
      */
     @Test
-    @Ignore
     public void updatesFile() throws Exception {
-        final String username = "jeff";
         final String path = "file.txt";
         final String message = "content message";
-        final String initial = "abcdef";
-        final String update = "test update content";
+        final String initial = "initial text";
+        final String updated = "updated text";
         final String cont = "content";
         final Contents contents = MkContentsTest.repo().contents();
-        final ConcurrentMap<String, String> commiter =
-            new ConcurrentHashMap<String, String>();
-        commiter.put("login", username);
-        final ConcurrentMap<String, String> author =
-            new ConcurrentHashMap<String, String>();
-        author.put("login", username);
-        final JsonObject content = MkContentsTest
-            .content(path, "theMessage", "blah")
-            .build();
         MatcherAssert.assertThat(
-            content.getString(cont),
+            contents.create(
+                MkContentsTest.content(path, message, initial).build()
+            ).json().getString(cont),
             Matchers.is(initial)
         );
-        final JsonObject jsonPatch = MkContentsTest
-            .content(path, message, update)
-            .build();
-        contents.update(path, jsonPatch);
+        contents.update(
+            path, MkContentsTest.content(path, message, updated).build()
+        );
         MatcherAssert.assertThat(
-            content.getString(cont),
-            Matchers.is(update)
+            contents.get(path, "master").json().getString(cont),
+            Matchers.is(updated)
         );
     }
 
