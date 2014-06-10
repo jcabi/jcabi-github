@@ -107,10 +107,8 @@ final class MkContents implements Contents {
     @Override
     @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
-        // @checkstyle MultipleStringLiterals (2 lines)
-        return new MkContent(
-            this.storage, this.self, this.coords, "README.md", "master"
-        );
+        // @checkstyle MultipleStringLiterals (1 line)
+        return this.readme("master");
     }
 
     @Override
