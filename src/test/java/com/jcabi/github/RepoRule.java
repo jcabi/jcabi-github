@@ -71,8 +71,7 @@ public final class RepoRule implements TestRule {
                     Json.createObjectBuilder()
                         .add(
                             "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-                        )
-                        .build()
+                        ).add("auto_init", true).build()
                 );
             } catch (final AssertionError exception) {
             }

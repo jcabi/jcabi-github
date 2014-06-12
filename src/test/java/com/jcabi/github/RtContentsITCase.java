@@ -37,6 +37,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,13 +51,20 @@ import org.junit.Test;
 public final class RtContentsITCase {
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RepoRule rule = new RepoRule();
+
+    /**
      * RtContents can fetch readme file.
      * @throws Exception If some problem inside
      */
     @Test
     public void canFetchReadmeFiles() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = RtContentsITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
                 repos.get(repo.coordinates()).contents().readme().path(),
@@ -74,7 +82,7 @@ public final class RtContentsITCase {
     @Test
     public void canUpdateFileContent() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = RtContentsITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "commit message";
         final String text = "new content";
@@ -118,7 +126,7 @@ public final class RtContentsITCase {
     @Test(expected = AssertionError.class)
     public void throwsWhenTryingToGetAnAbsentContent() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = RtContentsITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "commit message";
         try {
@@ -150,7 +158,7 @@ public final class RtContentsITCase {
     @Test
     public void canCreateFileContent() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = RtContentsITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             MatcherAssert.assertThat(
@@ -175,7 +183,7 @@ public final class RtContentsITCase {
     @Test
     public void getContent() throws Exception {
         final Repos repos = github().repos();
-        final Repo repo = RtContentsITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String message = String.format("testMessage");
@@ -217,21 +225,6 @@ public final class RtContentsITCase {
             .add("content", cont)
             .add("ref", "master")
             .build();
-    }
-
-    /**
-     * Create and return repo to test.
-     *
-     * @param repos Repos
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo(final Repos repos) throws Exception {
-        return repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
     }
 
     /**
