@@ -160,12 +160,12 @@ public final class RtContentsTest {
         );
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.get(path, "master")
+                contents.get(path, "branch1")
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents/test/file")
+                Matchers.endsWith("/repos/test/contents/contents/test/file?ref=branch1")
             );
             MatcherAssert.assertThat(
                 smart.path(),
@@ -181,7 +181,7 @@ public final class RtContentsTest {
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents/test/file")
+                Matchers.endsWith("/repos/test/contents/contents/test/file?ref=branch1")
             );
         } finally {
             container.stop();

@@ -171,15 +171,10 @@ final class RtContents implements Contents {
         @NotNull(message = "ref can't be NULL") final String ref
     )
         throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("path", path)
-            .add("ref", ref)
-            .build();
         return new RtContent(
-            this.entry, this.owner,
+            this.entry.uri().queryParam("ref", ref).back(), this.owner,
             this.request.method(Request.GET)
-                .uri().path(path).back()
-                .body().set(json).back()
+                .uri().path(path).queryParam("ref", ref).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
