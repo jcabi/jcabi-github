@@ -108,7 +108,6 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkUserIsNotAssigneeForRepo() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
