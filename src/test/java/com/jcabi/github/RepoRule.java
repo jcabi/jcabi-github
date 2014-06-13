@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.log.Logger;
 import java.io.IOException;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -61,7 +62,6 @@ public final class RepoRule implements TestRule {
      * @param repos Repos
      * @return Repo
      * @throws IOException If error occurred.
-     * @checkstyle EmptyBlockCheck (15 lines)
      */
     public Repo repo(final Repos repos) throws IOException {
         Repo repo = null;
@@ -74,6 +74,10 @@ public final class RepoRule implements TestRule {
                         ).add("auto_init", true).build()
                 );
             } catch (final AssertionError exception) {
+                Logger.warn(
+                    this, "Create repository failed. Message: %s",
+                    exception.getMessage()
+                );
             }
         }
         return repo;
