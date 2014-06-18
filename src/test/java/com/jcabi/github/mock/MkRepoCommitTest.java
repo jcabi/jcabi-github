@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,6 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -88,11 +87,8 @@ public final class MkRepoCommitTest {
      * MkRepoCommit should be able to compare different instances.
      *
      * @throws Exception when a problem occurs.
-     * @todo #166 The method compareTo() is not implemented
-     *  Remove todo after implementing it.
      */
     @Test
-    @Ignore
     public void canCompareInstances() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repoa = new MkRepo(

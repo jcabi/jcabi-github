@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -121,7 +121,7 @@ final class MkGit implements Git {
     public References references() {
         try {
             return new MkReferences(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -131,7 +131,7 @@ final class MkGit implements Git {
     public Tags tags() {
         try {
             return new MkTags(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }

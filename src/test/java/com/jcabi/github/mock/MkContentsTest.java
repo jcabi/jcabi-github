@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,14 +35,11 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -51,17 +48,12 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #524 MkContents should be able to handle branches.
- *  In a request for file update or create you may specify a branch.
- *  Also, a branch might be specified in a reading request.
- *  So, if you changed some file in branch-1, you shouldn't get these
- *  changes in the master branch, only in branch-1.
- *  Implementation of create, update and get methods of MkContents
- *  should be changed.
- *  See
- *  http://developer.github.com/v3/repos/contents/#update-a-file for details
+ * @todo #590 MkContents can now create and get files from non-default branches.
+ *  However, the same functionality has not been implemented yet for the
+ *  update() and remove() methods. Let's fix it. See
+ *  http://developer.github.com/v3/repos/contents for details
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
 public final class MkContentsTest {
     /**
      * MkContents can fetch the default branch readme file.
@@ -70,24 +62,35 @@ public final class MkContentsTest {
     @Test
     public void canFetchReadmeFile() throws Exception {
         final Contents contents = MkContentsTest.repo().contents();
+        final String body = "Readme On Master";
+        // @checkstyle MultipleStringLiterals (6 lines)
+        contents.create(
+            content("README.md", "readme on master", body).build()
+        );
         MatcherAssert.assertThat(
-            contents.readme(),
-            Matchers.notNullValue()
+            contents.readme().json().getString("content"),
+            Matchers.is(body)
         );
     }
 
     /**
-     * MkContents should be able to create new files.
+     * MkContents should be able to fetch readme from a branch.
      *
      * @throws Exception if some problem inside
      */
     @Test
     public void canFetchReadmeFromBranch() throws Exception {
-        final String branch = "master";
+        final String branch = "branch-1";
         final Contents contents = MkContentsTest.repo().contents();
+        final String body = "Readme On Branch";
+        contents.create(
+            content("README.md", "readme on branch", body)
+                .add("ref", branch)
+                .build()
+        );
         MatcherAssert.assertThat(
-            contents.readme(branch),
-            Matchers.notNullValue()
+            contents.readme(branch).json().getString("content"),
+            Matchers.is(body)
         );
     }
 
@@ -100,7 +103,7 @@ public final class MkContentsTest {
     public void canCreateFile() throws Exception {
         final String path = "file.txt";
         final Content.Smart content = new Content.Smart(
-            createFile(MkContentsTest.repo(), path)
+            this.createFile(MkContentsTest.repo(), path)
         );
         MatcherAssert.assertThat(
             content.path(),
@@ -122,9 +125,33 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
     public void canCreateFileInSomeBranch() throws Exception {
-        //To be implemented.
+        final String path = "file-in-branch.txt";
+        final String branch = "branch-2";
+        final String body = "some file";
+        final Content.Smart content = new Content.Smart(
+            MkContentsTest.repo().contents().create(
+                content(path, "some file", body)
+                    .add("ref", branch)
+                    .build()
+            )
+        );
+        MatcherAssert.assertThat(
+            content.path(),
+            Matchers.is(path)
+        );
+        MatcherAssert.assertThat(
+            content.name(),
+            Matchers.is(path)
+        );
+        MatcherAssert.assertThat(
+            content.sha(),
+            Matchers.not(Matchers.isEmptyOrNullString())
+        );
+        MatcherAssert.assertThat(
+            content.content(),
+            Matchers.is(body)
+        );
     }
 
     /**
@@ -152,39 +179,27 @@ public final class MkContentsTest {
     /**
      * MkContents should be able to update a file.
      * @throws Exception - if anything goes wrong.
-     * @todo #444 Methods create() in MkContents and json() in MkContent
-     *  should be implemented in order for this test to work.
      */
     @Test
-    @Ignore
     public void updatesFile() throws Exception {
-        final String username = "jeff";
         final String path = "file.txt";
         final String message = "content message";
-        final String initial = "abcdef";
-        final String update = "test update content";
+        final String initial = "initial text";
+        final String updated = "updated text";
         final String cont = "content";
         final Contents contents = MkContentsTest.repo().contents();
-        final ConcurrentMap<String, String> commiter =
-            new ConcurrentHashMap<String, String>();
-        commiter.put("login", username);
-        final ConcurrentMap<String, String> author =
-            new ConcurrentHashMap<String, String>();
-        author.put("login", username);
-        final JsonObject content = MkContentsTest
-            .content(path, "theMessage", "blah")
-            .build();
         MatcherAssert.assertThat(
-            content.getString(cont),
+            contents.create(
+                MkContentsTest.content(path, message, initial).build()
+            ).json().getString(cont),
             Matchers.is(initial)
         );
-        final JsonObject jsonPatch = MkContentsTest
-            .content(path, message, update)
-            .build();
-        contents.update(path, jsonPatch);
+        contents.update(
+            path, MkContentsTest.content(path, message, updated).build()
+        );
         MatcherAssert.assertThat(
-            content.getString(cont),
-            Matchers.is(update)
+            contents.get(path, "master").json().getString(cont),
+            Matchers.is(updated)
         );
     }
 
@@ -223,6 +238,77 @@ public final class MkContentsTest {
             storage.xml().nodes(xpath),
             Matchers.<XML>iterableWithSize(2)
         );
+    }
+
+    /**
+     * MkContents can update an content.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void updateContent() throws Exception {
+        final String path = "content-to-update.txt";
+        final String message = "commit message";
+        final String initial = "Hello World!";
+        final String updated = "update content";
+        final String branch = "master";
+        final Contents contents = MkContentsTest.repo().contents();
+        final JsonObject content = MkContentsTest
+            .content(path, message, initial)
+            .add("ref", branch)
+            .build();
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.create(content)).content(),
+            Matchers.is(initial)
+        );
+        final JsonObject jsonPatch = MkContentsTest
+            .content(path, message, updated)
+            .add("ref", branch)
+            .build();
+        contents.update(path, jsonPatch);
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.get(path, branch)).content(),
+            Matchers.is(updated)
+        );
+    }
+
+    /**
+     * Tests if MkContents is iterable by path.
+     * @throws IOException if any error occurs.
+     */
+    @Test
+    public void canIterate() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = repo(storage);
+        final Content[] correct = this.addContent(
+            repo, "foo/bar/1", "foo/bar/2"
+        );
+        this.addContent(repo, "foo/baz", "foo/boo");
+        MatcherAssert.assertThat(
+            repo.contents().iterate("foo/bar", "ref-1"),
+            Matchers.contains(correct)
+        );
+    }
+
+    /**
+     * Adds colection of test content items.
+     * @param repo The repo.
+     * @param paths Test items to be created inside the repo.
+     * @return Iterable with created items.
+     * @throws IOException If any I/O error occurs.
+     */
+    private Content[] addContent(final Repo repo,
+        final String... paths) throws IOException {
+        final Content[] result = new Content[paths.length];
+        int index = 0;
+        for (final String path : paths) {
+            result[index] = repo.contents().create(
+                Json.createObjectBuilder().add("ref", "ref-1")
+                    .add("path", path).add("content", path)
+                    .add("message", "msg").build()
+            );
+            index += 1;
+        }
+        return result;
     }
 
     /**
@@ -308,4 +394,5 @@ public final class MkContentsTest {
             Json.createObjectBuilder().add("name", login).build()
         );
     }
+
 }

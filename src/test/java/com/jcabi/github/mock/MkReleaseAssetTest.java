@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,11 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import javax.json.Json;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -173,6 +177,30 @@ public final class MkReleaseAssetTest {
             asset.json().getString(attribute),
             Matchers.is(patched)
         );
+    }
+
+    /**
+     * MkReleaseAsset should be able to fetch its raw representation.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void fetchesRawRepresentation() throws Exception {
+        final String fetch = "fetch";
+        final ReleaseAssets assets = release().assets();
+        final ReleaseAsset asset = assets.upload(
+            fetch.getBytes(), "text/plain", "raw.txt"
+        );
+        final InputStream raw = new ByteArrayInputStream(
+            DatatypeConverter.parseBase64Binary(
+                fetch
+            )
+        );
+        MatcherAssert.assertThat(
+            IOUtils.toString(asset.raw()),
+            Matchers.is(IOUtils.toString(raw))
+        );
+        asset.remove();
     }
 
     /**

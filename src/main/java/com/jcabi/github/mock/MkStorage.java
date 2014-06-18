@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -50,6 +51,7 @@ import org.xembly.Xembler;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 public interface MkStorage {
@@ -57,7 +59,8 @@ public interface MkStorage {
     /**
      * Get full XML.
      * @return XML
-     * @throws IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem, or if the current
+     *  storage is locked by another thread.
      */
     @NotNull(message = "xml is never NULL")
     XML xml() throws IOException;
@@ -65,20 +68,36 @@ public interface MkStorage {
     /**
      * Update XML with this directives.
      * @param dirs Directives
-     * @throws IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem, or if the current
+     *  storage is locked by another thread.
      */
     void apply(
         @NotNull(message = "dirs can't be NULL") Iterable<Directive> dirs
     ) throws IOException;
 
     /**
-     * Lock storage.
+     * Locks storage to the current thread.
+     *
+     * <p>If the lock is available, grant it
+     * to the calling thread and block all operations from other threads.
+     * If not available, wait for the holder of the lock to release it with
+     * {@link #unlock()} before any other operations can be performed.
+     *
+     * <p>Locking behavior is reentrant, which means a thread can invoke
+     * {@link #lock()} multiple times, where a hold count is maintained.
      * @throws IOException If there is any I/O problem
      */
     void lock() throws IOException;
 
     /**
      * Unlock storage.
+     *
+     * <p>Locking behavior is reentrant, thus if the thread invoked
+     * {@link #lock()} multiple times, the hold count is decremented. If the
+     * hold count reaches 0, the lock is released.
+     *
+     * <p>If the current thread does not hold the lock, an
+     * {@link IllegalMonitorStateException} will be thrown.
      * @throws IOException If there is any I/O problem
      */
     void unlock() throws IOException;
@@ -121,22 +140,40 @@ public interface MkStorage {
         public String toString() {
             try {
                 return this.xml().toString();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 throw new IllegalStateException(ex);
             }
         }
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            return new XMLDocument(
-                FileUtils.readFileToString(new File(this.name), Charsets.UTF_8)
-            );
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
+                throw new ConcurrentModificationException(
+                    "lock should be taken before method call"
+                );
+            }
+            this.lock.lock();
+            try {
+                return new XMLDocument(
+                    FileUtils.readFileToString(
+                        new File(this.name), Charsets.UTF_8
+                    )
+                );
+            } finally {
+                this.lock.unlock();
+            }
         }
         @Override
         public void apply(
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
+                throw new ConcurrentModificationException(
+                    "lock should be taken before method call"
+                );
+            }
+            this.lock.lock();
             try {
                 FileUtils.write(
                     new File(this.name),
@@ -145,8 +182,10 @@ public interface MkStorage {
                     ).toString(),
                     Charsets.UTF_8
                 );
-            } catch (ImpossibleModificationException ex) {
+            } catch (final ImpossibleModificationException ex) {
                 throw new IllegalArgumentException(ex);
+            } finally {
+                this.lock.unlock();
             }
         }
         @Override

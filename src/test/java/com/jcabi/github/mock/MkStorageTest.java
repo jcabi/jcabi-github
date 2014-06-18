@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -44,6 +46,7 @@ import org.xembly.Directives;
  * Test case for {@link MkStorage}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.DoNotUseThreads")
 public final class MkStorageTest {
@@ -55,13 +58,19 @@ public final class MkStorageTest {
     @Test
     public void readsAndWrites() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
-        storage.apply(
-            new Directives().xpath("/github").add("test").set("hello, world")
-        );
-        MatcherAssert.assertThat(
-            storage.xml().xpath("/github/test/text()").get(0),
-            Matchers.endsWith(", world")
-        );
+        storage.lock();
+        try {
+            storage.apply(
+                new Directives().xpath("/github").add("test")
+                    .set("hello, world")
+            );
+            MatcherAssert.assertThat(
+                storage.xml().xpath("/github/test/text()").get(0),
+                Matchers.endsWith(", world")
+            );
+        } finally {
+            storage.unlock();
+        }
     }
 
     /**
@@ -77,7 +86,7 @@ public final class MkStorageTest {
             public void run() {
                 try {
                     storage.lock();
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     throw new IllegalStateException(ex);
                 }
             }
@@ -87,7 +96,7 @@ public final class MkStorageTest {
         try {
             future.get(1, TimeUnit.SECONDS);
             MatcherAssert.assertThat("timeout SHOULD happen", false);
-        } catch (TimeoutException ex) {
+        } catch (final TimeoutException ex) {
             future.cancel(true);
         } finally {
             storage.unlock();
@@ -95,11 +104,35 @@ public final class MkStorageTest {
         future = executor.submit(second);
         try {
             future.get(1, TimeUnit.SECONDS);
-        } catch (TimeoutException ex) {
+        } catch (final TimeoutException ex) {
             MatcherAssert.assertThat("timeout SHOULD NOT happen", false);
             future.cancel(true);
         }
         executor.shutdown();
+    }
+
+    /**
+     * MkStorage should require lock on document reading.
+     * @todo #745:30min Update 2 tests to check behaviour in multi-threading
+     *  environment. Remove this comment and @Ignore annotation.
+     * @throws Exception If some problem inside
+     */
+    @Test(expected = ConcurrentModificationException.class)
+    @Ignore
+    public void xmlRequiresLock() throws Exception {
+        new MkStorage.InFile().xml();
+    }
+
+    /**
+     * MkStorage should require lock on document change.
+     * @throws Exception If some problem inside
+     */
+    @Test(expected = ConcurrentModificationException.class)
+    @Ignore
+    public void applyRequiresLock() throws Exception {
+        new MkStorage.InFile().apply(
+            new Directives().xpath("/github").add("test").set("hello, world")
+        );
     }
 
 }

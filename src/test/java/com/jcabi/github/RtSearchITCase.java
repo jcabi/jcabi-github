@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,9 +29,13 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import java.util.Iterator;
+import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -53,6 +57,27 @@ public final class RtSearchITCase {
         MatcherAssert.assertThat(
             RtSearchITCase.github().search().repos("repo", "stars", "desc"),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
+        );
+    }
+
+    /**
+     * RtSearch can fetch multiple pages of a large result (more than 25 items).
+     *
+     * @throws Exception if a problem occurs
+     */
+    @Test
+    public void canFetchMultiplePages() throws Exception {
+        final Iterator<Repo> iter = RtSearchITCase.github().search().repos(
+            "java", "", ""
+        ).iterator();
+        int count = 0;
+        while (iter.hasNext() && count < Tv.HUNDRED) {
+            iter.next();
+            count += 1;
+        }
+        MatcherAssert.assertThat(
+            count,
+            Matchers.greaterThanOrEqualTo(Tv.HUNDRED)
         );
     }
 
@@ -79,6 +104,22 @@ public final class RtSearchITCase {
         MatcherAssert.assertThat(
             RtSearchITCase.github().search().users("jcabi", "joined", "desc"),
             Matchers.not(Matchers.emptyIterableOf(User.class))
+        );
+    }
+
+    /**
+     * RtSearch can search for contents.
+     *
+     * @throws Exception if a problem occurs
+     * @todo #217 RtSearchITCase.canSearchForContents() is missing.
+     *  Let's implement it and remove this puzzle
+     *  @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a>
+     *  for details
+     */
+    @Ignore
+    public void canSearchForContents() throws Exception {
+        throw new NotImplementedException(
+            "RtSearchITCase#canSearchForContents"
         );
     }
 

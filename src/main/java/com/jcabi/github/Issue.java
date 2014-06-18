@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
 public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
@@ -290,7 +290,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("created_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
@@ -305,7 +305,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 return new Github.Time(
                     this.jsn.text("updated_at")
                 ).date();
-            } catch (ParseException ex) {
+            } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }

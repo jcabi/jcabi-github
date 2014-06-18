@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,10 +29,12 @@
  */
 package com.jcabi.github;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.KeyPair;
+import java.io.ByteArrayOutputStream;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -40,10 +42,6 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @todo #1 RtPublicKeysITCase is disabled since it doesn't work
- *  with real Github account. The problem is that guthub can't remove
- *  keys properly, so we forced to generate valid key each new run
- *  Let's fix it and remove all Ignore annotations from all its methods.
  */
 public class RtPublicKeysITCase {
 
@@ -53,10 +51,9 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void retrievesKeys() throws Exception {
         final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("key", "ssh 1AA");
+        final PublicKey key = keys.create("key", this.key());
         MatcherAssert.assertThat(
             keys.iterate(),
             Matchers.hasItem(key)
@@ -65,25 +62,14 @@ public class RtPublicKeysITCase {
     }
 
     /**
-     * Create and return PublicKeys object to test.
-     * @return PublicKeys
-     */
-    private PublicKeys keys() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).users().self().keys();
-    }
-
-    /**
      * RtPublicKeys should be able to retrieve a single key.
      *
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void retrievesSingleKey() throws Exception {
         final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("Title", "Key");
+        final PublicKey key = keys.create("Title", this.key());
         MatcherAssert.assertThat(
             keys.get(key.number()),
             Matchers.equalTo(key)
@@ -97,10 +83,9 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("", "");
+        final PublicKey key = keys.create("", this.key());
         MatcherAssert.assertThat(
             keys.iterate() ,
             Matchers.hasItem(key)
@@ -118,11 +103,10 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    @Ignore
     public final void createsKey() throws Exception {
         final PublicKeys keys = this.keys();
         // @checkstyle LineLength (1 line)
-        final PublicKey key = keys.create("rsa", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS+TF7+bae4UKj6nec1oipiP9Ysc6mBPszB80z13tMZBlsPCOiLVAMO2ER/wpnKHd/VylmYr5c6wc3kSj88846VHUhQDN7fLd/km06KTdW4+9db7HBfvr0063eDdi1lg8jlnccegeeqKsG39+iVQban7ugcPyJtjQE9k7JjYBT+SOgupWkYPVO+5Z3xF6VJL8gUTIMgoovgTabFx60t5h5UPtNaGbdcSlHhLOlWn8I7tHvwbYdhZVqlCC450rieXo8PpjndG3crcuHPZPDVSSXyqRpguIxVEVjXd3B/0vrhXJQJC4u0ukOOytLNL6Gzz3oK7SIB0mqWJ4Mo0Wp+zeX jac.wshmstr@gmail.com");
+        final PublicKey key = keys.create("rsa", this.key());
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
@@ -141,6 +125,33 @@ public class RtPublicKeysITCase {
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );
+    }
+
+    /**
+     * Generates a random public key for test.
+     * @return The encoded SSH public key.
+     * @throws Exception If a problem occurs.
+     */
+    private String key() throws Exception {
+        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        try {
+            final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
+            kpair.writePublicKey(stream, "");
+            kpair.dispose();
+        } finally {
+            stream.close();
+        }
+        return new String(stream.toByteArray());
+    }
+
+    /**
+     * Create and return PublicKeys object to test.
+     * @return PublicKeys
+     */
+    private PublicKeys keys() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        return new RtGithub(key).users().self().keys();
     }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -88,7 +88,7 @@ final class MkIterable<T> implements Iterable<T> {
         final Iterator<XML> nodes;
         try {
             nodes = this.storage.xml().nodes(this.xpath).iterator();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
         return new Iterator<T>() {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -101,7 +101,6 @@ final class RtGit implements Git {
     @Override
     @NotNull(message = "trees can't be NULL")
     public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
+        return new RtTrees(this.entry, this.repo());
     }
-
 }

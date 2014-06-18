@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -50,4 +52,31 @@ public interface Trees {
     @NotNull(message = "repository is never NULL")
     Repo repo();
 
+    /**
+     * Get specific tree by sha.
+     * @param sha Tree sha
+     * @return Tree
+     * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
+     */
+    @NotNull(message = "tree is never NULL")
+    Tree get(@NotNull(message = "sha can't be null") String sha);
+
+    /**
+     * Get specific tree recursively by sha.
+     * @param sha Tree sha
+     * @return Tree
+     * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
+     */
+    @NotNull(message = "tree is never NULL")
+    Tree getRec(@NotNull(message = "sha can't be null") String sha);
+    /**
+     * Create new tree.
+     * @param params Parameters to create new tree
+     * @return Tree
+     * @throws java.io.IOException If there is any I/O problem
+     */
+    @NotNull(message = "Tree is never NULL")
+    Tree create(
+        @NotNull(message = "params can't be null") JsonObject params)
+        throws IOException;
 }

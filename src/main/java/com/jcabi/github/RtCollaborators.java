@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,16 +33,16 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Implementation of Collaborators.
- * @todo #371 Implement isCollaborator, add and remove methods.
- *  They should be implemented as described at
- *  http://developer.github.com/v3/repos/collaborators/
- *  Tests as com.jcabi.github.RtCollaboratorsTest should be also implemented.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  * @since 0.8
@@ -93,21 +93,42 @@ final class RtCollaborators implements Collaborators {
 
     @Override
     public boolean isCollaborator(
-        @NotNull(message = "User is never null") final String user) {
-        throw new UnsupportedOperationException();
+        @NotNull(message = "User is never null") final String user)
+        throws IOException {
+        return this.request
+            .method(Request.GET)
+            .uri().path(user).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+                )
+            ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override
     public void add(
-        @NotNull(message = "User is never null") final String user) {
-        throw new UnsupportedOperationException();
+        @NotNull(message = "User is never null") final String user)
+        throws IOException {
+        this.request.method(Request.PUT)
+            .uri().path(user).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
     public void remove(
         @NotNull(message = "user is never NULL") final String user
-    ) {
-        throw new UnsupportedOperationException();
+    )
+        throws IOException {
+        this.request.method(Request.DELETE)
+            .uri().path(user).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override

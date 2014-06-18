@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -110,11 +110,11 @@ public final class Smarts<T> implements Iterable<T> {
     private static <X> X wrap(final Object object) {
         try {
             return (X) Smarts.type(object).newInstance(object);
-        } catch (InvocationTargetException ex) {
+        } catch (final InvocationTargetException ex) {
             throw new IllegalStateException(ex);
-        } catch (InstantiationException ex) {
+        } catch (final InstantiationException ex) {
             throw new IllegalStateException(ex);
-        } catch (IllegalAccessException ex) {
+        } catch (final IllegalAccessException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -130,9 +130,9 @@ public final class Smarts<T> implements Iterable<T> {
                 return Class.forName(
                     String.format("%s$Smart", iface.getName())
                 ).getDeclaredConstructor(iface);
-            } catch (ClassNotFoundException ex) {
+            } catch (final ClassNotFoundException ex) {
                 Logger.debug(Smarts.class, "%s: %s", iface.getName(), ex);
-            } catch (NoSuchMethodException ex) {
+            } catch (final NoSuchMethodException ex) {
                 throw new IllegalStateException(ex);
             }
         }

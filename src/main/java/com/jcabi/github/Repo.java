@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ import lombok.ToString;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Repo extends JsonReadable, JsonPatchable {
+public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get its owner.
@@ -298,6 +298,11 @@ public interface Repo extends JsonReadable, JsonPatchable {
         @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.repo.json();
+        }
+
+        @Override
+        public int compareTo(final Repo repos) {
+            return this.repo.compareTo(repos);
         }
     }
 

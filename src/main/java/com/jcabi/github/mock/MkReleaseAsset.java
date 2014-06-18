@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,10 +34,12 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -147,8 +149,6 @@ final class MkReleaseAsset implements ReleaseAsset {
     /**
      * Get raw release asset content.
      *
-     * @todo #282 Implement MkReleaseAsset method to retrieve raw release
-     *  asset content. When done remove this puzzle.
      * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
      * @return Stream with content
      * @throws IOException If some problem inside.
@@ -156,7 +156,13 @@ final class MkReleaseAsset implements ReleaseAsset {
     @Override
     @NotNull(message = "Input stream is never NULL")
     public InputStream raw() throws IOException {
-        throw new UnsupportedOperationException("Raw not yet implemented.");
+        return new ByteArrayInputStream(
+            DatatypeConverter.parseBase64Binary(
+                this.storage.xml().xpath(
+                    String.format("%s/content/text()", this.xpath())
+                ).get(0)
+            )
+        );
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ public final class IssueLabelsTest {
             new IssueLabels.Smart(labels).findByColor("c0c0c0"),
             Matchers.allOf(
                 Matchers.<Label>iterableWithSize(1),
-                Matchers.hasItem(first)
+                Matchers.hasItems(first)
             )
         );
     }

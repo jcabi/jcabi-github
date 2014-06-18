@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.PublicKey;
 import javax.json.Json;
 import javax.json.JsonObject;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -82,17 +81,16 @@ public final class MkPublicKeyTest {
      */
     @Test
     public void canBePatched() throws Exception {
-        final String title = RandomStringUtils.random(10);
-        final String original = RandomStringUtils.random(10);
+        final String original = "PublicKey2";
         final PublicKey key = new MkGithub().users().get("jeff")
-            .keys().create(title, original);
-        final String patch = String.format("%s_patch", original);
+            .keys().create("Title2", original);
+        final String patched = String.format("%s_patch", original);
         key.patch(
-            Json.createObjectBuilder().add(KEY, patch).build()
+            Json.createObjectBuilder().add(KEY, patched).build()
         );
         MatcherAssert.assertThat(
             key.json().getString(KEY),
-            Matchers.equalTo(patch)
+            Matchers.equalTo(patched)
         );
     }
 

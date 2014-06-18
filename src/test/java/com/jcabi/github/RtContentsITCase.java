@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
 
     /**
@@ -78,7 +79,7 @@ public final class RtContentsITCase {
         final String message = "commit message";
         final String text = "new content";
         try {
-            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -121,7 +122,7 @@ public final class RtContentsITCase {
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "commit message";
         try {
-            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -151,7 +152,7 @@ public final class RtContentsITCase {
         final Repos repos = github().repos();
         final Repo repo = RtContentsITCase.repo(repos);
         try {
-            final String path = RandomStringUtils.randomAlphabetic(Tv.TEN);
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             MatcherAssert.assertThat(
                 repos.get(repo.coordinates()).contents().create(
                     this.jsonObject(
@@ -214,6 +215,7 @@ public final class RtContentsITCase {
             .add("path", path)
             .add("message", message)
             .add("content", cont)
+            .add("ref", "master")
             .build();
     }
 

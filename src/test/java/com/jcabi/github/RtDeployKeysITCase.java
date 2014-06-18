@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ import java.io.ByteArrayOutputStream;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -49,14 +48,8 @@ public final class RtDeployKeysITCase {
     /**
      * RtDeployKeys can iterate deploy keys.
      * @throws Exception If some problem inside
-     * @todo #224 RtDeployKeysITCase#canFetchAllDeployKeys() is ignored because
-     *  at the moment, {@link RtDeployKeys#iterate()} is not fully implemented
-     *  and only returns empty iterators. Once {@link RtDeployKeys#iterate()}
-     *  has been implemented, remove the Ignore annotation here to enable the
-     *  integration test. Revise this test method if necessary.
      */
     @Test
-    @Ignore
     public void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = repo().keys();
         final String title = "Test Iterate Key";
@@ -64,7 +57,7 @@ public final class RtDeployKeysITCase {
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
-                Matchers.contains(key)
+                Matchers.hasItem(key)
             );
         } finally {
             key.remove();

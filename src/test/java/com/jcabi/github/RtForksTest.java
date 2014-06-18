@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,7 +81,7 @@ public final class RtForksTest {
      */
     @Test
     public void createsFork() throws Exception {
-        final String organization = RandomStringUtils.randomNumeric(10);
+        final String organization = RandomStringUtils.randomAlphanumeric(10);
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             fork(organization).toString()

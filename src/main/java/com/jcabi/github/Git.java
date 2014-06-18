@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -97,19 +97,11 @@ public interface Git {
      * Get its trees.
      * @return Trees
      * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
-     * @todo #115:1hr Implement the Git Data Trees API. We need to
-     *  implement the following:
-     *  1) Add the operations in http://developer.github.com/v3/git/trees/
-     *  to the Trees interface.
-     *  2) A class RtTrees, which performs RESTful request operations
-     *  against the Trees API.
-     *  3) A class MkTrees, which mocks the Trees interface.
-     *  4) An interface Tag, which represents a single Tag of the
-     *  Git Data API.
-     *  5) RtTrees, a Tag implementation which fetches and modifies
-     *  Tag information according to the Trees API, and
-     *  6) MkTag, which mocks a single Tag object.
-     *  Don't forget to implement unit tests and integration tests.
+     * @todo #440 Implement the Git Data Trees Mock classes:
+     *  1) A class MkTrees, which mocks the Trees interface.
+     *  2) MkTree, which mocks a single Tree object.
+     *  Don't forget to implement unit tests
+     * @todo #441 Implement the Git Data Tree integration tests.
      */
     @NotNull(message = "Trees is never NULL")
     Trees trees();

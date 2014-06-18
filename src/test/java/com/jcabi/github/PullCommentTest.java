@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -71,7 +72,7 @@ public final class PullCommentTest {
     @Test
     public void fetchesId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
             Json.createObjectBuilder().add(ID, value).build()
         ).when(comment).json();
@@ -88,7 +89,7 @@ public final class PullCommentTest {
     @Test
     public void updatesId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).identifier(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(ID, value).build()
@@ -102,7 +103,7 @@ public final class PullCommentTest {
     @Test
     public void fetchesCommitId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
             Json.createObjectBuilder().add(COMMIT_ID, value).build()
         ).when(comment).json();
@@ -119,7 +120,7 @@ public final class PullCommentTest {
     @Test
     public void updatesCommitId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).commitId(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(COMMIT_ID, value).build()
@@ -133,7 +134,7 @@ public final class PullCommentTest {
     @Test
     public void fetchesUrl() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
             Json.createObjectBuilder().add(URL, value).build()
         ).when(comment).json();
@@ -150,7 +151,7 @@ public final class PullCommentTest {
     @Test
     public void updatesUrl() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).url(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(URL, value).build()
@@ -164,7 +165,7 @@ public final class PullCommentTest {
     @Test
     public void fetchesBody() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
             Json.createObjectBuilder().add(BODY, value).build()
         ).when(comment).json();
@@ -181,7 +182,7 @@ public final class PullCommentTest {
     @Test
     public void updatesBody() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomNumeric(5);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).body(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(BODY, value).build()

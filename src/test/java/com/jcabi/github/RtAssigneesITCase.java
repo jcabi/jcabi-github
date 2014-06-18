@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ public final class RtAssigneesITCase {
         MatcherAssert.assertThat(
             RtAssigneesITCase.repo()
                 .assignees()
-                .check(RandomStringUtils.randomAlphabetic(Tv.TEN)),
+                .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),
             Matchers.is(false)
         );
     }

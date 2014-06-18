@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -123,7 +123,7 @@ final class MkIssue implements Issue {
             return new MkComments(
                 this.storage, this.self, this.coords, this.num
             );
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
@@ -135,7 +135,7 @@ final class MkIssue implements Issue {
             return new MkIssueLabels(
                 this.storage, this.self, this.coords, this.num
             );
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, JCabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -49,7 +50,7 @@ import org.mockito.Mockito;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (350 lines)
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -342,6 +343,40 @@ public final class RtContentsTest {
             MatcherAssert.assertThat(
                 query.body(),
                 Matchers.equalTo(json.toString())
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtContents can iterate through a directory's contents.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void canIterateDirectoryContents() throws Exception {
+        final JsonArray body = Json.createArrayBuilder().add(
+            Json.createObjectBuilder()
+                .add("path", "README.md")
+                .build()
+        ).add(
+            Json.createObjectBuilder()
+                .add("path", ".gitignore")
+                .build()
+        ).build();
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
+        ).next(new MkAnswer.Simple("{\"path\":\"README.md\"}"))
+            .next(new MkAnswer.Simple("{\"path\":\".gitignore\"}"))
+            .start();
+        final RtContents contents = new RtContents(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                contents.iterate("dir", "branch2"),
+                Matchers.<Content>iterableWithSize(2)
             );
         } finally {
             container.stop();
