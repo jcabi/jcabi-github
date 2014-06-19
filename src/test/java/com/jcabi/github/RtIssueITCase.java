@@ -32,6 +32,7 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -116,9 +117,12 @@ public final class RtIssueITCase {
 
     /**
      * RtIssue can fetch assignee.
+     *
      * @throws Exception if any problem inside.
+     * @todo #802 RtIssueITCase.identifyAssignee() fails during Rultor build
      */
     @Test
+    @Ignore
     public void identifyAssignee() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         final String login = issue.repo().github().users().self().login();
