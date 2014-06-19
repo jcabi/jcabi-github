@@ -196,6 +196,8 @@ public final class RtContentsITCase {
                 new Content.Smart(content).content(),
                 Matchers.equalTo(String.format("%s\n", cont))
             );
+            final Content other = contents.get(path);
+            MatcherAssert.assertThat(content, Matchers.equalTo(other));
         } finally {
             repos.remove(repo.coordinates());
         }

@@ -167,6 +167,16 @@ final class MkContents implements Contents {
     }
 
     @Override
+    @NotNull(message = "retrieved content is never NULL")
+    public Content get(
+        @NotNull(message = "path can't be NULL") final String path
+    ) throws IOException {
+        return new MkContent(
+            this.storage, this.self, this.coords, path, "master"
+        );
+    }
+
+    @Override
     @NotNull(message = "Iterable of contents is never NULL")
     public Iterable<Content> iterate(final String pattern, final String ref)
         throws IOException {
