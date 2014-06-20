@@ -201,11 +201,19 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         final String path = content.getString("path");
+        // @checkstyle MultipleStringLiterals (20 lines)
+        final String branch;
         try {
+            if (content.containsKey("ref")) {
+                branch = content.getString("ref");
+            } else {
+                branch = "master";
+            }
             this.storage.apply(
                 new Directives()
                     .xpath(this.xpath())
                     .xpath(String.format("content[path='%s']", path))
+                    .attr("ref", branch)
                     .remove()
             );
             return this.commit(content);
