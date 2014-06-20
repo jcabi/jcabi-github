@@ -272,6 +272,29 @@ public final class MkContentsTest {
     }
 
     /**
+     * MkContents can get content from default branch.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void getContentFromDefaultBranch() throws Exception {
+        final String path = "content-default-branch.txt";
+        final String message = "content default branch created";
+        final String text = "I'm content of default branch";
+        final Contents contents = MkContentsTest.repo().contents();
+        final JsonObject content = MkContentsTest
+            .content(path, message, text)
+            .build();
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.create(content)).content(),
+            Matchers.is(text)
+        );
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.get(path)).content(),
+            Matchers.is(text)
+        );
+    }
+
+    /**
      * Tests if MkContents is iterable by path.
      * @throws IOException if any error occurs.
      */

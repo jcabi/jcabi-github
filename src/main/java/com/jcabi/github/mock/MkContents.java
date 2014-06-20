@@ -107,10 +107,8 @@ final class MkContents implements Contents {
     @Override
     @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
-        // @checkstyle MultipleStringLiterals (2 lines)
-        return new MkContent(
-            this.storage, this.self, this.coords, "README.md", "master"
-        );
+        // @checkstyle MultipleStringLiterals (1 line)
+        return this.readme("master");
     }
 
     @Override
@@ -164,6 +162,16 @@ final class MkContents implements Contents {
         @NotNull(message = "ref can't be NULL") final String ref
     ) throws IOException {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
+    }
+
+    @Override
+    @NotNull(message = "retrieved content is never NULL")
+    public Content get(
+        @NotNull(message = "path can't be NULL") final String path
+    ) throws IOException {
+        return new MkContent(
+            this.storage, this.self, this.coords, path, "master"
+        );
     }
 
     @Override
