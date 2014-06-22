@@ -93,4 +93,26 @@ public final class MkSearchTest {
             Matchers.not(Matchers.emptyIterable())
         );
     }
+
+    /**
+     * MkSearch can search fo content.
+     *
+     * @throws Exception Exception if any problem occurs
+     */
+    @Test
+    public void catSearchForCodes() throws Exception {
+        final MkGithub github = new MkGithub("john");
+        final Repo repo = github.repos().create(
+            Json.createObjectBuilder().add("name", "TestCodes").build()
+        );
+        repo.contents().create(Json.createObjectBuilder()
+            .add("path", "/foo/bar")
+            .add("message", "msg")
+            .add("content", "content").build()
+        );
+        MatcherAssert.assertThat(
+            github.search().codes("john", "author", "asc"),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
 }
