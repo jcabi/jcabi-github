@@ -43,7 +43,6 @@ import java.io.IOException;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock Github search.
@@ -172,8 +171,27 @@ final class MkSearch implements Search {
         @NotNull(message = "keywords shouldn't be NULL") final String keywords,
         @NotNull(message = "sort shouldn't be NULL") final String sort,
         @NotNull(message = "order shouldn't be NULL") final String order
-    ) throws IOException {
-        throw new NotImplementedException("MkSearch#contents");
+    ) {
+        return new MkIterable<Content>(
+            this.storage,
+            "/github/repos/repo/contents/content",
+            new MkIterable.Mapping<Content>() {
+                @Override
+                public Content map(final XML xml) {
+                    try {
+                        return new MkContent(
+                            MkSearch.this.storage,
+                            MkSearch.this.self,
+                            new Coordinates.Simple(MkSearch.this.self, "repo"),
+                            "/path/to/search",
+                            "master"
+                        );
+                    } catch (final IOException exception) {
+                        throw new IllegalStateException(exception);
+                    }
+                }
+            }
+        );
     }
 
 }
