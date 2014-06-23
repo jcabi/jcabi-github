@@ -237,6 +237,8 @@
                             <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
                             <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
                             <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
+                            <failsafe.github.user>${failsafe.github.user}</failsafe.github.user>
+                            <failsafe.github.password>${failsafe.github.password}</failsafe.github.password>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
