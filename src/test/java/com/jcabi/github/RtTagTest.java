@@ -69,8 +69,9 @@ public final class RtTagTest {
                 tag.json().getString("tag"),
                 Matchers.is("v.0.1")
             );
-            MatcherAssert.assertThat(container.take().uri()
-                .toString().replace(container.home().toString(), "/"),
+            MatcherAssert.assertThat(
+                container.take().uri().toString()
+                .replace(container.home().toString(), "/"),
                 Matchers.equalTo("/repos/jeff/test/git/refs/tags/abdes00test")
             );
         } finally {

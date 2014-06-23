@@ -91,8 +91,9 @@ public final class RtTagsTest {
                 queryTags.method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(queryTags.uri()
-                .toString().replace(container.home().toString(), "/"),
+            MatcherAssert.assertThat(
+                queryTags.uri().toString()
+                .replace(container.home().toString(), "/"),
                 Matchers.equalTo("/repos/jeff/test/git/refs/tags")
             );
         } finally {
