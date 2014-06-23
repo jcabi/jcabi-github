@@ -89,10 +89,6 @@ public final class RtTagsTest {
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                container.take().method(),
-                Matchers.equalTo(Request.POST)
-            );
         } finally {
             container.stop();
         }
