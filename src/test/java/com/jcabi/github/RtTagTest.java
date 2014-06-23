@@ -71,7 +71,8 @@ public final class RtTagTest {
             );
             MatcherAssert.assertThat(container.take().uri()
                 .toString().replace(container.home().toString(), "/"),
-                Matchers.equalTo("/repos/jeff/test/git/refs/tags/abdes00test"));
+                Matchers.equalTo("/repos/jeff/test/git/refs/tags/abdes00test")
+            );
         } finally {
             container.stop();
         }

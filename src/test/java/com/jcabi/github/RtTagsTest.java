@@ -86,14 +86,15 @@ public final class RtTagsTest {
                 tags.create(input),
                 Matchers.instanceOf(Tag.class)
             );
-            MkQuery queryTags = container.take();
+            final MkQuery queryTags = container.take();
             MatcherAssert.assertThat(
                 queryTags.method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(queryTags.uri()
                 .toString().replace(container.home().toString(), "/"),
-                Matchers.equalTo("/repos/jeff/test/git/refs/tags"));
+                Matchers.equalTo("/repos/jeff/test/git/refs/tags")
+            );
         } finally {
             container.stop();
         }
