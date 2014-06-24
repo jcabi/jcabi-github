@@ -38,6 +38,7 @@ import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -230,7 +231,23 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
-         * Get release name.
+         * Does this release have a name?
+         * @return Whether this release has a name
+         * @throws IOException If there is any I/O problem
+         * @todo #812 We should generalize this method in SmartJson type. Let's
+         *  implement it in a method named SmartJson.notNull(String) or
+         *  something similar, which returns true if a certain key is present
+         *  AND does not have a JsonValue of ValueType.NULL. Then let's use it
+         *  here instead of manually checking it with the release's json value.
+         */
+        public boolean hasName() throws IOException {
+            return !this.release.json().get("name")
+                .getValueType().equals(ValueType.NULL);
+        }
+
+        /**
+         * Get release name. Note that there may not be one, so make sure to
+         * check with {@link Release.Smart#hasName()} first.
          * @return Release name
          * @throws IOException If there is any I/O problem
          */
