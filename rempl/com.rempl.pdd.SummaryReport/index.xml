@@ -6,7 +6,7 @@
 <prefix>                </prefix>
 <body>Enable Cobertura profile by default. This code coverage check doesn't work due to some problem with Cobertura plugin. It always reports zero coverage for all classes. I was trying to run it without AspectJ weavling using "mvn clean install -Pcobertura -P\!aspectj", but it doesn't help. Let's fix it and enable by default.</body>
 <estimate>0</estimate>
-<lines>264-269</lines>
+<lines>266-271</lines>
 <owner>someone</owner>
 </puzzle>
 <puzzle>
