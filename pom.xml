@@ -33,7 +33,7 @@
     <parent>
         <groupId>com.jcabi</groupId>
         <artifactId>jcabi</artifactId>
-        <version>1.8</version>
+        <version>1.11</version>
     </parent>
     <artifactId>jcabi-github</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -241,23 +241,6 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>assemble-all</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
