@@ -60,7 +60,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <jersey.version>1.17.1</jersey.version>
+        <jersey.version>1.18.1</jersey.version>
         <httpcomponents.version>4.3</httpcomponents.version>
         <saxon.version>9.1.0.8</saxon.version>
     </properties>
