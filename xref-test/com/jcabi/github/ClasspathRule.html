@@ -92,53 +92,54 @@
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>                      <strong class="jxr_keyword">return</strong> !name.endsWith(<span class="jxr_string">"Test"</span>)
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>                          &amp;&amp; !name.endsWith(<span class="jxr_string">"ITCase"</span>)
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>                          &amp;&amp; !name.endsWith(<span class="jxr_string">"ClasspathRule"</span>)
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>                          &amp;&amp; (input.getEnclosingClass() == <strong class="jxr_keyword">null</strong>
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>                          || name.endsWith(<span class="jxr_string">"Smart"</span>));
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  }
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>              }
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>          );
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>      }
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>      @Override
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">public</strong> Statement apply(<strong class="jxr_keyword">final</strong> Statement statement,
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>          <strong class="jxr_keyword">final</strong> Description description) {
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Statement() {
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>              @Override
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>              <em class="jxr_comment">// @checkstyle IllegalThrowsCheck (1 line)</em>
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> evaluate() <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>                 statement.evaluate();
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>             }
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>         };
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>     }
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">     * Provides all public methods from classes in package 'com.jcabi.github'.</em>
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">     * @return Methods</em>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Method&gt; allPublicMethods() {
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>         <strong class="jxr_keyword">return</strong> Iterables.concat(
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>             Iterables.transform(
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>                 <strong class="jxr_keyword">this</strong>.allTypes(),
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>                 <strong class="jxr_keyword">new</strong> Function&lt;Class&lt;?&gt;, Iterable&lt;Method&gt;&gt;() {
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>                     @Override
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>                     <strong class="jxr_keyword">public</strong> Iterable&lt;Method&gt; apply(<strong class="jxr_keyword">final</strong> Class&lt;?&gt; input) {
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>                         <strong class="jxr_keyword">return</strong> Iterables.filter(
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>                             Arrays.asList(input.getDeclaredMethods()),
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>                             <strong class="jxr_keyword">new</strong> Predicate&lt;Method&gt;() {
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>                                 @Override
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>                                 <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> apply(<strong class="jxr_keyword">final</strong> Method method) {
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>                                     <strong class="jxr_keyword">return</strong> Modifier.isPublic(
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>                                         method.getModifiers()
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>                                     );
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>                                 }
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>                             }
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>                         );
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>                     }
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>                 }
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>             )
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>         );
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>     }
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> }
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>                          &amp;&amp; !name.endsWith(<span class="jxr_string">"RepoRule"</span>)
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>                          &amp;&amp; (input.getEnclosingClass() == <strong class="jxr_keyword">null</strong>
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                          || name.endsWith(<span class="jxr_string">"Smart"</span>));
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>                  }
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>              }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          );
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      }
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      @Override
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">public</strong> Statement apply(<strong class="jxr_keyword">final</strong> Statement statement,
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>          <strong class="jxr_keyword">final</strong> Description description) {
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Statement() {
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>              @Override
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>             <em class="jxr_comment">// @checkstyle IllegalThrowsCheck (1 line)</em>
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> evaluate() <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>                 statement.evaluate();
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>             }
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         };
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>     }
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">     * Provides all public methods from classes in package 'com.jcabi.github'.</em>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">     * @return Methods</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Method&gt; allPublicMethods() {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         <strong class="jxr_keyword">return</strong> Iterables.concat(
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>             Iterables.transform(
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>                 <strong class="jxr_keyword">this</strong>.allTypes(),
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>                 <strong class="jxr_keyword">new</strong> Function&lt;Class&lt;?&gt;, Iterable&lt;Method&gt;&gt;() {
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>                     @Override
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>                     <strong class="jxr_keyword">public</strong> Iterable&lt;Method&gt; apply(<strong class="jxr_keyword">final</strong> Class&lt;?&gt; input) {
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>                         <strong class="jxr_keyword">return</strong> Iterables.filter(
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>                             Arrays.asList(input.getDeclaredMethods()),
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                             <strong class="jxr_keyword">new</strong> Predicate&lt;Method&gt;() {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                                 @Override
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>                                 <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> apply(<strong class="jxr_keyword">final</strong> Method method) {
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>                                     <strong class="jxr_keyword">return</strong> Modifier.isPublic(
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>                                         method.getModifiers()
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>                                     );
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>                                 }
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>                             }
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>                         );
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                     }
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>                 }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>             )
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>         );
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>     }
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

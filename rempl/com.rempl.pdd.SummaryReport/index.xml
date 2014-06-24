@@ -19,12 +19,30 @@
 <owner>someone</owner>
 </puzzle>
 <puzzle>
-<ticket>115</ticket>
+<ticket>440</ticket>
 <file>src/main/java/com/jcabi/github/Git.java</file>
 <prefix>     * </prefix>
-<body>Implement the Git Data Trees API. We need to implement the following: 1) Add the operations in http://developer.github.com/v3/git/trees/ to the Trees interface. 2) A class RtTrees, which performs RESTful request operations against the Trees API. 3) A class MkTrees, which mocks the Trees interface. 4) An interface Tag, which represents a single Tag of the Git Data API. 5) RtTrees, a Tag implementation which fetches and modifies Tag information according to the Trees API, and 6) MkTag, which mocks a single Tag object. Don't forget to implement unit tests and integration tests.</body>
-<estimate>60</estimate>
-<lines>100-112</lines>
+<body>Implement the Git Data Trees Mock classes: 1) A class MkTrees, which mocks the Trees interface. 2) MkTree, which mocks a single Tree object. Don't forget to implement unit tests</body>
+<estimate>0</estimate>
+<lines>100-100</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>441</ticket>
+<file>src/main/java/com/jcabi/github/Git.java</file>
+<prefix>     * </prefix>
+<body>Implement the Git Data Tree integration tests.</body>
+<estimate>0</estimate>
+<lines>104-104</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
+<ticket>812</ticket>
+<file>src/main/java/com/jcabi/github/Release.java</file>
+<prefix>         * </prefix>
+<body>We should generalize this method in SmartJson type. Let's implement it in a method named SmartJson.notNull(String) or something similar, which returns true if a certain key is present AND does not have a JsonValue of ValueType.NULL. Then let's use it here instead of manually checking it with the release's json value.</body>
+<estimate>0</estimate>
+<lines>237-241</lines>
 <owner>someone</owner>
 </puzzle>
 <puzzle>
@@ -55,6 +73,15 @@
 <owner>someone</owner>
 </puzzle>
 <puzzle>
+<ticket>802</ticket>
+<file>src/test/java/com/jcabi/github/RtIssueITCase.java</file>
+<prefix>     * </prefix>
+<body>RtIssueITCase.identifyAssignee() fails during Rultor build. We made research and had discussion in #802. Our current supposition is that we have such error because user that Rultor use for tests is very active, so Github think that he is "non-human" user nad don't allow to assign it to issue. The problem needs further research. I think, we can start from contact Github support. It looks like undocumented feature and we have to know what to expect from Github side, maybe they offer us something useful. More details about initial research you can find in issue #802. Let's make research, fix this bug and finally remove this puzzle.</body>
+<estimate>0</estimate>
+<lines>122-131</lines>
+<owner>someone</owner>
+</puzzle>
+<puzzle>
 <ticket>217</ticket>
 <file>src/test/java/com/jcabi/github/RtSearchITCase.java</file>
 <prefix>     * </prefix>
@@ -67,18 +94,9 @@
 <ticket>590</ticket>
 <file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
 <prefix> * </prefix>
-<body>MkContents can now create and get files from non-default branches. However, the same functionality has not been implemented yet for the update() and remove() methods. Let's fix it. See http://developer.github.com/v3/repos/contents for details</body>
+<body>MkContents can now create and get files from non-default branches. However, the same functionality has not been implemented yet for the update() method. Let's fix it. See http://developer.github.com/v3/repos/contents for details</body>
 <estimate>0</estimate>
-<lines>54-57</lines>
-<owner>someone</owner>
-</puzzle>
-<puzzle>
-<ticket>444</ticket>
-<file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
-<prefix>     * </prefix>
-<body>Methods create() in MkContents and json() in MkContent should be implemented in order for this test to work.</body>
-<estimate>0</estimate>
-<lines>185-186</lines>
+<lines>51-54</lines>
 <owner>someone</owner>
 </puzzle>
 </puzzles>
