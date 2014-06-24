@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -179,7 +178,7 @@ final class RtContents implements Contents {
     public Content get(
         @NotNull(message = "path can't be NULL") final String path
     ) throws IOException {
-        return this.content(path, null);
+        return this.content(path, "master");
     }
 
     @Override
@@ -256,7 +255,7 @@ final class RtContents implements Contents {
     /**
      * Get the contents of a file or symbolic link in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag. If null - the repository's default branch (usually master)
+     * @param ref The name of the commit/branch/tag.
      * @return Content fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
@@ -264,16 +263,11 @@ final class RtContents implements Contents {
     private Content content(
         final String path, final String ref
     ) throws IOException {
-        final JsonObjectBuilder builder = Json.createObjectBuilder()
-            .add("path", path);
-        if (ref != null) {
-            builder.add("ref", ref);
-        }
+        final String name = "ref";
         return new RtContent(
-            this.entry, this.owner,
+            this.entry.uri().queryParam(name, ref).back(), this.owner,
             this.request.method(Request.GET)
-                .uri().path(path).back()
-                .body().set(builder.build()).back()
+                .uri().path(path).queryParam(name, ref).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
