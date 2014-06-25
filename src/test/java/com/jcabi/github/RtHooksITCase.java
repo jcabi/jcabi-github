@@ -31,11 +31,10 @@ package com.jcabi.github;
 
 import java.io.IOException;
 import java.util.Collections;
-import javax.json.Json;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -47,13 +46,20 @@ import org.junit.Test;
 public final class RtHooksITCase {
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RepoRule rule = new RepoRule();
+
+    /**
      * RtHooks can iterate hooks.
      * @throws Exception If some problem inside
      */
     @Test
     public void canFetchAllHooks() throws Exception {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = RtHooksITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             RtHooksITCase.createHook(repo);
             MatcherAssert.assertThat(
@@ -71,7 +77,7 @@ public final class RtHooksITCase {
     @Test
     public void canCreateAHook() throws Exception {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = RtHooksITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
                 RtHooksITCase.createHook(repo), Matchers.notNullValue()
@@ -89,7 +95,7 @@ public final class RtHooksITCase {
     @Test
     public void canFetchSingleHook() throws Exception {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = RtHooksITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             final int number = RtHooksITCase.createHook(repo).number();
             MatcherAssert.assertThat(
@@ -109,7 +115,7 @@ public final class RtHooksITCase {
     @Test
     public void canRemoveHook() throws Exception {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = RtHooksITCase.repo(repos);
+        final Repo repo = this.rule.repo(repos);
         try {
             final Hook hook = RtHooksITCase.createHook(repo);
             repo.hooks().remove(hook.number());
@@ -129,21 +135,6 @@ public final class RtHooksITCase {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         return new RtGithub(key).repos();
-    }
-
-    /**
-     * Create a new repo with random name.
-     * @param repos Repos
-     * @return Repository
-     * @throws IOException If there is any I/O problem
-     */
-    private static Repo repo(final Repos repos) throws IOException {
-        return repos.create(
-            Json.createObjectBuilder().add(
-                // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomAlphanumeric(10)
-            ).build()
-        );
     }
 
     /**

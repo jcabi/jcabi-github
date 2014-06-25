@@ -50,7 +50,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @todo #590 MkContents can now create and get files from non-default branches.
  *  However, the same functionality has not been implemented yet for the
- *  update() and remove() methods. Let's fix it. See
+ *  update() method. Let's fix it. See
  *  http://developer.github.com/v3/repos/contents for details
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
@@ -177,6 +177,30 @@ public final class MkContentsTest {
     }
 
     /**
+     * MkContents should be able to remove files from from non-default branches.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canRemoveFileFromBranch() throws Exception {
+        final String branch = "branch-1";
+        final Repo repo = MkContentsTest.repo();
+        final String path = "removeme.txt";
+        this.createFile(repo, path);
+        final JsonObject json = MkContentsTest
+            .content(path, "theDeleteMessage")
+            .add("ref", branch)
+            .add("committer", MkContentsTest.committer())
+            .build();
+        final RepoCommit commit = repo.contents().remove(json);
+        MatcherAssert.assertThat(commit, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            commit.json().getString("message"),
+            Matchers.equalTo("theDeleteMessage")
+        );
+    }
+
+    /**
      * MkContents should be able to update a file.
      * @throws Exception - if anything goes wrong.
      */
@@ -268,6 +292,29 @@ public final class MkContentsTest {
         MatcherAssert.assertThat(
             new Content.Smart(contents.get(path, branch)).content(),
             Matchers.is(updated)
+        );
+    }
+
+    /**
+     * MkContents can get content from default branch.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void getContentFromDefaultBranch() throws Exception {
+        final String path = "content-default-branch.txt";
+        final String message = "content default branch created";
+        final String text = "I'm content of default branch";
+        final Contents contents = MkContentsTest.repo().contents();
+        final JsonObject content = MkContentsTest
+            .content(path, message, text)
+            .build();
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.create(content)).content(),
+            Matchers.is(text)
+        );
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.get(path)).content(),
+            Matchers.is(text)
         );
     }
 

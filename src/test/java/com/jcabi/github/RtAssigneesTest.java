@@ -38,7 +38,6 @@ import javax.json.Json;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -55,7 +54,7 @@ public final class RtAssigneesTest {
      * RtAssignees can iterate over assignees.
      * @throws Exception Exception If some problem inside
      */
-    @Ignore
+    @Test
     public void iteratesAssignees() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -108,7 +107,6 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkUserIsNotAssigneeForRepo() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -150,6 +148,7 @@ public final class RtAssigneesTest {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "assignee"))
             .when(repo).coordinates();
+        Mockito.doReturn(Mockito.mock(Github.class)).when(repo).github();
         return repo;
     }
 }
