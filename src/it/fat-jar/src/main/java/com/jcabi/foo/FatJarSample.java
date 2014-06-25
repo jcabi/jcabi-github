@@ -34,6 +34,8 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RtGithub;
+import com.jcabi.log.Logger;
+import java.io.IOException;
 
 /**
  * Sample class.
@@ -41,13 +43,24 @@ import com.jcabi.github.RtGithub;
  * @version $Id$
  */
 public final class FatJarSample {
-    public static void main(final String... args) throws Exception {
+    /**
+     * Utility class.
+     */
+    private FatJarSample() {
+        // empty
+    }
+    /**
+     * Main entry point.
+     * @param args Arguments
+     * @throws IOException If something fails
+     */
+    public static void main(final String... args) throws IOException {
         final Github github = new RtGithub();
         final Repo repo = github.repos().get(
             new Coordinates.Simple("jcabi/jcabi-github")
         );
         for (final Label label : repo.labels().iterate()) {
-            System.out.println("label found: " + label.name());
+            Logger.info(FatJarSample.class, "label found: %s", label.name());
         }
     }
 }
