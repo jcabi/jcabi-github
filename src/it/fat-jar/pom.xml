@@ -46,6 +46,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
+                            <!-- <classpathScope>compile</classpathScope> -->
                             <source><![CDATA[
                                 import com.jcabi.github.Coordinates
                                 import com.jcabi.github.Github
@@ -69,7 +70,8 @@
                         <groupId>@project.groupId@</groupId>
                         <artifactId>@project.artifactId@</artifactId>
                         <version>@project.version@</version>
-                        <classifier>jar-with-dependencies</classifier>
+                        <scope>system</scope>
+                        <systemPath>${basedir}/../../@project.artifactId@-@project.version@-jar-with-dependencies.jar</systemPath>
                     </dependency>
                 </dependencies>
             </plugin>
