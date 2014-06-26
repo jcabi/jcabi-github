@@ -104,7 +104,7 @@ final class MkUser implements User {
     @NotNull(message = "orgs is never NULL")
     public Organizations organizations() {
         try {
-            return new MkOrganizations(storage, self);
+            return new MkOrganizations(this.storage, this.self);
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
