@@ -103,7 +103,11 @@ final class MkUser implements User {
     @Override
     @NotNull(message = "orgs is never NULL")
     public Organizations organizations() {
-        return null;
+        try {
+            return new MkOrganizations(storage, self);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
