@@ -251,12 +251,9 @@
             <id>cobertura</id>
             <activation>
                 <!--
-                @todo #1 Enable Cobertura profile by default.
-                 This code coverage check doesn't work due to some
-                 problem with Cobertura plugin. It always reports zero coverage
-                 for all classes. I was trying to run it without AspectJ
-                 weavling using "mvn clean install -Pcobertura -P\!aspectj",
-                 but it doesn't help. Let's fix it and enable by default.
+                This is not enabled by default, because too much of the code
+                is not covered by tests and the build will fail.  It is possible
+                to use cobertura by enabling this profile, though.
                 -->
                 <activeByDefault>false</activeByDefault>
             </activation>
