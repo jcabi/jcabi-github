@@ -31,7 +31,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Organizations;
 import java.io.IOException;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,9 @@ public final class MkUserTest {
             "orgTestIterate"
         );
         final Organizations orgs = user.organizations();
-        Assert.assertNotNull(orgs);
+        MatcherAssert.assertThat(
+            orgs,
+            Matchers.notNullValue()
+        );
     }
 }
