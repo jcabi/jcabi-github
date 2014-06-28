@@ -33,7 +33,7 @@
     <parent>
         <groupId>com.jcabi</groupId>
         <artifactId>jcabi</artifactId>
-        <version>1.8</version>
+        <version>1.11</version>
     </parent>
     <artifactId>jcabi-github</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -60,7 +60,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <jersey.version>1.17.1</jersey.version>
+        <jersey.version>1.18.1</jersey.version>
         <httpcomponents.version>4.3</httpcomponents.version>
         <saxon.version>9.1.0.8</saxon.version>
     </properties>
@@ -76,27 +76,15 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-xml</artifactId>
-            <version>0.7.7</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-http</artifactId>
-            <version>1.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.rexsl</groupId>
-                    <artifactId>rexsl-test</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.xml.bind</groupId>
-                    <artifactId>jaxb-impl</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.jcabi.incubator</groupId>
             <artifactId>xembly</artifactId>
-            <version>0.12</version>
+            <version>0.17</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
@@ -113,6 +101,16 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
@@ -166,16 +164,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -237,6 +225,8 @@
                             <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
                             <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
                             <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
+                            <failsafe.github.user>${failsafe.github.user}</failsafe.github.user>
+                            <failsafe.github.password>${failsafe.github.password}</failsafe.github.password>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
@@ -261,12 +251,9 @@
             <id>cobertura</id>
             <activation>
                 <!--
-                @todo #1 Enable Cobertura profile by default.
-                 This code coverage check doesn't work due to some
-                 problem with Cobertura plugin. It always reports zero coverage
-                 for all classes. I was trying to run it without AspectJ
-                 weavling using "mvn clean install -Pcobertura -P\!aspectj",
-                 but it doesn't help. Let's fix it and enable by default.
+                This is not enabled by default, because too much of the code
+                is not covered by tests and the build will fail.  It is possible
+                to use cobertura by enabling this profile, though.
                 -->
                 <activeByDefault>false</activeByDefault>
             </activation>

@@ -40,8 +40,10 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.io.Charsets;
 
 /**
  * Github client, starting point to the entire library.
@@ -116,9 +118,16 @@ public final class RtGithub implements Github {
         @NotNull(message = "user name can't be NULL") final String user,
         @NotNull(message = "password can't be NULL") final String pwd) {
         this(
-            RtGithub.REQUEST.uri().userInfo(
-                String.format("%s:%s", user, pwd)
-            ).back()
+            RtGithub.REQUEST.header(
+                HttpHeaders.AUTHORIZATION,
+                String.format(
+                    "Basic %s",
+                    DatatypeConverter.printBase64Binary(
+                        String.format("%s:%s", user, pwd)
+                            .getBytes(Charsets.UTF_8)
+                    )
+                )
+            )
         );
     }
 

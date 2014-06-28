@@ -29,72 +29,57 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import com.jcabi.log.Logger;
+import java.io.IOException;
 import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 /**
- * Integration case for {@link RtRepos}.
- *
+ * Utility class which provides convenient methods for repo managing.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public class RtReposITCase {
+public final class RepoRule implements TestRule {
 
-    /**
-     * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RepoRule rule = new RepoRule();
-
-    /**
-     * RtRepos create repository test.
-     *
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public final void create() throws Exception {
-        final Repos repos = RtReposITCase.github().repos();
-        final Repo repo = this.rule.repo(repos);
-        try {
-            MatcherAssert.assertThat(repo, Matchers.notNullValue());
-        } finally {
-            repos.remove(repo.coordinates());
-        }
+    @Override
+    public Statement apply(final Statement statement,
+        final Description description) {
+        return new Statement() {
+            @Override
+            // @checkstyle IllegalThrowsCheck (1 line)
+            public void evaluate() throws Throwable {
+                statement.evaluate();
+            }
+        };
     }
 
     /**
-     * RtRepos should fail on creation of two repos with the same name.
-     * @throws Exception If some problem inside
-     */
-    @Test(expected = AssertionError.class)
-    public final void failsOnCreationOfTwoRepos() throws Exception {
-        final Repos repos = RtReposITCase.github().repos();
-        final Repo repo = this.rule.repo(repos);
-        try {
-            repos.create(
-                Json.createObjectBuilder().add(
-                    "name", repo.coordinates().repo()
-                ).build()
-            );
-        } finally {
-            repos.remove(repo.coordinates());
-        }
-    }
-
-    /**
-     * Create and return repo to test.
-     *
+     * Create new repo for tests.
+     * @param repos Repos
      * @return Repo
-     * @throws Exception If some problem inside
+     * @throws IOException If error occurred.
      */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
+    public Repo repo(final Repos repos) throws IOException {
+        Repo repo = null;
+        while (repo == null) {
+            try {
+                repo = repos.create(
+                    Json.createObjectBuilder()
+                        .add(
+                            "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+                        ).add("auto_init", true).build()
+                );
+            } catch (final AssertionError exception) {
+                Logger.warn(
+                    this, "Create repository failed. Message: %s",
+                    exception.getMessage()
+                );
+            }
+        }
+        return repo;
     }
 }

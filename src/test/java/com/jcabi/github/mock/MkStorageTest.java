@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -38,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -112,27 +112,68 @@ public final class MkStorageTest {
     }
 
     /**
-     * MkStorage should require lock on document reading.
-     * @todo #745:30min Update 2 tests to check behaviour in multi-threading
-     *  environment. Remove this comment and @Ignore annotation.
+     * MkStorage should throw an exception if current thread tries to make a
+     * read without holding the lock.
      * @throws Exception If some problem inside
      */
     @Test(expected = ConcurrentModificationException.class)
-    @Ignore
     public void xmlRequiresLock() throws Exception {
-        new MkStorage.InFile().xml();
+        final MkStorage storage = new MkStorage.InFile();
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
+        final CountDownLatch latch = new CountDownLatch(1);
+        executor.submit(
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        storage.lock();
+                        latch.countDown();
+                    } catch (final IOException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+            }
+        );
+        try {
+            latch.await();
+            storage.xml();
+        } finally {
+            executor.shutdown();
+        }
     }
 
     /**
-     * MkStorage should require lock on document change.
+     * MkStorage should throw an exception if the current thread tries to apply
+     * changes without holding the lock.
      * @throws Exception If some problem inside
      */
     @Test(expected = ConcurrentModificationException.class)
-    @Ignore
     public void applyRequiresLock() throws Exception {
-        new MkStorage.InFile().apply(
-            new Directives().xpath("/github").add("test").set("hello, world")
+        final MkStorage storage = new MkStorage.InFile();
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
+        final CountDownLatch latch = new CountDownLatch(1);
+        executor.submit(
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        storage.lock();
+                        latch.countDown();
+                    } catch (final IOException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+            }
         );
+        try {
+            latch.await();
+            storage.apply(
+                new Directives().xpath("/github").add("test")
+                    .set("hello, world")
+            );
+        } finally {
+            executor.shutdown();
+        }
     }
 
 }

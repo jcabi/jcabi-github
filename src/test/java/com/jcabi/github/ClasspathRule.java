@@ -84,6 +84,7 @@ public final class ClasspathRule implements TestRule {
                     return !name.endsWith("Test")
                         && !name.endsWith("ITCase")
                         && !name.endsWith("ClasspathRule")
+                        && !name.endsWith("RepoRule")
                         && (input.getEnclosingClass() == null
                         || name.endsWith("Smart"));
                 }

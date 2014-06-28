@@ -272,5 +272,9 @@ final class RtSearchPagination<T> implements Iterable<T> {
         public RequestURI userInfo(final String info) {
             return new SearchURI(this.address.userInfo(info));
         }
+        @Override
+        public RequestURI port(final int num) {
+            return new SearchURI(this.address.port(num));
+        }
     }
 }

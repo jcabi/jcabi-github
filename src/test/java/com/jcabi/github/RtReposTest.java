@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,10 +52,13 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 public final class RtReposTest {
+
     /**
-     * The key for name in JSON.
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    private static final String NAME_KEY = "name";
+    @Rule
+    public final transient RepoRule rule = new RepoRule();
 
     /**
      * RtRepos can create a repo.
@@ -73,7 +77,7 @@ public final class RtReposTest {
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
         );
-        final Repo repo = repos.create(request(name));
+        final Repo repo = this.rule.repo(repos);
         MatcherAssert.assertThat(
             container.take().method(),
             Matchers.equalTo(Request.POST)
@@ -115,20 +119,6 @@ public final class RtReposTest {
     }
 
     /**
-     * Create and return JsonObject to test request.
-     *
-     * @param name Repo name
-     * @return JsonObject
-     * @throws Exception If some problem inside
-     */
-    private static JsonObject request(
-        final String name) throws Exception {
-        return Json.createObjectBuilder()
-            .add(NAME_KEY, name)
-            .build();
-    }
-
-    /**
      * Create and return JsonObject to test response.
      *
      * @param owner Owner name
@@ -140,7 +130,7 @@ public final class RtReposTest {
         final String owner, final String name)
         throws Exception {
         return Json.createObjectBuilder()
-            .add(NAME_KEY, name)
+            .add("name", name)
             .add("full_name", String.format("%s/%s", owner, name))
             .add(
                 "owner",
