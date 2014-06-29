@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -240,6 +241,93 @@ public interface User extends JsonReadable, JsonPatchable {
             this.user.patch(json);
         }
 
+        public String gravatar() throws IOException {
+            return this.jsn.text("gravatar_id");
+        }
+
+        public String htmlUrl() throws IOException {
+            return this.jsn.text("html_url");
+        }
+
+        public String follwersUrl() throws IOException {
+            return this.jsn.text("followers_url");
+        }
+
+        public String followingUrl() throws IOException {
+            return this.jsn.text("following_url");
+        }
+
+        public String gistsUrl() throws IOException {
+            return this.jsn.text("gists_url");
+        }
+
+        public String starredUrl() throws IOException {
+            return this.jsn.text("starred_url");
+        }
+
+        public String subscriptionsUrl() throws IOException {
+            return this.jsn.text("subscriptions_url");
+        }
+
+        public String organizationsUrl() throws IOException {
+            return this.jsn.text("organizations_url");
+        }
+
+        public String reposUrl() throws IOException {
+            return this.jsn.text("repos_url");
+        }
+
+        public String eventsUrl() throws IOException {
+            return this.jsn.text("events_url");
+        }
+
+        public String receivedEventsUrl() throws IOException {
+            return this.jsn.text("received_events_url");
+        }
+
+        public String type() throws IOException {
+            return this.jsn.text("type");
+        }
+
+        public boolean siteAdmin() throws IOException {
+            return "true".equals(this.jsn.text("site_admin"));
+        }
+
+        public String blog() throws IOException {
+            return this.jsn.text("blog");
+        }
+
+        public boolean hireable() throws IOException {
+            return "true".equals(this.jsn.text("hireable"));
+        }
+
+        public String bio() throws IOException {
+            return this.jsn.text("bio");
+        }
+
+        public int publicRepos() throws IOException {
+            return this.jsn.number("public_repos");
+        }
+
+        public int publicGists() throws IOException {
+            return this.jsn.number("public_gists");
+        }
+
+        public int followersCount() throws IOException {
+            return this.jsn.number("followers");
+        }
+
+        public int followingCount() throws IOException {
+            return this.jsn.number("following");
+        }
+
+        public Github.Time created() throws IOException, ParseException {
+            return new Github.Time(this.jsn.text("created_at"));
+        }
+
+        public Github.Time updated() throws IOException, ParseException {
+            return new Github.Time(this.jsn.text("updated_at"));
+        }
     }
 
 }
