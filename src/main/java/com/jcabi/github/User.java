@@ -241,92 +241,216 @@ public interface User extends JsonReadable, JsonPatchable {
             this.user.patch(json);
         }
 
+        /**
+         * Returns the value of gravatar_id property of User's JSON.
+         * @return The 'gravatar_id' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String gravatar() throws IOException {
             return this.jsn.text("gravatar_id");
         }
 
+        /**
+         * Returns the value of html_url property of User's JSON.
+         * @return The 'html_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String htmlUrl() throws IOException {
             return this.jsn.text("html_url");
         }
 
+        /**
+         * Returns the value of followers_url property of User's JSON.
+         * @return The 'followers_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String follwersUrl() throws IOException {
             return this.jsn.text("followers_url");
         }
 
+        /**
+         * Returns the value of following_url property of User's JSON.
+         * @return The 'following_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String followingUrl() throws IOException {
             return this.jsn.text("following_url");
         }
 
+        /**
+         * Returns the value of gists_url property of User's JSON.
+         * @return The 'gists_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String gistsUrl() throws IOException {
             return this.jsn.text("gists_url");
         }
 
+        /**
+         * Returns the value of starred_url property of User's JSON.
+         * @return The 'starred_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String starredUrl() throws IOException {
             return this.jsn.text("starred_url");
         }
 
+        /**
+         * Returns the value of subscriptions_url property of User's JSON.
+         * @return The 'subscriptions_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String subscriptionsUrl() throws IOException {
             return this.jsn.text("subscriptions_url");
         }
 
+        /**
+         * Returns the value of organizations_url property of User's JSON.
+         * @return The 'organizations_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String organizationsUrl() throws IOException {
             return this.jsn.text("organizations_url");
         }
 
+        /**
+         * Returns the value of repos_url property of User's JSON.
+         * @return The 'repos_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String reposUrl() throws IOException {
             return this.jsn.text("repos_url");
         }
 
+        /**
+         * Returns the value of events_url property of User's JSON.
+         * @return The 'events_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String eventsUrl() throws IOException {
             return this.jsn.text("events_url");
         }
 
+        /**
+         * Returns the value of received_events_url property of User's JSON.
+         * @return The 'received_events_url' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String receivedEventsUrl() throws IOException {
             return this.jsn.text("received_events_url");
         }
 
+        /**
+         * Returns the value of type property of User's JSON.
+         * @return The 'type' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String type() throws IOException {
             return this.jsn.text("type");
         }
 
+        /**
+         * Returns the value of site_admin property of User's JSON.
+         * @return The 'site_admin' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public boolean siteAdmin() throws IOException {
             return "true".equals(this.jsn.text("site_admin"));
         }
 
+        /**
+         * Returns the value of blog property of User's JSON.
+         * @return The 'blog' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String blog() throws IOException {
             return this.jsn.text("blog");
         }
 
+        /**
+         * Returns the value of hireable property of User's JSON.
+         * @return The 'hireable' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public boolean hireable() throws IOException {
             return "true".equals(this.jsn.text("hireable"));
         }
 
+        /**
+         * Returns the value of bio property of User's JSON.
+         * @return The 'bio' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public String bio() throws IOException {
             return this.jsn.text("bio");
         }
 
+        /**
+         * Returns the value of public_repos property of User's JSON.
+         * @return The 'public_repos' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public int publicRepos() throws IOException {
-            return this.jsn.number("public_repos");
+            return Integer.parseInt(this.jsn.text("public_repos"));
         }
 
+        /**
+         * Returns the value of public_gists property of User's JSON.
+         * @return The 'public_gists' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public int publicGists() throws IOException {
-            return this.jsn.number("public_gists");
+            return Integer.parseInt(this.jsn.text("public_gists"));
         }
 
+        /**
+         * Returns the value of followers property of User's JSON.
+         * @return The 'followers' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public int followersCount() throws IOException {
-            return this.jsn.number("followers");
+            return Integer.parseInt(this.jsn.text("followers"));
         }
 
+        /**
+         * Returns the value of following property of User's JSON.
+         * @return The 'following' property value.
+         * @throws IOException If any I/O error occurs.
+         */
         public int followingCount() throws IOException {
-            return this.jsn.number("following");
+            return Integer.parseInt(this.jsn.text("following"));
         }
 
-        public Github.Time created() throws IOException, ParseException {
-            return new Github.Time(this.jsn.text("created_at"));
+        /**
+         * Returns the value of created_at property of User's JSON.
+         * @return The 'created_at' property value.
+         * @throws IOException If any I/O error occurs.
+         */
+        public Github.Time created() throws IOException {
+            try {
+                return new Github.Time(this.jsn.text("created_at"));
+            } catch (final ParseException ex) {
+                throw new IllegalArgumentException(
+                    "Cannot parse value of 'created_at' property",
+                    ex
+                );
+            }
         }
 
-        public Github.Time updated() throws IOException, ParseException {
-            return new Github.Time(this.jsn.text("updated_at"));
+        /**
+         * Returns the value of updated_at property of User's JSON.
+         * @return The 'updated_at' property value.
+         * @throws IOException If any I/O error occurs.
+         */
+        public Github.Time updated() throws IOException {
+            try {
+                return new Github.Time(this.jsn.text("updated_at"));
+            } catch (final ParseException ex) {
+                throw new IllegalArgumentException(
+                    "Cannot parse value of 'updated_at' property",
+                    ex
+                );
+            }
         }
     }
 
