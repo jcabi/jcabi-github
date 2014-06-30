@@ -45,7 +45,6 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
- * @todo #121 Add more Fork attributes to Smart decorator for this class. Don't forget to add them to unit test.
  */
 @Immutable
 public interface Fork extends JsonReadable, JsonPatchable {
