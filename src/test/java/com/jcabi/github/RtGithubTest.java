@@ -143,4 +143,33 @@ public final class RtGithubTest {
         );
     }
 
+    /**
+     * @{@link Github.Time} can compare two same Times successfully.
+     */
+    @Test
+    public void testSameTimesAreEqual() {
+        final long time = System.currentTimeMillis();
+        final Github.Time first = new Github.Time(time);
+        final Github.Time second = new Github.Time(time);
+        MatcherAssert.assertThat(
+            first.equals(second),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * @{@link Github.Time} can compare two different Times successfully.
+     */
+    @Test
+    public void testDifferentTimesAreNotEqual() {
+        final Github.Time first = new Github.Time(System.currentTimeMillis());
+        final Github.Time second = new Github.Time(
+            System.currentTimeMillis() + 1
+        );
+        MatcherAssert.assertThat(
+            first.equals(second),
+            Matchers.is(false)
+        );
+    }
+
 }
