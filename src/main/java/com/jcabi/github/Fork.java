@@ -110,6 +110,151 @@ public interface Fork extends JsonReadable, JsonPatchable {
             return new URL(this.jsn.text("url"));
         }
 
+        /**
+         * Get its full name.
+         * @return Full name of fork
+         * @throws java.io.IOException If there is any I/O problem
+         */
+        @NotNull(message = "full_name is never NULL")
+        public String fullName() throws IOException {
+            return this.jsn.text("full_name");
+        }
+
+        /**
+         * Get its description.
+         * @return Description of fork
+         * @throws java.io.IOException If there is any I/O problem
+         */
+        @NotNull(message = "description is never NULL")
+        public String description() throws IOException {
+            return this.jsn.text("description");
+        }
+
+        /**
+         * Get its html url.
+         * @return Html url of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "html url is never NULL")
+        public URL htmlUrl() throws IOException {
+            return new URL(this.jsn.text("html_url"));
+        }
+
+        /**
+         * Get its clone url.
+         * @return Clone url of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "clone url is never NULL")
+        public URL cloneUrl() throws IOException {
+            return new URL(this.jsn.text("clone_url"));
+        }
+
+        /**
+         * Get its git url.
+         * @return Git url of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "git url is never NULL")
+        public String gitUrl() throws IOException {
+            return this.jsn.text("git_url");
+        }
+
+        /**
+         * Get its ssh url.
+         * @return Ssh url of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "ssh url is never NULL")
+        public String sshUrl() throws IOException {
+            return this.jsn.text("ssh_url");
+        }
+
+        /**
+         * Get its svn url.
+         * @return Svn url of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "svn url is never NULL")
+        public URL svnUrl() throws IOException {
+            return new URL(this.jsn.text("svn_url"));
+        }
+
+        /**
+         * Get its mirror url.
+         * @return Mirror url of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "mirror url is never NULL")
+        public String mirrorUrl() throws IOException {
+            return this.jsn.text("mirror_url");
+        }
+
+        /**
+         * Get its home page.
+         * @return Url of home page of fork
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "homepage url is never NULL")
+        public URL homeUrl() throws IOException {
+            return new URL(this.jsn.text("homepage"));
+        }
+
+        /**
+         * Get its forks count.
+         * @return Forks count of fork
+         * @throws IOException If there is any I/O problem
+         */
+        public int forks() throws IOException {
+            return this.jsn.number("forks_count");
+        }
+
+        /**
+         * Get its stargazers count.
+         * @return Stargazers count of fork
+         * @throws IOException If there is any I/O problem
+         */
+        public int stargazers() throws IOException {
+            return this.jsn.number("stargazers_count");
+        }
+
+        /**
+         * Get its watchers count.
+         * @return Watchers count of fork
+         * @throws IOException If there is any I/O problem
+         */
+        public int watchers() throws IOException {
+            return this.jsn.number("watchers_count");
+        }
+
+        /**
+         * Get its size.
+         * @return Size of fork
+         * @throws IOException If there is any I/O problem
+         */
+        public int size() throws IOException {
+            return this.jsn.number("size");
+        }
+
+        /**
+         * Get its default branch.
+         * @return Default branch
+         * @throws java.io.IOException If there is any I/O problem
+         */
+        @NotNull(message = "default branch is never NULL")
+        public String defaultBranch() throws IOException {
+            return this.jsn.text("default_branch");
+        }
+
+        /**
+         * Get its open issues count.
+         * @return Size of fork
+         * @throws IOException If there is any I/O problem
+         */
+        public int openIssues() throws IOException {
+            return this.jsn.number("open_issues_count");
+        }
+
         @Override
         public int number() {
             return this.fork.number();
