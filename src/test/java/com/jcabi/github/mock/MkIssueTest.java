@@ -214,18 +214,6 @@ public final class MkIssueTest {
     }
 
     /**
-     * MkIssue never exists in Github.
-     *
-     * @throws Exception when a problem occurs.
-     */
-    @Test
-    public void issueNeverExistsInGithub() throws Exception {
-        MatcherAssert.assertThat(
-            new Issue.Smart(this.issue()).exists(), Matchers.is(false)
-        );
-    }
-
-    /**
      * Create an issue to work with.
      * @return Issue just created
      * @throws Exception If some problem inside

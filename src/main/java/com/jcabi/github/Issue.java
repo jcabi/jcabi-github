@@ -31,10 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -46,7 +43,6 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hamcrest.Matchers;
 
 /**
  * Github issue.
@@ -116,6 +112,13 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      */
     @NotNull(message = "iterable of events is never NULL")
     Iterable<Event> events() throws IOException;
+
+    /**
+     * Is this issue exists in Github?
+     * @return TRUE if this issue exists
+     * @throws IOException If there is any I/O problem
+     */
+    boolean exists() throws IOException;
 
     /**
      * Smart Issue with extra features.
@@ -325,25 +328,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         }
 
         /**
-         * Is this issue exists in Github?
-         * @return TRUE if this issue exists
-         * @throws IOException If there is any I/O problem
-         */
-        public boolean exists() throws IOException {
-            final Coordinates coords = this.issue.repo().coordinates();
-            return RtGithub.REQUEST.method(Request.GET).uri()
-                .path("/repos").path(coords.user()).path(coords.repo())
-                .path("/issues").path(Integer.toString(this.issue.number()))
-                .back().fetch().as(RestResponse.class)
-                .assertStatus(
-                    Matchers.isOneOf(
-                        HttpURLConnection.HTTP_OK,
-                        HttpURLConnection.HTTP_NOT_FOUND
-                )
-            ).status() == HttpURLConnection.HTTP_OK;
-        }
-
-        /**
          * Get pull request.
          * @return Pull request
          * @throws IOException If there is any I/O problem
@@ -491,6 +475,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             @NotNull(message = "obj can't be NULL") final Issue obj
         ) {
             return this.issue.compareTo(obj);
+        }
+        @Override
+        public boolean exists() throws IOException {
+            return this.issue.exists();
         }
     }
 
