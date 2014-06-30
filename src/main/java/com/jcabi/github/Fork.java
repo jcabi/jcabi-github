@@ -47,6 +47,7 @@ import lombok.ToString;
  * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Fork extends JsonReadable, JsonPatchable {
     /**
      * Fork id.
