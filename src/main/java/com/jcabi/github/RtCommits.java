@@ -32,21 +32,35 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+
 import java.io.IOException;
+import java.net.HttpURLConnection;
+
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Github Commits.
+ * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
-final class RtGit implements Git {
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
+public class RtCommits implements Commits {
+    /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
+
+    /**
+     * RESTful request for the commits.
+     */
+    private final transient Request request;
 
     /**
      * Repository.
@@ -54,53 +68,48 @@ final class RtGit implements Git {
     private final transient Repo owner;
 
     /**
-     * RESTful entry.
+     * Public constructor.
+     * @param req The entry request.
+     * @param repo The owner repo.
      */
-    private final transient Request entry;
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param repo Repository
-     */
-    public RtGit(final Request req, final Repo repo) {
+    RtCommits(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "repo can't be NULL") final Repo repo
+    ) {
         this.entry = req;
         this.owner = repo;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo()).path("/git").path("/commits").back();
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
+    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "blobs can't be NULL")
-    public Blobs blobs() throws IOException {
-        return new RtBlobs(this.entry, this.repo());
+    @NotNull(message = "tag is never NULL")
+    public Commit create(
+        @NotNull(message = "params can't be NULL") final JsonObject params
+    ) throws IOException {
+        final Commit created = this.get(
+            this.request.method(Request.POST)
+                .body().set(params).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
+        );
+        return created;
     }
 
     @Override
-    @NotNull(message = "commits can't be NULL")
-    public Commits commits() {
-        return new RtCommits(this.entry, this.owner);
+    @NotNull(message = "tag is never NULL")
+    public Commit get(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
+        return new RtCommit(this.entry, this.owner, sha);
     }
-
-    @Override
-    @NotNull(message = "references can't be NULL")
-    public References references() {
-        return new RtReferences(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "tags can't be NULL")
-    public Tags tags() {
-        return new RtTags(this.entry, this.owner);
-    }
-
-    @Override
-    @NotNull(message = "trees can't be NULL")
-    public Trees trees() {
-        return new RtTrees(this.entry, this.repo());
-    }
+    
 }
