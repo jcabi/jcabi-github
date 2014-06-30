@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
+import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
@@ -101,6 +102,20 @@ public final class MkGithubTest {
         MatcherAssert.assertThat(
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.equalTo(login)
+        );
+    }
+
+    /**
+     * MkGithub can retrieve the markdown.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void retrievesMarkdown() throws Exception {
+        final Github github = new MkGithub();
+        MatcherAssert.assertThat(
+            github.markdown(),
+            Matchers.notNullValue()
         );
     }
 
