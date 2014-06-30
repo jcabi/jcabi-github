@@ -144,7 +144,7 @@ public final class RtGithubTest {
     }
 
     /**
-     * @{@link Github.Time} can compare two same Times successfully.
+     * Github.Time can compare two same Times successfully.
      */
     @Test
     public void testSameTimesAreEqual() {
@@ -158,7 +158,7 @@ public final class RtGithubTest {
     }
 
     /**
-     * @{@link Github.Time} can compare two different Times successfully.
+     * Github.Time can compare two different Times successfully.
      */
     @Test
     public void testDifferentTimesAreNotEqual() {
