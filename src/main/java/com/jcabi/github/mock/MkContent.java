@@ -49,9 +49,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
  *
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
- * @todo #314:30m MkContent should be able to return its own repository when
- *  the repo() method is invoked, and its own path when the path() method
- *  is invoked. Don't forget to implement unit tests.
  * @since 0.8
  */
 @Immutable
