@@ -47,7 +47,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtUser}.
- * @todo #825: RtUserTest.hasCreated and  RtUserTest.hasUpdated tests are
+ * @todo #825 RtUserTest.hasCreated and  RtUserTest.hasUpdated tests are
  *  ignored because issue #840
  *  (https://github.com/jcabi/jcabi-github/issues/840)is not resolved.
  *  after resolving this issue please remove @Ignore annotation.
