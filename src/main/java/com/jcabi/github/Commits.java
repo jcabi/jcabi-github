@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -50,4 +52,22 @@ public interface Commits {
     @NotNull(message = "repository is never NULL")
     Repo repo();
 
+    /**
+     * Create a Commit object.
+     * @param params The input for creating the Tag.
+     * @return Commit
+     * @throws IOException - If anything goes wrong.
+     */
+    @NotNull(message = "commit is never NULL")
+    Commit create(
+        @NotNull(message = "params can't be null") JsonObject params
+    ) throws IOException;
+
+    /**
+     * Return a Commit by its SHA.
+     * @param sha The sha of the Commit.
+     * @return Commit
+     */
+    @NotNull(message = "commit is never NULL")
+    Commit get(@NotNull(message = "sha can't be null") String sha);
 }
