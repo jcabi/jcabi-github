@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.immutable.ArrayMap;
+import java.util.Collections;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -61,9 +63,19 @@ public final class RtMilestonesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void createsNewMilestone() throws Exception {
-        //
+        final Milestones milestones = milestones();
+        final Milestone milestone = milestones.create(
+            RandomStringUtils.randomAlphabetic(10)
+        );
+        try {
+            MatcherAssert.assertThat(
+                milestones.iterate(Collections.singletonMap("state", "all")),
+                Matchers.not(Matchers.emptyIterable())
+            );
+        } finally {
+            milestones.remove(milestone.number());
+        }
     }
 
     /**
