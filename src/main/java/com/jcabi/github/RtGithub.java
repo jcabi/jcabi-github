@@ -79,7 +79,7 @@ public final class RtGithub implements Github {
     /**
      * Version of us.
      */
-    public static final String USER_AGENT = String.format(
+    private static final String USER_AGENT = String.format(
         "jcabi-github %s %s %s",
         Manifests.read("JCabi-Version"),
         Manifests.read("JCabi-Build"),
@@ -89,7 +89,7 @@ public final class RtGithub implements Github {
     /**
      * Default request to start with.
      */
-    public static final Request REQUEST =
+    private static final Request REQUEST =
         new ApacheRequest("https://api.github.com")
             .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
