@@ -33,22 +33,18 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.Markdown;
-import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock markdown API.
  *
  * @todo #832 MkMarkdown#github() not implemented.
  *  Let's implement it and remove this puzzle.
- * @todo #832 MkMarkdown#raw() not implemented.
- *  Let's implement it and remove this puzzle.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.5
+ * @since  0.10
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -56,20 +52,20 @@ import org.apache.commons.lang3.NotImplementedException;
 public class MkMarkdown implements Markdown {
     @Override
     public final Github github() {
-        throw new NotImplementedException("MkMarkdown#github()");
+        throw new UnsupportedOperationException("MkMarkdown#github()");
     }
 
     @Override
     public final String render(
         @NotNull(message = "JSON can't be NULL") final JsonObject json
-    ) throws IOException {
+    ) {
         return json.getString("text");
     }
 
     @Override
     public final String raw(
         @NotNull(message = "Markdown can't be NULL") final String text
-    ) throws IOException {
-        throw new NotImplementedException("MkMarkdown#raw()");
+    ) {
+        return text;
     }
 }
