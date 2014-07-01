@@ -63,7 +63,7 @@ public class MkMarkdown implements Markdown {
     public final String render(
         @NotNull(message = "JSON can't be NULL") final JsonObject json
     ) throws IOException {
-        return json.toString();
+        return json.getString("text");
     }
 
     @Override

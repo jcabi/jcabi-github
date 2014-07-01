@@ -54,7 +54,7 @@ public class MkMarkdownTest {
                     .add("text", "Hello, **world**!")
                     .build()
             ),
-            Matchers.equalTo("{\"text\":\"Hello, **world**!\"}")
+            Matchers.equalTo("Hello, **world**!")
         );
     }
 }
