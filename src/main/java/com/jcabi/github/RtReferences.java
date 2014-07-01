@@ -54,6 +54,11 @@ import lombok.EqualsAndHashCode;
 final class RtReferences implements References {
 
     /**
+     * Reference field name in JSON.
+     */
+    private static final String REF = "ref";
+
+    /**
      * RESTful API entry point.
      */
     private final transient Request entry;
@@ -93,14 +98,14 @@ final class RtReferences implements References {
         @NotNull(message = "sha can't be NULL") final String sha
     ) throws IOException {
         final JsonObject json = Json.createObjectBuilder()
-            .add("sha", sha).add("ref", ref).build();
+            .add("sha", sha).add(RtReferences.REF, ref).build();
         return this.get(
             this.request.method(Request.POST)
                 .body().set(json).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                .json().readObject().getString("ref")
+                .json().readObject().getString(RtReferences.REF)
         );
     }
 
@@ -120,7 +125,28 @@ final class RtReferences implements References {
             new RtPagination.Mapping<Reference, JsonObject>() {
                 @Override
                 public Reference map(final JsonObject object) {
-                    return RtReferences.this.get(object.getString("ref"));
+                    return RtReferences.this.get(
+                        object.getString(RtReferences.REF)
+                    );
+                }
+            }
+        );
+    }
+
+    @Override
+    @NotNull(message = "Iterable of references is never NULL")
+    public Iterable<Reference> iterate(
+        @NotNull(message = "subnamespace can't be NULL")
+        final String subnamespace
+    ) {
+        return new RtPagination<Reference>(
+            this.request.uri().path(subnamespace).back(),
+            new RtPagination.Mapping<Reference, JsonObject>() {
+                @Override
+                public Reference map(final JsonObject object) {
+                    return RtReferences.this.get(
+                        object.getString(RtReferences.REF)
+                    );
                 }
             }
         );

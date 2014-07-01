@@ -141,6 +141,26 @@ final class MkReferences implements References {
     }
 
     @Override
+    @NotNull(message = "Iterable of references can't be NULL")
+    public Iterable<Reference> iterate(final String subnamespace) {
+        return new MkIterable<Reference>(
+            this.storage,
+            String.format(
+                "%s/reference/ref[starts-with(., 'refs/%s')]", this.xpath(),
+                subnamespace
+            ),
+            new MkIterable.Mapping<Reference>() {
+                @Override
+                public Reference map(final XML xml) {
+                    return MkReferences.this.get(
+                        xml.xpath("text()").get(0)
+                    );
+                }
+            }
+        );
+    }
+
+    @Override
     public void remove(
         @NotNull(message = "identifier shouldn't be NULL")
         final String identifier

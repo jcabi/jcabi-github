@@ -135,4 +135,28 @@ public final class RtReferencesITCase {
         refs.remove(builder.toString());
     }
 
+    /**
+     * RtReference can iterate over references in sub-namespace.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesReferencesInSubNamespace() throws Exception {
+        final References refs = repo.git().references();
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
+            .append("refs/heads/").append(name);
+        refs.create(
+            builder.toString(),
+            refs.get("refs/heads/master").json().getJsonObject("object")
+                .getString("sha")
+        );
+        MatcherAssert.assertThat(
+            refs.iterate("heads"),
+            Matchers.notNullValue()
+        );
+        builder.delete(0, builder.length());
+        builder.append("heads/").append(name);
+        refs.remove(builder.toString());
+    }
+
 }
