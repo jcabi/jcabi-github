@@ -48,13 +48,14 @@ public class MkMarkdownTest {
      */
     @Test
     public final void canBeRendered() throws Exception {
+        final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
             new MkMarkdown().render(
                 Json.createObjectBuilder()
-                    .add("text", "Hello, **world**!")
+                    .add("text", text)
                     .build()
             ),
-            Matchers.equalTo("Hello, **world**!")
+            Matchers.equalTo(text)
         );
     }
 }
