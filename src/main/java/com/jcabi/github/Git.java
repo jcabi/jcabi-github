@@ -101,7 +101,6 @@ public interface Git {
      *  1) A class MkTrees, which mocks the Trees interface.
      *  2) MkTree, which mocks a single Tree object.
      *  Don't forget to implement unit tests
-     * @todo #441 Implement the Git Data Tree integration tests.
      */
     @NotNull(message = "Trees is never NULL")
     Trees trees();
