@@ -36,6 +36,10 @@ import javax.validation.constraints.NotNull;
 /**
  * Github Git Data References.
  *
+ * @todo #820 Implement References#tags() and References#heads()
+ *  This methods should wrap References.iterate("tags") and
+ *  References.iterate("heads") calls. Let's implement this methods and
+ *  remove this puzzle.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
@@ -80,6 +84,16 @@ public interface References {
      */
     @NotNull(message = "iterable is never NULL")
     Iterable<Reference> iterate();
+
+    /**
+     * Iterates references in sub-namespace.
+     * @param subnamespace Sub-namespace
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Reference> iterate(
+        @NotNull(message = "identifier can't be null") String subnamespace
+    );
 
     /**
      * Removes a reference by its identifier.

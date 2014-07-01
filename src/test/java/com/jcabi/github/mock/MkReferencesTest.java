@@ -89,6 +89,26 @@ public final class MkReferencesTest {
     }
 
     /**
+     * MkReferences can iterate over references in sub-namespace.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesReferencesInSubNamespace() throws Exception {
+        final Repo owner = this.repo();
+        final References refs = owner.git().references();
+        refs.create("refs/heads/br", "qweqwe");
+        refs.create("refs/tags/t1", "111t222");
+        MatcherAssert.assertThat(
+            refs.iterate("heads"),
+            Matchers.<Reference>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            refs.iterate("tags"),
+            Matchers.<Reference>iterableWithSize(1)
+        );
+    }
+
+    /**
      * MkReferences can remove a Reference.
      * @throws Exception - If something goes wrong.
      */
