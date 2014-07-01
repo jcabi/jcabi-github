@@ -49,9 +49,6 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * @todo #2:30min Organizations of a user.
- *  Let's implements a new method organizations(),
- *  which should return a mock instance of interface Organisations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -103,7 +100,11 @@ final class MkUser implements User {
     @Override
     @NotNull(message = "orgs is never NULL")
     public Organizations organizations() {
-        return null;
+        try {
+            return new MkOrganizations(this.storage, this.self);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
