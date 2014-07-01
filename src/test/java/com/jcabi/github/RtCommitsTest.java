@@ -44,6 +44,7 @@ import javax.json.JsonObject;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,7 @@ import org.junit.Test;
 public class RtCommitsTest {
 
     @Test
+    @Ignore
     public void createsCommit() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

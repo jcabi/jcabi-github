@@ -38,6 +38,7 @@ import javax.json.JsonObject;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -52,6 +53,7 @@ public class MkCommitsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
+    @Ignore
     public void createsMkCommit() throws Exception {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
