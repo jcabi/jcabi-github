@@ -69,14 +69,18 @@ public class RtCommitsTest {
             .add("message", "initial version")
             .add("author", author).build();
         try {
+            Commit newCommit = commits.create(input);
             MatcherAssert.assertThat(
-                commits.create(input),
+                newCommit,
                 Matchers.instanceOf(Commit.class)
             );
             MatcherAssert.assertThat(
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
+            MatcherAssert.assertThat(
+                    newCommit.sha(), 
+                    Matchers.equalTo("0abcd89jcabitest"));
         } finally {
             container.stop();
         }
