@@ -30,6 +30,7 @@
 
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Commit;
 import com.jcabi.github.Repo;
 
 import javax.json.Json;
@@ -53,20 +54,25 @@ public class MkCommitsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    @Ignore
     public void createsMkCommit() throws Exception {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();
         final JsonArray tree = Json.createArrayBuilder().add("xyzsha12").build();
-        MatcherAssert.assertThat(
-            this.repo().git().commits().create(
+        Commit newCommit = this.repo().git().commits().create(
                 Json.createObjectBuilder().add("message", "my commit message")
+                    .add("sha", "12ahscba")
                     .add("tree", "abcsha12")
                     .add("parents", tree)
                     .add("author", author).build()
-            ),
+        );
+        MatcherAssert.assertThat(
+            newCommit,
             Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            newCommit.sha(),
+            Matchers.equalTo("12ahscba")
         );
     }
 

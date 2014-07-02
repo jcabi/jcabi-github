@@ -102,13 +102,17 @@ public class MkCommits implements Commits {
     }
 
     @Override
-    public Commit create(JsonObject params) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @NotNull(message = "created commit is never NULL")
+    public Commit create(
+        @NotNull(message = "params can't be NULL") final JsonObject params
+    ) throws IOException {
+        return this.get(params.getString("sha"));
     }
 
     @Override
-    public Commit get(String sha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @NotNull(message = "commit is never NULL")
+    public Commit get(@NotNull(message = "sha can't be NULL") final String sha) {
+        return new MkCommit(this.storage, this.self, this.coords, sha);
     }
     
 }

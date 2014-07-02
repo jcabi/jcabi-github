@@ -89,8 +89,7 @@ public class MkCommit implements Commit {
         this.storage = strg;
         this.self = login;
         this.coords = crds;
-        this.sha = new StringBuilder().append('"').append(identifier)
-            .append('"').toString();
+        this.sha = identifier;
     }
     
     @Override
