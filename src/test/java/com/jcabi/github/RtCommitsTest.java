@@ -36,15 +36,11 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
-
 import java.net.HttpURLConnection;
-
 import javax.json.Json;
 import javax.json.JsonObject;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -55,7 +51,6 @@ import org.junit.Test;
 public class RtCommitsTest {
 
     @Test
-    @Ignore
     public void createsCommit() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -82,15 +77,11 @@ public class RtCommitsTest {
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                container.take().method(),
-                Matchers.equalTo(Request.POST)
-            );
         } finally {
             container.stop();
         }
     }
-    
+
     /**
      * This method returns a Repo for testing.
      * @return Repo - a repo to be used for test.
