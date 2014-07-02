@@ -32,10 +32,13 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github issue.
@@ -48,6 +51,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtIssue implements Issue {
 
     /**
@@ -135,6 +139,17 @@ final class RtIssue implements Issue {
                 }
             }
         );
+    }
+
+    @Override
+    public boolean exists() throws IOException {
+        return this.request.fetch().as(RestResponse.class)
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_OK,
+                    HttpURLConnection.HTTP_NOT_FOUND
+            )
+        ).status() == HttpURLConnection.HTTP_OK;
     }
 
     @Override

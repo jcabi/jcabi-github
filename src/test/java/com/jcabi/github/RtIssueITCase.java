@@ -190,6 +190,18 @@ public final class RtIssueITCase {
     }
 
     /**
+     * RtIssue always exists in Github.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void issueAlwaysExistsInGithub() throws Exception {
+        MatcherAssert.assertThat(
+            new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
+        );
+    }
+
+    /**
      * Create and return issue to test.
      * @return Issue
      * @throws Exception If some problem inside
