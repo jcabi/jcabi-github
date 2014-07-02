@@ -41,7 +41,6 @@ import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -427,9 +426,8 @@ public final class RtUserTest {
      * @throws Exception if any problem occurs.
      */
     @Test
-    @Ignore
     public void hasCreated() throws Exception {
-        final Github.Time value = new Github.Time(System.currentTimeMillis());
+        final Github.Time value = new Github.Time(this.currentTimeInSeconds());
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
     }
@@ -439,9 +437,8 @@ public final class RtUserTest {
      * @throws Exception if any problem occurs.
      */
     @Test
-    @Ignore
     public void hasUpdated() throws Exception {
-        final Github.Time value = new Github.Time(System.currentTimeMillis());
+        final Github.Time value = new Github.Time(this.currentTimeInSeconds());
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
     }
@@ -465,5 +462,14 @@ public final class RtUserTest {
                 "octoc"
             )
         );
+    }
+
+    /**
+     * Get current time with precision up to a second.
+     * @return Current time with precision up to a second.
+     */
+    private long currentTimeInSeconds() {
+        // @checkstyle MagicNumberCheck (1 line)
+        return System.currentTimeMillis() / 1000 * 1000;
     }
 }
