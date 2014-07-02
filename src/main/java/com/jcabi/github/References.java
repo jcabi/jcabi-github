@@ -96,6 +96,20 @@ public interface References {
     );
 
     /**
+     * Iterate references under "tags" sub-namespace.
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Reference> tags();
+
+    /**
+     * Iterate references under "heads" sub-namespace.
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Reference> heads();
+
+    /**
      * Removes a reference by its identifier.
      * @param identifier Reference's identifier.
      * @throws IOException If there is any I/O problem.

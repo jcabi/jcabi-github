@@ -161,6 +161,18 @@ final class MkReferences implements References {
     }
 
     @Override
+    @NotNull(message = "Iterable of references is never NULL")
+    public Iterable<Reference> tags() {
+        return this.iterate("tags");
+    }
+
+    @Override
+    @NotNull(message = "Iterable of references is never NULL")
+    public Iterable<Reference> heads() {
+        return this.iterate("heads");
+    }
+
+    @Override
     public void remove(
         @NotNull(message = "identifier shouldn't be NULL")
         final String identifier
