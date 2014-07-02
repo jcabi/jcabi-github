@@ -35,12 +35,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-
 import java.io.IOException;
-
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 
 /**
@@ -50,7 +47,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "storage", "self", "coords", "sha" })
+@EqualsAndHashCode(of = { "storage", "self", "coords", "identifier" })
 public class MkCommit implements Commit {
 
     /**
@@ -69,54 +66,55 @@ public class MkCommit implements Commit {
     private final transient Coordinates coords;
 
     /**
-     * The Tag's sha.
+     * The Commit's sha.
      */
-    private final transient String sha;
+    private final transient String identifier;
 
     /**
      * Public constructor.
      * @param strg The storage.
      * @param login The login name
      * @param crds Credential
-     * @param identifier Commit's sha.
+     * @param commitsha Commit's sha.
+     * @checkstyle ParameterNumber (5 lines)
      */
     public MkCommit(
         @NotNull(message = "strg can't be NULL") final MkStorage strg,
         @NotNull(message = "login can't be NULL") final String login,
         @NotNull(message = "crds can't be NULL") final Coordinates crds,
-        @NotNull(message = "identifier can't be NULL") final String identifier
+        @NotNull(message = "identifier can't be NULL") final String commitsha
     ) {
         this.storage = strg;
         this.self = login;
         this.coords = crds;
-        this.sha = identifier;
+        this.identifier = commitsha;
     }
-    
+
     @Override
     @NotNull(message = "repository is never NULL")
-    public Repo repo() {
+    public final Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     @NotNull(message = "sha is never NULL")
-    public String sha() {
-        return this.sha;
+    public final String sha() {
+        return this.identifier;
     }
 
     @Override
     @NotNull(message = "JSON is never NULL")
-    public JsonObject json() throws IOException {
+    public final JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
     }
 
     @Override
-    public int compareTo(Commit o) {
-        return sha.compareTo(o.sha());
+    public final int compareTo(final Commit commit) {
+        return this.identifier.compareTo(commit.sha());
     }
-    
+
     /**
      * XPath of this element in XML tree.
      *
@@ -126,7 +124,7 @@ public class MkCommit implements Commit {
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords = '%s']/git/commits/commit[sha = '%s']",
-            this.coords, this.sha
+            this.coords, this.identifier
         );
     }
 }

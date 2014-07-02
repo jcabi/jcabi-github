@@ -36,15 +36,11 @@ import com.jcabi.github.Commit;
 import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-
 import java.io.IOException;
-
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-
-import org.xembly.Directives;
-
 import lombok.EqualsAndHashCode;
+import org.xembly.Directives;
 
 /**
  * Mock of Github Commits.
@@ -97,13 +93,13 @@ public class MkCommits implements Commits {
     }
     @Override
     @NotNull(message = "Repository can't be NULL")
-    public Repo repo() {
+    public final Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     @NotNull(message = "created commit is never NULL")
-    public Commit create(
+    public final Commit create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
         return this.get(params.getString("sha"));
@@ -111,8 +107,9 @@ public class MkCommits implements Commits {
 
     @Override
     @NotNull(message = "commit is never NULL")
-    public Commit get(@NotNull(message = "sha can't be NULL") final String sha) {
+    public final Commit get(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
         return new MkCommit(this.storage, this.self, this.coords, sha);
     }
-    
 }

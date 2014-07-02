@@ -32,20 +32,18 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Commit;
 import com.jcabi.github.Repo;
-
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Testcase for MkTags.
  * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class MkCommitsTest {
 
@@ -54,17 +52,18 @@ public class MkCommitsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsMkCommit() throws Exception {
+    public final void createsMkCommit() throws Exception {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();
-        final JsonArray tree = Json.createArrayBuilder().add("xyzsha12").build();
-        Commit newCommit = this.repo().git().commits().create(
-                Json.createObjectBuilder().add("message", "my commit message")
-                    .add("sha", "12ahscba")
-                    .add("tree", "abcsha12")
-                    .add("parents", tree)
-                    .add("author", author).build()
+        final JsonArray tree = Json.createArrayBuilder()
+            .add("xyzsha12").build();
+        final Commit newCommit = this.repo().git().commits().create(
+            Json.createObjectBuilder().add("message", "my commit message")
+                .add("sha", "12ahscba")
+                .add("tree", "abcsha12")
+                .add("parents", tree)
+                .add("author", author).build()
         );
         MatcherAssert.assertThat(
             newCommit,
@@ -86,5 +85,4 @@ public class MkCommitsTest {
             Json.createObjectBuilder().add("name", "test").build()
         );
     }
-    
 }

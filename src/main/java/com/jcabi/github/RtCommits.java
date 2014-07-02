@@ -34,13 +34,10 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
-
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 
 /**
@@ -79,18 +76,20 @@ public class RtCommits implements Commits {
         this.entry = req;
         this.owner = repo;
         this.request = req.uri().path("/repos").path(repo.coordinates().user())
-            .path(repo.coordinates().repo()).path("/git").path("/commits").back();
+            .path(repo.coordinates().repo())
+            .path("/git")
+            .path("/commits").back();
     }
 
     @Override
     @NotNull(message = "Repository is never NULL")
-    public Repo repo() {
+    public final Repo repo() {
         return this.owner;
     }
 
     @Override
     @NotNull(message = "tag is never NULL")
-    public Commit create(
+    public final Commit create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
         final Commit created = this.get(
@@ -106,10 +105,9 @@ public class RtCommits implements Commits {
 
     @Override
     @NotNull(message = "tag is never NULL")
-    public Commit get(
+    public final Commit get(
         @NotNull(message = "sha can't be NULL") final String sha
     ) {
         return new RtCommit(this.entry, this.owner, sha);
     }
-    
 }

@@ -27,7 +27,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
@@ -45,13 +44,20 @@ import org.junit.Test;
 
 /**
  * Testcase for RtCommits.
+ *
  * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RtCommitsTest {
 
+    /**
+     * Tests creating a Commit.
+     *
+     * @throws Exception when an error occurs
+     */
     @Test
-    public void createsCommit() throws Exception {
+    public final void createsCommit() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
@@ -69,7 +75,7 @@ public class RtCommitsTest {
             .add("message", "initial version")
             .add("author", author).build();
         try {
-            Commit newCommit = commits.create(input);
+            final Commit newCommit = commits.create(input);
             MatcherAssert.assertThat(
                 newCommit,
                 Matchers.instanceOf(Commit.class)
@@ -79,8 +85,9 @@ public class RtCommitsTest {
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                    newCommit.sha(), 
-                    Matchers.equalTo("0abcd89jcabitest"));
+                newCommit.sha(),
+                Matchers.equalTo("0abcd89jcabitest")
+            );
         } finally {
             container.stop();
         }
@@ -88,6 +95,7 @@ public class RtCommitsTest {
 
     /**
      * This method returns a Repo for testing.
+     *
      * @return Repo - a repo to be used for test.
      * @throws Exception - if anything goes wrong.
      */

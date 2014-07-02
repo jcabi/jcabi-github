@@ -39,16 +39,10 @@ import com.jcabi.github.References;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Tags;
 import com.jcabi.github.Trees;
-
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 import org.xembly.Directives;
 
 /**
@@ -121,7 +115,7 @@ final class MkGit implements Git {
     public Commits commits() {
         try {
             return new MkCommits(this.storage, this.self, this.coords);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }
