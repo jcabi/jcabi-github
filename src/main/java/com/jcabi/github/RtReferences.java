@@ -153,13 +153,13 @@ final class RtReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Iterable of references is never NULL")
+    @NotNull(message = "Iterable of tag references is never NULL")
     public Iterable<Reference> tags() {
         return this.iterate("tags");
     }
 
     @Override
-    @NotNull(message = "Iterable of references is never NULL")
+    @NotNull(message = "Iterable of head references is never NULL")
     public Iterable<Reference> heads() {
         return this.iterate("heads");
     }

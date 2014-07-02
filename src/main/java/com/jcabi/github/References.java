@@ -95,14 +95,14 @@ public interface References {
      * Iterate references under "tags" sub-namespace.
      * @return Iterator of references.
      */
-    @NotNull(message = "iterable is never NULL")
+    @NotNull(message = "iterable of tags is never NULL")
     Iterable<Reference> tags();
 
     /**
      * Iterate references under "heads" sub-namespace.
      * @return Iterator of references.
      */
-    @NotNull(message = "iterable is never NULL")
+    @NotNull(message = "iterable of heads is never NULL")
     Iterable<Reference> heads();
 
     /**
