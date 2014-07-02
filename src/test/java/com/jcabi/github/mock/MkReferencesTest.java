@@ -109,6 +109,36 @@ public final class MkReferencesTest {
     }
 
     /**
+     * MkReferences can iterate over references in Tagsub-namespace.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesTags() throws Exception {
+        final Repo owner = this.repo();
+        final References refs = owner.git().references();
+        refs.create("refs/tags/t2", "2322f34");
+        MatcherAssert.assertThat(
+            refs.tags(),
+            Matchers.<Reference>iterableWithSize(1)
+        );
+    }
+
+    /**
+     * MkReferences can iterate over references in Tagsub-namespace.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesHeads() throws Exception {
+        final Repo owner = this.repo();
+        final References refs = owner.git().references();
+        refs.create("refs/heads/branch2", "blahblah");
+        MatcherAssert.assertThat(
+            refs.heads(),
+            Matchers.<Reference>iterableWithSize(1)
+        );
+    }
+
+    /**
      * MkReferences can remove a Reference.
      * @throws Exception - If something goes wrong.
      */
