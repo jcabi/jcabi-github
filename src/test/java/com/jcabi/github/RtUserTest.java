@@ -423,7 +423,9 @@ public final class RtUserTest {
      */
     @Test
     public void hasCreated() throws Exception {
-        final Github.Time value = new Github.Time(this.currentTimeInSeconds());
+        final Github.Time value = new Github.Time(
+            new Time().currentTimeInSeconds()
+        );
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
     }
@@ -434,7 +436,9 @@ public final class RtUserTest {
      */
     @Test
     public void hasUpdated() throws Exception {
-        final Github.Time value = new Github.Time(this.currentTimeInSeconds());
+        final Github.Time value = new Github.Time(
+            new Time().currentTimeInSeconds()
+        );
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
     }
@@ -458,14 +462,5 @@ public final class RtUserTest {
                 "octoc"
             )
         );
-    }
-
-    /**
-     * Get current time with precision up to a second.
-     * @return Current time with precision up to a second.
-     */
-    private long currentTimeInSeconds() {
-        // @checkstyle MagicNumberCheck (1 line)
-        return System.currentTimeMillis() / 1000 * 1000;
     }
 }
