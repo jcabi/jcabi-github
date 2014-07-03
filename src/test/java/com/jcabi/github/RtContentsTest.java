@@ -194,10 +194,6 @@ public final class RtContentsTest {
 
     /**
      * RtContents can create a file in the repository.
-     * @todo #314:15min RtContents#create() should be referencing a get()
-     *  method instead of creating its own RtContent object, however,
-     *  that method is not yet present. When that has been implemented, update
-     *  create() to delegate to get() to obtain a RtContent instance.
      * @throws Exception If a problem occurs.
      */
     @Test
