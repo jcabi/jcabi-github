@@ -102,10 +102,15 @@ public final class CarefulWire implements Wire {
      * @checkstyle ParameterNumber (6 lines)
      */
     @Override
-    public Response send(final Request req, final String home,
-        final String method,
+    @NotNull(message = "response can't be NULL")
+    public Response send(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "home can't be NULL") final String home,
+        @NotNull(message = "method can't be NULL")final String method,
+        @NotNull(message = "headers can't be NULL")
         final Collection<Map.Entry<String, String>> headers,
-        final byte[] content) throws IOException {
+        @NotNull(message = "content can't be NULL") final byte[] content
+    ) throws IOException {
         final Response resp = this.origin
             .send(req, home, method, headers, content);
         final int remaining = Integer.parseInt(

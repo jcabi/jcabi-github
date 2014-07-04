@@ -62,7 +62,10 @@ final class RtLimits implements Limits {
      * @param github Github
      * @param req Request
      */
-    RtLimits(final Github github, final Request req) {
+    RtLimits(
+        @NotNull(message = "github can't be NULL") final Github github,
+        @NotNull(message = "req can't be NULL") final Request req
+    ) {
         this.entry = req.uri().path("rate_limit").back();
         this.ghub = github;
     }
@@ -75,7 +78,9 @@ final class RtLimits implements Limits {
 
     @Override
     @NotNull(message = "Limit is never NULL")
-    public Limit get(final String resource) {
+    public Limit get(
+        @NotNull(message = "resource can't be NULL") final String resource
+    ) {
         return new RtLimit(this.ghub, this.entry, resource);
     }
 

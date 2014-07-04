@@ -98,6 +98,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @return Color of it
          * @throws IOException If there is any I/O problem
          */
+        @NotNull(message = "color is never NULL")
         public String color() throws IOException {
             return this.jsn.text("color");
         }

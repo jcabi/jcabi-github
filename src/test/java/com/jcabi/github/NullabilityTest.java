@@ -43,7 +43,6 @@ import javax.validation.constraints.NotNull;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -76,7 +75,6 @@ public final class NullabilityTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkNullability() throws Exception {
         MatcherAssert.assertThat(
             this.classpath.allPublicMethods(),
@@ -86,6 +84,7 @@ public final class NullabilityTest {
                     @Override
                     protected boolean matchesSafely(final Method item) {
                         return item.getReturnType().isPrimitive()
+                            || "toString".equals(item.getName())
                             || item.isAnnotationPresent(NotNull.class)
                             && NullabilityTest.allParamsAnnotated(item);
                     }
