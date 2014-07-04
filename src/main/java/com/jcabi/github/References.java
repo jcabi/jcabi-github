@@ -82,6 +82,30 @@ public interface References {
     Iterable<Reference> iterate();
 
     /**
+     * Iterates references in sub-namespace.
+     * @param subnamespace Sub-namespace
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Reference> iterate(
+        @NotNull(message = "identifier can't be null") String subnamespace
+    );
+
+    /**
+     * Iterate references under "tags" sub-namespace.
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable of tags is never NULL")
+    Iterable<Reference> tags();
+
+    /**
+     * Iterate references under "heads" sub-namespace.
+     * @return Iterator of references.
+     */
+    @NotNull(message = "iterable of heads is never NULL")
+    Iterable<Reference> heads();
+
+    /**
      * Removes a reference by its identifier.
      * @param identifier Reference's identifier.
      * @throws IOException If there is any I/O problem.

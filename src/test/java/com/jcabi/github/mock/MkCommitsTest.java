@@ -27,47 +27,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Commit;
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git Data Commits.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for MkTags.
+ * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Commits {
+public class MkCommitsTest {
 
     /**
-     * Owner of them.
+     * MkCommits can create commits.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public final void createsMkCommit() throws Exception {
+        final JsonObject author = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "Scott@gmail.com")
+            .add("date", "2008-07-09T16:13:30+12:00").build();
+        final JsonArray tree = Json.createArrayBuilder()
+            .add("xyzsha12").build();
+        final Commit newCommit = this.repo().git().commits().create(
+            Json.createObjectBuilder().add("message", "my commit message")
+                .add("sha", "12ahscba")
+                .add("tree", "abcsha12")
+                .add("parents", tree)
+                .add("author", author).build()
+        );
+        MatcherAssert.assertThat(
+            newCommit,
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            newCommit.sha(),
+            Matchers.equalTo("12ahscba")
+        );
+    }
+
+    /**
+     * Repo for testing.
      * @return Repo
+     * @throws Exception - if something goes wrong.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Create a Commit object.
-     * @param params The input for creating the Tag.
-     * @return Commit
-     * @throws IOException - If anything goes wrong.
-     */
-    @NotNull(message = "commit is never NULL")
-    Commit create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Commit by its SHA.
-     * @param sha The sha of the Commit.
-     * @return Commit
-     */
-    @NotNull(message = "commit is never NULL")
-    Commit get(@NotNull(message = "sha can't be null") String sha);
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 }

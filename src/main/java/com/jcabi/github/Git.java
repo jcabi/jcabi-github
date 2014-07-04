@@ -63,16 +63,6 @@ public interface Git {
      * Get its commits.
      * @return Commits
      * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
-     * @todo #115:30min Implement the Git Data Commits API. We need to
-     *  implement the following:
-     *  1) Add the operations in http://developer.github.com/v3/git/commits/
-     *  to the Commits interface. Fetch operations should return Commit
-     *  instances.
-     *  2) A class RtCommits, which performs RESTful request operations
-     *  against the Commits API.
-     *  3) A class MkCommits, which mocks the Commits interface.
-     *  4) MkCommit, which mocks a single Commit object.
-     *  Don't forget to implement unit tests and integration tests.
      */
     @NotNull(message = "Commits is never NULL")
     Commits commits();
@@ -101,7 +91,6 @@ public interface Git {
      *  1) A class MkTrees, which mocks the Trees interface.
      *  2) MkTree, which mocks a single Tree object.
      *  Don't forget to implement unit tests
-     * @todo #441 Implement the Git Data Tree integration tests.
      */
     @NotNull(message = "Trees is never NULL")
     Trees trees();
