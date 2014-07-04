@@ -423,9 +423,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasCreated() throws Exception {
-        final Github.Time value = new Github.Time(
-            new Time().currentTimeInSeconds()
-        );
+        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
     }
@@ -436,9 +434,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasUpdated() throws Exception {
-        final Github.Time value = new Github.Time(
-            new Time().currentTimeInSeconds()
-        );
+        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
     }
