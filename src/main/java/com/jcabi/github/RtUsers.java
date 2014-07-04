@@ -104,10 +104,11 @@ final class RtUsers implements Users {
 
     @Override
     @NotNull(message = "Iterable of users is never NULL")
-    public Iterable<User> iterate(@NotNull(message = "login is never NULL")
-        final String login) {
+    public Iterable<User> iterate(
+        @NotNull(message = "identifier is never NULL") final String identifier
+    ) {
         return new RtPagination<User>(
-            this.request.uri().queryParam("since", login).back(),
+            this.request.uri().queryParam("since", identifier).back(),
             new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
