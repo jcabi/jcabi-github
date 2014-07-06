@@ -51,9 +51,6 @@ import org.junit.Test;
  * Checks that all public methods in clases in package {@code com.jcabi.github }
  * have {@code @NotNull} annotation for return value and for input arguments
  * (if they are not scalar).
- * @todo #661:30min Ensure that all methods return values and input arguments
- *  are annotated with {@code @NotNull} and remove the {@code @Ignore}
- *  annotation.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
