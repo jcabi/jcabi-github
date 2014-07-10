@@ -135,6 +135,14 @@ public interface Event extends Comparable<Event>, JsonReadable {
             this.jsn = new SmartJson(evt);
         }
         /**
+         * Does it have an author?
+         * @return TRUE if the author exists
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean hasAuthor() throws IOException {
+            return !this.event.json().isNull("actor");
+        }
+        /**
          * Get its author.
          * @return Author of comment
          * @throws IOException If there is any I/O problem
