@@ -33,6 +33,7 @@ import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.xml.bind.DatatypeConverter;
@@ -118,7 +119,7 @@ public final class MkContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
-                IOUtils.toString(stream),
+                IOUtils.toString(stream, "UTF-8"),
                 Matchers.is(raw)
             );
         } finally {
@@ -137,13 +138,13 @@ public final class MkContentTest {
         final String path,
         final String message,
         final String content
-    ) {
+    ) throws UnsupportedEncodingException {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("message", message)
             .add(
                 "content",
-                DatatypeConverter.printBase64Binary(content.getBytes())
+                DatatypeConverter.printBase64Binary(content.getBytes("UTF-8"))
             ).build();
     }
 
