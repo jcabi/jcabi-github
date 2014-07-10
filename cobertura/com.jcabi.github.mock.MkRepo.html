@@ -224,11 +224,11 @@
   <td class="src"><pre class="src">&nbsp;        @NotNull(message = <span class="string">"login can't be NULL"</span>) <span class="keyword">final</span> String login,</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;96</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @NotNull(message = <span class="string">"repo can't be NULL"</span>) <span class="keyword">final</span> Coordinates repo</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;97</td>  <td class="nbHitsCovered">&nbsp;286</td>  <td class="src"><pre class="src">&nbsp;    ) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;98</td>  <td class="nbHitsCovered">&nbsp;286</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage = stg;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;99</td>  <td class="nbHitsCovered">&nbsp;286</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.self = login;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;100</td>  <td class="nbHitsCovered">&nbsp;286</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.coords = repo;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;101</td>  <td class="nbHitsCovered">&nbsp;286</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;97</td>  <td class="nbHitsCovered">&nbsp;293</td>  <td class="src"><pre class="src">&nbsp;    ) {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;98</td>  <td class="nbHitsCovered">&nbsp;293</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage = stg;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;99</td>  <td class="nbHitsCovered">&nbsp;293</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.self = login;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;100</td>  <td class="nbHitsCovered">&nbsp;293</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.coords = repo;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;101</td>  <td class="nbHitsCovered">&nbsp;293</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;102</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;103</td>  <td class="nbHits">&nbsp;</td>
@@ -248,7 +248,7 @@
   <td class="src"><pre class="src">&nbsp;    @NotNull(message = <span class="string">"coordinates is never NULL"</span>)</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;111</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Coordinates coordinates() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;112</td>  <td class="nbHitsCovered">&nbsp;298</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> <span class="keyword">this</span>.coords;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;112</td>  <td class="nbHitsCovered">&nbsp;320</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> <span class="keyword">this</span>.coords;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;113</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;114</td>  <td class="nbHits">&nbsp;</td>
@@ -459,8 +459,8 @@
   <td class="src"><pre class="src">&nbsp;        @NotNull(message = <span class="string">"JSON is never NULL"</span>) <span class="keyword">final</span> JsonObject json</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;234</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    ) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;235</td>  <td class="nbHitsCovered">&nbsp;306</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">new</span> JsonPatch(<span class="keyword">this</span>.storage).patch(<span class="keyword">this</span>.xpath(), json);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;236</td>  <td class="nbHitsCovered">&nbsp;153</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;235</td>  <td class="nbHitsCovered">&nbsp;320</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">new</span> JsonPatch(<span class="keyword">this</span>.storage).patch(<span class="keyword">this</span>.xpath(), json);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;236</td>  <td class="nbHitsCovered">&nbsp;160</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;237</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;238</td>  <td class="nbHits">&nbsp;</td>
@@ -492,7 +492,7 @@
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Git git() {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;253</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">try</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;254</td>  <td class="nbHitsCovered">&nbsp;28</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">new</span> MkGit(<span class="keyword">this</span>.storage, <span class="keyword">this</span>.self, <span class="keyword">this</span>.coords);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;254</td>  <td class="nbHitsCovered">&nbsp;36</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">new</span> MkGit(<span class="keyword">this</span>.storage, <span class="keyword">this</span>.self, <span class="keyword">this</span>.coords);</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;255</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        } <span class="keyword">catch</span> (<span class="keyword">final</span> IOException ex) {</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;256</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;257</td>  <td class="nbHits">&nbsp;</td>
@@ -537,7 +537,7 @@
   <td class="src"><pre class="src">&nbsp;    @NotNull(message = <span class="string">"Xpath is never NULL"</span>)</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;278</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">private</span> String xpath() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;279</td>  <td class="nbHitsCovered">&nbsp;154</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> String.format(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;279</td>  <td class="nbHitsCovered">&nbsp;161</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> String.format(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;280</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="string">"/github/repos/repo[@coords='%s']"</span>,</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;281</td>  <td class="nbHits">&nbsp;</td>
@@ -552,6 +552,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 6/25/14 10:10 AM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 7/10/14 2:32 PM.</div>
 </body>
 </html>

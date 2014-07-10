@@ -91,7 +91,7 @@
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>      @Override
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>      @NotNull(message = <span class="jxr_string">"commits can't be NULL"</span>)
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Commits.html">Commits</a> commits() {
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException(<span class="jxr_string">"Commits not yet implemented"</span>);
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtCommits.html">RtCommits</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>.owner);
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>      }
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>      @Override

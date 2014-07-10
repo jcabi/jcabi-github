@@ -1,44 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?xml-stylesheet type='text/xsl' href='puzzles.xsl'?><puzzles>
 <puzzle>
-<ticket>1</ticket>
-<file>pom.xml</file>
-<body>Enable Cobertura profile by default. This code coverage check doesn't work due to some problem with Cobertura plugin. It always reports zero coverage for all classes. I was trying to run it without AspectJ weavling using "mvn clean install -Pcobertura -P\!aspectj", but it doesn't help. Let's fix it and enable by default.</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>254-259</lines>
-</puzzle>
-<puzzle>
-<ticket>121</ticket>
-<file>src/main/java/com/jcabi/github/Fork.java</file>
-<body>Add more Fork attributes to Smart decorator for this class. Don't forget to add them to unit test.</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>48-48</lines>
-</puzzle>
-<puzzle>
-<ticket>115</ticket>
-<file>src/main/java/com/jcabi/github/Git.java</file>
-<body>Implement the Git Data Commits API. We need to implement the following: 1) Add the operations in http://developer.github.com/v3/git/commits/ to the Commits interface. Fetch operations should return Commit instances. 2) A class RtCommits, which performs RESTful request operations against the Commits API. 3) A class MkCommits, which mocks the Commits interface. 4) MkCommit, which mocks a single Commit object. Don't forget to implement unit tests and integration tests.</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>66-75</lines>
-</puzzle>
-<puzzle>
 <ticket>440</ticket>
 <file>src/main/java/com/jcabi/github/Git.java</file>
 <body>Implement the Git Data Trees Mock classes: 1) A class MkTrees, which mocks the Trees interface. 2) MkTree, which mocks a single Tree object. Don't forget to implement unit tests</body>
 <role>IMP</role>
 <estimate>0</estimate>
-<lines>100-103</lines>
-</puzzle>
-<puzzle>
-<ticket>441</ticket>
-<file>src/main/java/com/jcabi/github/Git.java</file>
-<body>Implement the Git Data Tree integration tests.</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>104-104</lines>
+<lines>90-93</lines>
 </puzzle>
 <puzzle>
 <ticket>812</ticket>
@@ -62,15 +30,7 @@
 <body>Implement methods to retrieve all values provided by Github for a single user, see: http://developer.github.com/v3/users/#get-a-single-user At the moment we implement just a few, but every data items should have its own method. Of course, every new item should be tested by a new unit test method.</body>
 <role>IMP</role>
 <estimate>30</estimate>
-<lines>93-98</lines>
-</puzzle>
-<puzzle>
-<ticket>314</ticket>
-<file>src/main/java/com/jcabi/github/mock/MkContent.java</file>
-<body>MkContent should be able to return its own repository when the repo() method is invoked, and its own path when the path() method is invoked. Don't forget to implement unit tests.</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>52-54</lines>
+<lines>94-99</lines>
 </puzzle>
 <puzzle>
 <ticket>6</ticket>
@@ -81,20 +41,20 @@
 <lines>201-204</lines>
 </puzzle>
 <puzzle>
+<ticket>818</ticket>
+<file>src/main/java/com/jcabi/github/mock/MkIssue.java</file>
+<body>MkIssue#exists() is not implemented. Let's implement it and remove this puzzle.</body>
+<role>IMP</role>
+<estimate>0</estimate>
+<lines>58-59</lines>
+</puzzle>
+<puzzle>
 <ticket>217</ticket>
 <file>src/main/java/com/jcabi/github/mock/MkSearch.java</file>
 <body>MkSearch.codes() is not implemented. Let's implement it and remove this puzzle @see &lt;a href="https://developer.github.com/v3/search/#search-code"&gt;Search API&lt;/a&gt; for details</body>
 <role>IMP</role>
 <estimate>0</estimate>
 <lines>54-57</lines>
-</puzzle>
-<puzzle>
-<ticket>2</ticket>
-<file>src/main/java/com/jcabi/github/mock/MkUser.java</file>
-<body>Organizations of a user. Let's implements a new method organizations(), which should return a mock instance of interface Organisations.</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>52-54</lines>
 </puzzle>
 <puzzle>
 <ticket>661</ticket>
@@ -121,30 +81,6 @@
 <lines>48-50</lines>
 </puzzle>
 <puzzle>
-<ticket>551</ticket>
-<file>src/test/java/com/jcabi/github/RtGistsITCase.java</file>
-<body>CreateGist is disabled since it doesn't work with real Github account. Let's fix it and remove the Ignore annotation.</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>48-50</lines>
-</puzzle>
-<puzzle>
-<ticket>802</ticket>
-<file>src/test/java/com/jcabi/github/RtIssueITCase.java</file>
-<body>RtIssueITCase.identifyAssignee() fails during Rultor build. We made research and had discussion in #802. Our current supposition is that we have such error because user that Rultor use for tests is very active, so Github think that he is "non-human" user nad don't allow to assign it to issue. The problem needs further research. I think, we can start from contact Github support. It looks like undocumented feature and we have to know what to expect from Github side, maybe they offer us something useful. More details about initial research you can find in issue #802. Let's make research, fix this bug and finally remove this puzzle.</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>122-131</lines>
-</puzzle>
-<puzzle>
-<ticket>1</ticket>
-<file>src/test/java/com/jcabi/github/RtMilestonesITCase.java</file>
-<body>Implement integration tests for Milestones. Now these tests are ignored</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>44-45</lines>
-</puzzle>
-<puzzle>
 <ticket>217</ticket>
 <file>src/test/java/com/jcabi/github/RtSearchITCase.java</file>
 <body>RtSearchITCase.canSearchForContents() is missing. Let's implement it and remove this puzzle @see &lt;a href="https://developer.github.com/v3/search/#search-code"&gt;Search API&lt;/a&gt; for details</body>
@@ -153,19 +89,19 @@
 <lines>114-117</lines>
 </puzzle>
 <puzzle>
+<ticket>825</ticket>
+<file>src/test/java/com/jcabi/github/RtUserTest.java</file>
+<body>RtUserTest.hasCreated and  RtUserTest.hasUpdated tests are ignored because issue #840 (https://github.com/jcabi/jcabi-github/issues/840)is not resolved. after resolving this issue please remove @Ignore annotation.</body>
+<role>IMP</role>
+<estimate>0</estimate>
+<lines>50-53</lines>
+</puzzle>
+<puzzle>
 <ticket>590</ticket>
 <file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
 <body>MkContents can now create and get files from non-default branches. However, the same functionality has not been implemented yet for the update() method. Let's fix it. See http://developer.github.com/v3/repos/contents for details</body>
 <role>IMP</role>
 <estimate>0</estimate>
 <lines>51-54</lines>
-</puzzle>
-<puzzle>
-<ticket>745</ticket>
-<file>src/test/java/com/jcabi/github/mock/MkStorageTest.java</file>
-<body>Update 2 tests to check behaviour in multi-threading environment. Remove this comment and @Ignore annotation.</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>116-117</lines>
 </puzzle>
 </puzzles>

@@ -143,7 +143,31 @@
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>         refs.remove(builder.toString());
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>     }
 <a class="jxr_linenumber" name="L137" href="#L137">137</a> 
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> }
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">     * RtReference can iterate over references in sub-namespace.</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">     * @throws Exception - If something goes wrong.</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>     @Test
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iteratesReferencesInSubNamespace() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         <strong class="jxr_keyword">final</strong> References refs = repo.git().references();
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <strong class="jxr_keyword">final</strong> String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         <strong class="jxr_keyword">final</strong> StringBuilder builder = <strong class="jxr_keyword">new</strong> StringBuilder(Tv.HUNDRED)
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>             .append(<span class="jxr_string">"refs/heads/"</span>).append(name);
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>         refs.create(
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>             builder.toString(),
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>             refs.get(<span class="jxr_string">"refs/heads/master"</span>).json().getJsonObject(<span class="jxr_string">"object"</span>)
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>                 .getString(<span class="jxr_string">"sha"</span>)
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         );
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>             refs.iterate(<span class="jxr_string">"heads"</span>),
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>             Matchers.notNullValue()
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>         );
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>         builder.delete(0, builder.length());
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>         builder.append(<span class="jxr_string">"heads/"</span>).append(name);
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>         refs.remove(builder.toString());
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>     }
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

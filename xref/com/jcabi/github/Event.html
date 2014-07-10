@@ -143,72 +143,80 @@
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>             <strong class="jxr_keyword">this</strong>.jsn = <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(evt);
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>         }
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_javadoccomment">         * Get its author.</em>
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">         * @return Author of comment</em>
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_javadoccomment">         * Does it have an author?</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">         * @return TRUE if the author exists</em>
 <a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L142" href="#L142">142</a>         @NotNull(message = <span class="jxr_string">"user is never NULL"</span>)
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> author() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.repo().github().users().get(
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>                 <strong class="jxr_keyword">this</strong>.event.json().getJsonObject(<span class="jxr_string">"actor"</span>).getString(<span class="jxr_string">"login"</span>)
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>             );
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>         }
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L149" href="#L149">149</a> <em class="jxr_javadoccomment">         * Get its type.</em>
-<a class="jxr_linenumber" name="L150" href="#L150">150</a> <em class="jxr_javadoccomment">         * @return State of issue</em>
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L152" href="#L152">152</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>         @NotNull(message = <span class="jxr_string">"type can't be NULL"</span>)
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>         <strong class="jxr_keyword">public</strong> String type() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"event"</span>);
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>         }
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">         * Get its URL.</em>
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">         * @return URL of issue</em>
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         @NotNull(message = <span class="jxr_string">"URL is never NULL"</span>)
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>         <strong class="jxr_keyword">public</strong> URL url() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> URL(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"url"</span>));
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>         }
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">         * When this issue was created.</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">         * @return Date of creation</em>
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         @NotNull(message = <span class="jxr_string">"Date is never NULL"</span>)
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>         <strong class="jxr_keyword">public</strong> Date createdAt() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>                     <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"created_at"</span>)
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>                 ).date();
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>             } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> ParseException ex) {
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>             }
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>         }
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>         @Override
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>         @NotNull(message = <span class="jxr_string">"Repository is never NULL"</span>)
-<a class="jxr_linenumber" name="L183" href="#L183">183</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> repo() {
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.repo();
-<a class="jxr_linenumber" name="L185" href="#L185">185</a>         }
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>         @Override
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> number() {
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.number();
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>         }
-<a class="jxr_linenumber" name="L190" href="#L190">190</a>         @Override
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>         @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
-<a class="jxr_linenumber" name="L192" href="#L192">192</a>         <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L193" href="#L193">193</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.json();
-<a class="jxr_linenumber" name="L194" href="#L194">194</a>         }
-<a class="jxr_linenumber" name="L195" href="#L195">195</a>         @Override
-<a class="jxr_linenumber" name="L196" href="#L196">196</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(
-<a class="jxr_linenumber" name="L197" href="#L197">197</a>             @NotNull(message = <span class="jxr_string">"obj can't be NULL"</span>) <strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Event.html">Event</a> obj
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>         ) {
-<a class="jxr_linenumber" name="L199" href="#L199">199</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.compareTo(obj);
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>         }
-<a class="jxr_linenumber" name="L201" href="#L201">201</a>     }
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> 
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> }
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasAuthor() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>             <strong class="jxr_keyword">return</strong> !<strong class="jxr_keyword">this</strong>.event.json().isNull(<span class="jxr_string">"actor"</span>);
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         }
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> <em class="jxr_javadoccomment">         * Get its author.</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">         * @return Author of comment</em>
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         @NotNull(message = <span class="jxr_string">"user is never NULL"</span>)
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> author() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.repo().github().users().get(
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>                 <strong class="jxr_keyword">this</strong>.event.json().getJsonObject(<span class="jxr_string">"actor"</span>).getString(<span class="jxr_string">"login"</span>)
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>             );
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         }
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> <em class="jxr_javadoccomment">         * Get its type.</em>
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">         * @return State of issue</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>         @NotNull(message = <span class="jxr_string">"type can't be NULL"</span>)
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <strong class="jxr_keyword">public</strong> String type() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"event"</span>);
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>         }
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">         * Get its URL.</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">         * @return URL of issue</em>
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>         @NotNull(message = <span class="jxr_string">"URL is never NULL"</span>)
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">public</strong> URL url() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> URL(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"url"</span>));
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>         }
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">         * When this issue was created.</em>
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">         * @return Date of creation</em>
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>         @NotNull(message = <span class="jxr_string">"Date is never NULL"</span>)
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         <strong class="jxr_keyword">public</strong> Date createdAt() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>                     <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"created_at"</span>)
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>                 ).date();
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>             } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> ParseException ex) {
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(ex);
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>             }
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>         }
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>         @Override
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>         @NotNull(message = <span class="jxr_string">"Repository is never NULL"</span>)
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> repo() {
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.repo();
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         }
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>         @Override
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> number() {
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.number();
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>         }
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>         @Override
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>         @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>         <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.json();
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>         }
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>         @Override
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>             @NotNull(message = <span class="jxr_string">"obj can't be NULL"</span>) <strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Event.html">Event</a> obj
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>         ) {
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.event.compareTo(obj);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>         }
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>     }
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
