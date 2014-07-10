@@ -51,6 +51,11 @@ import org.junit.Test;
 public final class MkContentTest {
 
     /**
+     * Specifies default encoding for content.
+     */
+    private static final String DEFAULT_ENC = "UTF-8";
+
+    /**
      * MkContent should be able to fetch its own repo.
      *
      * @throws Exception if some problem inside
@@ -119,7 +124,7 @@ public final class MkContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
-                IOUtils.toString(stream, "UTF-8"),
+                IOUtils.toString(stream, DEFAULT_ENC),
                 Matchers.is(raw)
             );
         } finally {
@@ -132,6 +137,8 @@ public final class MkContentTest {
      * @param path The path of the file
      * @param message Commit message
      * @param content File content
+     * @throws java.io.UnsupportedEncodingException
+     *  if UTF-8 encoding is not supported.
      * @return JSON representation of content attributes
      */
     private static JsonObject jsonContent(
@@ -144,7 +151,9 @@ public final class MkContentTest {
             .add("message", message)
             .add(
                 "content",
-                DatatypeConverter.printBase64Binary(content.getBytes("UTF-8"))
+                DatatypeConverter.printBase64Binary(
+                    content.getBytes(DEFAULT_ENC)
+                )
             ).build();
     }
 
