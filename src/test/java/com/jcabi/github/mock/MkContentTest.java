@@ -38,6 +38,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.CharEncoding;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -49,11 +50,6 @@ import org.junit.Test;
  * @since 0.8
  */
 public final class MkContentTest {
-
-    /**
-     * Specifies default encoding for content.
-     */
-    private static final String DEFAULT_ENC = "UTF-8";
 
     /**
      * MkContent should be able to fetch its own repo.
@@ -124,7 +120,7 @@ public final class MkContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
-                IOUtils.toString(stream, DEFAULT_ENC),
+                IOUtils.toString(stream, CharEncoding.UTF_8),
                 Matchers.is(raw)
             );
         } finally {
@@ -152,7 +148,7 @@ public final class MkContentTest {
             .add(
                 "content",
                 DatatypeConverter.printBase64Binary(
-                    content.getBytes(DEFAULT_ENC)
+                    content.getBytes(CharEncoding.UTF_8)
                 )
             ).build();
     }
