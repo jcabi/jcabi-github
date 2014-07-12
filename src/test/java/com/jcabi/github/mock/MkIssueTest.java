@@ -48,6 +48,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class MkIssueTest {
 
     /**
@@ -210,6 +211,32 @@ public final class MkIssueTest {
         MatcherAssert.assertThat(
             new Issue.Smart(issue).author().login(),
             Matchers.is("second")
+        );
+    }
+
+    /**
+     * Can check if issue exists.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void canCheckIfIssueExists() throws Exception {
+        MatcherAssert.assertThat(this.issue().exists(), Matchers.is(true));
+    }
+
+    /**
+     * MkIssue.exists() return false on nonexistent issues.
+     * @throws Exception if any error occurs.
+     */
+    @Test
+    public void canCheckNonExistentIssue() throws Exception {
+        MatcherAssert.assertThat(
+            new MkIssue(
+                new MkStorage.InFile(),
+                "login",
+                new Coordinates.Simple("user", "repo"),
+                1
+            ).exists(),
+            Matchers.is(false)
         );
     }
 
