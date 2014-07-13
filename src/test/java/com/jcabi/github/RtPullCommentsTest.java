@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
@@ -40,7 +41,6 @@ import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import java.util.Collections;
-import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -188,7 +188,7 @@ public final class RtPullCommentsTest {
         final int number = 4;
         final String response = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", new Random().nextInt())
+            .add("id", Tv.BILLION)
             .add("body", body)
             .add("in_reply_to", number)
             .build()
@@ -274,7 +274,7 @@ public final class RtPullCommentsTest {
         final String path, final int position) throws Exception {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", new Random().nextInt())
+            .add("id", Tv.BILLION)
             .add("body", body)
             .add("commit_id", commit)
             .add("path", path)
