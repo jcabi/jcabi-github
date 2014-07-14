@@ -4,6 +4,8 @@ assets:
   secring.gpg: "yegor256/home#assets/secring.gpg"
 
 merge:
+  commanders:
+    - carlosmiranda
   env:
     MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
   script: 
