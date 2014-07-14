@@ -29,9 +29,14 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -42,6 +47,43 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 public final class RtLabelsITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
 
     /**
      * RtLabels can list all labels.
@@ -49,7 +91,7 @@ public final class RtLabelsITCase {
      */
     @Test
     public void listsLabels() throws Exception {
-        final Labels labels = RtLabelsITCase.repo().labels();
+        final Labels labels = repo.labels();
         final Iterable<Label.Smart> list =
             new Smarts<Label.Smart>(labels.iterate());
         for (final Label.Smart label : list) {
@@ -66,7 +108,7 @@ public final class RtLabelsITCase {
      */
     @Test
     public void createsNewLabel() throws Exception {
-        final Labels labels = RtLabelsITCase.repo().labels();
+        final Labels labels = repo.labels();
         final Label label = new Labels.Smart(labels).createOrGet("test-3");
         MatcherAssert.assertThat(
             new Label.Smart(label).color(),
@@ -77,18 +119,4 @@ public final class RtLabelsITCase {
             Matchers.not(Matchers.emptyIterable())
         );
     }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        );
-    }
-
 }

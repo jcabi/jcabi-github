@@ -29,10 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.immutable.ArrayMap;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -45,6 +50,43 @@ import org.junit.Test;
  *  Now these tests are ignored
  */
 public final class RtMilestonesITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
 
     /**
      * RtMilestones can iterate milestones.
@@ -72,7 +114,7 @@ public final class RtMilestonesITCase {
      */
     @Test
     public void deleteMilestone() throws Exception {
-        final Milestones milestones = milestones();
+        final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create("a milestones");
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<String, String>()),
@@ -83,18 +125,6 @@ public final class RtMilestonesITCase {
             milestones.iterate(new ArrayMap<String, String>()),
             Matchers.not(Matchers.hasItem(milestone))
         );
-    }
-    /**
-     * Create and return milestones to test.
-     * @return Milestones
-     * @throws Exception If some problem inside
-     */
-    private static Milestones milestones() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).milestones();
     }
 }
 
