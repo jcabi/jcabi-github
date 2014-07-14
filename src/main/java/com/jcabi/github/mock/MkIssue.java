@@ -54,8 +54,6 @@ import lombok.ToString;
 /**
  * Mock Github issue.
  *
- * @todo #818 MkIssue#exists() is not implemented.
- *  Let's implement it and remove this puzzle.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
