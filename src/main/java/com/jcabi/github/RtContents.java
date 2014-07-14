@@ -169,23 +169,16 @@ final class RtContents implements Contents {
     public Content get(
         @NotNull(message = "path can't be NULL") final String path,
         @NotNull(message = "ref can't be NULL") final String ref
-    )
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("path", path)
-            .add("ref", ref)
-            .build();
-        return new RtContent(
-            this.entry, this.owner,
-            this.request.method(Request.GET)
-                .uri().path(path).back()
-                .body().set(json).back()
-                .fetch()
-                .as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_OK)
-                .as(JsonResponse.class)
-                .json().readObject().getString("path")
-        );
+    ) throws IOException {
+        return this.content(path, ref);
+    }
+
+    @Override
+    @NotNull(message = "Content can't be NULL")
+    public Content get(
+        @NotNull(message = "path can't be NULL") final String path
+    ) throws IOException {
+        return this.content(path, "master");
     }
 
     @Override
@@ -256,6 +249,30 @@ final class RtContents implements Contents {
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class).json()
                 .readObject().getJsonObject("commit").getString("sha")
+        );
+    }
+
+    /**
+     * Get the contents of a file or symbolic link in a repository.
+     * @param path The content path
+     * @param ref The name of the commit/branch/tag.
+     * @return Content fetched
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     */
+    private Content content(
+        final String path, final String ref
+    ) throws IOException {
+        final String name = "ref";
+        return new RtContent(
+            this.entry.uri().queryParam(name, ref).back(), this.owner,
+            this.request.method(Request.GET)
+                .uri().path(path).queryParam(name, ref).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json().readObject().getString("path")
         );
     }
 

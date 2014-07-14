@@ -30,19 +30,18 @@
 package com.jcabi.github;
 
 import com.jcabi.immutable.ArrayMap;
+import java.util.Collections;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Integration case for {@link Milestones}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- *
- * @todo #1:30min Implement integration tests for Milestones.
- *  Now these tests are ignored
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 public final class RtMilestonesITCase {
 
@@ -51,9 +50,19 @@ public final class RtMilestonesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesIssues() throws Exception {
-        //
+        final Milestones milestones = milestones();
+        final Milestone milestone = milestones.create(
+            RandomStringUtils.randomAlphabetic(10)
+        );
+        try {
+            MatcherAssert.assertThat(
+                milestones.iterate(Collections.singletonMap("state", "all")),
+                Matchers.hasItem(milestone)
+            );
+        } finally {
+            milestones.remove(milestone.number());
+        }
     }
 
     /**
@@ -61,9 +70,19 @@ public final class RtMilestonesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void createsNewMilestone() throws Exception {
-        //
+        final Milestones milestones = milestones();
+        final Milestone milestone = milestones.create(
+            RandomStringUtils.randomAlphabetic(10)
+        );
+        try {
+            MatcherAssert.assertThat(
+                milestones.iterate(Collections.singletonMap("state", "all")),
+                Matchers.not(Matchers.emptyIterable())
+            );
+        } finally {
+            milestones.remove(milestone.number());
+        }
     }
 
     /**

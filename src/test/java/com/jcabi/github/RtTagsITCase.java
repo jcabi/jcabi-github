@@ -60,6 +60,12 @@ public final class RtTagsITCase {
     private static Repo repo;
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    private static RepoRule rule = new RepoRule();
+
+    /**
      * Set up test fixtures.
      * @throws Exception If some errors occurred.
      */
@@ -69,11 +75,7 @@ public final class RtTagsITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
+        repo = rule.repo(repos);
     }
 
     /**
@@ -98,7 +100,7 @@ public final class RtTagsITCase {
         final References refs = repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIVE);
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();

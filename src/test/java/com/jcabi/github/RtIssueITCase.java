@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.log.Logger;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -116,13 +117,29 @@ public final class RtIssueITCase {
 
     /**
      * RtIssue can fetch assignee.
+     *
+     * <p> If you get AssertionError during this test execution and test was
+     *  ignored it means that something happened with account that you try to
+     *  edit with Issue.assign(). We had this problem when our account was
+     *  flagged as suspicious by Github. In this case you should contact Github
+     *  support and ask them to unblock account you use.
+     *
+     * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
      * @throws Exception if any problem inside.
      */
     @Test
     public void identifyAssignee() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         final String login = issue.repo().github().users().self().login();
-        new Issue.Smart(issue).assign(login);
+        try {
+            new Issue.Smart(issue).assign(login);
+        } catch (final AssertionError error) {
+            Logger.warn(this, "Test failed with error: %s", error.getMessage());
+            Assume.assumeFalse(
+                "Something wrong with your test account. Read test's java-doc.",
+                true
+            );
+        }
         final User assignee = new Issue.Smart(issue).assignee();
         MatcherAssert.assertThat(
             assignee.login(),
@@ -169,6 +186,18 @@ public final class RtIssueITCase {
                 new Issue.Smart(issue).latestEvent(Event.CLOSED)
             ).author().login(),
             Matchers.equalTo(issue.author().login())
+        );
+    }
+
+    /**
+     * RtIssue always exists in Github.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void issueAlwaysExistsInGithub() throws Exception {
+        MatcherAssert.assertThat(
+            new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
         );
     }
 

@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -58,6 +57,12 @@ public final class RtReleasesITCase {
     private static Repo repo;
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    private static RepoRule rule = new RepoRule();
+
+    /**
      * Set up test fixtures.
      * @throws Exception If some errors occurred.
      */
@@ -67,11 +72,7 @@ public final class RtReleasesITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
+        repo = rule.repo(repos);
     }
 
     /**
@@ -93,7 +94,7 @@ public final class RtReleasesITCase {
     public void canFetchAllReleases() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         try {
             MatcherAssert.assertThat(
@@ -157,7 +158,7 @@ public final class RtReleasesITCase {
     public void canRemoveRelease() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         MatcherAssert.assertThat(
             releases.iterate(),
@@ -178,9 +179,9 @@ public final class RtReleasesITCase {
     public void canEditTag() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIFTEEN);
+        final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIFTEEN);
         new Release.Smart(release).tag(tag);
         MatcherAssert.assertThat(
             new Release.Smart(releases.get(release.number())).tag(),
@@ -197,7 +198,7 @@ public final class RtReleasesITCase {
     public void canEditBody() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         final String body = "Description of the release";
         new Release.Smart(release).body(body);

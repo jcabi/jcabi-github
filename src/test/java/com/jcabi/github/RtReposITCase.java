@@ -30,11 +30,10 @@
 package com.jcabi.github;
 
 import javax.json.Json;
-import javax.json.JsonObject;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -44,10 +43,13 @@ import org.junit.Test;
  * @version $Id$
  */
 public class RtReposITCase {
+
     /**
-     * The key for name in JSON.
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    private static final String NAME_KEY = "name";
+    @Rule
+    public final transient RepoRule rule = new RepoRule();
 
     /**
      * RtRepos create repository test.
@@ -56,18 +58,12 @@ public class RtReposITCase {
      */
     @Test
     public final void create() throws Exception {
-        final String name = RandomStringUtils.randomNumeric(5);
         final Repos repos = RtReposITCase.github().repos();
+        final Repo repo = this.rule.repo(repos);
         try {
-            MatcherAssert.assertThat(
-                repos.create(RtReposITCase.request(name)),
-                Matchers.notNullValue()
-            );
+            MatcherAssert.assertThat(repo, Matchers.notNullValue());
         } finally {
-            final Coordinates.Simple coordinates = new Coordinates.Simple(
-                RtReposITCase.github().users().self().login(), name
-            );
-            repos.remove(coordinates);
+            repos.remove(repo.coordinates());
         }
     }
 
@@ -77,29 +73,17 @@ public class RtReposITCase {
      */
     @Test(expected = AssertionError.class)
     public final void failsOnCreationOfTwoRepos() throws Exception {
-        final String name = RandomStringUtils.randomNumeric(5);
         final Repos repos = RtReposITCase.github().repos();
-        repos.create(RtReposITCase.request(name));
+        final Repo repo = this.rule.repo(repos);
         try {
-            repos.create(RtReposITCase.request(name));
-        } finally {
-            repos.remove(
-                new Coordinates.Simple(
-                    RtReposITCase.github().users().self().login(), name
-                )
+            repos.create(
+                Json.createObjectBuilder().add(
+                    "name", repo.coordinates().repo()
+                ).build()
             );
+        } finally {
+            repos.remove(repo.coordinates());
         }
-    }
-
-    /**
-     * Create and return JsonObject to test request.
-     *
-     * @param name Repo name
-     * @return JsonObject
-     * @throws Exception If some problem inside
-     */
-    private static JsonObject request(final String name) throws Exception {
-        return Json.createObjectBuilder().add(NAME_KEY, name).build();
     }
 
     /**

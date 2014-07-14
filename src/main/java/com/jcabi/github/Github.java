@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
  * Github client, starting point to the entire library.
@@ -175,6 +176,7 @@ public interface Github {
      * @since 0.2
      */
     @Immutable
+    @EqualsAndHashCode(of = { "msec" })
     final class Time {
         /**
          * Pattern to present day in ISO-8601.

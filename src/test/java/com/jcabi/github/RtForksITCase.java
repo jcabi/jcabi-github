@@ -29,11 +29,10 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -43,6 +42,13 @@ import org.junit.Test;
  * @version $Id$
  */
 public class RtForksITCase {
+
+    /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RepoRule rule = new RepoRule();
 
     /**
      * RtForks should be able to iterate its forks.
@@ -55,12 +61,7 @@ public class RtForksITCase {
             "failsafe.github.organization"
         );
         Assume.assumeThat(organization, Matchers.notNullValue());
-        final Repo repo = RtForksITCase.repos().create(
-            Json.createObjectBuilder().add(
-                // @checkstyle MagicNumber (1 line)
-                "name", RandomStringUtils.randomNumeric(5)
-            ).build()
-        );
+        final Repo repo = this.rule.repo(RtForksITCase.repos());
         try {
             final Fork fork = repo.forks().create(organization);
             MatcherAssert.assertThat(fork, Matchers.notNullValue());

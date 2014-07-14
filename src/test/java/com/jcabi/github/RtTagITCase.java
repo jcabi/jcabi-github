@@ -60,6 +60,12 @@ public final class RtTagITCase {
     private static Repo repo;
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    private static RepoRule rule = new RepoRule();
+
+    /**
      * Set up test fixtures.
      * @throws Exception If some errors occurred.
      */
@@ -69,11 +75,7 @@ public final class RtTagITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
+        repo = rule.repo(repos);
     }
 
     /**
@@ -96,7 +98,7 @@ public final class RtTagITCase {
         final String object = "object";
         final String message = "message";
         final String content = "initial version";
-        final String tag = RandomStringUtils.randomAlphabetic(Tv.FIVE);
+        final String tag = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final References refs = repo.git().references();

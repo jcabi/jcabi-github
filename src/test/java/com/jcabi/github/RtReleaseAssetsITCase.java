@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -60,6 +59,12 @@ public final class RtReleaseAssetsITCase {
     private static Repo repo;
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    private static RepoRule rule = new RepoRule();
+
+    /**
      * Set up test fixtures.
      * @throws Exception If some errors occurred.
      */
@@ -69,11 +74,7 @@ public final class RtReleaseAssetsITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
+        repo = rule.repo(repos);
         repo.releases().create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
@@ -98,7 +99,7 @@ public final class RtReleaseAssetsITCase {
     public void uploadsAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -124,7 +125,7 @@ public final class RtReleaseAssetsITCase {
     public void uploadsTwoAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -160,10 +161,10 @@ public final class RtReleaseAssetsITCase {
     public void uploadsSameAssetInTwoReleases() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         final Release otherrelease = releases.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         final ReleaseAssets assets = release.assets();
         final ReleaseAssets otherassets = otherrelease.assets();
@@ -201,7 +202,7 @@ public final class RtReleaseAssetsITCase {
     public void fetchesAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset uploaded = assets.upload(
@@ -226,7 +227,7 @@ public final class RtReleaseAssetsITCase {
     public void iteratesAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset first = assets.upload(
@@ -256,7 +257,7 @@ public final class RtReleaseAssetsITCase {
     public void returnsNoAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphabetic(Tv.TEN));
+            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
         try {
             MatcherAssert.assertThat(

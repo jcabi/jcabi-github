@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import javax.json.Json;
+import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -186,6 +187,7 @@ public final class ReleaseTest {
     public void fetchName() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String name = "v1";
+        // @checkstyle MultipleStringLiterals (3 lines)
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("name", name)
@@ -193,8 +195,32 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            smart.hasName(),
+            Matchers.is(true)
+        );
+        MatcherAssert.assertThat(
             smart.name(),
             Matchers.equalTo(name)
+        );
+    }
+
+    /**
+     * Release.Smart can determine if the release does not have a name
+     * (NULL json value).
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void incidatesNoName() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("name", JsonValue.NULL)
+                .build()
+        ).when(release).json();
+        final Release.Smart smart = new Release.Smart(release);
+        MatcherAssert.assertThat(
+            smart.hasName(),
+            Matchers.is(false)
         );
     }
 

@@ -99,6 +99,23 @@ public final class RtGithubITCase {
     }
 
     /**
+     * RtGithub can authenticate with username and password through HTTP Basic.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void authenticatesWithUsernameAndPassword() throws Exception {
+        final String user = System.getProperty("failsafe.github.user");
+        final String password = System.getProperty("failsafe.github.password");
+        Assume.assumeThat(user, Matchers.notNullValue());
+        Assume.assumeThat(password, Matchers.notNullValue());
+        final Github github = new RtGithub(user, password);
+        MatcherAssert.assertThat(
+            new User.Smart(github.users().self()).login(),
+            Matchers.is(user)
+        );
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside
