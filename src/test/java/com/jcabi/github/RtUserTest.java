@@ -40,16 +40,11 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtUser}.
- * @todo #825 RtUserTest.hasCreated and  RtUserTest.hasUpdated tests are
- *  ignored because issue #840
- *  (https://github.com/jcabi/jcabi-github/issues/840)is not resolved.
- *  after resolving this issue please remove @Ignore annotation.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -426,9 +421,8 @@ public final class RtUserTest {
      * @throws Exception if any problem occurs.
      */
     @Test
-    @Ignore
     public void hasCreated() throws Exception {
-        final Github.Time value = new Github.Time(System.currentTimeMillis());
+        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
     }
@@ -438,9 +432,8 @@ public final class RtUserTest {
      * @throws Exception if any problem occurs.
      */
     @Test
-    @Ignore
     public void hasUpdated() throws Exception {
-        final Github.Time value = new Github.Time(System.currentTimeMillis());
+        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
     }
