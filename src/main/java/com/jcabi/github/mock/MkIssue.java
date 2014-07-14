@@ -50,13 +50,10 @@ import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock Github issue.
  *
- * @todo #818 MkIssue#exists() is not implemented.
- *  Let's implement it and remove this puzzle.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
@@ -159,8 +156,10 @@ final class MkIssue implements Issue {
     }
 
     @Override
-    public boolean exists() {
-        throw new NotImplementedException("MkIssue#exists()");
+    public boolean exists() throws IOException {
+        return this.storage.xml().xpath(
+            String.format("%s/number/text()", this.xpath())
+        ).size() == 1;
     }
 
     @Override
