@@ -38,6 +38,7 @@ import com.jcabi.http.Wire;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         @Override
         @NotNull(message = "Request isn't ever NULL")
         public RequestURI uri() {
-            return this.request.uri();
+            return new SearchURI(this.request.uri());
         }
         @Override
         @NotNull(message = "body is never NULL")
@@ -129,19 +130,19 @@ final class RtSearchPagination<T> implements Iterable<T> {
         public Request header(@NotNull(message = "header name can't be NULL")
             final String name, @NotNull(message = "header value can't be NULL")
             final Object value) {
-            return this.request.header(name, value);
+            return new SearchRequest(this.request.header(name, value));
         }
         @Override
         @NotNull(message = "Request is nerver NULL")
         public Request reset(@NotNull(message = "header name can't be NULL")
             final String name) {
-            return this.request.reset(name);
+            return new SearchRequest(this.request.reset(name));
         }
         @Override
         @NotNull(message = "Request is never NULL")
         public Request method(@NotNull(message = "method can't be NULL")
             final String method) {
-            return this.request.method(method);
+            return new SearchRequest(this.request.method(method));
         }
         /**
          * Hide everything from the body but items.
@@ -157,7 +158,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         @NotNull(message = "Request should never be NULL")
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
-            return this.request.through(type, args);
+            return new SearchRequest(this.request.through(type, args));
         }
     }
 
@@ -180,7 +181,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         @Override
         @NotNull(message = "Request cannot be NULL")
         public Request back() {
-            return this.response.back();
+            return new SearchRequest(this.response.back());
         }
         @Override
         public int status() {
@@ -226,4 +227,54 @@ final class RtSearchPagination<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Wrapper of RequestURI that returns {@link SearchRequest}.
+     */
+    @Immutable
+    @EqualsAndHashCode(of = "address")
+    private static final class SearchURI implements RequestURI {
+        /**
+         * Underlying address.
+         */
+        private final transient RequestURI address;
+        /**
+         * Ctor.
+         * @param uri The URI
+         */
+        public SearchURI(final RequestURI uri) {
+            this.address = uri;
+        }
+        @Override
+        public Request back() {
+            return new SearchRequest(this.address.back());
+        }
+        @Override
+        public URI get() {
+            return this.address.get();
+        }
+        @Override
+        public RequestURI set(final URI uri) {
+            return new SearchURI(this.address.set(uri));
+        }
+        @Override
+        public RequestURI queryParam(final String name, final Object value) {
+            return new SearchURI(this.address.queryParam(name, value));
+        }
+        @Override
+        public RequestURI queryParams(final Map<String, String> map) {
+            return new SearchURI(this.address.queryParams(map));
+        }
+        @Override
+        public RequestURI path(final String segment) {
+            return new SearchURI(this.address.path(segment));
+        }
+        @Override
+        public RequestURI userInfo(final String info) {
+            return new SearchURI(this.address.userInfo(info));
+        }
+        @Override
+        public RequestURI port(final int num) {
+            return new SearchURI(this.address.port(num));
+        }
+    }
 }

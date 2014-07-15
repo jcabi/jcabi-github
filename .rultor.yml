@@ -1,0 +1,27 @@
+assets:
+  settings.xml: "yegor256/home#assets/jcabi/settings.xml"
+  pubring.gpg: "yegor256/home#assets/pubring.gpg"
+  secring.gpg: "yegor256/home#assets/secring.gpg"
+
+merge:
+  commanders:
+    - carlosmiranda
+  env:
+    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
+  script: 
+    - "mvn clean install -Pjcabi -Pqulice --errors --settings ../settings.xml"
+
+deploy:
+  env:
+    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
+  script: 
+    - "mvn clean deploy -Ppdd -Pqulice --errors --settings ../settings.xml"
+
+release:
+  env:
+    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
+  script: 
+    - "mvn versions:set \"-DnewVersion=${tag}\""
+    - "git commit -am \"${tag}\""
+    - "mvn clean deploy -Pqulice -Psonatype -Pjcabi --errors --settings ../settings.xml"
+    - "mvn clean site-deploy -Psite -Prempl --errors --settings ../settings.xml"

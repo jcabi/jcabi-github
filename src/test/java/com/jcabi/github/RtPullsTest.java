@@ -29,13 +29,13 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
-import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -95,7 +95,7 @@ public final class RtPullsTest {
             new ApacheRequest(container.home()),
             repo()
         );
-        final Pull pull = pulls.get(new Random().nextInt());
+        final Pull pull = pulls.get(Tv.BILLION);
         MatcherAssert.assertThat(
             new Pull.Smart(pull).title(),
             Matchers.equalTo(title)
@@ -137,7 +137,7 @@ public final class RtPullsTest {
      */
     private static JsonObject pull(final String title) throws Exception {
         return Json.createObjectBuilder()
-            .add("number", new Random().nextInt())
+            .add("number", Tv.BILLION)
             .add("state", Issue.OPEN_STATE)
             .add("title", title)
             .build();

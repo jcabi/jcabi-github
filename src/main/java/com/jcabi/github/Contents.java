@@ -91,15 +91,27 @@ public interface Contents {
     /**
      * Get the contents of a file or symbolic link in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag. Default: the repository's default branch (usually master)
+     * @param ref The name of the commit/branch/tag.
      * @return Content fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     Content get(
         @NotNull(message = "path  is never NULL") String path,
-        @NotNull(message = "ref is never NULL") String ref)
-        throws IOException;
+        @NotNull(message = "ref is never NULL") String ref
+    ) throws IOException;
+
+    /**
+     * Get the contents of a file or symbolic link in a repository's default
+     * branch (usually master).
+     * @param path The content path
+     * @return Content fetched
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     */
+    Content get(
+        @NotNull(message = "path  is never NULL") String path
+    ) throws IOException;
 
     /**
      * Get the contents of a directory in a repository.

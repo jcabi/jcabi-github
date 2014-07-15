@@ -68,12 +68,13 @@ public interface Users {
 
     /**
      * Iterate all users, starting with the one you've seen already.
-     * @param login Login you've seen already
+     * @param identifier The integer ID of the last User that you’ve seen.
      * @return Iterator of gists
      * @see <a href="http://developer.github.com/v3/users/#get-all-users">Get All Users</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<User> iterate(@NotNull(message = "login is never NULL")
-        String login);
+    Iterable<User> iterate(
+        @NotNull(message = "identifier can't be NULL") String identifier
+    );
 
 }

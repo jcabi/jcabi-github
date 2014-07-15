@@ -36,7 +36,10 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
+import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -104,10 +107,8 @@ final class MkContents implements Contents {
     @Override
     @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
-        // @checkstyle MultipleStringLiterals (2 lines)
-        return new MkContent(
-            this.storage, this.self, this.coords, "README.md", "master"
-        );
+        // @checkstyle MultipleStringLiterals (1 line)
+        return this.readme("master");
     }
 
     @Override
@@ -163,21 +164,33 @@ final class MkContents implements Contents {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
-    /**
-     * {@inheritDoc}
-     * @todo #684 Let's implement MkContents.iterate() for returning directory
-     *  contents. Since we are using XML in MkStorage, we don't actually have
-     *  directories. What we can do instead, is use the given path as a prefix,
-     *  with the '/' character as separators. For example, if we have two
-     *  different content objects with paths "foo/bar", "foo/baz, and "baa/boo"
-     *  iterate should return the first two when the path "foo" or "foo/" is
-     *  specified.
-     */
+    @Override
+    @NotNull(message = "retrieved content is never NULL")
+    public Content get(
+        @NotNull(message = "path can't be NULL") final String path
+    ) throws IOException {
+        return new MkContent(
+            this.storage, this.self, this.coords, path, "master"
+        );
+    }
+
     @Override
     @NotNull(message = "Iterable of contents is never NULL")
-    public Iterable<Content> iterate(final String path, final String ref)
+    public Iterable<Content> iterate(final String pattern, final String ref)
         throws IOException {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        final Collection<XML> nodes = this.storage.xml().nodes(
+            String.format("%s/content[@ref='%s']", this.xpath(), ref)
+        );
+        final Collection<Content> result = new ArrayList<Content>(nodes.size());
+        for (final XML node : nodes) {
+            final String path = node.xpath("path/text()").get(0);
+            if (path.startsWith(pattern)) {
+                result.add(
+                    this.mkContent(ref, path)
+                );
+            }
+        }
+        return result;
     }
 
     @Override
@@ -188,11 +201,19 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         final String path = content.getString("path");
+        // @checkstyle MultipleStringLiterals (20 lines)
+        final String branch;
         try {
+            if (content.containsKey("ref")) {
+                branch = content.getString("ref");
+            } else {
+                branch = "master";
+            }
             this.storage.apply(
                 new Directives()
                     .xpath(this.xpath())
                     .xpath(String.format("content[path='%s']", path))
+                    .attr("ref", branch)
                     .remove()
             );
             return this.commit(content);
@@ -225,6 +246,18 @@ final class MkContents implements Contents {
         } finally {
             this.storage.unlock();
         }
+    }
+
+    /**
+     * Builder method for MkContent.
+     * @param ref Branch name.
+     * @param path Path to MkContent.
+     * @return MkContent instance.
+     * @throws IOException if any I/O error occurs.
+     */
+    private MkContent mkContent(final String ref, final String path)
+        throws IOException {
+        return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
     /**

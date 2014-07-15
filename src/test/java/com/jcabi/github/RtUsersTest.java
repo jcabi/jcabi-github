@@ -54,22 +54,22 @@ public final class RtUsersTest {
      */
     @Test
     public void iterateUsers() throws Exception {
-        final String login = "octocat";
+        final String identifier = "1";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(json(login))
-                    .add(json("dummy"))
+                    .add(RtUsersTest.json("octocat", identifier))
+                    .add(RtUsersTest.json("dummy", "2"))
                     .build().toString()
             )
         ).start();
-        final RtUsers users = new RtUsers(
+        final Users users = new RtUsers(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
-            users.iterate(login),
+            users.iterate(identifier),
             Matchers.<User>iterableWithSize(2)
         );
         container.stop();
@@ -86,10 +86,10 @@ public final class RtUsersTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                json(login).toString()
+                RtUsersTest.json(login, "3").toString()
             )
         ).start();
-        final RtUsers users = new RtUsers(
+        final Users users = new RtUsers(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
         );
@@ -111,10 +111,10 @@ public final class RtUsersTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                json(login).toString()
+                RtUsersTest.json(login, "4").toString()
             )
         ).start();
-        final RtUsers users = new RtUsers(
+        final Users users = new RtUsers(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
         );
@@ -128,11 +128,15 @@ public final class RtUsersTest {
     /**
      * Create and return JsonObject to test.
      * @param login Username to login
+     * @param identifier User Id
      * @return JsonObject
      * @throws Exception If some problem inside
      */
-    private static JsonObject json(final String login) throws Exception {
+    private static JsonObject json(
+        final String login, final String identifier
+    ) throws Exception {
         return Json.createObjectBuilder()
+            .add("id", identifier)
             .add("login", login)
             .build();
     }

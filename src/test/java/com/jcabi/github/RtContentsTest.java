@@ -160,12 +160,14 @@ public final class RtContentsTest {
         );
         try {
             final Content.Smart smart = new Content.Smart(
-                contents.get(path, "master")
+                contents.get(path, "branch1")
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents/test/file")
+                Matchers.endsWith(
+                    "/repos/test/contents/contents/test/file?ref=branch1"
+                )
             );
             MatcherAssert.assertThat(
                 smart.path(),
@@ -181,7 +183,9 @@ public final class RtContentsTest {
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith("/repos/test/contents/contents/test/file")
+                Matchers.endsWith(
+                    "/repos/test/contents/contents/test/file?ref=branch1"
+                )
             );
         } finally {
             container.stop();
@@ -190,10 +194,6 @@ public final class RtContentsTest {
 
     /**
      * RtContents can create a file in the repository.
-     * @todo #314:15min RtContents#create() should be referencing a get()
-     *  method instead of creating its own RtContent object, however,
-     *  that method is not yet present. When that has been implemented, update
-     *  create() to delegate to get() to obtain a RtContent instance.
      * @throws Exception If a problem occurs.
      */
     @Test

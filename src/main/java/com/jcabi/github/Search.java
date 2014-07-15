@@ -40,12 +40,9 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/search/">Search API</a>
- * @todo #124 The {@link Search} interface currently defines methods for
- *  searching repos, issues, and users. We need to add a new method codes()
- *  for the purposes for code searching. At the moment, we don't have a way to
- *  represent codes in the API.
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface Search {
 
     /**
@@ -102,6 +99,23 @@ public interface Search {
      */
     @NotNull(message = "Iterable of users is never NULL")
     Iterable<User> users(
+        @NotNull(message = "Search keywords can't be NULL") String keywords,
+        @NotNull(message = "Sort field can't be NULL") String sort,
+        @NotNull(message = "Sort order can't be NULL") String order)
+        throws IOException;
+
+    /**
+     * Search code.
+     *
+     * @param keywords The search keywords
+     * @param sort The sort field
+     * @param order The sort order
+     * @return Contents
+     * @throws IOException If there is any I/O problem
+     * @see <a href="http://developer.github.com/v3/search/#search-code">Search code</a>
+     */
+    @NotNull(message = "Iterable of users is never NULL")
+    Iterable<Content> codes(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
         @NotNull(message = "Sort order can't be NULL") String order)

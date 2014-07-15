@@ -114,6 +114,13 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     Iterable<Event> events() throws IOException;
 
     /**
+     * Is this issue exists in Github?
+     * @return TRUE if this issue exists
+     * @throws IOException If there is any I/O problem
+     */
+    boolean exists() throws IOException;
+
+    /**
      * Smart Issue with extra features.
      */
     @Immutable
@@ -319,6 +326,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 && !this.jsn.value("pull_request", JsonObject.class)
                     .isNull("html_url");
         }
+
         /**
          * Get pull request.
          * @return Pull request
@@ -467,6 +475,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             @NotNull(message = "obj can't be NULL") final Issue obj
         ) {
             return this.issue.compareTo(obj);
+        }
+        @Override
+        public boolean exists() throws IOException {
+            return this.issue.exists();
         }
     }
 
