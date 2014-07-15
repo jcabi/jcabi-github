@@ -29,12 +29,17 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -46,12 +51,49 @@ import org.junit.Test;
 public final class RtDeployKeysITCase {
 
     /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+    /**
      * RtDeployKeys can iterate deploy keys.
      * @throws Exception If some problem inside
      */
     @Test
     public void canFetchAllDeployKeys() throws Exception {
-        final DeployKeys keys = repo().keys();
+        final DeployKeys keys = repo.keys();
         final String title = "Test Iterate Key";
         final DeployKey key = keys.create(title, key());
         try {
@@ -70,7 +112,7 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void createsDeployKey() throws Exception {
-        final DeployKeys keys = repo().keys();
+        final DeployKeys keys = repo.keys();
         final String title = "Test Create Key";
         final DeployKey key = keys.create(title, key());
         try {
@@ -89,7 +131,7 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void getsDeployKey() throws Exception {
-        final DeployKeys keys = repo().keys();
+        final DeployKeys keys = repo.keys();
         final String title = "Test Get Key";
         final DeployKey key = keys.create(title, key());
         try {
@@ -108,7 +150,7 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void removesDeployKey() throws Exception {
-        final DeployKeys keys = repo().keys();
+        final DeployKeys keys = repo.keys();
         final String title = "Test Remove Key";
         final DeployKey key = keys.create(title, key());
         try {
@@ -122,19 +164,6 @@ public final class RtDeployKeysITCase {
         MatcherAssert.assertThat(
             keys.iterate(),
             Matchers.not(Matchers.contains(key))
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
     }
 
