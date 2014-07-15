@@ -113,7 +113,11 @@ final class MkGit implements Git {
     @Override
     @NotNull(message = "commits is never NULL")
     public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+        try {
+            return new MkCommits(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override

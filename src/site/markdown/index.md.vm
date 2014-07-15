@@ -51,7 +51,22 @@ and add it to the classpath):
 </dependency>
 ```
 
-## Cutting Edge Version
+If you're not a Maven user, you can use a JAR with all
+dependencies inside (over 4Mb):
+[`jcabi-github-${project.version}-jar-with-dependencies.jar`](http://repo1.maven.org/maven2/com/jcabi/jcabi-github/${project.version}/jcabi-github-${project.version}-jar-with-dependencies.jar).
+You can also include it to your Maven `pom.xml`:
+
+```
+<dependency>
+  <groupId>com.jcabi</groupId>
+  <artifactId>jcabi-github</artifactId>
+  <version>${project.version}</version>
+  <classifier>jar-with-dependencies</classifier>
+</dependency>
+```
+
+Cutting Edge Version
+====================
 
 If you want to use current version of the product, you can do it with
 this configuration in your `pom.xml`:

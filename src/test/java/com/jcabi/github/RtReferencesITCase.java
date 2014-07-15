@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -47,6 +46,12 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtReferencesITCase {
+
+    /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    private static RepoRule rule = new RepoRule();
 
     /**
      * Test repos.
@@ -68,11 +73,7 @@ public final class RtReferencesITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
+        repo = rule.repo(repos);
     }
 
     /**
@@ -127,6 +128,30 @@ public final class RtReferencesITCase {
         );
         MatcherAssert.assertThat(
             refs.iterate(),
+            Matchers.notNullValue()
+        );
+        builder.delete(0, builder.length());
+        builder.append("heads/").append(name);
+        refs.remove(builder.toString());
+    }
+
+    /**
+     * RtReference can iterate over references in sub-namespace.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesReferencesInSubNamespace() throws Exception {
+        final References refs = repo.git().references();
+        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
+            .append("refs/heads/").append(name);
+        refs.create(
+            builder.toString(),
+            refs.get("refs/heads/master").json().getJsonObject("object")
+                .getString("sha")
+        );
+        MatcherAssert.assertThat(
+            refs.iterate("heads"),
             Matchers.notNullValue()
         );
         builder.delete(0, builder.length());

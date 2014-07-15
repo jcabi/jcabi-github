@@ -156,6 +156,13 @@ final class MkIssue implements Issue {
     }
 
     @Override
+    public boolean exists() throws IOException {
+        return this.storage.xml().xpath(
+            String.format("%s/number/text()", this.xpath())
+        ).size() == 1;
+    }
+
+    @Override
     public int compareTo(
         @NotNull(message = "issue should not be NULL") final Issue issue
     ) {

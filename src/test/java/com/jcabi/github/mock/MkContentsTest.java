@@ -35,14 +35,11 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -53,7 +50,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @todo #590 MkContents can now create and get files from non-default branches.
  *  However, the same functionality has not been implemented yet for the
- *  update() and remove() methods. Let's fix it. See
+ *  update() method. Let's fix it. See
  *  http://developer.github.com/v3/repos/contents for details
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
@@ -180,41 +177,53 @@ public final class MkContentsTest {
     }
 
     /**
-     * MkContents should be able to update a file.
-     * @throws Exception - if anything goes wrong.
-     * @todo #444 Methods create() in MkContents and json() in MkContent
-     *  should be implemented in order for this test to work.
+     * MkContents should be able to remove files from from non-default branches.
+     *
+     * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
+    public void canRemoveFileFromBranch() throws Exception {
+        final String branch = "branch-1";
+        final Repo repo = MkContentsTest.repo();
+        final String path = "removeme.txt";
+        this.createFile(repo, path);
+        final JsonObject json = MkContentsTest
+            .content(path, "theDeleteMessage")
+            .add("ref", branch)
+            .add("committer", MkContentsTest.committer())
+            .build();
+        final RepoCommit commit = repo.contents().remove(json);
+        MatcherAssert.assertThat(commit, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            commit.json().getString("message"),
+            Matchers.equalTo("theDeleteMessage")
+        );
+    }
+
+    /**
+     * MkContents should be able to update a file.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
     public void updatesFile() throws Exception {
-        final String username = "jeff";
         final String path = "file.txt";
         final String message = "content message";
-        final String initial = "abcdef";
-        final String update = "test update content";
+        final String initial = "initial text";
+        final String updated = "updated text";
         final String cont = "content";
         final Contents contents = MkContentsTest.repo().contents();
-        final ConcurrentMap<String, String> commiter =
-            new ConcurrentHashMap<String, String>();
-        commiter.put("login", username);
-        final ConcurrentMap<String, String> author =
-            new ConcurrentHashMap<String, String>();
-        author.put("login", username);
-        final JsonObject content = MkContentsTest
-            .content(path, "theMessage", "blah")
-            .build();
         MatcherAssert.assertThat(
-            content.getString(cont),
+            contents.create(
+                MkContentsTest.content(path, message, initial).build()
+            ).json().getString(cont),
             Matchers.is(initial)
         );
-        final JsonObject jsonPatch = MkContentsTest
-            .content(path, message, update)
-            .build();
-        contents.update(path, jsonPatch);
+        contents.update(
+            path, MkContentsTest.content(path, message, updated).build()
+        );
         MatcherAssert.assertThat(
-            content.getString(cont),
-            Matchers.is(update)
+            contents.get(path, "master").json().getString(cont),
+            Matchers.is(updated)
         );
     }
 
@@ -284,6 +293,69 @@ public final class MkContentsTest {
             new Content.Smart(contents.get(path, branch)).content(),
             Matchers.is(updated)
         );
+    }
+
+    /**
+     * MkContents can get content from default branch.
+     * @throws Exception if any problem inside
+     */
+    @Test
+    public void getContentFromDefaultBranch() throws Exception {
+        final String path = "content-default-branch.txt";
+        final String message = "content default branch created";
+        final String text = "I'm content of default branch";
+        final Contents contents = MkContentsTest.repo().contents();
+        final JsonObject content = MkContentsTest
+            .content(path, message, text)
+            .build();
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.create(content)).content(),
+            Matchers.is(text)
+        );
+        MatcherAssert.assertThat(
+            new Content.Smart(contents.get(path)).content(),
+            Matchers.is(text)
+        );
+    }
+
+    /**
+     * Tests if MkContents is iterable by path.
+     * @throws IOException if any error occurs.
+     */
+    @Test
+    public void canIterate() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        final Repo repo = repo(storage);
+        final Content[] correct = this.addContent(
+            repo, "foo/bar/1", "foo/bar/2"
+        );
+        this.addContent(repo, "foo/baz", "foo/boo");
+        MatcherAssert.assertThat(
+            repo.contents().iterate("foo/bar", "ref-1"),
+            Matchers.contains(correct)
+        );
+    }
+
+    /**
+     * Adds colection of test content items.
+     * @param repo The repo.
+     * @param paths Test items to be created inside the repo.
+     * @return Iterable with created items.
+     * @throws IOException If any I/O error occurs.
+     */
+    private Content[] addContent(final Repo repo,
+        final String... paths) throws IOException {
+        final Content[] result = new Content[paths.length];
+        int index = 0;
+        for (final String path : paths) {
+            result[index] = repo.contents().create(
+                Json.createObjectBuilder().add("ref", "ref-1")
+                    .add("path", path).add("content", path)
+                    .add("message", "msg").build()
+            );
+            index += 1;
+        }
+        return result;
     }
 
     /**
@@ -369,4 +441,5 @@ public final class MkContentsTest {
             Json.createObjectBuilder().add("name", login).build()
         );
     }
+
 }
