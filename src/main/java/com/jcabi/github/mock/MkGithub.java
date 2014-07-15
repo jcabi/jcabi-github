@@ -196,17 +196,10 @@ public final class MkGithub implements Github {
             .build();
     }
 
-    /**
-     * {@inheritDoc}
-     * @todo #6:30min Markdown rendering mechanism should be mocked
-     *  and implemented in MkMarkdown class, in a primitive way, of course.
-     *  We don't need to do a real rendering, but at least return the
-     *  same text back. When done, just remote this entire JavaDoc block.
-     */
     @Override
     @NotNull(message = "markdown is never NULL")
     public Markdown markdown() {
-        throw new UnsupportedOperationException("#markdown()");
+        return new MkMarkdown();
     }
 
     /**
