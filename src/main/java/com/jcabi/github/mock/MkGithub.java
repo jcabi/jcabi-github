@@ -45,6 +45,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -223,10 +224,16 @@ public final class MkGithub implements Github {
      * @return Repo
      */
     public Repo randomRepo() {
+        final int len = 4;
         return new MkRepo(
             this.storage,
             this.self,
-            new Coordinates.Simple(this.self, RandomStringUtils.randomAlphanumeric(10))
+            new Coordinates.Simple(
+                this.self,
+                RandomStringUtils.randomAlphanumeric(
+                    new Random().nextInt(len) + len
+                )
+            )
         );
     }
 }

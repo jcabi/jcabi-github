@@ -120,9 +120,9 @@ public final class MkGithubTest {
     }
 
     /**
-    * MkGithub can create random repo.
-    * @throws Exception if some problem inside
-    */
+     * MkGithub can create random repo.
+     * @throws Exception if some problem inside
+     */
     @Test
     public void canCreateRandomRepo() throws Exception {
         final MkGithub github = new MkGithub();
