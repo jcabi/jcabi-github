@@ -143,8 +143,8 @@ final class SmartJson {
     public boolean hasNotNull(
         @NotNull(message = "name can't be NULL") final String name
     ) throws IOException {
-        return this.object.json().get(name) != null && !ValueType.NULL.equals(
-            this.object.json().get(name).getValueType()
-        );
+        final JsonValue value = this.object.json().get(name);
+        return value != null
+            && !ValueType.NULL.equals(value.getValueType());
     }
 }
