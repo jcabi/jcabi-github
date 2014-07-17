@@ -57,7 +57,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @EqualsAndHashCode(of = { "entry", "map" })
-class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
+public class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
 
     /**
      * Mapping to use.
@@ -85,13 +85,13 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
 
     @Override
     @NotNull(message = "toString is never NULL")
-    public String toString() {
+    public final String toString() {
         return this.entry.uri().get().toString();
     }
 
     @Override
     @NotNull(message = "Iterator is never NULL")
-    public Iterator<T> iterator() {
+    public final Iterator<T> iterator() {
         return new RtValuePagination.Items<T, P>(this.entry, this.map);
     }
 
@@ -100,7 +100,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
      * @return Entry point
      */
     @NotNull(message = "Request is never NULL")
-    public Request request() {
+    public final Request request() {
         return this.entry;
     }
 
@@ -109,7 +109,7 @@ class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
      * @return Mapping
      */
     @NotNull(message = "map is never NULLs")
-    public RtValuePagination.Mapping<T, P> mapping() {
+    public final RtValuePagination.Mapping<T, P> mapping() {
         return this.map;
     }
 

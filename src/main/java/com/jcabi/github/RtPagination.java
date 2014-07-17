@@ -37,14 +37,37 @@ import javax.validation.constraints.NotNull;
 /**
  * Github pagination.
  *
+ * <p>This class is a convenient iterator over multiple JSON objects
+ * returned by Github API. For example, to iterate through notifications
+ * (see Notifications API) you can use this code:</p>
+ *
+ * <pre> Iterable&lt;JsonObject&gt; notifications = new RtPagination&lt;&gt;(
+ *   new RtGithub(oauth).entry()
+ *     .uri().path("/notifications").back(),
+ *   RtPagination.COPYING
+ * );</pre>
+ *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
+ * @since 0.11
  */
 @Immutable
-final class RtPagination<T> extends RtValuePagination<T, JsonObject> {
+public final class RtPagination<T> extends RtValuePagination<T, JsonObject> {
+
+    /**
+     * Mapping that just copies JsonObject.
+     */
+    public static final RtPagination.Mapping<JsonObject, JsonObject> COPYING =
+        new RtPagination.Mapping<JsonObject, JsonObject>() {
+            @Override
+            public JsonObject map(final JsonObject value) {
+                return value;
+            }
+        };
+
     /**
      * Public ctor.
      * @param req Request
