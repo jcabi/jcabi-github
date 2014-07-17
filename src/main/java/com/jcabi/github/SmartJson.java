@@ -47,12 +47,12 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * @checkstyle AvoidDuplicateLiterals (150 lines)
  */
 @Immutable
 @ToString
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "object")
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class SmartJson {
 
     /**
