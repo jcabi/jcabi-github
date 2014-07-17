@@ -9,7 +9,7 @@ merge:
   env:
     MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
   script: 
-    - "mvn clean install -Pjcabi -Pqulice --errors --settings ../settings.xml"
+    - "mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml"
 
 deploy:
   env:
