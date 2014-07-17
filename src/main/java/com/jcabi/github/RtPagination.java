@@ -73,7 +73,7 @@ public final class RtPagination<T> extends RtValuePagination<T, JsonObject> {
      * @param req Request
      * @param mpp Mapping
      */
-    RtPagination(
+    public RtPagination(
         @NotNull(message = "request can't be NULL") final Request req,
         @NotNull(message = "mapping can't be NULL")
         final RtValuePagination.Mapping<T, JsonObject> mpp

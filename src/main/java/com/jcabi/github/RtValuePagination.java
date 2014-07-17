@@ -74,7 +74,7 @@ public class RtValuePagination<T, P extends JsonValue> implements Iterable<T> {
      * @param req Request
      * @param mpp Mapping
      */
-    RtValuePagination(
+    public RtValuePagination(
         @NotNull(message = "req can't be NULL") final Request req,
         @NotNull(message = "map can't be null")
         final RtValuePagination.Mapping<T, P> mpp
