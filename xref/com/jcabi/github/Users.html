@@ -76,15 +76,16 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     * Iterate all users, starting with the one you've seen already.</em>
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">     * @param login Login you've seen already</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">     * @param identifier The integer ID of the last User that you’ve seen.</em>
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">     * @return Iterator of gists</em>
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/users/" target="alexandria_uri">http://developer.github.com/v3/users/</a>#get-all-users"&gt;Get All Users&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>      @NotNull(message = <span class="jxr_string">"iterable is never NULL"</span>)
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      Iterable&lt;User&gt; iterate(@NotNull(message = <span class="jxr_string">"login is never NULL"</span>)
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>          String login);
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  }
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      Iterable&lt;User&gt; iterate(
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          @NotNull(message = <span class="jxr_string">"identifier can't be NULL"</span>) String identifier
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      );
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

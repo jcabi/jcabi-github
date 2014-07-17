@@ -9,22 +9,6 @@
 <lines>90-93</lines>
 </puzzle>
 <puzzle>
-<ticket>812</ticket>
-<file>src/main/java/com/jcabi/github/Release.java</file>
-<body>We should generalize this method in SmartJson type. Let's implement it in a method named SmartJson.notNull(String) or something similar, which returns true if a certain key is present AND does not have a JsonValue of ValueType.NULL. Then let's use it here instead of manually checking it with the release's json value.</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>237-241</lines>
-</puzzle>
-<puzzle>
-<ticket>2</ticket>
-<file>src/main/java/com/jcabi/github/RtUser.java</file>
-<body>Organizations of a user. Let's implements a new method organizations(), which should return an instance of interface Organisations.</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>46-48</lines>
-</puzzle>
-<puzzle>
 <ticket>1</ticket>
 <file>src/main/java/com/jcabi/github/User.java</file>
 <body>Implement methods to retrieve all values provided by Github for a single user, see: http://developer.github.com/v3/users/#get-a-single-user At the moment we implement just a few, but every data items should have its own method. Of course, every new item should be tested by a new unit test method.</body>
@@ -33,20 +17,12 @@
 <lines>94-99</lines>
 </puzzle>
 <puzzle>
-<ticket>6</ticket>
-<file>src/main/java/com/jcabi/github/mock/MkGithub.java</file>
-<body>Markdown rendering mechanism should be mocked and implemented in MkMarkdown class, in a primitive way, of course. We don't need to do a real rendering, but at least return the same text back. When done, just remote this entire JavaDoc block.</body>
-<role>IMP</role>
-<estimate>30</estimate>
-<lines>201-204</lines>
-</puzzle>
-<puzzle>
-<ticket>818</ticket>
-<file>src/main/java/com/jcabi/github/mock/MkIssue.java</file>
-<body>MkIssue#exists() is not implemented. Let's implement it and remove this puzzle.</body>
+<ticket>832</ticket>
+<file>src/main/java/com/jcabi/github/mock/MkMarkdown.java</file>
+<body>MkMarkdown#github() not implemented. Let's implement it and remove this puzzle.</body>
 <role>IMP</role>
 <estimate>0</estimate>
-<lines>58-59</lines>
+<lines>43-44</lines>
 </puzzle>
 <puzzle>
 <ticket>217</ticket>
@@ -57,28 +33,20 @@
 <lines>54-57</lines>
 </puzzle>
 <puzzle>
-<ticket>661</ticket>
-<file>src/test/java/com/jcabi/github/NullabilityTest.java</file>
-<body>Ensure that all methods return values and input arguments are annotated with {@code @NotNull} and remove the {@code @Ignore} annotation.</body>
+<ticket>2</ticket>
+<file>src/main/java/com/jcabi/github/RtUser.java</file>
+<body>Organizations of a user. Let's implements a new method organizations(), which should return an instance of interface Organisations.</body>
 <role>IMP</role>
 <estimate>30</estimate>
-<lines>55-57</lines>
+<lines>46-48</lines>
 </puzzle>
 <puzzle>
-<ticket>314</ticket>
-<file>src/test/java/com/jcabi/github/RtContentsTest.java</file>
-<body>RtContents#create() should be referencing a get() method instead of creating its own RtContent object, however, that method is not yet present. When that has been implemented, update create() to delegate to get() to obtain a RtContent instance.</body>
-<role>IMP</role>
-<estimate>15</estimate>
-<lines>197-200</lines>
-</puzzle>
-<puzzle>
-<ticket>551</ticket>
-<file>src/test/java/com/jcabi/github/RtGistITCase.java</file>
-<body>ReadsAndWritesGists is disabled since it doesn't work with real Github account. Let's fix it and remove the Ignore annotation.</body>
+<ticket>812</ticket>
+<file>src/main/java/com/jcabi/github/Release.java</file>
+<body>We should generalize this method in SmartJson type. Let's implement it in a method named SmartJson.notNull(String) or something similar, which returns true if a certain key is present AND does not have a JsonValue of ValueType.NULL. Then let's use it here instead of manually checking it with the release's json value.</body>
 <role>IMP</role>
 <estimate>0</estimate>
-<lines>48-50</lines>
+<lines>237-241</lines>
 </puzzle>
 <puzzle>
 <ticket>217</ticket>
@@ -89,12 +57,20 @@
 <lines>114-117</lines>
 </puzzle>
 <puzzle>
-<ticket>825</ticket>
-<file>src/test/java/com/jcabi/github/RtUserTest.java</file>
-<body>RtUserTest.hasCreated and  RtUserTest.hasUpdated tests are ignored because issue #840 (https://github.com/jcabi/jcabi-github/issues/840)is not resolved. after resolving this issue please remove @Ignore annotation.</body>
+<ticket>661</ticket>
+<file>src/test/java/com/jcabi/github/NullabilityTest.java</file>
+<body>Ensure that all methods return values and input arguments are annotated with {@code @NotNull} and remove the {@code @Ignore} annotation.</body>
+<role>IMP</role>
+<estimate>30</estimate>
+<lines>55-57</lines>
+</puzzle>
+<puzzle>
+<ticket>551</ticket>
+<file>src/test/java/com/jcabi/github/RtGistITCase.java</file>
+<body>ReadsAndWritesGists is disabled since it doesn't work with real Github account. Let's fix it and remove the Ignore annotation.</body>
 <role>IMP</role>
 <estimate>0</estimate>
-<lines>50-53</lines>
+<lines>48-50</lines>
 </puzzle>
 <puzzle>
 <ticket>590</ticket>

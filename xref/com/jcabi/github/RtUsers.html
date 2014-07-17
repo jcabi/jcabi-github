@@ -112,20 +112,21 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> 
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>     @Override
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>     @NotNull(message = <span class="jxr_string">"Iterable of users is never NULL"</span>)
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;User&gt; iterate(@NotNull(message = <span class="jxr_string">"login is never NULL"</span>)
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>         <strong class="jxr_keyword">final</strong> String login) {
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;User&gt;(
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>             <strong class="jxr_keyword">this</strong>.request.uri().queryParam(<span class="jxr_string">"since"</span>, login).back(),
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;User, JsonObject&gt;() {
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>                 @Override
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>                     <strong class="jxr_keyword">return</strong> RtUsers.<strong class="jxr_keyword">this</strong>.get(object.getString(<span class="jxr_string">"login"</span>));
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>                 }
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>             }
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>         );
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>     }
-<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> }
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;User&gt; iterate(
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         @NotNull(message = <span class="jxr_string">"identifier is never NULL"</span>) <strong class="jxr_keyword">final</strong> String identifier
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     ) {
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;User&gt;(
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>             <strong class="jxr_keyword">this</strong>.request.uri().queryParam(<span class="jxr_string">"since"</span>, identifier).back(),
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;User, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>                 @Override
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>                     <strong class="jxr_keyword">return</strong> RtUsers.<strong class="jxr_keyword">this</strong>.get(object.getString(<span class="jxr_string">"id"</span>));
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>                 }
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>             }
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         );
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     }
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

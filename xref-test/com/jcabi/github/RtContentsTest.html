@@ -202,210 +202,206 @@
 <a class="jxr_linenumber" name="L194" href="#L194">194</a> 
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L196" href="#L196">196</a> <em class="jxr_javadoccomment">     * RtContents can create a file in the repository.</em>
-<a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">     * @todo #314:15min RtContents#create() should be referencing a get()</em>
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">     *  method instead of creating its own RtContent object, however,</em>
-<a class="jxr_linenumber" name="L199" href="#L199">199</a> <em class="jxr_javadoccomment">     *  that method is not yet present. When that has been implemented, update</em>
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">     *  create() to delegate to get() to obtain a RtContent instance.</em>
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">     * @throws Exception If a problem occurs.</em>
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L203" href="#L203">203</a>     @Test
-<a class="jxr_linenumber" name="L204" href="#L204">204</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canCreateFileInRepository() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L205" href="#L205">205</a>         <strong class="jxr_keyword">final</strong> String path = <span class="jxr_string">"test/thefile"</span>;
-<a class="jxr_linenumber" name="L206" href="#L206">206</a>         <strong class="jxr_keyword">final</strong> String name = <span class="jxr_string">"thefile"</span>;
-<a class="jxr_linenumber" name="L207" href="#L207">207</a>         <strong class="jxr_keyword">final</strong> JsonObject body = Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L208" href="#L208">208</a>             .add(<span class="jxr_string">"path"</span>, path)
-<a class="jxr_linenumber" name="L209" href="#L209">209</a>             .add(<span class="jxr_string">"name"</span>, name)
-<a class="jxr_linenumber" name="L210" href="#L210">210</a>             .build();
-<a class="jxr_linenumber" name="L211" href="#L211">211</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
-<a class="jxr_linenumber" name="L212" href="#L212">212</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
-<a class="jxr_linenumber" name="L213" href="#L213">213</a>                 HttpURLConnection.HTTP_CREATED,
-<a class="jxr_linenumber" name="L214" href="#L214">214</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"content"</span>, body)
-<a class="jxr_linenumber" name="L215" href="#L215">215</a>                     .build().toString()
-<a class="jxr_linenumber" name="L216" href="#L216">216</a>             )
-<a class="jxr_linenumber" name="L217" href="#L217">217</a>         ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-<a class="jxr_linenumber" name="L218" href="#L218">218</a>             .start();
-<a class="jxr_linenumber" name="L219" href="#L219">219</a>         <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
-<a class="jxr_linenumber" name="L220" href="#L220">220</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
-<a class="jxr_linenumber" name="L221" href="#L221">221</a>             repo()
-<a class="jxr_linenumber" name="L222" href="#L222">222</a>         );
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>         <strong class="jxr_keyword">final</strong> JsonObject content = Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L224" href="#L224">224</a>             .add(<span class="jxr_string">"path"</span>, path)
-<a class="jxr_linenumber" name="L225" href="#L225">225</a>             .add(<span class="jxr_string">"message"</span>, <span class="jxr_string">"theMessage"</span>)
-<a class="jxr_linenumber" name="L226" href="#L226">226</a>             .add(<span class="jxr_string">"content"</span>, <span class="jxr_string">"blah"</span>)
-<a class="jxr_linenumber" name="L227" href="#L227">227</a>             .build();
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L229" href="#L229">229</a>             <strong class="jxr_keyword">final</strong> Content.Smart smart = <strong class="jxr_keyword">new</strong> Content.Smart(
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>                 contents.create(content)
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">     * @throws Exception If a problem occurs.</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>     @Test
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canCreateFileInRepository() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>         <strong class="jxr_keyword">final</strong> String path = <span class="jxr_string">"test/thefile"</span>;
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>         <strong class="jxr_keyword">final</strong> String name = <span class="jxr_string">"thefile"</span>;
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>         <strong class="jxr_keyword">final</strong> JsonObject body = Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>             .add(<span class="jxr_string">"path"</span>, path)
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>             .add(<span class="jxr_string">"name"</span>, name)
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>             .build();
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>                 HttpURLConnection.HTTP_CREATED,
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"content"</span>, body)
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>                     .build().toString()
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>             )
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>         ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>             .start();
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>         <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>             repo()
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>         );
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>         <strong class="jxr_keyword">final</strong> JsonObject content = Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>             .add(<span class="jxr_string">"path"</span>, path)
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>             .add(<span class="jxr_string">"message"</span>, <span class="jxr_string">"theMessage"</span>)
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>             .add(<span class="jxr_string">"content"</span>, <span class="jxr_string">"blah"</span>)
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>             .build();
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>             <strong class="jxr_keyword">final</strong> Content.Smart smart = <strong class="jxr_keyword">new</strong> Content.Smart(
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>                 contents.create(content)
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>             );
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>                 container.take().uri().toString(),
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>                 Matchers.endsWith(path)
 <a class="jxr_linenumber" name="L231" href="#L231">231</a>             );
 <a class="jxr_linenumber" name="L232" href="#L232">232</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L233" href="#L233">233</a>                 container.take().uri().toString(),
-<a class="jxr_linenumber" name="L234" href="#L234">234</a>                 Matchers.endsWith(path)
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>                 smart.path(),
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>                 Matchers.is(path)
 <a class="jxr_linenumber" name="L235" href="#L235">235</a>             );
 <a class="jxr_linenumber" name="L236" href="#L236">236</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>                 smart.path(),
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>                 Matchers.is(path)
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>                 smart.name(),
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>                 Matchers.is(name)
 <a class="jxr_linenumber" name="L239" href="#L239">239</a>             );
 <a class="jxr_linenumber" name="L240" href="#L240">240</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>                 smart.name(),
-<a class="jxr_linenumber" name="L242" href="#L242">242</a>                 Matchers.is(name)
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>                 container.take().uri().toString(),
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>                 Matchers.endsWith(<span class="jxr_string">"/repos/test/contents/contents/test/thefile"</span>)
 <a class="jxr_linenumber" name="L243" href="#L243">243</a>             );
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>                 container.take().uri().toString(),
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>                 Matchers.endsWith(<span class="jxr_string">"/repos/test/contents/contents/test/thefile"</span>)
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>             );
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>             container.stop();
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>         }
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>     }
-<a class="jxr_linenumber" name="L252" href="#L252">252</a> 
-<a class="jxr_linenumber" name="L253" href="#L253">253</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">     * RtContents can delete files from the repository.</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     * @throws Exception if a problem occurs.</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">     * @checkstyle MultipleStringLiteralsCheck (50 lines)</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>     @Test
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canDeleteFilesFromRepository() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>                 HttpURLConnection.HTTP_OK,
-<a class="jxr_linenumber" name="L264" href="#L264">264</a>                 Json.createObjectBuilder().add(
-<a class="jxr_linenumber" name="L265" href="#L265">265</a>                     <span class="jxr_string">"commit"</span>,
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>                     Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>                         .add(<span class="jxr_string">"sha"</span>, <span class="jxr_string">"commitSha"</span>)
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>                         .build()
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>                 ).build().toString()
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>             )
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>         ).start();
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>         <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
-<a class="jxr_linenumber" name="L274" href="#L274">274</a>             repo()
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>         );
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>             <strong class="jxr_keyword">final</strong> RepoCommit commit = contents.remove(
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>                 Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>                     .add(<span class="jxr_string">"path"</span>, <span class="jxr_string">"to/remove"</span>)
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>                     .add(<span class="jxr_string">"message"</span>, <span class="jxr_string">"Delete me"</span>)
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>                     .add(<span class="jxr_string">"sha"</span>, <span class="jxr_string">"fileSha"</span>)
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>                     .build()
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>             container.stop();
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>         }
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>     }
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> <em class="jxr_javadoccomment">     * RtContents can delete files from the repository.</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_javadoccomment">     * @throws Exception if a problem occurs.</em>
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">     * @checkstyle MultipleStringLiteralsCheck (50 lines)</em>
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>     @Test
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canDeleteFilesFromRepository() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>                 HttpURLConnection.HTTP_OK,
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>                 Json.createObjectBuilder().add(
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>                     <span class="jxr_string">"commit"</span>,
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>                     Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>                         .add(<span class="jxr_string">"sha"</span>, <span class="jxr_string">"commitSha"</span>)
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>                         .build()
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>                 ).build().toString()
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>             )
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         ).start();
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>         <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>             repo()
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>         );
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>             <strong class="jxr_keyword">final</strong> RepoCommit commit = contents.remove(
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>                 Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>                     .add(<span class="jxr_string">"path"</span>, <span class="jxr_string">"to/remove"</span>)
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>                     .add(<span class="jxr_string">"message"</span>, <span class="jxr_string">"Delete me"</span>)
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>                     .add(<span class="jxr_string">"sha"</span>, <span class="jxr_string">"fileSha"</span>)
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>                     .build()
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>             );
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>                 commit.sha(),
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>                 Matchers.is(<span class="jxr_string">"commitSha"</span>)
 <a class="jxr_linenumber" name="L283" href="#L283">283</a>             );
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>                 commit.sha(),
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>                 Matchers.is(<span class="jxr_string">"commitSha"</span>)
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>             );
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>             <strong class="jxr_keyword">final</strong> MkQuery query = container.take();
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>                 query.body(),
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>                 Matchers.allOf(
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>                     Matchers.containsString(<span class="jxr_string">"\&quot;message\&quot;:\&quot;Delete me\&quot;"</span>),
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>                     Matchers.containsString(<span class="jxr_string">"\&quot;sha\&quot;:\&quot;fileSha\&quot;"</span>)
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>                 )
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>             <strong class="jxr_keyword">final</strong> MkQuery query = container.take();
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>                 query.body(),
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>                 Matchers.allOf(
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>                     Matchers.containsString(<span class="jxr_string">"\&quot;message\&quot;:\&quot;Delete me\&quot;"</span>),
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>                     Matchers.containsString(<span class="jxr_string">"\&quot;sha\&quot;:\&quot;fileSha\&quot;"</span>)
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>                 )
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>             );
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>                 query.uri().toString(),
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>                 Matchers.endsWith(<span class="jxr_string">"/repos/test/contents/contents/to/remove"</span>)
 <a class="jxr_linenumber" name="L295" href="#L295">295</a>             );
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>                 query.uri().toString(),
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>                 Matchers.endsWith(<span class="jxr_string">"/repos/test/contents/contents/to/remove"</span>)
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>             );
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>             container.stop();
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>         }
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>     }
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">     * RtContents can update files into the repository.</em>
-<a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">     * @throws Exception If any problems during test execution occurs.</em>
-<a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>     @Test
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canUpdateFilesInRepository() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L311" href="#L311">311</a>         <strong class="jxr_keyword">final</strong> String sha = <span class="jxr_string">"2f97253a513bbe26658881c29e27910082fef900"</span>;
-<a class="jxr_linenumber" name="L312" href="#L312">312</a>         <strong class="jxr_keyword">final</strong> JsonObject resp = Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (1 line)</em>
-<a class="jxr_linenumber" name="L314" href="#L314">314</a>             .add(<span class="jxr_string">"sha"</span>, sha).build();
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
-<a class="jxr_linenumber" name="L316" href="#L316">316</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
-<a class="jxr_linenumber" name="L317" href="#L317">317</a>                 HttpURLConnection.HTTP_OK,
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"commit"</span>, resp)
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>                     .build().toString()
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>             )
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>         ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
-<a class="jxr_linenumber" name="L322" href="#L322">322</a>             .start();
-<a class="jxr_linenumber" name="L323" href="#L323">323</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L324" href="#L324">324</a>             <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>                 <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>                 repo()
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>             );
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>             <strong class="jxr_keyword">final</strong> String path = <span class="jxr_string">"test.txt"</span>;
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>             <strong class="jxr_keyword">final</strong> JsonObject json = Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>                 .add(<span class="jxr_string">"message"</span>, <span class="jxr_string">"let's change it."</span>)
-<a class="jxr_linenumber" name="L331" href="#L331">331</a>                 .add(<span class="jxr_string">"content"</span>, <span class="jxr_string">"bmV3IHRlc3Q="</span>)
-<a class="jxr_linenumber" name="L332" href="#L332">332</a>                 .add(<span class="jxr_string">"sha"</span>, <span class="jxr_string">"90b67dda6d5944ad167e20ec52bfed8fd56986c8"</span>)
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>                 .build();
-<a class="jxr_linenumber" name="L334" href="#L334">334</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>                 <strong class="jxr_keyword">new</strong> RepoCommit.Smart(contents.update(path, json)).sha(),
-<a class="jxr_linenumber" name="L336" href="#L336">336</a>                 Matchers.is(sha)
-<a class="jxr_linenumber" name="L337" href="#L337">337</a>             );
-<a class="jxr_linenumber" name="L338" href="#L338">338</a>             <strong class="jxr_keyword">final</strong> MkQuery query = container.take();
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>             container.stop();
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>         }
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>     }
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">     * RtContents can update files into the repository.</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">     * @throws Exception If any problems during test execution occurs.</em>
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>     @Test
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canUpdateFilesInRepository() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>         <strong class="jxr_keyword">final</strong> String sha = <span class="jxr_string">"2f97253a513bbe26658881c29e27910082fef900"</span>;
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>         <strong class="jxr_keyword">final</strong> JsonObject resp = Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (1 line)</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>             .add(<span class="jxr_string">"sha"</span>, sha).build();
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>                 HttpURLConnection.HTTP_OK,
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"commit"</span>, resp)
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>                     .build().toString()
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>             )
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>         ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>             .start();
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>             <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>                 <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>                 repo()
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>             );
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>             <strong class="jxr_keyword">final</strong> String path = <span class="jxr_string">"test.txt"</span>;
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>             <strong class="jxr_keyword">final</strong> JsonObject json = Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>                 .add(<span class="jxr_string">"message"</span>, <span class="jxr_string">"let's change it."</span>)
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>                 .add(<span class="jxr_string">"content"</span>, <span class="jxr_string">"bmV3IHRlc3Q="</span>)
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>                 .add(<span class="jxr_string">"sha"</span>, <span class="jxr_string">"90b67dda6d5944ad167e20ec52bfed8fd56986c8"</span>)
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>                 .build();
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>                 <strong class="jxr_keyword">new</strong> RepoCommit.Smart(contents.update(path, json)).sha(),
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>                 Matchers.is(sha)
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>             );
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>             <strong class="jxr_keyword">final</strong> MkQuery query = container.take();
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>                 query.method(),
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>                 Matchers.equalTo(Request.PUT)
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>             );
 <a class="jxr_linenumber" name="L339" href="#L339">339</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>                 query.method(),
-<a class="jxr_linenumber" name="L341" href="#L341">341</a>                 Matchers.equalTo(Request.PUT)
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>                 query.uri().getPath(),
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>                 Matchers.endsWith(path)
 <a class="jxr_linenumber" name="L342" href="#L342">342</a>             );
 <a class="jxr_linenumber" name="L343" href="#L343">343</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L344" href="#L344">344</a>                 query.uri().getPath(),
-<a class="jxr_linenumber" name="L345" href="#L345">345</a>                 Matchers.endsWith(path)
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>                 query.body(),
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>                 Matchers.equalTo(json.toString())
 <a class="jxr_linenumber" name="L346" href="#L346">346</a>             );
-<a class="jxr_linenumber" name="L347" href="#L347">347</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L348" href="#L348">348</a>                 query.body(),
-<a class="jxr_linenumber" name="L349" href="#L349">349</a>                 Matchers.equalTo(json.toString())
-<a class="jxr_linenumber" name="L350" href="#L350">350</a>             );
-<a class="jxr_linenumber" name="L351" href="#L351">351</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>             container.stop();
-<a class="jxr_linenumber" name="L353" href="#L353">353</a>         }
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>     }
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> 
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L357" href="#L357">357</a> <em class="jxr_javadoccomment">     * RtContents can iterate through a directory's contents.</em>
-<a class="jxr_linenumber" name="L358" href="#L358">358</a> <em class="jxr_javadoccomment">     * @throws Exception If something goes wrong.</em>
-<a class="jxr_linenumber" name="L359" href="#L359">359</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>     @Test
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canIterateDirectoryContents() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>         <strong class="jxr_keyword">final</strong> JsonArray body = Json.createArrayBuilder().add(
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>             container.stop();
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>         }
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>     }
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> 
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">     * RtContents can iterate through a directory's contents.</em>
+<a class="jxr_linenumber" name="L354" href="#L354">354</a> <em class="jxr_javadoccomment">     * @throws Exception If something goes wrong.</em>
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>     @Test
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canIterateDirectoryContents() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>         <strong class="jxr_keyword">final</strong> JsonArray body = Json.createArrayBuilder().add(
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>             Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>                 .add(<span class="jxr_string">"path"</span>, <span class="jxr_string">"README.md"</span>)
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>                 .build()
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>         ).add(
 <a class="jxr_linenumber" name="L363" href="#L363">363</a>             Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>                 .add(<span class="jxr_string">"path"</span>, <span class="jxr_string">"README.md"</span>)
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>                 .add(<span class="jxr_string">"path"</span>, <span class="jxr_string">".gitignore"</span>)
 <a class="jxr_linenumber" name="L365" href="#L365">365</a>                 .build()
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>         ).add(
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>             Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>                 .add(<span class="jxr_string">"path"</span>, <span class="jxr_string">".gitignore"</span>)
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>                 .build()
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>         ).build();
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-<a class="jxr_linenumber" name="L373" href="#L373">373</a>         ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(<span class="jxr_string">"{\&quot;path\&quot;:\&quot;README.md\&quot;}"</span>))
-<a class="jxr_linenumber" name="L374" href="#L374">374</a>             .next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(<span class="jxr_string">"{\&quot;path\&quot;:\&quot;.gitignore\&quot;}"</span>))
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>             .start();
-<a class="jxr_linenumber" name="L376" href="#L376">376</a>         <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
-<a class="jxr_linenumber" name="L377" href="#L377">377</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>             repo()
-<a class="jxr_linenumber" name="L379" href="#L379">379</a>         );
-<a class="jxr_linenumber" name="L380" href="#L380">380</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L381" href="#L381">381</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L382" href="#L382">382</a>                 contents.iterate(<span class="jxr_string">"dir"</span>, <span class="jxr_string">"branch2"</span>),
-<a class="jxr_linenumber" name="L383" href="#L383">383</a>                 Matchers.&lt;Content&gt;iterableWithSize(2)
-<a class="jxr_linenumber" name="L384" href="#L384">384</a>             );
-<a class="jxr_linenumber" name="L385" href="#L385">385</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L386" href="#L386">386</a>             container.stop();
-<a class="jxr_linenumber" name="L387" href="#L387">387</a>         }
-<a class="jxr_linenumber" name="L388" href="#L388">388</a>     }
-<a class="jxr_linenumber" name="L389" href="#L389">389</a> 
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L391" href="#L391">391</a> <em class="jxr_javadoccomment">     * Create and return repo for testing.</em>
-<a class="jxr_linenumber" name="L392" href="#L392">392</a> <em class="jxr_javadoccomment">     * @return Repo</em>
-<a class="jxr_linenumber" name="L393" href="#L393">393</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L394" href="#L394">394</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Repo repo() {
-<a class="jxr_linenumber" name="L395" href="#L395">395</a>         <strong class="jxr_keyword">final</strong> Repo repo = Mockito.mock(Repo.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L396" href="#L396">396</a>         Mockito.doReturn(<strong class="jxr_keyword">new</strong> Coordinates.Simple(<span class="jxr_string">"test"</span>, <span class="jxr_string">"contents"</span>))
-<a class="jxr_linenumber" name="L397" href="#L397">397</a>             .when(repo).coordinates();
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>         <strong class="jxr_keyword">return</strong> repo;
-<a class="jxr_linenumber" name="L399" href="#L399">399</a>     }
-<a class="jxr_linenumber" name="L400" href="#L400">400</a> }
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>         ).build();
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(<span class="jxr_string">"{\&quot;path\&quot;:\&quot;README.md\&quot;}"</span>))
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>             .next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(<span class="jxr_string">"{\&quot;path\&quot;:\&quot;.gitignore\&quot;}"</span>))
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>             .start();
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>         <strong class="jxr_keyword">final</strong> RtContents contents = <strong class="jxr_keyword">new</strong> RtContents(
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()),
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>             repo()
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>         );
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>                 contents.iterate(<span class="jxr_string">"dir"</span>, <span class="jxr_string">"branch2"</span>),
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>                 Matchers.&lt;Content&gt;iterableWithSize(2)
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>             );
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>             container.stop();
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>         }
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>     }
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> 
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> <em class="jxr_javadoccomment">     * Create and return repo for testing.</em>
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">     * @return Repo</em>
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Repo repo() {
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>         <strong class="jxr_keyword">final</strong> Repo repo = Mockito.mock(Repo.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>         Mockito.doReturn(<strong class="jxr_keyword">new</strong> Coordinates.Simple(<span class="jxr_string">"test"</span>, <span class="jxr_string">"contents"</span>))
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>             .when(repo).coordinates();
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>         <strong class="jxr_keyword">return</strong> repo;
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>     }
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

@@ -62,22 +62,22 @@
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>      @Test
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iterateUsers() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">final</strong> String login = <span class="jxr_string">"octocat"</span>;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">final</strong> String identifier = <span class="jxr_string">"1"</span>;
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>          <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>              <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>                  HttpURLConnection.HTTP_OK,
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>                  Json.createArrayBuilder()
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>                      .add(json(login))
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>                      .add(json(<span class="jxr_string">"dummy"</span>))
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>                      .add(RtUsersTest.json(<span class="jxr_string">"octocat"</span>, identifier))
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>                      .add(RtUsersTest.json(<span class="jxr_string">"dummy"</span>, <span class="jxr_string">"2"</span>))
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>                      .build().toString()
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>              )
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>          ).start();
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <strong class="jxr_keyword">final</strong> RtUsers users = <strong class="jxr_keyword">new</strong> RtUsers(
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <strong class="jxr_keyword">final</strong> Users users = <strong class="jxr_keyword">new</strong> RtUsers(
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>              Mockito.mock(Github.<strong class="jxr_keyword">class</strong>),
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>              <strong class="jxr_keyword">new</strong> ApacheRequest(container.home())
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          );
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>              users.iterate(login),
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>              users.iterate(identifier),
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>              Matchers.&lt;User&gt;iterableWithSize(2)
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>          );
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>          container.stop();
@@ -94,10 +94,10 @@
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>          <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>              <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>                  HttpURLConnection.HTTP_OK,
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  json(login).toString()
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  RtUsersTest.json(login, <span class="jxr_string">"3"</span>).toString()
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>              )
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>          ).start();
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>          <strong class="jxr_keyword">final</strong> RtUsers users = <strong class="jxr_keyword">new</strong> RtUsers(
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          <strong class="jxr_keyword">final</strong> Users users = <strong class="jxr_keyword">new</strong> RtUsers(
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>              Mockito.mock(Github.<strong class="jxr_keyword">class</strong>),
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>              <strong class="jxr_keyword">new</strong> ApacheRequest(container.home())
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>          );
@@ -119,10 +119,10 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>                 HttpURLConnection.HTTP_OK,
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>                 json(login).toString()
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>                 RtUsersTest.json(login, <span class="jxr_string">"4"</span>).toString()
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>             )
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>         ).start();
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>         <strong class="jxr_keyword">final</strong> RtUsers users = <strong class="jxr_keyword">new</strong> RtUsers(
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>         <strong class="jxr_keyword">final</strong> Users users = <strong class="jxr_keyword">new</strong> RtUsers(
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>             Mockito.mock(Github.<strong class="jxr_keyword">class</strong>),
 <a class="jxr_linenumber" name="L119" href="#L119">119</a>             <strong class="jxr_keyword">new</strong> ApacheRequest(container.home())
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>         );
@@ -136,15 +136,19 @@
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> <em class="jxr_javadoccomment">     * Create and return JsonObject to test.</em>
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> <em class="jxr_javadoccomment">     * @param login Username to login</em>
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject json(<strong class="jxr_keyword">final</strong> String login) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>             .add(<span class="jxr_string">"login"</span>, login)
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>             .build();
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>     }
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> <em class="jxr_javadoccomment">     * @param identifier User Id</em>
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject json(
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>         <strong class="jxr_keyword">final</strong> String login, <strong class="jxr_keyword">final</strong> String identifier
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>     ) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>             .add(<span class="jxr_string">"id"</span>, identifier)
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>             .add(<span class="jxr_string">"login"</span>, login)
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>             .build();
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>     }
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

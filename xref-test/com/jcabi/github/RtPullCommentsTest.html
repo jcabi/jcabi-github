@@ -37,18 +37,18 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">package</strong> com.jcabi.github;
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.mock.MkGithub;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.Request;
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkAnswer;
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkContainer;
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkGrizzlyContainer;
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkQuery;
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.request.ApacheRequest;
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.request.FakeRequest;
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.request.JdkRequest;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> java.net.HttpURLConnection;
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> java.util.Collections;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> java.util.Random;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.jcabi.aspects.Tv;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.mock.MkGithub;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.Request;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkAnswer;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkContainer;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkGrizzlyContainer;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.mock.MkQuery;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.request.ApacheRequest;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.request.FakeRequest;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> com.jcabi.http.request.JdkRequest;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> java.net.HttpURLConnection;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> java.util.Collections;
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> javax.json.Json;
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> javax.json.JsonObject;
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">import</strong> org.hamcrest.MatcherAssert;
@@ -196,7 +196,7 @@
 <a class="jxr_linenumber" name="L188" href="#L188">188</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number = 4;
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>         <strong class="jxr_keyword">final</strong> String response = Json.createObjectBuilder()
 <a class="jxr_linenumber" name="L190" href="#L190">190</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (2 line)</em>
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>             .add(<span class="jxr_string">"id"</span>, <strong class="jxr_keyword">new</strong> Random().nextInt())
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>             .add(<span class="jxr_string">"id"</span>, Tv.BILLION)
 <a class="jxr_linenumber" name="L192" href="#L192">192</a>             .add(<span class="jxr_string">"body"</span>, body)
 <a class="jxr_linenumber" name="L193" href="#L193">193</a>             .add(<span class="jxr_string">"in_reply_to"</span>, number)
 <a class="jxr_linenumber" name="L194" href="#L194">194</a>             .build()
@@ -282,7 +282,7 @@
 <a class="jxr_linenumber" name="L274" href="#L274">274</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> position) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L275" href="#L275">275</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
 <a class="jxr_linenumber" name="L276" href="#L276">276</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (2 line)</em>
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>             .add(<span class="jxr_string">"id"</span>, <strong class="jxr_keyword">new</strong> Random().nextInt())
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>             .add(<span class="jxr_string">"id"</span>, Tv.BILLION)
 <a class="jxr_linenumber" name="L278" href="#L278">278</a>             .add(<span class="jxr_string">"body"</span>, body)
 <a class="jxr_linenumber" name="L279" href="#L279">279</a>             .add(<span class="jxr_string">"commit_id"</span>, commit)
 <a class="jxr_linenumber" name="L280" href="#L280">280</a>             .add(<span class="jxr_string">"path"</span>, path)
