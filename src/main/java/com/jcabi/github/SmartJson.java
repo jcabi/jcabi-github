@@ -36,6 +36,7 @@ import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -46,6 +47,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @checkstyle AvoidDuplicateLiterals (150 lines)
  */
 @Immutable
 @ToString
@@ -128,5 +130,21 @@ final class SmartJson {
             );
         }
         return type.cast(value);
+    }
+
+    /**
+     * Checks if a certain key is present
+     *  AND its ValueType isn't ValueType.NULL.
+     * @param name Name of the key which ValueType should be checked.
+     * @return Returns <code>true</code> if key <code>name</code> is present
+     *  and its ValueType isn't ValueType.NULL, <code>false</code> otherwise.
+     * @throws IOException If there is any I/O problem
+     */
+    public boolean hasNotNull(
+        @NotNull(message = "name can't be NULL") final String name
+    ) throws IOException {
+        return this.object.json().get(name) != null && !ValueType.NULL.equals(
+            this.object.json().get(name).getValueType()
+        );
     }
 }
