@@ -132,41 +132,49 @@
 <a class="jxr_linenumber" name="L124" href="#L124">124</a>     @Test
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canCreateDeployKey() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L126" href="#L126">126</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number = 2;
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>         <strong class="jxr_keyword">final</strong> DeployKeys keys = <strong class="jxr_keyword">new</strong> RtDeployKeys(
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>             <strong class="jxr_keyword">new</strong> FakeRequest()
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>                 .withStatus(HttpURLConnection.HTTP_CREATED)
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>                 .withBody(String.format(<span class="jxr_string">"{\&quot;id\&quot;:%d}"</span>, number)),
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>             RtDeployKeysTest.repo()
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>         <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>             <strong class="jxr_keyword">new</strong> MkAnswer.Simple(
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                 HttpURLConnection.HTTP_CREATED,
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>                 String.format(<span class="jxr_string">"{\&quot;id\&quot;:%d}"</span>, number)
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>             )
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>         );
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>             keys.create(<span class="jxr_string">"Title"</span>, <span class="jxr_string">"Key"</span>).number(),
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>             Matchers.equalTo(number)
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>         );
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>     }
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> 
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">     * Create and return repo for testing.</em>
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">     * @return Repo</em>
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Repo repo() {
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>         <strong class="jxr_keyword">final</strong> Repo repo = Mockito.mock(Repo.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>         Mockito.doReturn(<strong class="jxr_keyword">new</strong> Coordinates.Simple(<span class="jxr_string">"test"</span>, <span class="jxr_string">"keys"</span>))
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>             .when(repo).coordinates();
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>         <strong class="jxr_keyword">return</strong> repo;
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>     }
-<a class="jxr_linenumber" name="L149" href="#L149">149</a> 
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">     * Create and return key to test.</em>
-<a class="jxr_linenumber" name="L152" href="#L152">152</a> <em class="jxr_javadoccomment">     * @param number Deploy Key Id</em>
-<a class="jxr_linenumber" name="L153" href="#L153">153</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L154" href="#L154">154</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject key(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number) {
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>             .add(<span class="jxr_string">"id"</span>, number)
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>             .add(<span class="jxr_string">"key"</span>, <span class="jxr_string">"ssh-rsa AAA"</span>)
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>             .build();
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>     }
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> }
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>         container.start();
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>             <strong class="jxr_keyword">final</strong> DeployKeys keys = <strong class="jxr_keyword">new</strong> RtDeployKeys(
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>                 <strong class="jxr_keyword">new</strong> ApacheRequest(container.home()), RtDeployKeysTest.repo()
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>             );
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>             MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>                 keys.create(<span class="jxr_string">"Title"</span>, <span class="jxr_string">"Key"</span>).number(),
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>                 Matchers.equalTo(number)
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>             );
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>             container.stop();
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         }
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>     }
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">     * Create and return repo for testing.</em>
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> <em class="jxr_javadoccomment">     * @return Repo</em>
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Repo repo() {
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         <strong class="jxr_keyword">final</strong> Repo repo = Mockito.mock(Repo.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>         Mockito.doReturn(<strong class="jxr_keyword">new</strong> Coordinates.Simple(<span class="jxr_string">"test"</span>, <span class="jxr_string">"keys"</span>))
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>             .when(repo).coordinates();
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">return</strong> repo;
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     }
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">     * Create and return key to test.</em>
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">     * @param number Deploy Key Id</em>
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject key(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number) {
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>             .add(<span class="jxr_string">"id"</span>, number)
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>             .add(<span class="jxr_string">"key"</span>, <span class="jxr_string">"ssh-rsa AAA"</span>)
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>             .build();
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     }
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
