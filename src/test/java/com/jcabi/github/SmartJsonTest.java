@@ -102,6 +102,48 @@ public final class SmartJsonTest {
     }
 
     /**
+     * SmartJson can check for not null keys.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checksNotNullKeyNotPresent() throws Exception {
+        MatcherAssert.assertThat(
+            new SmartJson(
+                SmartJsonTest.json("{\"first\": \"a\"}")
+            ).hasNotNull("second"),
+            Matchers.equalTo(false)
+        );
+    }
+
+    /**
+     * SmartJson can check for not null keys.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checksNotNullKeyPresentAndNull() throws Exception {
+        MatcherAssert.assertThat(
+            new SmartJson(
+                SmartJsonTest.json("{\"first\": null}")
+            ).hasNotNull("first"),
+            Matchers.equalTo(false)
+        );
+    }
+
+    /**
+     * SmartJson can check for not null keys.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void checksNotNullKeyPresentAndNotNull() throws Exception {
+        MatcherAssert.assertThat(
+            new SmartJson(
+                SmartJsonTest.json("{\"first\": \"a\"}")
+            ).hasNotNull("first"),
+            Matchers.equalTo(true)
+        );
+    }
+
+    /**
      * Make a readable with this JSON content.
      * @param txt JSON content
      * @return Readable
