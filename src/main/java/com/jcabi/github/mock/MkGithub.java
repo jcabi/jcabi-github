@@ -31,11 +31,14 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.aspects.Tv;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.github.Gitignores;
 import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
+import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Search;
 import com.jcabi.github.Users;
@@ -47,6 +50,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * Mock Github client.
@@ -213,5 +217,20 @@ public final class MkGithub implements Github {
         final String login
     ) throws IOException {
         return new MkGithub(this.storage, login);
+    }
+
+    /**
+     * Create repo with random name.
+     * @return Repo
+     */
+    public Repo randomRepo() {
+        return new MkRepo(
+            this.storage,
+            this.self,
+            new Coordinates.Simple(
+                this.self,
+                RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            )
+        );
     }
 }

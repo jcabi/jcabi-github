@@ -120,6 +120,20 @@ public final class MkGithubTest {
     }
 
     /**
+     * MkGithub can create random repo.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canCreateRandomRepo() throws Exception {
+        final MkGithub github = new MkGithub();
+        final Repo repo = github.randomRepo();
+        MatcherAssert.assertThat(
+            repo.coordinates().repo(),
+            Matchers.any(String.class)
+        );
+    }
+
+    /**
      * Create and return JsonObject to test.
      * @return JsonObject
      * @throws Exception If some problem inside
