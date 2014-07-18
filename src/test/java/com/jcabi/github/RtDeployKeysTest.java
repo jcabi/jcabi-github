@@ -124,16 +124,24 @@ public final class RtDeployKeysTest {
     @Test
     public void canCreateDeployKey() throws IOException {
         final int number = 2;
-        final DeployKeys keys = new RtDeployKeys(
-            new FakeRequest()
-                .withStatus(HttpURLConnection.HTTP_CREATED)
-                .withBody(String.format("{\"id\":%d}", number)),
-            RtDeployKeysTest.repo()
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED,
+                String.format("{\"id\":%d}", number)
+            )
         );
-        MatcherAssert.assertThat(
-            keys.create("Title", "Key").number(),
-            Matchers.equalTo(number)
-        );
+        container.start();
+        try {
+            final DeployKeys keys = new RtDeployKeys(
+                new ApacheRequest(container.home()), RtDeployKeysTest.repo()
+            );
+            MatcherAssert.assertThat(
+                keys.create("Title", "Key").number(),
+                Matchers.equalTo(number)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
