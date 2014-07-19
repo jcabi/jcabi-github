@@ -288,7 +288,7 @@ public final class MkContentsTest {
             .content(path, message, updated)
             .add("ref", branch)
             .build();
-        contents.update(path, jsonPatch);
+        contents.update(path, branch, jsonPatch);
         MatcherAssert.assertThat(
             new Content.Smart(contents.get(path, branch)).content(),
             Matchers.is(updated)
