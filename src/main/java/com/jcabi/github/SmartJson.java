@@ -36,6 +36,7 @@ import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -51,6 +52,7 @@ import lombok.ToString;
 @ToString
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "object")
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class SmartJson {
 
     /**
@@ -128,5 +130,21 @@ final class SmartJson {
             );
         }
         return type.cast(value);
+    }
+
+    /**
+     * Checks if a certain key is present
+     *  AND its ValueType isn't ValueType.NULL.
+     * @param name Name of the key which ValueType should be checked.
+     * @return Returns <code>true</code> if key <code>name</code> is present
+     *  and its ValueType isn't ValueType.NULL, <code>false</code> otherwise.
+     * @throws IOException If there is any I/O problem
+     */
+    public boolean hasNotNull(
+        @NotNull(message = "name can't be NULL") final String name
+    ) throws IOException {
+        final JsonValue value = this.object.json().get(name);
+        return value != null
+            && !ValueType.NULL.equals(value.getValueType());
     }
 }

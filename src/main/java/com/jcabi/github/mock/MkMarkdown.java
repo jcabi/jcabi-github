@@ -27,57 +27,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.http.Request;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
+import com.jcabi.github.Markdown;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.ToString;
 
 /**
- * Github pagination.
+ * Mock markdown API.
  *
- * <p>This class is a convenient iterator over multiple JSON objects
- * returned by Github API. For example, to iterate through notifications
- * (see Notifications API) you can use this code:</p>
- *
- * <pre> Iterable&lt;JsonObject&gt; notifications = new RtPagination&lt;&gt;(
- *   new RtGithub(oauth).entry()
- *     .uri().path("/notifications").back(),
- *   RtPagination.COPYING
- * );</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @todo #832 MkMarkdown#github() not implemented.
+ *  Let's implement it and remove this puzzle.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.4
- * @param <T> Type of iterable objects
- * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
- * @since 0.11
+ * @since  0.10
  */
 @Immutable
-public final class RtPagination<T> extends RtValuePagination<T, JsonObject> {
+@Loggable(Loggable.DEBUG)
+@ToString
+public class MkMarkdown implements Markdown {
+    @Override
+    public final Github github() {
+        throw new UnsupportedOperationException("MkMarkdown#github()");
+    }
 
-    /**
-     * Mapping that just copies JsonObject.
-     */
-    public static final RtPagination.Mapping<JsonObject, JsonObject> COPYING =
-        new RtPagination.Mapping<JsonObject, JsonObject>() {
-            @Override
-            public JsonObject map(final JsonObject value) {
-                return value;
-            }
-        };
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param mpp Mapping
-     */
-    public RtPagination(
-        @NotNull(message = "request can't be NULL") final Request req,
-        @NotNull(message = "mapping can't be NULL")
-        final RtValuePagination.Mapping<T, JsonObject> mpp
+    @Override
+    public final String render(
+        @NotNull(message = "JSON can't be NULL") final JsonObject json
     ) {
-        super(req, mpp);
+        return json.getString("text");
+    }
+
+    @Override
+    public final String raw(
+        @NotNull(message = "Markdown can't be NULL") final String text
+    ) {
+        return text;
     }
 }

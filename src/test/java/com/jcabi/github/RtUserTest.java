@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -36,21 +37,14 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
-import java.util.Random;
 import javax.json.Json;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtUser}.
- * @todo #825 RtUserTest.hasCreated and  RtUserTest.hasUpdated tests are
- *  ignored because issue #840
- *  (https://github.com/jcabi/jcabi-github/issues/840)is not resolved.
- *  after resolving this issue please remove @Ignore annotation.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -198,7 +192,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasGravatar() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "some-gravatar-id";
         final User.Smart smart = this.userWith("gravatar_id", value);
         MatcherAssert.assertThat(smart.gravatar(), Matchers.is(value));
     }
@@ -209,7 +203,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasHtmlUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com";
         final User.Smart smart = this.userWith("html_url", value);
         MatcherAssert.assertThat(smart.htmlUrl(), Matchers.is(value));
     }
@@ -220,7 +214,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasFollwersUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/followers";
         final User.Smart smart = this.userWith("followers_url", value);
         MatcherAssert.assertThat(smart.follwersUrl(), Matchers.is(value));
     }
@@ -231,7 +225,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasFollowingUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/following";
         final User.Smart smart = this.userWith("following_url", value);
         MatcherAssert.assertThat(smart.followingUrl(), Matchers.is(value));
     }
@@ -242,7 +236,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasGistsUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/gists";
         final User.Smart smart = this.userWith("gists_url", value);
         MatcherAssert.assertThat(smart.gistsUrl(), Matchers.is(value));
     }
@@ -253,7 +247,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasStarredUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/starred";
         final User.Smart smart = this.userWith("starred_url", value);
         MatcherAssert.assertThat(smart.starredUrl(), Matchers.is(value));
     }
@@ -264,7 +258,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasSubscriptionsUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/subscriptions";
         final User.Smart smart = this.userWith("subscriptions_url", value);
         MatcherAssert.assertThat(smart.subscriptionsUrl(), Matchers.is(value));
     }
@@ -275,7 +269,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasOrganizationsUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/organizations";
         final User.Smart smart = this.userWith("organizations_url", value);
         MatcherAssert.assertThat(smart.organizationsUrl(), Matchers.is(value));
     }
@@ -286,7 +280,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasReposUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/repos";
         final User.Smart smart = this.userWith("repos_url", value);
         MatcherAssert.assertThat(smart.reposUrl(), Matchers.is(value));
     }
@@ -297,7 +291,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasEventsUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/events";
         final User.Smart smart = this.userWith("events_url", value);
         MatcherAssert.assertThat(smart.eventsUrl(), Matchers.is(value));
     }
@@ -308,7 +302,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasReceivedEventsUrl() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/received_events";
         final User.Smart smart = this.userWith("received_events_url", value);
         MatcherAssert.assertThat(smart.receivedEventsUrl(), Matchers.is(value));
     }
@@ -319,7 +313,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasType() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/organizations";
         final User.Smart smart = this.userWith("type", value);
         MatcherAssert.assertThat(smart.type(), Matchers.is(value));
     }
@@ -340,7 +334,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasBlog() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://blog.example.com";
         final User.Smart smart = this.userWith("blog", value);
         MatcherAssert.assertThat(smart.blog(), Matchers.is(value));
     }
@@ -361,7 +355,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasBio() throws Exception {
-        final String value = RandomStringUtils.random(256);
+        final String value = "http://github.example.com/bio";
         final User.Smart smart = this.userWith("bio", value);
         MatcherAssert.assertThat(smart.bio(), Matchers.is(value));
     }
@@ -372,7 +366,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasPublicRepos() throws Exception {
-        final int value = new Random().nextInt();
+        final int value = Tv.THREE;
         final User.Smart smart = this.userWith(
             "public_repos",
             String.valueOf(value)
@@ -386,7 +380,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasPublicGists() throws Exception {
-        final int value = new Random().nextInt();
+        final int value = Tv.FOUR;
         final User.Smart smart = this.userWith(
             "public_gists",
             String.valueOf(value)
@@ -400,7 +394,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasFollowersCount() throws Exception {
-        final int value = new Random().nextInt();
+        final int value = Tv.FIVE;
         final User.Smart smart = this.userWith(
             "followers",
             String.valueOf(value)
@@ -414,7 +408,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasFollowingCount() throws Exception {
-        final int value = new Random().nextInt();
+        final int value = Tv.SIX;
         final User.Smart smart = this.userWith(
             "following",
             String.valueOf(value)
@@ -427,9 +421,8 @@ public final class RtUserTest {
      * @throws Exception if any problem occurs.
      */
     @Test
-    @Ignore
     public void hasCreated() throws Exception {
-        final Github.Time value = new Github.Time(System.currentTimeMillis());
+        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
     }
@@ -439,9 +432,8 @@ public final class RtUserTest {
      * @throws Exception if any problem occurs.
      */
     @Test
-    @Ignore
     public void hasUpdated() throws Exception {
-        final Github.Time value = new Github.Time(System.currentTimeMillis());
+        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
     }

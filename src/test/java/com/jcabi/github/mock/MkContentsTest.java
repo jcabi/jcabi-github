@@ -48,10 +48,6 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
- * @todo #590 MkContents can now create and get files from non-default branches.
- *  However, the same functionality has not been implemented yet for the
- *  update() method. Let's fix it. See
- *  http://developer.github.com/v3/repos/contents for details
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
 public final class MkContentsTest {
@@ -288,7 +284,7 @@ public final class MkContentsTest {
             .content(path, message, updated)
             .add("ref", branch)
             .build();
-        contents.update(path, jsonPatch);
+        contents.update(path, branch, jsonPatch);
         MatcherAssert.assertThat(
             new Content.Smart(contents.get(path, branch)).content(),
             Matchers.is(updated)

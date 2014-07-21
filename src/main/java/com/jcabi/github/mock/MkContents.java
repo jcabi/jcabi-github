@@ -239,11 +239,30 @@ final class MkContents implements Contents {
         @NotNull(message = "path cannot be NULL") final String path,
         @NotNull(message = "json should not be NULL") final JsonObject json
     ) throws IOException {
+        return this.update(path, "master", json);
+    }
+
+    /**
+     * Updates a file at a specified branch.
+     * @param path The content path.
+     * @param ref Branch name.
+     * @param json JSON object containing updates to the content.
+     * @return Commit related to this update.
+     * @throws IOException If any I/O problem occurs.
+     */
+    @Override
+    @NotNull(message = "updated commit is never NULL")
+    public RepoCommit update(
+        @NotNull(message = "path cannot be NULL") final String path,
+        @NotNull(message = "branch cannot be NULL") final String ref,
+        @NotNull(message = "json should not be NULL") final JsonObject json
+    ) throws IOException {
         this.storage.lock();
         try {
             final String xpath = String.format(
-                "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
-                this.coords, path
+                // @checkstyle LineLengthCheck (1 line)
+                "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
+                this.coords, path, ref
             );
             new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);

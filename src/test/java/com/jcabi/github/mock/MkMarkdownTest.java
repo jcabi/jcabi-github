@@ -27,57 +27,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.http.Request;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github pagination.
- *
- * <p>This class is a convenient iterator over multiple JSON objects
- * returned by Github API. For example, to iterate through notifications
- * (see Notifications API) you can use this code:</p>
- *
- * <pre> Iterable&lt;JsonObject&gt; notifications = new RtPagination&lt;&gt;(
- *   new RtGithub(oauth).entry()
- *     .uri().path("/notifications").back(),
- *   RtPagination.COPYING
- * );</pre>
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link MkMarkdown}.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.4
- * @param <T> Type of iterable objects
- * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
- * @since 0.11
  */
-@Immutable
-public final class RtPagination<T> extends RtValuePagination<T, JsonObject> {
+public class MkMarkdownTest {
 
     /**
-     * Mapping that just copies JsonObject.
+     * MkMarkdown can be rendered.
+     *
+     * @throws Exception if some problem inside
      */
-    public static final RtPagination.Mapping<JsonObject, JsonObject> COPYING =
-        new RtPagination.Mapping<JsonObject, JsonObject>() {
-            @Override
-            public JsonObject map(final JsonObject value) {
-                return value;
-            }
-        };
-
-    /**
-     * Public ctor.
-     * @param req Request
-     * @param mpp Mapping
-     */
-    public RtPagination(
-        @NotNull(message = "request can't be NULL") final Request req,
-        @NotNull(message = "mapping can't be NULL")
-        final RtValuePagination.Mapping<T, JsonObject> mpp
-    ) {
-        super(req, mpp);
+    @Test
+    public final void canBeRendered() throws Exception {
+        final String text = "Hello, **world**!";
+        MatcherAssert.assertThat(
+            new MkMarkdown().render(
+                Json.createObjectBuilder()
+                    .add("text", text)
+                    .build()
+            ),
+            Matchers.equalTo(text)
+        );
     }
 }

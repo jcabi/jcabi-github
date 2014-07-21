@@ -30,10 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -43,6 +46,43 @@ import org.junit.Test;
  * @since 0.7
  */
 public final class RtAssigneesITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
 
     /**
      * RtAssignees can iterate over assignees.
@@ -52,7 +92,7 @@ public final class RtAssigneesITCase {
     public void iteratesAssignees() throws Exception {
         final Iterable<User> users = new Smarts<User>(
             new Bulk<User>(
-                RtAssigneesITCase.repo().assignees().iterate()
+                repo.assignees().iterate()
             )
         );
         for (final User user : users) {
@@ -70,7 +110,7 @@ public final class RtAssigneesITCase {
     @Test
     public void checkUserIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
-            RtAssigneesITCase.repo().assignees().check(coordinates().user()),
+            repo.assignees().check(repo.coordinates().user()),
             Matchers.is(true)
         );
     }
@@ -82,31 +122,9 @@ public final class RtAssigneesITCase {
     @Test
     public void checkUserIsNotAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
-            RtAssigneesITCase.repo()
-                .assignees()
+            repo.assignees()
                 .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),
             Matchers.is(false)
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(RtAssigneesITCase.coordinates());
-    }
-
-    /**
-     * Create and return repo coordinates to test on.
-     * @return Coordinates
-     */
-    private static Coordinates coordinates() {
-        return new Coordinates.Simple(
-            System.getProperty("failsafe.github.repo")
         );
     }
 }
