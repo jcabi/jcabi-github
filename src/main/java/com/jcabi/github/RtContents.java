@@ -255,6 +255,7 @@ final class RtContents implements Contents {
     }
 
     @Override
+    @NotNull(message = "RepoCommit can't be NULL")
     public RepoCommit update(
         @NotNull(message = "path cannot be NULL") final String path,
         @NotNull(message = "branch cannot be NULL") final String ref,
