@@ -243,100 +243,119 @@
 <a class="jxr_linenumber" name="L235" href="#L235">235</a>         @NotNull(message = <span class="jxr_string">"path cannot be NULL"</span>) <strong class="jxr_keyword">final</strong> String path,
 <a class="jxr_linenumber" name="L236" href="#L236">236</a>         @NotNull(message = <span class="jxr_string">"json should not be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
 <a class="jxr_linenumber" name="L237" href="#L237">237</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>         <strong class="jxr_keyword">this</strong>.storage.lock();
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L240" href="#L240">240</a>             <strong class="jxr_keyword">final</strong> String xpath = String.format(
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>                 <span class="jxr_string">"/github/repos/repo[@coords='%s']/contents/content[path='%s']"</span>,
-<a class="jxr_linenumber" name="L242" href="#L242">242</a>                 <strong class="jxr_keyword">this</strong>.coords, path
-<a class="jxr_linenumber" name="L243" href="#L243">243</a>             );
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/JsonPatch.html">JsonPatch</a>(<strong class="jxr_keyword">this</strong>.storage).patch(xpath, json);
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.commit(json);
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         }
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>     }
-<a class="jxr_linenumber" name="L250" href="#L250">250</a> 
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_javadoccomment">     * Builder method for MkContent.</em>
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">     * @param ref Branch name.</em>
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">     * @param path Path to MkContent.</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">     * @return MkContent instance.</em>
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     * @throws IOException if any I/O error occurs.</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../com/jcabi/github/mock/MkContent.html">MkContent</a> mkContent(<strong class="jxr_keyword">final</strong> String ref, <strong class="jxr_keyword">final</strong> String path)
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>         <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkContent.html">MkContent</a>(<strong class="jxr_keyword">this</strong>.storage, <strong class="jxr_keyword">this</strong>.self, <strong class="jxr_keyword">this</strong>.coords, path, ref);
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>     }
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">     * @return The XPath</em>
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/contents"</span>,
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>         );
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>     }
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> <em class="jxr_javadoccomment">     * Xpath of the commits element in XML tree.</em>
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> <em class="jxr_javadoccomment">     * @return Xpath</em>
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>     @NotNull(message = <span class="jxr_string">"commit xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>     <strong class="jxr_keyword">private</strong> String commitXpath() {
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/commits"</span>,
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>         );
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>     }
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">     * XML Directives for commit creation.</em>
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">     * @param json Source</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">     * @return SHA string</em>
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">     * @throws IOException If an IO Exception occurs</em>
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>     @NotNull(message = <span class="jxr_string">"MkRepoCommit is never NULL"</span>)
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../com/jcabi/github/mock/MkRepoCommit.html">MkRepoCommit</a> commit(
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>         @NotNull(message = <span class="jxr_string">"json can't be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>         <strong class="jxr_keyword">final</strong> String sha = fakeSha();
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>         <em class="jxr_comment">// @checkstyle MultipleStringLiterals (40 lines)</em>
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>         <strong class="jxr_keyword">final</strong> Directives commit = <strong class="jxr_keyword">new</strong> Directives().xpath(<strong class="jxr_keyword">this</strong>.commitXpath())
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>             .add(<span class="jxr_string">"commit"</span>)
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>             .add(<span class="jxr_string">"sha"</span>).set(sha).up()
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>             .add(<span class="jxr_string">"url"</span>).set(<span class="jxr_string">"http://localhost/4"</span>).up()
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>             .add(<span class="jxr_string">"html_url"</span>).set(<span class="jxr_string">"http://localhost/5"</span>).up()
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>             .add(<span class="jxr_string">"message"</span>).set(json.getString(<span class="jxr_string">"message"</span>)).up();
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>         <strong class="jxr_keyword">if</strong> (json.containsKey(<span class="jxr_string">"committer"</span>)) {
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>             <strong class="jxr_keyword">final</strong> JsonObject committer = json.getJsonObject(<span class="jxr_string">"committer"</span>);
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>             commit.add(<span class="jxr_string">"committer"</span>)
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>                 .add(<span class="jxr_string">"email"</span>).set(committer.getString(<span class="jxr_string">"email"</span>)).up()
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>                 .add(<span class="jxr_string">"name"</span>).set(committer.getString(<span class="jxr_string">"name"</span>)).up();
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>         }
-<a class="jxr_linenumber" name="L311" href="#L311">311</a>         <strong class="jxr_keyword">if</strong> (json.containsKey(<span class="jxr_string">"author"</span>)) {
-<a class="jxr_linenumber" name="L312" href="#L312">312</a>             <strong class="jxr_keyword">final</strong> JsonObject author = json.getJsonObject(<span class="jxr_string">"author"</span>);
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>             commit.add(<span class="jxr_string">"author"</span>)
-<a class="jxr_linenumber" name="L314" href="#L314">314</a>                 .add(<span class="jxr_string">"email"</span>).set(author.getString(<span class="jxr_string">"email"</span>)).up()
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>                 .add(<span class="jxr_string">"name"</span>).set(author.getString(<span class="jxr_string">"name"</span>)).up();
-<a class="jxr_linenumber" name="L316" href="#L316">316</a>         }
-<a class="jxr_linenumber" name="L317" href="#L317">317</a>         <strong class="jxr_keyword">this</strong>.storage.apply(commit);
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkRepoCommit.html">MkRepoCommit</a>(<strong class="jxr_keyword">this</strong>.storage, <strong class="jxr_keyword">this</strong>.repo(), sha);
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>     }
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> 
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">     * Generate a random fake SHA hex string.</em>
-<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">     * @return Fake SHA string.</em>
-<a class="jxr_linenumber" name="L325" href="#L325">325</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>     @NotNull(message = <span class="jxr_string">"fake sha can't be NULL"</span>)
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> String fakeSha() {
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>         <em class="jxr_comment">// @checkstyle MagicNumberCheck (1 line)</em>
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>         <strong class="jxr_keyword">return</strong> RandomStringUtils.random(40, <span class="jxr_string">"0123456789abcdef"</span>);
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>     }
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> }
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.update(path, <span class="jxr_string">"master"</span>, json);
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     }
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> <em class="jxr_javadoccomment">     * Updates a file at a specified branch.</em>
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> <em class="jxr_javadoccomment">     * @param path The content path.</em>
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">     * @param ref Branch name.</em>
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">     * @param json JSON object containing updates to the content.</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">     * @return Commit related to this update.</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> <em class="jxr_javadoccomment">     * @throws IOException If any I/O problem occurs.</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>     @Override
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>     @NotNull(message = <span class="jxr_string">"updated commit is never NULL"</span>)
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/RepoCommit.html">RepoCommit</a> update(
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>         @NotNull(message = <span class="jxr_string">"path cannot be NULL"</span>) <strong class="jxr_keyword">final</strong> String path,
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>         @NotNull(message = <span class="jxr_string">"branch cannot be NULL"</span>) <strong class="jxr_keyword">final</strong> String ref,
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>         @NotNull(message = <span class="jxr_string">"json should not be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>         <strong class="jxr_keyword">this</strong>.storage.lock();
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>             <strong class="jxr_keyword">final</strong> String xpath = String.format(
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>                 <em class="jxr_comment">// @checkstyle LineLengthCheck (1 line)</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>                 <span class="jxr_string">"/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']"</span>,
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>                 <strong class="jxr_keyword">this</strong>.coords, path, ref
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>             );
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/JsonPatch.html">JsonPatch</a>(<strong class="jxr_keyword">this</strong>.storage).patch(xpath, json);
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.commit(json);
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         }
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>     }
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> <em class="jxr_javadoccomment">     * Builder method for MkContent.</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">     * @param ref Branch name.</em>
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> <em class="jxr_javadoccomment">     * @param path Path to MkContent.</em>
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> <em class="jxr_javadoccomment">     * @return MkContent instance.</em>
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> <em class="jxr_javadoccomment">     * @throws IOException if any I/O error occurs.</em>
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../com/jcabi/github/mock/MkContent.html">MkContent</a> mkContent(<strong class="jxr_keyword">final</strong> String ref, <strong class="jxr_keyword">final</strong> String path)
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkContent.html">MkContent</a>(<strong class="jxr_keyword">this</strong>.storage, <strong class="jxr_keyword">this</strong>.self, <strong class="jxr_keyword">this</strong>.coords, path, ref);
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>     }
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">     * @return The XPath</em>
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/contents"</span>,
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>         );
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>     }
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> <em class="jxr_javadoccomment">     * Xpath of the commits element in XML tree.</em>
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">     * @return Xpath</em>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>     @NotNull(message = <span class="jxr_string">"commit xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>     <strong class="jxr_keyword">private</strong> String commitXpath() {
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/commits"</span>,
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>         );
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     }
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">     * XML Directives for commit creation.</em>
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">     * @param json Source</em>
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> <em class="jxr_javadoccomment">     * @return SHA string</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">     * @throws IOException If an IO Exception occurs</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>     @NotNull(message = <span class="jxr_string">"MkRepoCommit is never NULL"</span>)
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../com/jcabi/github/mock/MkRepoCommit.html">MkRepoCommit</a> commit(
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>         @NotNull(message = <span class="jxr_string">"json can't be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>         <strong class="jxr_keyword">final</strong> String sha = fakeSha();
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>         <em class="jxr_comment">// @checkstyle MultipleStringLiterals (40 lines)</em>
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">final</strong> Directives commit = <strong class="jxr_keyword">new</strong> Directives().xpath(<strong class="jxr_keyword">this</strong>.commitXpath())
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>             .add(<span class="jxr_string">"commit"</span>)
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>             .add(<span class="jxr_string">"sha"</span>).set(sha).up()
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>             .add(<span class="jxr_string">"url"</span>).set(<span class="jxr_string">"http://localhost/4"</span>).up()
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>             .add(<span class="jxr_string">"html_url"</span>).set(<span class="jxr_string">"http://localhost/5"</span>).up()
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>             .add(<span class="jxr_string">"message"</span>).set(json.getString(<span class="jxr_string">"message"</span>)).up();
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>         <strong class="jxr_keyword">if</strong> (json.containsKey(<span class="jxr_string">"committer"</span>)) {
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>             <strong class="jxr_keyword">final</strong> JsonObject committer = json.getJsonObject(<span class="jxr_string">"committer"</span>);
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>             commit.add(<span class="jxr_string">"committer"</span>)
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>                 .add(<span class="jxr_string">"email"</span>).set(committer.getString(<span class="jxr_string">"email"</span>)).up()
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>                 .add(<span class="jxr_string">"name"</span>).set(committer.getString(<span class="jxr_string">"name"</span>)).up();
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>         }
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>         <strong class="jxr_keyword">if</strong> (json.containsKey(<span class="jxr_string">"author"</span>)) {
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>             <strong class="jxr_keyword">final</strong> JsonObject author = json.getJsonObject(<span class="jxr_string">"author"</span>);
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>             commit.add(<span class="jxr_string">"author"</span>)
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>                 .add(<span class="jxr_string">"email"</span>).set(author.getString(<span class="jxr_string">"email"</span>)).up()
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>                 .add(<span class="jxr_string">"name"</span>).set(author.getString(<span class="jxr_string">"name"</span>)).up();
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>         }
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>         <strong class="jxr_keyword">this</strong>.storage.apply(commit);
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkRepoCommit.html">MkRepoCommit</a>(<strong class="jxr_keyword">this</strong>.storage, <strong class="jxr_keyword">this</strong>.repo(), sha);
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>     }
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> 
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">     * Generate a random fake SHA hex string.</em>
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L343" href="#L343">343</a> <em class="jxr_javadoccomment">     * @return Fake SHA string.</em>
+<a class="jxr_linenumber" name="L344" href="#L344">344</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>     @NotNull(message = <span class="jxr_string">"fake sha can't be NULL"</span>)
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> String fakeSha() {
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>         <em class="jxr_comment">// @checkstyle MagicNumberCheck (1 line)</em>
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>         <strong class="jxr_keyword">return</strong> RandomStringUtils.random(40, <span class="jxr_string">"0123456789abcdef"</span>);
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>     }
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

@@ -17,6 +17,14 @@
 <lines>90-93</lines>
 </puzzle>
 <puzzle>
+<ticket>821</ticket>
+<file>src/main/java/com/jcabi/github/RtContents.java</file>
+<body>RtContents.update(path, ref, json) is not implemented. Let's implement it and remove this puzzle. See http://developer.github.com/v3/repos/contents for details.</body>
+<role>IMP</role>
+<estimate>0</estimate>
+<lines>47-49</lines>
+</puzzle>
+<puzzle>
 <ticket>1</ticket>
 <file>src/main/java/com/jcabi/github/User.java</file>
 <body>Implement methods to retrieve all values provided by Github for a single user, see: http://developer.github.com/v3/users/#get-a-single-user At the moment we implement just a few, but every data items should have its own method. Of course, every new item should be tested by a new unit test method.</body>
@@ -71,13 +79,5 @@
 <role>IMP</role>
 <estimate>0</estimate>
 <lines>48-50</lines>
-</puzzle>
-<puzzle>
-<ticket>590</ticket>
-<file>src/test/java/com/jcabi/github/mock/MkContentsTest.java</file>
-<body>MkContents can now create and get files from non-default branches. However, the same functionality has not been implemented yet for the update() method. Let's fix it. See http://developer.github.com/v3/repos/contents for details</body>
-<role>IMP</role>
-<estimate>0</estimate>
-<lines>51-54</lines>
 </puzzle>
 </puzzles>
