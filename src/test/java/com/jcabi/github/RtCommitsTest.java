@@ -29,65 +29,64 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
+import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
-import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
-import java.util.Collections;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtUserEmails}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
+ * Testcase for RtCommits.
+ *
+ * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtUserEmailsTest {
+public class RtCommitsTest {
 
     /**
-     * RtUserEmails can fetch emails.
-     * @throws Exception If some problem inside
+     * Tests creating a Commit.
+     *
+     * @throws Exception when an error occurs
      */
     @Test
-    public void fetchesEmails() throws Exception {
-        final String email = "test@email.com";
-        final UserEmails emails = new RtUserEmails(
-            new FakeRequest().withBody(
-                Json.createArrayBuilder()
-                    .add(Json.createObjectBuilder().add("email", email))
-                    .build().toString()
-            )
-        );
-        MatcherAssert.assertThat(
-            emails.iterate().iterator().next(), Matchers.equalTo(email)
-        );
-    }
-
-    /**
-     * RtUserEmails can add emails.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void addsEmails() throws Exception {
-        final String email = "test1@email.com";
+    public final void createsCommit() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
-                String.format("[{\"email\":\"%s\"}]", email)
+                "{\"sha\":\"0abcd89jcabitest\"}"
             )
+        ).start();
+        final Commits commits = new RtCommits(
+            new ApacheRequest(container.home()),
+            repo()
         );
-        container.start();
+        final JsonObject author = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "scott@gmail.com")
+            .add("date", "2011-06-17T14:53:35-07:00").build();
+        final JsonObject input = Json.createObjectBuilder()
+            .add("message", "initial version")
+            .add("author", author).build();
         try {
-            final UserEmails emails = new RtUserEmails(
-                new ApacheRequest(container.home())
+            final Commit newCommit = commits.create(input);
+            MatcherAssert.assertThat(
+                newCommit,
+                Matchers.instanceOf(Commit.class)
             );
             MatcherAssert.assertThat(
-                emails.add(Collections.singletonList(email)).iterator().next(),
-                Matchers.equalTo(email)
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                newCommit.sha(),
+                Matchers.equalTo("0abcd89jcabitest")
             );
         } finally {
             container.stop();
@@ -95,15 +94,14 @@ public final class RtUserEmailsTest {
     }
 
     /**
-     * RtUserEmails can remove emails.
-     * @throws Exception If some problem inside
+     * This method returns a Repo for testing.
+     *
+     * @return Repo - a repo to be used for test.
+     * @throws Exception - if anything goes wrong.
      */
-    @Test
-    public void removesEmails() throws Exception {
-        final UserEmails emails = new RtUserEmails(
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT)
+    private static Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
         );
-        emails.remove(Collections.singletonList("test2@email.com"));
     }
-
 }

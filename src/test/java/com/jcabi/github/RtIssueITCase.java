@@ -29,10 +29,15 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import com.jcabi.log.Logger;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -42,6 +47,43 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 public final class RtIssueITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
 
     /**
      * RtIssue can talk in github.
@@ -118,24 +160,28 @@ public final class RtIssueITCase {
     /**
      * RtIssue can fetch assignee.
      *
+     * <p> If you get AssertionError during this test execution and test was
+     *  ignored it means that something happened with account that you try to
+     *  edit with Issue.assign(). We had this problem when our account was
+     *  flagged as suspicious by Github. In this case you should contact Github
+     *  support and ask them to unblock account you use.
+     *
+     * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
      * @throws Exception if any problem inside.
-     * @todo #802 RtIssueITCase.identifyAssignee() fails during Rultor build.
-     *  We made research and had discussion in #802. Our current supposition is
-     *  that we have such error because user that Rultor use for tests is very
-     *  active, so Github think that he is "non-human" user nad don't allow to
-     *  assign it to issue. The problem needs further research. I think, we can
-     *  start from contact Github support. It looks like undocumented feature
-     *  and we have to know what to expect from Github side, maybe they offer us
-     *  something useful. More details about initial research you can find in
-     *  issue #802. Let's make research, fix this bug and finally remove this
-     *  puzzle.
      */
     @Test
-    @Ignore
     public void identifyAssignee() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         final String login = issue.repo().github().users().self().login();
-        new Issue.Smart(issue).assign(login);
+        try {
+            new Issue.Smart(issue).assign(login);
+        } catch (final AssertionError error) {
+            Logger.warn(this, "Test failed with error: %s", error.getMessage());
+            Assume.assumeFalse(
+                "Something wrong with your test account. Read test's java-doc.",
+                true
+            );
+        }
         final User assignee = new Issue.Smart(issue).assignee();
         MatcherAssert.assertThat(
             assignee.login(),
@@ -186,16 +232,24 @@ public final class RtIssueITCase {
     }
 
     /**
+     * RtIssue always exists in Github.
+     *
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void issueAlwaysExistsInGithub() throws Exception {
+        MatcherAssert.assertThat(
+            new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
+        );
+    }
+
+    /**
      * Create and return issue to test.
      * @return Issue
      * @throws Exception If some problem inside
      */
     private static Issue issue() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
-        ).issues().create("test issue title", "test issue body");
+        return repo.issues().create("test issue title", "test issue body");
     }
 
 }

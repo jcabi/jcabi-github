@@ -27,47 +27,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
+import javax.json.Json;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git Data Commits.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Test case for {@link MkMarkdown}.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
  */
-@Immutable
-public interface Commits {
+public class MkMarkdownTest {
 
     /**
-     * Owner of them.
-     * @return Repo
+     * MkMarkdown can be rendered.
+     *
+     * @throws Exception if some problem inside
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
-
-    /**
-     * Create a Commit object.
-     * @param params The input for creating the Tag.
-     * @return Commit
-     * @throws IOException - If anything goes wrong.
-     */
-    @NotNull(message = "commit is never NULL")
-    Commit create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Commit by its SHA.
-     * @param sha The sha of the Commit.
-     * @return Commit
-     */
-    @NotNull(message = "commit is never NULL")
-    Commit get(@NotNull(message = "sha can't be null") String sha);
+    @Test
+    public final void canBeRendered() throws Exception {
+        final String text = "Hello, **world**!";
+        MatcherAssert.assertThat(
+            new MkMarkdown().render(
+                Json.createObjectBuilder()
+                    .add("text", text)
+                    .build()
+            ),
+            Matchers.equalTo(text)
+        );
+    }
 }

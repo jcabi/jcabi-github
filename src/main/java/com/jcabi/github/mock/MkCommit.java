@@ -27,36 +27,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
+import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
-import com.jcabi.github.Trees;
 import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Mock of Github Commit.
+ * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
- * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-final class MkGit implements Git {
+@EqualsAndHashCode(of = { "storage", "self", "coords", "identifier" })
+public class MkCommit implements Commit {
 
     /**
      * Storage.
@@ -74,76 +66,65 @@ final class MkGit implements Git {
     private final transient Coordinates coords;
 
     /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * The Commit's sha.
      */
-    public MkGit(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+    private final transient String identifier;
+
+    /**
+     * Public constructor.
+     * @param strg The storage.
+     * @param login The login name
+     * @param crds Credential
+     * @param commitsha Commit's sha.
+     * @checkstyle ParameterNumber (5 lines)
+     */
+    public MkCommit(
+        @NotNull(message = "strg can't be NULL") final MkStorage strg,
         @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
-    ) throws IOException {
-        this.storage = stg;
+        @NotNull(message = "crds can't be NULL") final Coordinates crds,
+        @NotNull(message = "identifier can't be NULL") final String commitsha
+    ) {
+        this.storage = strg;
         this.self = login;
-        this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("git")
-        );
+        this.coords = crds;
+        this.identifier = commitsha;
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
-    public Repo repo() {
+    @NotNull(message = "repository is never NULL")
+    public final Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "blobs is never NULL")
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    @NotNull(message = "sha is never NULL")
+    public final String sha() {
+        return this.identifier;
     }
 
     @Override
-    @NotNull(message = "commits is never NULL")
-    public Commits commits() {
-        try {
-            return new MkCommits(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    @NotNull(message = "JSON is never NULL")
+    public final JsonObject json() throws IOException {
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
-    @NotNull(message = "References is never NULL")
-    public References references() {
-        try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public final int compareTo(final Commit commit) {
+        return this.identifier.compareTo(commit.sha());
     }
 
-    @Override
-    @NotNull(message = "Tags is never NULL")
-    public Tags tags() {
-        try {
-            return new MkTags(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    /**
+     * XPath of this element in XML tree.
+     *
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords = '%s']/git/commits/commit[sha = '%s']",
+            this.coords, this.identifier
+        );
     }
-
-    @Override
-    @NotNull(message = "Trees is never NULL")
-    public Trees trees() {
-        throw new UnsupportedOperationException("Trees not yet implemented");
-    }
-
 }

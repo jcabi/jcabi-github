@@ -130,6 +130,66 @@ public final class RtReferencesTest {
     }
 
     /**
+     * RtReferences should be able to iterate over tags.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesTags() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "[{\"ref\":\"refs/tags/feature-b\"}]"
+            )
+        ).start();
+        final References refs = new RtReferences(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                refs.tags(),
+                Matchers.<Reference>iterableWithSize(1)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/git/refs/tags")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtReferences should be able to iterate over heads.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    public void iteratesHeads() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "[{\"ref\":\"refs/heads/feature-c\"}]"
+            )
+        ).start();
+        final References refs = new RtReferences(
+            new ApacheRequest(container.home()),
+            repo()
+        );
+        try {
+            MatcherAssert.assertThat(
+                refs.heads(),
+                Matchers.<Reference>iterableWithSize(1)
+            );
+            MatcherAssert.assertThat(
+                container.take().uri().toString(),
+                Matchers.endsWith("/git/refs/heads")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
      * This method returns a Repo for testing.
      * @return Repo - a repo to be used for test.
      * @throws Exception - if anything goes wrong.

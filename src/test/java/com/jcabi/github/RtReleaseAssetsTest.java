@@ -71,13 +71,14 @@ public final class RtReleaseAssetsTest {
      */
     @Test
     public void uploadReleaseAsset() throws Exception {
+        final String body = "{\"id\":1}";
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
-                .withBody("{\"id\":1}"),
+                .withBody(body),
             release()
         );
         MatcherAssert.assertThat(
-            assets.upload("blah".getBytes(), "text/plain", "hello.txt")
+            assets.upload(body.getBytes(), "text/plain", "hello.txt")
                 .number(),
             Matchers.is(1)
         );

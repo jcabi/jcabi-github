@@ -27,47 +27,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
+import com.jcabi.github.Markdown;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import lombok.ToString;
 
 /**
- * Github Git Data Commits.
+ * Mock markdown API.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @todo #832 MkMarkdown#github() not implemented.
+ *  Let's implement it and remove this puzzle.
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
- * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
+ * @since  0.10
  */
 @Immutable
-public interface Commits {
+@Loggable(Loggable.DEBUG)
+@ToString
+public class MkMarkdown implements Markdown {
+    @Override
+    public final Github github() {
+        throw new UnsupportedOperationException("MkMarkdown#github()");
+    }
 
-    /**
-     * Owner of them.
-     * @return Repo
-     */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @Override
+    public final String render(
+        @NotNull(message = "JSON can't be NULL") final JsonObject json
+    ) {
+        return json.getString("text");
+    }
 
-    /**
-     * Create a Commit object.
-     * @param params The input for creating the Tag.
-     * @return Commit
-     * @throws IOException - If anything goes wrong.
-     */
-    @NotNull(message = "commit is never NULL")
-    Commit create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
-
-    /**
-     * Return a Commit by its SHA.
-     * @param sha The sha of the Commit.
-     * @return Commit
-     */
-    @NotNull(message = "commit is never NULL")
-    Commit get(@NotNull(message = "sha can't be null") String sha);
+    @Override
+    public final String raw(
+        @NotNull(message = "Markdown can't be NULL") final String text
+    ) {
+        return text;
+    }
 }

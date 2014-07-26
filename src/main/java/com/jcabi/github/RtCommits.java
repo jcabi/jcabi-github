@@ -32,90 +32,82 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github users.
- *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Github Commits.
+ * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
- * @since 0.4
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "request" })
-final class RtUsers implements Users {
-
+@EqualsAndHashCode(of = {"entry", "request", "owner" })
+public class RtCommits implements Commits {
     /**
-     * API entry point.
+     * RESTful API entry point.
      */
     private final transient Request entry;
 
     /**
-     * Github.
-     */
-    private final transient Github ghub;
-
-    /**
-     * RESTful request.
+     * RESTful request for the commits.
      */
     private final transient Request request;
 
     /**
-     * Public ctor.
-     * @param github Github
-     * @param req Request
+     * Repository.
      */
-    RtUsers(
-        @NotNull(message = "github can't be NULL") final Github github,
-        @NotNull(message = "req can't be NULL") final Request req
+    private final transient Repo owner;
+
+    /**
+     * Public constructor.
+     * @param req The entry request.
+     * @param repo The owner repo.
+     */
+    RtCommits(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "repo can't be NULL") final Repo repo
     ) {
         this.entry = req;
-        this.ghub = github;
-        this.request = this.entry.uri().path("/users").back();
+        this.owner = repo;
+        this.request = req.uri().path("/repos").path(repo.coordinates().user())
+            .path(repo.coordinates().repo())
+            .path("/git")
+            .path("/commits").back();
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
-    public String toString() {
-        return this.request.uri().get().toString();
+    @NotNull(message = "Repository is never NULL")
+    public final Repo repo() {
+        return this.owner;
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    @NotNull(message = "user is never NULL")
-    public User self() {
-        return new RtUser(this.ghub, this.entry, "");
-    }
-
-    @Override
-    @NotNull(message = "user is never NULL")
-    public User get(@NotNull(message = "login can't be NULL")
-        final String login) {
-        return new RtUser(this.ghub, this.entry, login);
-    }
-
-    @Override
-    @NotNull(message = "Iterable of users is never NULL")
-    public Iterable<User> iterate(
-        @NotNull(message = "identifier is never NULL") final String identifier
-    ) {
-        return new RtPagination<User>(
-            this.request.uri().queryParam("since", identifier).back(),
-            new RtPagination.Mapping<User, JsonObject>() {
-                @Override
-                public User map(final JsonObject object) {
-                    return RtUsers.this.get(object.getString("id"));
-                }
-            }
+    @NotNull(message = "tag is never NULL")
+    public final Commit create(
+        @NotNull(message = "params can't be NULL") final JsonObject params
+    ) throws IOException {
+        final Commit created = this.get(
+            this.request.method(Request.POST)
+                .body().set(params).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getString("sha")
         );
+        return created;
     }
 
+    @Override
+    @NotNull(message = "tag is never NULL")
+    public final Commit get(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
+        return new RtCommit(this.entry, this.owner, sha);
+    }
 }

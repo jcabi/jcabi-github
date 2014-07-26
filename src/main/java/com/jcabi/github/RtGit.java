@@ -83,7 +83,7 @@ final class RtGit implements Git {
     @Override
     @NotNull(message = "commits can't be NULL")
     public Commits commits() {
-        throw new UnsupportedOperationException("Commits not yet implemented");
+        return new RtCommits(this.entry, this.owner);
     }
 
     @Override

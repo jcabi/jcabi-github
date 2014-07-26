@@ -29,9 +29,8 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import javax.json.Json;
-import org.apache.commons.lang3.RandomStringUtils;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -40,13 +39,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Labels}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * Test case for {@link RtTrees}.
+ * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.6
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtLabelsITCase {
+public final class RtTreesITCase {
+
     /**
      * Test repos.
      */
@@ -58,6 +57,12 @@ public final class RtLabelsITCase {
     private static Repo repo;
 
     /**
+     * RepoRule.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    private static RepoRule rule = new RepoRule();
+
+    /**
      * Set up test fixtures.
      * @throws Exception If some errors occurred.
      */
@@ -67,11 +72,7 @@ public final class RtLabelsITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
-        );
+        repo = rule.repo(repos);
     }
 
     /**
@@ -86,37 +87,28 @@ public final class RtLabelsITCase {
     }
 
     /**
-     * RtLabels can list all labels.
-     * @throws Exception If some problem inside
+     * RtTags creates a tag.
+     * @throws Exception If something goes wrong.
      */
     @Test
-    public void listsLabels() throws Exception {
-        final Labels labels = repo.labels();
-        final Iterable<Label.Smart> list =
-            new Smarts<Label.Smart>(labels.iterate());
-        for (final Label.Smart label : list) {
-            MatcherAssert.assertThat(
-                label.color(),
-                Matchers.not(Matchers.isEmptyString())
-            );
-        }
-    }
-
-    /**
-     * RtLabels can create a new label.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void createsNewLabel() throws Exception {
-        final Labels labels = repo.labels();
-        final Label label = new Labels.Smart(labels).createOrGet("test-3");
+    public void createsAndObtainsTree() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Trees trees = repo.git().trees();
+        final JsonObject json = Json.createObjectBuilder().add(
+            "tree",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("path", "test.txt")
+                    .add("mode", "100644")
+                    .add("type", "blob")
+                    .add("content", "hello").build()
+            ).build()
+        ).build();
+        final Tree tree = trees.create(json);
         MatcherAssert.assertThat(
-            new Label.Smart(label).color(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            labels.iterate(),
-            Matchers.not(Matchers.emptyIterable())
+            trees.get(tree.json().getString("sha")),
+            Matchers.is(tree)
         );
     }
 }
