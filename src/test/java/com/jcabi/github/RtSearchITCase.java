@@ -111,15 +111,14 @@ public final class RtSearchITCase {
      * RtSearch can search for contents.
      *
      * @throws Exception if a problem occurs
-     * @todo #217 RtSearchITCase.canSearchForContents() is missing.
-     *  Let's implement it and remove this puzzle
-     *  @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a>
-     *  for details
+     * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a>
+     * for details
      */
-    @Ignore
+    @Test
     public void canSearchForContents() throws Exception {
-        throw new NotImplementedException(
-            "RtSearchITCase#canSearchForContents"
+        MatcherAssert.assertThat(
+            RtSearchITCase.github().search().codes("addClass repo:jquery/jquery", "joined", "desc"),
+            Matchers.not(Matchers.emptyIterableOf(Content.class))
         );
     }
 
