@@ -187,6 +187,17 @@ public final class RtUserTest {
     }
 
     /**
+     * RtUser can fetch organizations.
+     */
+    @Test
+    public void fetchesOrganizations() {
+        final Github github = Mockito.mock(Github.class);
+        Mockito.when(github.entry()).thenReturn(new FakeRequest());
+        final User user = new RtUser(github, new FakeRequest());
+        MatcherAssert.assertThat(user.organizations(), Matchers.notNullValue());
+    }
+
+    /**
      * Tests if a User.Smart object handles gravatar_id JSON property.
      * @throws Exception if any problem occurs.
      */
