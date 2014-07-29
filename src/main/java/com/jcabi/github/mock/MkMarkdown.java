@@ -51,11 +51,13 @@ import lombok.ToString;
 @ToString
 public class MkMarkdown implements Markdown {
     @Override
+    @NotNull(message = "Github can't be NULL")
     public final Github github() {
         throw new UnsupportedOperationException("MkMarkdown#github()");
     }
 
     @Override
+    @NotNull(message = "Rendered string can't be NULL")
     public final String render(
         @NotNull(message = "JSON can't be NULL") final JsonObject json
     ) {
@@ -63,6 +65,7 @@ public class MkMarkdown implements Markdown {
     }
 
     @Override
+    @NotNull(message = "Rendered string can't be NULL")
     public final String raw(
         @NotNull(message = "Markdown can't be NULL") final String text
     ) {

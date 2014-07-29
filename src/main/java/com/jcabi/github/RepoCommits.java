@@ -51,7 +51,11 @@ public interface RepoCommits extends JsonReadable {
      * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<RepoCommit> iterate(final Map<String, String> params);
+    Iterable<RepoCommit> iterate(
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    );
+
     /**
      * Get single repository's commits.
      *

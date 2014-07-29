@@ -95,7 +95,10 @@ final class MkRepoCommits implements RepoCommits {
 
     @Override
     @NotNull(message = "Iterable of commits can't be NULL")
-    public Iterable<RepoCommit> iterate(final Map<String, String> params) {
+    public Iterable<RepoCommit> iterate(
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    ) {
         return new MkIterable<RepoCommit>(
             this.storage, String.format("%s/commit", this.xpath()),
             new MkIterable.Mapping<RepoCommit>() {

@@ -155,6 +155,7 @@ final class MkCollaborators implements Collaborators {
      * @return Mocked User
      * @throws IOException If there is any I/O problem
      */
+    @NotNull(message = "User is never NULL")
     public User get(
         @NotNull(message = "login should not be NULL") final String login
     ) throws IOException {

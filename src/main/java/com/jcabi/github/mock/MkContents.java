@@ -113,7 +113,9 @@ final class MkContents implements Contents {
 
     @Override
     @NotNull(message = "the content is never NULL")
-    public Content readme(final String branch) throws IOException {
+    public Content readme(
+        @NotNull(message = "github can't be  NULL") final String branch
+    ) throws IOException {
         return new MkContent(
             this.storage, this.self, this.coords, "README.md", branch
         );
@@ -176,8 +178,10 @@ final class MkContents implements Contents {
 
     @Override
     @NotNull(message = "Iterable of contents is never NULL")
-    public Iterable<Content> iterate(final String pattern, final String ref)
-        throws IOException {
+    public Iterable<Content> iterate(
+        @NotNull(message = "pattern can't be NULL") final String pattern,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
         final Collection<XML> nodes = this.storage.xml().nodes(
             String.format("%s/content[@ref='%s']", this.xpath(), ref)
         );
