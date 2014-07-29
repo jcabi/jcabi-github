@@ -37,6 +37,7 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.ToString;
 
 /**
@@ -70,19 +71,24 @@ final class MkCommitsComparison implements CommitsComparison {
      * @param login User to login
      * @param repo Repository coordinates
      */
-    MkCommitsComparison(final MkStorage stg, final String login,
-        final Coordinates repo) {
+    MkCommitsComparison(
+        @NotNull(message = "stg can not be NULL") final MkStorage stg,
+        @NotNull(message = "login can not be NULL") final String login,
+        @NotNull(message = "repo can not be NULL") final Coordinates repo
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = repo;
     }
 
     @Override
+    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
+    @NotNull(message = "JsonObject is never NULL")
     public JsonObject json() throws IOException {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (3 lines)

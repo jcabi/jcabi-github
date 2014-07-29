@@ -223,6 +223,7 @@ public final class MkGithub implements Github {
      * Create repo with random name.
      * @return Repo
      */
+    @NotNull(message = "Repo is never NULL")
     public Repo randomRepo() {
         return new MkRepo(
             this.storage,

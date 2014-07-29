@@ -83,17 +83,22 @@ final class RtTrees implements Trees {
     }
 
     @Override
+    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    public Tree get(final String sha) {
+    @NotNull(message = "Tree is never NULL")
+    public Tree get(@NotNull(message = "sha can't be NULL") final String sha) {
         return new RtTree(this.entry, this.owner, sha);
     }
 
     @Override
-    public Tree getRec(final String sha) {
+    @NotNull(message = "tree is never NULL")
+    public Tree getRec(
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
         return new RtTree(
             this.entry.uri().queryParam("recursive", "1").back(),
             this.owner, sha
