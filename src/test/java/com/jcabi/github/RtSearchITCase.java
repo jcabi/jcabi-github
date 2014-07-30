@@ -41,8 +41,9 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (90 lines)
+ * @checkstyle MultipleStringLiterals (140 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtSearchITCase {
 
     /**
