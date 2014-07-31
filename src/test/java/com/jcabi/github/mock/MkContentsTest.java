@@ -280,11 +280,10 @@ public final class MkContentsTest {
             new Content.Smart(contents.create(content)).content(),
             Matchers.is(initial)
         );
-        final JsonObject jsonPatch = MkContentsTest
-            .content(path, message, updated)
-            .add("ref", branch)
-            .build();
-        contents.update(path, branch, jsonPatch);
+        contents.update(
+            path, MkContentsTest.content(path, message, updated)
+                .add("ref", branch).build()
+        );
         MatcherAssert.assertThat(
             new Content.Smart(contents.get(path, branch)).content(),
             Matchers.is(updated)
