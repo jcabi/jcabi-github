@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.Coordinates;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.github.Gitignores;
@@ -222,16 +221,15 @@ public final class MkGithub implements Github {
     /**
      * Create repo with random name.
      * @return Repo
+     * @throws IOException If fails
      */
     @NotNull(message = "Repo is never NULL")
-    public Repo randomRepo() {
-        return new MkRepo(
-            this.storage,
-            this.self,
-            new Coordinates.Simple(
-                this.self,
+    public Repo randomRepo() throws IOException {
+        return this.repos().create(
+            Json.createObjectBuilder().add(
+                "name",
                 RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            )
+            ).build()
         );
     }
 }
