@@ -150,63 +150,66 @@
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> 
 <a class="jxr_linenumber" name="L143" href="#L143">143</a>     @Override
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>     @NotNull(message = <span class="jxr_string">"Iterable of references can't be NULL"</span>)
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; iterate(<strong class="jxr_keyword">final</strong> String subnamespace) {
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;Reference&gt;(
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>             <strong class="jxr_keyword">this</strong>.storage,
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>             String.format(
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>                 <span class="jxr_string">"%s/reference/ref[starts-with(., 'refs/%s')]"</span>, <strong class="jxr_keyword">this</strong>.xpath(),
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>                 subnamespace
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>             ),
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>             <strong class="jxr_keyword">new</strong> MkIterable.Mapping&lt;Reference&gt;() {
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>                 @Override
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/Reference.html">Reference</a> map(<strong class="jxr_keyword">final</strong> XML xml) {
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>                     <strong class="jxr_keyword">return</strong> MkReferences.<strong class="jxr_keyword">this</strong>.get(
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>                         xml.xpath(<span class="jxr_string">"text()"</span>).get(0)
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>                     );
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>                 }
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>             }
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>         );
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>     }
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>     @Override
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>     @NotNull(message = <span class="jxr_string">"Iterable of references is never NULL"</span>)
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; tags() {
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"tags"</span>);
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>     }
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>     @Override
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>     @NotNull(message = <span class="jxr_string">"Iterable of references is never NULL"</span>)
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; heads() {
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"heads"</span>);
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>     }
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> 
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>     @Override
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove(
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>         @NotNull(message = <span class="jxr_string">"identifier shouldn't be NULL"</span>)
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">final</strong> String identifier
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>         <strong class="jxr_keyword">this</strong>.storage.apply(
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>             <strong class="jxr_keyword">new</strong> Directives().xpath(
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>                 String.format(
-<a class="jxr_linenumber" name="L183" href="#L183">183</a>                     <span class="jxr_string">"%s/reference[ref='%s']"</span>, <strong class="jxr_keyword">this</strong>.xpath(), identifier
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>                 )
-<a class="jxr_linenumber" name="L185" href="#L185">185</a>             ).remove()
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>         );
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>     }
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L193" href="#L193">193</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L194" href="#L194">194</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L195" href="#L195">195</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L196" href="#L196">196</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/git/refs"</span>,
-<a class="jxr_linenumber" name="L197" href="#L197">197</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>         );
-<a class="jxr_linenumber" name="L199" href="#L199">199</a>     }
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> 
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> }
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; iterate(
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         @NotNull(message = <span class="jxr_string">"subnamespace can't be NULL"</span>)
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>         <strong class="jxr_keyword">final</strong> String subnamespace
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     ) {
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;Reference&gt;(
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>             <strong class="jxr_keyword">this</strong>.storage,
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>             String.format(
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>                 <span class="jxr_string">"%s/reference/ref[starts-with(., 'refs/%s')]"</span>, <strong class="jxr_keyword">this</strong>.xpath(),
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>                 subnamespace
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>             ),
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>             <strong class="jxr_keyword">new</strong> MkIterable.Mapping&lt;Reference&gt;() {
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>                 @Override
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/Reference.html">Reference</a> map(<strong class="jxr_keyword">final</strong> XML xml) {
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>                     <strong class="jxr_keyword">return</strong> MkReferences.<strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>                         xml.xpath(<span class="jxr_string">"text()"</span>).get(0)
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>                     );
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>                 }
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>             }
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>         );
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>     }
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>     @Override
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>     @NotNull(message = <span class="jxr_string">"Iterable of references is never NULL"</span>)
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; tags() {
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"tags"</span>);
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     }
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>     @Override
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>     @NotNull(message = <span class="jxr_string">"Iterable of references is never NULL"</span>)
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; heads() {
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"heads"</span>);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     }
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>     @Override
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove(
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         @NotNull(message = <span class="jxr_string">"identifier shouldn't be NULL"</span>)
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>         <strong class="jxr_keyword">final</strong> String identifier
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>         <strong class="jxr_keyword">this</strong>.storage.apply(
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>             <strong class="jxr_keyword">new</strong> Directives().xpath(
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>                 String.format(
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>                     <span class="jxr_string">"%s/reference[ref='%s']"</span>, <strong class="jxr_keyword">this</strong>.xpath(), identifier
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>                 )
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>             ).remove()
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>         );
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     }
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/git/refs"</span>,
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>         );
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>     }
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

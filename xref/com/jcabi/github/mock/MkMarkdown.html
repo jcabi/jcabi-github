@@ -59,24 +59,27 @@
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  @ToString
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkMarkdown.html">MkMarkdown</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../com/jcabi/github/Markdown.html">Markdown</a> {
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>      @Override
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Github.html">Github</a> github() {
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException(<span class="jxr_string">"MkMarkdown#github()"</span>);
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>      }
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>      @Override
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String render(
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>          @NotNull(message = <span class="jxr_string">"JSON can't be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>      ) {
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>          <strong class="jxr_keyword">return</strong> json.getString(<span class="jxr_string">"text"</span>);
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>      }
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>      @Override
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String raw(
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>          @NotNull(message = <span class="jxr_string">"Markdown can't be NULL"</span>) <strong class="jxr_keyword">final</strong> String text
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>      ) {
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>          <strong class="jxr_keyword">return</strong> text;
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>      }
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  }
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      @NotNull(message = <span class="jxr_string">"Github can't be NULL"</span>)
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Github.html">Github</a> github() {
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException(<span class="jxr_string">"MkMarkdown#github()"</span>);
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      }
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      @Override
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      @NotNull(message = <span class="jxr_string">"Rendered string can't be NULL"</span>)
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String render(
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>          @NotNull(message = <span class="jxr_string">"JSON can't be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      ) {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>          <strong class="jxr_keyword">return</strong> json.getString(<span class="jxr_string">"text"</span>);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      @Override
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      @NotNull(message = <span class="jxr_string">"Rendered string can't be NULL"</span>)
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String raw(
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          @NotNull(message = <span class="jxr_string">"Markdown can't be NULL"</span>) <strong class="jxr_keyword">final</strong> String text
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      ) {
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">return</strong> text;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      }
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

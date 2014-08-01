@@ -70,24 +70,29 @@
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">     * @param github Github</em>
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">     * @param req Request</em>
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <a href="../../../com/jcabi/github/RtLimits.html">RtLimits</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Github.html">Github</a> github, <strong class="jxr_keyword">final</strong> Request req) {
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>          <strong class="jxr_keyword">this</strong>.entry = req.uri().path(<span class="jxr_string">"rate_limit"</span>).back();
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <strong class="jxr_keyword">this</strong>.ghub = github;
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>      }
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>      @Override
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @NotNull(message = <span class="jxr_string">"Github is never NULL"</span>)
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Github.html">Github</a> github() {
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.ghub;
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      }
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      @Override
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      @NotNull(message = <span class="jxr_string">"Limit is never NULL"</span>)
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Limit.html">Limit</a> get(<strong class="jxr_keyword">final</strong> String resource) {
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtLimit.html">RtLimit</a>(<strong class="jxr_keyword">this</strong>.ghub, <strong class="jxr_keyword">this</strong>.entry, resource);
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>      }
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  }
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <a href="../../../com/jcabi/github/RtLimits.html">RtLimits</a>(
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          @NotNull(message = <span class="jxr_string">"github can't be NULL"</span>) <strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Github.html">Github</a> github,
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          @NotNull(message = <span class="jxr_string">"req can't be NULL"</span>) <strong class="jxr_keyword">final</strong> Request req
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      ) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          <strong class="jxr_keyword">this</strong>.entry = req.uri().path(<span class="jxr_string">"rate_limit"</span>).back();
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">this</strong>.ghub = github;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      }
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      @Override
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      @NotNull(message = <span class="jxr_string">"Github is never NULL"</span>)
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Github.html">Github</a> github() {
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.ghub;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      }
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      @Override
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      @NotNull(message = <span class="jxr_string">"Limit is never NULL"</span>)
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>      <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Limit.html">Limit</a> get(
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          @NotNull(message = <span class="jxr_string">"resource can't be NULL"</span>) <strong class="jxr_keyword">final</strong> String resource
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      ) {
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtLimit.html">RtLimit</a>(<strong class="jxr_keyword">this</strong>.ghub, <strong class="jxr_keyword">this</strong>.entry, resource);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      }
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

@@ -163,24 +163,25 @@
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">     * @return Mocked User</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/User.html">User</a> get(
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>         @NotNull(message = <span class="jxr_string">"login should not be NULL"</span>) <strong class="jxr_keyword">final</strong> String login
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkUser.html">MkUser</a>(<strong class="jxr_keyword">this</strong>.storage, login);
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>     }
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/collaborators"</span>,
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>         );
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>     }
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> }
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>     @NotNull(message = <span class="jxr_string">"User is never NULL"</span>)
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/User.html">User</a> get(
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         @NotNull(message = <span class="jxr_string">"login should not be NULL"</span>) <strong class="jxr_keyword">final</strong> String login
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkUser.html">MkUser</a>(<strong class="jxr_keyword">this</strong>.storage, login);
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>     }
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/collaborators"</span>,
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         );
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>     }
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
