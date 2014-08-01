@@ -44,9 +44,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github contents.
- * @todo #821 RtContents.update(path, ref, json) is not implemented. Let's
- *  implement it and remove this puzzle. See
- *  http://developer.github.com/v3/repos/contents for details.
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8

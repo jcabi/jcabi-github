@@ -241,9 +241,17 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         try {
+            final String ref = "ref";
+            final String branch;
+            if (json.containsKey(ref)) {
+                branch = json.getString(ref);
+            } else {
+                branch = "master";
+            }
             final String xpath = String.format(
-                "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
-                this.coords, path
+                // @checkstyle LineLengthCheck (1 line)
+                "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
+                this.coords, path, branch
             );
             new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);
