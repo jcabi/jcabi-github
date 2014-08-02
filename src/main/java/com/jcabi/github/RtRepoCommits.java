@@ -95,7 +95,10 @@ final class RtRepoCommits implements RepoCommits {
 
     @Override
     @NotNull(message = "Iterable of commits is never NULL")
-    public  Iterable<RepoCommit> iterate(final Map<String, String> params) {
+    public  Iterable<RepoCommit> iterate(
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    ) {
         return new RtPagination<RepoCommit>(
             this.request.uri().queryParams(params).back(),
             new RtPagination.Mapping<RepoCommit, JsonObject>() {

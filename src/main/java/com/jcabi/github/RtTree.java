@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -67,7 +68,11 @@ final class RtTree implements Tree {
      * @param repo Owner of this commit
      * @param sha Number of the get
      */
-    RtTree(final Request req, final Repo repo, final String sha) {
+    RtTree(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "repo can't be NULL") final Repo repo,
+        @NotNull(message = "sha can't be NULL") final String sha
+    ) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
             .path("/repos")
@@ -82,21 +87,25 @@ final class RtTree implements Tree {
     }
 
     @Override
+    @NotNull(message = "String is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
+    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
+    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.hash;
     }
 
     @Override
+    @NotNull(message = "Json is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

@@ -96,7 +96,9 @@ final class RtOrganizations implements Organizations {
 
     @Override
     @NotNull(message = "organization is never NULL")
-    public Organization get(final String login) {
+    public Organization get(
+        @NotNull(message = "login can't be NULL")final String login
+    ) {
         return new RtOrganization(this.ghub, this.entry, login);
     }
 

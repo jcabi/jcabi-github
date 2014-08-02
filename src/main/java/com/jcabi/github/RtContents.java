@@ -44,9 +44,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github contents.
- * @todo #821 RtContents.update(path, ref, json) is not implemented. Let's
- *  implement it and remove this puzzle. See
- *  http://developer.github.com/v3/repos/contents for details.
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
@@ -252,15 +249,6 @@ final class RtContents implements Contents {
                 .as(JsonResponse.class).json()
                 .readObject().getJsonObject("commit").getString("sha")
         );
-    }
-
-    @Override
-    public RepoCommit update(
-        @NotNull(message = "path cannot be NULL") final String path,
-        @NotNull(message = "branch cannot be NULL") final String ref,
-        @NotNull(message = "json should not be NULL") final JsonObject json
-    ) throws IOException {
-        throw new UnsupportedOperationException("ReContents#update() with ref");
     }
 
     /**

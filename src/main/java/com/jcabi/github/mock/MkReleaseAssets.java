@@ -135,7 +135,8 @@ final class MkReleaseAssets implements ReleaseAssets {
 
     @Override
     @NotNull(message = "Asset is never NULL")
-    public ReleaseAsset upload(final byte[] content,
+    public ReleaseAsset upload(
+        @NotNull(message = "content can't be NULL") final byte[] content,
         @NotNull(message = "type can't be NULL") final String type,
         @NotNull(message = "name can't be NULL") final String name
     ) throws IOException {

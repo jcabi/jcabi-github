@@ -128,8 +128,8 @@ public final class MkGithubTest {
         final MkGithub github = new MkGithub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
-            repo.coordinates().repo(),
-            Matchers.any(String.class)
+            github.repos().get(repo.coordinates()).coordinates(),
+            Matchers.equalTo(repo.coordinates())
         );
     }
 

@@ -43,7 +43,6 @@ import javax.validation.constraints.NotNull;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -52,9 +51,6 @@ import org.junit.Test;
  * Checks that all public methods in clases in package {@code com.jcabi.github }
  * have {@code @NotNull} annotation for return value and for input arguments
  * (if they are not scalar).
- * @todo #661:30min Ensure that all methods return values and input arguments
- *  are annotated with {@code @NotNull} and remove the {@code @Ignore}
- *  annotation.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
@@ -76,7 +72,6 @@ public final class NullabilityTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void checkNullability() throws Exception {
         MatcherAssert.assertThat(
             this.classpath.allPublicMethods(),
@@ -86,6 +81,7 @@ public final class NullabilityTest {
                     @Override
                     protected boolean matchesSafely(final Method item) {
                         return item.getReturnType().isPrimitive()
+                            || "toString".equals(item.getName())
                             || item.isAnnotationPresent(NotNull.class)
                             && NullabilityTest.allParamsAnnotated(item);
                     }

@@ -113,7 +113,9 @@ final class MkContents implements Contents {
 
     @Override
     @NotNull(message = "the content is never NULL")
-    public Content readme(final String branch) throws IOException {
+    public Content readme(
+        @NotNull(message = "github can't be  NULL") final String branch
+    ) throws IOException {
         return new MkContent(
             this.storage, this.self, this.coords, "README.md", branch
         );
@@ -176,8 +178,10 @@ final class MkContents implements Contents {
 
     @Override
     @NotNull(message = "Iterable of contents is never NULL")
-    public Iterable<Content> iterate(final String pattern, final String ref)
-        throws IOException {
+    public Iterable<Content> iterate(
+        @NotNull(message = "pattern can't be NULL") final String pattern,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
         final Collection<XML> nodes = this.storage.xml().nodes(
             String.format("%s/content[@ref='%s']", this.xpath(), ref)
         );
@@ -235,30 +239,19 @@ final class MkContents implements Contents {
         @NotNull(message = "path cannot be NULL") final String path,
         @NotNull(message = "json should not be NULL") final JsonObject json
     ) throws IOException {
-        return this.update(path, "master", json);
-    }
-
-    /**
-     * Updates a file at a specified branch.
-     * @param path The content path.
-     * @param ref Branch name.
-     * @param json JSON object containing updates to the content.
-     * @return Commit related to this update.
-     * @throws IOException If any I/O problem occurs.
-     */
-    @Override
-    @NotNull(message = "updated commit is never NULL")
-    public RepoCommit update(
-        @NotNull(message = "path cannot be NULL") final String path,
-        @NotNull(message = "branch cannot be NULL") final String ref,
-        @NotNull(message = "json should not be NULL") final JsonObject json
-    ) throws IOException {
         this.storage.lock();
         try {
+            final String ref = "ref";
+            final String branch;
+            if (json.containsKey(ref)) {
+                branch = json.getString(ref);
+            } else {
+                branch = "master";
+            }
             final String xpath = String.format(
                 // @checkstyle LineLengthCheck (1 line)
                 "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
-                this.coords, path, ref
+                this.coords, path, branch
             );
             new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);

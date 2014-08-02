@@ -96,6 +96,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
+    @NotNull(message = "Content is never NULL")
     Content get(
         @NotNull(message = "path  is never NULL") String path,
         @NotNull(message = "ref is never NULL") String ref
@@ -109,6 +110,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
+    @NotNull(message = "Content is never NULL")
     Content get(
         @NotNull(message = "path  is never NULL") String path
     ) throws IOException;
@@ -121,6 +123,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
+    @NotNull(message = "iterable is never NULL")
     Iterable<Content> iterate(
         @NotNull(message = "path  is never NULL") String path,
         @NotNull(message = "ref is never NULL") String ref)
@@ -146,24 +149,9 @@ public interface Contents {
      * @throws IOException If any I/O problems occur.
      * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
      */
+    @NotNull(message = "RepoCommit is never NULL")
     RepoCommit update(
-        @NotNull(message = "path is never NULL") final String path,
-        @NotNull(message = "json is never NULL") final JsonObject json)
+        @NotNull(message = "path is never NULL") String path,
+        @NotNull(message = "json is never NULL") JsonObject json)
         throws IOException;
-
-    /**
-     * Updates a file in a specified branch.
-     * @param path The content path.
-     * @param ref Branch name
-     * @param json JSON object containing updates to the content.
-     * @return Commit referring to this operation
-     * @throws IOException If any I/O problems occur.
-     * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
-     */
-    @NotNull(message = "updated commit is never NULL")
-    RepoCommit update(
-        @NotNull(message = "path cannot be NULL") String path,
-        @NotNull(message = "branch cannot be NULL") String ref,
-        @NotNull(message = "json should not be NULL") JsonObject json
-    ) throws IOException;
 }

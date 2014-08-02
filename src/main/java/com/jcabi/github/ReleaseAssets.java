@@ -70,7 +70,7 @@ public interface ReleaseAssets {
      */
     @NotNull(message = "ReleaseAsset is never NULL")
     ReleaseAsset upload(
-        byte[] content,
+        @NotNull(message = "content is never NULL") byte[] content,
         @NotNull(message = "type is never NULL") String type,
         @NotNull(message = "name is never NULL") String name
     ) throws IOException;

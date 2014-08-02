@@ -142,7 +142,10 @@ final class MkReferences implements References {
 
     @Override
     @NotNull(message = "Iterable of references can't be NULL")
-    public Iterable<Reference> iterate(final String subnamespace) {
+    public Iterable<Reference> iterate(
+        @NotNull(message = "subnamespace can't be NULL")
+        final String subnamespace
+    ) {
         return new MkIterable<Reference>(
             this.storage,
             String.format(
