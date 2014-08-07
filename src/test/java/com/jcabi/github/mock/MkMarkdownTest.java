@@ -50,7 +50,7 @@ public class MkMarkdownTest {
     public final void canBeRendered() throws Exception {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
-            new MkMarkdown().render(
+            new MkMarkdown(new MkGithub()).render(
                 Json.createObjectBuilder()
                     .add("text", text)
                     .build()
