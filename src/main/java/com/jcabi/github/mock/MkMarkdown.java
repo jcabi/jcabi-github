@@ -40,8 +40,6 @@ import lombok.ToString;
 /**
  * Mock markdown API.
  *
- * @todo #832 MkMarkdown#github() not implemented.
- *  Let's implement it and remove this puzzle.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  * @since  0.10
@@ -50,10 +48,23 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 public class MkMarkdown implements Markdown {
+    /**
+     * Owner github.
+     */
+    private final transient Github owner;
+
+    /**
+     * Creates new instance.
+     * @param github Owner github
+     */
+    public MkMarkdown(final Github github) {
+        this.owner = github;
+    }
+
     @Override
     @NotNull(message = "Github can't be NULL")
     public final Github github() {
-        throw new UnsupportedOperationException("MkMarkdown#github()");
+        return this.owner;
     }
 
     @Override
