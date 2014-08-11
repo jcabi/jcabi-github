@@ -70,7 +70,7 @@ public final class MkSearchTest {
     public void canSearchForIssues() throws Exception {
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(
-            Json.createObjectBuilder().add("content", "TestContent").build()
+            Json.createObjectBuilder().add("name", "TestIssues").build()
         );
         repo.issues().create("test issue", "TheTest");
         MatcherAssert.assertThat(
