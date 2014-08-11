@@ -70,7 +70,7 @@ public final class MkSearchTest {
     public void canSearchForIssues() throws Exception {
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(
-            Json.createObjectBuilder().add("name", "TestIssues").build()
+            Json.createObjectBuilder().add("content", "TestContent").build()
         );
         repo.issues().create("test issue", "TheTest");
         MatcherAssert.assertThat(
@@ -90,6 +90,24 @@ public final class MkSearchTest {
         github.users().self();
         MatcherAssert.assertThat(
             github.search().users("jeff", "repositories", "desc"),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * MkSearch can search for codes.
+     *
+     * @throws Exception if a problem occurs
+     */
+    @Test
+    public void canSearchForCodes() throws Exception {
+        final MkGithub github = new MkGithub("jeff");
+        github.repos().create(
+            Json.createObjectBuilder().add("name", "TestCode").build()
+        );
+        github.users().self();
+        MatcherAssert.assertThat(
+            github.search().codes("jeff", "repositories", "desc"),
             Matchers.not(Matchers.emptyIterable())
         );
     }
