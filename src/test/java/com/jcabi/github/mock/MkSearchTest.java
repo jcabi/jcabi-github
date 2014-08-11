@@ -42,6 +42,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkSearchTest {
 
     /**
