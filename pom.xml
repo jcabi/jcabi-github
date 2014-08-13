@@ -77,17 +77,9 @@
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-xml</artifactId>
         </dependency>
-        <!--
-            @todo #876 The version of this jcabi-http dependency should be
-             managed by the parent pom, however, com.jcabi:jcabi is currently
-             referencing an older version. When the parent references version
-             1.8 or newer, let's remove the version element here and revert
-             back to being managed by the parent.
-         -->
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-http</artifactId>
-            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi.incubator</groupId>
