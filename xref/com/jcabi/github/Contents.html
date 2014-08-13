@@ -159,26 +159,10 @@
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L152" href="#L152">152</a>     @NotNull(message = <span class="jxr_string">"RepoCommit is never NULL"</span>)
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>     <a href="../../../com/jcabi/github/RepoCommit.html">RepoCommit</a> update(
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>         @NotNull(message = <span class="jxr_string">"path is never NULL"</span>) <strong class="jxr_keyword">final</strong> String path,
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>         @NotNull(message = <span class="jxr_string">"json is never NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json)
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>         @NotNull(message = <span class="jxr_string">"path is never NULL"</span>) String path,
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         @NotNull(message = <span class="jxr_string">"json is never NULL"</span>) JsonObject json)
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">throws</strong> IOException;
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> 
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">     * Updates a file in a specified branch.</em>
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">     * @param path The content path.</em>
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">     * @param ref Branch name</em>
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">     * @param json JSON object containing updates to the content.</em>
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> <em class="jxr_javadoccomment">     * @return Commit referring to this operation</em>
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> <em class="jxr_javadoccomment">     * @throws IOException If any I/O problems occur.</em>
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/contents/" target="alexandria_uri">http://developer.github.com/v3/repos/contents/</a>#update-a-file"&gt;Update a file&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>     @NotNull(message = <span class="jxr_string">"updated commit is never NULL"</span>)
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>     <a href="../../../com/jcabi/github/RepoCommit.html">RepoCommit</a> update(
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>         @NotNull(message = <span class="jxr_string">"path cannot be NULL"</span>) String path,
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>         @NotNull(message = <span class="jxr_string">"branch cannot be NULL"</span>) String ref,
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         @NotNull(message = <span class="jxr_string">"json should not be NULL"</span>) JsonObject json
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>     ) <strong class="jxr_keyword">throws</strong> IOException;
-<a class="jxr_linenumber" name="L173" href="#L173">173</a> }
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

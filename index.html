@@ -4,7 +4,6 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>jcabi-github - </title>
-        <link media="all" rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"/>
         <link media="all" rel="stylesheet" type="text/css" href="./css/jcabi.css"/>
                             <script>
                 var _gaq = _gaq || [];
@@ -44,7 +43,7 @@
             <nav class="menu-section" role="navigation">
                 <ul class="menu" id="menu">
                                                                                     <li>
-                            Overview
+                            <span>Overview</span>
                                                             <ul>
                                                                                                     <li  class='active' >
                             <span>                        <a href="index.html" title="Introduction">Introduction</a>
@@ -59,7 +58,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li >
-                            <span>                        <a href="apidocs-0.13.1/index.html" title="API 0.13.1 (JavaDoc)">API 0.13.1 (JavaDoc)</a>
+                            <span>                        <a href="apidocs-0.13.2/index.html" title="API 0.13.2 (JavaDoc)">API 0.13.2 (JavaDoc)</a>
         </span>
                                                                                                                                                                 <ul>
                                                                     </ul>
@@ -79,7 +78,7 @@
                                                                                         </ul>
                                                     </li>
                                             <li>
-                            Project Documentation
+                            <span>Project Documentation</span>
                                                             <ul>
                                                                                                     <li >
                             <span>                        <a href="project-info.html" title="Project Information">Project Information</a>
@@ -88,7 +87,7 @@
                                                                                                                         <li >
                             <span>                        <a href="project-reports.html" title="Project Reports">Project Reports</a>
         </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </li>
                                                                                         </ul>
                                                     </li>
                                     </ul>
@@ -97,11 +96,10 @@
                 <main role="main">
                     <div class="content">
                         <header>
-                            <i class="menu-button fa fa-align-justify"></i>
                             <div class="logo">
                                 <a href="../"
                                     title=" logo ">
-                                    <img src="http://img.jcabi.com/logo-square.png"
+                                    <img src="http://img.jcabi.com/logo-square.svg"
                                         alt="jcabi"
                                                                                     width="64"
                                                                                                                             height="64"
@@ -109,24 +107,30 @@
                                     />
                                 </a>
                             </div>
-                            <div class="date">
-                                <div class="date-numbers">
-                                    <strong itemprop="version">0.13.1</strong>
+                            <div class="teamed">
+                                <a href="http://www.teamed.io">
+                                    <img src="http://img.teamed.io/btn.svg" alt="teamed.io logo"/>
+                                </a>
+                            </div>
+                            <ul class="badges">
+                                <li>
+                                    <strong itemprop="version">0.13.2</strong>
+                                </li>
+                                <li>
                                     
-                                    <time itemprop="datePublished" datetime="2014-08-01T07:31:46Z">
+                                    <time itemprop="datePublished" datetime="2014-08-13T09:51:30Z">
                                         
-                                        01-Aug-2014
+                                        13-Aug-2014
                                     </time>
-                                </div>
-                                                                                                    <div>
-                                        <iframe src="http://ghbtns.com/github-btn.html?user=jcabi&amp;repo=jcabi-github&amp;type=watch&amp;count=true&amp;size=large"
-                                            style="border-width:0px;overflow:hidden;width:170px;height:30px;">
-                                        </iframe>
-                                    </div>
-                                                            </div>
-                            <div id="here-goes-menu" class="menu-off"></div>
+                                </li>
+                                <li class="menu-button">menu</li>
+                            </ul>
                         </header>
-                        <article role="article" itemprop="articleBody">
+                        <div id="here-goes-menu" class="menu-off"></div>
+                                                                            <a href="https://github.com/jcabi/jcabi-github">
+                                <img src="http://img.jcabi.com/fork-me.svg" class="fork-me"/>
+                            </a>
+                                                <article role="article" itemprop="articleBody">
                             <h1>Object Oriented Github API</h1>
 <p>Set of classes in <tt>com.jcabi.github</tt> package is an object oriented Java adapter of <a class="externalLink" href="http://developer.github.com/v3/">Github API</a>:</p>
 
@@ -144,7 +148,7 @@ public class Main {
   }
 }
 </pre></div>
-<p>Read <a href="./apidocs-0.13.1/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
+<p>Read <a href="./apidocs-0.13.2/com/jcabi/github/index.html">JavaDoc</a> for more information and examples.</p>
 <p>There are <a class="externalLink" href="http://developer.github.com/libraries/">a few other Java adapters</a> of Github API, but our implementation has its advantages, including:</p>
 
 <ul>
@@ -167,22 +171,22 @@ public class Main {
 <li>
 <p>Entire Github API is available, at least through a configurable HTTP request</p></li>
 </ul>
-<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.13.1/jcabi-github-0.13.1.jar"><tt>jcabi-github-0.13.1.jar</tt></a> and add it to the classpath):</p>
+<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.13.2/jcabi-github-0.13.2.jar"><tt>jcabi-github-0.13.2.jar</tt></a> and add it to the classpath):</p>
 
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.13.1&lt;/version&gt;
+  &lt;version&gt;0.13.2&lt;/version&gt;
 &lt;/dependency&gt;
 </pre></div>
-<p>If you&#x2019;re not a Maven user, you can use a JAR with all dependencies inside (over 4Mb): <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.13.1/jcabi-github-0.13.1-jar-with-dependencies.jar"><tt>jcabi-github-0.13.1-jar-with-dependencies.jar</tt></a>. You can also include it to your Maven <tt>pom.xml</tt>:</p>
+<p>If you&#x2019;re not a Maven user, you can use a JAR with all dependencies inside (over 4Mb): <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.13.2/jcabi-github-0.13.2-jar-with-dependencies.jar"><tt>jcabi-github-0.13.2-jar-with-dependencies.jar</tt></a>. You can also include it to your Maven <tt>pom.xml</tt>:</p>
 
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.13.1&lt;/version&gt;
+  &lt;version&gt;0.13.2&lt;/version&gt;
   &lt;classifier&gt;jar-with-dependencies&lt;/classifier&gt;
 &lt;/dependency&gt;
 </pre></div>
@@ -204,7 +208,6 @@ public class Main {
   &lt;/dependency&gt;
 &lt;/dependencies&gt;
 </pre></div>
-                            <img class="maven-logo" src="//img.jcabi.com/built-by-maven.png" alt="built by maven"/>
                         </article>
                     </div>
                 </main>
