@@ -36,6 +36,7 @@ import com.jcabi.http.RequestURI;
 import com.jcabi.http.Response;
 import com.jcabi.http.Wire;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -153,6 +154,10 @@ final class RtSearchPagination<T> implements Iterable<T> {
         @NotNull(message = "Response is never NULL")
         public Response fetch() throws IOException {
             return new RtSearchPagination.Hidden(this.request.fetch());
+        }
+        @Override
+        public Response fetch(final InputStream stream) throws IOException {
+            return new RtSearchPagination.Hidden(this.request.fetch(stream));
         }
         @Override
         @NotNull(message = "Request should never be NULL")
