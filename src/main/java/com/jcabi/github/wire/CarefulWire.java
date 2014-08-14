@@ -35,6 +35,7 @@ import com.jcabi.http.Response;
 import com.jcabi.http.Wire;
 import com.jcabi.log.Logger;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -110,7 +111,7 @@ public final class CarefulWire implements Wire {
         @NotNull(message = "headers can't be NULL")
         final Collection<Map.Entry<String, String>> headers,
         @NotNull(message = "content can't be NULL")
-        final byte[] content
+        final InputStream content
     ) throws IOException {
         final Response resp = this.origin
             .send(req, home, method, headers, content);
