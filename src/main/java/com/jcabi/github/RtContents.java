@@ -44,7 +44,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github contents.
- *
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8

@@ -31,11 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import java.util.Iterator;
-import org.apache.commons.lang3.NotImplementedException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -43,8 +41,9 @@ import org.junit.Test;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (41 lines)
+ * @checkstyle MultipleStringLiterals (140 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtSearchITCase {
 
     /**
@@ -111,15 +110,15 @@ public final class RtSearchITCase {
      * RtSearch can search for contents.
      *
      * @throws Exception if a problem occurs
-     * @todo #217 RtSearchITCase.canSearchForContents() is missing.
-     *  Let's implement it and remove this puzzle
-     *  @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a>
-     *  for details
+     * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
-    @Ignore
+    @Test
     public void canSearchForContents() throws Exception {
-        throw new NotImplementedException(
-            "RtSearchITCase#canSearchForContents"
+        MatcherAssert.assertThat(
+            RtSearchITCase.github().search().codes(
+                "addClass repo:jquery/jquery", "joined", "desc"
+            ),
+            Matchers.not(Matchers.emptyIterableOf(Content.class))
         );
     }
 

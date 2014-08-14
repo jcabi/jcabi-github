@@ -77,6 +77,9 @@ public interface DeployKeys {
      * @see <a href="http://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
      */
     @NotNull(message = "deploy key is never NULL")
-    DeployKey create(String title, String key) throws IOException;
+    DeployKey create(
+        @NotNull(message = "title can't be NULL") String title,
+        @NotNull(message = "key can't be NULL") String key
+    ) throws IOException;
 
 }

@@ -31,11 +31,13 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
 import com.jcabi.github.Gitignores;
 import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
+import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Search;
 import com.jcabi.github.Users;
@@ -47,6 +49,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * Mock Github client.
@@ -196,17 +199,10 @@ public final class MkGithub implements Github {
             .build();
     }
 
-    /**
-     * {@inheritDoc}
-     * @todo #6:30min Markdown rendering mechanism should be mocked
-     *  and implemented in MkMarkdown class, in a primitive way, of course.
-     *  We don't need to do a real rendering, but at least return the
-     *  same text back. When done, just remote this entire JavaDoc block.
-     */
     @Override
     @NotNull(message = "markdown is never NULL")
     public Markdown markdown() {
-        throw new UnsupportedOperationException("#markdown()");
+        return new MkMarkdown(this);
     }
 
     /**
@@ -220,5 +216,20 @@ public final class MkGithub implements Github {
         final String login
     ) throws IOException {
         return new MkGithub(this.storage, login);
+    }
+
+    /**
+     * Create repo with random name.
+     * @return Repo
+     * @throws IOException If fails
+     */
+    @NotNull(message = "Repo is never NULL")
+    public Repo randomRepo() throws IOException {
+        return this.repos().create(
+            Json.createObjectBuilder().add(
+                "name",
+                RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).build()
+        );
     }
 }

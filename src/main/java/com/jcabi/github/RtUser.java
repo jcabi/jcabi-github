@@ -43,9 +43,6 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @todo #2:30min Organizations of a user.
- *  Let's implements a new method organizations(),
- *  which should return an instance of interface Organisations.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

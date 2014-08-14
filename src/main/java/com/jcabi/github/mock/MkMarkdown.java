@@ -27,86 +27,59 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import java.io.IOException;
+import com.jcabi.github.Github;
+import com.jcabi.github.Markdown;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
- * Github tree.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
+ * Mock markdown API.
+ *
+ * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
+ * @since  0.10
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "hash" })
-final class RtTree implements Tree {
+@ToString
+public class MkMarkdown implements Markdown {
+    /**
+     * Owner github.
+     */
+    private final transient Github owner;
 
     /**
-     * RESTful request.
+     * Creates new instance.
+     * @param github Owner github
      */
-    private final transient Request request;
-
-    /**
-     * Repo we're in.
-     */
-    private final transient Repo owner;
-
-    /**
-     * Commit SHA hash.
-     */
-    private final transient String hash;
-
-    /**
-     * Public ctor.
-     * @param req RESTful request
-     * @param repo Owner of this commit
-     * @param sha Number of the get
-     */
-    RtTree(
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "repo can't be NULL") final Repo repo,
-        @NotNull(message = "sha can't be NULL") final String sha
-    ) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/git")
-            .path("/trees")
-            .path(sha)
-            .back();
-        this.owner = repo;
-        this.hash = sha;
+    public MkMarkdown(final Github github) {
+        this.owner = github;
     }
 
     @Override
-    @NotNull(message = "String is never NULL")
-    public String toString() {
-        return this.request.uri().get().toString();
-    }
-
-    @Override
-    @NotNull(message = "Repo is never NULL")
-    public Repo repo() {
+    @NotNull(message = "Github can't be NULL")
+    public final Github github() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "sha is never NULL")
-    public String sha() {
-        return this.hash;
+    @NotNull(message = "Rendered string can't be NULL")
+    public final String render(
+        @NotNull(message = "JSON can't be NULL") final JsonObject json
+    ) {
+        return json.getString("text");
     }
 
     @Override
-    @NotNull(message = "Json is never NULL")
-    public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+    @NotNull(message = "Rendered string can't be NULL")
+    public final String raw(
+        @NotNull(message = "Markdown can't be NULL") final String text
+    ) {
+        return text;
     }
 }

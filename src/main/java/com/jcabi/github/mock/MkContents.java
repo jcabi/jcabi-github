@@ -113,7 +113,9 @@ final class MkContents implements Contents {
 
     @Override
     @NotNull(message = "the content is never NULL")
-    public Content readme(final String branch) throws IOException {
+    public Content readme(
+        @NotNull(message = "github can't be  NULL") final String branch
+    ) throws IOException {
         return new MkContent(
             this.storage, this.self, this.coords, "README.md", branch
         );
@@ -176,8 +178,10 @@ final class MkContents implements Contents {
 
     @Override
     @NotNull(message = "Iterable of contents is never NULL")
-    public Iterable<Content> iterate(final String pattern, final String ref)
-        throws IOException {
+    public Iterable<Content> iterate(
+        @NotNull(message = "pattern can't be NULL") final String pattern,
+        @NotNull(message = "ref can't be NULL") final String ref
+    ) throws IOException {
         final Collection<XML> nodes = this.storage.xml().nodes(
             String.format("%s/content[@ref='%s']", this.xpath(), ref)
         );
@@ -237,9 +241,17 @@ final class MkContents implements Contents {
     ) throws IOException {
         this.storage.lock();
         try {
+            final String ref = "ref";
+            final String branch;
+            if (json.containsKey(ref)) {
+                branch = json.getString(ref);
+            } else {
+                branch = "master";
+            }
             final String xpath = String.format(
-                "/github/repos/repo[@coords='%s']/contents/content[path='%s']",
-                this.coords, path
+                // @checkstyle LineLengthCheck (1 line)
+                "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
+                this.coords, path, branch
             );
             new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);

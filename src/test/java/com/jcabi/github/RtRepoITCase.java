@@ -29,9 +29,14 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
+import javax.json.Json;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -41,6 +46,43 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 public final class RtRepoITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
+
+    /**
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws Exception {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = repos.create(
+            Json.createObjectBuilder().add(
+                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            ).add("auto_init", true).build()
+        );
+    }
+
+    /**
+     * Tear down test fixtures.
+     * @throws Exception If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws Exception {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
 
     /**
      * RtRepo can identify itself.
@@ -48,7 +90,6 @@ public final class RtRepoITCase {
      */
     @Test
     public void identifiesItself() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
         MatcherAssert.assertThat(
             repo.coordinates(),
             Matchers.notNullValue()
@@ -61,7 +102,6 @@ public final class RtRepoITCase {
      */
     @Test
     public void iteratesEvents() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
         final Issue issue = repo.issues().create("Test", "This is a bug");
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
@@ -76,7 +116,6 @@ public final class RtRepoITCase {
      */
     @Test
     public void fetchCommits() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
         MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
     }
 
@@ -86,23 +125,9 @@ public final class RtRepoITCase {
      */
     @Test
     public void iteratesAssignees() throws Exception {
-        final Repo repo = RtRepoITCase.repo();
         MatcherAssert.assertThat(
             repo.assignees().iterate(),
             Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
-            new Coordinates.Simple(System.getProperty("failsafe.github.repo"))
         );
     }
 

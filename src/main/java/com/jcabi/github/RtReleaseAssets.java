@@ -74,7 +74,10 @@ final class RtReleaseAssets implements ReleaseAssets {
      * @param req Request
      * @param release Issue
      */
-    RtReleaseAssets(final Request req, final Release release) {
+    RtReleaseAssets(
+        @NotNull(message = "req can't be NULL") final Request req,
+        @NotNull(message = "release can't be NULL") final Release release
+    ) {
         this.entry = req;
         final Coordinates coords = release.repo().coordinates();
         // @checkstyle MultipleStringLiteralsCheck (7 lines)
@@ -116,7 +119,7 @@ final class RtReleaseAssets implements ReleaseAssets {
     @Override
     @NotNull(message = "ReleaseAsset is never NULL")
     public ReleaseAsset upload(
-        final byte[] content,
+        @NotNull(message = "content is never NULL") final byte[] content,
         @NotNull(message = "type can't be NULL") final String type,
         @NotNull(message = "name can't be NULL") final String name
     ) throws IOException {

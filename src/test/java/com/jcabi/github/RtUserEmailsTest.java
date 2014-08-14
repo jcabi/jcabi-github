@@ -29,6 +29,10 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.http.mock.MkAnswer;
+import com.jcabi.http.mock.MkContainer;
+import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
 import java.util.Collections;
@@ -70,15 +74,24 @@ public final class RtUserEmailsTest {
     @Test
     public void addsEmails() throws Exception {
         final String email = "test1@email.com";
-        final UserEmails emails = new RtUserEmails(
-            new FakeRequest()
-                .withStatus(HttpURLConnection.HTTP_CREATED)
-                .withBody(String.format("[{\"email\":\"%s\"}]", email))
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED,
+                String.format("[{\"email\":\"%s\"}]", email)
+            )
         );
-        MatcherAssert.assertThat(
-            emails.add(Collections.singletonList(email)).iterator().next(),
-            Matchers.equalTo(email)
-        );
+        container.start();
+        try {
+            final UserEmails emails = new RtUserEmails(
+                new ApacheRequest(container.home())
+            );
+            MatcherAssert.assertThat(
+                emails.add(Collections.singletonList(email)).iterator().next(),
+                Matchers.equalTo(email)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

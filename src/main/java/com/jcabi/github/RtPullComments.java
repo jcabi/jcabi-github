@@ -101,7 +101,10 @@ final class RtPullComments implements PullComments {
 
     @Override
     @NotNull(message = "Iterable of pull comments is never NULL")
-    public Iterable<PullComment> iterate(final Map<String, String> params) {
+    public Iterable<PullComment> iterate(
+        @NotNull(message = "params can't be NULL")
+        final Map<String, String> params
+    ) {
         return new RtPagination<PullComment>(
             this.request.uri().queryParams(params).back(),
             new RtPagination.Mapping<PullComment, JsonObject>() {

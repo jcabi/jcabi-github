@@ -120,6 +120,51 @@ public final class RtContentsITCase {
     }
 
     /**
+     * RtContents can get update file content in specific branch.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canUpdateFileContentInSpecificBranch() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = this.rule.repo(repos);
+        final Contents contents = repos.get(repo.coordinates()).contents();
+        final String message = "Commit message";
+        final String text = "Updated";
+        try {
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final Content content = contents.create(
+                this.jsonObject(
+                    path, new String(
+                        Base64.encodeBase64("Initial.".getBytes())
+                    ),
+                    message
+                )
+            );
+            contents.update(
+                path,
+                Json.createObjectBuilder()
+                    .add("path", path)
+                    .add("message", message)
+                    .add("ref", "master")
+                    .add("content", Base64.encodeBase64String(text.getBytes()))
+                    .add("sha", new Content.Smart(content).sha()).build()
+            );
+            MatcherAssert.assertThat(
+                new String(
+                    Base64.decodeBase64(
+                        new Content.Smart(
+                            contents.get(path, "master")
+                        ).content()
+                    )
+                ),
+                Matchers.equalTo(text)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * RtContents can remove and throw an exception when get an absent content.
      * @throws Exception If some problem inside
      */

@@ -103,8 +103,10 @@ final class RtPublicKeys implements PublicKeys {
 
     @Override
     @NotNull(message = "public key is never NULL")
-    public PublicKey create(final String title, final String key)
-        throws IOException {
+    public PublicKey create(
+        @NotNull(message = "title key can't be NULL") final String title,
+        @NotNull(message = "key can't be NULL") final String key
+    ) throws IOException {
         return this.get(
             this.request.method(Request.POST)
                 .body().set(
