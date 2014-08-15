@@ -100,7 +100,7 @@ public class RtRepoCommitsITCase {
         MatcherAssert.assertThat(
             patch,
             Matchers.containsString(
-                "Subject: [PATCH] Issue #430 RepoCommit interface was added"
+                "Issue #430 RepoCommit interface was added"
             )
         );
     }
