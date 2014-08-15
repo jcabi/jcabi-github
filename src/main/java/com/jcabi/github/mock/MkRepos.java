@@ -41,7 +41,6 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
@@ -145,11 +144,16 @@ final class MkRepos implements Repos {
         }
     }
 
+    /**
+     * @todo #841 MkRepos#iterate should be implemented.
+     * @param identifier The integer ID of the last Repo that you’ve seen.
+     * @return Iterator of repo
+     */
     @Override
     public Iterable<Repo> iterate(
         @NotNull(message = "identifier can't be NULL")
         final String identifier) {
-        throw new NotImplementedException("MkRepos#iterate");
+        throw new UnsupportedOperationException("MkRepos#iterate");
     }
 
     /**
