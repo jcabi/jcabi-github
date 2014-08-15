@@ -145,6 +145,7 @@ final class MkRepos implements Repos {
     }
 
     /**
+     * Iterate all public repos, starting with the one you've seen already.
      * @todo #841 MkRepos#iterate should be implemented.
      * @param identifier The integer ID of the last Repo that you’ve seen.
      * @return Iterator of repo
