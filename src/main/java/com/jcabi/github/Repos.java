@@ -87,4 +87,15 @@ public interface Repos {
      */
     void remove(@NotNull(message = "coordinates can't be NULL")
         Coordinates coords) throws IOException;
+
+    /**
+     * Iterate all public repos, starting with the one you've seen already.
+     * @param identifier The integer ID of the last Repo that you’ve seen.
+     * @return Iterator of repo
+     * @see <a href="https://developer.github.com/v3/repos/#list-all-public-repositories">List all public repositories</a>
+     */
+    @NotNull(message = "iterable is never NULL")
+    Iterable<Repo> iterate(
+        @NotNull(message = "identifier can't be NULL") String identifier
+    );
 }
