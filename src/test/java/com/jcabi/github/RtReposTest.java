@@ -90,6 +90,33 @@ public final class RtReposTest {
     }
 
     /**
+     * RtUsers can iterate users.
+     * @throws Exception if there is any error
+     */
+    @Test
+    public void iterateRepos() throws Exception {
+        final String identifier = "1";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(response("octocat", identifier))
+                    .add(response("dummy", "2"))
+                    .build().toString()
+            )
+        ).start();
+        final RtRepos repos = new RtRepos(
+            Mockito.mock(Github.class),
+            new ApacheRequest(container.home())
+        );
+        MatcherAssert.assertThat(
+            repos.iterate(identifier),
+            Matchers.<Repo>iterableWithSize(2)
+        );
+        container.stop();
+    }
+
+    /**
      * RtRepos can remove a repo.
      * @throws Exception if some problem inside
      */
