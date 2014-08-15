@@ -106,7 +106,6 @@ public final class MkSearchTest {
         github.repos().create(
             Json.createObjectBuilder().add("name", "TestCode").build()
         );
-        github.users().self();
         MatcherAssert.assertThat(
             github.search().codes("jeff", "repositories", "desc"),
             Matchers.not(Matchers.emptyIterable())
