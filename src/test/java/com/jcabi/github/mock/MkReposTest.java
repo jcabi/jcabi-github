@@ -110,4 +110,20 @@ public final class MkReposTest {
         this.thrown.expectMessage("repository jeff/remove-me doesn't exist");
         repos.get(repo.coordinates());
     }
+
+    /**
+     * MkRepos can iterate repos.
+     * @throws Exception if there is any error
+     */
+    @Test
+    public void iterateRepos() throws Exception {
+        final String since = "1";
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
+        repos.create(Json.createObjectBuilder().add("name", since).build());
+        repos.create(Json.createObjectBuilder().add("name", "2").build());
+        MatcherAssert.assertThat(
+            repos.iterate(since),
+            Matchers.<Repo>iterableWithSize(2)
+        );
+    }
 }
