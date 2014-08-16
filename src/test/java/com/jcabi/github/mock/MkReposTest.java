@@ -88,8 +88,7 @@ public final class MkReposTest {
     @Test
     public void removesRepo() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = MkReposTest.repo(repos,
-            "remove-me", "This is to be deleted!");
+        final Repo repo = MkReposTest.repo(repos, "remove-me", "remove repo");
         MatcherAssert.assertThat(
             repos.get(repo.coordinates()),
             Matchers.notNullValue()
