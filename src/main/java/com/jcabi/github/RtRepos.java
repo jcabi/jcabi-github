@@ -97,6 +97,7 @@ final class RtRepos implements Repos {
                     .fetch().as(RestResponse.class)
                     .assertStatus(HttpURLConnection.HTTP_CREATED)
                     .as(JsonResponse.class)
+                    // @checkstyle MultipleStringLiterals (1 line)
                     .json().readObject().getString("full_name")
             )
         );
@@ -119,5 +120,22 @@ final class RtRepos implements Repos {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public Iterable<Repo> iterate(
+        @NotNull(message = "identifier can't be NULL")
+        final String identifier) {
+        return new RtPagination<Repo>(
+            this.entry.uri().queryParam("since", identifier).back(),
+            new RtPagination.Mapping<Repo, JsonObject>() {
+                @Override
+                public Repo map(final JsonObject object) {
+                    return RtRepos.this.get(
+                        new Coordinates.Simple(object.getString("full_name"))
+                    );
+                }
+            }
+        );
     }
 }

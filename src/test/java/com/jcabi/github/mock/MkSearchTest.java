@@ -42,6 +42,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkSearchTest {
 
     /**
@@ -90,6 +91,23 @@ public final class MkSearchTest {
         github.users().self();
         MatcherAssert.assertThat(
             github.search().users("jeff", "repositories", "desc"),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    /**
+     * MkSearch can search for codes.
+     *
+     * @throws Exception if a problem occurs
+     */
+    @Test
+    public void canSearchForCodes() throws Exception {
+        final MkGithub github = new MkGithub("jeff");
+        github.repos().create(
+            Json.createObjectBuilder().add("name", "TestCode").build()
+        );
+        MatcherAssert.assertThat(
+            github.search().codes("jeff", "repositories", "desc"),
             Matchers.not(Matchers.emptyIterable())
         );
     }

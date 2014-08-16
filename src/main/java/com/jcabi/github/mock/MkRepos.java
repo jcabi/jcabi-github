@@ -145,6 +145,19 @@ final class MkRepos implements Repos {
     }
 
     /**
+     * Iterate all public repos, starting with the one you've seen already.
+     * @todo #841 MkRepos#iterate should be implemented.
+     * @param identifier The integer ID of the last Repo that you’ve seen.
+     * @return Iterator of repo
+     */
+    @Override
+    public Iterable<Repo> iterate(
+        @NotNull(message = "identifier can't be NULL")
+        final String identifier) {
+        throw new UnsupportedOperationException("MkRepos#iterate");
+    }
+
+    /**
      * XPath of this element in XML tree.
      * @return XPath
      */
