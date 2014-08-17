@@ -27,67 +27,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.validation.constraints.NotNull;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Repo;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for MkTrees.
+ * @author Alex L (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Git {
+public final class MkTreesTest {
 
     /**
-     * Owner of it.
+     * MkTrees can create trees.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void createsMkTree() throws Exception {
+        final JsonObject tree = Json.createObjectBuilder()
+            .add("name", "Scott").add("email", "Scott@gmail.com").build();
+        MatcherAssert.assertThat(
+            this.repo().git().trees().create(
+                Json.createObjectBuilder().add("name", "v.0.1")
+                    .add("message", "tree mock").add("sha", "abcsha12")
+                    .add("tree", tree).build()
+            ),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Repo for testing.
      * @return Repo
+     * @throws Exception - if something goes wrong.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
 
-    /**
-     * Get its blobs.
-     * @return Blobs
-     * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
-     * @throws IOException If some io problem occurs
-     */
-    @NotNull(message = "Blobs is never NULL")
-    Blobs blobs() throws IOException;
-
-    /**
-     * Get its commits.
-     * @return Commits
-     * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
-     */
-    @NotNull(message = "Commits is never NULL")
-    Commits commits();
-
-    /**
-     * Get its references.
-     * @return References
-     * @see <a href="http://developer.github.com/v3/git/references/">References API</a>
-     */
-    @NotNull(message = "References is never NULL")
-    References references();
-
-    /**
-     * Get its tags.
-     * @return Tags
-     * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
-     */
-    @NotNull(message = "Tags is never NULL")
-    Tags tags();
-
-    /**
-     * Get its trees.
-     * @return Trees
-     * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
-     */
-    @NotNull(message = "Trees is never NULL")
-    Trees trees();
 }

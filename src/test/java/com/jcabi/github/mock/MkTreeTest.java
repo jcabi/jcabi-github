@@ -27,67 +27,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import javax.validation.constraints.NotNull;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Tree;
+import javax.json.Json;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Testcase for MkTree.
+ * @author Alex L (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
-@Immutable
-public interface Git {
+public final class MkTreeTest {
 
     /**
-     * Owner of it.
-     * @return Repo
+     * MkTree should return its json.
+     * @throws Exception If something goes wrong.
      */
-    @NotNull(message = "repository is never NULL")
-    Repo repo();
+    @Test
+    public void fetchesContent() throws Exception {
+        MatcherAssert.assertThat(
+            this.tree().json().getString("message"),
+            Matchers.is("\"test tree\"")
+        );
+    }
 
     /**
-     * Get its blobs.
-     * @return Blobs
-     * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
-     * @throws IOException If some io problem occurs
+     * Return a Tree for testing.
+     * @return Tree
+     * @throws Exception If something goes wrong.
      */
-    @NotNull(message = "Blobs is never NULL")
-    Blobs blobs() throws IOException;
+    private Tree tree() throws Exception {
+        final JsonObject json = Json.createObjectBuilder()
+            .add("sha", "abcsha12").add("message", "test tree")
+            .add("name", "v.0.1").build();
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        ).git().trees().create(json);
+    }
 
-    /**
-     * Get its commits.
-     * @return Commits
-     * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
-     */
-    @NotNull(message = "Commits is never NULL")
-    Commits commits();
-
-    /**
-     * Get its references.
-     * @return References
-     * @see <a href="http://developer.github.com/v3/git/references/">References API</a>
-     */
-    @NotNull(message = "References is never NULL")
-    References references();
-
-    /**
-     * Get its tags.
-     * @return Tags
-     * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
-     */
-    @NotNull(message = "Tags is never NULL")
-    Tags tags();
-
-    /**
-     * Get its trees.
-     * @return Trees
-     * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
-     */
-    @NotNull(message = "Trees is never NULL")
-    Trees trees();
 }
