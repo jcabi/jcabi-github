@@ -36,6 +36,7 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -146,7 +147,6 @@ final class MkRepos implements Repos {
 
     /**
      * Iterate all public repos, starting with the one you've seen already.
-     * @todo #841 MkRepos#iterate should be implemented.
      * @param identifier The integer ID of the last Repo that you’ve seen.
      * @return Iterator of repo
      */
@@ -154,7 +154,19 @@ final class MkRepos implements Repos {
     public Iterable<Repo> iterate(
         @NotNull(message = "identifier can't be NULL")
         final String identifier) {
-        throw new UnsupportedOperationException("MkRepos#iterate");
+        return new MkIterable<Repo>(
+            this.storage,
+            "/github/repos/repo",
+            new MkIterable.Mapping<Repo>() {
+                @Override
+                public Repo map(final XML xml) {
+                    return new MkRepo(
+                        MkRepos.this.storage, MkRepos.this.self,
+                        new Coordinates.Simple(xml.xpath("@coords").get(0))
+                    );
+                }
+            }
+        );
     }
 
     /**
