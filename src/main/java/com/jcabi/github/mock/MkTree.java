@@ -48,7 +48,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords", "sha" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 final class MkTree implements Tree {
 
     /**
