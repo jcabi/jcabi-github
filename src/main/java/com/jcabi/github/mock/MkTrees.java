@@ -135,9 +135,9 @@ final class MkTrees implements Trees {
      */
     @Override
     @NotNull(message = "tree is never NULL")
-    public Tree getRec(@NotNull(message = "sha can't be NULL") 
-        final String sha) {
-            throw new UnsupportedOperationException("getRec not yet implemented");
+    public Tree getRec(@NotNull(message = "sha can't be NULL")final String sha
+    ) {
+        throw new UnsupportedOperationException("getRec not yet implemented");
     }
 
     /**
