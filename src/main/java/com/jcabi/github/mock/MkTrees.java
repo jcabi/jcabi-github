@@ -46,7 +46,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of Github Trees.
- * @author Alex L (sanai56967@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
@@ -104,7 +104,8 @@ final class MkTrees implements Trees {
     public Tree create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
-        final Directives dirs = new Directives().xpath(this.xpath()).add("tree");
+        final Directives dirs = new Directives().xpath(this.xpath())
+            .add("tree");
         for (final Entry<String, JsonValue> entry : params.entrySet()) {
             dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
         }
@@ -118,8 +119,15 @@ final class MkTrees implements Trees {
         return this.get(params.getString("sha"));
     }
 
+    @Override
+    @NotNull(message = "tree is never NULL")
+    public Tree get(@NotNull(message = "sha can't be NULL") final String sha) {
+        return new MkTree(this.storage, this.self, this.coords, sha);
+    }
+
     /**
      * Gets a tree recursively.
+     * @param sha The tree sha.
      * @return Trees
      * @see <a href="https://developer.github.com/v3/git/trees/#get-a-tree-recursively">Trees API</a>
      * @todo #794 MkTrees#getRec should be implemented.
@@ -127,14 +135,9 @@ final class MkTrees implements Trees {
      */
     @Override
     @NotNull(message = "tree is never NULL")
-    public Tree get(@NotNull(message = "sha can't be NULL") final String sha) {
-        return new MkTree(this.storage, this.self, this.coords, sha);
-    }
-
-    @Override
-    @NotNull(message = "tree is never NULL")
-    public Tree getRec(@NotNull(message = "sha can't be NULL") final String sha) {
-        throw new UnsupportedOperationException("getRec method not yet implemented");
+    public Tree getRec(@NotNull(message = "sha can't be NULL") 
+        final String sha) {
+            throw new UnsupportedOperationException("getRec not yet implemented");
     }
 
     /**

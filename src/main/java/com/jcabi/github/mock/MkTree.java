@@ -42,7 +42,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of Github Tree.
- * @author Alex L (sanai56967@gmail.com)
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  */
 @Immutable
