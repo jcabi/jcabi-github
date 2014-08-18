@@ -186,7 +186,7 @@
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>     @ToString
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>     @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L180" href="#L180">180</a>     @EqualsAndHashCode(of = { <span class="jxr_string">"repo"</span>, <span class="jxr_string">"jsn"</span> })
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/Release.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/DeployKey.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> {
 <a class="jxr_linenumber" name="L182" href="#L182">182</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">         * Encapsulated Repo.</em>
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">         */</em>
@@ -199,7 +199,7 @@
 <a class="jxr_linenumber" name="L191" href="#L191">191</a> <em class="jxr_javadoccomment">         * Public ctor.</em>
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">         * @param rep Repo</em>
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L194" href="#L194">194</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Release.html">Smart</a>(
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/DeployKey.html">Smart</a>(
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>             @NotNull(message = <span class="jxr_string">"rep can't be NULL"</span>) <strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> rep
 <a class="jxr_linenumber" name="L196" href="#L196">196</a>         ) {
 <a class="jxr_linenumber" name="L197" href="#L197">197</a>             <strong class="jxr_keyword">this</strong>.repo = rep;
@@ -214,107 +214,115 @@
 <a class="jxr_linenumber" name="L206" href="#L206">206</a>         <strong class="jxr_keyword">public</strong> String description() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L207" href="#L207">207</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"description"</span>);
 <a class="jxr_linenumber" name="L208" href="#L208">208</a>         }
-<a class="jxr_linenumber" name="L209" href="#L209">209</a>         @Override
-<a class="jxr_linenumber" name="L210" href="#L210">210</a>         @NotNull(message = <span class="jxr_string">"github is never NULL"</span>)
-<a class="jxr_linenumber" name="L211" href="#L211">211</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Github.html">Github</a> github() {
-<a class="jxr_linenumber" name="L212" href="#L212">212</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.github();
-<a class="jxr_linenumber" name="L213" href="#L213">213</a>         }
-<a class="jxr_linenumber" name="L214" href="#L214">214</a>         @Override
-<a class="jxr_linenumber" name="L215" href="#L215">215</a>         @NotNull(message = <span class="jxr_string">"coordinates is never NULL"</span>)
-<a class="jxr_linenumber" name="L216" href="#L216">216</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Coordinates.html">Coordinates</a> coordinates() {
-<a class="jxr_linenumber" name="L217" href="#L217">217</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.coordinates();
-<a class="jxr_linenumber" name="L218" href="#L218">218</a>         }
-<a class="jxr_linenumber" name="L219" href="#L219">219</a>         @Override
-<a class="jxr_linenumber" name="L220" href="#L220">220</a>         @NotNull(message = <span class="jxr_string">"issues is never NULL"</span>)
-<a class="jxr_linenumber" name="L221" href="#L221">221</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Issues.html">Issues</a> issues() {
-<a class="jxr_linenumber" name="L222" href="#L222">222</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.issues();
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>         }
-<a class="jxr_linenumber" name="L224" href="#L224">224</a>         @Override
-<a class="jxr_linenumber" name="L225" href="#L225">225</a>         @NotNull(message = <span class="jxr_string">"milestones is never NULL"</span>)
-<a class="jxr_linenumber" name="L226" href="#L226">226</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Milestones.html">Milestones</a> milestones() {
-<a class="jxr_linenumber" name="L227" href="#L227">227</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.milestones();
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>         }
-<a class="jxr_linenumber" name="L229" href="#L229">229</a>         @Override
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>         @NotNull(message = <span class="jxr_string">"pulls is never NULL"</span>)
-<a class="jxr_linenumber" name="L231" href="#L231">231</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Pulls.html">Pulls</a> pulls() {
-<a class="jxr_linenumber" name="L232" href="#L232">232</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.pulls();
-<a class="jxr_linenumber" name="L233" href="#L233">233</a>         }
-<a class="jxr_linenumber" name="L234" href="#L234">234</a> 
-<a class="jxr_linenumber" name="L235" href="#L235">235</a>         @Override
-<a class="jxr_linenumber" name="L236" href="#L236">236</a>         @NotNull(message = <span class="jxr_string">"hooks is never NULL"</span>)
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Hooks.html">Hooks</a> hooks() {
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.hooks();
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>         }
-<a class="jxr_linenumber" name="L240" href="#L240">240</a> 
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>         @Override
-<a class="jxr_linenumber" name="L242" href="#L242">242</a>         @NotNull(message = <span class="jxr_string">"Iterable of events is never NULL"</span>)
-<a class="jxr_linenumber" name="L243" href="#L243">243</a>         <strong class="jxr_keyword">public</strong> Iterable&lt;Event&gt; events() {
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.events();
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>         }
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>         @Override
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>         @NotNull(message = <span class="jxr_string">"labels is never NULL"</span>)
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Labels.html">Labels</a> labels() {
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.labels();
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>         }
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>         @Override
-<a class="jxr_linenumber" name="L252" href="#L252">252</a>         @NotNull(message = <span class="jxr_string">"assignees is never NULL"</span>)
-<a class="jxr_linenumber" name="L253" href="#L253">253</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Assignees.html">Assignees</a> assignees() {
-<a class="jxr_linenumber" name="L254" href="#L254">254</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.assignees();
-<a class="jxr_linenumber" name="L255" href="#L255">255</a>         }
-<a class="jxr_linenumber" name="L256" href="#L256">256</a>         @Override
-<a class="jxr_linenumber" name="L257" href="#L257">257</a>         @NotNull(message = <span class="jxr_string">"releases is never NULL"</span>)
-<a class="jxr_linenumber" name="L258" href="#L258">258</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Releases.html">Releases</a> releases() {
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.releases();
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         }
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>         @Override
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>         @NotNull(message = <span class="jxr_string">"keys is never NULL"</span>)
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/DeployKeys.html">DeployKeys</a> keys() {
-<a class="jxr_linenumber" name="L264" href="#L264">264</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.keys();
-<a class="jxr_linenumber" name="L265" href="#L265">265</a>         }
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>         @Override
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>         @NotNull(message = <span class="jxr_string">"forks is never NULL"</span>)
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Forks.html">Forks</a> forks() {
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.forks();
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>         }
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>         @Override
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>         @NotNull(message = <span class="jxr_string">"contents is never NULL"</span>)
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Contents.html">Contents</a> contents() {
-<a class="jxr_linenumber" name="L274" href="#L274">274</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.contents();
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>         }
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>         @Override
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>         @NotNull(message = <span class="jxr_string">"collaborators is never NULL"</span>)
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Collaborators.html">Collaborators</a> collaborators() {
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.collaborators();
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>         }
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>         @Override
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>         @NotNull(message = <span class="jxr_string">"git is never NULL"</span>)
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Git.html">Git</a> git() {
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.git();
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>         }
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>         @Override
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> patch(
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>             @NotNull(message = <span class="jxr_string">"json can't be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>         ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>             <strong class="jxr_keyword">this</strong>.repo.patch(json);
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>         }
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>         @Override
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>         @NotNull(message = <span class="jxr_string">"commits is never NULL"</span>)
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/RepoCommits.html">RepoCommits</a> commits() {
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.commits();
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>         }
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>         @Override
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>         @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>         <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.json();
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>         }
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> 
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>         @Override
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> repos) {
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.compareTo(repos);
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>         }
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>     }
-<a class="jxr_linenumber" name="L308" href="#L308">308</a> 
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> }
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> <em class="jxr_javadoccomment">         * Is it private?.</em>
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_javadoccomment">         * @return TRUE if it's private</em>
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isPrivate() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.json().getBoolean(<span class="jxr_string">"private"</span>);
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>         }
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         @Override
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>         @NotNull(message = <span class="jxr_string">"github is never NULL"</span>)
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Github.html">Github</a> github() {
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.github();
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>         }
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>         @Override
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>         @NotNull(message = <span class="jxr_string">"coordinates is never NULL"</span>)
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Coordinates.html">Coordinates</a> coordinates() {
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.coordinates();
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>         }
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>         @Override
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>         @NotNull(message = <span class="jxr_string">"issues is never NULL"</span>)
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Issues.html">Issues</a> issues() {
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.issues();
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>         }
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         @Override
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>         @NotNull(message = <span class="jxr_string">"milestones is never NULL"</span>)
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Milestones.html">Milestones</a> milestones() {
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.milestones();
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>         }
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>         @Override
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>         @NotNull(message = <span class="jxr_string">"pulls is never NULL"</span>)
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Pulls.html">Pulls</a> pulls() {
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.pulls();
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>         }
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>         @Override
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>         @NotNull(message = <span class="jxr_string">"hooks is never NULL"</span>)
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Hooks.html">Hooks</a> hooks() {
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.hooks();
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>         }
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>         @Override
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>         @NotNull(message = <span class="jxr_string">"Iterable of events is never NULL"</span>)
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>         <strong class="jxr_keyword">public</strong> Iterable&lt;Event&gt; events() {
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.events();
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>         }
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>         @Override
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>         @NotNull(message = <span class="jxr_string">"labels is never NULL"</span>)
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Labels.html">Labels</a> labels() {
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.labels();
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>         }
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>         @Override
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         @NotNull(message = <span class="jxr_string">"assignees is never NULL"</span>)
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Assignees.html">Assignees</a> assignees() {
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.assignees();
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         }
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         @Override
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>         @NotNull(message = <span class="jxr_string">"releases is never NULL"</span>)
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Releases.html">Releases</a> releases() {
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.releases();
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>         }
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>         @Override
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>         @NotNull(message = <span class="jxr_string">"keys is never NULL"</span>)
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/DeployKeys.html">DeployKeys</a> keys() {
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.keys();
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>         }
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>         @Override
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>         @NotNull(message = <span class="jxr_string">"forks is never NULL"</span>)
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Forks.html">Forks</a> forks() {
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.forks();
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         }
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>         @Override
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>         @NotNull(message = <span class="jxr_string">"contents is never NULL"</span>)
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Contents.html">Contents</a> contents() {
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.contents();
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>         }
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         @Override
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         @NotNull(message = <span class="jxr_string">"collaborators is never NULL"</span>)
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Collaborators.html">Collaborators</a> collaborators() {
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.collaborators();
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         }
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>         @Override
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>         @NotNull(message = <span class="jxr_string">"git is never NULL"</span>)
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Git.html">Git</a> git() {
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.git();
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>         }
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>         @Override
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> patch(
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>             @NotNull(message = <span class="jxr_string">"json can't be NULL"</span>) <strong class="jxr_keyword">final</strong> JsonObject json
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>         ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>             <strong class="jxr_keyword">this</strong>.repo.patch(json);
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>         }
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>         @Override
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>         @NotNull(message = <span class="jxr_string">"commits is never NULL"</span>)
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/RepoCommits.html">RepoCommits</a> commits() {
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.commits();
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>         }
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>         @Override
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>         @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>         <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.json();
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>         }
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>         @Override
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> repos) {
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.repo.compareTo(repos);
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>         }
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>     }
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
