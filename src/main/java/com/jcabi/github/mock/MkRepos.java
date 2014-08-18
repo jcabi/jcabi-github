@@ -99,7 +99,9 @@ final class MkRepos implements Repos {
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("repo")
                 .attr("coords", coords.toString())
-                .add("name").set(name)
+                .add("name").set(name).up()
+                .add("description").set("test repository").up()
+                .add("private").set("false").up()
         );
         final Repo repo = this.get(coords);
         repo.patch(json);
