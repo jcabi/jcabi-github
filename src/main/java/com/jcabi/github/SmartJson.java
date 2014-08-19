@@ -94,6 +94,17 @@ final class SmartJson {
     }
 
     /**
+     * Get JSON.
+     * @return JSON
+     * @throws IOException If there is any I/O problem
+     * @since 0.14
+     */
+    @NotNull(message = "JSON is never NULL")
+    public JsonObject json() throws IOException {
+        return this.object.json();
+    }
+
+    /**
      * Get its property as custom type.
      * @param name Name of the property
      * @param type Type of result expected
@@ -106,7 +117,7 @@ final class SmartJson {
         @NotNull(message = "name can't be NULL") final String name,
         @NotNull(message = "type can't be NULL") final Class<T> type
     ) throws IOException {
-        final JsonObject json = this.object.json();
+        final JsonObject json = this.json();
         if (!json.containsKey(name)) {
             throw new IllegalStateException(
                 String.format(

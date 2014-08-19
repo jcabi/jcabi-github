@@ -206,6 +206,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         public String description() throws IOException {
             return this.jsn.text("description");
         }
+        /**
+         * Is it private?.
+         * @return TRUE if it's private
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean isPrivate() throws IOException {
+            return this.jsn.json().getBoolean("private");
+        }
         @Override
         @NotNull(message = "github is never NULL")
         public Github github() {
