@@ -97,13 +97,8 @@ public final class MkRepoTest {
     /**
      * Repo can exponse attributes.
      * @throws Exception If some problem inside
-     * @todo #898 Boolean values are not saved correctly in mocked XML. This
-     *  test doesn't work because "private" attribute has to be of BOOLEAN
-     *  type. But in XML we keep all attributes as Strings. Some solution
-     *  has to be introduced.
      */
     @Test
-    @Ignore
     public void exposesAttributes() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
