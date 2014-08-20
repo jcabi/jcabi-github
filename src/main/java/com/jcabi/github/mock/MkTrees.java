@@ -104,6 +104,7 @@ final class MkTrees implements Trees {
     public Tree create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
+        final String sha = params.getString("sha");
         final Directives dirs = new Directives().xpath(this.xpath())
             .add("tree");
         for (final Entry<String, JsonValue> entry : params.entrySet()) {
@@ -113,10 +114,9 @@ final class MkTrees implements Trees {
         new MkReferences(this.storage, this.self, this.coords).create(
             new StringBuilder().append("refs/trees/").append(
                 params.getString("name")
-            ).toString(),
-            params.getString("sha")
+            ).toString(), sha
         );
-        return this.get(params.getString("sha"));
+        return this.get(sha);
     }
 
     @Override
@@ -135,7 +135,7 @@ final class MkTrees implements Trees {
      */
     @Override
     @NotNull(message = "tree is never NULL")
-    public Tree getRec(@NotNull(message = "sha can't be NULL")final String sha
+    public Tree getRec(@NotNull(message = "sha can't be NULL") final String sha
     ) {
         throw new UnsupportedOperationException("getRec not yet implemented");
     }
