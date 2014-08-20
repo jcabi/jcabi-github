@@ -27,86 +27,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Milestones;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
-import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
- * Test case for {@link Repo}.
+ * Tests for {@link Repo}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkRepoTest {
+public final class RepoTest {
 
     /**
-     * Repo can work.
+     * Repo.Smart can fetch description from Repo.
      * @throws Exception If some problem inside
      */
     @Test
-    public void works() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.hasToString("jeff/test")
-        );
-    }
-
-    /**
-     * This tests that the milestones() method in MkRepo is working fine.
-     * @throws Exception - if anything goes wrong.
-     */
-    @Test
-    public void returnsMkMilestones() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test1").build()
-        );
-        final Milestones milestones = repo.milestones();
-        MatcherAssert.assertThat(milestones, Matchers.notNullValue());
-    }
-
-    /**
-     * Repo can fetch its commits.
-     *
-     * @throws IOException if some problem inside
-     */
-    @Test
-    public void fetchCommits() throws IOException {
-        final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * Repo can exponse attributes.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void exposesAttributes() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
+    public void canFetchDescription() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("description", "hello, world!")
+                .build()
+        ).when(repo).json();
         MatcherAssert.assertThat(
             new Repo.Smart(repo).description(),
-            Matchers.notNullValue()
+            Matchers.containsString("world!")
         );
+    }
+
+    /**
+     * Repo.Smart can fetch private status from Repo.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canFetchPrivateStatus() throws Exception {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("private", true)
+                .build()
+        ).when(repo).json();
         MatcherAssert.assertThat(
             new Repo.Smart(repo).isPrivate(),
-            Matchers.is(false)
+            Matchers.is(true)
         );
     }
 

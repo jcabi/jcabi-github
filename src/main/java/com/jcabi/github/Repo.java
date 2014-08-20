@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -205,6 +206,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "description is never NULL")
         public String description() throws IOException {
             return this.jsn.text("description");
+        }
+        /**
+         * Is it private?.
+         * @return TRUE if it's private
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean isPrivate() throws IOException {
+            return JsonValue.TRUE.equals(this.json().get("private"));
         }
         @Override
         @NotNull(message = "github is never NULL")

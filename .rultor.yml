@@ -8,7 +8,7 @@ env:
   MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
 
 install:
-  - "gem install pdd"
+  - "sudo gem install pdd"
 
 merge:
   commanders:

@@ -60,9 +60,7 @@ public final class MkReposTest {
     @Test
     public void createsRepository() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
+        final Repo repo = MkReposTest.repo(repos, "test", "test repo");
         MatcherAssert.assertThat(
             repo.coordinates(),
             Matchers.hasToString("jeff/test")
@@ -76,12 +74,7 @@ public final class MkReposTest {
     @Test
     public void createsRepositoryWithDetails() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder()
-                .add("name", "hello")
-                .add("description", "my test repo")
-                .build()
-        );
+        final Repo repo = MkReposTest.repo(repos, "hello", "my test repo");
         MatcherAssert.assertThat(
             new Repo.Smart(repo).description(),
             Matchers.startsWith("my test")
@@ -95,12 +88,7 @@ public final class MkReposTest {
     @Test
     public void removesRepo() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            Json.createObjectBuilder()
-                .add("name", "remove-me")
-                .add("description", "This is to be deleted!")
-                .build()
-        );
+        final Repo repo = MkReposTest.repo(repos, "remove-me", "remove repo");
         MatcherAssert.assertThat(
             repos.get(repo.coordinates()),
             Matchers.notNullValue()
@@ -109,5 +97,39 @@ public final class MkReposTest {
         this.thrown.expect(IllegalArgumentException.class);
         this.thrown.expectMessage("repository jeff/remove-me doesn't exist");
         repos.get(repo.coordinates());
+    }
+
+    /**
+     * MkRepos can iterate repos.
+     * @throws Exception if there is any error
+     */
+    @Test
+    public void iterateRepos() throws Exception {
+        final String since = "1";
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "tom");
+        MkReposTest.repo(repos, since, "repo 1");
+        MkReposTest.repo(repos, "2", "repo 2");
+        MatcherAssert.assertThat(
+            repos.iterate(since),
+            Matchers.<Repo>iterableWithSize(2)
+        );
+    }
+
+    /**
+     * Create and return Repo to test.
+     * @param repos Repos
+     * @param name Repo name
+     * @param desc Repo description
+     * @return Repo
+     * @throws Exception if there is any error
+     */
+    private static Repo repo(final Repos repos, final String name,
+        final String desc) throws Exception {
+        return repos.create(
+            Json.createObjectBuilder()
+                .add("name", name)
+                .add("description", desc)
+                .build()
+        );
     }
 }
