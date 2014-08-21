@@ -154,4 +154,17 @@ public interface Contents {
         @NotNull(message = "path is never NULL") String path,
         @NotNull(message = "json is never NULL") JsonObject json)
         throws IOException;
+
+    /**
+     * Check whether content exists or not.
+     * @param path The content path
+     * @param ref The name of the commit/branch/tag.
+     * @return true if content exists, otherwise false.
+     * @throws IOException If there is any I/O problem
+     */
+    boolean exists(
+        @NotNull(message = "path  is never NULL") String path,
+        @NotNull(message = "ref is never NULL") String ref
+    ) throws IOException;
+
 }
