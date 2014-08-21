@@ -159,7 +159,7 @@ public interface Contents {
      * Check whether content exists or not.
      * @param path The content path
      * @param ref The name of the commit/branch/tag.
-     * @return True if content exists, otherwise false.
+     * @return True if content exists, false otherwise.
      * @throws IOException If there is any I/O problem
      */
     boolean exists(
