@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -212,7 +213,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * @throws IOException If there is any I/O problem
          */
         public boolean isPrivate() throws IOException {
-            return this.jsn.json().getBoolean("private");
+            return JsonValue.TRUE.equals(this.json().get("private"));
         }
         @Override
         @NotNull(message = "github is never NULL")
