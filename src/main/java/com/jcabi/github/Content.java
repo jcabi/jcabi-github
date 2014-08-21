@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.net.URL;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -170,6 +171,15 @@ public interface Content extends Comparable<Content>,
         @NotNull(message = "content is never NULL")
         public String content() throws IOException {
             return this.jsn.text("content");
+        }
+        /**
+         * Get its decoded content.
+         * @return decoded content
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "decoded is never NULL")
+        public byte[] decoded() throws IOException {
+            return DatatypeConverter.parseBase64Binary(this.content());
         }
         @Override
         public int compareTo(

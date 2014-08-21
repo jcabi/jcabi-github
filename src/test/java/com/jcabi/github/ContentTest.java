@@ -42,6 +42,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class ContentTest {
     /**
      * Content.Smart can fetch type property from Content.
@@ -212,6 +213,25 @@ public class ContentTest {
         MatcherAssert.assertThat(
             new Content.Smart(content).content(),
             Matchers.is(prop)
+        );
+    }
+
+    /**
+     * Content.Smart can fetch decoded content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesDecoded() throws Exception {
+        final Content content = Mockito.mock(Content.class);
+        final String prop = "dGVzdCBlbmNvZGU=";
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("content", prop)
+                .build()
+        ).when(content).json();
+        MatcherAssert.assertThat(
+            new String(new Content.Smart(content).decoded()),
+            Matchers.is("test encode")
         );
     }
 
