@@ -291,6 +291,30 @@ public final class MkContentsTest {
     }
 
     /**
+     * MkContents can check whether content exists or not.
+     * @throws Exception if any problem inside.
+     */
+    @Test
+    public void checkExists() throws Exception {
+        final String path = "content-exist.txt";
+        final String branch = "rel.08";
+        final Contents contents = MkContentsTest.repo().contents();
+        contents.create(
+            MkContentsTest.content(path, "commit", "content exists")
+                .add("ref", branch)
+                .build()
+        );
+        MatcherAssert.assertThat(
+            contents.exists(path, branch),
+            Matchers.is(true)
+        );
+        MatcherAssert.assertThat(
+            contents.exists("content-not-exist.txt", branch),
+            Matchers.is(false)
+        );
+    }
+
+    /**
      * MkContents can get content from default branch.
      * @throws Exception if any problem inside
      */

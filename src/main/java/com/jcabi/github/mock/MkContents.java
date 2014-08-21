@@ -260,6 +260,14 @@ final class MkContents implements Contents {
         }
     }
 
+    @Override
+    public boolean exists(final String path, final String ref)
+        throws IOException {
+        return this.storage.xml().nodes(
+            String.format("%s/content[path='%s']", this.xpath(), path)
+        ).size() > 0;
+    }
+
     /**
      * Builder method for MkContent.
      * @param ref Branch name.
