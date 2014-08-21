@@ -254,7 +254,7 @@ final class RtContents implements Contents {
     @Override
     public boolean exists(final String path, final String ref)
         throws IOException {
-        RestResponse response = this.request.method(Request.GET)
+        final RestResponse response = this.request.method(Request.GET)
             .uri().path(path).queryParam("ref", ref).back()
             .fetch().as(RestResponse.class);
         return response.status() == HttpURLConnection.HTTP_OK;
