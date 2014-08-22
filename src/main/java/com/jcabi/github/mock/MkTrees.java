@@ -27,36 +27,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Blobs;
-import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Git;
-import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Tags;
+import com.jcabi.github.Tree;
 import com.jcabi.github.Trees;
 import java.io.IOException;
+import java.util.Map.Entry;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github Mock Git.
- *
- * @author Carlos Miranda (miranda.cma@gmail.com)
+ * Mock of Github Trees.
+ * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-final class MkGit implements Git {
+final class MkTrees implements Trees {
 
     /**
      * Storage.
@@ -69,18 +66,17 @@ final class MkGit implements Git {
     private final transient String self;
 
     /**
-     * Repo name.
+     * Repo's name.
      */
     private final transient Coordinates coords;
-
     /**
-     * Public ctor.
-     * @param stg Storage
-     * @param login User to login
-     * @param rep Repo
-     * @throws IOException If there is any I/O problem
+     * Public constructor.
+     * @param stg The storage.
+     * @param login The login name.
+     * @param rep Repo's coordinates.
+     * @throws IOException If something goes wrong.
      */
-    public MkGit(
+    MkTrees(
         @NotNull(message = "stg can't be NULL") final MkStorage stg,
         @NotNull(message = "login can't be NULL") final String login,
         @NotNull(message = "rep can't be NULL") final Coordinates rep
@@ -91,63 +87,69 @@ final class MkGit implements Git {
         this.storage.apply(
             new Directives().xpath(
                 String.format(
-                    "/github/repos/repo[@coords='%s']",
+                    "/github/repos/repo[@coords='%s']/git",
                     this.coords
                 )
-            ).addIf("git")
+            ).addIf("trees")
         );
     }
-
     @Override
-    @NotNull(message = "repo is never NULL")
+    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "blobs is never NULL")
-    public Blobs blobs() throws IOException {
-        return new MkBlobs(this.storage, this.self, this.coords);
+    @NotNull(message = "created tree is never NULL")
+    public Tree create(
+        @NotNull(message = "params can't be NULL") final JsonObject params
+    ) throws IOException {
+        final String sha = params.getString("sha");
+        final Directives dirs = new Directives().xpath(this.xpath())
+            .add("tree");
+        for (final Entry<String, JsonValue> entry : params.entrySet()) {
+            dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
+        }
+        this.storage.apply(dirs);
+        new MkReferences(this.storage, this.self, this.coords).create(
+            new StringBuilder().append("refs/trees/").append(
+                params.getString("name")
+            ).toString(), sha
+        );
+        return this.get(sha);
     }
 
     @Override
-    @NotNull(message = "commits is never NULL")
-    public Commits commits() {
-        try {
-            return new MkCommits(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    @NotNull(message = "tree is never NULL")
+    public Tree get(@NotNull(message = "sha can't be NULL") final String sha) {
+        return new MkTree(this.storage, this.self, this.coords, sha);
     }
 
+    /**
+     * Gets a tree recursively.
+     * @param sha The tree sha.
+     * @return Trees
+     * @see <a href="https://developer.github.com/v3/git/trees/#get-a-tree-recursively">Trees API</a>
+     * @todo #794 MkTrees#getRec should be implemented.
+     *  Don't forget to implement unit tests
+     */
     @Override
-    @NotNull(message = "References is never NULL")
-    public References references() {
-        try {
-            return new MkReferences(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    @NotNull(message = "tree is never NULL")
+    public Tree getRec(@NotNull(message = "sha can't be NULL") final String sha
+    ) {
+        throw new UnsupportedOperationException("getRec not yet implemented");
     }
 
-    @Override
-    @NotNull(message = "Tags is never NULL")
-    public Tags tags() {
-        try {
-            return new MkTags(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    @Override
-    @NotNull(message = "Trees is never NULL")
-    public Trees trees() {
-        try {
-            return new MkTrees(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/trees",
+            this.coords
+        );
     }
 
 }

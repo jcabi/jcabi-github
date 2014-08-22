@@ -202,7 +202,7 @@ public final class MkGithub implements Github {
     @Override
     @NotNull(message = "markdown is never NULL")
     public Markdown markdown() {
-        return new MkMarkdown();
+        return new MkMarkdown(this);
     }
 
     /**

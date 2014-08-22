@@ -36,6 +36,7 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -98,7 +99,9 @@ final class MkRepos implements Repos {
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("repo")
                 .attr("coords", coords.toString())
-                .add("name").set(name)
+                .add("name").set(name).up()
+                .add("description").set("test repository").up()
+                .add("private").set("false").up()
         );
         final Repo repo = this.get(coords);
         repo.patch(json);
@@ -142,6 +145,30 @@ final class MkRepos implements Repos {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    /**
+     * Iterate all public repos, starting with the one you've seen already.
+     * @param identifier The integer ID of the last Repo that you’ve seen.
+     * @return Iterator of repo
+     */
+    @Override
+    public Iterable<Repo> iterate(
+        @NotNull(message = "identifier can't be NULL")
+        final String identifier) {
+        return new MkIterable<Repo>(
+            this.storage,
+            "/github/repos/repo",
+            new MkIterable.Mapping<Repo>() {
+                @Override
+                public Repo map(final XML xml) {
+                    return new MkRepo(
+                        MkRepos.this.storage, MkRepos.this.self,
+                        new Coordinates.Simple(xml.xpath("@coords").get(0))
+                    );
+                }
+            }
+        );
     }
 
     /**

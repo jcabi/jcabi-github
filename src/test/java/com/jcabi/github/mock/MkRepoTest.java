@@ -92,4 +92,22 @@ public final class MkRepoTest {
         );
         MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
     }
+
+    /**
+     * Repo can exponse attributes.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void exposesAttributes() throws Exception {
+        final Repo repo = new MkGithub().randomRepo();
+        MatcherAssert.assertThat(
+            new Repo.Smart(repo).description(),
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            new Repo.Smart(repo).isPrivate(),
+            Matchers.is(false)
+        );
+    }
+
 }

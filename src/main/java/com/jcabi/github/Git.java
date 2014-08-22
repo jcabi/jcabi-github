@@ -87,10 +87,6 @@ public interface Git {
      * Get its trees.
      * @return Trees
      * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
-     * @todo #440 Implement the Git Data Trees Mock classes:
-     *  1) A class MkTrees, which mocks the Trees interface.
-     *  2) MkTree, which mocks a single Tree object.
-     *  Don't forget to implement unit tests
      */
     @NotNull(message = "Trees is never NULL")
     Trees trees();

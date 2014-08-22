@@ -2,26 +2,32 @@ assets:
   settings.xml: "yegor256/home#assets/jcabi/settings.xml"
   pubring.gpg: "yegor256/home#assets/pubring.gpg"
   secring.gpg: "yegor256/home#assets/secring.gpg"
+  s3cfg: "yegor256/home#assets/s3cfg"
+
+env:
+  MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
+
+install:
+  - "sudo gem install pdd"
 
 merge:
   commanders:
     - carlosmiranda
-  env:
-    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
-  script: 
+  script:
     - "mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml"
+    - "mvn clean"
+    - "pdd --source=$(pwd) --verbose --file=/dev/null"
 
 deploy:
-  env:
-    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
-  script: 
-    - "mvn clean deploy -Ppdd -Pqulice --errors --settings ../settings.xml"
+  script:
+    - "mvn clean deploy -Pqulice --errors --settings ../settings.xml"
+    - "mvn clean"
+    - "pdd --source=$(pwd) --verbose --file=jcabi-github.xml"
+    - "s3cmd --no-progress put jcabi-github.xml --config=../s3cfg s3://pdd.teamed.io/jcabi-github.xml"
 
 release:
-  env:
-    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx1g"
-  script: 
+  script:
     - "mvn versions:set \"-DnewVersion=${tag}\""
     - "git commit -am \"${tag}\""
     - "mvn clean deploy -Pqulice -Psonatype -Pjcabi --errors --settings ../settings.xml"
-    - "mvn clean site-deploy -Psite -Prempl --errors --settings ../settings.xml"
+    - "mvn clean site-deploy -Psite --errors --settings ../settings.xml"
