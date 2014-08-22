@@ -223,15 +223,15 @@ public class ContentTest {
     @Test
     public final void fetchesDecoded() throws Exception {
         final Content content = Mockito.mock(Content.class);
-        final String prop = "dGVzdCBlbmNvZGU=";
+        final String prop = "dGVzdCBlbmNvZGXigqw=";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("content", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
-            new String(new Content.Smart(content).decoded()),
-            Matchers.is("test encode")
+            new String(new Content.Smart(content).decoded(), "UTF-8"),
+            Matchers.is("test encode\u20ac")
         );
     }
 

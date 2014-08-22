@@ -174,7 +174,7 @@ public interface Content extends Comparable<Content>,
         }
         /**
          * Get its decoded content.
-         * @return decoded content
+         * @return Decoded content
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "decoded is never NULL")
