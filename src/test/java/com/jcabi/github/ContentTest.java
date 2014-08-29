@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import java.net.URL;
 import javax.json.Json;
+import org.apache.commons.io.Charsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -42,6 +43,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class ContentTest {
     /**
      * Content.Smart can fetch type property from Content.
@@ -212,6 +214,25 @@ public class ContentTest {
         MatcherAssert.assertThat(
             new Content.Smart(content).content(),
             Matchers.is(prop)
+        );
+    }
+
+    /**
+     * Content.Smart can fetch decoded content.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesDecoded() throws Exception {
+        final Content content = Mockito.mock(Content.class);
+        final String prop = "dGVzdCBlbmNvZGXigqw=";
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("content", prop)
+                .build()
+        ).when(content).json();
+        MatcherAssert.assertThat(
+            new String(new Content.Smart(content).decoded(), Charsets.UTF_8),
+            Matchers.is("test encode\u20ac")
         );
     }
 
