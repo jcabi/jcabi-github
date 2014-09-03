@@ -257,6 +257,38 @@ public final class RtContentsITCase {
     }
 
     /**
+     * RtContents can check whether content exists or not.
+     * @throws Exception if any problem inside.
+     */
+    @Test
+    public void checkExists() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = this.rule.repo(repos);
+        final String branch = "master";
+        try {
+            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String cont = new String(
+                Base64.encodeBase64(
+                    String.format("exist%d", System.currentTimeMillis())
+                        .getBytes()
+                )
+            );
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(this.jsonObject(path, cont, "test exist"));
+            MatcherAssert.assertThat(
+                contents.exists(path, branch),
+                Matchers.is(true)
+            );
+            MatcherAssert.assertThat(
+                contents.exists("content-not-exist.txt", branch),
+                Matchers.is(false)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * Create and return JsonObject of content.
      * @param path Content's path
      * @param cont Content's Base64 string
