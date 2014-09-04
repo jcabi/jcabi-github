@@ -258,6 +258,11 @@ final class MkRepo implements Repo {
     }
 
     @Override
+    public void star() {
+        throw new UnsupportedOperationException("MkRepo#star");
+    }
+
+    @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(

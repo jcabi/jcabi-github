@@ -43,6 +43,8 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @todo #907 Implement #unstar operation.
+ * @todo #907 Implement method to check if repo is starred.
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -173,6 +175,13 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Git git();
 
     /**
+     * Star the repository.
+     * @see <a href="https://developer.github.com/v3/activity/starring/#star-a-repository/">Star a repository</a>
+     * @throws IOException If there is any I/O problem
+     */
+    void star() throws IOException;
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -291,6 +300,10 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "git is never NULL")
         public Git git() {
             return this.repo.git();
+        }
+        @Override
+        public void star() throws IOException {
+            this.repo.star();
         }
         @Override
         public void patch(
