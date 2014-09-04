@@ -36,6 +36,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.response.JsonResponse;
+import java.util.EnumMap;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -98,10 +99,12 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
-            search.issues("test2", "created", "desc")
-                .iterator()
-                .next()
-                .number(),
+            search.issues(
+                "test2",
+                "created",
+                "desc",
+                new EnumMap<Search.Qualifier, String>(Search.Qualifier.class)
+            ).iterator().next().number(),
             Matchers.equalTo(number)
         );
     }
