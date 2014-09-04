@@ -64,6 +64,32 @@ public final class MkTreesTest {
     }
 
     /**
+     * MkTrees can get tree recursively.
+     *
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void getTreeRec() throws Exception {
+        final String sha = "0abcd89jcabitest";
+        final JsonObject json = Json.createObjectBuilder().add(
+            "tree",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("path", "test.txt")
+                    .add("mode", "100644")
+                    .add("type", "blob")
+                    .add("content", "hello").build()
+            ).build()
+        ).add("sha", sha).add("name", "tree rec").build();
+        final Repo repo = this.repo();
+        repo.git().trees().create(json);
+        MatcherAssert.assertThat(
+            repo.git().trees().getRec(sha).json().getString("sha"),
+            Matchers.containsString(sha)
+        );
+    }
+
+    /**
      * Repo for testing.
      * @return Repo
      * @throws Exception - if something goes wrong.
