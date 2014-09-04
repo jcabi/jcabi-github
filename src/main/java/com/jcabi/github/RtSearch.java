@@ -121,8 +121,8 @@ final class RtSearch implements Search {
         final StringBuilder keyword = new StringBuilder(keywords);
         for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
             .entrySet()) {
-            keyword.append("+").append(entry.getKey().getQualifier())
-                .append(":").append(entry.getValue());
+            keyword.append('+').append(entry.getKey().getQualifier())
+                .append(':').append(entry.getValue());
         }
         return new RtSearchPagination<Issue>(
             this.request, "issues", keyword.toString(), sort, order,
