@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.EnumMap;
 import java.util.regex.Pattern;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -111,16 +112,20 @@ final class RtSearch implements Search {
         );
     }
 
+    //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     @NotNull(message = "Iterable of issues is never NULL")
-    public Iterable<Issue> issues(
-        @NotNull(message = "Search keywords can't be NULL")
-        final String keywords,
-        @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+    public Iterable<Issue> issues(final String keywords, final String sort,
+        final String order, final EnumMap<Qualifier, String> qualifiers)
         throws IOException {
+        final StringBuilder keyword = new StringBuilder(keywords);
+        for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
+            .entrySet()) {
+            keyword.append('+').append(entry.getKey().getQualifier())
+                .append(':').append(entry.getValue());
+        }
         return new RtSearchPagination<Issue>(
-            this.request, "issues", keywords, sort, order,
+            this.request, "issues", keyword.toString(), sort, order,
             new RtPagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {

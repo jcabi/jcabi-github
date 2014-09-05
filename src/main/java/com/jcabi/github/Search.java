@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.EnumMap;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -76,15 +77,19 @@ public interface Search {
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
+     * @param qualifiers The search qualifier
      * @return Issues
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-issues">Search issues</a>
+     * @checkstyle ParameterNumberCheck (7 lines)
      */
     @NotNull(message = "Iterable of issues is never NULL")
     Iterable<Issue> issues(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order)
+        @NotNull(message = "Sort order can't be NULL") String order,
+        @NotNull(message = "Search qualifiers can't be NULL")
+        EnumMap<Qualifier, String> qualifiers)
         throws IOException;
 
     /**
@@ -120,4 +125,108 @@ public interface Search {
         @NotNull(message = "Sort field can't be NULL") String sort,
         @NotNull(message = "Sort order can't be NULL") String order)
         throws IOException;
+
+    enum Qualifier {
+        /**
+         * The search by issues or pull request only.
+         */
+        TYPE("type"),
+        /**
+         * Qualifies which fields are searched.
+         * <p>With this qualifier you can restrict the search to just
+         * the title, body, comments, or any combination of these.</p>
+         */
+        IN("in"),
+        /**
+         * Finds issues created by a certain user.
+         */
+        AUTHOR("author"),
+        /**
+         * Finds issues that are assigned to a certain user.
+         */
+        ASSIGNEE("assignee"),
+        /**
+         * Finds issues that mention a certain user.
+         */
+        MENTIONS("mentions"),
+        /**
+         * Finds issues that a certain user commented on.
+         */
+        COMMENTER("commenter"),
+        /**
+         * Finds issues that were either created by a certain user.
+         * <p>Or assigned to that user, mention that user,
+         *  or were commented on by that user.</p>
+         */
+        INVOLVES("involves"),
+        /**
+         * Filter issues based on whether they’re open or closed.
+         */
+        STATE("state"),
+        /**
+         * Filters issues based on their labels.
+         */
+        LABEL("label"),
+        /**
+         * Filters items missing certain metadata.
+         */
+        NO("no"),
+        /**
+         * Searches for issues within repositories matching a certain language.
+         */
+        LANGUAGE("language"),
+        /**
+         * Searches for items within repositories that match a certain state.
+         */
+        IS("is"),
+        /**
+         * Filters issues based on date of creation.
+         */
+        CREATED("created"),
+        /**
+         * Filters issues based on date last updated.
+         */
+        UPDATED("updated"),
+        /**
+         * Filters pull requests based on the date when they were merged.
+         */
+        MERGED("merged"),
+        /**
+         * Filters issues based on the date when they were closed.
+         */
+        CLOSED("closed"),
+        /**
+         * Filters issues based on the quantity of comments.
+         */
+        COMMENTS("comments"),
+        /**
+         * Limits searches to a specific user.
+         */
+        USER("user"),
+        /**
+         * Limits searches to a specific repository.
+         */
+        REPO("repo");
+
+        /**
+         * Search qualifier.
+         */
+        private final transient String qualifier;
+
+        /**
+         * Ctor.
+         * @param key Search qualifier
+         */
+        Qualifier(final String key) {
+            this.qualifier = key;
+        }
+
+        /**
+         * Get search qualifier.
+         * @return String
+         */
+        public String getQualifier() {
+            return this.qualifier;
+        }
+    }
 }
