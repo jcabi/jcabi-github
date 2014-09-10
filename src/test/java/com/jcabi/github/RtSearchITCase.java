@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import java.util.EnumMap;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -87,8 +88,12 @@ public final class RtSearchITCase {
      */
     @Test
     public void canSearchForIssues() throws Exception {
+        final EnumMap<Search.Qualifier, String> qualifiers =
+            new EnumMap<Search.Qualifier, String>(Search.Qualifier.class);
+        qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search().issues("issue", "updated", "desc"),
+            RtSearchITCase.github().search()
+                .issues("qualifiers", "updated", "desc", qualifiers),
             Matchers.not(Matchers.emptyIterableOf(Issue.class))
         );
     }

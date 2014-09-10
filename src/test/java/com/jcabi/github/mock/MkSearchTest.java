@@ -30,6 +30,8 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
+import com.jcabi.github.Search;
+import java.util.EnumMap;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -75,7 +77,12 @@ public final class MkSearchTest {
         );
         repo.issues().create("test issue", "TheTest");
         MatcherAssert.assertThat(
-            github.search().issues("TheTest", "updated", "desc"),
+            github.search().issues(
+                "TheTest",
+                "updated",
+                "desc",
+                new EnumMap<Search.Qualifier, String>(Search.Qualifier.class)
+            ),
             Matchers.not(Matchers.emptyIterable())
         );
     }

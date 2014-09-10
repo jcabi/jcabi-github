@@ -40,6 +40,7 @@ import com.jcabi.github.Search;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.EnumMap;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -109,13 +110,11 @@ final class MkSearch implements Search {
         );
     }
 
+    //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     @NotNull(message = "Iterable of issues is never NULL")
-    public Iterable<Issue> issues(
-        @NotNull(message = "keywords should not be NULL")
-        final String keywords,
-        @NotNull(message = "sort should not be NULL") final String sort,
-        @NotNull(message = "order should not be NULL") final String order
+    public Iterable<Issue> issues(final String keywords, final String sort,
+        final String order, final EnumMap<Qualifier, String> qualifiers
     ) throws IOException {
         return new MkIterable<Issue>(
             this.storage,
