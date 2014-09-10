@@ -55,7 +55,8 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForRepos() throws Exception {
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search().repos("repo", "stars", "desc"),
+            RtSearchITCase.github()
+                .search().repos("repo", "stars", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
         );
     }
@@ -68,7 +69,7 @@ public final class RtSearchITCase {
     @Test
     public void canFetchMultiplePages() throws Exception {
         final Iterator<Repo> iter = RtSearchITCase.github().search().repos(
-            "java", "", ""
+            "java", "", Search.Order.DESC
         ).iterator();
         int count = 0;
         while (iter.hasNext() && count < Tv.HUNDRED) {
@@ -92,8 +93,12 @@ public final class RtSearchITCase {
             new EnumMap<Search.Qualifier, String>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search()
-                .issues("qualifiers", "updated", "desc", qualifiers),
+            RtSearchITCase.github().search().issues(
+                "qualifiers",
+                "updated",
+                Search.Order.DESC,
+                qualifiers
+            ),
             Matchers.not(Matchers.emptyIterableOf(Issue.class))
         );
     }
@@ -106,7 +111,8 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForUsers() throws Exception {
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search().users("jcabi", "joined", "desc"),
+            RtSearchITCase.github()
+                .search().users("jcabi", "joined", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
     }
@@ -121,7 +127,7 @@ public final class RtSearchITCase {
     public void canSearchForContents() throws Exception {
         MatcherAssert.assertThat(
             RtSearchITCase.github().search().codes(
-                "addClass repo:jquery/jquery", "joined", "desc"
+                "addClass repo:jquery/jquery", "joined", Search.Order.DESC
             ),
             Matchers.not(Matchers.emptyIterableOf(Content.class))
         );

@@ -71,7 +71,7 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
-            search.repos("test", "stars", "desc").iterator().next()
+            search.repos("test", "stars", Search.Order.DESC).iterator().next()
                 .coordinates().toString(),
             Matchers.equalTo(coords)
         );
@@ -102,7 +102,7 @@ public final class RtSearchTest {
             search.issues(
                 "test2",
                 "created",
-                "desc",
+                Search.Order.DESC,
                 new EnumMap<Search.Qualifier, String>(Search.Qualifier.class)
             ).iterator().next().number(),
             Matchers.equalTo(number)
@@ -126,7 +126,8 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
-            search.users("test3", "joined", "desc").iterator().next().login(),
+            search.users("test3", "joined", Search.Order.DESC)
+                .iterator().next().login(),
             Matchers.equalTo(login)
         );
     }
@@ -160,7 +161,7 @@ public final class RtSearchTest {
                 new ApacheRequest(container.home())
             ).search();
             MatcherAssert.assertThat(
-                search.codes("test4", "joined", "desc"),
+                search.codes("test4", "joined", Search.Order.DESC),
                 Matchers.<Content>iterableWithSize(2)
             );
         } finally {

@@ -97,10 +97,10 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+        @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<Repo>(
-            this.request, "repositories", keywords, sort, order,
+            this.request, "repositories", keywords, sort, order.getOrder(),
             new RtPagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
@@ -116,7 +116,7 @@ final class RtSearch implements Search {
     @Override
     @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> issues(final String keywords, final String sort,
-        final String order, final EnumMap<Qualifier, String> qualifiers)
+        final Order order, final EnumMap<Qualifier, String> qualifiers)
         throws IOException {
         final StringBuilder keyword = new StringBuilder(keywords);
         for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
@@ -125,7 +125,7 @@ final class RtSearch implements Search {
                 .append(':').append(entry.getValue());
         }
         return new RtSearchPagination<Issue>(
-            this.request, "issues", keyword.toString(), sort, order,
+            this.request, "issues", keyword.toString(), sort, order.getOrder(),
             new RtPagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {
@@ -152,10 +152,10 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+        @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<User>(
-            this.request, "users", keywords, sort, order,
+            this.request, "users", keywords, sort, order.getOrder(),
             new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
@@ -173,10 +173,10 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+        @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<Content>(
-            this.request, "code", keywords, sort, order,
+            this.request, "code", keywords, sort, order.getOrder(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
             new RtPagination.Mapping<Content, JsonObject>() {
                 @Override

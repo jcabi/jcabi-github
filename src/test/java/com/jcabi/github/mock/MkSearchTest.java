@@ -59,7 +59,7 @@ public final class MkSearchTest {
             Json.createObjectBuilder().add("name", "TestRepo").build()
         );
         MatcherAssert.assertThat(
-            github.search().repos("TestRepo", "updated", "asc"),
+            github.search().repos("TestRepo", "updated", Search.Order.ASC),
             Matchers.not(Matchers.emptyIterable())
         );
     }
@@ -80,7 +80,7 @@ public final class MkSearchTest {
             github.search().issues(
                 "TheTest",
                 "updated",
-                "desc",
+                Search.Order.DESC,
                 new EnumMap<Search.Qualifier, String>(Search.Qualifier.class)
             ),
             Matchers.not(Matchers.emptyIterable())
@@ -97,7 +97,7 @@ public final class MkSearchTest {
         final MkGithub github = new MkGithub("jeff");
         github.users().self();
         MatcherAssert.assertThat(
-            github.search().users("jeff", "repositories", "desc"),
+            github.search().users("jeff", "repositories", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterable())
         );
     }
@@ -114,7 +114,7 @@ public final class MkSearchTest {
             Json.createObjectBuilder().add("name", "TestCode").build()
         );
         MatcherAssert.assertThat(
-            github.search().codes("jeff", "repositories", "desc"),
+            github.search().codes("jeff", "repositories", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterable())
         );
     }
