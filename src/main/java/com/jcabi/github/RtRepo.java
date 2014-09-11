@@ -32,7 +32,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -195,6 +197,18 @@ final class RtRepo implements Repo {
     @NotNull(message = "Git is never NULL")
     public Git git() {
         return new RtGit(this.entry, this);
+    }
+
+    @Override
+    public void star() throws IOException {
+        this.entry.uri()
+            .path("user/starred")
+            .path(this.coords.user())
+            .path(this.coords.repo())
+            .back()
+            .method("PUT")
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override

@@ -33,6 +33,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
@@ -283,9 +284,39 @@ public final class RtRepoTest {
         final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
             new FakeRequest(),
-            new Coordinates.Simple("testuser", "testrepo")
+            new Coordinates.Simple("testuser2", "testrepo2")
         );
         MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+    }
+
+    /**
+     * RtRepo can star an unstarred Repo.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void starARepo() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+        ).start();
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple("testuser", "testrepo")
+        );
+        try {
+            repo.star();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.isEmptyOrNullString()
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**

@@ -44,6 +44,7 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #907 Implement #star operation on MkRepo.
  */
 public final class MkRepoTest {
 
