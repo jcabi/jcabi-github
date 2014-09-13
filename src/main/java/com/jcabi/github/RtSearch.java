@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.EnumMap;
 import java.util.regex.Pattern;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -96,10 +97,10 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+        @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<Repo>(
-            this.request, "repositories", keywords, sort, order,
+            this.request, "repositories", keywords, sort, order.getOrder(),
             new RtPagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
@@ -111,16 +112,20 @@ final class RtSearch implements Search {
         );
     }
 
+    //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     @NotNull(message = "Iterable of issues is never NULL")
-    public Iterable<Issue> issues(
-        @NotNull(message = "Search keywords can't be NULL")
-        final String keywords,
-        @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+    public Iterable<Issue> issues(final String keywords, final String sort,
+        final Order order, final EnumMap<Qualifier, String> qualifiers)
         throws IOException {
+        final StringBuilder keyword = new StringBuilder(keywords);
+        for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
+            .entrySet()) {
+            keyword.append('+').append(entry.getKey().getQualifier())
+                .append(':').append(entry.getValue());
+        }
         return new RtSearchPagination<Issue>(
-            this.request, "issues", keywords, sort, order,
+            this.request, "issues", keyword.toString(), sort, order.getOrder(),
             new RtPagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {
@@ -147,10 +152,10 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+        @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<User>(
-            this.request, "users", keywords, sort, order,
+            this.request, "users", keywords, sort, order.getOrder(),
             new RtPagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
@@ -168,10 +173,10 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final String order)
+        @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<Content>(
-            this.request, "code", keywords, sort, order,
+            this.request, "code", keywords, sort, order.getOrder(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
             new RtPagination.Mapping<Content, JsonObject>() {
                 @Override

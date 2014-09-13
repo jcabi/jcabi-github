@@ -130,14 +130,12 @@ final class MkTrees implements Trees {
      * @param sha The tree sha.
      * @return Trees
      * @see <a href="https://developer.github.com/v3/git/trees/#get-a-tree-recursively">Trees API</a>
-     * @todo #794 MkTrees#getRec should be implemented.
-     *  Don't forget to implement unit tests
      */
     @Override
     @NotNull(message = "tree is never NULL")
     public Tree getRec(@NotNull(message = "sha can't be NULL") final String sha
     ) {
-        throw new UnsupportedOperationException("getRec not yet implemented");
+        return new MkTree(this.storage, this.self, this.coords, sha);
     }
 
     /**
