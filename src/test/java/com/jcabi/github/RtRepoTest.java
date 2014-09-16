@@ -301,6 +301,19 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch stars.
+     */
+    @Test
+    public void fetchStars() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("testuser2", "testrepo2")
+        );
+        MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+    }
+
+    /**
      * Create and return JsonObject to test.
      * @param event Event type
      * @return JsonObject

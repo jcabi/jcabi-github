@@ -173,6 +173,15 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Git git();
 
     /**
+     * Get Starring API.
+     * @return Stars
+     * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
+     * @since 0.15
+     */
+    @NotNull(message = "Stars is never NULL")
+    Stars stars();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -291,6 +300,11 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "git is never NULL")
         public Git git() {
             return this.repo.git();
+        }
+        @Override
+        @NotNull(message = "stars is never NULL")
+        public Stars stars() {
+            return this.repo.stars();
         }
         @Override
         public void patch(

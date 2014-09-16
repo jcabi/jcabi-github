@@ -48,6 +48,7 @@ import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
+import com.jcabi.github.Stars;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -255,6 +256,12 @@ final class MkRepo implements Repo {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    @NotNull(message = "Stars is never NULL")
+    public Stars stars() {
+        return new MkStars();
     }
 
     @Override
