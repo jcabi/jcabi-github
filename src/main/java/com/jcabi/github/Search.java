@@ -68,7 +68,7 @@ public interface Search {
     Iterable<Repo> repos(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order
+        @NotNull(message = "Sort order can't be NULL") Order order
     ) throws IOException;
 
     /**
@@ -87,7 +87,7 @@ public interface Search {
     Iterable<Issue> issues(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order,
+        @NotNull(message = "Sort order can't be NULL") Order order,
         @NotNull(message = "Search qualifiers can't be NULL")
         EnumMap<Qualifier, String> qualifiers)
         throws IOException;
@@ -106,7 +106,7 @@ public interface Search {
     Iterable<User> users(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order)
+        @NotNull(message = "Sort order can't be NULL") Order order)
         throws IOException;
 
     /**
@@ -123,7 +123,7 @@ public interface Search {
     Iterable<Content> codes(
         @NotNull(message = "Search keywords can't be NULL") String keywords,
         @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") String order)
+        @NotNull(message = "Sort order can't be NULL") Order order)
         throws IOException;
 
     enum Qualifier {
@@ -227,6 +227,38 @@ public interface Search {
          */
         public String getQualifier() {
             return this.qualifier;
+        }
+    }
+
+    enum Order {
+        /**
+         * Sorting ascending.
+         */
+        ASC("asc"),
+        /**
+         * Sorting descending.
+         */
+        DESC("desc");
+
+        /**
+         * The sort order.
+         */
+        private final transient String order;
+
+        /**
+         * Ctor.
+         * @param key The sort order
+         */
+        Order(final String key) {
+            this.order = key;
+        }
+
+        /**
+         * Get sort order.
+         * @return String
+         */
+        public String getOrder() {
+            return this.order;
         }
     }
 }
