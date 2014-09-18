@@ -204,6 +204,12 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Notifications is never NULL")
+    public Notifications notifications() {
+        return new RtNotifications();
+    }
+
+    @Override
     public void patch(
         @NotNull(message = "JSON is never NULL") final JsonObject json)
         throws IOException {
