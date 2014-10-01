@@ -106,7 +106,7 @@ final class MkTrees implements Trees {
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
         final JsonArray trees = params.getJsonArray("tree");
-        for (int i = 0; i <= trees.size(); i++) {
+        for (int i = 0; i < trees.size(); i++) {
             final JsonObject tree = trees.getJsonObject(i);
             final String sha = tree.getString("sha");
             final Directives dirs = new Directives().xpath(this.xpath())
@@ -116,13 +116,11 @@ final class MkTrees implements Trees {
             }
             this.storage.apply(dirs);
             new MkReferences(this.storage, this.self, this.coords).create(
-                new StringBuilder("refs/trees/").append(
-                        params.getString("name")
-                ).toString(),
+                new StringBuilder("refs/trees/").append(sha).toString(),
                 sha
             );
         }
-        return this.get(trees.getJsonObject());
+        return this.get(trees.getJsonObject(0).getString("sha"));
     }
 
     @Override
