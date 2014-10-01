@@ -110,4 +110,33 @@ public final class MkRepoTest {
         );
     }
 
+    /**
+     * Repo can return Stars API.
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void fetchStars() throws IOException {
+        final String user = "testuser2";
+        final Repo repo = new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo2")
+        );
+        MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+    }
+
+    /**
+     * Repo can return Notifications API.
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void fetchNotifications() throws IOException {
+        final String user = "testuser3";
+        final Repo repo = new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo3")
+        );
+        MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+    }
 }
