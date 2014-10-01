@@ -66,7 +66,7 @@ public final class MkTreesTest {
             ))
         .build();
         MatcherAssert.assertThat(
-            this.repo().git().trees().create(tree),
+             this.repo().git().trees().create(tree),
             Matchers.notNullValue()
         );
     }
@@ -85,10 +85,12 @@ public final class MkTreesTest {
                 Json.createObjectBuilder()
                     .add("path", "test.txt")
                     .add("mode", "100644")
+                    .add("sha", sha).add("name", "tree rec")
                     .add("type", "blob")
-                    .add("content", "hello").build()
+                    .add("content", "hello")
+                    .build()
             ).build()
-        ).add("sha", sha).add("name", "tree rec").build();
+        ).build();
         final Repo repo = this.repo();
         repo.git().trees().create(json);
         MatcherAssert.assertThat(

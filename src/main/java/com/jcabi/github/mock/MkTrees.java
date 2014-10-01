@@ -111,12 +111,14 @@ final class MkTrees implements Trees {
             final String sha = tree.getString("sha");
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("tree");
-            for (final Entry<String, JsonValue> entry : params.entrySet()) {
+            for (final Entry<String, JsonValue> entry : tree.entrySet()) {
                 dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
             }
             this.storage.apply(dirs);
             new MkReferences(this.storage, this.self, this.coords).create(
-                new StringBuilder("refs/trees/").append(sha).toString(),
+                new StringBuilder("refs/trees/").append(
+                    tree.containsValue("name") ? tree.getString("name") : sha
+                ).toString(),
                 sha
             );
         }

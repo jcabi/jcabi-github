@@ -63,9 +63,13 @@ public final class MkTreeTest {
      * @throws Exception If something goes wrong.
      */
     private Tree tree() throws Exception {
-        final JsonObject json = Json.createObjectBuilder()
-            .add("sha", "abcsha12").add("message", "test tree")
-            .add("name", "v.0.1").build();
+        final JsonObject json = Json.createObjectBuilder().add("tree",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("sha", "abcsha12").add("message", "test tree")
+                    .add("name", "v.0.1").build()
+            )
+        ).build();
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
         ).git().trees().create(json);
