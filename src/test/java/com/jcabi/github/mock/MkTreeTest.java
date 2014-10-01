@@ -63,7 +63,8 @@ public final class MkTreeTest {
      * @throws Exception If something goes wrong.
      */
     private Tree tree() throws Exception {
-        final JsonObject json = Json.createObjectBuilder().add("tree",
+        final JsonObject json = Json.createObjectBuilder().add(
+            "tree",
             Json.createArrayBuilder().add(
                 Json.createObjectBuilder()
                     .add("sha", "abcsha12").add("message", "test tree")

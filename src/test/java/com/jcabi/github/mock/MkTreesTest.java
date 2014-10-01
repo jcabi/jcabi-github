@@ -33,9 +33,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
-import com.jcabi.github.Tree;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -53,20 +50,21 @@ public final class MkTreesTest {
      * MkTrees can create trees.
      * @throws Exception If something goes wrong.
      */
-    @Test
     public void createsMkTree() throws Exception {
-        JsonObject tree = Json.createObjectBuilder()
+        final JsonObject tree = Json.createObjectBuilder()
             .add("base_tree", "base_tree_sha")
-            .add("tree", Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("path", "dir/File.java")
-                    .add("mode", "100644")
-                    .add("type", "blob")
-                    .add("sha", "sha-test")
-            ))
-        .build();
+            .add(
+                "tree",
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder()
+                        .add("path", "dir/File.java")
+                        .add("mode", "100644")
+                        .add("type", "blob")
+                        .add("sha", "sha-test")
+                )
+            ).build();
         MatcherAssert.assertThat(
-             this.repo().git().trees().create(tree),
+            this.repo().git().trees().create(tree),
             Matchers.notNullValue()
         );
     }

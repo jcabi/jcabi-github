@@ -102,12 +102,13 @@ final class MkTrees implements Trees {
 
     @Override
     @NotNull(message = "created tree is never NULL")
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Tree create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
         final JsonArray trees = params.getJsonArray("tree");
-        for (int i = 0; i < trees.size(); i++) {
-            final JsonObject tree = trees.getJsonObject(i);
+        for (final JsonValue val : trees) {
+            final JsonObject tree = (JsonObject) val;
             final String sha = tree.getString("sha");
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("tree");
@@ -115,10 +116,14 @@ final class MkTrees implements Trees {
                 dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
             }
             this.storage.apply(dirs);
+            final String ref;
+            if (tree.containsValue("name")) {
+                ref = tree.getString("name");
+            } else {
+                ref = sha;
+            }
             new MkReferences(this.storage, this.self, this.coords).create(
-                new StringBuilder("refs/trees/").append(
-                    tree.containsValue("name") ? tree.getString("name") : sha
-                ).toString(),
+                new StringBuilder("refs/trees/").append(ref).toString(),
                 sha
             );
         }
