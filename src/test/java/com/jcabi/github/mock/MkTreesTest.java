@@ -70,6 +70,7 @@ public final class MkTreesTest {
             Matchers.notNullValue()
         );
     }
+
     /**
      * MkTrees can get tree recursively.
      *
