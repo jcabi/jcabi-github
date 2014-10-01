@@ -162,7 +162,20 @@
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>         @NotNull(message = <span class="jxr_string">"path is never NULL"</span>) String path,
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>         @NotNull(message = <span class="jxr_string">"json is never NULL"</span>) JsonObject json)
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">throws</strong> IOException;
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> }
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">     * Check whether content exists or not.</em>
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">     * @param path The content path</em>
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">     * @param ref The name of the commit/branch/tag.</em>
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">     * @return True if content exists, false otherwise.</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>     <strong class="jxr_keyword">boolean</strong> exists(
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         @NotNull(message = <span class="jxr_string">"path  is never NULL"</span>) String path,
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>         @NotNull(message = <span class="jxr_string">"ref is never NULL"</span>) String ref
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     ) <strong class="jxr_keyword">throws</strong> IOException;
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2014 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
