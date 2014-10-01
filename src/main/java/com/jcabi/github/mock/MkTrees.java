@@ -38,6 +38,7 @@ import com.jcabi.github.Tree;
 import com.jcabi.github.Trees;
 import java.io.IOException;
 import java.util.Map.Entry;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
@@ -104,19 +105,24 @@ final class MkTrees implements Trees {
     public Tree create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
-        final String sha = params.getString("sha");
-        final Directives dirs = new Directives().xpath(this.xpath())
-            .add("tree");
-        for (final Entry<String, JsonValue> entry : params.entrySet()) {
-            dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
+        final JsonArray trees = params.getJsonArray("tree");
+        for (int i = 0; i <= trees.size(); i++) {
+            final JsonObject tree = trees.getJsonObject(i);
+            final String sha = tree.getString("sha");
+            final Directives dirs = new Directives().xpath(this.xpath())
+                .add("tree");
+            for (final Entry<String, JsonValue> entry : params.entrySet()) {
+                dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
+            }
+            this.storage.apply(dirs);
+            new MkReferences(this.storage, this.self, this.coords).create(
+                new StringBuilder("refs/trees/").append(
+                        params.getString("name")
+                ).toString(),
+                sha
+            );
         }
-        this.storage.apply(dirs);
-        new MkReferences(this.storage, this.self, this.coords).create(
-            new StringBuilder().append("refs/trees/").append(
-                params.getString("name")
-            ).toString(), sha
-        );
-        return this.get(sha);
+        return this.get(trees.getJsonObject());
     }
 
     @Override
