@@ -50,6 +50,7 @@ public final class MkTreesTest {
      * MkTrees can create trees.
      * @throws Exception If something goes wrong.
      */
+    @Test
     public void createsMkTree() throws Exception {
         final JsonObject tree = Json.createObjectBuilder()
             .add("base_tree", "base_tree_sha")
