@@ -6,7 +6,8 @@
 [![Build Status](https://travis-ci.org/jcabi/jcabi-github.svg?branch=master)](https://travis-ci.org/jcabi/jcabi-github)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
 
-More details are here: [github.jcabi.com](http://github.jcabi.com/)
+More details are here: [github.jcabi.com](http://github.jcabi.com/). Also,
+read this blog post: [Object-Oriented Github API](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html).
 
 Set of classes in `com.jcabi.github` package is
 an object oriented API of Github:
