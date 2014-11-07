@@ -45,12 +45,8 @@ public final class RtGistITCase {
     /**
      * RtGist can text and write files.
      * @throws Exception If some problem inside
-     * @todo #551 ReadsAndWritesGists is disabled since it doesn't work
-     *  with real Github account. Let's fix it and remove the
-     *  Ignore annotation.
      */
     @Test
-    @org.junit.Ignore
     public void readsAndWritesGists() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
