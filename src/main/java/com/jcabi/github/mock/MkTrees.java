@@ -38,6 +38,7 @@ import com.jcabi.github.Tree;
 import com.jcabi.github.Trees;
 import java.io.IOException;
 import java.util.Map.Entry;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
@@ -101,22 +102,32 @@ final class MkTrees implements Trees {
 
     @Override
     @NotNull(message = "created tree is never NULL")
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Tree create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
-        final String sha = params.getString("sha");
-        final Directives dirs = new Directives().xpath(this.xpath())
-            .add("tree");
-        for (final Entry<String, JsonValue> entry : params.entrySet()) {
-            dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
+        final JsonArray trees = params.getJsonArray("tree");
+        for (final JsonValue val : trees) {
+            final JsonObject tree = (JsonObject) val;
+            final String sha = tree.getString("sha");
+            final Directives dirs = new Directives().xpath(this.xpath())
+                .add("tree");
+            for (final Entry<String, JsonValue> entry : tree.entrySet()) {
+                dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
+            }
+            this.storage.apply(dirs);
+            final String ref;
+            if (tree.containsValue("name")) {
+                ref = tree.getString("name");
+            } else {
+                ref = sha;
+            }
+            new MkReferences(this.storage, this.self, this.coords).create(
+                new StringBuilder("refs/trees/").append(ref).toString(),
+                sha
+            );
         }
-        this.storage.apply(dirs);
-        new MkReferences(this.storage, this.self, this.coords).create(
-            new StringBuilder().append("refs/trees/").append(
-                params.getString("name")
-            ).toString(), sha
-        );
-        return this.get(sha);
+        return this.get(trees.getJsonObject(0).getString("sha"));
     }
 
     @Override

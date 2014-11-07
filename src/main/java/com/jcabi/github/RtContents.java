@@ -185,15 +185,10 @@ final class RtContents implements Contents {
     public Iterable<Content> iterate(
         @NotNull(message = "path can't be NULL") final String path,
         @NotNull(message = "ref can't be NULL") final String ref
-    ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("path", path)
-            .add("ref", ref)
-            .build();
+    ) {
         return new RtPagination<Content>(
             this.request.method(Request.GET)
-                .uri().path(path).back()
-                .body().set(json).back(),
+                .uri().path(path).queryParam("ref", ref).back(),
             new RtPagination.Mapping<Content, JsonObject>() {
                 @Override
                 public Content map(final JsonObject object) {

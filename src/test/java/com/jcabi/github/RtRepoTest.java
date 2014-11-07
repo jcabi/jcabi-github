@@ -301,6 +301,32 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch stars.
+     */
+    @Test
+    public void fetchStars() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("testuser2", "testrepo2")
+        );
+        MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+    }
+
+    /**
+     * RtRepo can fetch notifications.
+     */
+    @Test
+    public void fetchNotifications() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("testnuser", "testnrepos")
+        );
+        MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+    }
+
+    /**
      * Create and return JsonObject to test.
      * @param event Event type
      * @return JsonObject
