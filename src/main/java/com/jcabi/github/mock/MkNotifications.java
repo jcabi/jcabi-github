@@ -27,53 +27,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Tree;
-import javax.json.Json;
-import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Notifications;
 
 /**
- * Testcase for MkTree.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
+ * Github Notifications API.
+ *
+ * @author Giang Le (lthuangiang@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 0.15
+ * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
-public final class MkTreeTest {
-
-    /**
-     * MkTree should return its json.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void fetchesContent() throws Exception {
-        MatcherAssert.assertThat(
-            this.tree().json().getString("message"),
-            Matchers.is("\"test tree\"")
-        );
-    }
-
-    /**
-     * Return a Tree for testing.
-     * @return Tree
-     * @throws Exception If something goes wrong.
-     */
-    private Tree tree() throws Exception {
-        final JsonObject json = Json.createObjectBuilder().add(
-            "tree",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("sha", "abcsha12").add("message", "test tree")
-                    .add("name", "v.0.1").build()
-            )
-        ).build();
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        ).git().trees().create(json);
-    }
-
+@Immutable
+public class MkNotifications implements Notifications {
 }

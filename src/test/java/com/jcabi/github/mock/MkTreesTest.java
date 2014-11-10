@@ -53,13 +53,19 @@ public final class MkTreesTest {
     @Test
     public void createsMkTree() throws Exception {
         final JsonObject tree = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "Scott@gmail.com").build();
+            .add("base_tree", "base_tree_sha")
+            .add(
+                "tree",
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder()
+                        .add("path", "dir/File.java")
+                        .add("mode", "100644")
+                        .add("type", "blob")
+                        .add("sha", "sha-test")
+                )
+            ).build();
         MatcherAssert.assertThat(
-            this.repo().git().trees().create(
-                Json.createObjectBuilder().add("name", "v.0.1")
-                    .add("message", "tree mock").add("sha", "abcsha12")
-                    .add("tree", tree).build()
-            ),
+            this.repo().git().trees().create(tree),
             Matchers.notNullValue()
         );
     }
@@ -78,10 +84,12 @@ public final class MkTreesTest {
                 Json.createObjectBuilder()
                     .add("path", "test.txt")
                     .add("mode", "100644")
+                    .add("sha", sha).add("name", "tree rec")
                     .add("type", "blob")
-                    .add("content", "hello").build()
+                    .add("content", "hello")
+                    .build()
             ).build()
-        ).add("sha", sha).add("name", "tree rec").build();
+        ).build();
         final Repo repo = this.repo();
         repo.git().trees().create(json);
         MatcherAssert.assertThat(

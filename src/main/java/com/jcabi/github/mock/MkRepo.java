@@ -44,6 +44,7 @@ import com.jcabi.github.Hooks;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Milestones;
+import com.jcabi.github.Notifications;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
@@ -262,6 +263,12 @@ final class MkRepo implements Repo {
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
         return new MkStars();
+    }
+
+    @Override
+    @NotNull(message = "Notifications is never NULL")
+    public Notifications notifications() {
+        return new MkNotifications();
     }
 
     @Override

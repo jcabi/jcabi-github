@@ -49,7 +49,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.CouplingBetweenObjects" })
 final class RtRepo implements Repo {
 
     /**
@@ -201,6 +201,12 @@ final class RtRepo implements Repo {
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
         return new RtStars();
+    }
+
+    @Override
+    @NotNull(message = "Notifications is never NULL")
+    public Notifications notifications() {
+        return new RtNotifications();
     }
 
     @Override
