@@ -291,6 +291,7 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch Git.
      */
+    @Test
     public void fetchesGit() {
         final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
