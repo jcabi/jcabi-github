@@ -55,7 +55,7 @@ public final class RtMarkdownITCase {
                     .add("text", "Hello, **world**!")
                     .build()
             ),
-            Matchers.equalTo("<p>Hello, <strong>world</strong>!</p>")
+            Matchers.equalTo("<p>Hello, <strong>world</strong>!</p>\n")
         );
     }
 
@@ -70,7 +70,7 @@ public final class RtMarkdownITCase {
             github.markdown().raw(
                 "Hey, **world**!"
             ),
-            Matchers.equalTo("<p>Hey, <strong>world</strong>!</p>")
+            Matchers.equalTo("<p>Hey, <strong>world</strong>!</p>\n")
         );
     }
 
