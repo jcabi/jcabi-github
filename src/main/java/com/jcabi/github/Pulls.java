@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -78,10 +79,12 @@ public interface Pulls {
 
     /**
      * Iterate them all.
+     * @param params Params
      * @return Iterator of issues
      * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Pull> iterate();
+    Iterable<Pull> iterate(@NotNull(message = "map of params can't be NULL")
+        Map<String, String> params);
 
 }

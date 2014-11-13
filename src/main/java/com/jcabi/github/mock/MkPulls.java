@@ -38,6 +38,7 @@ import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -134,7 +135,8 @@ final class MkPulls implements Pulls {
 
     @Override
     @NotNull(message = "Iterable of pulls is never NULL")
-    public Iterable<Pull> iterate() {
+    public Iterable<Pull> iterate(@NotNull(message = "params can't be NULL")
+        final Map<String, String> params) {
         return new MkIterable<Pull>(
             this.storage,
             String.format("%s/pull", this.xpath()),

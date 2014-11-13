@@ -35,6 +35,7 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.immutable.ArrayMap;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -123,7 +124,7 @@ public final class RtPullsTest {
             repo()
         );
         MatcherAssert.assertThat(
-            pulls.iterate(),
+            pulls.iterate(new ArrayMap<String, String>()),
             Matchers.<Pull>iterableWithSize(2)
         );
         container.stop();

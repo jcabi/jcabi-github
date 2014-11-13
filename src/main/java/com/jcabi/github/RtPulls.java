@@ -36,6 +36,7 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
@@ -129,9 +130,10 @@ final class RtPulls implements Pulls {
 
     @Override
     @NotNull(message = "Iterable of pulls is never NULL")
-    public Iterable<Pull> iterate() {
+    public Iterable<Pull> iterate(@NotNull(message = "params can't be NULL")
+        final Map<String, String> params) {
         return new RtPagination<Pull>(
-            this.request,
+            this.request.uri().queryParams(params).back(),
             new RtPagination.Mapping<Pull, JsonObject>() {
                 @Override
                 public Pull map(final JsonObject object) {
