@@ -30,8 +30,11 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Github Releases.
@@ -86,4 +89,92 @@ public interface Releases {
      * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
      */
     void remove(int number) throws IOException;
+
+    /**
+     * Smart releases.
+     * @since 0.17
+     */
+    @Immutable
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = "releases")
+    final class Smart implements Releases {
+        /**
+         * Encapsulated releases.
+         */
+        private final transient Releases releases;
+
+        /**
+         * Public CTOR.
+         * @param original Original releases
+         */
+        public Smart(
+            @NotNull(message = "original can't be NULL") final Releases original
+        ) {
+            this.releases = original;
+        }
+        @Override
+        public Repo repo() {
+            return this.releases.repo();
+        }
+        @Override
+        public Iterable<Release> iterate() {
+            return this.releases.iterate();
+        }
+        @Override
+        public Release get(final int number) {
+            return this.releases.get(number);
+        }
+        @Override
+        public Release create(final String tag) throws IOException {
+            return this.releases.create(tag);
+        }
+        @Override
+        public void remove(final int number) throws IOException {
+            this.releases.remove(number);
+        }
+        /**
+         * This release exists by the tag.
+         * @param tag The tag
+         * @return TRUE if it already exists
+         * @throws IOException If fails
+         */
+        public boolean exists(final String tag) throws IOException {
+            boolean exists = false;
+            final Iterable<Release.Smart> rels = new Smarts<Release.Smart>(
+                this.iterate()
+            );
+            for (final Release.Smart rel : rels) {
+                if (rel.tag().equals(tag)) {
+                    exists = true;
+                    break;
+                }
+            }
+            return exists;
+        }
+        /**
+         * Find release by the tag (runtime exception if not found).
+         * @param tag The tag
+         * @return Release found
+         * @throws IOException If fails
+         */
+        public Release find(final String tag) throws IOException {
+            Release found = null;
+            final Iterable<Release.Smart> rels = new Smarts<Release.Smart>(
+                this.iterate()
+            );
+            for (final Release.Smart rel : rels) {
+                if (rel.tag().equals(tag)) {
+                    found = rel;
+                    break;
+                }
+            }
+            if (found == null) {
+                throw new IllegalArgumentException(
+                    String.format("release not found by tag '%s'", tag)
+                );
+            }
+            return found;
+        }
+    }
 }

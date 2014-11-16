@@ -134,6 +134,25 @@ public final class MkReleasesTest {
     }
 
     /**
+     * MkReleases can find release by tag.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void findsReleaseByTag() throws Exception {
+        final Releases releases = MkReleasesTest.repo().releases();
+        final String tag = "v5.0";
+        releases.create(tag);
+        MatcherAssert.assertThat(
+            new Releases.Smart(releases).exists(tag),
+            Matchers.is(true)
+        );
+        MatcherAssert.assertThat(
+            new Release.Smart(new Releases.Smart(releases).find(tag)).tag(),
+            Matchers.equalTo(tag)
+        );
+    }
+
+    /**
      * Create a repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
