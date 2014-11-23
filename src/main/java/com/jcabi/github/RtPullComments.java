@@ -107,7 +107,7 @@ final class RtPullComments implements PullComments {
     ) {
         return new RtPagination<PullComment>(
             this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<PullComment, JsonObject>() {
+            new RtValuePagination.Mapping<PullComment, JsonObject>() {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(
@@ -135,7 +135,7 @@ final class RtPullComments implements PullComments {
             .back();
         return new RtPagination<PullComment>(
             newreq.uri().queryParams(params).back(),
-            new RtPagination.Mapping<PullComment, JsonObject>() {
+            new RtValuePagination.Mapping<PullComment, JsonObject>() {
                 @Override
                 public PullComment map(final JsonObject value) {
                     return RtPullComments.this.get(

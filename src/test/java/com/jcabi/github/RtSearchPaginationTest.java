@@ -60,7 +60,7 @@ public final class RtSearchPaginationTest {
                 ).build().toString()
             ),
             "/search/path", "keywords", "sort", "order",
-            new RtPagination.Mapping<String, JsonObject>() {
+            new RtValuePagination.Mapping<String, JsonObject>() {
                 @Override
                 public String map(final JsonObject object) {
                     return object.getString(key);

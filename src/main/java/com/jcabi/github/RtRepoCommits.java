@@ -101,7 +101,7 @@ final class RtRepoCommits implements RepoCommits {
     ) {
         return new RtPagination<RepoCommit>(
             this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<RepoCommit, JsonObject>() {
+            new RtValuePagination.Mapping<RepoCommit, JsonObject>() {
                 @Override
                 public RepoCommit map(final JsonObject value) {
                     return RtRepoCommits.this.get(value.getString("sha"));

@@ -126,7 +126,7 @@ final class RtGistComments implements GistComments {
     public Iterable<GistComment> iterate() {
         return new RtPagination<GistComment>(
             this.request,
-            new RtPagination.Mapping<GistComment, JsonObject>() {
+            new RtValuePagination.Mapping<GistComment, JsonObject>() {
                 @Override
                 public GistComment map(final JsonObject object) {
                     return RtGistComments.this.get(object.getInt("id"));

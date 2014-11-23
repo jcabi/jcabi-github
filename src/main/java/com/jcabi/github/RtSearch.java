@@ -101,7 +101,7 @@ final class RtSearch implements Search {
         throws IOException {
         return new RtSearchPagination<Repo>(
             this.request, "repositories", keywords, sort, order.getOrder(),
-            new RtPagination.Mapping<Repo, JsonObject>() {
+            new RtValuePagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
                     return RtSearch.this.github().repos().get(
@@ -126,7 +126,7 @@ final class RtSearch implements Search {
         }
         return new RtSearchPagination<Issue>(
             this.request, "issues", keyword.toString(), sort, order.getOrder(),
-            new RtPagination.Mapping<Issue, JsonObject>() {
+            new RtValuePagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {
                     try {
@@ -156,7 +156,7 @@ final class RtSearch implements Search {
         throws IOException {
         return new RtSearchPagination<User>(
             this.request, "users", keywords, sort, order.getOrder(),
-            new RtPagination.Mapping<User, JsonObject>() {
+            new RtValuePagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
                     return RtSearch.this.ghub.users().get(
@@ -178,7 +178,7 @@ final class RtSearch implements Search {
         return new RtSearchPagination<Content>(
             this.request, "code", keywords, sort, order.getOrder(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
-            new RtPagination.Mapping<Content, JsonObject>() {
+            new RtValuePagination.Mapping<Content, JsonObject>() {
                 @Override
                 public Content map(final JsonObject object) {
                     try {

@@ -63,7 +63,7 @@ public final class RtPaginationTest {
         ).next(RtPaginationTest.simple("Hi Mark")).start();
         final Request request = new ApacheRequest(container.home());
         final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-            request, new RtPagination.Mapping<JsonObject, JsonObject>() {
+            request, new RtValuePagination.Mapping<JsonObject, JsonObject>() {
                 @Override
                 public JsonObject map(final JsonObject object) {
                     return object;
@@ -94,7 +94,8 @@ public final class RtPaginationTest {
         try {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-                request, new RtPagination.Mapping<JsonObject, JsonObject>() {
+                request,
+                new RtValuePagination.Mapping<JsonObject, JsonObject>() {
                     @Override
                     public JsonObject map(final JsonObject object) {
                         return object;

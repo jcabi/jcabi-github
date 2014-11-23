@@ -56,7 +56,7 @@ public final class BulkTest {
         final Comment comment = new Bulk<Comment>(
             new RtPagination<Comment>(
                 request,
-                new RtPagination.Mapping<Comment, JsonObject>() {
+                new RtValuePagination.Mapping<Comment, JsonObject>() {
                     @Override
                     public Comment map(final JsonObject object) {
                         return origin;

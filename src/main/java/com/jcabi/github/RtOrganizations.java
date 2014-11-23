@@ -107,7 +107,7 @@ final class RtOrganizations implements Organizations {
     public Iterable<Organization> iterate() {
         return new RtPagination<Organization>(
             this.request,
-            new RtPagination.Mapping<Organization, JsonObject>() {
+            new RtValuePagination.Mapping<Organization, JsonObject>() {
                 @Override
                 public Organization map(final JsonObject object) {
                     return RtOrganizations.this.get(object.getString("login"));
@@ -123,7 +123,7 @@ final class RtOrganizations implements Organizations {
     ) {
         return new RtPagination<Organization>(
             this.entry.uri().path("/users").path(username).path("/orgs").back(),
-            new RtPagination.Mapping<Organization, JsonObject>() {
+            new RtValuePagination.Mapping<Organization, JsonObject>() {
                 @Override
                 public Organization map(final JsonObject object) {
                     return RtOrganizations.this.get(object.getString("login"));

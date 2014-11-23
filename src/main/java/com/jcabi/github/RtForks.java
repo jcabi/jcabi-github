@@ -96,7 +96,7 @@ final class RtForks implements Forks {
         @NotNull(message = "sort can't be NULL") final String sort) {
         return new RtPagination<Fork>(
             this.request.uri().queryParam("sort", sort).back(),
-            new RtPagination.Mapping<Fork, JsonObject>() {
+            new RtValuePagination.Mapping<Fork, JsonObject>() {
                 @Override
                 public Fork map(final JsonObject object) {
                     return RtForks.this.get(object.getInt(ID));

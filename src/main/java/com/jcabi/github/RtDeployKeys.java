@@ -94,7 +94,7 @@ final class RtDeployKeys implements DeployKeys {
     public Iterable<DeployKey> iterate() {
         return new RtPagination<DeployKey>(
             this.request,
-            new RtPagination.Mapping<DeployKey, JsonObject>() {
+            new RtValuePagination.Mapping<DeployKey, JsonObject>() {
                 @Override
                 public DeployKey map(final JsonObject object) {
                     //@checkstyle MultipleStringLiteralsCheck (1 line)

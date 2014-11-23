@@ -47,7 +47,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-public class MkMarkdown implements Markdown {
+public final class MkMarkdown implements Markdown {
     /**
      * Owner github.
      */
@@ -63,13 +63,13 @@ public class MkMarkdown implements Markdown {
 
     @Override
     @NotNull(message = "Github can't be NULL")
-    public final Github github() {
+    public Github github() {
         return this.owner;
     }
 
     @Override
     @NotNull(message = "Rendered string can't be NULL")
-    public final String render(
+    public String render(
         @NotNull(message = "JSON can't be NULL") final JsonObject json
     ) {
         return json.getString("text");
@@ -77,7 +77,7 @@ public class MkMarkdown implements Markdown {
 
     @Override
     @NotNull(message = "Rendered string can't be NULL")
-    public final String raw(
+    public String raw(
         @NotNull(message = "Markdown can't be NULL") final String text
     ) {
         return text;

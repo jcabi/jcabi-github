@@ -68,7 +68,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
     /**
      * Pagination mapping.
      */
-    private final transient RtPagination.Mapping<T, JsonObject> mapping;
+    private final transient RtValuePagination.Mapping<T, JsonObject> mapping;
 
     /**
      * Ctor.
@@ -82,7 +82,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
      */
     RtSearchPagination(final Request req, final String path,
         final String keywords, final String sort, final String order,
-        final RtPagination.Mapping<T, JsonObject> mppng) {
+        final RtValuePagination.Mapping<T, JsonObject> mppng) {
         this.request = req.uri().path(path)
             .queryParam("q", keywords)
             .queryParam("sort", sort)

@@ -128,7 +128,7 @@ final class RtRepos implements Repos {
         final String identifier) {
         return new RtPagination<Repo>(
             this.entry.uri().queryParam("since", identifier).back(),
-            new RtPagination.Mapping<Repo, JsonObject>() {
+            new RtValuePagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
                     return RtRepos.this.get(

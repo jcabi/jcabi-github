@@ -50,7 +50,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-public class MkCommits implements Commits {
+public final class MkCommits implements Commits {
 
     /**
      * Storage.
@@ -93,21 +93,21 @@ public class MkCommits implements Commits {
     }
     @Override
     @NotNull(message = "Repository can't be NULL")
-    public final Repo repo() {
+    public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     @NotNull(message = "created commit is never NULL")
-    public final Commit create(
+    public Commit create(
         @NotNull(message = "params can't be NULL") final JsonObject params
-    ) throws IOException {
+    ) {
         return this.get(params.getString("sha"));
     }
 
     @Override
     @NotNull(message = "commit is never NULL")
-    public final Commit get(
+    public Commit get(
         @NotNull(message = "sha can't be NULL") final String sha
     ) {
         return new MkCommit(this.storage, this.self, this.coords, sha);

@@ -41,5 +41,5 @@ import com.jcabi.github.Notifications;
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
 @Immutable
-public class MkNotifications implements Notifications {
+public final class MkNotifications implements Notifications {
 }

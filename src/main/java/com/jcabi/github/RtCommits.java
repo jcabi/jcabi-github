@@ -48,7 +48,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
-public class RtCommits implements Commits {
+public final class RtCommits implements Commits {
     /**
      * RESTful API entry point.
      */
@@ -83,16 +83,16 @@ public class RtCommits implements Commits {
 
     @Override
     @NotNull(message = "Repository is never NULL")
-    public final Repo repo() {
+    public Repo repo() {
         return this.owner;
     }
 
     @Override
     @NotNull(message = "tag is never NULL")
-    public final Commit create(
+    public Commit create(
         @NotNull(message = "params can't be NULL") final JsonObject params
     ) throws IOException {
-        final Commit created = this.get(
+        return this.get(
             this.request.method(Request.POST)
                 .body().set(params).back()
                 .fetch().as(RestResponse.class)
@@ -100,12 +100,11 @@ public class RtCommits implements Commits {
                 .as(JsonResponse.class)
                 .json().readObject().getString("sha")
         );
-        return created;
     }
 
     @Override
     @NotNull(message = "tag is never NULL")
-    public final Commit get(
+    public Commit get(
         @NotNull(message = "sha can't be NULL") final String sha
     ) {
         return new RtCommit(this.entry, this.owner, sha);

@@ -40,5 +40,5 @@ import com.jcabi.aspects.Immutable;
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  */
 @Immutable
-public class RtStars implements Stars {
+public final class RtStars implements Stars {
 }

@@ -133,7 +133,7 @@ final class RtGists implements Gists {
     public Iterable<Gist> iterate() {
         return new RtPagination<Gist>(
             this.request,
-            new RtPagination.Mapping<Gist, JsonObject>() {
+            new RtValuePagination.Mapping<Gist, JsonObject>() {
                 @Override
                 public Gist map(final JsonObject object) {
                     return RtGists.this.get(object.getString("id"));

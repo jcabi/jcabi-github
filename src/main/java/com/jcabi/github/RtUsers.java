@@ -109,7 +109,7 @@ final class RtUsers implements Users {
     ) {
         return new RtPagination<User>(
             this.request.uri().queryParam("since", identifier).back(),
-            new RtPagination.Mapping<User, JsonObject>() {
+            new RtValuePagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
                     return RtUsers.this.get(object.getString("id"));

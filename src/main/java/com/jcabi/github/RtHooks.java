@@ -97,7 +97,7 @@ final class RtHooks implements Hooks {
     public Iterable<Hook> iterate() {
         return new RtPagination<Hook>(
             this.request,
-            new RtPagination.Mapping<Hook, JsonObject>() {
+            new RtValuePagination.Mapping<Hook, JsonObject>() {
                 @Override
                 public Hook map(final JsonObject object) {
                     // @checkstyle MultipleStringLiterals (1 line)

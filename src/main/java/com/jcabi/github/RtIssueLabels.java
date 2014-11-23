@@ -158,7 +158,7 @@ final class RtIssueLabels implements IssueLabels {
     public Iterable<Label> iterate() {
         return new RtPagination<Label>(
             this.request,
-            new RtPagination.Mapping<Label, JsonObject>() {
+            new RtValuePagination.Mapping<Label, JsonObject>() {
                 @Override
                 public Label map(final JsonObject object) {
                     return new RtLabel(

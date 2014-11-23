@@ -48,7 +48,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords", "identifier" })
-public class MkCommit implements Commit {
+public final class MkCommit implements Commit {
 
     /**
      * Storage.
@@ -92,26 +92,26 @@ public class MkCommit implements Commit {
 
     @Override
     @NotNull(message = "repository is never NULL")
-    public final Repo repo() {
+    public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     @NotNull(message = "sha is never NULL")
-    public final String sha() {
+    public String sha() {
         return this.identifier;
     }
 
     @Override
     @NotNull(message = "JSON is never NULL")
-    public final JsonObject json() throws IOException {
+    public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
     }
 
     @Override
-    public final int compareTo(final Commit commit) {
+    public int compareTo(final Commit commit) {
         return this.identifier.compareTo(commit.sha());
     }
 

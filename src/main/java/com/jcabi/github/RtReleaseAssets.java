@@ -104,7 +104,7 @@ final class RtReleaseAssets implements ReleaseAssets {
         return new RtPagination<ReleaseAsset>(
             this.request.uri().back()
                 .method(Request.GET),
-            new RtPagination.Mapping<ReleaseAsset, JsonObject>() {
+            new RtValuePagination.Mapping<ReleaseAsset, JsonObject>() {
                 @Override
                 public ReleaseAsset map(final JsonObject value) {
                     return RtReleaseAssets.this.get(

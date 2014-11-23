@@ -40,5 +40,5 @@ import com.jcabi.aspects.Immutable;
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
 @Immutable
-public class RtNotifications implements Notifications {
+public final class RtNotifications implements Notifications {
 }

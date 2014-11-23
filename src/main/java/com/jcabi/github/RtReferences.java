@@ -122,7 +122,7 @@ final class RtReferences implements References {
     public Iterable<Reference> iterate() {
         return new RtPagination<Reference>(
             this.request,
-            new RtPagination.Mapping<Reference, JsonObject>() {
+            new RtValuePagination.Mapping<Reference, JsonObject>() {
                 @Override
                 public Reference map(final JsonObject object) {
                     return RtReferences.this.get(
@@ -141,7 +141,7 @@ final class RtReferences implements References {
     ) {
         return new RtPagination<Reference>(
             this.request.uri().path(subnamespace).back(),
-            new RtPagination.Mapping<Reference, JsonObject>() {
+            new RtValuePagination.Mapping<Reference, JsonObject>() {
                 @Override
                 public Reference map(final JsonObject object) {
                     return RtReferences.this.get(

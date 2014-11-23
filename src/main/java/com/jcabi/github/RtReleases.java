@@ -96,7 +96,7 @@ final class RtReleases implements Releases {
     public Iterable<Release> iterate() {
         return new RtPagination<Release>(
             this.request,
-            new RtPagination.Mapping<Release, JsonObject>() {
+            new RtValuePagination.Mapping<Release, JsonObject>() {
                 @Override
                 public Release map(final JsonObject object) {
                     return new RtRelease(

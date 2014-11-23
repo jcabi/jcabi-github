@@ -128,7 +128,7 @@ final class RtIssue implements Issue {
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/events").back(),
-            new RtPagination.Mapping<Event, JsonObject>() {
+            new RtValuePagination.Mapping<Event, JsonObject>() {
                 @Override
                 public Event map(final JsonObject object) {
                     return new RtEvent(

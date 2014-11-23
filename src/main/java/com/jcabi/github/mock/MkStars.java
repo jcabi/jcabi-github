@@ -44,5 +44,5 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-public class MkStars implements Stars {
+public final class MkStars implements Stars {
 }

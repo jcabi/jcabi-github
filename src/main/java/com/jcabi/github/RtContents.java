@@ -189,7 +189,7 @@ final class RtContents implements Contents {
         return new RtPagination<Content>(
             this.request.method(Request.GET)
                 .uri().path(path).queryParam("ref", ref).back(),
-            new RtPagination.Mapping<Content, JsonObject>() {
+            new RtValuePagination.Mapping<Content, JsonObject>() {
                 @Override
                 public Content map(final JsonObject object) {
                     return new RtContent(

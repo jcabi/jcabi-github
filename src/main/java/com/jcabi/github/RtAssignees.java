@@ -90,7 +90,7 @@ final class RtAssignees implements Assignees {
     public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,
-            new RtPagination.Mapping<User, JsonObject>() {
+            new RtValuePagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
                     return new RtUser(

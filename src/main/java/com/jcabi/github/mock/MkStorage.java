@@ -42,7 +42,6 @@ import lombok.EqualsAndHashCode;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.xembly.Directive;
-import org.xembly.ImpossibleModificationException;
 import org.xembly.Xembler;
 
 /**
@@ -54,6 +53,7 @@ import org.xembly.Xembler;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface MkStorage {
 
     /**
@@ -114,10 +114,6 @@ public interface MkStorage {
          */
         private final transient String name;
         /**
-         * Lock object.
-         */
-        private final transient ReentrantLock lock = new ReentrantLock();
-        /**
          * Public ctor.
          * @throws IOException If there is any I/O problem
          */
@@ -147,27 +143,63 @@ public interface MkStorage {
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
-                throw new ConcurrentModificationException(
-                    "lock should be taken before method call"
-                );
-            }
-            this.lock.lock();
-            try {
-                return new XMLDocument(
-                    FileUtils.readFileToString(
-                        new File(this.name), Charsets.UTF_8
-                    )
-                );
-            } finally {
-                this.lock.unlock();
-            }
+            return new XMLDocument(
+                FileUtils.readFileToString(
+                    new File(this.name), Charsets.UTF_8
+                )
+            );
         }
         @Override
         public void apply(
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
+            FileUtils.write(
+                new File(this.name),
+                new XMLDocument(
+                    new Xembler(dirs).applyQuietly(this.xml().node())
+                ).toString(),
+                Charsets.UTF_8
+            );
+        }
+        @Override
+        public void lock() {
+            // nothing
+        }
+        @Override
+        public void unlock() {
+            // nothing
+        }
+    }
+
+    /**
+     * Syncronized.
+     */
+    @Immutable
+    @EqualsAndHashCode(of = { "origin", "lock" })
+    @Loggable(Loggable.DEBUG)
+    final class Synced implements MkStorage {
+        /**
+         * Original storage.
+         */
+        private final transient MkStorage origin;
+        /**
+         * Lock object.
+         */
+        private final transient ReentrantLock lock = new ReentrantLock();
+        /**
+         * Public ctor.
+         * @param storage Original
+         */
+        public Synced(final MkStorage storage) {
+            this.origin = storage;
+        }
+        @Override
+        public String toString() {
+            return this.origin.toString();
+        }
+        @Override
+        public XML xml() throws IOException {
             if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
                 throw new ConcurrentModificationException(
                     "lock should be taken before method call"
@@ -175,25 +207,31 @@ public interface MkStorage {
             }
             this.lock.lock();
             try {
-                FileUtils.write(
-                    new File(this.name),
-                    new XMLDocument(
-                        new Xembler(dirs).apply(this.xml().node())
-                    ).toString(),
-                    Charsets.UTF_8
-                );
-            } catch (final ImpossibleModificationException ex) {
-                throw new IllegalArgumentException(ex);
+                return this.origin.xml();
             } finally {
                 this.lock.unlock();
             }
         }
         @Override
-        public void lock() throws IOException {
+        public void apply(final Iterable<Directive> dirs) throws IOException {
+            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
+                throw new ConcurrentModificationException(
+                    "lock should be taken before method call"
+                );
+            }
+            this.lock.lock();
+            try {
+                this.origin.apply(dirs);
+            } finally {
+                this.lock.unlock();
+            }
+        }
+        @Override
+        public void lock() {
             this.lock.lock();
         }
         @Override
-        public void unlock() throws IOException {
+        public void unlock() {
             this.lock.unlock();
         }
     }

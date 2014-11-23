@@ -134,7 +134,7 @@ final class RtPulls implements Pulls {
         final Map<String, String> params) {
         return new RtPagination<Pull>(
             this.request.uri().queryParams(params).back(),
-            new RtPagination.Mapping<Pull, JsonObject>() {
+            new RtValuePagination.Mapping<Pull, JsonObject>() {
                 @Override
                 public Pull map(final JsonObject object) {
                     return RtPulls.this.get(object.getInt("number"));
