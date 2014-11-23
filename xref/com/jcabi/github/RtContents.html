@@ -197,7 +197,7 @@
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Content&gt;(
 <a class="jxr_linenumber" name="L190" href="#L190">190</a>             <strong class="jxr_keyword">this</strong>.request.method(Request.GET)
 <a class="jxr_linenumber" name="L191" href="#L191">191</a>                 .uri().path(path).queryParam(<span class="jxr_string">"ref"</span>, ref).back(),
-<a class="jxr_linenumber" name="L192" href="#L192">192</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Content, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Content, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L193" href="#L193">193</a>                 @Override
 <a class="jxr_linenumber" name="L194" href="#L194">194</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Content.html">Content</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtContent.html">RtContent</a>(

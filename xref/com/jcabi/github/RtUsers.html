@@ -117,7 +117,7 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>     ) {
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;User&gt;(
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>             <strong class="jxr_keyword">this</strong>.request.uri().queryParam(<span class="jxr_string">"since"</span>, identifier).back(),
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;User, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;User, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>                 @Override
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>                     <strong class="jxr_keyword">return</strong> RtUsers.<strong class="jxr_keyword">this</strong>.get(object.getString(<span class="jxr_string">"id"</span>));

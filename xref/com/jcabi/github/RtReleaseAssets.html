@@ -112,7 +112,7 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;ReleaseAsset&gt;(
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>             <strong class="jxr_keyword">this</strong>.request.uri().back()
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>                 .method(Request.GET),
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;ReleaseAsset, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;ReleaseAsset, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>                 @Override
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/ReleaseAsset.html">ReleaseAsset</a> map(<strong class="jxr_keyword">final</strong> JsonObject value) {
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>                     <strong class="jxr_keyword">return</strong> RtReleaseAssets.<strong class="jxr_keyword">this</strong>.get(

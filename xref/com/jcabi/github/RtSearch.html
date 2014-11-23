@@ -109,7 +109,7 @@
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>         <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtSearchPagination&lt;Repo&gt;(
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>             <strong class="jxr_keyword">this</strong>.request, <span class="jxr_string">"repositories"</span>, keywords, sort, order.getOrder(),
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Repo, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Repo, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>                 @Override
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>                     <strong class="jxr_keyword">return</strong> RtSearch.<strong class="jxr_keyword">this</strong>.github().repos().get(
@@ -134,7 +134,7 @@
 <a class="jxr_linenumber" name="L126" href="#L126">126</a>         }
 <a class="jxr_linenumber" name="L127" href="#L127">127</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtSearchPagination&lt;Issue&gt;(
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>             <strong class="jxr_keyword">this</strong>.request, <span class="jxr_string">"issues"</span>, keyword.toString(), sort, order.getOrder(),
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Issue, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Issue, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L130" href="#L130">130</a>                 @Override
 <a class="jxr_linenumber" name="L131" href="#L131">131</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Issue.html">Issue</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>                     <strong class="jxr_keyword">try</strong> {
@@ -164,7 +164,7 @@
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtSearchPagination&lt;User&gt;(
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>             <strong class="jxr_keyword">this</strong>.request, <span class="jxr_string">"users"</span>, keywords, sort, order.getOrder(),
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;User, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;User, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>                 @Override
 <a class="jxr_linenumber" name="L161" href="#L161">161</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L162" href="#L162">162</a>                     <strong class="jxr_keyword">return</strong> RtSearch.<strong class="jxr_keyword">this</strong>.ghub.users().get(
@@ -186,7 +186,7 @@
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtSearchPagination&lt;Content&gt;(
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>             <strong class="jxr_keyword">this</strong>.request, <span class="jxr_string">"code"</span>, keywords, sort, order.getOrder(),
 <a class="jxr_linenumber" name="L180" href="#L180">180</a>             <em class="jxr_comment">// @checkstyle AnonInnerLengthCheck (25 lines)</em>
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Content, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Content, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L182" href="#L182">182</a>                 @Override
 <a class="jxr_linenumber" name="L183" href="#L183">183</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Content.html">Content</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L184" href="#L184">184</a>                     <strong class="jxr_keyword">try</strong> {

@@ -68,7 +68,7 @@
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>                  ).build().toString()
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>              ),
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>              <span class="jxr_string">"/search/path"</span>, <span class="jxr_string">"keywords"</span>, <span class="jxr_string">"sort"</span>, <span class="jxr_string">"order"</span>,
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>              <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;String, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>              <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;String, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>                  @Override
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>                  <strong class="jxr_keyword">public</strong> String map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>                      <strong class="jxr_keyword">return</strong> object.getString(key);

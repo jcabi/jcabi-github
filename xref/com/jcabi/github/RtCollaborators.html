@@ -144,7 +144,7 @@
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;User&gt; iterate() {
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;User&gt;(
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>             <strong class="jxr_keyword">this</strong>.request,
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;User, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;User, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>                 @Override
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/User.html">User</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>                     <strong class="jxr_keyword">return</strong> RtCollaborators.<strong class="jxr_keyword">this</strong>.owner.github().users()

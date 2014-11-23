@@ -109,7 +109,7 @@
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>     ) {
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;RepoCommit&gt;(
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>             <strong class="jxr_keyword">this</strong>.request.uri().queryParams(params).back(),
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;RepoCommit, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;RepoCommit, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>                 @Override
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/RepoCommit.html">RepoCommit</a> map(<strong class="jxr_keyword">final</strong> JsonObject value) {
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>                     <strong class="jxr_keyword">return</strong> RtRepoCommits.<strong class="jxr_keyword">this</strong>.get(value.getString(<span class="jxr_string">"sha"</span>));

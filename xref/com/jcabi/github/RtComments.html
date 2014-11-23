@@ -138,7 +138,7 @@
 <a class="jxr_linenumber" name="L130" href="#L130">130</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Comment&gt; iterate() {
 <a class="jxr_linenumber" name="L131" href="#L131">131</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Comment&gt;(
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>             <strong class="jxr_keyword">this</strong>.request,
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Comment, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Comment, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>                 @Override
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Comment.html">Comment</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>                     <strong class="jxr_keyword">return</strong> RtComments.<strong class="jxr_keyword">this</strong>.get(object.getInt(<span class="jxr_string">"id"</span>));

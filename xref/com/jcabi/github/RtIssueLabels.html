@@ -166,7 +166,7 @@
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Label&gt; iterate() {
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Label&gt;(
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>             <strong class="jxr_keyword">this</strong>.request,
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Label, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Label, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L162" href="#L162">162</a>                 @Override
 <a class="jxr_linenumber" name="L163" href="#L163">163</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Label.html">Label</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtLabel.html">RtLabel</a>(

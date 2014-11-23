@@ -136,7 +136,7 @@
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Event&gt; events() {
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Event&gt;(
 <a class="jxr_linenumber" name="L130" href="#L130">130</a>             <strong class="jxr_keyword">this</strong>.request.uri().path(<span class="jxr_string">"/events"</span>).back(),
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Event, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Event, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>                 @Override
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Event.html">Event</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtEvent.html">RtEvent</a>(

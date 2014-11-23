@@ -56,7 +56,7 @@
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  @Immutable
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  @EqualsAndHashCode(of = { <span class="jxr_string">"storage"</span>, <span class="jxr_string">"self"</span>, <span class="jxr_string">"coords"</span>, <span class="jxr_string">"identifier"</span> })
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkCommit.html">MkCommit</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../com/jcabi/github/Commit.html">Commit</a> {
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkCommit.html">MkCommit</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../com/jcabi/github/Commit.html">Commit</a> {
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     * Storage.</em>
@@ -100,26 +100,26 @@
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>      @Override
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      @NotNull(message = <span class="jxr_string">"repository is never NULL"</span>)
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Repo.html">Repo</a> repo() {
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/Repo.html">Repo</a> repo() {
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkRepo.html">MkRepo</a>(<strong class="jxr_keyword">this</strong>.storage, <strong class="jxr_keyword">this</strong>.self, <strong class="jxr_keyword">this</strong>.coords);
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>      }
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>      @Override
 <a class="jxr_linenumber" name="L100" href="#L100">100</a>     @NotNull(message = <span class="jxr_string">"sha is never NULL"</span>)
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> String sha() {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <strong class="jxr_keyword">public</strong> String sha() {
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.identifier;
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>     }
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> 
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>     @Override
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>     @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/JsonNode.html">JsonNode</a>(
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>             <strong class="jxr_keyword">this</strong>.storage.xml().nodes(<strong class="jxr_keyword">this</strong>.xpath()).get(0)
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         ).json();
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>     }
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> 
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>     @Override
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Commit.html">Commit</a> commit) {
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Commit.html">Commit</a> commit) {
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.identifier.compareTo(commit.sha());
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     }
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 

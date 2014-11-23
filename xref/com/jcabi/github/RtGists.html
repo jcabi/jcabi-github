@@ -141,7 +141,7 @@
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Gist&gt; iterate() {
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Gist&gt;(
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>             <strong class="jxr_keyword">this</strong>.request,
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>             <strong class="jxr_keyword">new</strong> RtPagination.Mapping&lt;Gist, JsonObject&gt;() {
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Gist, JsonObject&gt;() {
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>                 @Override
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Gist.html">Gist</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
 <a class="jxr_linenumber" name="L139" href="#L139">139</a>                     <strong class="jxr_keyword">return</strong> RtGists.<strong class="jxr_keyword">this</strong>.get(object.getString(<span class="jxr_string">"id"</span>));
