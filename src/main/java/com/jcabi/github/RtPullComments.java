@@ -83,6 +83,7 @@ final class RtPullComments implements PullComments {
             .path(pull.repo().coordinates().user())
             .path(pull.repo().coordinates().repo())
             .path("/pulls")
+            .path("" + pull.number())
             .path("/comments")
             .back();
     }

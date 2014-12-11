@@ -242,7 +242,7 @@ public final class RtPullCommentsTest {
             );
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/johnny/test/pulls/comments/2")
+                Matchers.endsWith("/repos/johnny/test/pulls/0/comments/2")
             );
         } finally {
             container.stop();
