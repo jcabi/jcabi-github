@@ -36,10 +36,12 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
+import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -324,6 +326,70 @@ public final class RtRepoTest {
             new Coordinates.Simple("testnuser", "testnrepos")
         );
         MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+    }
+
+    /**
+     * RtRepo can fetch languages.
+     */
+    @Test
+    public void fetchLanguages() {
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new FakeRequest(),
+            new Coordinates.Simple("testluser", "testlrepo")
+        );
+        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+    }
+
+    /**
+     * RtRepo can iterate languages.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void iteratesLanguages() throws Exception {
+        final String lang = "C";
+        final String other = "Java";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add(lang, 1)
+                    .add(other, 2)
+                    .build().toString()
+            )
+        ).start();
+        final Repo repo = new RtRepo(
+            Mockito.mock(Github.class),
+            new ApacheRequest(container.home()),
+            new Coordinates.Simple("testluser", "testlrepo")
+        );
+        try {
+            final Iterator<Language> iter = repo.languages().iterator();
+            MatcherAssert.assertThat(
+                iter.hasNext(),
+                Matchers.is(true)
+            );
+            MatcherAssert.assertThat(
+                iter.next().name(),
+                Matchers.is(lang)
+            );
+            MatcherAssert.assertThat(
+                iter.hasNext(),
+                Matchers.is(true)
+            );
+            MatcherAssert.assertThat(
+                iter.next().name(),
+                Matchers.is(other)
+            );
+            MatcherAssert.assertThat(
+                iter.hasNext(),
+                Matchers.is(false)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
