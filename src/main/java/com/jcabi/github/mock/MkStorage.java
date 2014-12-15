@@ -186,7 +186,8 @@ public interface MkStorage {
         /**
          * Lock object.
          */
-        private final transient ReentrantLock lock = new ReentrantLock();
+        private final transient ImmutableReentrantLock lock =
+            new ImmutableReentrantLock();
         /**
          * Public ctor.
          * @param storage Original

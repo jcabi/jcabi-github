@@ -82,7 +82,6 @@ public final class MkStorageTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void locksAndUnlocks() throws Exception {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -121,7 +120,6 @@ public final class MkStorageTest {
      * read without holding the lock.
      * @throws Exception If some problem inside
      */
-    @Ignore
     @Test(expected = ConcurrentModificationException.class)
     public void xmlRequiresLock() throws Exception {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
@@ -153,7 +151,6 @@ public final class MkStorageTest {
      * changes without holding the lock.
      * @throws Exception If some problem inside
      */
-    @Ignore
     @Test(expected = ConcurrentModificationException.class)
     public void applyRequiresLock() throws Exception {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
