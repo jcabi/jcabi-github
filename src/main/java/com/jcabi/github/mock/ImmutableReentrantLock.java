@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Immutable ReentrantLock.
