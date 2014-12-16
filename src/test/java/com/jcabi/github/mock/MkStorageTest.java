@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -48,9 +47,6 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @todo #930 Three test are skipped here because MkStorage.Synced is not
- *  immutable. Its properly ReentrantLock is not immutable. Let's find
- *  a way to implement it differently and make that class truly immutable.
  */
 @SuppressWarnings("PMD.DoNotUseThreads")
 public final class MkStorageTest {
