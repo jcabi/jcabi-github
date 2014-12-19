@@ -27,32 +27,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Notification;
-import com.jcabi.github.Notifications;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Mock for Github Notifications.
+ * Github Notification.
+ * <p>Use a supplementary "smart" decorator to get other properties
+ * from an notification.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
- * @todo #920 Implement iterate() and get() operations in MkNotifications.
- *  Don't forget about unit tests.
+ * @since 0.19
+ * @todo 920 Create Smart decorator to get other properties of Notification,
+ *  such as reason, unread, updated_at, last_read_at, url, etc.
+ *  See
+ *  https://developer.github.com/v3/activity/notifications/#view-a-single-thread
+ *  for details. Don't forget about unit tests.
  */
 @Immutable
-final class MkNotifications implements Notifications {
-    @Override
-    public Iterable<Notification> iterate() {
-        throw new NotImplementedException("MkNotifications#iterate");
-    }
-    @Override
-    public Notification get(final int number) {
-        throw new NotImplementedException("MkNotifications#get");
-    }
+public interface Notification {
+    /**
+     * Notification id.
+     * @return Id
+     */
+    int number();
 }

@@ -27,32 +27,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Notification;
-import com.jcabi.github.Notifications;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Mock for Github Notifications.
+ * Github Notification.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
+ * @since 0.19
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
- * @todo #920 Implement iterate() and get() operations in MkNotifications.
- *  Don't forget about unit tests.
  */
 @Immutable
-final class MkNotifications implements Notifications {
-    @Override
-    public Iterable<Notification> iterate() {
-        throw new NotImplementedException("MkNotifications#iterate");
+final class RtNotification implements Notification {
+
+    /**
+     * Release id.
+     */
+    private final transient int note;
+
+    /**
+     * Public ctor.
+     * @param number Notification id
+     */
+    RtNotification(final int number) {
+        this.note = number;
     }
+
     @Override
-    public Notification get(final int number) {
-        throw new NotImplementedException("MkNotifications#get");
+    public int number() {
+        return this.note;
     }
 }
