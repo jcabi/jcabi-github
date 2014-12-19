@@ -45,7 +45,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle ClassFanOutComplexity (5 lines)
+ * @checkstyle ClassFanOutComplexity (10 lines)
  * @todo #923 Let's implement RtRepo.languages().
  *  Now it returns empty iterable but should return list of repo languages.
  *  Uncomment test RtRepoTest.iteratesLanguages() when done.

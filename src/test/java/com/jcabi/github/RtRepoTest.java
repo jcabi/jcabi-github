@@ -69,10 +69,8 @@ public final class RtRepoTest {
                     .build().toString()
             )
         ).start();
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home()),
-            new Coordinates.Simple("octocat", "master")
+        final Repo repo = RtRepoTest.repo(
+            new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
             repo.events(),
@@ -88,10 +86,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchesLabels() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("jeff", "jeff-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.labels(),
@@ -106,10 +102,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchesIssues() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("mark", "mark-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.issues(),
@@ -124,10 +118,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchesPulls() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("kendy", "kendy-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.pulls(),
@@ -142,10 +134,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchHooks() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("paul", "paul-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.hooks(),
@@ -160,10 +150,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchKeys() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("andres", "andres-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.keys(),
@@ -178,10 +166,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchReleases() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("phil", "phil-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.releases(),
@@ -196,10 +182,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchContents() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("andres-contents", "contents-branch")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(
             repo.contents(),
@@ -238,12 +222,10 @@ public final class RtRepoTest {
                 event(Event.ASSIGNED).toString()
             )
         ).start();
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home()),
-            new Coordinates.Simple("test", "test-branch")
+        final Repo repo = RtRepoTest.repo(
+            new ApacheRequest(container.home())
         );
-        repo.patch(event(Event.ASSIGNED));
+        repo.patch(RtRepoTest.event(Event.ASSIGNED));
         MatcherAssert.assertThat(
             container.take().method(),
             Matchers.equalTo(Request.PATCH)
@@ -258,16 +240,14 @@ public final class RtRepoTest {
      */
     @Test
     public void describeAsJson() throws Exception {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
+        final Repo repo = RtRepoTest.repo(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
                     .add("full_name", "octocat/Hello-World")
                     .add("fork", true)
                     .build()
                     .toString()
-            ),
-            new Coordinates.Simple("oct", "oct-branch")
+            )
         );
         MatcherAssert.assertThat(
             repo.json().toString(),
@@ -282,10 +262,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchCommits() {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("testuser", "testrepo")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
     }
@@ -293,11 +271,10 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch Git.
      */
+    @Test
     public void fetchesGit() {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("gituser", "gitrepo")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(repo.git(), Matchers.notNullValue());
     }
@@ -307,10 +284,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchStars() {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("testuser2", "testrepo2")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
     }
@@ -320,10 +295,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchNotifications() {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("testnuser", "testnrepos")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
     }
@@ -333,10 +306,8 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchLanguages() {
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new FakeRequest(),
-            new Coordinates.Simple("testluser", "testlrepo")
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
         );
         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
     }
@@ -360,10 +331,8 @@ public final class RtRepoTest {
                     .build().toString()
             )
         ).start();
-        final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home()),
-            new Coordinates.Simple("testluser", "testlrepo")
+        final Repo repo = RtRepoTest.repo(
+            new ApacheRequest(container.home())
         );
         try {
             final Iterator<Language> iter = repo.languages().iterator();
@@ -403,5 +372,18 @@ public final class RtRepoTest {
             .add("id", 1)
             .add("event", event)
             .build();
+    }
+
+    /**
+     * Create test Repo.
+     * @param request Request
+     * @return Repo
+     */
+    private static Repo repo(final Request request) {
+        return new RtRepo(
+            Mockito.mock(Github.class),
+            request,
+            new Coordinates.Simple("testuser", "testrepo")
+        );
     }
 }
