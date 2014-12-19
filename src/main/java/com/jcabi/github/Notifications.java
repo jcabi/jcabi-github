@@ -40,10 +40,6 @@ import javax.validation.constraints.NotNull;
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
- * @todo #913 Implement missing notifications operations.
- *  At least list, view and mark as read operations should be implemented in
- *  RtNotifications and MkNotifications.
- *  Don't forget about unit and integrations tests.
  */
 @Immutable
 public interface Notifications {
