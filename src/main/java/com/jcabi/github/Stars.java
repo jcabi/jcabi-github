@@ -30,6 +30,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
+import javax.validation.constraints.NotNull;
 
 /**
  * Github starring API.
@@ -38,10 +40,18 @@ import com.jcabi.aspects.Immutable;
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
- * @todo #907 Implement missing starring operations.
- *  At least star, unstar and starred operations should be implemented
- *  in RtStars and MkStars. Don't forget about unit and integrations tests.
  */
 @Immutable
 public interface Stars {
+    /**
+     * Check if particular repo is starred by current user.
+     * @param user Repo owner login
+     * @param repo Repo name
+     * @return True if repo is starred
+     */
+    @NotNull(message = "starred is never NULL")
+    boolean starred(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException;
 }

@@ -27,33 +27,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
-
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Stars;
-import javax.validation.constraints.NotNull;
-import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
+package com.jcabi.github;
 
 /**
- * Github starring API.
+ * Integration test case for {@link RtStars}.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
- * @todo #919:30min Implement MkStars.starred() operation.
- *  Don't forget about unit tests.
+ * @todo #919:30min Implement integration tests for star(), unstar() and
+ *  starred() operations.
+ *  See https://developer.github.com/v3/activity/starring/ for details.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-final class MkStars implements Stars {
-    @Override
-    public boolean starred(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        throw new NotImplementedException("MkStars.starred()");
-    }
+public final class RtStarsITestCase {
 }

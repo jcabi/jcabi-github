@@ -205,7 +205,7 @@ final class RtRepo implements Repo {
     @Override
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
-        return new RtStars();
+        return new RtStars(this.entry);
     }
 
     @Override
