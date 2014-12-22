@@ -30,33 +30,26 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
- * Github Notifications API.
+ * Github Notification.
+ * <p>Use a supplementary "smart" decorator to get other properties
+ * from an notification.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.19
+ * @todo 920 Create Smart decorator to get other properties of Notification,
+ *  such as reason, unread, updated_at, last_read_at, url, etc.
+ *  See
+ *  https://developer.github.com/v3/activity/notifications/#view-a-single-thread
+ *  for details. Don't forget about unit tests.
  */
 @Immutable
-public interface Notifications {
+public interface Notification {
     /**
-     * Iterate them all.
-     * @return Iterable of Notifications
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a>
+     * Notification id.
+     * @return Id
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Notification> iterate();
-
-    /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
-     */
-    @NotNull(message = "notification is never NULL")
-    Notification get(int number);
+    int number();
 }

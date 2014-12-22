@@ -30,33 +30,33 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
- * Github Notifications API.
+ * Github Notification.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
+ * @since 0.19
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
 @Immutable
-public interface Notifications {
-    /**
-     * Iterate them all.
-     * @return Iterable of Notifications
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Notification> iterate();
+final class RtNotification implements Notification {
 
     /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     * Release id.
      */
-    @NotNull(message = "notification is never NULL")
-    Notification get(int number);
+    private final transient int note;
+
+    /**
+     * Public ctor.
+     * @param number Notification id
+     */
+    RtNotification(final int number) {
+        this.note = number;
+    }
+
+    @Override
+    public int number() {
+        return this.note;
+    }
 }

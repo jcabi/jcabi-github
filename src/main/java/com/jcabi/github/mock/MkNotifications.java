@@ -30,16 +30,29 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Github Notifications API.
+ * Mock for Github Notifications.
  *
  * @author Giang Le (lthuangiang@gmail.com)
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @todo #920 Implement iterate() and get() operations in MkNotifications.
+ *  Don't forget about unit tests.
  */
 @Immutable
-public final class MkNotifications implements Notifications {
+final class MkNotifications implements Notifications {
+    @Override
+    public Iterable<Notification> iterate() {
+        throw new NotImplementedException("MkNotifications#iterate");
+    }
+    @Override
+    public Notification get(final int number) {
+        throw new NotImplementedException("MkNotifications#get");
+    }
 }
