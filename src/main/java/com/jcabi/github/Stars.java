@@ -48,6 +48,7 @@ public interface Stars {
      * @param user Repo owner login
      * @param repo Repo name
      * @return True if repo is starred
+     * @throws IOException - If anything goes wrong.
      */
     @NotNull(message = "starred is never NULL")
     boolean starred(

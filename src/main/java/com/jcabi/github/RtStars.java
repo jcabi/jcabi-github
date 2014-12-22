@@ -76,7 +76,7 @@ final class RtStars implements Stars {
                 Matchers.isOneOf(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     HttpURLConnection.HTTP_NOT_FOUND
-                )
-            ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+            )
+        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 }

@@ -49,6 +49,10 @@ import org.junit.Test;
  */
 public final class RtStarsTest {
 
+    /**
+     * RtStars can check if repo is starred.
+     * @throws Exception If something goes wrong.
+     */
     @Test
     public void checkIfRepoStarred() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
