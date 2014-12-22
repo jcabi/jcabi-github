@@ -30,7 +30,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.PullComment;
+
 import javax.json.Json;
+import javax.json.JsonValue;
+
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -70,6 +73,24 @@ public final class MkPullCommentTest {
             comment.json().toString(),
             Matchers.containsString(path)
         );
+    }
+
+    /**
+     * MkPullComment has comment author
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void retrieveAuthor() throws Exception {
+        final PullComment comment = MkPullCommentTest.comment();
+        MatcherAssert.assertThat(
+                comment.author(),
+                Matchers.notNullValue()
+            );
+        MatcherAssert.assertThat(
+                comment.author().login(),
+                Matchers.equalTo("jeff")
+            );
     }
 
     /**

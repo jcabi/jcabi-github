@@ -33,9 +33,13 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
+import com.jcabi.github.User;
+
 import java.io.IOException;
+
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -134,4 +138,10 @@ final class MkPullComment implements PullComment {
             this.repo, this.owner.number(), this.num
         );
     }
+
+	@Override
+	public User author() throws IOException {
+		String login = this.json().getJsonObject( "user" ).getString( "login" );
+		return new MkUser(this.storage, login);
+	}
 }
