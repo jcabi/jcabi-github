@@ -32,12 +32,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-
 import java.io.IOException;
-
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 
 /**
@@ -124,10 +121,11 @@ final class RtPullComment implements PullComment {
         return this.number() - comment.number();
     }
 
-	@Override
-	public User author() throws IOException {
-		String login = this.json().getJsonObject( "user" ).getString( "login" );
-		return new RtUser(pull().repo().github(), this.request, login);
-	}
+    @Override
+    public User author() throws IOException {
+        final String login = this.json().getJsonObject("user")
+                .getString("login");
+        return new RtUser(this.pull().repo().github(), this.request, login);
+    }
 
 }

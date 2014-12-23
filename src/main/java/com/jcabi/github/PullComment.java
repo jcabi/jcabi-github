@@ -79,7 +79,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
     /**
      * Get its author.
      * @return Pull comment author
-     * @throws IOException 
+     * @throws IOException If there is any I/O problem
      */
     User author() throws IOException;
 
@@ -268,10 +268,10 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             return this.cmnt.json();
         }
 
-		@Override
+        @Override
         @NotNull(message = "Comment author is never NULL")
-		public User author() throws IOException {
+        public User author() throws IOException {
             return this.cmnt.author();
-		}
+        }
     }
 }
