@@ -45,7 +45,7 @@ public class RtRepoCommitTest {
      * Checks request URL.
      */
     @Test
-    public final void testRequestUrl() {
+    public final void hasProperRequestUrl() {
         final String sha = RandomStringUtils.randomAlphanumeric(50);
         final RtRepoCommit commit = new RtRepoCommit(
             new FakeRequest(), repo(), sha
