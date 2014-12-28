@@ -42,7 +42,7 @@ import org.junit.Test;
  */
 public class RtRepoCommitTest {
     /**
-     * Checks request URL.
+     * RtRepoCommit has proper request URL.
      */
     @Test
     public final void hasProperRequestUrl() {
