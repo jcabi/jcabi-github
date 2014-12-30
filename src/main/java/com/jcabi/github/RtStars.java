@@ -79,4 +79,30 @@ final class RtStars implements Stars {
             )
         ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
+
+    @Override
+    public void star(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException {
+        this.request
+            .method(Request.PUT)
+            .uri().path(user).path(repo)
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public void unstar(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException {
+        this.request
+            .method(Request.DELETE)
+            .uri().path(user).path(repo)
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }

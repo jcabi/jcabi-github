@@ -55,4 +55,26 @@ public interface Stars {
         @NotNull(message = "user can't be NULL") final String user,
         @NotNull(message = "repo can't be NULL") final String repo
     ) throws IOException;
+
+    /**
+     * Star particular repository by current user.
+     * @param user Repo owner login
+     * @param repo Repo name
+     * @throws IOException - If anything goes wrong.
+     */
+    void star(
+         @NotNull(message = "user can't be NULL") final String user,
+         @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException;
+
+    /**
+     * Unstar particular repository by current user.
+     * @param user Repo owner login
+     * @param repo Repo name
+     * @throws IOException - If anything goes wrong.
+     */
+    void unstar(
+         @NotNull(message = "user can't be NULL") final String user,
+         @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException;
 }

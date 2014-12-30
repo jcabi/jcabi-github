@@ -56,4 +56,20 @@ final class MkStars implements Stars {
     ) {
         throw new NotImplementedException("MkStars.starred()");
     }
+
+    @Override
+    public void star(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) {
+        throw new NotImplementedException("MkStars.star()");
+    }
+
+    @Override
+    public void unstar(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) {
+        throw new NotImplementedException("MkStars.unstar()");
+    }
 }

@@ -29,9 +29,11 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
@@ -44,13 +46,23 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @todo #919:30min Implement star() and unstar() operations.
- *  Don't forget about unit tests.
- *  See https://developer.github.com/v3/activity/starring/ for details.
+ * Don't forget about unit tests.
+ * See https://developer.github.com/v3/activity/starring/ for details.
  */
 public final class RtStarsTest {
 
     /**
-     * RtStars can check if repo is starred.
+     * User for star/unstar test.
+     */
+    public static final String DUMMY_USER = "dummyuser";
+    /**
+     * Repository for star/unstar test.
+     */
+    public static final String DUMMY_REPO = "dummyrepo";
+
+    /**
+     * Check if repo is starred.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -68,5 +80,69 @@ public final class RtStarsTest {
         MatcherAssert.assertThat(
             stars.starred("otheruser", "notstarredrepo"), Matchers.is(false)
         );
+    }
+
+    /**
+     * Check for starring repository.
+     *
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void checkStar() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+        ).start();
+        final Stars stars = new RtStars(
+            new ApacheRequest(container.home())
+        );
+        try {
+            stars.star(DUMMY_USER, DUMMY_REPO);
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+            MatcherAssert.assertThat(
+                query.uri().getPath(),
+                Matchers.allOf(
+                    Matchers.containsString(DUMMY_USER),
+                    Matchers.containsString(DUMMY_REPO)
+                )
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * Check for unstarring repository.
+     *
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void checkUnstar() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+        ).start();
+        final Stars stars = new RtStars(
+            new ApacheRequest(container.home())
+        );
+        try {
+            stars.unstar(DUMMY_USER, DUMMY_REPO);
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.uri().getPath(),
+                Matchers.allOf(
+                    Matchers.containsString(DUMMY_USER),
+                    Matchers.containsString(DUMMY_REPO)
+                )
+            );
+        } finally {
+            container.stop();
+        }
     }
 }
