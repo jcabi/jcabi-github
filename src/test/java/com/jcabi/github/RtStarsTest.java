@@ -36,6 +36,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -94,7 +95,12 @@ public final class RtStarsTest {
             );
             MatcherAssert.assertThat(
                 query.uri().getPath(),
-                Matchers.containsString(user + "/" + repo)
+                Matchers.containsString(
+                    UriBuilder.fromPath(user)
+                        .path(repo)
+                        .build()
+                        .getPath()
+                )
             );
         } finally {
             container.stop();
@@ -125,7 +131,12 @@ public final class RtStarsTest {
             );
             MatcherAssert.assertThat(
                 query.uri().getPath(),
-                Matchers.containsString(user + "/" + repo)
+                Matchers.containsString(
+                    UriBuilder.fromPath(user)
+                        .path(repo)
+                        .build()
+                        .getPath()
+                )
             );
         } finally {
             container.stop();
