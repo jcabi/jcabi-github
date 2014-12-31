@@ -43,6 +43,7 @@ import org.apache.commons.lang3.NotImplementedException;
  * @version $Id$
  * @since 0.15
  * @todo #919:30min Implement MkStars.starred() operation.
+ * @todo #950:30min Implement MkStars.star() and MkStars.unstar() operations.
  *  Don't forget about unit tests.
  */
 @Immutable

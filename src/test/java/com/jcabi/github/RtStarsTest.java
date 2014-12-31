@@ -45,23 +45,11 @@ import org.junit.Test;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo #919:30min Implement star() and unstar() operations.
- * Don't forget about unit tests.
- * See https://developer.github.com/v3/activity/starring/ for details.
  */
 public final class RtStarsTest {
 
     /**
-     * User for star/unstar test.
-     */
-    public static final String DUMMY_USER = "dummyuser";
-    /**
-     * Repository for star/unstar test.
-     */
-    public static final String DUMMY_REPO = "dummyrepo";
-
-    /**
-     * Check if repo is starred.
+     * RtStars can check if repo is starred.
      *
      * @throws Exception If something goes wrong.
      */
@@ -83,20 +71,22 @@ public final class RtStarsTest {
     }
 
     /**
-     * Check for starring repository.
+     * RtStars can star repository.
      *
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void checkStar() throws Exception {
+    public void starRepository() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).start();
         final Stars stars = new RtStars(
             new ApacheRequest(container.home())
         );
+        final String user = "staruser";
+        final String repo = "starrepo";
         try {
-            stars.star(DUMMY_USER, DUMMY_REPO);
+            stars.star(user, repo);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -104,10 +94,7 @@ public final class RtStarsTest {
             );
             MatcherAssert.assertThat(
                 query.uri().getPath(),
-                Matchers.allOf(
-                    Matchers.containsString(DUMMY_USER),
-                    Matchers.containsString(DUMMY_REPO)
-                )
+                Matchers.containsString(user + "/" + repo)
             );
         } finally {
             container.stop();
@@ -115,20 +102,22 @@ public final class RtStarsTest {
     }
 
     /**
-     * Check for unstarring repository.
+     * RtStars can unstar repository.
      *
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void checkUnstar() throws Exception {
+    public void unstarRepository() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).start();
         final Stars stars = new RtStars(
             new ApacheRequest(container.home())
         );
+        final String user = "unstaruser";
+        final String repo = "unstarrepo";
         try {
-            stars.unstar(DUMMY_USER, DUMMY_REPO);
+            stars.unstar(user, repo);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -136,10 +125,7 @@ public final class RtStarsTest {
             );
             MatcherAssert.assertThat(
                 query.uri().getPath(),
-                Matchers.allOf(
-                    Matchers.containsString(DUMMY_USER),
-                    Matchers.containsString(DUMMY_REPO)
-                )
+                Matchers.containsString(user + "/" + repo)
             );
         } finally {
             container.stop();
