@@ -191,6 +191,15 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Notifications notifications();
 
     /**
+     * Get languages for the specified repository.
+     * @return Languages
+     * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
+     * @since 0.15
+     */
+    @NotNull(message = "Notifications is never NULL")
+    Iterable<Language> languages();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -319,6 +328,11 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "notifications is never NULL")
         public Notifications notifications() {
             return this.repo.notifications();
+        }
+        @Override
+        @NotNull(message = "languages is never NULL")
+        public Iterable<Language> languages() {
+            return this.repo.languages();
         }
         @Override
         public void patch(

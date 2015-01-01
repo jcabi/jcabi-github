@@ -32,7 +32,9 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Stars;
+import javax.validation.constraints.NotNull;
 import lombok.ToString;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Github starring API.
@@ -40,9 +42,35 @@ import lombok.ToString;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.15
+ * @todo #919:30min Implement MkStars.starred() operation.
+ * @todo #950:30min Implement MkStars.star() and MkStars.unstar() operations.
+ *  Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-public final class MkStars implements Stars {
+final class MkStars implements Stars {
+    @Override
+    public boolean starred(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) {
+        throw new NotImplementedException("MkStars.starred()");
+    }
+
+    @Override
+    public void star(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) {
+        throw new NotImplementedException("MkStars.star()");
+    }
+
+    @Override
+    public void unstar(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) {
+        throw new NotImplementedException("MkStars.unstar()");
+    }
 }

@@ -30,33 +30,25 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
- * Github Notifications API.
+ * Github repository language.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.19
+ * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
  */
 @Immutable
-public interface Notifications {
+public interface Language {
     /**
-     * Iterate them all.
-     * @return Iterable of Notifications
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a>
+     * Language name.
+     * @return Name
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Notification> iterate();
-
+    String name();
     /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     * Number of bytes of code written in that language.
+     * @return Number of bytes
      */
-    @NotNull(message = "notification is never NULL")
-    Notification get(int number);
+    long bytes();
 }

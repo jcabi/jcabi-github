@@ -30,15 +30,26 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.util.Collections;
 
 /**
  * Github Notifications API.
  *
  * @author Giang Le (lthuangiang@gmail.com)
+ * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
 @Immutable
-public final class RtNotifications implements Notifications {
+final class RtNotifications implements Notifications {
+
+    @Override
+    public Iterable<Notification> iterate() {
+        return Collections.emptyList();
+    }
+    @Override
+    public Notification get(final int number) {
+        return new RtNotification(number);
+    }
 }

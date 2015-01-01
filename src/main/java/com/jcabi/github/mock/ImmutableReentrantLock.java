@@ -27,36 +27,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Github Notifications API.
+ * Immutable ReentrantLock.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.18
  */
 @Immutable
-public interface Notifications {
+final class ImmutableReentrantLock extends ReentrantLock {
     /**
-     * Iterate them all.
-     * @return Iterable of Notifications
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a>
+     * Serialization id.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Notification> iterate();
-
-    /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
-     */
-    @NotNull(message = "notification is never NULL")
-    Notification get(int number);
+    private static final long serialVersionUID = -2683908226666647513L;
 }

@@ -43,6 +43,7 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
+import com.jcabi.github.Language;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Notifications;
 import com.jcabi.github.Pulls;
@@ -55,6 +56,7 @@ import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock Github repo.
@@ -63,6 +65,8 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
+ * @todo #923 Implement languages() method.
+ *  Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -269,6 +273,11 @@ final class MkRepo implements Repo {
     @NotNull(message = "Notifications is never NULL")
     public Notifications notifications() {
         return new MkNotifications();
+    }
+
+    @Override
+    public Iterable<Language> languages() {
+        throw new NotImplementedException("MkRepo#languages");
     }
 
     @Override

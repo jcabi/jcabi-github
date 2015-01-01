@@ -29,34 +29,45 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import com.jcabi.http.request.FakeRequest;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Notifications API.
- *
- * @author Giang Le (lthuangiang@gmail.com)
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link RtRepoCommit}.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
-@Immutable
-public interface Notifications {
+public class RtRepoCommitTest {
     /**
-     * Iterate them all.
-     * @return Iterable of Notifications
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a>
+     * RtRepoCommit has proper request URL.
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Notification> iterate();
+    @Test
+    public final void hasProperRequestUrl() {
+        final String sha = RandomStringUtils.randomAlphanumeric(50);
+        final RtRepoCommit commit = new RtRepoCommit(
+            new FakeRequest(), repo(), sha
+        );
+        MatcherAssert.assertThat(
+            commit.toString(),
+            Matchers.endsWith(
+                String.format(
+                    "/see-FakeRequest-class/repos/user/repo/commits/%s",
+                    sha
+                )
+            )
+        );
+    }
 
     /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     * Create repository for tests.
+     * @return Repository
      */
-    @NotNull(message = "notification is never NULL")
-    Notification get(int number);
+    private static Repo repo() {
+        return new RtGithub().repos()
+            .get(new Coordinates.Simple("user", "repo"));
+    }
+
 }

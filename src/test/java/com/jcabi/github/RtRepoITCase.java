@@ -44,6 +44,8 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @todo #923 Add integration test on Repo.languages().
+ *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
 public final class RtRepoITCase {
     /**

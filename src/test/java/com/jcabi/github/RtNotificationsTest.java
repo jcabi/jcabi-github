@@ -29,34 +29,63 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Github Notifications API.
+ * Test case for {@link RtNotifications}.
  *
- * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @todo 920 Create a test fetchSingleNotification and implement
+ *  get() operation in RtNotifications.
+ * @todo 920 Create a test fetchNonEmptyListOfNotifications and implement
+ *  iterate() operation in RtNotifications.
+ * @todo 920 Create a test markNotificationAsRead and implement
+ *  mark() operation in RtNotifications.
  */
-@Immutable
-public interface Notifications {
-    /**
-     * Iterate them all.
-     * @return Iterable of Notifications
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a>
-     */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Notification> iterate();
+public final class RtNotificationsTest {
 
     /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     * RtReleases can fetch empty list of releases.
+     * @throws Exception if some problem inside
      */
-    @NotNull(message = "notification is never NULL")
-    Notification get(int number);
+    @Test
+    public void fetchEmptyListOfNotifications() throws Exception {
+        MatcherAssert.assertThat(
+            new RtNotifications().iterate(),
+            Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * RtNotifications can get single Notification.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchSingleNotification() throws Exception {
+        // Not implemented
+    }
+
+    /**
+     * RtNotifications can fetch non empty list of Notifications.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void fetchNonEmptyListOfNotifications() throws Exception  {
+        // Not implemented
+    }
+
+    /**
+     * RtNotifications can mark Notification as read.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void markNotificationAsRead() throws Exception  {
+        // Not implemented
+    }
 }
