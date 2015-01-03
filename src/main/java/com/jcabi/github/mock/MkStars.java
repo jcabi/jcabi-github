@@ -31,10 +31,13 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Stars;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 import lombok.ToString;
 import org.apache.commons.lang3.NotImplementedException;
+import org.xembly.Directives;
 
 /**
  * Github starring API.
@@ -42,20 +45,54 @@ import org.apache.commons.lang3.NotImplementedException;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.15
- * @todo #919:30min Implement MkStars.starred() operation.
- * @todo #950:30min Implement MkStars.star() and MkStars.unstar() operations.
+ * @todo #957:30min Implement MkStars.star() and MkStars.unstar() operations.
  *  Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-final class MkStars implements Stars {
+public final class MkStars implements Stars {
+
+    /**
+     * Storage.
+     */
+    private final transient MkStorage storage;
+
+    /**
+     * Repo's name.
+     */
+    private final transient Coordinates coords;
+    /**
+     * Public constructor.
+     * @param stg The storage.
+     * @param rep Repo's coordinates.
+     * @throws java.io.IOException If something goes wrong.
+     */
+    MkStars(
+            @NotNull(message = "stg can't be NULL") final MkStorage stg,
+            @NotNull(message = "rep can't be NULL") final Coordinates rep
+    ) throws IOException {
+        this.storage = stg;
+        this.coords = rep;
+        this.storage.apply(
+                new Directives().xpath(
+                    String.format(
+                            "/github/repos/repo[@coords='%s']",
+                            this.coords
+                    )
+                ).addIf("stars")
+        );
+    }
     @Override
     public boolean starred(
         @NotNull(message = "user can't be NULL") final String user,
         @NotNull(message = "repo can't be NULL") final String repo
     ) {
-        throw new NotImplementedException("MkStars.starred()");
+        try {
+            return this.storage.xml().xpath(this.xpath(user, repo)).size() == 1;
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -73,4 +110,34 @@ final class MkStars implements Stars {
     ) {
         throw new NotImplementedException("MkStars.unstar()");
     }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return String.format(
+                "/github/repos/repo[@coords='%s']/stars",
+                this.coords
+        );
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @param user Repo owner
+     * @param repo Repo name
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath(final String user, final String repo) {
+        final String query = new StringBuilder(
+                this.xpath()
+        ).append("/star[@user='%s'][@repo='%s']/@repo").toString();
+        return String.format(
+                query,
+                this.coords, user, repo
+        );
+    }
+
 }
