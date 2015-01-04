@@ -12,7 +12,7 @@
 <div class="separator">&nbsp;</div>
 <table class="report">
 <thead><tr>  <td class="heading">Classes in this File</td>  <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Line Coverage</a></td>  <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Branch Coverage</a></td>  <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Complexity</a></td></tr></thead>
-  <tr><td><a href="com.jcabi.github.Notifications.html">Notifications</a></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td><td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td></tr></table></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td><td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td></tr></table></td><td class="value"><span class="hidden">0.0;</span>0</td></tr>
+  <tr><td><a href="com.jcabi.github.Notifications.html">Notifications</a></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td><td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td></tr></table></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td><td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td></tr></table></td><td class="value"><span class="hidden">1.0;</span>1</td></tr>
 
 </table>
 <div class="separator">&nbsp;</div>
@@ -82,39 +82,67 @@
 <tr>  <td class="numLine">&nbsp;32</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="keyword">import</span> com.jcabi.aspects.Immutable;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;33</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;</pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="keyword">import</span> javax.validation.constraints.NotNull;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;34</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment">/**</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;35</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * Github Notifications API.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;36</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> *</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * Github Notifications API.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;37</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @author Giang Le (lthuangiang@gmail.com)</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> *</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;38</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @version $Id$</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @author Giang Le (lthuangiang@gmail.com)</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;39</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @since 0.15</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @author Paul Polishchuk (ppol@ua.fm)</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;40</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @see &lt;a href="https://developer.github.com/v3/activity/notifications/"&gt;Notifications API&lt;/a&gt;</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @version $Id$</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;41</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @todo #913 Implement missing notifications operations.</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @since 0.15</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;42</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> *  At least list, view and mark as read operations should be implemented in</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * @see &lt;a href="https://developer.github.com/v3/activity/notifications/"&gt;Notifications API&lt;/a&gt;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;43</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> *  RtNotifications and MkNotifications.</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;44</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> *  Don't forget about unit and integrations tests.</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;45</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment"> */</span></pre></td></tr>
-<tr>  <td class="numLine">&nbsp;46</td>  <td class="nbHits">&nbsp;</td>
+<tr>  <td class="numLine">&nbsp;44</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;@Immutable</pre></td></tr>
-<tr>  <td class="numLine">&nbsp;47</td>  <td class="nbHits">&nbsp;</td>
+<tr>  <td class="numLine">&nbsp;45</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="keyword">public</span> <span class="keyword">interface</span> Notifications {</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;46</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;47</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Iterate them all.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;48</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @return Iterable of Notifications</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;49</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @see &lt;a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository"&gt;List your notifications in a repository&lt;/a&gt;</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;50</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;51</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;    @NotNull(message = <span class="string">"iterable is never NULL"</span>)</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;52</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;    Iterable&lt;Notification&gt; iterate();</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;53</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;54</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;    <span class="comment">/**</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;55</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * Get a single notification.</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;56</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @param number Notification id</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;57</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @return Notification</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;58</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     * @see &lt;a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread"&gt;View a single thread&lt;/a&gt;</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;59</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
+<tr>  <td class="numLine">&nbsp;60</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;    @NotNull(message = <span class="string">"notification is never NULL"</span>)</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;61</td>  <td class="nbHits">&nbsp;</td>
+  <td class="src"><pre class="src">&nbsp;    Notification get(<span class="keyword">int</span> number);</pre></td></tr>
+<tr>  <td class="numLine">&nbsp;62</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 12/16/14 4:53 PM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 1/4/15 3:40 PM.</div>
 </body>
 </html>
