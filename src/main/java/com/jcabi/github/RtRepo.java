@@ -33,8 +33,12 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -46,10 +50,6 @@ import lombok.EqualsAndHashCode;
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
- * @todo #923 Let's implement RtRepo.languages().
- *  Now it returns empty iterable but should return list of repo languages.
- *  Uncomment test RtRepoTest.iteratesLanguages() when done.
- *  See https://developer.github.com/v3/repos/#list-languages for API details.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -216,7 +216,25 @@ final class RtRepo implements Repo {
 
     @Override
     public Iterable<Language> languages() {
-        return Collections.emptyList();
+        RtJson rtJson = new RtJson(this.request.uri().path("/languages").back());
+
+        JsonObject jsonObject;
+        try {
+            jsonObject = rtJson.fetch();
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+
+        List<Language> languages = new ArrayList<Language>();
+        for (Map.Entry<String, JsonValue> stringJsonValueEntry : jsonObject.entrySet()) {
+            String languageName = stringJsonValueEntry.getKey();
+            long languageBytes = jsonObject.getJsonNumber(languageName).longValue();
+
+            Language language = new RtLanguage(languageName, languageBytes);
+            languages.add(language);
+        }
+
+        return languages;
     }
 
     @Override
