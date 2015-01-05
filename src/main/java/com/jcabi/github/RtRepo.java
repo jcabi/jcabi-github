@@ -33,30 +33,31 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
  * Github repository.
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
- * @todo #923 Let's implement RtRepo.languages().
- *  Now it returns empty iterable but should return list of repo languages.
- *  Uncomment test RtRepoTest.iteratesLanguages() when done.
- *  See https://developer.github.com/v3/repos/#list-languages for API details.
  * @todo #955 Uncomment test RtRepoTest.iteratesLanguages()
  *  when RtRepoITCase.languages() implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.CouplingBetweenObjects" })
+@SuppressWarnings({
+    "PMD.TooManyMethods",
+    "PMD.CouplingBetweenObjects"
+})
 final class RtRepo implements Repo {
 
     /**
@@ -217,8 +218,31 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Language> languages() {
-        return Collections.emptyList();
+        final RtJson rtJson = new RtJson(
+            this.request.uri()
+                .path("/languages")
+                .back()
+        );
+        final JsonObject json;
+        try {
+            json = rtJson.fetch();
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+        final List<Language> languages =
+            new ArrayList<Language>(json.size());
+        for (final Map.Entry<String, JsonValue> value : json.entrySet()) {
+            final String name = value.getKey();
+            languages.add(
+                new RtLanguage(
+                    name,
+                    json.getJsonNumber(name).longValue()
+                )
+            );
+        }
+        return languages;
     }
 
     @Override
