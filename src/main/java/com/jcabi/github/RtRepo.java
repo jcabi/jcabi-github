@@ -34,9 +34,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
@@ -54,7 +54,11 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.CouplingBetweenObjects" })
+@SuppressWarnings({
+        "PMD.TooManyMethods",
+        "PMD.CouplingBetweenObjects",
+        "PMD.AvoidInstantiatingObjectsInLoops"
+})
 final class RtRepo implements Repo {
 
     /**
@@ -216,24 +220,26 @@ final class RtRepo implements Repo {
 
     @Override
     public Iterable<Language> languages() {
-        RtJson rtJson = new RtJson(this.request.uri().path("/languages").back());
-
-        JsonObject jsonObject;
+        final RtJson rtJson = new RtJson(
+                this.request.uri()
+                .path("/languages")
+                .back()
+        );
+        JsonObject json;
         try {
-            jsonObject = rtJson.fetch();
-        } catch (IOException ex) {
+            json = rtJson.fetch();
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
-
-        List<Language> languages = new ArrayList<Language>();
-        for (Map.Entry<String, JsonValue> stringJsonValueEntry : jsonObject.entrySet()) {
-            String languageName = stringJsonValueEntry.getKey();
-            long languageBytes = jsonObject.getJsonNumber(languageName).longValue();
-
-            Language language = new RtLanguage(languageName, languageBytes);
+        final int size = json.size();
+        final List<Language> languages = new ArrayList<Language>(size);
+        for (final Map.Entry<String, JsonValue> value : json.entrySet()) {
+            final String name = value.getKey();
+            final JsonNumber bytesJsonNumber = json.getJsonNumber(name);
+            final long bytes = bytesJsonNumber.longValue();
+            final Language language = new RtLanguage(name, bytes);
             languages.add(language);
         }
-
         return languages;
     }
 

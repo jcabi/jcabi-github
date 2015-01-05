@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -303,6 +302,8 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch languages.
+     *
+     * @throws Exception if a problem occurs.
      */
     @Test
     public void fetchLanguages() throws Exception {
@@ -310,7 +311,7 @@ public final class RtRepoTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder()
-                    .add("Java", 1)
+                    .add("Ruby", 1)
                     .build().toString()
             )
         ).start();
