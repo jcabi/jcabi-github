@@ -305,9 +305,17 @@ public final class RtRepoTest {
      * RtRepo can fetch languages.
      */
     @Test
-    public void fetchLanguages() {
+    public void fetchLanguages() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add("Java", 1)
+                    .build().toString()
+            )
+        ).start();
         final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
+                new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
     }
@@ -318,7 +326,6 @@ public final class RtRepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesLanguages() throws Exception {
         final String lang = "C";
         final String other = "Java";
