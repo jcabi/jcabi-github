@@ -31,12 +31,14 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import javax.json.Json;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,7 +46,6 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @todo #923 Add integration test on Repo.languages().
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
 public final class RtRepoITCase {
@@ -72,6 +73,18 @@ public final class RtRepoITCase {
             Json.createObjectBuilder().add(
                 "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
             ).add("auto_init", true).build()
+        );
+        repo.contents().create(
+            Json.createObjectBuilder()
+                .add("path", "test.java")
+                .add("message", "Test file for language test")
+                .add(
+                    "content", Base64.encodeBase64String(
+                        "some content".getBytes()
+                    )
+                )
+                .add("ref", "master")
+                .build()
         );
     }
 
@@ -133,4 +146,24 @@ public final class RtRepoITCase {
         );
     }
 
+    /**
+     * RtRepo can fetch languages.
+     */
+    @Test
+    public void fetchLanguages() {
+        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+    }
+
+    /**
+     * RtRepo can fetch languages.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void iteratesLanguages() throws Exception {
+        MatcherAssert.assertThat(
+            repo.languages(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
 }
