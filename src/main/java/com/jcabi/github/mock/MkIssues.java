@@ -88,19 +88,14 @@ final class MkIssues implements Issues {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.lock();
-        try {
-            this.storage.apply(
-                new Directives().xpath(
-                    String.format(
-                        "/github/repos/repo[@coords='%s']",
-                        this.coords
-                    )
-                ).addIf("issues")
-            );
-        } finally {
-            this.storage.unlock();
-        }
+        this.storage.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("issues")
+        );
     }
 
     @Override
