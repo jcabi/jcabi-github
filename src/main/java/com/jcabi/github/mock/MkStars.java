@@ -69,20 +69,21 @@ public final class MkStars implements Stars {
      * @throws java.io.IOException If something goes wrong.
      */
     MkStars(
-            @NotNull(message = "stg can't be NULL") final MkStorage stg,
-            @NotNull(message = "rep can't be NULL") final Coordinates rep
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "rep can't be NULL") final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.coords = rep;
         this.storage.apply(
-                new Directives().xpath(
-                    String.format(
-                            "/github/repos/repo[@coords='%s']",
-                            this.coords
-                    )
-                ).addIf("stars")
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    this.coords
+                )
+            ).addIf("stars")
         );
     }
+
     @Override
     public boolean starred(
         @NotNull(message = "user can't be NULL") final String user,
@@ -118,8 +119,8 @@ public final class MkStars implements Stars {
     @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
-                "/github/repos/repo[@coords='%s']/stars",
-                this.coords
+            "/github/repos/repo[@coords='%s']/stars",
+            this.coords
         );
     }
 
@@ -132,11 +133,11 @@ public final class MkStars implements Stars {
     @NotNull(message = "Xpath is never NULL")
     private String xpath(final String user, final String repo) {
         final String query = new StringBuilder(
-                this.xpath()
+            this.xpath()
         ).append("/star[@user='%s'][@repo='%s']/@repo").toString();
         return String.format(
-                query,
-                this.coords, user, repo
+            query,
+            this.coords, user, repo
         );
     }
 

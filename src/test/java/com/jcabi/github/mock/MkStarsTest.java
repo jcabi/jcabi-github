@@ -54,7 +54,7 @@ public final class MkStarsTest {
     @Test
     public void repoIsNotStarredByDefault() throws Exception {
         MatcherAssert.assertThat(
-                true, Matchers.not(this.repo().stars().starred("user", "repo"))
+            true, Matchers.not(this.repo().stars().starred("user", "repo"))
         );
     }
 
@@ -69,7 +69,7 @@ public final class MkStarsTest {
         final Stars stars = this.repo().stars();
         stars.star("user", "repo");
         MatcherAssert.assertThat(
-                true, Matchers.is(stars.starred("user", "repo"))
+            true, Matchers.is(stars.starred("user", "repo"))
         );
     }
 
@@ -84,7 +84,7 @@ public final class MkStarsTest {
         this.repo().stars().star("user", "repo");
         this.repo().stars().unstar("user", "repo");
         MatcherAssert.assertThat(
-                true, Matchers.not(this.repo().stars().starred("user", "repo"))
+            true, Matchers.not(this.repo().stars().starred("user", "repo"))
         );
     }
 
@@ -95,7 +95,7 @@ public final class MkStarsTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-                Json.createObjectBuilder().add("name", "test").build()
+            Json.createObjectBuilder().add("name", "test").build()
         );
     }
 }
