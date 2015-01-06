@@ -103,7 +103,7 @@ public final class MkGithub implements Github {
     public MkGithub(
         @NotNull(message = "login can't be NULL") final String login
     ) throws IOException {
-        this(new MkStorage.InFile(), login);
+        this(new MkStorage.Synced(new MkStorage.InFile()), login);
     }
 
     /**
