@@ -73,24 +73,6 @@ public final class MkPullCommentTest {
     }
 
     /**
-     * MkPullComment has comment author.
-     *
-     * @throws Exception If a problem occurs.
-     */
-    @Test
-    public void retrieveAuthor() throws Exception {
-        final PullComment comment = MkPullCommentTest.comment();
-        MatcherAssert.assertThat(
-            comment.author(),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            comment.author().login(),
-            Matchers.equalTo("jeff")
-        );
-    }
-
-    /**
      * Create and return pull comment to test.
      * @return PullComment
      * @throws Exception if any error inside

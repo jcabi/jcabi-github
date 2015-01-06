@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
-import com.jcabi.github.User;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -91,13 +90,6 @@ final class MkPullComment implements PullComment {
     }
 
     @Override
-    public User author() throws IOException {
-        final String login = this.json().getJsonObject("user")
-                .getString("login");
-        return new MkUser(this.storage, login);
-    }
-
-    @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
@@ -142,5 +134,4 @@ final class MkPullComment implements PullComment {
             this.repo, this.owner.number(), this.num
         );
     }
-
 }

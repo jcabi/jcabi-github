@@ -121,11 +121,4 @@ final class RtPullComment implements PullComment {
         return this.number() - comment.number();
     }
 
-    @Override
-    public User author() throws IOException {
-        final String login = this.json().getJsonObject("user")
-                .getString("login");
-        return new RtUser(this.pull().repo().github(), this.request, login);
-    }
-
 }
