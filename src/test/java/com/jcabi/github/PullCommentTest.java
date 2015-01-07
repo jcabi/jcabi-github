@@ -195,7 +195,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void getAuthor() throws Exception {
+    public void retrievesAuthor() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final JsonObject user = Json.createObjectBuilder()
