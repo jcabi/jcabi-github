@@ -30,6 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.validation.constraints.NotNull;
+import org.hamcrest.Matchers;
 
 /**
  * Github starring API.
@@ -40,5 +46,63 @@ import com.jcabi.aspects.Immutable;
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  */
 @Immutable
-public final class RtStars implements Stars {
+final class RtStars implements Stars {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     */
+    RtStars(final Request req) {
+        this.request = req.uri()
+            .path("/user/starred")
+            .back();
+    }
+
+    @Override
+    public boolean starred(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException {
+        return this.request
+            .uri().path(user).path(repo)
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+            )
+        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+    }
+
+    @Override
+    public void star(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException {
+        this.request
+            .method(Request.PUT)
+            .uri().path(user).path(repo)
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public void unstar(
+        @NotNull(message = "user can't be NULL") final String user,
+        @NotNull(message = "repo can't be NULL") final String repo
+    ) throws IOException {
+        this.request
+            .method(Request.DELETE)
+            .uri().path(user).path(repo)
+            .back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }

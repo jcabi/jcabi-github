@@ -27,50 +27,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Stars;
-import javax.validation.constraints.NotNull;
-import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
+import com.jcabi.http.request.FakeRequest;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github starring API.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link RtRepoCommit}.
+ * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
- * @since 0.15
- * @todo #919:30min Implement MkStars.starred() operation.
- * @todo #950:30min Implement MkStars.star() and MkStars.unstar() operations.
- *  Don't forget about unit tests.
  */
-@Immutable
-@Loggable(Loggable.DEBUG)
-@ToString
-final class MkStars implements Stars {
-    @Override
-    public boolean starred(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        throw new NotImplementedException("MkStars.starred()");
+public class RtRepoCommitTest {
+    /**
+     * RtRepoCommit has proper request URL.
+     */
+    @Test
+    public final void hasProperRequestUrl() {
+        final String sha = RandomStringUtils.randomAlphanumeric(50);
+        final RtRepoCommit commit = new RtRepoCommit(
+            new FakeRequest(), repo(), sha
+        );
+        MatcherAssert.assertThat(
+            commit.toString(),
+            Matchers.endsWith(
+                String.format(
+                    "/see-FakeRequest-class/repos/user/repo/commits/%s",
+                    sha
+                )
+            )
+        );
     }
 
-    @Override
-    public void star(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        throw new NotImplementedException("MkStars.star()");
+    /**
+     * Create repository for tests.
+     * @return Repository
+     */
+    private static Repo repo() {
+        return new RtGithub().repos()
+            .get(new Coordinates.Simple("user", "repo"));
     }
 
-    @Override
-    public void unstar(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        throw new NotImplementedException("MkStars.unstar()");
-    }
 }

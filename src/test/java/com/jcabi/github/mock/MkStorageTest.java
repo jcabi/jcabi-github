@@ -30,8 +30,6 @@
 package com.jcabi.github.mock;
 
 import java.io.IOException;
-import java.util.ConcurrentModificationException;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -109,71 +107,6 @@ public final class MkStorageTest {
             future.cancel(true);
         }
         executor.shutdown();
-    }
-
-    /**
-     * MkStorage should throw an exception if current thread tries to make a
-     * read without holding the lock.
-     * @throws Exception If some problem inside
-     */
-    @Test(expected = ConcurrentModificationException.class)
-    public void xmlRequiresLock() throws Exception {
-        final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final CountDownLatch latch = new CountDownLatch(1);
-        executor.submit(
-            new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        storage.lock();
-                        latch.countDown();
-                    } catch (final IOException ex) {
-                        throw new IllegalStateException(ex);
-                    }
-                }
-            }
-        );
-        try {
-            latch.await();
-            storage.xml();
-        } finally {
-            executor.shutdown();
-        }
-    }
-
-    /**
-     * MkStorage should throw an exception if the current thread tries to apply
-     * changes without holding the lock.
-     * @throws Exception If some problem inside
-     */
-    @Test(expected = ConcurrentModificationException.class)
-    public void applyRequiresLock() throws Exception {
-        final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final CountDownLatch latch = new CountDownLatch(1);
-        executor.submit(
-            new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        storage.lock();
-                        latch.countDown();
-                    } catch (final IOException ex) {
-                        throw new IllegalStateException(ex);
-                    }
-                }
-            }
-        );
-        try {
-            latch.await();
-            storage.apply(
-                new Directives().xpath("/github").add("test")
-                    .set("hello, world")
-            );
-        } finally {
-            executor.shutdown();
-        }
     }
 
 }
