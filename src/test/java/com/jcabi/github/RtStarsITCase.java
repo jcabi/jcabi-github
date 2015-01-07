@@ -64,11 +64,11 @@ public final class RtStarsITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = (new RepoRule()).repo(repos);
+        repo = new RepoRule().repo(repos);
     }
 
     /**
-     * Tear down tests.
+     * Set up tests.
      * @throws IOException If some errors occurred.
      */
     @AfterClass
@@ -78,7 +78,8 @@ public final class RtStarsITCase {
         }
     }
 
-    /** test star, unstar and check if starred functionalities
+    /**
+     * Test star, unstar and check if starred functionalities.
      * @throws IOException If some errors occurred.
      */
     @Test
