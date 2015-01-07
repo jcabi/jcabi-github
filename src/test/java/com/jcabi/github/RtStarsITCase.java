@@ -70,7 +70,7 @@ public final class RtStarsITCase {
     /**
      * Tear down tests.
      * @throws IOException If some errors occurred.
-      */
+     */
     @AfterClass
     public static void tearDown() throws IOException  {
         if (repos != null && repo != null) {
