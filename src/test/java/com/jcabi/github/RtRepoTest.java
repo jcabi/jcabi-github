@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -303,11 +302,21 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch languages.
+     *
+     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchLanguages() {
+    public void fetchLanguages() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add("Ruby", 1)
+                    .build().toString()
+            )
+        ).start();
         final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
+                new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
     }
@@ -318,7 +327,6 @@ public final class RtRepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesLanguages() throws Exception {
         final String lang = "C";
         final String other = "Java";
