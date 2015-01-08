@@ -155,7 +155,7 @@ public final class RtRepoITCase {
     }
 
     /**
-     * RtRepo can fetch languages.
+     * RtRepo can iterate languages.
      * @throws Exception If some problem inside
      */
     @Test
