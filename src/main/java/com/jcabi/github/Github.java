@@ -48,7 +48,9 @@ import lombok.EqualsAndHashCode;
  * <p>This is how you start communicating with Github API:
  *
  * <pre> Github github = new RtGithub(oauthKey);
- * Repo repo = github.repo("jcabi/jcabi-github");
+ * Repo repo = github.repos().get(
+ *     new Coordinates.Simple("jcabi/jcabi-github")
+ * );
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
  *
