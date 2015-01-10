@@ -42,6 +42,7 @@ import org.junit.Test;
  *
  * @author Alexander Paderin (apocarteres@gmail.com)
  * @version $Id$
+ * @todo #957:Implement MkStars.star() and MkStars.unstar() operations.
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -60,7 +61,6 @@ public final class MkStarsTest {
 
     /**
      * Checks that repo is starred when user stars that.
-     * @todo #957:Implement MkStars.star() and MkStars.unstar() operations.
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -75,7 +75,6 @@ public final class MkStarsTest {
 
     /**
      * Checks that repo is not starred when user "unstar" that.
-     * @todo #957:Implement MkStars.star() and MkStars.unstar() operations.
      * @throws Exception If something goes wrong.
      */
     @Test
