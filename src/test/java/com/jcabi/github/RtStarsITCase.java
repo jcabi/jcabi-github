@@ -40,7 +40,7 @@ import org.junit.Test;
 /**
  * Integration test case for {@link RtStars}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Artem Nakonechny (wentwogcq@gmail.com)
  * @version $Id$
  */
 public final class RtStarsITCase {
@@ -84,20 +84,20 @@ public final class RtStarsITCase {
      */
     @Test
     public void testStarring() throws IOException {
-        final String repoName = repo.coordinates().repo();
-        final String userName = repo.coordinates().user();
+        final String coordinates = repo.coordinates().repo();
+        final String user = repo.coordinates().user();
         MatcherAssert.assertThat(
-            repo.stars().starred(userName, repoName),
+            repo.stars().starred(user, coordinates),
             Matchers.equalTo(false)
         );
-        repo.stars().star(userName, repoName);
+        repo.stars().star(user, coordinates);
         MatcherAssert.assertThat(
-            repo.stars().starred(userName, repoName),
+            repo.stars().starred(user, coordinates),
             Matchers.equalTo(true)
         );
-        repo.stars().unstar(userName, repoName);
+        repo.stars().unstar(user, coordinates);
         MatcherAssert.assertThat(
-            repo.stars().starred(userName, repoName),
+            repo.stars().starred(user, coordinates),
             Matchers.equalTo(false)
         );
     }
