@@ -79,11 +79,12 @@ public final class RtStarsITCase {
     }
 
     /**
-     * Test star, unstar and check if starred functionalities.
+     * RtStars can star, unstar and check whether the github repository is
+     * starred.
      * @throws IOException If some errors occurred.
      */
     @Test
-    public void testStarring() throws IOException {
+    public void starsUnstarsChecksStar() throws IOException {
         final String coordinates = repo.coordinates().repo();
         final String user = repo.coordinates().user();
         MatcherAssert.assertThat(
