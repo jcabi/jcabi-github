@@ -302,7 +302,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch languages.
-     *
      * @throws Exception if a problem occurs.
      */
     @Test
@@ -316,7 +315,7 @@ public final class RtRepoTest {
             )
         ).start();
         final Repo repo = RtRepoTest.repo(
-                new ApacheRequest(container.home())
+            new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
     }

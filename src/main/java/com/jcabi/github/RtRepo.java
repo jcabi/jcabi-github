@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
@@ -56,8 +55,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
 @SuppressWarnings({
         "PMD.TooManyMethods",
-        "PMD.CouplingBetweenObjects",
-        "PMD.AvoidInstantiatingObjectsInLoops"
+        "PMD.CouplingBetweenObjects"
 })
 final class RtRepo implements Repo {
 
@@ -219,26 +217,29 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Language> languages() {
         final RtJson rtJson = new RtJson(
-                this.request.uri()
+            this.request.uri()
                 .path("/languages")
                 .back()
         );
-        JsonObject json;
+        final JsonObject json;
         try {
             json = rtJson.fetch();
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
-        final int size = json.size();
-        final List<Language> languages = new ArrayList<Language>(size);
+        final List<Language> languages =
+            new ArrayList<Language>(json.size());
         for (final Map.Entry<String, JsonValue> value : json.entrySet()) {
             final String name = value.getKey();
-            final JsonNumber bytesJsonNumber = json.getJsonNumber(name);
-            final long bytes = bytesJsonNumber.longValue();
-            final Language language = new RtLanguage(name, bytes);
-            languages.add(language);
+            languages.add(
+                new RtLanguage(
+                    name,
+                    json.getJsonNumber(name).longValue()
+                )
+            );
         }
         return languages;
     }
