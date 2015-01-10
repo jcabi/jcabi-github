@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -188,4 +189,24 @@ public final class PullCommentTest {
             Json.createObjectBuilder().add(BODY, value).build()
         );
     }
+
+    /**
+     * PullComment.Smart can retrieve who is the comment author.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void retrievesAuthor() throws Exception {
+        final PullComment comment = Mockito.mock(PullComment.class);
+        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final JsonObject user = Json.createObjectBuilder()
+            .add("login", value).build();
+        Mockito.doReturn(
+            Json.createObjectBuilder().add("user", user).build()
+        ).when(comment).json();
+        MatcherAssert.assertThat(
+            new PullComment.Smart(comment).author(),
+            Matchers.is(value)
+        );
+    }
+
 }

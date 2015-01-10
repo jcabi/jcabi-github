@@ -114,7 +114,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     Iterable<Event> events() throws IOException;
 
     /**
-     * Is this issue exists in Github?
+     * Does this issue exist in Github?
      * @return TRUE if this issue exists
      * @throws IOException If there is any I/O problem
      */
@@ -317,7 +317,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             }
         }
         /**
-         * Is it a pull requests?
+         * Is it a pull request?
          * @return TRUE if it is a pull request
          * @throws IOException If there is any I/O problem
          */

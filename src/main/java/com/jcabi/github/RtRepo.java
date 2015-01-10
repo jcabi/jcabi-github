@@ -50,6 +50,8 @@ import lombok.EqualsAndHashCode;
  *  Now it returns empty iterable but should return list of repo languages.
  *  Uncomment test RtRepoTest.iteratesLanguages() when done.
  *  See https://developer.github.com/v3/repos/#list-languages for API details.
+ * @todo #955 Uncomment test RtRepoTest.iteratesLanguages()
+ *  when RtRepoITCase.languages() implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
