@@ -81,4 +81,23 @@ public class RepoCommitTest {
             Matchers.is(new URL(prop))
         );
     }
+
+    /**
+     * RepoCommit.Smart can fetch message property from RepoCommit.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void fetchesMessage() throws Exception {
+        final RepoCommit commit = Mockito.mock(RepoCommit.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add(
+                "commit",
+                Json.createObjectBuilder().add("message", "hello, world!")
+            ).build()
+        ).when(commit).json();
+        MatcherAssert.assertThat(
+            new RepoCommit.Smart(commit).message(),
+            Matchers.startsWith("hello, ")
+        );
+    }
 }
