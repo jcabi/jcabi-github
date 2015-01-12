@@ -43,24 +43,6 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RepoCommitTest {
-    /**
-     * RepoCommit.Smart can fetch message property from RepoCommit.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public final void fetchesType() throws Exception {
-        final RepoCommit commit = Mockito.mock(RepoCommit.class);
-        final String prop = "this is some message";
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("message", prop)
-                .build()
-        ).when(commit).json();
-        MatcherAssert.assertThat(
-            new RepoCommit.Smart(commit).message(),
-            Matchers.is(prop)
-        );
-    }
 
     /**
      * RepoCommit.Smart can fetch url property from RepoCommit.
