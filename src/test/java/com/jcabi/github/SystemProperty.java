@@ -29,60 +29,24 @@
  */
 package com.jcabi.github;
 
-import javax.json.Json;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
-
 /**
- * Integration case for {@link RtMarkdown}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * System Properties used in JUnit test cases.
+ * @author Bin Wang (wbin00@gmail.com)
  * @version $Id$
  */
-public final class RtMarkdownITCase {
+public final class SystemProperty {
 
     /**
-     * RtMarkdown can render markdown.
-     * @throws Exception If some problem inside
+     * Default constructor.
      */
-    @Test
-    public void rendersMarkdown() throws Exception {
-        final Github github = RtMarkdownITCase.github();
-        MatcherAssert.assertThat(
-            github.markdown().render(
-                Json.createObjectBuilder()
-                    .add("text", "Hello, **world**!")
-                    .build()
-            ),
-            Matchers.equalTo("<p>Hello, <strong>world</strong>!</p>\n")
-        );
+    private SystemProperty() {
     }
 
     /**
-     * RtMarkdown can render raw markdown.
-     * @throws Exception If some problem inside
+     * Get GitHub key from system property.
+     * @return GitHub key.
      */
-    @Test
-    public void rendersRawMarkdown() throws Exception {
-        final Github github = RtMarkdownITCase.github();
-        MatcherAssert.assertThat(
-            github.markdown().raw(
-                "Hey, **world**!"
-            ),
-            Matchers.equalTo("<p>Hey, <strong>world</strong>!</p>\n")
-        );
+    public static String githubKey() {
+        return System.getProperty("failsafe.github.key");
     }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = SystemProperty.githubKey();
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
-    }
-
 }

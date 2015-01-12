@@ -69,7 +69,7 @@ public final class RtReferencesITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+        final String key = SystemProperty.githubKey();
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
