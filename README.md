@@ -74,7 +74,7 @@ $ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfails
 
 Replace `<token>` with the OAuth access token, and `<repo>` with the name of
 repository you create in your account (for test purposes only), for example `yegor256/test`.
-The failsafe.github.key should have permissions in failsafe.github.repo to all scopes needed
+The `failsafe.github.key` should have permissions in `failsafe.github.repo` to all scopes needed
 by the integration test suite you want to run.
 Please note that different integration tests may need keys with permissions to different
 [scopes](https://developer.github.com/v3/oauth/#scopes);
