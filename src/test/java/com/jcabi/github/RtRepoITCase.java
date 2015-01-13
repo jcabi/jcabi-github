@@ -148,9 +148,10 @@ public final class RtRepoITCase {
 
     /**
      * RtRepo can fetch languages.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchLanguages() {
+    public void fetchLanguages() throws Exception {
         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
     }
 
