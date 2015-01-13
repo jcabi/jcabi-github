@@ -219,26 +219,22 @@ final class RtRepo implements Repo {
 
     @Override
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public Iterable<Language> languages() {
-        final RtJson rtJson = new RtJson(
+    public Iterable<Language> languages() throws IOException {
+        final RtJson json = new RtJson(
             this.request.uri()
                 .path("/languages")
                 .back()
         );
-        final JsonObject json;
-        try {
-            json = rtJson.fetch();
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+        final JsonObject object;
+        object = json.fetch();
         final List<Language> languages =
-            new ArrayList<Language>(json.size());
-        for (final Map.Entry<String, JsonValue> value : json.entrySet()) {
+            new ArrayList<Language>(object.size());
+        for (final Map.Entry<String, JsonValue> value : object.entrySet()) {
             final String name = value.getKey();
             languages.add(
                 new RtLanguage(
                     name,
-                    json.getJsonNumber(name).longValue()
+                    object.getJsonNumber(name).longValue()
                 )
             );
         }
