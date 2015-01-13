@@ -33,13 +33,10 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import javax.json.*;
+
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 /**
  * Mock Github milestone.
