@@ -31,8 +31,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Repo;
 import com.jcabi.github.Stars;
-import javax.validation.constraints.NotNull;
 import lombok.ToString;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -51,26 +51,22 @@ import org.apache.commons.lang3.NotImplementedException;
 @ToString
 final class MkStars implements Stars {
     @Override
-    public boolean starred(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
+    public Repo repo() {
+        throw new NotImplementedException("MkStars.repo()");
+    }
+
+    @Override
+    public boolean starred() {
         throw new NotImplementedException("MkStars.starred()");
     }
 
     @Override
-    public void star(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
+    public void star() {
         throw new NotImplementedException("MkStars.star()");
     }
 
     @Override
-    public void unstar(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
+    public void unstar() {
         throw new NotImplementedException("MkStars.unstar()");
     }
 }
