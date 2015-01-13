@@ -225,8 +225,7 @@ final class RtRepo implements Repo {
                 .path("/languages")
                 .back()
         );
-        final JsonObject object;
-        object = json.fetch();
+        final JsonObject object = json.fetch();
         final List<Language> languages =
             new ArrayList<Language>(object.size());
         for (final Map.Entry<String, JsonValue> value : object.entrySet()) {
