@@ -34,7 +34,11 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.json.JsonObject;
+import java.io.StringReader;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import javax.json.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -71,14 +75,13 @@ final class MkMilestone implements Milestone {
      * @param strg The storage
      * @param login The user to login with
      * @param crds The repo
-     * @param num The number of the MkMilestone
      * @checkstyle ParameterNumber (5 lines)
      */
     MkMilestone(
-        @NotNull(message = "strg can't be NULL") final MkStorage strg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "crds can't be NULL") final Coordinates crds,
-        final int num
+            @NotNull(message = "strg can't be NULL") final MkStorage strg,
+            @NotNull(message = "login can't be NULL") final String login,
+            @NotNull(message = "crds can't be NULL") final Coordinates crds,
+            final int num
     ) {
         this.self = login;
         this.coords = crds;
@@ -115,31 +118,36 @@ final class MkMilestone implements Milestone {
     @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException(
-            "Unimplemented operation."
-        );
+        return new JsonNode(
+                this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
     public void patch(
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
-        throw new UnsupportedOperationException(
-            "This operation is not available yet."
-        );
+        new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
     @NotNull(message = "repo is never NULL")
     public Repo repo() {
-        throw new UnsupportedOperationException(
-            "This is not available yet"
-        );
+        return new MkRepo(storage, self, coords);
     }
 
     @Override
     public int number() {
         return this.code;
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    String xpath() {
+        return String.format("/github/repos/repo[@coords='%s']/milestones[number='%d']", this.coords, this.code);
     }
 
 }
