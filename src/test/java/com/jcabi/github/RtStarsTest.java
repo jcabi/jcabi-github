@@ -61,19 +61,19 @@ public final class RtStarsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
             .start();
-        final Stars truestars = new RtStars(
+        final Stars starred = new RtStars(
             new ApacheRequest(container.home()),
             RtStarsTest.repo("someuser", "starredrepo")
         );
         MatcherAssert.assertThat(
-            truestars.starred(), Matchers.is(true)
+            starred.starred(), Matchers.is(true)
         );
-        final Stars falsestars = new RtStars(
+        final Stars unstarred = new RtStars(
             new ApacheRequest(container.home()),
             RtStarsTest.repo("otheruser", "notstarredrepo")
         );
         MatcherAssert.assertThat(
-            falsestars.starred(), Matchers.is(false)
+            unstarred.starred(), Matchers.is(false)
         );
     }
 
