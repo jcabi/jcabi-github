@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.json.JsonObject;
@@ -95,9 +96,18 @@ public interface User extends JsonReadable, JsonPatchable {
      * Returns all notifications of a user. Wraps the call "List your
      *  notifications". See "List your notifications" at
      *  https://developer.github.com/v3/activity/notifications/
-     * @return
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
+     * @return Returns all notifications for this user.
      */
     List<Notification> notifications();
+
+    /**
+     * Marks notifications as read.
+     * @param lastReadAt Describes the last point that notifications were
+     *  checked.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
+     */
+    void markAsRead(final Date lastReadAt);
 
     /**
      * Smart user with extra features.
@@ -262,6 +272,16 @@ public interface User extends JsonReadable, JsonPatchable {
         @Override
         public List<Notification> notifications() {
             return new LinkedList<Notification>();
+        }
+
+        /**
+         * @todo Implement the call "Mark as read" as described at
+         *  https://developer.github.com/v3/activity/notifications/#mark-as-read
+         * @param lastReadAt Describes the last point that notifications were
+         *  checked.
+         */
+        @Override
+        public void markAsRead(final Date lastReadAt) {
         }
 
         @Override
