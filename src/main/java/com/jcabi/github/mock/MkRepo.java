@@ -266,7 +266,11 @@ final class MkRepo implements Repo {
     @Override
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
-        return new MkStars();
+        try {
+            return new MkStars(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
