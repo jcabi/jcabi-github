@@ -85,20 +85,18 @@ public final class RtStarsITCase {
      */
     @Test
     public void starsUnstarsChecksStar() throws IOException {
-        final String coordinates = repo.coordinates().repo();
-        final String user = repo.coordinates().user();
         MatcherAssert.assertThat(
-            repo.stars().starred(user, coordinates),
+            repo.stars().starred(),
             Matchers.equalTo(false)
         );
-        repo.stars().star(user, coordinates);
+        repo.stars().star();
         MatcherAssert.assertThat(
-            repo.stars().starred(user, coordinates),
+            repo.stars().starred(),
             Matchers.equalTo(true)
         );
-        repo.stars().unstar(user, coordinates);
+        repo.stars().unstar();
         MatcherAssert.assertThat(
-            repo.stars().starred(user, coordinates),
+            repo.stars().starred(),
             Matchers.equalTo(false)
         );
     }

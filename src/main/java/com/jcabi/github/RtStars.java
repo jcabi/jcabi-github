@@ -30,11 +30,13 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
@@ -46,6 +48,8 @@ import org.hamcrest.Matchers;
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  */
 @Immutable
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "owner", "request" })
 final class RtStars implements Stars {
 
     /**
@@ -54,23 +58,34 @@ final class RtStars implements Stars {
     private final transient Request request;
 
     /**
+     * Repository.
+     */
+    private final transient Repo owner;
+
+    /**
      * Public ctor.
      * @param req Request
+     * @param repo Repository
      */
-    RtStars(final Request req) {
+    RtStars(final Request req, final Repo repo) {
+        final Coordinates coords = repo.coordinates();
         this.request = req.uri()
             .path("/user/starred")
+            .path(coords.user())
+            .path(coords.repo())
             .back();
+        this.owner = repo;
     }
 
     @Override
-    public boolean starred(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) throws IOException {
+    @NotNull(message = "repository is never NULL")
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public boolean starred() throws IOException {
         return this.request
-            .uri().path(user).path(repo)
-            .back()
             .fetch().as(RestResponse.class)
             .assertStatus(
                 Matchers.isOneOf(
@@ -81,27 +96,17 @@ final class RtStars implements Stars {
     }
 
     @Override
-    public void star(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) throws IOException {
+    public void star() throws IOException {
         this.request
             .method(Request.PUT)
-            .uri().path(user).path(repo)
-            .back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
     @Override
-    public void unstar(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) throws IOException {
+    public void unstar() throws IOException {
         this.request
             .method(Request.DELETE)
-            .uri().path(user).path(repo)
-            .back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
