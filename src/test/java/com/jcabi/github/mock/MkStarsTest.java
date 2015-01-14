@@ -41,7 +41,6 @@ import org.junit.Test;
  * Testcase for MkStars.
  * @author Yuriy Alevohin (alevohin@mail.ru)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class MkStarsTest {
 
