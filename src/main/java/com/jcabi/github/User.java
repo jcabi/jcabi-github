@@ -34,6 +34,8 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.LinkedList;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -88,6 +90,14 @@ public interface User extends JsonReadable, JsonPatchable {
      */
     @NotNull(message = "user emails is never NULL")
     UserEmails emails();
+
+    /**
+     * Returns all notifications of a user. Wraps the call "List your
+     *  notifications". See "List your notifications" at
+     *  https://developer.github.com/v3/activity/notifications/
+     * @return
+     */
+    List<Notification> notifications();
 
     /**
      * Smart user with extra features.
@@ -242,6 +252,16 @@ public interface User extends JsonReadable, JsonPatchable {
         @NotNull(message = "Emails is never NULL")
         public UserEmails emails() {
             return this.user.emails();
+        }
+
+        /**
+         * @todo Implement the call "List your notifications" as described at
+         *  https://developer.github.com/v3/activity/notifications/
+         * @return Notifications of the user
+         */
+        @Override
+        public List<Notification> notifications() {
+            return new LinkedList<Notification>();
         }
 
         @Override
@@ -486,5 +506,4 @@ public interface User extends JsonReadable, JsonPatchable {
             }
         }
     }
-
 }
