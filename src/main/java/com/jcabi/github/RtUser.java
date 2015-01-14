@@ -33,6 +33,9 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -136,6 +139,21 @@ final class RtUser implements User {
     @NotNull(message = "user emails is never NULL")
     public UserEmails emails() {
         return new RtUserEmails(this.ghub.entry());
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public List<Notification> notifications() {
+        return new LinkedList<Notification>();
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public void markAsRead(final Date lastReadAt) {
     }
 
     @Override
