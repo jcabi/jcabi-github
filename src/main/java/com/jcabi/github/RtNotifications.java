@@ -52,4 +52,19 @@ final class RtNotifications implements Notifications {
     public Notification get(final int number) {
         return new RtNotification(number);
     }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public void markAsRead() {
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public GitHubThread thread(final int number) {
+        return null;
+    }
 }

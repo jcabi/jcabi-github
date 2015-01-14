@@ -32,11 +32,15 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
+import com.jcabi.github.Notification;
 import com.jcabi.github.Organizations;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -125,6 +129,21 @@ final class MkUser implements User {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public List<Notification> notifications() {
+        return new LinkedList<Notification>();
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public void markAsRead(final Date lastReadAt) {
     }
 
     @Override

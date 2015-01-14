@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.GitHubThread;
 import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
 import org.apache.commons.lang3.NotImplementedException;
@@ -54,5 +55,20 @@ final class MkNotifications implements Notifications {
     @Override
     public Notification get(final int number) {
         throw new NotImplementedException("MkNotifications#get");
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public void markAsRead() {
+    }
+
+    /**
+     * @todo Implement this method
+     */
+    @Override
+    public GitHubThread thread(final int number) {
+        return null;
     }
 }
