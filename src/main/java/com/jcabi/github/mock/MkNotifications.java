@@ -52,12 +52,21 @@ final class MkNotifications implements Notifications {
     public Iterable<Notification> iterate() {
         throw new NotImplementedException("MkNotifications#iterate");
     }
+
+    /**
+     * Get a single notification.
+     * @param number Notification id
+     * @return Notification
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     */
     @Override
     public Notification get(final int number) {
         throw new NotImplementedException("MkNotifications#get");
     }
 
     /**
+     * Marks all notifications on this repository as read.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-notifications-as-read-in-a-repository">Mark notifications as read in a repository</a>
      * @todo Implement this method
      */
     @Override
@@ -65,6 +74,10 @@ final class MkNotifications implements Notifications {
     }
 
     /**
+     * Get thread data.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     * @param number
+     * @return Data of the specified thread.
      * @todo Implement this method
      */
     @Override
