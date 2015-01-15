@@ -163,6 +163,7 @@ final class RtUser implements User {
      */
     @Override
     public void markAsRead(final Date lastread) {
+        // Will be implemented later
     }
 
     @Override
