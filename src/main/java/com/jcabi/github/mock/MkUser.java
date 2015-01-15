@@ -151,6 +151,7 @@ final class MkUser implements User {
      */
     @Override
     public void markAsRead(final Date lastread) {
+        // Will be implemented later
     }
 
     @Override

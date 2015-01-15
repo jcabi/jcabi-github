@@ -60,6 +60,7 @@ final class RtNotifications implements Notifications {
      */
     @Override
     public void markAsRead() {
+        // Will be implemented later
     }
 
     /**

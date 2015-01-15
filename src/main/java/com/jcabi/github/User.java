@@ -51,7 +51,7 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount"})
 public interface User extends JsonReadable, JsonPatchable {
 
     /**
@@ -284,6 +284,7 @@ public interface User extends JsonReadable, JsonPatchable {
          */
         @Override
         public void markAsRead(final Date lastread) {
+            // Will be implemented later
         }
 
         @Override
