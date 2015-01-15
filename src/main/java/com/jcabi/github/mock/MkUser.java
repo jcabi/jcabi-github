@@ -143,7 +143,7 @@ final class MkUser implements User {
      * @todo Implement this method
      */
     @Override
-    public void markAsRead(final Date lastReadAt) {
+    public void markAsRead(final Date lastread) {
     }
 
     @Override

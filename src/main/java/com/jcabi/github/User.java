@@ -103,11 +103,11 @@ public interface User extends JsonReadable, JsonPatchable {
 
     /**
      * Marks notifications as read.
-     * @param lastReadAt Describes the last point that notifications were
+     * @param lastread Describes the last point that notifications were
      *  checked.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      */
-    void markAsRead(final Date lastReadAt);
+    void markAsRead(final Date lastread);
 
     /**
      * Smart user with extra features.
@@ -276,6 +276,7 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Marks notifications of a user as read.
          * @todo Implement the call "Mark as read" as described at
          *  https://developer.github.com/v3/activity/notifications/#mark-as-read
          * @param lastread Describes the last point that notifications were

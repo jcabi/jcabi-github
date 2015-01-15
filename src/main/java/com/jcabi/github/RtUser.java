@@ -156,13 +156,13 @@ final class RtUser implements User {
 
     /**
      * Marks notifications as read.
-     * @param lastReadAt Describes the last point that notifications were
+     * @param lastread Describes the last point that notifications were
      *  checked.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      * @todo Implement this method
      */
     @Override
-    public void markAsRead(final Date lastReadAt) {
+    public void markAsRead(final Date lastread) {
     }
 
     @Override
