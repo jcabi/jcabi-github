@@ -132,7 +132,10 @@ final class MkUser implements User {
     }
 
     /**
-     * @todo Implement this method
+     * Returns this user's notifications.
+     * @todo Implement the call "List your notifications" as described at
+     *  https://developer.github.com/v3/activity/notifications/
+     * @return Notifications of the user
      */
     @Override
     public List<Notification> notifications() {
@@ -140,7 +143,11 @@ final class MkUser implements User {
     }
 
     /**
-     * @todo Implement this method
+     * Marks notifications of a user as read.
+     * @todo Implement the call "Mark as read" as described at
+     *  https://developer.github.com/v3/activity/notifications/#mark-as-read
+     * @param lastread Describes the last point that notifications were
+     *  checked.
      */
     @Override
     public void markAsRead(final Date lastread) {

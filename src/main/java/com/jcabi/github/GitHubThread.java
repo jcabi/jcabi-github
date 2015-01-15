@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 /**
- * Represents a GitHub notificatios thread.
+ * Represents a GitHub notifications thread.
  * @author Dmitri Pisarenko (dp@altruix.co)
  * @version $Id$
  * @since 1.0

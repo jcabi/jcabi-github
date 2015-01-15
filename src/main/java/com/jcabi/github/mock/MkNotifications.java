@@ -76,7 +76,7 @@ final class MkNotifications implements Notifications {
     /**
      * Get thread data.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
-     * @param number
+     * @param number Thread ID.
      * @return Data of the specified thread.
      * @todo Implement this method
      */
