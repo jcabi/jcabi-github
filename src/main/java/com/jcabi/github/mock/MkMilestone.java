@@ -33,10 +33,9 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
-
+import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 
 /**
  * Mock Github milestone.
@@ -72,6 +71,7 @@ final class MkMilestone implements Milestone {
      * @param strg The storage
      * @param login The user to login with
      * @param crds The repo
+     * @param num The number of the MkMilestone
      * @checkstyle ParameterNumber (5 lines)
      */
     MkMilestone(
@@ -124,13 +124,22 @@ final class MkMilestone implements Milestone {
     public void patch(
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
+        new JsonPatch(
+                this.storage
+        ).patch(
+                this.xpath(),
+                json
+        );
     }
 
     @Override
     @NotNull(message = "repo is never NULL")
     public Repo repo() {
-        return new MkRepo(storage, self, coords);
+        return new MkRepo(
+                this.storage,
+                this.self,
+                this.coords
+        );
     }
 
     @Override
@@ -143,8 +152,12 @@ final class MkMilestone implements Milestone {
      * @return XPath
      */
     @NotNull(message = "Xpath is never NULL")
-    String xpath() {
-        return String.format("/github/repos/repo[@coords='%s']/milestones[number='%d']", this.coords, this.code);
+    public String xpath() {
+        return String.format(
+                "/github/repos/repo[@coords='%s']/milestones[number='%d']",
+                this.coords,
+                this.code
+        );
     }
 
 }

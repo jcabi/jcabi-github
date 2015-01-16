@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2015, jcabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,12 +31,10 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-
-import javax.json.JsonObject;
-import java.io.IOException;
 
 /**
  * Unit tests for the MkUser class.
@@ -47,23 +45,44 @@ import java.io.IOException;
 public class MkMilestoneTest {
 
     /**
-     * Tests that returned repo has the same coordinates as milestone
+     * User constant for repo coordinates.
+     */
+    private static final String USER = "user";
+
+    /**
+     * Repo constant for repo coordinates.
+     */
+    private static final String REPO = "repo";
+
+    /**
+     * Login constant for milestone login.
+     */
+    private static final String LOGIN = "login";
+
+    /**
+     * Expected xpath for milestone storage.
+     */
+    private static final String EXPECTED_XPATH =
+            "/github/repos/repo[@coords='user/repo']/milestones[number='1']";
+
+    /**
+     * Tests that returned repo has the same coordinates as milestone.
      *
-     * @throws IOException
+     * @throws IOException when there is an error creating the MkMilestone being tested
      */
     @Test
-    public void testRepo() throws IOException {
+    public final void testRepo() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
-                "user",
-                "repo"
+                USER,
+                REPO
         );
         final MkMilestone milestone = new MkMilestone(
                 new MkStorage.InFile(),
-                "login",
+                LOGIN,
                 coordinates,
                 1
         );
-        Repo repo = milestone.repo();
+        final Repo repo = milestone.repo();
         MatcherAssert.assertThat(
                 repo.coordinates(),
                 Matchers.equalTo(coordinates)
@@ -71,23 +90,25 @@ public class MkMilestoneTest {
     }
 
     /**
-     * Tests that xpath is formatted properly
+     * Tests that xpath is formatted properly.
+     *
+     * @throws IOException when there is an error creating the MkMilestone being tested
      */
     @Test
-    public void testXpath() throws IOException {
+    public final void testXpath() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
-                "user",
-                "repo"
+                USER,
+                REPO
         );
         final MkMilestone milestone = new MkMilestone(
                 new MkStorage.InFile(),
-                "login",
+                LOGIN,
                 coordinates,
                 1
         );
         MatcherAssert.assertThat(
                 milestone.xpath(),
-                Matchers.equalTo("/github/repos/repo[@coords='user/repo']/milestones[number='1']")
+                Matchers.equalTo(EXPECTED_XPATH)
         );
     }
 
