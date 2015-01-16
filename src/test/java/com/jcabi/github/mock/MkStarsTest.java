@@ -49,7 +49,7 @@ public class MkStarsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public final void starRepository() throws Exception {
+    public final void starsRepository() throws Exception {
         final Stars stars = this.repo().stars();
         stars.star();
         MatcherAssert.assertThat(
@@ -63,7 +63,7 @@ public class MkStarsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public final void unstarRepository() throws Exception {
+    public final void unstarsRepository() throws Exception {
         final Stars stars = this.repo().stars();
         stars.star();
         stars.unstar();

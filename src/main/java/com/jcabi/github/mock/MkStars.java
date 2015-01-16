@@ -37,6 +37,8 @@ import com.jcabi.github.Stars;
 import java.io.IOException;
 import java.util.List;
 import javax.validation.constraints.NotNull;
+
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
@@ -50,6 +52,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
+@EqualsAndHashCode(of = {"storage", "self", "coords"})
 final class MkStars implements Stars {
 
     /**
