@@ -75,10 +75,10 @@ final class MkMilestone implements Milestone {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkMilestone(
-            @NotNull(message = "strg can't be NULL") final MkStorage strg,
-            @NotNull(message = "login can't be NULL") final String login,
-            @NotNull(message = "crds can't be NULL") final Coordinates crds,
-            final int num
+        @NotNull(message = "strg can't be NULL") final MkStorage strg,
+        @NotNull(message = "login can't be NULL") final String login,
+        @NotNull(message = "crds can't be NULL") final Coordinates crds,
+        final int num
     ) {
         this.self = login;
         this.coords = crds;
@@ -116,7 +116,7 @@ final class MkMilestone implements Milestone {
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
-                this.storage.xml().nodes(this.xpath()).get(0)
+            this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
     }
 
@@ -125,10 +125,10 @@ final class MkMilestone implements Milestone {
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
         new JsonPatch(
-                this.storage
+            this.storage
         ).patch(
-                this.xpath(),
-                json
+            this.xpath(),
+            json
         );
     }
 
@@ -136,9 +136,9 @@ final class MkMilestone implements Milestone {
     @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(
-                this.storage,
-                this.self,
-                this.coords
+            this.storage,
+            this.self,
+            this.coords
         );
     }
 
@@ -154,9 +154,9 @@ final class MkMilestone implements Milestone {
     @NotNull(message = "Xpath is never NULL")
     public String xpath() {
         return String.format(
-                "/github/repos/repo[@coords='%s']/milestones[number='%d']",
-                this.coords,
-                this.code
+            "/github/repos/repo[@coords='%s']/milestones[number='%d']",
+            this.coords,
+            this.code
         );
     }
 

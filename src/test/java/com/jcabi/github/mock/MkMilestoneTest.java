@@ -63,7 +63,7 @@ public class MkMilestoneTest {
      * Expected xpath for milestone storage.
      */
     private static final String EXPECTED_XPATH =
-            "/github/repos/repo[@coords='user/repo']/milestones[number='1']";
+        "/github/repos/repo[@coords='user/repo']/milestones[number='1']";
 
     /**
      * Tests that returned repo has the same coordinates as milestone.
@@ -73,19 +73,19 @@ public class MkMilestoneTest {
     @Test
     public final void testRepo() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
-                USER,
-                REPO
+            USER,
+            REPO
         );
         final MkMilestone milestone = new MkMilestone(
-                new MkStorage.InFile(),
-                LOGIN,
-                coordinates,
-                1
+            new MkStorage.InFile(),
+            LOGIN,
+            coordinates,
+            1
         );
         final Repo repo = milestone.repo();
         MatcherAssert.assertThat(
-                repo.coordinates(),
-                Matchers.equalTo(coordinates)
+            repo.coordinates(),
+            Matchers.equalTo(coordinates)
         );
     }
 
@@ -97,18 +97,18 @@ public class MkMilestoneTest {
     @Test
     public final void testXpath() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
-                USER,
-                REPO
+            USER,
+            REPO
         );
         final MkMilestone milestone = new MkMilestone(
-                new MkStorage.InFile(),
-                LOGIN,
-                coordinates,
-                1
+            new MkStorage.InFile(),
+            LOGIN,
+            coordinates,
+            1
         );
         MatcherAssert.assertThat(
-                milestone.xpath(),
-                Matchers.equalTo(EXPECTED_XPATH)
+            milestone.xpath(),
+            Matchers.equalTo(EXPECTED_XPATH)
         );
     }
 
