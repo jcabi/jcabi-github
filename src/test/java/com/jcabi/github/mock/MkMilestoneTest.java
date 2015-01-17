@@ -49,7 +49,6 @@ public class MkMilestoneTest {
      */
     @Test
     public final void returnsSameCoordinatesRepo() throws Exception {
-        //@checkstyle MultipleStringLiteralsCheck (7 lines)
         final Coordinates coordinates = new Coordinates.Simple(
             "user",
             "repo"
@@ -66,5 +65,5 @@ public class MkMilestoneTest {
             Matchers.equalTo(coordinates)
         );
     }
-    
+
 }
