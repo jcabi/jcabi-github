@@ -59,7 +59,8 @@ import org.apache.commons.io.Charsets;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount" })
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount",
+    "PMD.GodClass" })
 public interface User extends JsonReadable, JsonPatchable {
 
     /**
