@@ -39,12 +39,12 @@ import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
@@ -53,6 +53,8 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @todo #913:30min Implement notifications(), markAsRead(final Date lastread)
+ * operations in MkUser. Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -131,27 +133,14 @@ final class MkUser implements User {
         }
     }
 
-    /**
-     * Returns this user's notifications.
-     * @todo Implement the call "List your notifications" as described at
-     *  https://developer.github.com/v3/activity/notifications/
-     * @return Notifications of the user
-     */
     @Override
     public List<Notification> notifications() {
-        return new LinkedList<Notification>();
+        throw new NotImplementedException("MkNotifications#notifications");
     }
 
-    /**
-     * Marks notifications of a user as read.
-     * @todo Implement the call "Mark as read" as described at
-     *  https://developer.github.com/v3/activity/notifications/#mark-as-read
-     * @param lastread Describes the last point that notifications were
-     *  checked.
-     */
     @Override
     public void markAsRead(final Date lastread) {
-        // Will be implemented later
+        throw new NotImplementedException("MkNotifications#markAsRead");
     }
 
     @Override
