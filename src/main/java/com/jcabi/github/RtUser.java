@@ -142,12 +142,10 @@ final class RtUser implements User {
     }
 
     /**
-     * Returns all notifications of a user. Wraps the call "List your
-     *  notifications". See "List your notifications" at
-     *  https://developer.github.com/v3/activity/notifications/
+     * Returns all notifications of a user.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Returns all notifications for this user.
-     * @todo Implement this method
+     * @todo #913:30min Implement method RtUser.notifications.
      */
     @Override
     public List<Notification> notifications() {
@@ -159,7 +157,7 @@ final class RtUser implements User {
      * @param lastread Describes the last point that notifications were
      *  checked.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
-     * @todo Implement this method
+     * @todo #913:30min Implement method RtUser.markAsRead.
      */
     @Override
     public void markAsRead(final Date lastread) {
