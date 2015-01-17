@@ -53,12 +53,6 @@ final class MkNotifications implements Notifications {
         throw new NotImplementedException("MkNotifications#iterate");
     }
 
-    /**
-     * Get a single notification.
-     * @param number Notification id
-     * @return Notification
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
-     */
     @Override
     public Notification get(final int number) {
         throw new NotImplementedException("MkNotifications#get");
