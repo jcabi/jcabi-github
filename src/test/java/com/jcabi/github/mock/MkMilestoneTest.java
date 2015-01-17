@@ -31,7 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -67,33 +66,5 @@ public class MkMilestoneTest {
             Matchers.equalTo(coordinates)
         );
     }
-
-    /**
-     * MkMilestone uses correct xpath for storing data.
-     * @throws Exception if test fails
-     */
-    @Test
-    public final void usesCorrectXpath() throws Exception {
-        //@checkstyle MultipleStringLiteralsCheck (7 lines)
-        final Coordinates coordinates = new Coordinates.Simple(
-            "user",
-            "repo"
-        );
-        final MkMilestone milestone = new MkMilestone(
-            new MkStorage.InFile(),
-            "login",
-            coordinates,
-            1
-        );
-        MatcherAssert.assertThat(
-            milestone.xpath(),
-            Matchers.equalTo(
-                StringUtils.join(
-                    "/github/repos/repo[@coords='user/repo']/",
-                    "milestones[number='1']"
-                )
-            )
-        );
-    }
-
+    
 }

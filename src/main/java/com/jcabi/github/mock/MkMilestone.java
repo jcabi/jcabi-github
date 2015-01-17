@@ -156,7 +156,7 @@ final class MkMilestone implements Milestone {
      * @return XPath
      */
     @NotNull(message = "Xpath is never NULL")
-    public String xpath() {
+    private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/milestones[number='%d']",
             this.coords,
