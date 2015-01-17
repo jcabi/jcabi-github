@@ -42,7 +42,6 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
@@ -107,6 +106,8 @@ public interface User extends JsonReadable, JsonPatchable {
      *  https://developer.github.com/v3/activity/notifications/
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Returns all notifications for this user.
+     * @throws IOException Thrown, if an error during sending request and/or
+     * receiving response occurs.
      */
     List<Notification> notifications() throws IOException;
 
@@ -278,6 +279,8 @@ public interface User extends JsonReadable, JsonPatchable {
          * @todo #913:30min Implement the call "List your notifications" as
          *  described at https://developer.github.com/v3/activity/notifications/
          * @return Notifications of the user
+         * @throws IOException Thrown, if an error during sending request and/or
+         * receiving response occurs.
          */
         @Override
         public List<Notification> notifications() throws IOException {
@@ -291,9 +294,9 @@ public interface User extends JsonReadable, JsonPatchable {
                             DatatypeConverter.printBase64Binary(
                                 String.format(
                                     "%s:%s",
-                                    user,
-                                    pwd)
-                                    .getBytes(Charsets.UTF_8)
+                                    this.user,
+                                    pwd
+                                ).getBytes(Charsets.UTF_8)
                             )
                         )
                     ).fetch();

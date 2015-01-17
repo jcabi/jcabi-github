@@ -55,6 +55,7 @@ import org.xembly.Directives;
  * @since 0.5
  * @todo #913:30min Implement notifications(), markAsRead(final Date lastread)
  * operations in MkUser. Don't forget about unit tests.
+ * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

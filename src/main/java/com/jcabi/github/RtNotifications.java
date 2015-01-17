@@ -42,7 +42,7 @@ import org.apache.commons.lang3.NotImplementedException;
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  * @todo #913:30min Implement markAsRead(), thread(final int number) operations
- * in RtNotifications. Don't forget about unit tests.
+ *  in RtNotifications. Don't forget about unit tests.
  */
 @Immutable
 final class RtNotifications implements Notifications {
