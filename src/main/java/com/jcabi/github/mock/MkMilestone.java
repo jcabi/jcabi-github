@@ -107,9 +107,13 @@ final class MkMilestone implements Milestone {
         assert this.coords != null;
         assert this.storage != null;
         assert this.code != -1;
-        throw new UnsupportedOperationException(
-            "This method is not implemented yet."
+        int result = this.coords.compareTo(
+            milestone.repo().coordinates()
         );
+        if (result == 0) {
+            result = Integer.valueOf(this.code).compareTo(milestone.number());
+        }
+        return result;
     }
 
     @Override
