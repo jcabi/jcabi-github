@@ -31,16 +31,25 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Response;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
+import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.io.Charsets;
 
 /**
  * Github user.
@@ -99,7 +108,7 @@ public interface User extends JsonReadable, JsonPatchable {
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Returns all notifications for this user.
      */
-    List<Notification> notifications();
+    List<Notification> notifications() throws IOException;
 
     /**
      * Marks notifications as read.
@@ -271,8 +280,35 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return Notifications of the user
          */
         @Override
-        public List<Notification> notifications() {
-            return new LinkedList<Notification>();
+        public List<Notification> notifications() throws IOException {
+            final String pwd = "";
+            final Response resp =
+                new ApacheRequest("https://api.github.com/notifications")
+                    .header(
+                        HttpHeaders.AUTHORIZATION,
+                        String.format(
+                            "Basic %s",
+                            DatatypeConverter.printBase64Binary(
+                                String.format(
+                                    "%s:%s",
+                                    user,
+                                    pwd)
+                                    .getBytes(Charsets.UTF_8)
+                            )
+                        )
+                    ).fetch();
+            final JsonResponse jsonresp = new JsonResponse(resp);
+            final JsonArray jsnnotifs = jsonresp.json().readArray();
+            final LinkedList<Notification> notifs =
+                new LinkedList<Notification>();
+            for (final JsonValue jsnnotif : jsnnotifs) {
+                final JsonObject notifobj = (JsonObject) jsnnotif;
+                final Notification notif = new RtNotification(
+                    notifobj.getInt("id")
+                );
+                notifs.add(notif);
+            }
+            return notifs;
         }
 
         /**
