@@ -156,25 +156,26 @@
 <a class="jxr_linenumber" name="L148" href="#L148">148</a> 
 <a class="jxr_linenumber" name="L149" href="#L149">149</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L150" href="#L150">150</a> <em class="jxr_javadoccomment">     * RtRepo can fetch languages.</em>
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>     @Test
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> fetchLanguages() {
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>     }
-<a class="jxr_linenumber" name="L156" href="#L156">156</a> 
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">     * RtRepo can iterate languages.</em>
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>     @Test
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>     @Ignore
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iteratesLanguages() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>             repo.languages(),
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>             Matchers.not(Matchers.emptyIterable())
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>         );
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>     }
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> }
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>     @Test
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> fetchLanguages() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     }
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">     * RtRepo can iterate languages.</em>
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>     @Test
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>     @Ignore
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iteratesLanguages() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>             repo.languages(),
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>             Matchers.not(Matchers.emptyIterable())
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>         );
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     }
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
