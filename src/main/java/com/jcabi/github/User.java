@@ -107,7 +107,7 @@ public interface User extends JsonReadable, JsonPatchable {
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Returns all notifications for this user.
      * @throws IOException Thrown, if an error during sending request and/or
-     * receiving response occurs.
+     *  clreceiving response occurs.
      */
     List<Notification> notifications() throws IOException;
 
@@ -280,7 +280,7 @@ public interface User extends JsonReadable, JsonPatchable {
          *  described at https://developer.github.com/v3/activity/notifications/
          * @return Notifications of the user
          * @throws IOException Thrown, if an error during sending request and/or
-         * receiving response occurs.
+         *  receiving response occurs.
          */
         @Override
         public List<Notification> notifications() throws IOException {
@@ -296,13 +296,13 @@ public interface User extends JsonReadable, JsonPatchable {
                                     "%s:%s",
                                     this.user,
                                     pwd
-                                ).getBytes(Charsets.UTF_8)
-                            )
+                            ).getBytes(Charsets.UTF_8)
                         )
-                    ).fetch();
+                    )
+                ).fetch();
             final JsonResponse jsonresp = new JsonResponse(resp);
             final JsonArray jsnnotifs = jsonresp.json().readArray();
-            final LinkedList<Notification> notifs =
+            final List<Notification> notifs =
                 new LinkedList<Notification>();
             for (final JsonValue jsnnotif : jsnnotifs) {
                 final JsonObject notifobj = (JsonObject) jsnnotif;
