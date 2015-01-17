@@ -31,7 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-import java.io.IOException;
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -45,40 +45,19 @@ import org.junit.Test;
 public class MkMilestoneTest {
 
     /**
-     * User constant for repo coordinates.
-     */
-    private static final String USER = "user";
-
-    /**
-     * Repo constant for repo coordinates.
-     */
-    private static final String REPO = "repo";
-
-    /**
-     * Login constant for milestone login.
-     */
-    private static final String LOGIN = "login";
-
-    /**
-     * Expected xpath for milestone storage.
-     */
-    private static final String EXPECTED_XPATH =
-        "/github/repos/repo[@coords='user/repo']/milestones[number='1']";
-
-    /**
-     * Tests that returned repo has the same coordinates as milestone.
-     *
-     * @throws IOException when there is an error creating the MkMilestone being tested
+     * MkMilestone returns a repo with same coordinates.
+     * @throws Exception if test fails
      */
     @Test
-    public final void testRepo() throws IOException {
+    public final void returnsSameCoordinatesRepo() throws Exception {
+        //@checkstyle MultipleStringLiteralsCheck (7 lines)
         final Coordinates coordinates = new Coordinates.Simple(
-            USER,
-            REPO
+            "user",
+            "repo"
         );
         final MkMilestone milestone = new MkMilestone(
             new MkStorage.InFile(),
-            LOGIN,
+            "login",
             coordinates,
             1
         );
@@ -90,25 +69,30 @@ public class MkMilestoneTest {
     }
 
     /**
-     * Tests that xpath is formatted properly.
-     *
-     * @throws IOException when there is an error creating the MkMilestone being tested
+     * MkMilestone uses correct xpath for storing data.
+     * @throws Exception if test fails
      */
     @Test
-    public final void testXpath() throws IOException {
+    public final void usesCorrectXpath() throws Exception {
+        //@checkstyle MultipleStringLiteralsCheck (7 lines)
         final Coordinates coordinates = new Coordinates.Simple(
-            USER,
-            REPO
+            "user",
+            "repo"
         );
         final MkMilestone milestone = new MkMilestone(
             new MkStorage.InFile(),
-            LOGIN,
+            "login",
             coordinates,
             1
         );
         MatcherAssert.assertThat(
             milestone.xpath(),
-            Matchers.equalTo(EXPECTED_XPATH)
+            Matchers.equalTo(
+                StringUtils.join(
+                    "/github/repos/repo[@coords='user/repo']/",
+                    "milestones[number='1']"
+                )
+            )
         );
     }
 
