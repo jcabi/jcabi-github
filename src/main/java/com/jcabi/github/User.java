@@ -266,8 +266,8 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns this user's notifications.
-         * @todo Implement the call "List your notifications" as described at
-         *  https://developer.github.com/v3/activity/notifications/
+         * @todo #913:30min Implement the call "List your notifications" as
+         *  described at https://developer.github.com/v3/activity/notifications/
          * @return Notifications of the user
          */
         @Override
@@ -277,7 +277,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Marks notifications of a user as read.
-         * @todo Implement the call "Mark as read" as described at
+         * @todo #913:30min Implement the call "Mark as read" as described at
          *  https://developer.github.com/v3/activity/notifications/#mark-as-read
          * @param lastread Describes the last point that notifications were
          *  checked.
