@@ -36,7 +36,10 @@ package com.jcabi.github;
  * @author Dmitri Pisarenko (dp@altruix.co)
  * @version $Id$
  * @since 1.0
- * @todo Implement this interface.
+ * @todo #913:30min Add properties subscribed (boolean), ignored (boolean),
+ * createdAt (Date), url (String), threadUrl (String) as shown in section
+ * "Response" at
+ * https://developer.github.com/v3/activity/notifications/#response-6 .
  */
 public interface ThreadSubscription {
 }
