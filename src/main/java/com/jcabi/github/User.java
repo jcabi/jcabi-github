@@ -91,6 +91,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
     /**
      * Smart user with extra features.
+     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     @Immutable
     @ToString
