@@ -43,8 +43,6 @@ import org.apache.commons.lang3.NotImplementedException;
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
- * @todo #920 Implement iterate() and get() operations in MkNotifications.
- *  Don't forget about unit tests.
  */
 @Immutable
 final class MkNotifications implements Notifications {
