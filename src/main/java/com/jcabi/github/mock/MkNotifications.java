@@ -43,6 +43,10 @@ import org.apache.commons.lang3.NotImplementedException;
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @todo #920 Implement iterate() and get() operations in MkNotifications.
+ * Don't forget about unit tests.
+ * @todo #913:30min Implement markAsRead() and thread() operations in
+ * MkNotifications. Don't forget about unit tests.
  */
 @Immutable
 final class MkNotifications implements Notifications {
@@ -58,11 +62,11 @@ final class MkNotifications implements Notifications {
 
     @Override
     public void markAsRead() {
-        // Will be implemented later
+        throw new NotImplementedException("MkNotifications#markAsRead");
     }
 
     @Override
     public GitHubThread thread(final int number) {
-        return null;
+        throw new NotImplementedException("MkNotifications#thread");
     }
 }
