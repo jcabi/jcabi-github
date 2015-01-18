@@ -46,6 +46,8 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @todo #913:30min Implement operations RtUser.markAsRead() and
+ *  RtUser.notifications().
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -141,24 +143,11 @@ final class RtUser implements User {
         return new RtUserEmails(this.ghub.entry());
     }
 
-    /**
-     * Returns all notifications of a user.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
-     * @return Returns all notifications for this user.
-     * @todo #913:30min Implement method RtUser.notifications.
-     */
     @Override
     public List<Notification> notifications() {
         return new LinkedList<Notification>();
     }
 
-    /**
-     * Marks notifications as read.
-     * @param lastread Describes the last point that notifications were
-     *  checked.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
-     * @todo #913:30min Implement method RtUser.markAsRead.
-     */
     @Override
     public void markAsRead(final Date lastread) {
         // Will be implemented later
