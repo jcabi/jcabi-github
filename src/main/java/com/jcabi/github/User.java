@@ -275,14 +275,6 @@ public interface User extends JsonReadable, JsonPatchable {
             return this.user.emails();
         }
 
-        /**
-         * Returns this user's notifications.
-         * @todo #913:30min Implement the call "List your notifications" as
-         *  described at https://developer.github.com/v3/activity/notifications/
-         * @return Notifications of the user
-         * @throws IOException Thrown, if an error during sending request and/or
-         *  receiving response occurs.
-         */
         @Override
         public List<Notification> notifications() throws IOException {
             final String pwd = "";
