@@ -27,77 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import java.io.IOException;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.Assume;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration test case for {@link RtStars}.
+ * Unit tests for the MkUser class.
  *
- * @author Artem Nakonechny (wentwogcq@gmail.com)
+ * @author Roman Kisilenko (roman.kisilenko@gmail.com)
  * @version $Id$
  */
-public final class RtStarsITCase {
-    /**
-     * Test repos.
-     */
-    private static Repos repos;
+public class MkMilestoneTest {
 
     /**
-     * Test repo.
-     */
-    private static Repo repo;
-
-    /**
-     * Set up tests.
-     * @throws IOException If some errors occurred.
-     */
-    @BeforeClass
-    public static void setUp() throws IOException  {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
-    }
-
-    /**
-     * Set up tests.
-     * @throws IOException If some errors occurred.
-     */
-    @AfterClass
-    public static void tearDown() throws IOException  {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
-        }
-    }
-
-    /**
-     * RtStars can star, unstar and check whether the github repository is
-     * starred.
-     * @throws IOException If some errors occurred.
+     * MkMilestone returns a repo with same coordinates.
+     * @throws Exception if test fails
      */
     @Test
-    public void starsUnstarsChecksStar() throws IOException {
-        MatcherAssert.assertThat(
-            repo.stars().starred(),
-            Matchers.equalTo(false)
+    public final void returnsSameCoordinatesRepo() throws Exception {
+        final Coordinates coordinates = new Coordinates.Simple(
+            "user",
+            "repo"
         );
-        repo.stars().star();
-        MatcherAssert.assertThat(
-            repo.stars().starred(),
-            Matchers.equalTo(true)
+        final MkMilestone milestone = new MkMilestone(
+            new MkStorage.InFile(),
+            "login",
+            coordinates,
+            1
         );
-        repo.stars().unstar();
+        final Repo repo = milestone.repo();
         MatcherAssert.assertThat(
-            repo.stars().starred(),
-            Matchers.equalTo(false)
+            repo.coordinates(),
+            Matchers.equalTo(coordinates)
         );
     }
+
 }

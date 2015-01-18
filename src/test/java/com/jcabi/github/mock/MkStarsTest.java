@@ -27,77 +27,61 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import java.io.IOException;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Repo;
+import com.jcabi.github.Stars;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.Assume;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration test case for {@link RtStars}.
- *
- * @author Artem Nakonechny (wentwogcq@gmail.com)
+ * Testcase for MkStars.
+ * @author Yuriy Alevohin (alevohin@mail.ru)
  * @version $Id$
  */
-public final class RtStarsITCase {
-    /**
-     * Test repos.
-     */
-    private static Repos repos;
+public class MkStarsTest {
 
     /**
-     * Test repo.
-     */
-    private static Repo repo;
-
-    /**
-     * Set up tests.
-     * @throws IOException If some errors occurred.
-     */
-    @BeforeClass
-    public static void setUp() throws IOException  {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
-    }
-
-    /**
-     * Set up tests.
-     * @throws IOException If some errors occurred.
-     */
-    @AfterClass
-    public static void tearDown() throws IOException  {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
-        }
-    }
-
-    /**
-     * RtStars can star, unstar and check whether the github repository is
-     * starred.
-     * @throws IOException If some errors occurred.
+     * MkStars can star repository.
+     * @throws Exception If something goes wrong.
      */
     @Test
-    public void starsUnstarsChecksStar() throws IOException {
+    public final void starsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
         MatcherAssert.assertThat(
-            repo.stars().starred(),
-            Matchers.equalTo(false)
-        );
-        repo.stars().star();
-        MatcherAssert.assertThat(
-            repo.stars().starred(),
-            Matchers.equalTo(true)
-        );
-        repo.stars().unstar();
-        MatcherAssert.assertThat(
-            repo.stars().starred(),
-            Matchers.equalTo(false)
+            stars.starred(),
+            Matchers.is(true)
         );
     }
+
+    /**
+     * MkStars can unstar repository.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public final void unstarsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
+        stars.unstar();
+        MatcherAssert.assertThat(
+            stars.starred(),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * Create an repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
+
 }
