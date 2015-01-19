@@ -38,7 +38,6 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -160,7 +159,6 @@ public final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void iteratesLanguages() throws Exception {
         MatcherAssert.assertThat(
             repo.languages(),
