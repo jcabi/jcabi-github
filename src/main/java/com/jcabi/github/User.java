@@ -44,11 +44,8 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.HttpHeaders;
-import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.io.Charsets;
 
 /**
  * Github user.
@@ -278,22 +275,11 @@ public interface User extends JsonReadable, JsonPatchable {
 
         @Override
         public List<Notification> notifications() throws IOException {
-            final String pwd = "";
             final Response resp =
-                new ApacheRequest("https://api.github.com/notifications")
-                    .header(
-                        HttpHeaders.AUTHORIZATION,
-                        String.format(
-                            "Basic %s",
-                            DatatypeConverter.printBase64Binary(
-                                String.format(
-                                    "%s:%s",
-                                    this.user,
-                                    pwd
-                            ).getBytes(Charsets.UTF_8)
-                        )
-                    )
-                ).fetch();
+                new ApacheRequest("https://api.github.com/notifications").uri()
+                    .path(this.user.login())
+                    .back()
+                    .fetch();
             final JsonResponse jsonresp = new JsonResponse(resp);
             final JsonArray jsnnotifs = jsonresp.json().readArray();
             final List<Notification> notifs =
