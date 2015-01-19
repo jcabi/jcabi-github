@@ -27,59 +27,61 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
 
-import java.net.URL;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Repo;
+import com.jcabi.github.Stars;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link RepoCommit}.
- * @author Paul Polischuk (ppol@ua.fm)
+ * Testcase for MkStars.
+ * @author Yuriy Alevohin (alevohin@mail.ru)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RepoCommitTest {
+public class MkStarsTest {
 
     /**
-     * RepoCommit.Smart can fetch url property from RepoCommit.
-     * @throws Exception If some problem inside
+     * MkStars can star repository.
+     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void fetchesUrl() throws Exception {
-        final RepoCommit commit = Mockito.mock(RepoCommit.class);
-        // @checkstyle LineLength (1 line)
-        final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("url", prop)
-                .build()
-        ).when(commit).json();
+    public final void starsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
         MatcherAssert.assertThat(
-            new RepoCommit.Smart(commit).url(),
-            Matchers.is(new URL(prop))
+            stars.starred(),
+            Matchers.is(true)
         );
     }
 
     /**
-     * RepoCommit.Smart can fetch message property from RepoCommit.
-     * @throws Exception If some problem inside
+     * MkStars can unstar repository.
+     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void fetchesMessage() throws Exception {
-        final RepoCommit commit = Mockito.mock(RepoCommit.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder().add(
-                "commit",
-                Json.createObjectBuilder().add("message", "hello, world!")
-            ).build()
-        ).when(commit).json();
+    public final void unstarsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
+        stars.unstar();
         MatcherAssert.assertThat(
-            new RepoCommit.Smart(commit).message(),
-            Matchers.startsWith("hello, ")
+            stars.starred(),
+            Matchers.is(false)
         );
     }
+
+    /**
+     * Create an repo to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private Repo repo() throws Exception {
+        return new MkGithub().repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+    }
+
 }

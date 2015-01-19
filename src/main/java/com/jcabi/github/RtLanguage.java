@@ -29,85 +29,48 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Request;
-import com.jcabi.http.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import org.hamcrest.Matchers;
 
 /**
- * Github starring API.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github repository language.
+ * @author Nikolay Popov (dementla7@rambler.ru)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  */
-@Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner", "request" })
-final class RtStars implements Stars {
+@EqualsAndHashCode(of = { "txt", "length" })
+public final class RtLanguage implements Language {
 
     /**
-     * RESTful request.
+     * Language name like C or Java.
      */
-    private final transient Request request;
+    private final transient String txt;
 
     /**
-     * Repository.
+     * Number of bytes written in the language in project.
      */
-    private final transient Repo owner;
+    private final transient long length;
 
     /**
      * Public ctor.
-     * @param req Request
-     * @param repo Repository
+     * @param lang Language name
+     * @param size Language bytes
      */
-    RtStars(final Request req, final Repo repo) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/user/starred")
-            .path(coords.user())
-            .path(coords.repo())
-            .back();
-        this.owner = repo;
+    public RtLanguage(final String lang, final long size) {
+        this.txt = lang;
+        this.length = size;
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
-    public Repo repo() {
-        return this.owner;
+    @NotNull(message = "name is never NULL")
+    public String name() {
+        return this.txt;
     }
 
     @Override
-    public boolean starred() throws IOException {
-        return this.request
-            .fetch().as(RestResponse.class)
-            .assertStatus(
-                Matchers.isOneOf(
-                    HttpURLConnection.HTTP_NO_CONTENT,
-                    HttpURLConnection.HTTP_NOT_FOUND
-            )
-        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
-    }
-
-    @Override
-    public void star() throws IOException {
-        this.request
-            .method(Request.PUT)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-    }
-
-    @Override
-    public void unstar() throws IOException {
-        this.request
-            .method(Request.DELETE)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    @NotNull(message = "bytes is never NULL")
+    public long bytes() {
+        return this.length;
     }
 }

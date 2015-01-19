@@ -29,57 +29,75 @@
  */
 package com.jcabi.github;
 
-import java.net.URL;
-import javax.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 /**
- * Test case for {@link RepoCommit}.
- * @author Paul Polischuk (ppol@ua.fm)
+ * Integration test case for {@link RtStars}.
+ *
+ * @author Artem Nakonechny (wentwogcq@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RepoCommitTest {
+public final class RtStarsITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
 
     /**
-     * RepoCommit.Smart can fetch url property from RepoCommit.
-     * @throws Exception If some problem inside
+     * Test repo.
      */
-    @Test
-    public final void fetchesUrl() throws Exception {
-        final RepoCommit commit = Mockito.mock(RepoCommit.class);
-        // @checkstyle LineLength (1 line)
-        final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("url", prop)
-                .build()
-        ).when(commit).json();
-        MatcherAssert.assertThat(
-            new RepoCommit.Smart(commit).url(),
-            Matchers.is(new URL(prop))
-        );
+    private static Repo repo;
+
+    /**
+     * Set up tests.
+     * @throws IOException If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws IOException  {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = new RepoRule().repo(repos);
     }
 
     /**
-     * RepoCommit.Smart can fetch message property from RepoCommit.
-     * @throws Exception If some problem inside
+     * Set up tests.
+     * @throws IOException If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws IOException  {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtStars can star, unstar and check whether the github repository is
+     * starred.
+     * @throws IOException If some errors occurred.
      */
     @Test
-    public final void fetchesMessage() throws Exception {
-        final RepoCommit commit = Mockito.mock(RepoCommit.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder().add(
-                "commit",
-                Json.createObjectBuilder().add("message", "hello, world!")
-            ).build()
-        ).when(commit).json();
+    public void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
-            new RepoCommit.Smart(commit).message(),
-            Matchers.startsWith("hello, ")
+            repo.stars().starred(),
+            Matchers.equalTo(false)
+        );
+        repo.stars().star();
+        MatcherAssert.assertThat(
+            repo.stars().starred(),
+            Matchers.equalTo(true)
+        );
+        repo.stars().unstar();
+        MatcherAssert.assertThat(
+            repo.stars().starred(),
+            Matchers.equalTo(false)
         );
     }
 }

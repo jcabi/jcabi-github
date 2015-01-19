@@ -27,16 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
+
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repo;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Integration test case for {@link RtStars}.
+ * Unit tests for the MkUser class.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Roman Kisilenko (roman.kisilenko@gmail.com)
  * @version $Id$
- * @todo #919:30min Implement integration tests for star(), unstar() and
- *  starred() operations.
- *  See https://developer.github.com/v3/activity/starring/ for details.
  */
-public final class RtStarsITestCase {
+public class MkMilestoneTest {
+
+    /**
+     * MkMilestone returns a repo with same coordinates.
+     * @throws Exception if test fails
+     */
+    @Test
+    public final void returnsSameCoordinatesRepo() throws Exception {
+        final Coordinates coordinates = new Coordinates.Simple(
+            "user",
+            "repo"
+        );
+        final MkMilestone milestone = new MkMilestone(
+            new MkStorage.InFile(),
+            "login",
+            coordinates,
+            1
+        );
+        final Repo repo = milestone.repo();
+        MatcherAssert.assertThat(
+            repo.coordinates(),
+            Matchers.equalTo(coordinates)
+        );
+    }
+
 }
