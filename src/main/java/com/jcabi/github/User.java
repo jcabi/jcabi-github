@@ -31,8 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.Response;
-import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
 import java.net.URL;
@@ -275,13 +273,12 @@ public interface User extends JsonReadable, JsonPatchable {
 
         @Override
         public List<Notification> notifications() throws IOException {
-            final Response resp =
-                new ApacheRequest("https://api.github.com/notifications").uri()
-                    .path(this.user.login())
+            final JsonResponse resp =
+                this.github().entry().uri().path("notifications")
                     .back()
-                    .fetch();
-            final JsonResponse jsonresp = new JsonResponse(resp);
-            final JsonArray jsnnotifs = jsonresp.json().readArray();
+                    .fetch()
+                    .as(JsonResponse.class);
+            final JsonArray jsnnotifs = resp.json().readArray();
             final List<Notification> notifs =
                 new LinkedList<Notification>();
             for (final JsonValue jsnnotif : jsnnotifs) {
