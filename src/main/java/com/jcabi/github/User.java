@@ -31,16 +31,12 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -273,22 +269,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         @Override
         public List<Notification> notifications() throws IOException {
-            final JsonResponse resp =
-                this.github().entry().uri().path("notifications")
-                    .back()
-                    .fetch()
-                    .as(JsonResponse.class);
-            final JsonArray jsnnotifs = resp.json().readArray();
-            final List<Notification> notifs =
-                new LinkedList<Notification>();
-            for (final JsonValue jsnnotif : jsnnotifs) {
-                final JsonObject notifobj = (JsonObject) jsnnotif;
-                final Notification notif = new RtNotification(
-                    notifobj.getInt("id")
-                );
-                notifs.add(notif);
-            }
-            return notifs;
+            return this.user.notifications();
         }
 
         @Override

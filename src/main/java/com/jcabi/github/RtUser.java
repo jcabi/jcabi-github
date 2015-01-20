@@ -32,11 +32,14 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -46,8 +49,7 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @todo #913:30min Implement operations RtUser.markAsRead() and
- *  RtUser.notifications().
+ * @todo #913:30min Implement operations RtUser.markAsRead().
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -144,8 +146,22 @@ final class RtUser implements User {
     }
 
     @Override
-    public List<Notification> notifications() {
-        return new LinkedList<Notification>();
+    public List<Notification> notifications() throws IOException {
+        final List<Notification> notifs =
+            new LinkedList<Notification>();
+        final JsonResponse resp = this.request.uri().path("notifications")
+            .back()
+            .fetch()
+            .as(JsonResponse.class);
+        final JsonArray jsnnotifs = resp.json().readArray();
+        for (final JsonValue jsnnotif : jsnnotifs) {
+            final JsonObject notifobj = (JsonObject) jsnnotif;
+            final Notification notif = new RtNotification(
+                notifobj.getInt("id")
+            );
+            notifs.add(notif);
+        }
+        return notifs;
     }
 
     @Override
