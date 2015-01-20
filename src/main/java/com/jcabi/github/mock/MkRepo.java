@@ -52,11 +52,11 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
 import com.jcabi.github.Stars;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock Github repo.
@@ -65,8 +65,6 @@ import org.apache.commons.lang3.NotImplementedException;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
- * @todo #923 Implement languages() method.
- *  Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -281,7 +279,7 @@ final class MkRepo implements Repo {
 
     @Override
     public Iterable<Language> languages() {
-        throw new NotImplementedException("MkRepo#languages");
+        return new ArrayList<Language>(0);
     }
 
     @Override

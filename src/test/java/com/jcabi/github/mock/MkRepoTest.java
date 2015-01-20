@@ -139,4 +139,20 @@ public final class MkRepoTest {
         );
         MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
     }
+
+    /**
+     * Repo can return Languages iterable.
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void fetchLanguages() throws IOException {
+        final String user = "testuser4";
+        final Repo repo = new MkRepo(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo4")
+        );
+        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+    }
+
 }
