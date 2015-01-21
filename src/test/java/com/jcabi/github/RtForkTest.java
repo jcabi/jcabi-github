@@ -41,7 +41,12 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assume;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.MethodRule;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 
 /**
  * Test case for {@link RtFork}.
@@ -51,6 +56,26 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtForkTest {
+
+    @Rule
+    public MethodRule skipRule = new MethodRule() {
+        @Override
+        public Statement apply(
+            final Statement base, final FrameworkMethod method,
+            final Object target
+        ) {
+            return new Statement() {
+                @Override
+                public void evaluate() throws Throwable {
+                    try{
+                        base.evaluate();
+                    } catch (final BindException ignored) {
+                        Assume.assumeTrue(false);
+                    }
+                }
+            };
+        }
+    };
 
     /**
      * RtFork can patch comment and return new json.
@@ -62,35 +87,28 @@ public final class RtForkTest {
         final String patched = "some patched organization";
         final MkContainer container =
             new MkGrizzlyContainer().next(this.answer(original))
-                .next(this.answer(patched)).next(this.answer(original));
-        final MkContainer forksContainer = new MkGrizzlyContainer();
-        try {
-            container.start();
-            forksContainer.start();
-            final RtRepo repo =
-                new RtRepo(
-                    new MkGithub(),
-                    new ApacheRequest(forksContainer.home()),
-                    new Coordinates.Simple("test_user", "test_repo")
-                );
-            final RtFork fork = new RtFork(
-                new ApacheRequest(container.home()), repo, 1
+                .next(this.answer(patched)).next(this.answer(original)).start();
+        final MkContainer forksContainer = new MkGrizzlyContainer().start();
+        final RtRepo repo =
+            new RtRepo(
+                new MkGithub(),
+                new ApacheRequest(forksContainer.home()),
+                new Coordinates.Simple("test_user", "test_repo")
             );
-            fork.patch(RtForkTest.fork(patched));
-            MatcherAssert.assertThat(
-                new Fork.Smart(fork).organization(),
-                Matchers.equalTo(patched)
-            );
-            MatcherAssert.assertThat(
-                new Fork.Smart(fork).name(),
-                Matchers.notNullValue()
-            );
-            // @checkstyle EmptyBlockCheck (2 lines)
-        } catch (final BindException ignored) {
-        } finally {
-            container.stop();
-            forksContainer.stop();
-        }
+        final RtFork fork = new RtFork(
+            new ApacheRequest(container.home()), repo, 1
+        );
+        fork.patch(RtForkTest.fork(patched));
+        MatcherAssert.assertThat(
+            new Fork.Smart(fork).organization(),
+            Matchers.equalTo(patched)
+        );
+        MatcherAssert.assertThat(
+            new Fork.Smart(fork).name(),
+            Matchers.notNullValue()
+        );
+        container.stop();
+        forksContainer.stop();
     }
 
     /**
