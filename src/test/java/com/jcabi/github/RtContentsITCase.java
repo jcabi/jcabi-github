@@ -265,37 +265,34 @@ public final class RtContentsITCase {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            final String path1 = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-            final String path2 = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-            final String message1 = String.format("testMessage1");
-            final String message2 = String.format("testMessage2");
-            final String cont1 = new String(
+            final String apath = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String bpath = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String message = String.format("testMessage");
+            final String acont = new String(
                 Base64.encodeBase64(
-                    String.format("content1:%d", System.currentTimeMillis())
+                    String.format("content a:%d", System.currentTimeMillis())
                         .getBytes()
                 )
             );
-            final String cont2 = new String(
+            final String bcont = new String(
                 Base64.encodeBase64(
-                    String.format("content2:%d", System.currentTimeMillis())
+                    String.format("content b:%d", System.currentTimeMillis())
                         .getBytes()
                 )
             );
             final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(this.jsonObject(path1, cont1, message1));
-            contents.create(this.jsonObject(path2, cont2, message2));
-            final Content content1 = contents.get(path1);
-            final Content content2 = contents.get(path2);
+            contents.create(this.jsonObject(apath, acont, message));
+            contents.create(this.jsonObject(bpath, bcont, message));
+            final Content acontent = contents.get(apath);
+            final Content bcontent = contents.get(bpath);
             final Iterable<Content> iterated = contents.iterate("", "master");
             MatcherAssert.assertThat(
                 iterated,
                 Matchers.allOf(
-                    Matchers.contains(content1, content2),
-                    Matchers.<Content>iterableWithSize(2)
-                ));
-            for (Content content : contents.iterate("", "master")) {
-                System.out.println(content.toString());
-            }
+                    Matchers.hasItems(acontent, bcontent),
+                    Matchers.<Content>iterableWithSize(3)
+                )
+            );
         } finally {
             repos.remove(repo.coordinates());
         }
