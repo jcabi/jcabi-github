@@ -45,7 +45,8 @@ import org.junit.Test;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiterals (300 lines)
+ * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
