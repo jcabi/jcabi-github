@@ -49,10 +49,10 @@ final class RtNotification implements Notification {
 
     /**
      * Public ctor.
-     * @param number Notification number
+     * @param notifid Notification number
      */
-    RtNotification(final long number) {
-        this.number = number;
+    RtNotification(final long notifid) {
+        this.number = notifid;
     }
 
     @Override
