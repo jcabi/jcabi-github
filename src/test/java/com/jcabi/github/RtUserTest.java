@@ -50,6 +50,8 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle LineLengthCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 public final class RtUserTest {
@@ -452,7 +454,7 @@ public final class RtUserTest {
 
     /**
      * Verifies the behaviour of the RtUser.notifications method.
-     * @throws Exception
+     * @throws Exception Thrown in case of error.
      */
     @Test
     public void notifications() throws Exception {
