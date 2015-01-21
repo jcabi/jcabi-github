@@ -45,18 +45,18 @@ final class RtNotification implements Notification {
     /**
      * Release id.
      */
-    private final transient int note;
+    private final transient long id;
 
     /**
      * Public ctor.
      * @param number Notification id
      */
-    RtNotification(final int number) {
-        this.note = number;
+    RtNotification(final long number) {
+        this.id = number;
     }
 
     @Override
-    public int number() {
-        return this.note;
+    public long number() {
+        return this.id;
     }
 }

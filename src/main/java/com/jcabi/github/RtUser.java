@@ -149,7 +149,8 @@ final class RtUser implements User {
     public List<Notification> notifications() throws IOException {
         final List<Notification> notifs =
             new LinkedList<Notification>();
-        final JsonResponse resp = this.request.uri().path("notifications")
+        final JsonResponse resp = this.github().entry().uri()
+            .path("notifications")
             .back()
             .fetch()
             .as(JsonResponse.class);
@@ -157,7 +158,7 @@ final class RtUser implements User {
         for (final JsonValue jsnnotif : jsnnotifs) {
             final JsonObject notifobj = (JsonObject) jsnnotif;
             final Notification notif = new RtNotification(
-                notifobj.getInt("id")
+                Long.parseLong(notifobj.getString("id"))
             );
             notifs.add(notif);
         }
