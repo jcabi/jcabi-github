@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -58,7 +57,6 @@ public final class RtPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
     public void createPull() throws Exception {
         final String title = "new feature";
         final String body = pull(title).toString();
@@ -86,7 +84,6 @@ public final class RtPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
     public void getSinglePull() throws Exception {
         final String title = "new-feature";
         final MkContainer container = new MkGrizzlyContainer().next(
@@ -112,7 +109,6 @@ public final class RtPullsTest {
      * @throws Exception if there is any error
      */
     @Test
-    @Ignore
     public void iteratePulls() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

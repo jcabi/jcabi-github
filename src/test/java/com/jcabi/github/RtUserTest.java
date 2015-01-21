@@ -37,6 +37,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
+import java.util.List;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -447,6 +448,29 @@ public final class RtUserTest {
         final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
+    }
+
+    /**
+     * Verifies the behaviour of the RtUser.notifications method.
+     * @throws Exception
+     */
+    @Test
+    public void notifications() throws Exception {
+        final Github github = Mockito.mock(Github.class);
+        final Request request = new FakeRequest().withBody("[{\"id\":\"55898574\",\"unread\":true,\"reason\":\"mention\",\"updated_at\":\"2015-01-21T14:14:12Z\",\"last_read_at\":null,\"subject\":{\"title\":\"DyTasksTest.java:81-82: Unignore following test when #492...\",\"url\":\"https://api.github.com/repos/yegor256/thindeck/issues/508\",\"latest_comment_url\":\"https://api.github.com/repos/yegor256/thindeck/issues/comments/70843546\",\"type\":\"Issue\"},\"repository\":{\"id\":17670227,\"name\":\"thindeck\",\"full_name\":\"yegor256/thindeck\",\"owner\":{\"login\":\"yegor256\",\"id\":526301,\"avatar_url\":\"https://avatars.githubusercontent.com/u/526301?v=3\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yegor256\",\"html_url\":\"https://github.com/yegor256\",\"followers_url\":\"https://api.github.com/users/yegor256/followers\",\"following_url\":\"https://api.github.com/users/yegor256/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yegor256/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yegor256/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yegor256/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yegor256/orgs\",\"repos_url\":\"https://api.github.com/users/yegor256/repos\",\"events_url\":\"https://api.github.com/users/yegor256/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yegor256/received_events\",\"type\":\"User\",\"site_admin\":false},\"private\":false,\"html_url\":\"https://github.com/yegor256/thindeck\",\"description\":\"Web Hosting That Deploys Itself\",\"fork\":false,\"url\":\"https://api.github.com/repos/yegor256/thindeck\",\"forks_url\":\"https://api.github.com/repos/yegor256/thindeck/forks\",\"keys_url\":\"https://api.github.com/repos/yegor256/thindeck/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/yegor256/thindeck/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/yegor256/thindeck/teams\",\"hooks_url\":\"https://api.github.com/repos/yegor256/thindeck/hooks\",\"issue_events_url\":\"https://api.github.com/repos/yegor256/thindeck/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/yegor256/thindeck/events\",\"assignees_url\":\"https://api.github.com/repos/yegor256/thindeck/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/yegor256/thindeck/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/yegor256/thindeck/tags\",\"blobs_url\":\"https://api.github.com/repos/yegor256/thindeck/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/yegor256/thindeck/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/yegor256/thindeck/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/yegor256/thindeck/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/yegor256/thindeck/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/yegor256/thindeck/languages\",\"stargazers_url\":\"https://api.github.com/repos/yegor256/thindeck/stargazers\",\"contributors_url\":\"https://api.github.com/repos/yegor256/thindeck/contributors\",\"subscribers_url\":\"https://api.github.com/repos/yegor256/thindeck/subscribers\",\"subscription_url\":\"https://api.github.com/repos/yegor256/thindeck/subscription\",\"commits_url\":\"https://api.github.com/repos/yegor256/thindeck/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/yegor256/thindeck/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/yegor256/thindeck/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/yegor256/thindeck/issues/comments/{number}\",\"contents_url\":\"https://api.github.com/repos/yegor256/thindeck/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/yegor256/thindeck/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/yegor256/thindeck/merges\",\"archive_url\":\"https://api.github.com/repos/yegor256/thindeck/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/yegor256/thindeck/downloads\",\"issues_url\":\"https://api.github.com/repos/yegor256/thindeck/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/yegor256/thindeck/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/yegor256/thindeck/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/yegor256/thindeck/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/yegor256/thindeck/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/yegor256/thindeck/releases{/id}\"},\"url\":\"https://api.github.com/notifications/threads/55898574\",\"subscription_url\":\"https://api.github.com/notifications/threads/55898574/subscription\"}]");
+        Mockito.when(github.entry()).thenReturn(request);
+        final RtUser user = new RtUser(github, request);
+        final List<Notification> notifications = user.notifications();
+        MatcherAssert.assertThat(
+            notifications, Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            notifications.size(), Matchers.is(1)
+        );
+        MatcherAssert.assertThat(
+            notifications.get(0).number(),
+            Matchers.is(55898574L)
+        );
     }
 
     /**
