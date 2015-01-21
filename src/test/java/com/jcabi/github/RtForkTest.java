@@ -35,6 +35,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -61,28 +62,35 @@ public final class RtForkTest {
         final String patched = "some patched organization";
         final MkContainer container =
             new MkGrizzlyContainer().next(this.answer(original))
-                .next(this.answer(patched)).next(this.answer(original)).start();
-        final MkContainer forksContainer = new MkGrizzlyContainer().start();
-        final RtRepo repo =
-            new RtRepo(
-                new MkGithub(),
-                new ApacheRequest(forksContainer.home()),
-                new Coordinates.Simple("test_user", "test_repo")
+                .next(this.answer(patched)).next(this.answer(original));
+        final MkContainer forksContainer = new MkGrizzlyContainer();
+        try {
+            container.start();
+            forksContainer.start();
+            final RtRepo repo =
+                new RtRepo(
+                    new MkGithub(),
+                    new ApacheRequest(forksContainer.home()),
+                    new Coordinates.Simple("test_user", "test_repo")
+                );
+            final RtFork fork = new RtFork(
+                new ApacheRequest(container.home()), repo, 1
             );
-        final RtFork fork = new RtFork(
-            new ApacheRequest(container.home()), repo, 1
-        );
-        fork.patch(RtForkTest.fork(patched));
-        MatcherAssert.assertThat(
-            new Fork.Smart(fork).organization(),
-            Matchers.equalTo(patched)
-        );
-        MatcherAssert.assertThat(
-            new Fork.Smart(fork).name(),
-            Matchers.notNullValue()
-        );
-        container.stop();
-        forksContainer.stop();
+            fork.patch(RtForkTest.fork(patched));
+            MatcherAssert.assertThat(
+                new Fork.Smart(fork).organization(),
+                Matchers.equalTo(patched)
+            );
+            MatcherAssert.assertThat(
+                new Fork.Smart(fork).name(),
+                Matchers.notNullValue()
+            );
+            // @checkstyle EmptyBlockCheck (2 lines)
+        } catch (final BindException ignored) {
+        } finally {
+            container.stop();
+            forksContainer.stop();
+        }
     }
 
     /**
