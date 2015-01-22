@@ -43,20 +43,20 @@ import com.jcabi.aspects.Immutable;
 final class RtNotification implements Notification {
 
     /**
-     * Release number.
+     * Release notifnumber.
      */
-    private final transient long number;
+    private final transient long notifnumber;
 
     /**
      * Public ctor.
-     * @param notifid Notification number
+     * @param notifid Notification notifnumber
      */
     RtNotification(final long notifid) {
-        this.number = notifid;
+        this.notifnumber = notifid;
     }
 
     @Override
     public long number() {
-        return this.number;
+        return this.notifnumber;
     }
 }

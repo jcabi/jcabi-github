@@ -157,12 +157,16 @@ final class RtUser implements User {
         final JsonArray jsnnotifs = resp.json().readArray();
         for (final JsonValue jsnnotif : jsnnotifs) {
             final JsonObject notifobj = (JsonObject) jsnnotif;
-            final Notification notif = new RtNotification(
-                Long.parseLong(notifobj.getString("id"))
-            );
+            final Notification notif = createNotification(notifobj);
             notifs.add(notif);
         }
         return notifs;
+    }
+
+    private Notification createNotification(final JsonObject notifobj) {
+        return new RtNotification(
+                    Long.parseLong(notifobj.getString("id"))
+                );
     }
 
     @Override
