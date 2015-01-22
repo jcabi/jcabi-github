@@ -260,14 +260,21 @@ public final class RtContentsITCase {
     /**
      * RtContents can iterate content.
      * @throws Exception If some problem inside
+     * @todo #863 unignore after Contents#get is implemented for
+     *  directories (#968 and #903)
      */
     @Test
+    @Ignore
     public void iteratesContent() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            final String apath = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-            final String bpath = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String dir = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String bfile = new StringBuilder(dir)
+                .append("/")
+                .append(RandomStringUtils.randomAlphanumeric(Tv.TEN))
+                .toString();
             final String message = String.format("testMessage");
             final String acont = new String(
                 Base64.encodeBase64(
@@ -282,10 +289,10 @@ public final class RtContentsITCase {
                 )
             );
             final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(this.jsonObject(apath, acont, message));
-            contents.create(this.jsonObject(bpath, bcont, message));
-            final Content acontent = contents.get(apath);
-            final Content bcontent = contents.get(bpath);
+            contents.create(this.jsonObject(afile, acont, message));
+            contents.create(this.jsonObject(bfile, bcont, message));
+            final Content acontent = contents.get(afile);
+            final Content bcontent = contents.get(dir);
             final Iterable<Content> iterated = contents.iterate("", "master");
             MatcherAssert.assertThat(
                 iterated,
