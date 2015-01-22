@@ -157,16 +157,10 @@ final class RtUser implements User {
         final JsonArray jsnnotifs = resp.json().readArray();
         for (final JsonValue jsnnotif : jsnnotifs) {
             final JsonObject notifobj = (JsonObject) jsnnotif;
-            final Notification notif = createNotification(notifobj);
+            final Notification notif = this.createNotification(notifobj);
             notifs.add(notif);
         }
         return notifs;
-    }
-
-    private Notification createNotification(final JsonObject notifobj) {
-        return new RtNotification(
-                    Long.parseLong(notifobj.getString("id"))
-                );
     }
 
     @Override
@@ -187,4 +181,14 @@ final class RtUser implements User {
         new RtJson(this.request).patch(json);
     }
 
+    /**
+     * Creates RtNotification object with the id from notifobj.
+     * @param notifobj JSON object with notification data.
+     * @return RtNotification object with the id from notifobj.
+     */
+    private Notification createNotification(final JsonObject notifobj) {
+        return new RtNotification(
+            Long.parseLong(notifobj.getString("id"))
+        );
+    }
 }
