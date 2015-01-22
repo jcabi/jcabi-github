@@ -119,7 +119,6 @@ public interface User extends JsonReadable, JsonPatchable {
      *  At the moment we implement just a few, but every data
      *  items should have its own method. Of course, every new item should
      *  be tested by a new unit test method.
-     * @todo #913:30min Implement the operation User.Smart.markAsRead().
      * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     @Immutable
@@ -274,7 +273,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         @Override
         public void markAsRead(final Date lastread) {
-            // Will be implemented later
+            this.user.markAsRead(lastread);
         }
 
         @Override
