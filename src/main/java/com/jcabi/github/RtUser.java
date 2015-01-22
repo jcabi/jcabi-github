@@ -54,6 +54,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "request" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtUser implements User {
 
     /**
