@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.util.Collections;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Github Notifications API.
@@ -58,11 +57,11 @@ final class RtNotifications implements Notifications {
 
     @Override
     public void markAsRead() {
-        throw new NotImplementedException("MkNotifications#markAsRead");
+        throw new UnsupportedOperationException("MkNotifications#markAsRead");
     }
 
     @Override
     public GitHubThread thread(final int number) {
-        throw new NotImplementedException("MkNotifications#thread");
+        throw new UnsupportedOperationException("MkNotifications#thread");
     }
 }
