@@ -93,13 +93,13 @@ public interface User extends JsonReadable, JsonPatchable {
     UserEmails emails();
 
     /**
-     * Returns all notifications of a user. Wraps the call "List your
-     *  notifications". See "List your notifications" at
-     *  https://developer.github.com/v3/activity/notifications/
+     * Returns all notifications of a user.
+     * Wraps the call "List your notifications". See "List your notifications"
+     * at https://developer.github.com/v3/activity/notifications/
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Returns all notifications for this user.
      * @throws IOException Thrown, if an error during sending request and/or
-     *  clreceiving response occurs.
+     *  receiving response occurs.
      */
     List<Notification> notifications() throws IOException;
 
