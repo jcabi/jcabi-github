@@ -34,6 +34,7 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.HttpURLConnection;
@@ -56,26 +57,14 @@ import org.junit.runners.model.Statement;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtForkTest {
-
+    /**
+     * The rule for skipping test if there's BindException.
+     * @todo 989 Apply this rule to other classes that use MkGrizzlyContainer
+     *  to avoid tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
     @Rule
-    public MethodRule skipRule = new MethodRule() {
-        @Override
-        public Statement apply(
-            final Statement base, final FrameworkMethod method,
-            final Object target
-        ) {
-            return new Statement() {
-                @Override
-                public void evaluate() throws Throwable {
-                    try{
-                        base.evaluate();
-                    } catch (final BindException ignored) {
-                        Assume.assumeTrue(false);
-                    }
-                }
-            };
-        }
-    };
+    public final transient MethodRule rule = new RtForkTest.SkipBindException();
 
     /**
      * RtFork can patch comment and return new json.
@@ -133,5 +122,29 @@ public final class RtForkTest {
             .add("organization", organization)
             .add("name", "nm")
             .build();
+    }
+
+    private static class SkipBindException implements MethodRule {
+        @Override
+        public Statement apply(
+            final Statement base, final FrameworkMethod method,
+            final Object target
+        ) {
+            return new Statement() {
+                @Override
+                // @checkstyle IllegalThrowsCheck (1 line)
+                public void evaluate() throws Throwable {
+                    try {
+                        base.evaluate();
+                    } catch (final BindException ex) {
+                        Logger.warn(
+                            base,
+                            "Test failed due to BindException, skipping"
+                        );
+                        Assume.assumeTrue(false);
+                    }
+                }
+            };
+        }
     }
 }
