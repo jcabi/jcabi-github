@@ -148,20 +148,19 @@ final class RtUser implements User {
 
     @Override
     public List<Notification> notifications() throws IOException {
-        final List<Notification> notifs =
+        final List<Notification> list =
             new LinkedList<Notification>();
         final JsonResponse resp = this.github().entry().uri()
             .path("notifications")
             .back()
             .fetch()
             .as(JsonResponse.class);
-        final JsonArray jsnnotifs = resp.json().readArray();
-        for (final JsonValue jsnnotif : jsnnotifs) {
-            final JsonObject notifobj = (JsonObject) jsnnotif;
-            final Notification notif = this.createNotification(notifobj);
-            notifs.add(notif);
+        final JsonArray array = resp.json().readArray();
+        for (final JsonValue value : array) {
+            final JsonObject notif = (JsonObject) value;
+            list.add(this.createNotification(notif));
         }
-        return notifs;
+        return list;
     }
 
     @Override
