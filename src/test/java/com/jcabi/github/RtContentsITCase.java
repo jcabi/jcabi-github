@@ -272,33 +272,48 @@ public final class RtContentsITCase {
         try {
             final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String dir = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-            final String bfile = new StringBuilder(dir)
-                .append("/")
-                .append(RandomStringUtils.randomAlphanumeric(Tv.TEN))
-                .toString();
+            final String bfile = String.format(
+                "%s/%s",
+                dir,
+                RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            );
             final String message = String.format("testMessage");
-            final String acont = new String(
-                Base64.encodeBase64(
-                    String.format("content a:%d", System.currentTimeMillis())
-                        .getBytes()
-                )
-            );
-            final String bcont = new String(
-                Base64.encodeBase64(
-                    String.format("content b:%d", System.currentTimeMillis())
-                        .getBytes()
-                )
-            );
             final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(this.jsonObject(afile, acont, message));
-            contents.create(this.jsonObject(bfile, bcont, message));
-            final Content acontent = contents.get(afile);
-            final Content bcontent = contents.get(dir);
+            contents.create(
+                this.jsonObject(
+                    afile,
+                    new String(
+                        Base64.encodeBase64(
+                            String.format(
+                                "content a:%d",
+                                System.currentTimeMillis()
+                            )
+                                .getBytes()
+                        )
+                    ),
+                    message
+                )
+            );
+            contents.create(
+                this.jsonObject(
+                    bfile,
+                    new String(
+                        Base64.encodeBase64(
+                            String.format(
+                                "content b:%d",
+                                System.currentTimeMillis()
+                            )
+                                .getBytes()
+                        )
+                    ),
+                    message
+                )
+            );
             final Iterable<Content> iterated = contents.iterate("", "master");
             MatcherAssert.assertThat(
                 iterated,
                 Matchers.allOf(
-                    Matchers.hasItems(acontent, bcontent),
+                    Matchers.hasItems(contents.get(afile), contents.get(dir)),
                     Matchers.<Content>iterableWithSize(3)
                 )
             );
