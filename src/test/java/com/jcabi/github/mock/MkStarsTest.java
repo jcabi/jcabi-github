@@ -31,42 +31,52 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
+import com.jcabi.github.Stars;
 import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Testcase for MkTags.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Testcase for MkStars.
+ * @author Yuriy Alevohin (alevohin@mail.ru)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkTagsTest {
+public class MkStarsTest {
 
     /**
-     * MkTags can create tags.
+     * MkStars can star repository.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsMkTag() throws Exception {
-        final JsonObject tagger = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "Scott@gmail.com").build();
+    public final void starsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
         MatcherAssert.assertThat(
-            this.repo().git().tags().create(
-                Json.createObjectBuilder().add("name", "v.0.1")
-                    .add("message", "test tag").add("sha", "abcsha12")
-                    .add("tagger", tagger).build()
-            ),
-            Matchers.notNullValue()
+            stars.starred(),
+            Matchers.is(true)
         );
     }
 
     /**
-     * Repo for testing.
+     * MkStars can unstar repository.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public final void unstarsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
+        stars.unstar();
+        MatcherAssert.assertThat(
+            stars.starred(),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * Create an repo to work with.
      * @return Repo
-     * @throws Exception - if something goes wrong.
+     * @throws Exception If some problem inside
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(

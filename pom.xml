@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -215,23 +215,6 @@
         </dependency>
     </dependencies>
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <configuration>
-                        <systemPropertyVariables>
-                            <failsafe.github.key>${failsafe.github.key}</failsafe.github.key>
-                            <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
-                            <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
-                            <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
-                            <failsafe.github.user>${failsafe.github.user}</failsafe.github.user>
-                            <failsafe.github.password>${failsafe.github.password}</failsafe.github.password>
-                        </systemPropertyVariables>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -241,6 +224,16 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <failsafe.github.key>${failsafe.github.key}</failsafe.github.key>
+                                <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
+                                <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
+                                <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
+                                <failsafe.github.user>${failsafe.github.user}</failsafe.github.user>
+                                <failsafe.github.password>${failsafe.github.password}</failsafe.github.password>
+                            </systemPropertyVariables>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

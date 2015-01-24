@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -107,39 +107,61 @@ final class MkMilestone implements Milestone {
         assert this.coords != null;
         assert this.storage != null;
         assert this.code != -1;
-        throw new UnsupportedOperationException(
-            "This method is not implemented yet."
+        int result = this.coords.compareTo(
+            milestone.repo().coordinates()
         );
+        if (result == 0) {
+            result = Integer.valueOf(this.code).compareTo(milestone.number());
+        }
+        return result;
     }
 
     @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
-        throw new UnsupportedOperationException(
-            "Unimplemented operation."
-        );
+        return new JsonNode(
+            this.storage.xml().nodes(this.xpath()).get(0)
+        ).json();
     }
 
     @Override
     public void patch(
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
-        throw new UnsupportedOperationException(
-            "This operation is not available yet."
+        new JsonPatch(
+            this.storage
+        ).patch(
+            this.xpath(),
+            json
         );
     }
 
     @Override
     @NotNull(message = "repo is never NULL")
     public Repo repo() {
-        throw new UnsupportedOperationException(
-            "This is not available yet"
+        return new MkRepo(
+            this.storage,
+            this.self,
+            this.coords
         );
     }
 
     @Override
     public int number() {
         return this.code;
+    }
+
+    /**
+     * XPath of this element in XML tree.
+     * @return XPath
+     */
+    @NotNull(message = "Xpath is never NULL")
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/milestones[number='%d']",
+            this.coords,
+            this.code
+        );
     }
 
 }

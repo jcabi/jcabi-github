@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,8 +48,6 @@ import lombok.EqualsAndHashCode;
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
- * @todo #955 Uncomment test RtRepoTest.iteratesLanguages()
- *  when RtRepoITCase.languages() implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

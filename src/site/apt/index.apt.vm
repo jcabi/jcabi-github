@@ -27,7 +27,7 @@ public class Main {
 }
 +--
 
-  Read {{{./apidocs-${project.version}/com/jcabi/github/index.html}JavaDoc}}
+  Read {{{./apidocs-${project.version}/index.html}JavaDoc}}
   for more information and examples.
 
   There are {{{http://developer.github.com/libraries/}a few other Java adapters}}
