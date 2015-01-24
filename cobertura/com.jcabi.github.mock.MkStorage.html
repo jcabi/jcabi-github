@@ -29,7 +29,7 @@
 <table cellspacing="0" cellpadding="0" class="src">
 <tr>  <td class="numLineCover">&nbsp;1</td>  <td class="nbHitsCovered">&nbsp;2550</td>  <td class="src"><pre class="src">&nbsp;<span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;2</td>  <td class="nbHits">&nbsp;</td>
-  <td class="src"><pre class="src">&nbsp;<span class="comment"> * Copyright (c) 2013-2014, jcabi.com</span></pre></td></tr>
+  <td class="src"><pre class="src">&nbsp;<span class="comment"> * Copyright (c) 2013-2015, jcabi.com</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;3</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment"> * All rights reserved.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;4</td>  <td class="nbHits">&nbsp;</td>
@@ -261,9 +261,9 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;118</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> InFile() <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;119</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>(File.createTempFile(<span class="string">"jcabi-github"</span>, <span class="string">".xml"</span>));</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;120</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> File(<span class="keyword">this</span>.name).deleteOnExit();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;121</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;119</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>(File.createTempFile(<span class="string">"jcabi-github"</span>, <span class="string">".xml"</span>));</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;120</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> File(<span class="keyword">this</span>.name).deleteOnExit();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;121</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;122</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;123</td>  <td class="nbHits">&nbsp;</td>
@@ -278,10 +278,10 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> InFile(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;128</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            @NotNull(message = <span class="string">"file can't be NULL"</span>) <span class="keyword">final</span> File file</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;        ) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;130</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;            FileUtils.write(file, <span class="string">"&lt;github/&gt;"</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;131</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.name = file.getAbsolutePath();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;132</td>  <td class="nbHitsCovered">&nbsp;259</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;        ) <span class="keyword">throws</span> IOException {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;130</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;            FileUtils.write(file, <span class="string">"&lt;github/&gt;"</span>);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;131</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.name = file.getAbsolutePath();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;132</td>  <td class="nbHitsCovered">&nbsp;260</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;133</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;134</td>  <td class="nbHits">&nbsp;</td>
@@ -439,6 +439,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 1/17/15 3:57 PM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 1/24/15 12:26 AM.</div>
 </body>
 </html>
