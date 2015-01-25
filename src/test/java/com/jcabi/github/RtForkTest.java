@@ -34,20 +34,15 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
-import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.net.BindException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.Statement;
+import org.junit.rules.ExternalResource;
 
 /**
  * Test case for {@link RtFork}.
@@ -64,7 +59,7 @@ public final class RtForkTest {
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Rule
-    public final transient MethodRule rule = new RtForkTest.SkipBindException();
+    public final transient ExternalResource resource = new RandomPort();
 
     /**
      * RtFork can patch comment and return new json.
@@ -124,27 +119,4 @@ public final class RtForkTest {
             .build();
     }
 
-    private static class SkipBindException implements MethodRule {
-        @Override
-        public Statement apply(
-            final Statement base, final FrameworkMethod method,
-            final Object target
-        ) {
-            return new Statement() {
-                @Override
-                // @checkstyle IllegalThrowsCheck (1 line)
-                public void evaluate() throws Throwable {
-                    try {
-                        base.evaluate();
-                    } catch (final BindException ex) {
-                        Logger.warn(
-                            base,
-                            "Test failed due to BindException, skipping"
-                        );
-                        Assume.assumeTrue(false);
-                    }
-                }
-            };
-        }
-    }
 }
