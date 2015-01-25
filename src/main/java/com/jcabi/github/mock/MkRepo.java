@@ -50,9 +50,11 @@ import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
+import com.jcabi.github.RtLanguage;
 import com.jcabi.github.Stars;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -70,7 +72,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords" })
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports" })
 final class MkRepo implements Repo {
 
     /**
@@ -279,7 +281,14 @@ final class MkRepo implements Repo {
 
     @Override
     public Iterable<Language> languages() {
-        return new ArrayList<Language>(0);
+        final List<Language> languages = new ArrayList<Language>(0);
+        final int java = 999;
+        languages.add(new RtLanguage("Java", java));
+        final int php = 888;
+        languages.add(new RtLanguage("PHP", php));
+        final int ruby = 777;
+        languages.add(new RtLanguage("Ruby", ruby));
+        return languages;
     }
 
     @Override
