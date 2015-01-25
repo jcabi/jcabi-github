@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.google.common.collect.Lists;
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Language;
 import com.jcabi.github.Milestones;
@@ -156,10 +157,9 @@ public final class MkRepoTest {
         );
         final Iterable<Language> languages = repo.languages();
         MatcherAssert.assertThat(languages, Matchers.notNullValue());
-        final int size = 3;
         MatcherAssert.assertThat(
             Lists.newArrayList(languages),
-            Matchers.hasSize(size)
+            Matchers.hasSize(Tv.THREE)
         );
     }
 }
