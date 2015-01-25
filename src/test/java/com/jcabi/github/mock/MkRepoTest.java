@@ -29,7 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.collect.Lists;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Language;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
@@ -148,11 +150,16 @@ public final class MkRepoTest {
     public void fetchLanguages() throws IOException {
         final String user = "testuser4";
         final Repo repo = new MkRepo(
-                new MkStorage.InFile(),
-                user,
-                new Coordinates.Simple(user, "testrepo4")
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo4")
         );
-        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+        final Iterable<Language> languages = repo.languages();
+        MatcherAssert.assertThat(languages, Matchers.notNullValue());
+        final int size = 3;
+        MatcherAssert.assertThat(
+            Lists.newArrayList(languages),
+            Matchers.hasSize(size)
+        );
     }
-
 }
