@@ -47,7 +47,6 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
@@ -287,8 +286,7 @@ public final class RtContentsITCase {
                             String.format(
                                 "content a:%d",
                                 System.currentTimeMillis()
-                            )
-                                .getBytes()
+                            ).getBytes()
                         )
                     ),
                     message
@@ -302,8 +300,7 @@ public final class RtContentsITCase {
                             String.format(
                                 "content b:%d",
                                 System.currentTimeMillis()
-                            )
-                                .getBytes()
+                            ).getBytes()
                         )
                     ),
                     message
@@ -314,7 +311,7 @@ public final class RtContentsITCase {
                 iterated,
                 Matchers.allOf(
                     Matchers.hasItems(contents.get(afile), contents.get(dir)),
-                    Matchers.<Content>iterableWithSize(3)
+                    Matchers.<Content>iterableWithSize(Tv.THREE)
                 )
             );
         } finally {
