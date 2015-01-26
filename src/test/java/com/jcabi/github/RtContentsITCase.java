@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -45,7 +46,7 @@ import org.junit.Test;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @checkstyle MultipleStringLiterals (300 lines)
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
@@ -251,6 +252,68 @@ public final class RtContentsITCase {
             );
             final Content other = contents.get(path);
             MatcherAssert.assertThat(content, Matchers.equalTo(other));
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtContents can iterate content.
+     * @throws Exception If some problem inside
+     * @todo #863 unignore after Contents#get is implemented for
+     *  directories (#968 and #903)
+     */
+    @Test
+    @Ignore
+    public void iteratesContent() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = this.rule.repo(repos);
+        try {
+            final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String dir = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String bfile = String.format(
+                "%s/%s",
+                dir,
+                RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            );
+            final String message = String.format("testMessage");
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(
+                this.jsonObject(
+                    afile,
+                    new String(
+                        Base64.encodeBase64(
+                            String.format(
+                                "content a:%d",
+                                System.currentTimeMillis()
+                            ).getBytes()
+                        )
+                    ),
+                    message
+                )
+            );
+            contents.create(
+                this.jsonObject(
+                    bfile,
+                    new String(
+                        Base64.encodeBase64(
+                            String.format(
+                                "content b:%d",
+                                System.currentTimeMillis()
+                            ).getBytes()
+                        )
+                    ),
+                    message
+                )
+            );
+            final Iterable<Content> iterated = contents.iterate("", "master");
+            MatcherAssert.assertThat(
+                iterated,
+                Matchers.allOf(
+                    Matchers.hasItems(contents.get(afile), contents.get(dir)),
+                    Matchers.<Content>iterableWithSize(Tv.THREE)
+                )
+            );
         } finally {
             repos.remove(repo.coordinates());
         }
