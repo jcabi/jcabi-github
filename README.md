@@ -75,12 +75,12 @@ $ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfails
 Replace `<token>` with the OAuth access token, and `<repo>` with the name of
 repository you create in your account (for test purposes only), for example `yegor256/test`.
 The `failsafe.github.key` should have permissions in `failsafe.github.repo` to all scopes needed
-by the integration test suite you want to run.
+by the integration test suite you want to run (including `delete_repo`, which is not set by default!).
 Please note that different integration tests may need keys with permissions to different
 [scopes](https://developer.github.com/v3/oauth/#scopes);
-the RtGistITCase test requires permissions to gist scope.
-RtForksITCase requires additional parameter -Dfailsafe.github.organization=<organization>
-where <organization> is an organization name to fork test github repository.
+the `RtGistITCase` test requires permissions to gist scope.
+`RtForksITCase` requires additional parameter `-Dfailsafe.github.organization=<organization>`
+where `<organization>` is an organization name to fork test github repository.
 
 In order to run static analysis checks only use this:
 
