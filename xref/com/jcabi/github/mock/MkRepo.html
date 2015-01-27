@@ -58,29 +58,29 @@
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Releases;
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Repo;
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.RepoCommits;
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Stars;
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">import</strong> javax.json.JsonObject;
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <strong class="jxr_keyword">import</strong> lombok.EqualsAndHashCode;
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <strong class="jxr_keyword">import</strong> lombok.ToString;
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.NotImplementedException;
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment"> * Mock Github repo.</em>
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor@tpc2.com)</em>
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment"> * @version $Id$</em>
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment"> * @since 0.5</em>
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassFanOutComplexity (500 lines)</em>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment"> * @todo #923 Implement languages() method.</em>
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment"> *  Don't forget about unit tests.</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.RtLanguage;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Stars;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <strong class="jxr_keyword">import</strong> javax.json.JsonObject;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <strong class="jxr_keyword">import</strong> lombok.EqualsAndHashCode;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <strong class="jxr_keyword">import</strong> lombok.ToString;
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment"> * Mock Github repo.</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor@tpc2.com)</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment"> * @version $Id$</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment"> * @since 0.5</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassFanOutComplexity (500 lines)</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  @Immutable
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  @ToString
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  @EqualsAndHashCode(of = {<span class="jxr_string">"storage"</span>, <span class="jxr_string">"self"</span>, <span class="jxr_string">"coords"</span> })
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  @SuppressWarnings(<span class="jxr_string">"PMD.TooManyMethods"</span>)
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  @SuppressWarnings({<span class="jxr_string">"PMD.TooManyMethods"</span>, <span class="jxr_string">"PMD.ExcessiveImports"</span> })
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkRepo.html">MkRepo</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../com/jcabi/github/Repo.html">Repo</a> {
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>      <em class="jxr_javadoccomment">/**</em>
@@ -289,35 +289,42 @@
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> 
 <a class="jxr_linenumber" name="L282" href="#L282">282</a>     @Override
 <a class="jxr_linenumber" name="L283" href="#L283">283</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Language&gt; languages() {
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NotImplementedException(<span class="jxr_string">"MkRepo#languages"</span>);
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>     }
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>     @Override
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>     @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>     <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/JsonNode.html">JsonNode</a>(
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>             <strong class="jxr_keyword">this</strong>.storage.xml().nodes(<strong class="jxr_keyword">this</strong>.xpath()).get(0)
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>         ).json();
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>     }
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>     @Override
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Repo.html">Repo</a> repo) {
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.coords.compareTo(repo.coordinates());
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>     }
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']"</span>,
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>         );
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>     }
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> }
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         <strong class="jxr_keyword">final</strong> List&lt;Language&gt; languages = <strong class="jxr_keyword">new</strong> ArrayList&lt;Language&gt;(0);
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> java = 999;
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         languages.add(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/RtLanguage.html">RtLanguage</a>(<span class="jxr_string">"Java"</span>, java));
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> php = 888;
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         languages.add(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/RtLanguage.html">RtLanguage</a>(<span class="jxr_string">"PHP"</span>, php));
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> ruby = 777;
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>         languages.add(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/RtLanguage.html">RtLanguage</a>(<span class="jxr_string">"Ruby"</span>, ruby));
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>         <strong class="jxr_keyword">return</strong> languages;
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>     }
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>     @Override
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>     @NotNull(message = <span class="jxr_string">"JSON is never NULL"</span>)
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>     <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/JsonNode.html">JsonNode</a>(
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>             <strong class="jxr_keyword">this</strong>.storage.xml().nodes(<strong class="jxr_keyword">this</strong>.xpath()).get(0)
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>         ).json();
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>     }
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>     @Override
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../../com/jcabi/github/Repo.html">Repo</a> repo) {
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.coords.compareTo(repo.coordinates());
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>     }
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']"</span>,
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>         );
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>     }
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
