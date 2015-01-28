@@ -36,7 +36,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtForks}.
+ * Test case for {@link RtForks}. This test requires OAuth scope repo.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$

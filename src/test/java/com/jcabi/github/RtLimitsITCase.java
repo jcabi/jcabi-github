@@ -35,7 +35,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtLimits}.
+ * Integration case for {@link RtLimits}. This test requires OAuth scope repo.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)

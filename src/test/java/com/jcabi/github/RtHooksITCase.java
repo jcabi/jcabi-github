@@ -38,7 +38,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtHooks}.
+ * Test case for {@link RtHooks}. This test requires OAuth scope
+ * admin:repo_hook.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
