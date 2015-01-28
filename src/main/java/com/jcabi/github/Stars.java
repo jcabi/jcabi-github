@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,38 +43,31 @@ import javax.validation.constraints.NotNull;
  */
 @Immutable
 public interface Stars {
+
     /**
-     * Check if particular repo is starred by current user.
-     * @param user Repo owner login
-     * @param repo Repo name
+     * Owner of them.
+     * @return Repo
+     */
+    @NotNull(message = "repository is never NULL")
+    Repo repo();
+
+    /**
+     * Check if repo is starred.
      * @return True if repo is starred
      * @throws IOException - If anything goes wrong.
      */
     @NotNull(message = "starred is never NULL")
-    boolean starred(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) throws IOException;
+    boolean starred() throws IOException;
 
     /**
-     * Star particular repository by current user.
-     * @param user Repo owner login
-     * @param repo Repo name
+     * Star repository.
      * @throws IOException - If anything goes wrong.
      */
-    void star(
-         @NotNull(message = "user can't be NULL") final String user,
-         @NotNull(message = "repo can't be NULL") final String repo
-    ) throws IOException;
+    void star() throws IOException;
 
     /**
-     * Unstar particular repository by current user.
-     * @param user Repo owner login
-     * @param repo Repo name
+     * Unstar repository.
      * @throws IOException - If anything goes wrong.
      */
-    void unstar(
-         @NotNull(message = "user can't be NULL") final String user,
-         @NotNull(message = "repo can't be NULL") final String repo
-    ) throws IOException;
+    void unstar() throws IOException;
 }

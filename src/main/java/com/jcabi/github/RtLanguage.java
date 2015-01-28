@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,14 +29,48 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Loggable;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+
 /**
- * Integration test case for {@link RtStars}.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Github repository language.
+ * @author Nikolay Popov (dementla7@rambler.ru)
  * @version $Id$
- * @todo #919:30min Implement integration tests for star(), unstar() and
- *  starred() operations.
- *  See https://developer.github.com/v3/activity/starring/ for details.
  */
-public final class RtStarsITestCase {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "txt", "length" })
+public final class RtLanguage implements Language {
+
+    /**
+     * Language name like C or Java.
+     */
+    private final transient String txt;
+
+    /**
+     * Number of bytes written in the language in project.
+     */
+    private final transient long length;
+
+    /**
+     * Public ctor.
+     * @param lang Language name
+     * @param size Language bytes
+     */
+    public RtLanguage(final String lang, final long size) {
+        this.txt = lang;
+        this.length = size;
+    }
+
+    @Override
+    @NotNull(message = "name is never NULL")
+    public String name() {
+        return this.txt;
+    }
+
+    @Override
+    @NotNull(message = "bytes is never NULL")
+    public long bytes() {
+        return this.length;
+    }
 }

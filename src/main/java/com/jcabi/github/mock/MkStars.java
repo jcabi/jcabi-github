@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,84 +32,91 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repo;
 import com.jcabi.github.Stars;
 import java.io.IOException;
+import java.util.List;
 import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
  * Github starring API.
- *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.15
- * @todo #957:30min Implement MkStars.star() and MkStars.unstar() operations.
- *  Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-public final class MkStars implements Stars {
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+final class MkStars implements Stars {
 
     /**
      * Storage.
      */
     private final transient MkStorage storage;
-
+    /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
     /**
      * Repo's name.
      */
     private final transient Coordinates coords;
+
     /**
-     * Public constructor.
+     * Public ctor.
      * @param stg The storage.
-     * @param rep Repo's coordinates.
+     * @param login The login name.
+     * @param rep The Repository.
      * @throws java.io.IOException If something goes wrong.
      */
     MkStars(
         @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login,
         @NotNull(message = "rep can't be NULL") final Coordinates rep
     ) throws IOException {
         this.storage = stg;
+        this.self = login;
         this.coords = rep;
         this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("stars")
+            new Directives().xpath("/github/repos/repo")
+                .addIf("stars")
         );
     }
 
     @Override
-    public boolean starred(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        try {
-            return this.storage.xml().xpath(this.xpath(user, repo)).size() == 1;
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+    public Repo repo() {
+        return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    public void star(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        throw new NotImplementedException("MkStars.star()");
+    public boolean starred() throws IOException {
+        final List<String> xpath = this.storage.xml().xpath(
+            String.format("%s/star/login/text()", this.xpath())
+        );
+        return !xpath.isEmpty()
+            && StringUtils.equalsIgnoreCase(this.self, xpath.get(0));
     }
 
     @Override
-    public void unstar(
-        @NotNull(message = "user can't be NULL") final String user,
-        @NotNull(message = "repo can't be NULL") final String repo
-    ) {
-        throw new NotImplementedException("MkStars.unstar()");
+    public void star() throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath()).add("star").add("login")
+                .set(this.self)
+        );
+    }
+
+    @Override
+    public void unstar() throws IOException {
+        this.storage.apply(
+            new Directives().xpath(this.xpath())
+                .xpath(String.format("star/login[.='%s']", this.self))
+                .remove()
+        );
     }
 
     /**
@@ -123,22 +130,4 @@ public final class MkStars implements Stars {
             this.coords
         );
     }
-
-    /**
-     * XPath of this element in XML tree.
-     * @param user Repo owner
-     * @param repo Repo name
-     * @return XPath
-     */
-    @NotNull(message = "Xpath is never NULL")
-    private String xpath(final String user, final String repo) {
-        final String query = new StringBuilder(
-            this.xpath()
-        ).append("/star[@user='%s'][@repo='%s']/@repo").toString();
-        return String.format(
-            query,
-            this.coords, user, repo
-        );
-    }
-
 }

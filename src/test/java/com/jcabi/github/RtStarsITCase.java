@@ -27,51 +27,77 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.jcabi.github;
 
-package com.jcabi.github.mock;
-
-import com.jcabi.github.Repo;
-import javax.json.Json;
-import javax.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Testcase for MkTags.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Integration test case for {@link RtStars}.
+ *
+ * @author Artem Nakonechny (wentwogcq@gmail.com)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkTagsTest {
+public final class RtStarsITCase {
+    /**
+     * Test repos.
+     */
+    private static Repos repos;
 
     /**
-     * MkTags can create tags.
-     * @throws Exception If something goes wrong.
+     * Test repo.
+     */
+    private static Repo repo;
+
+    /**
+     * Set up tests.
+     * @throws IOException If some errors occurred.
+     */
+    @BeforeClass
+    public static void setUp() throws IOException  {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.notNullValue());
+        final Github github = new RtGithub(key);
+        repos = github.repos();
+        repo = new RepoRule().repo(repos);
+    }
+
+    /**
+     * Set up tests.
+     * @throws IOException If some errors occurred.
+     */
+    @AfterClass
+    public static void tearDown() throws IOException  {
+        if (repos != null && repo != null) {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
+     * RtStars can star, unstar and check whether the github repository is
+     * starred.
+     * @throws IOException If some errors occurred.
      */
     @Test
-    public void createsMkTag() throws Exception {
-        final JsonObject tagger = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "Scott@gmail.com").build();
+    public void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
-            this.repo().git().tags().create(
-                Json.createObjectBuilder().add("name", "v.0.1")
-                    .add("message", "test tag").add("sha", "abcsha12")
-                    .add("tagger", tagger).build()
-            ),
-            Matchers.notNullValue()
+            repo.stars().starred(),
+            Matchers.equalTo(false)
+        );
+        repo.stars().star();
+        MatcherAssert.assertThat(
+            repo.stars().starred(),
+            Matchers.equalTo(true)
+        );
+        repo.stars().unstar();
+        MatcherAssert.assertThat(
+            repo.stars().starred(),
+            Matchers.equalTo(false)
         );
     }
-
-    /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-    }
-
 }

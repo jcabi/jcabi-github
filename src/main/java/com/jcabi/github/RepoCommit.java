@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,7 +103,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          */
         @NotNull(message = "message is never NULL")
         public String message() throws IOException {
-            return this.jsn.text("message");
+            return this.jsn.json().getJsonObject("commit").getString("message");
         }
         /**
          * Get its URL.

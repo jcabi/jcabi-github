@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,30 +33,29 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
  * Github repository.
- *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
- * @todo #923 Let's implement RtRepo.languages().
- *  Now it returns empty iterable but should return list of repo languages.
- *  Uncomment test RtRepoTest.iteratesLanguages() when done.
- *  See https://developer.github.com/v3/repos/#list-languages for API details.
- * @todo #955 Uncomment test RtRepoTest.iteratesLanguages()
- *  when RtRepoITCase.languages() implemented.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "entry", "coords" })
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.CouplingBetweenObjects" })
+@SuppressWarnings({
+    "PMD.TooManyMethods",
+    "PMD.CouplingBetweenObjects"
+})
 final class RtRepo implements Repo {
 
     /**
@@ -207,7 +206,7 @@ final class RtRepo implements Repo {
     @Override
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
-        return new RtStars(this.entry);
+        return new RtStars(this.entry, this);
     }
 
     @Override
@@ -217,8 +216,26 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    public Iterable<Language> languages() {
-        return Collections.emptyList();
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    public Iterable<Language> languages() throws IOException {
+        final RtJson json = new RtJson(
+            this.request.uri()
+                .path("/languages")
+                .back()
+        );
+        final JsonObject object = json.fetch();
+        final List<Language> languages =
+            new ArrayList<Language>(object.size());
+        for (final Map.Entry<String, JsonValue> value : object.entrySet()) {
+            final String name = value.getKey();
+            languages.add(
+                new RtLanguage(
+                    name,
+                    object.getJsonNumber(name).longValue()
+                )
+            );
+        }
+        return languages;
     }
 
     @Override

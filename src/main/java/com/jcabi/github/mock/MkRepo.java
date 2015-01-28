@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,13 +50,15 @@ import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
+import com.jcabi.github.RtLanguage;
 import com.jcabi.github.Stars;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock Github repo.
@@ -65,14 +67,12 @@ import org.apache.commons.lang3.NotImplementedException;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
- * @todo #923 Implement languages() method.
- *  Don't forget about unit tests.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords" })
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports" })
 final class MkRepo implements Repo {
 
     /**
@@ -267,7 +267,7 @@ final class MkRepo implements Repo {
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
         try {
-            return new MkStars(this.storage, this.coords);
+            return new MkStars(this.storage, this.self, this.coords);
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -281,7 +281,14 @@ final class MkRepo implements Repo {
 
     @Override
     public Iterable<Language> languages() {
-        throw new NotImplementedException("MkRepo#languages");
+        final List<Language> languages = new ArrayList<Language>(0);
+        final int java = 999;
+        languages.add(new RtLanguage("Java", java));
+        final int php = 888;
+        languages.add(new RtLanguage("PHP", php));
+        final int ruby = 777;
+        languages.add(new RtLanguage("Ruby", ruby));
+        return languages;
     }
 
     @Override

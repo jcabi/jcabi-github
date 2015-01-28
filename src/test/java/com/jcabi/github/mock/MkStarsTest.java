@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,6 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
@@ -34,67 +35,53 @@ import com.jcabi.github.Stars;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link com.jcabi.github.mock.MkStars}.
- *
- * @author Alexander Paderin (apocarteres@gmail.com)
+ * Testcase for MkStars.
+ * @author Yuriy Alevohin (alevohin@mail.ru)
  * @version $Id$
- * @todo #957:Implement MkStars.star() and MkStars.unstar() operations.
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkStarsTest {
+public class MkStarsTest {
 
     /**
-     * Checks that repo is not starred by default.
+     * MkStars can star repository.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void repoIsNotStarredByDefault() throws Exception {
-        MatcherAssert.assertThat(
-            true, Matchers.not(this.repo().stars().starred("user", "repo"))
-        );
-    }
-
-    /**
-     * Checks that repo is starred when user stars that.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    @Ignore
-    public void repoIsStarredIfUserStarredThat() throws Exception {
+    public final void starsRepository() throws Exception {
         final Stars stars = this.repo().stars();
-        stars.star("user", "repo");
+        stars.star();
         MatcherAssert.assertThat(
-            true, Matchers.is(stars.starred("user", "repo"))
+            stars.starred(),
+            Matchers.is(true)
         );
     }
 
     /**
-     * Checks that repo is not starred when user "unstar" that.
+     * MkStars can unstar repository.
      * @throws Exception If something goes wrong.
      */
     @Test
-    @Ignore
-    public void repoIsNotStarredIfUserUnStarredThat() throws Exception {
-        this.repo().stars().star("user", "repo");
-        this.repo().stars().unstar("user", "repo");
+    public final void unstarsRepository() throws Exception {
+        final Stars stars = this.repo().stars();
+        stars.star();
+        stars.unstar();
         MatcherAssert.assertThat(
-            true, Matchers.not(this.repo().stars().starred("user", "repo"))
+            stars.starred(),
+            Matchers.is(false)
         );
     }
 
     /**
-     * Repo for testing.
+     * Create an repo to work with.
      * @return Repo
-     * @throws Exception - if something goes wrong.
+     * @throws Exception If some problem inside
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
         );
     }
+
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtStars}.
@@ -60,14 +61,19 @@ public final class RtStarsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
             .start();
-        final Stars stars = new RtStars(
-            new ApacheRequest(container.home())
+        final Stars starred = new RtStars(
+            new ApacheRequest(container.home()),
+            RtStarsTest.repo("someuser", "starredrepo")
         );
         MatcherAssert.assertThat(
-            stars.starred("someuser", "starredrepo"), Matchers.is(true)
+            starred.starred(), Matchers.is(true)
+        );
+        final Stars unstarred = new RtStars(
+            new ApacheRequest(container.home()),
+            RtStarsTest.repo("otheruser", "notstarredrepo")
         );
         MatcherAssert.assertThat(
-            stars.starred("otheruser", "notstarredrepo"), Matchers.is(false)
+            unstarred.starred(), Matchers.is(false)
         );
     }
 
@@ -81,13 +87,14 @@ public final class RtStarsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).start();
-        final Stars stars = new RtStars(
-            new ApacheRequest(container.home())
-        );
         final String user = "staruser";
         final String repo = "starrepo";
+        final Stars stars = new RtStars(
+            new ApacheRequest(container.home()),
+            RtStarsTest.repo(user, repo)
+        );
         try {
-            stars.star(user, repo);
+            stars.star();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -117,13 +124,14 @@ public final class RtStarsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).start();
-        final Stars stars = new RtStars(
-            new ApacheRequest(container.home())
-        );
         final String user = "unstaruser";
         final String repo = "unstarrepo";
+        final Stars stars = new RtStars(
+            new ApacheRequest(container.home()),
+            RtStarsTest.repo(user, repo)
+        );
         try {
-            stars.unstar(user, repo);
+            stars.unstar();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -141,5 +149,18 @@ public final class RtStarsTest {
         } finally {
             container.stop();
         }
+    }
+
+    /**
+     * Create and return repo for testing.
+     * @param user User
+     * @param reponame Repository
+     * @return Repo
+     */
+    private static Repo repo(final String user, final String reponame) {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple(user, reponame))
+            .when(repo).coordinates();
+        return repo;
     }
 }
