@@ -160,7 +160,6 @@ public final class MkIssueTest {
 
     /**
      * MkIssue should be able to compare different instances.
-     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -189,7 +188,6 @@ public final class MkIssueTest {
 
     /**
      * MkIssue can remember it's author.
-     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -237,6 +235,20 @@ public final class MkIssueTest {
                 1
             ).exists(),
             Matchers.is(false)
+        );
+    }
+
+    /**
+     * MkIssue can assign a user.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void assignsUser() throws Exception {
+        final Issue.Smart issue = new Issue.Smart(this.issue());
+        issue.assign("walter");
+        MatcherAssert.assertThat(
+            issue.assignee().login(),
+            Matchers.startsWith("wal")
         );
     }
 
