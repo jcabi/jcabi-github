@@ -290,6 +290,7 @@
                                 <exclude>checkstyle:/src/test/java/com/jcabi/github/NullabilityTest.java</exclude>
                                 <exclude>xml:/src/it/settings.xml</exclude>
                             </excludes>
+                            <license>file:${basedir}/LICENSE.txt</license>
                         </configuration>
                     </plugin>
                 </plugins>
