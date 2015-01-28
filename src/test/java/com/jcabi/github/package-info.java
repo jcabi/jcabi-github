@@ -30,7 +30,47 @@
 
 /**
  * Object Oriented Github API, tests.
- *
+ * <p>The individual integration tests require following <a href=
+ * "https://developer.github.com/v3/oauth/#scopes">OAuth scopes</a>:</p>
+ * <ul>
+ *     <li>RtAssigneesITCase - read:org </li>
+ *     <li>RtBlobsITCase - repo</li>
+ *     <li>RtContentsITCase - repo</li>
+ *     <li>RtDeployKeysITCase - admin:public_key</li>
+ *     <li>RtForksITCase - repo</li>
+ *     <li>RtGistCommentITCase - gist</li>
+ *     <li>RtGistCommentsITCase - gist</li>
+ *     <li>RtGistITCase - gist</li>
+ *     <li>RtGistsITCase - gist</li>
+ *     <li>RtGithubITCase - repo </li>
+ *     <li>RtGitignoresITCase - ?</li>
+ *     <li>RtHooksITCase - admin:repo_hook</li>
+ *     <li>RtIssueITCase - repo</li>
+ *     <li>RtIssueLabelsITCase - repo </li>
+ *     <li>RtIssuesITCase - repo</li>
+ *     <li>RtLabelsITCase - repo</li>
+ *     <li>RtLimitsITCase - repo</li>
+ *     <li>RtMarkdownITCase - no scope</li>
+ *     <li>RtMilestonesITCase - repo</li>
+ *     <li>RtOrganizationsITCase - read:org</li>
+ *     <li>RtPublicKeyITCase - admin:public_key</li>
+ *     <li>RtPublicKeysITCase - admin:public_key</li>
+ *     <li>RtReferencesITCase - repo</li>
+ *     <li>RtReleaseAssetITCase - repo</li>
+ *     <li>RtReleaseAssetsITCase - repo</li>
+ *     <li>RtReleaseITCase - repo</li>
+ *     <li>RtReleasesITCase - repo</li>
+ *     <li>RtRepoCommitsITCase - repo</li>
+ *     <li>RtRepoITCase - repo</li>
+ *     <li>RtReposITCase - repo, delete_repo</li>
+ *     <li>RtSearchITCase - repo, user</li>
+ *     <li>RtStarsITCase - user </li>
+ *     <li>RtTagITCase - repo</li>
+ *     <li>RtTagsITCase - repo</li>
+ *     <li>RtTreesITCase - repo</li>
+ *     <li>RtUserEmailsITCase - user:email</li>
+ *     <li>RtUserITCase - user</li>
+ * </ul>
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
