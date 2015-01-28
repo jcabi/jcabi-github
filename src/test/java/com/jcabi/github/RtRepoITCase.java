@@ -155,7 +155,8 @@ public final class RtRepoITCase {
     }
 
     /**
-     * RtRepo can iterate languages.
+     * RtRepo can iterate languages. This test is ignored because of bug
+     * https://github.com/jcabi/jcabi-github/issues/1007 .
      * @throws Exception If some problem inside
      */
     @Test
