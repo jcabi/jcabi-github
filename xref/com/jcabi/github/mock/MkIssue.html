@@ -203,25 +203,32 @@
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>         <strong class="jxr_keyword">return</strong> json
 <a class="jxr_linenumber" name="L196" href="#L196">196</a>             .add(<span class="jxr_string">"labels"</span>, array)
 <a class="jxr_linenumber" name="L197" href="#L197">197</a>             .add(
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>                 <span class="jxr_string">"pull_request"</span>,
-<a class="jxr_linenumber" name="L199" href="#L199">199</a>                 Json.createObjectBuilder().addNull(<span class="jxr_string">"html_url"</span>).build()
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>             )
-<a class="jxr_linenumber" name="L201" href="#L201">201</a>             .build();
-<a class="jxr_linenumber" name="L202" href="#L202">202</a>     }
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> 
-<a class="jxr_linenumber" name="L204" href="#L204">204</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L208" href="#L208">208</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L209" href="#L209">209</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L210" href="#L210">210</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L211" href="#L211">211</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/issues/issue[number='%d']"</span>,
-<a class="jxr_linenumber" name="L212" href="#L212">212</a>             <strong class="jxr_keyword">this</strong>.coords, <strong class="jxr_keyword">this</strong>.num
-<a class="jxr_linenumber" name="L213" href="#L213">213</a>         );
-<a class="jxr_linenumber" name="L214" href="#L214">214</a>     }
-<a class="jxr_linenumber" name="L215" href="#L215">215</a> 
-<a class="jxr_linenumber" name="L216" href="#L216">216</a> }
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>                 <em class="jxr_comment">// @checkstyle MultipleStringLiteralsCheck (1 line)</em>
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>                 <span class="jxr_string">"assignee"</span>,
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>                 Json.createObjectBuilder().add(
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>                     <span class="jxr_string">"login"</span>, obj.getString(<span class="jxr_string">"assignee"</span>, <span class="jxr_string">""</span>)
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>                 ).build()
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>             )
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>             .add(
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>                 <span class="jxr_string">"pull_request"</span>,
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>                 Json.createObjectBuilder().addNull(<span class="jxr_string">"html_url"</span>).build()
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>             )
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>             .build();
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>     }
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/issues/issue[number='%d']"</span>,
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>             <strong class="jxr_keyword">this</strong>.coords, <strong class="jxr_keyword">this</strong>.num
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>         );
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>     }
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
