@@ -42,7 +42,6 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExternalResource;
 
 /**
  * Test case for {@link RtFork}.
@@ -55,11 +54,12 @@ public final class RtForkTest {
     /**
      * The rule for skipping test if there's BindException.
      * @todo 989 Apply this rule to other classes that use MkGrizzlyContainer
-     *  to avoid tests fail with BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Rule
-    public final transient ExternalResource resource = new RandomPort();
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtFork can patch comment and return new json.
@@ -71,8 +71,12 @@ public final class RtForkTest {
         final String patched = "some patched organization";
         final MkContainer container =
             new MkGrizzlyContainer().next(this.answer(original))
-                .next(this.answer(patched)).next(this.answer(original)).start();
-        final MkContainer forksContainer = new MkGrizzlyContainer().start();
+                .next(this.answer(patched)).next(this.answer(original)).start(
+                    this.resource.port()
+                );
+        final MkContainer forksContainer = new MkGrizzlyContainer().start(
+            this.resource.port()
+        );
         final RtRepo repo =
             new RtRepo(
                 new MkGithub(),

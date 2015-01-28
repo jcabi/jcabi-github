@@ -30,7 +30,9 @@
 package com.jcabi.github;
 
 import com.jcabi.log.Logger;
-import java.net.BindException;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import org.junit.Assume;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.Description;
@@ -52,11 +54,11 @@ public class RandomPort extends ExternalResource {
             public void evaluate() throws Throwable {
                 try {
                     base.evaluate();
-                } catch (final BindException ex) {
+                } catch (final IllegalStateException ex) {
                     Logger.warn(
                         base,
                         String.format(
-                            "Test %s skipped due to BindException",
+                            "Test %s skipped due to IllegalStateException",
                             description
                         )
                     );
@@ -64,5 +66,25 @@ public class RandomPort extends ExternalResource {
                 }
             }
         };
+    }
+
+    /**
+     * Returns available port number.
+     * @return Available port number
+     * @throws IOException in case of IO error.
+     */
+    public final int port() throws IOException {
+        final ServerSocket socket = new ServerSocket();
+        try  {
+            socket.setReuseAddress(true);
+            socket.bind(
+                new InetSocketAddress("localhost", 0)
+            );
+            return socket.getLocalPort();
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+            socket.close();
+        }
     }
 }
