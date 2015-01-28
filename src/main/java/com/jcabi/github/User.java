@@ -34,6 +34,8 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -48,7 +50,8 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount",
+    "PMD.GodClass" })
 public interface User extends JsonReadable, JsonPatchable {
 
     /**
@@ -90,7 +93,32 @@ public interface User extends JsonReadable, JsonPatchable {
     UserEmails emails();
 
     /**
+     * Returns all notifications of a user.
+     * Wraps the call "List your notifications". See "List your notifications"
+     * at https://developer.github.com/v3/activity/notifications/
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
+     * @return Returns all notifications for this user.
+     * @throws IOException Thrown, if an error during sending request and/or
+     *  receiving response occurs.
+     */
+    List<Notification> notifications() throws IOException;
+
+    /**
+     * Marks notifications as read.
+     * @param lastread Describes the last point that notifications were
+     *  checked.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
+     */
+    void markAsRead(final Date lastread);
+
+    /**
      * Smart user with extra features.
+     * @todo #1:30min Implement methods to retrieve all values provided
+     *  by Github for a single user, see:
+     *  http://developer.github.com/v3/users/#get-a-single-user
+     *  At the moment we implement just a few, but every data
+     *  items should have its own method. Of course, every new item should
+     *  be tested by a new unit test method.
      * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     @Immutable
@@ -236,6 +264,16 @@ public interface User extends JsonReadable, JsonPatchable {
         @NotNull(message = "Emails is never NULL")
         public UserEmails emails() {
             return this.user.emails();
+        }
+
+        @Override
+        public List<Notification> notifications() throws IOException {
+            return this.user.notifications();
+        }
+
+        @Override
+        public void markAsRead(final Date lastread) {
+            this.user.markAsRead(lastread);
         }
 
         @Override
@@ -480,5 +518,4 @@ public interface User extends JsonReadable, JsonPatchable {
             }
         }
     }
-
 }

@@ -29,34 +29,17 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-
 /**
- * Github Notification.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Encapsulates data from the response for get/set subscription calls to
+ * GitHub Notification API.
+ * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>, <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
+ * @author Dmitri Pisarenko (dp@altruix.co)
  * @version $Id$
- * @since 0.19
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 1.0
+ * @todo #913:30min Add properties subscribed (boolean), ignored (boolean),
+ *  createdAt (Date), url (String), threadUrl (String) as shown in section
+ *  "Response" at
+ *  https://developer.github.com/v3/activity/notifications/#response-6 .
  */
-@Immutable
-final class RtNotification implements Notification {
-
-    /**
-     * Release notifnumber.
-     */
-    private final transient long notifnumber;
-
-    /**
-     * Public ctor.
-     * @param notifid Notification notifnumber
-     */
-    RtNotification(final long notifid) {
-        this.notifnumber = notifid;
-    }
-
-    @Override
-    public long number() {
-        return this.notifnumber;
-    }
+public interface ThreadSubscription {
 }

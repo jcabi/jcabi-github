@@ -32,15 +32,19 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
+import com.jcabi.github.Notification;
 import com.jcabi.github.Organizations;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
@@ -49,6 +53,9 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
+ * @todo #913:30min Implement notifications(), markAsRead(final Date lastread)
+ *  operations in MkUser. Don't forget about unit tests.
+ * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -125,6 +132,16 @@ final class MkUser implements User {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    @Override
+    public List<Notification> notifications() {
+        throw new NotImplementedException("MkNotifications#notifications");
+    }
+
+    @Override
+    public void markAsRead(final Date lastread) {
+        throw new NotImplementedException("MkNotifications#markAsRead");
     }
 
     @Override

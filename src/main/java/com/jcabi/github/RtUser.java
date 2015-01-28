@@ -32,8 +32,14 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -43,10 +49,12 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @todo #913:30min Implement operations RtUser.markAsRead().
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "request" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class RtUser implements User {
 
     /**
@@ -139,6 +147,28 @@ final class RtUser implements User {
     }
 
     @Override
+    public List<Notification> notifications() throws IOException {
+        final List<Notification> list =
+            new LinkedList<Notification>();
+        final JsonResponse resp = this.github().entry().uri()
+            .path("notifications")
+            .back()
+            .fetch()
+            .as(JsonResponse.class);
+        final JsonArray array = resp.json().readArray();
+        for (final JsonValue value : array) {
+            final JsonObject notif = (JsonObject) value;
+            list.add(this.createNotification(notif));
+        }
+        return list;
+    }
+
+    @Override
+    public void markAsRead(final Date lastread) {
+        // Will be implemented later
+    }
+
+    @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
@@ -151,4 +181,14 @@ final class RtUser implements User {
         new RtJson(this.request).patch(json);
     }
 
+    /**
+     * Creates RtNotification object with the id from notifobj.
+     * @param notifobj JSON object with notification data.
+     * @return RtNotification object with the id from notifobj.
+     */
+    private Notification createNotification(final JsonObject notifobj) {
+        return new RtNotification(
+            Long.parseLong(notifobj.getString("id"))
+        );
+    }
 }

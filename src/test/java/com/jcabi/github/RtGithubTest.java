@@ -191,5 +191,4 @@ public final class RtGithubTest {
             Matchers.equalTo(new RtGithub(new FakeRequest()))
         );
     }
-
 }

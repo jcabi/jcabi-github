@@ -29,34 +29,42 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
-
 /**
- * Github Notification.
- *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Represents a GitHub notifications thread.
+ * @author Dmitri Pisarenko (dp@altruix.co)
  * @version $Id$
- * @since 0.19
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 1.0
  */
-@Immutable
-final class RtNotification implements Notification {
+public interface GitHubThread {
+    /**
+     * Marks this thread as read.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-a-thread-as-read">Mark a thread as read</a>
+     */
+    void markAsRead();
 
     /**
-     * Release notifnumber.
+     * Checks, if the current user is subscribed to this thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>
+     * @return Subscription data, if the user is subscribe, null otherwise.
      */
-    private final transient long notifnumber;
+    ThreadSubscription getSubscription();
 
     /**
-     * Public ctor.
-     * @param notifid Notification notifnumber
+     * Subscribes the user to the thread and/or makes the user ignore the
+     *  thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
+     * @param subscribe True, if notifications should be received from this
+     *  thread.
+     * @param ignore True, if all notifications should be blocked from this
+     *  thread.
+     * @return Data of the subscription.
      */
-    RtNotification(final long notifid) {
-        this.notifnumber = notifid;
-    }
+    ThreadSubscription setSubscription(final boolean subscribe,
+        final boolean ignore);
 
-    @Override
-    public long number() {
-        return this.notifnumber;
-    }
+    /**
+     * Unsubscribes the user from this thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#delete-a-thread-subscription">Delete a Thread Subscription</a>
+     */
+    void deleteSubscription();
 }

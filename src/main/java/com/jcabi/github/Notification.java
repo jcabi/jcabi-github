@@ -51,5 +51,5 @@ public interface Notification {
      * Notification id.
      * @return Id
      */
-    int number();
+    long number();
 }
