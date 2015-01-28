@@ -42,7 +42,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtContents}.
+ * Test case for {@link RtContents}. This test requires OAuth scope repo.
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
