@@ -55,7 +55,7 @@ public class RandomPort extends ExternalResource {
             public void evaluate() throws Throwable {
                 try {
                     base.evaluate();
-                } catch (final RandomPort.NoAvailablePortsException ex) {
+                } catch (final BindException ignored) {
                     Logger.warn(
                         base,
                         String.format(
@@ -82,28 +82,8 @@ public class RandomPort extends ExternalResource {
                 new InetSocketAddress("localhost", 0)
             );
             return socket.getLocalPort();
-        } catch (final BindException ex) {
-            throw new RandomPort.NoAvailablePortsException(ex);
         } finally {
             socket.close();
-        }
-    }
-
-    /**
-     * Exception that is thrown when there are no ports available.
-     */
-    private static class NoAvailablePortsException extends IOException {
-        /**
-         * Serial version.
-         */
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Constructor.
-         * @param cause Root cause
-         */
-        public NoAvailablePortsException(final Throwable cause) {
-            super(cause);
         }
     }
 }
