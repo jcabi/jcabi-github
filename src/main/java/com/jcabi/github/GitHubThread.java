@@ -27,51 +27,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package com.jcabi.github.mock;
-
-import com.jcabi.github.Repo;
-import javax.json.Json;
-import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+package com.jcabi.github;
 
 /**
- * Testcase for MkTags.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Represents a GitHub notifications thread.
+ * @author Dmitri Pisarenko (dp@altruix.co)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 1.0
  */
-public final class MkTagsTest {
+public interface GitHubThread {
+    /**
+     * Marks this thread as read.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-a-thread-as-read">Mark a thread as read</a>
+     */
+    void markAsRead();
 
     /**
-     * MkTags can create tags.
-     * @throws Exception If something goes wrong.
+     * Checks, if the current user is subscribed to this thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>
+     * @return Subscription data, if the user is subscribe, null otherwise.
      */
-    @Test
-    public void createsMkTag() throws Exception {
-        final JsonObject tagger = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "Scott@gmail.com").build();
-        MatcherAssert.assertThat(
-            this.repo().git().tags().create(
-                Json.createObjectBuilder().add("name", "v.0.1")
-                    .add("message", "test tag").add("sha", "abcsha12")
-                    .add("tagger", tagger).build()
-            ),
-            Matchers.notNullValue()
-        );
-    }
+    ThreadSubscription getSubscription();
 
     /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
+     * Subscribes the user to the thread and/or makes the user ignore the
+     *  thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
+     * @param subscribe True, if notifications should be received from this
+     *  thread.
+     * @param ignore True, if all notifications should be blocked from this
+     *  thread.
+     * @return Data of the subscription.
      */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-    }
+    ThreadSubscription setSubscription(final boolean subscribe,
+        final boolean ignore);
 
+    /**
+     * Unsubscribes the user from this thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#delete-a-thread-subscription">Delete a Thread Subscription</a>
+     */
+    void deleteSubscription();
 }

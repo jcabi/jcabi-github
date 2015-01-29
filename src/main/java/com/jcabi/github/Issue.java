@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -242,7 +242,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
-
+        /**
+         * Has assignee?
+         * @return TRUE if assignee exists
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean hasAssignee() throws IOException {
+            return this.jsn.hasNotNull("assignee");
+        }
         /**
          * Get its assignee.
          * @return User Assignee of issue
@@ -250,6 +257,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          */
         @NotNull(message = "user is never NULL")
         public User assignee() throws IOException {
+            if (!this.hasAssignee()) {
+                throw new IllegalArgumentException(
+                    String.format(
+                        "issue #%d doesn't have an assignee, use hasAssignee()",
+                        this.number()
+                    )
+                );
+            }
             return this.issue.repo().github().users().get(
                 this.jsn.value(
                     "assignee", JsonObject.class

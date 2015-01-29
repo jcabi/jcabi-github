@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -155,10 +156,12 @@ public final class RtRepoITCase {
     }
 
     /**
-     * RtRepo can iterate languages.
+     * RtRepo can iterate languages. This test is ignored because of bug
+     * https://github.com/jcabi/jcabi-github/issues/1007 .
      * @throws Exception If some problem inside
      */
     @Test
+    @Ignore
     public void iteratesLanguages() throws Exception {
         MatcherAssert.assertThat(
             repo.languages(),

@@ -27,51 +27,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package com.jcabi.github.mock;
-
-import com.jcabi.github.Repo;
-import javax.json.Json;
-import javax.json.JsonObject;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+package com.jcabi.github;
 
 /**
- * Testcase for MkTags.
- * @author Mihai Andronache (amihaiemil@gmail.com)
+ * Encapsulates data from the response for get/set subscription calls to
+ * GitHub Notification API.
+ * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>, <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
+ * @author Dmitri Pisarenko (dp@altruix.co)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 1.0
+ * @todo #913:30min Add properties subscribed (boolean), ignored (boolean),
+ *  createdAt (Date), url (String), threadUrl (String) as shown in section
+ *  "Response" at
+ *  https://developer.github.com/v3/activity/notifications/#response-6 .
  */
-public final class MkTagsTest {
-
-    /**
-     * MkTags can create tags.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void createsMkTag() throws Exception {
-        final JsonObject tagger = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "Scott@gmail.com").build();
-        MatcherAssert.assertThat(
-            this.repo().git().tags().create(
-                Json.createObjectBuilder().add("name", "v.0.1")
-                    .add("message", "test tag").add("sha", "abcsha12")
-                    .add("tagger", tagger).build()
-            ),
-            Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
-        );
-    }
-
+public interface ThreadSubscription {
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,4 +59,18 @@ public interface Notifications {
      */
     @NotNull(message = "notification is never NULL")
     Notification get(int number);
+
+    /**
+     * Marks all notifications on this repository as read.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-notifications-as-read-in-a-repository">Mark notifications as read in a repository</a>
+     */
+    void markAsRead();
+
+    /**
+     * Get thread data.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
+     * @param number Thread ID.
+     * @return Data of the specified thread.
+     */
+    GitHubThread thread(int number);
 }

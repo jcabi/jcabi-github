@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,20 +43,20 @@ import com.jcabi.aspects.Immutable;
 final class RtNotification implements Notification {
 
     /**
-     * Release id.
+     * Release notifnumber.
      */
-    private final transient int note;
+    private final transient long notifnumber;
 
     /**
      * Public ctor.
-     * @param number Notification id
+     * @param notifid Notification notifnumber
      */
-    RtNotification(final int number) {
-        this.note = number;
+    RtNotification(final long notifid) {
+        this.notifnumber = notifid;
     }
 
     @Override
-    public int number() {
-        return this.note;
+    public long number() {
+        return this.notifnumber;
     }
 }

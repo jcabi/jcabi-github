@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -194,6 +194,13 @@ final class MkIssue implements Issue {
         }
         return json
             .add("labels", array)
+            .add(
+                // @checkstyle MultipleStringLiteralsCheck (1 line)
+                "assignee",
+                Json.createObjectBuilder().add(
+                    "login", obj.getString("assignee", "")
+                ).build()
+            )
             .add(
                 "pull_request",
                 Json.createObjectBuilder().addNull("html_url").build()

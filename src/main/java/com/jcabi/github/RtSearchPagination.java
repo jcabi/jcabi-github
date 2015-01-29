@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -216,7 +216,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         @Override
         @SuppressWarnings("PMD.ShortMethodName")
         @NotNull(message = "T is never NULL")
-        public <T> T as(final Class<T> type) {
+        public <T extends Response> T as(final Class<T> type) {
             try {
                 return type.getDeclaredConstructor(Response.class)
                     .newInstance(this);
