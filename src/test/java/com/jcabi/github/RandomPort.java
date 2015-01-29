@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.log.Logger;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import org.junit.Assume;
@@ -54,11 +55,11 @@ public class RandomPort extends ExternalResource {
             public void evaluate() throws Throwable {
                 try {
                     base.evaluate();
-                } catch (final IllegalStateException ex) {
+                } catch (final RandomPort.NoAvailablePortsException ex) {
                     Logger.warn(
                         base,
                         String.format(
-                            "Test %s skipped due to IllegalStateException",
+                            "Test %s skipped due to no available ports",
                             description
                         )
                     );
@@ -81,10 +82,28 @@ public class RandomPort extends ExternalResource {
                 new InetSocketAddress("localhost", 0)
             );
             return socket.getLocalPort();
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
+        } catch (final BindException ex) {
+            throw new RandomPort.NoAvailablePortsException(ex);
         } finally {
             socket.close();
+        }
+    }
+
+    /**
+     * Exception that is thrown when there are no ports available.
+     */
+    private static class NoAvailablePortsException extends IOException {
+        /**
+         * Serial version.
+         */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Constructor.
+         * @param cause Root cause
+         */
+        public NoAvailablePortsException(final Throwable cause) {
+            super(cause);
         }
     }
 }
