@@ -61,6 +61,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkIssue implements Issue {
 
     /**
