@@ -49,7 +49,6 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Mock Github issue.
@@ -61,7 +60,6 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
 final class MkIssue implements Issue {
 
@@ -103,6 +101,11 @@ final class MkIssue implements Issue {
         this.self = login;
         this.coords = rep;
         this.num = number;
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(this.num);
     }
 
     @Override
