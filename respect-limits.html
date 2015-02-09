@@ -38,7 +38,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li >
-                            <span>                        <a href="apidocs-0.19/index.html" title="JavaDoc 0.19">JavaDoc 0.19</a>
+                            <span>                        <a href="apidocs-0.20/index.html" title="JavaDoc 0.20">JavaDoc 0.20</a>
         </span>
                                                                                                                                                                 <ul>
                                                                     </ul>
@@ -105,13 +105,13 @@
                             </div>
                             <ul class="badges">
                                 <li>
-                                    <strong itemprop="version">0.19</strong>
+                                    <strong itemprop="version">0.20</strong>
                                 </li>
                                 <li>
                                     
-                                    <time itemprop="datePublished" datetime="2015-01-29T04:46:02Z">
+                                    <time itemprop="datePublished" datetime="2015-02-09T12:54:07Z">
                                         
-                                        29-Jan-2015
+                                        09-Feb-2015
                                     </time>
                                 </li>
                                 <li class="menu-button">menu</li>
@@ -159,8 +159,8 @@
                             <!--  --><!-- Copyright (c) 2014-2015, jcabi.com --><!-- All rights reserved. --><!--  --><!-- Redistribution and use in source and binary forms, with or without --><!-- modification, are permitted provided that the following conditions --><!-- are met: 1) Redistributions of source code must retain the above --><!-- copyright notice, this list of conditions and the following --><!-- disclaimer. 2) Redistributions in binary form must reproduce the above --><!-- copyright notice, this list of conditions and the following --><!-- disclaimer in the documentation and/or other materials provided --><!-- with the distribution. 3) Neither the name of the jcabi.com nor --><!-- the names of its contributors may be used to endorse or promote --><!-- products derived from this software without specific prior written --><!-- permission. --><!--  --><!-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS --><!-- "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT --><!-- NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND --><!-- FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL --><!-- THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, --><!-- INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES --><!-- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR --><!-- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) --><!-- HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, --><!-- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) --><!-- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED --><!-- OF THE POSSIBILITY OF SUCH DAMAGE. --><!--  --><div class="section">
 <h2><a name="Respect_Limits"></a>Respect Limits</h2>
 <p>Github has limits for number of request per hour. It sets following headers describing current state of rate limit in each response: <tt>X-RateLimit-Limit</tt>, <tt>X-RateLimit-Remaining</tt>, and <tt>X-RateLimit-Reset</tt>. For further information see <a class="externalLink" href="http://developer.github.com/v3/#rate-limiting"> API Documentation</a>.</p>
-<p>If you want to control limits, you can use <a href="./apidocs-0.19/com/github/jcabi/wire/CarefulWire.html"><tt>CarefulWire</tt></a> class for it. If <tt>X-RateLimit-Remaining</tt> of received response is less than a given threshold, <a href="./apidocs-0.19/com/github/jcabi/wire/CarefulWire.html"><tt>CarefulWire</tt></a> will sleep until a time specified in the <tt>X-RateLimit-Reset</tt> header.</p>
-<p>You can use <a href="./apidocs-0.19/com/github/jcabi/wire/CarefulWire.html"><tt>CarefulWire</tt></a> with <a href="./apidocs-0.19/com/github/jcabi/Github.html"><tt>Github</tt></a>:</p>
+<p>If you want to control limits, you can use <a href="./apidocs-0.20/com/github/jcabi/wire/CarefulWire.html"><tt>CarefulWire</tt></a> class for it. If <tt>X-RateLimit-Remaining</tt> of received response is less than a given threshold, <a href="./apidocs-0.20/com/github/jcabi/wire/CarefulWire.html"><tt>CarefulWire</tt></a> will sleep until a time specified in the <tt>X-RateLimit-Reset</tt> header.</p>
+<p>You can use <a href="./apidocs-0.20/com/github/jcabi/wire/CarefulWire.html"><tt>CarefulWire</tt></a> with <a href="./apidocs-0.20/com/github/jcabi/Github.html"><tt>Github</tt></a>:</p>
 <div class="source">
 <pre>Github github = new RtGithub(
     new RtGithub().entry().through(CarefulWire.class, 50)
