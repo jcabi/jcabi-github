@@ -192,6 +192,16 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Has release tag?
+         * @return TRUE if tag exists
+         * @throws IOException If there is any I/O problem
+         * @since 0.21
+         */
+        public boolean hasTag() throws IOException {
+            return this.jsn.hasNotNull("tag_name");
+        }
+
+        /**
          * Change its tag name.
          * @param text Tag name
          * @throws IOException If there is any I/O problem
