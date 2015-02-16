@@ -20,9 +20,9 @@ import com.jcabi.github.Repo;
 public class Main {
   public static void main(String[] args) {
     Github github = new RtGithub(".. your OAuth token ..");
-    Repo repo = github.repo("jcabi/jcabi-github");
+    Repo repo = github.repos().get(new Coordinates.Simple("jcabi", "jcabi-github"));
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
-    issue.post("My first comment!");
+    issue.comments().post("My first comment!");
   }
 }
 +--
