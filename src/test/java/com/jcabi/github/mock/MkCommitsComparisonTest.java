@@ -79,4 +79,20 @@ public final class MkCommitsComparisonTest {
             Matchers.notNullValue()
         );
     }
+
+    /**
+     * MkCommitsComparison can get a JSON with commits.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canGetJsonWithCommits() throws Exception {
+        MatcherAssert.assertThat(
+            new MkCommitsComparison(
+                new MkStorage.InFile(), "test-9", new Coordinates.Simple(
+                "test_user_A", "test_repo_B"
+            )
+            ).json().getJsonArray("commits"),
+            Matchers.notNullValue()
+        );
+    }
 }
