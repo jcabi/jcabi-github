@@ -94,7 +94,7 @@ public final class MkCommitsComparisonTest {
         );
         MatcherAssert.assertThat(
             new CommitsComparison.Smart(cmp).commits(),
-            Matchers.<RepoCommit>iterableWithSize(1)
+            Matchers.<RepoCommit>iterableWithSize(0)
         );
         MatcherAssert.assertThat(
             cmp.json().getJsonArray("commits"),
