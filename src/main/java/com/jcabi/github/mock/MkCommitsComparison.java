@@ -98,18 +98,27 @@ final class MkCommitsComparison implements CommitsComparison {
             .add(
                 "author",
                 Json.createObjectBuilder()
-                // @checkstyle MultipleStringLiterals (3 lines)
+                    // @checkstyle MultipleStringLiterals (3 lines)
                     .add("login", "test")
                     .build()
             )
             .add(
                 "files",
                 Json.createObjectBuilder()
+                    // @checkstyle MultipleStringLiteralsCheck (1 line)
                     .add("sha", "bbcd538c8e72b8c175046e27cc8f907076331401")
                     .add("filename", "test-file")
-                    // @checkstyle MultipleStringLiterals (1 lines)
+                        // @checkstyle MultipleStringLiterals (1 lines)
                     .add("status", "test")
                     .build()
+            )
+            .add(
+                "commits",
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder().add(
+                        "sha", "bbcd538c8e72b8c175046e27cc8f907076331fff"
+                    )
+                )
             )
             .build();
     }

@@ -29,7 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.RepoCommit;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -86,12 +88,16 @@ public final class MkCommitsComparisonTest {
      */
     @Test
     public void canGetJsonWithCommits() throws Exception {
+        final CommitsComparison cmp = new MkCommitsComparison(
+            new MkStorage.InFile(), "test-9",
+            new Coordinates.Simple("test_user_A", "test_repo_B")
+        );
         MatcherAssert.assertThat(
-            new MkCommitsComparison(
-                new MkStorage.InFile(), "test-9", new Coordinates.Simple(
-                "test_user_A", "test_repo_B"
-            )
-            ).json().getJsonArray("commits"),
+            new CommitsComparison.Smart(cmp).commits(),
+            Matchers.<RepoCommit>iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            cmp.json().getJsonArray("commits"),
             Matchers.notNullValue()
         );
     }
