@@ -78,7 +78,6 @@ accounts. This test case will try to fork a gist from first account into second.
 only), for example `yegor256/test`. OAuth access tokens should have permissions in their
 respective repos to all scopes needed by the integration test suite you want to run
 (including `delete_repo`, which is not set by default!).
-Incorrect documentation - example integration test run script #976
 Please note that different integration tests may need keys with permissions to different
 [scopes](https://developer.github.com/v3/oauth/#scopes);
 the `RtGistITCase` test requires permissions to gist scope.
