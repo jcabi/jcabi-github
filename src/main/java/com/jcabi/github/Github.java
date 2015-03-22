@@ -77,6 +77,7 @@ import lombok.EqualsAndHashCode;
  * int found = github.entry()
  *   .uri().path("/search/repositories").back()
  *   .method(Request.GET)
+ *   .fetch()
  *   .as(JsonResponse.class)
  *   .getJsonObject()
  *   .getNumber("total_count")
