@@ -36,6 +36,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
 import com.jcabi.immutable.ArrayMap;
 import java.net.HttpURLConnection;
+import java.util.EnumMap;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -48,6 +49,7 @@ import org.mockito.Mockito;
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtIssuesTest {
     /**
@@ -124,6 +126,38 @@ public final class RtIssuesTest {
         );
         MatcherAssert.assertThat(
             issues.iterate(new ArrayMap<String, String>()),
+            Matchers.<Issue>iterableWithSize(2)
+        );
+        container.stop();
+    }
+
+    /**
+     * RtIssues can search issues within a repository.
+     * @throws Exception if there is any error
+     */
+    @Test
+    public void searchIssues() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(issue("some issue"))
+                    .add(issue("some other issue"))
+                    .build().toString()
+            )
+        ).start();
+        final RtIssues issues = new RtIssues(
+            new JdkRequest(container.home()),
+            repo()
+        );
+        MatcherAssert.assertThat(
+            issues.search(
+                Issues.Sort.UPDATED,
+                Search.Order.ASC,
+                new EnumMap<Issues.Qualifier, String>(
+                    Issues.Qualifier.class
+                )
+            ),
             Matchers.<Issue>iterableWithSize(2)
         );
         container.stop();
