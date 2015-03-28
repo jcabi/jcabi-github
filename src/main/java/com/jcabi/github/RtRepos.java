@@ -127,7 +127,7 @@ final class RtRepos implements Repos {
         @NotNull(message = "identifier can't be NULL")
         final String identifier) {
         return new RtPagination<Repo>(
-            this.entry.uri().queryParam("since", identifier).back(),
+            this.entry.uri().path("/repositories").queryParam("since", identifier).back(),
             new RtValuePagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
