@@ -180,10 +180,10 @@ final class MkIssues implements Issues {
         final Map<String, String> params = new HashMap<String, String>();
         for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
             .entrySet()) {
-            params.put(entry.getKey().qualifier(), entry.getValue());
+            params.put(entry.getKey().identifier(), entry.getValue());
         }
-        params.put("sort", sort.sort());
-        params.put("direction", direction.getOrder());
+        params.put("sort", sort.identifier());
+        params.put("direction", direction.identifier());
         return this.iterate(params);
     }
 

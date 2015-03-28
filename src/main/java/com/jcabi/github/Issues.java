@@ -107,7 +107,7 @@ public interface Issues {
         EnumMap<Qualifier, String> qualifiers)
         throws IOException;
 
-    enum Qualifier {
+    enum Qualifier implements StringEnum {
         /**
          * Filter issues based on which milestone they are assigned to.
          * "none" means no assigned milestone. "*" means any milestone.
@@ -159,12 +159,14 @@ public interface Issues {
          * Get search qualifier.
          * @return String
          */
-        public String qualifier() {
+        @Override
+        @NotNull(message = "identifier string is never NULL")
+        public String identifier() {
             return this.qualifier;
         }
     }
 
-    enum Sort {
+    enum Sort implements StringEnum {
         /**
          * Issue creation timestamp.
          */
@@ -195,7 +197,9 @@ public interface Issues {
          * Get search results sort field.
          * @return String
          */
-        public String sort() {
+        @Override
+        @NotNull(message = "identifier string is never NULL")
+        public String identifier() {
             return this.sort;
         }
     }

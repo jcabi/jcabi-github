@@ -126,7 +126,7 @@ public interface Search {
         @NotNull(message = "Sort order can't be NULL") Order order)
         throws IOException;
 
-    enum Qualifier {
+    enum Qualifier implements StringEnum {
         /**
          * The search by issues or pull request only.
          */
@@ -225,12 +225,14 @@ public interface Search {
          * Get search qualifier.
          * @return String
          */
-        public String getQualifier() {
+        @Override
+        @NotNull(message = "identifier string is never NULL")
+        public String identifier() {
             return this.qualifier;
         }
     }
 
-    enum Order {
+    enum Order implements StringEnum {
         /**
          * Sorting ascending.
          */
@@ -257,7 +259,9 @@ public interface Search {
          * Get sort order.
          * @return String
          */
-        public String getOrder() {
+        @Override
+        @NotNull(message = "identifier string is never NULL")
+        public String identifier() {
             return this.order;
         }
     }

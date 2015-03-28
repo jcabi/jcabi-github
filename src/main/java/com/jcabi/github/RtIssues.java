@@ -157,10 +157,10 @@ final class RtIssues implements Issues {
         final Map<String, String> params = new HashMap<String, String>();
         for (final EnumMap.Entry<Qualifier, String> pair : qualifiers
             .entrySet()) {
-            params.put(pair.getKey().qualifier(), pair.getValue());
+            params.put(pair.getKey().identifier(), pair.getValue());
         }
-        params.put("sort", sort.sort());
-        params.put("direction", direction.getOrder());
+        params.put("sort", sort.identifier());
+        params.put("direction", direction.identifier());
         return this.iterate(params);
     }
 }
