@@ -134,7 +134,7 @@
 <a class="jxr_linenumber" name="L126" href="#L126">126</a>         @NotNull(message = <span class="jxr_string">"Sort order can't be NULL"</span>) <a href="../../../com/jcabi/github/Search.html">Order</a> order)
 <a class="jxr_linenumber" name="L127" href="#L127">127</a>         <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> 
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>     enum <a href="../../../com/jcabi/github/Search.html">Qualifier</a> {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>     enum <a href="../../../com/jcabi/github/Search.html">Qualifier</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/StringEnum.html">StringEnum</a> {
 <a class="jxr_linenumber" name="L130" href="#L130">130</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> <em class="jxr_javadoccomment">         * The search by issues or pull request only.</em>
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">         */</em>
@@ -233,43 +233,47 @@
 <a class="jxr_linenumber" name="L225" href="#L225">225</a> <em class="jxr_javadoccomment">         * Get search qualifier.</em>
 <a class="jxr_linenumber" name="L226" href="#L226">226</a> <em class="jxr_javadoccomment">         * @return String</em>
 <a class="jxr_linenumber" name="L227" href="#L227">227</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>         <strong class="jxr_keyword">public</strong> String getQualifier() {
-<a class="jxr_linenumber" name="L229" href="#L229">229</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.qualifier;
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>         }
-<a class="jxr_linenumber" name="L231" href="#L231">231</a>     }
-<a class="jxr_linenumber" name="L232" href="#L232">232</a> 
-<a class="jxr_linenumber" name="L233" href="#L233">233</a>     enum <a href="../../../com/jcabi/github/Search.html">Order</a> {
-<a class="jxr_linenumber" name="L234" href="#L234">234</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L235" href="#L235">235</a> <em class="jxr_javadoccomment">         * Sorting ascending.</em>
-<a class="jxr_linenumber" name="L236" href="#L236">236</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>         ASC(<span class="jxr_string">"asc"</span>),
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L239" href="#L239">239</a> <em class="jxr_javadoccomment">         * Sorting descending.</em>
-<a class="jxr_linenumber" name="L240" href="#L240">240</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>         DESC(<span class="jxr_string">"desc"</span>);
-<a class="jxr_linenumber" name="L242" href="#L242">242</a> 
-<a class="jxr_linenumber" name="L243" href="#L243">243</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">         * The sort order.</em>
-<a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">transient</strong> String order;
-<a class="jxr_linenumber" name="L247" href="#L247">247</a> 
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L249" href="#L249">249</a> <em class="jxr_javadoccomment">         * Ctor.</em>
-<a class="jxr_linenumber" name="L250" href="#L250">250</a> <em class="jxr_javadoccomment">         * @param key The sort order</em>
-<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L252" href="#L252">252</a>         <a href="../../../com/jcabi/github/Search.html">Order</a>(<strong class="jxr_keyword">final</strong> String key) {
-<a class="jxr_linenumber" name="L253" href="#L253">253</a>             <strong class="jxr_keyword">this</strong>.order = key;
-<a class="jxr_linenumber" name="L254" href="#L254">254</a>         }
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> 
-<a class="jxr_linenumber" name="L256" href="#L256">256</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">         * Get sort order.</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">         * @return String</em>
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">public</strong> String getOrder() {
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.order;
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>         }
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>     }
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> }
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>         @Override
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>         @NotNull(message = <span class="jxr_string">"identifier string is never NULL"</span>)
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>         <strong class="jxr_keyword">public</strong> String identifier() {
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.qualifier;
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         }
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>     }
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>     enum <a href="../../../com/jcabi/github/Search.html">Order</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/StringEnum.html">StringEnum</a> {
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> <em class="jxr_javadoccomment">         * Sorting ascending.</em>
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>         ASC(<span class="jxr_string">"asc"</span>),
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> <em class="jxr_javadoccomment">         * Sorting descending.</em>
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>         DESC(<span class="jxr_string">"desc"</span>);
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> 
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">         * The sort order.</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">transient</strong> String order;
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_javadoccomment">         * Ctor.</em>
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_javadoccomment">         * @param key The sort order</em>
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>         <a href="../../../com/jcabi/github/Search.html">Order</a>(<strong class="jxr_keyword">final</strong> String key) {
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>             <strong class="jxr_keyword">this</strong>.order = key;
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>         }
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">         * Get sort order.</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">         * @return String</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>         @Override
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         @NotNull(message = <span class="jxr_string">"identifier string is never NULL"</span>)
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         <strong class="jxr_keyword">public</strong> String identifier() {
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.order;
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         }
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>     }
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
