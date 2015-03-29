@@ -243,6 +243,15 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             );
         }
         /**
+         * Has body?
+         * @return TRUE if body exists
+         * @throws IOException If there is any I/O problem
+         * @since 0.22
+         */
+        public boolean hasBody() throws IOException {
+            return this.jsn.hasNotNull("body");
+        }
+        /**
          * Has assignee?
          * @return TRUE if assignee exists
          * @throws IOException If there is any I/O problem
