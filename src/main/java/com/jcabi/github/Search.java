@@ -160,6 +160,11 @@ public interface Search {
          */
         INVOLVES("involves"),
         /**
+         * Finds issues or pull requests which mention a particular team within
+         * an organization which the user is a member of.
+        */
+        TEAM("team"),
+        /**
          * Filter issues based on whether they’re open or closed.
          */
         STATE("state"),
