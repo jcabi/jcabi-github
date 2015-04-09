@@ -32,10 +32,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
-import com.jcabi.github.Commits;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
+import com.jcabi.github.*;
+
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -111,5 +109,10 @@ public final class MkCommits implements Commits {
         @NotNull(message = "sha can't be NULL") final String sha
     ) {
         return new MkCommit(this.storage, this.self, this.coords, sha);
+    }
+
+    @Override
+    public Statuses statuses(@NotNull(message = "sha can't be NULL") String sha) {
+        return null;
     }
 }

@@ -109,4 +109,12 @@ public final class RtCommits implements Commits {
     ) {
         return new RtCommit(this.entry, this.owner, sha);
     }
+
+    @Override
+    @NotNull(message = "status is never NULL")
+    public Statuses statuses(
+            @NotNull(message = "sha can't be NULL") final String sha
+    ) {
+        return new RtStatuses(this.entry, this.get(sha));
+    }
 }
