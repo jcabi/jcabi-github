@@ -31,16 +31,13 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -337,7 +334,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public MergeState merge(@NotNull(message = "msg can't be NULL") final String msg,
+        public MergeState merge(
+            @NotNull(message = "msg can't be NULL") final String msg,
             final String sha) throws IOException {
             return this.pull.merge(msg, sha);
         }

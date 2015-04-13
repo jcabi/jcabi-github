@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
- * <p/>
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met: 1) Redistributions of source code must retain the above
@@ -13,7 +13,7 @@
  * the names of its contributors may be used to endorse or promote
  * products derived from this software without specific prior written
  * permission.
- * <p/>
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
  * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -31,15 +31,15 @@ package com.jcabi.github;
 
 public enum MergeState {
     /**
-     * If the Pull Request was successfully merged
+     * If the Pull Request was successfully merged.
      */
     SUCCESS,
     /**
-     * If the Pull Request wasn't mergeable
+     * If the Pull Request wasn't mergeable.
      */
     NOT_MERGEABLE,
     /**
-     * If the current Pull Request head doesn't match the specified SHA
+     * If the current Pull Request head doesn't match the specified SHA.
      */
     BAD_HEAD
 }

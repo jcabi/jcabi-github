@@ -162,8 +162,8 @@ final class RtPull implements Pull {
 
     @Override
     public MergeState merge(
-        @NotNull(message = "message can't be NULL") final String msg, final String sha)
-        throws IOException {
+        @NotNull(message = "message can't be NULL") final String msg,
+        final String sha) throws IOException {
         final JsonObjectBuilder builder = Json.createObjectBuilder()
             .add("commit_message", msg);
         if (sha != null) {
@@ -175,11 +175,11 @@ final class RtPull implements Pull {
             .method(Request.PUT)
             .fetch()
             .as(RestResponse.class)
-            .assertStatus(Matchers.isOneOf(
-                HttpURLConnection.HTTP_OK,
-                HttpURLConnection.HTTP_BAD_METHOD,
-                HttpURLConnection.HTTP_CONFLICT
-            ));
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_OK,
+                    HttpURLConnection.HTTP_BAD_METHOD,
+                    HttpURLConnection.HTTP_CONFLICT));
         final MergeState mergeState;
         switch (response.status()) {
             case HttpURLConnection.HTTP_OK:

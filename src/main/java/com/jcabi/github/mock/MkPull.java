@@ -31,8 +31,12 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.*;
-
+import com.jcabi.github.Commit;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.Pull;
+import com.jcabi.github.PullComments;
+import com.jcabi.github.Repo;
+import com.jcabi.github.MergeState;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -43,7 +47,6 @@ import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 /**
  * Mock Github pull.
  * @author Yegor Bugayenko (yegor@tpc2.com)
@@ -127,8 +130,9 @@ final class MkPull implements Pull {
     }
 
     @Override
-    public MergeState merge(@NotNull(message = "message can't be NULL") final String msg,
-        String sha) throws IOException {
+    public MergeState merge(
+        @NotNull(message = "message can't be NULL") final String msg,
+        final String sha) throws IOException {
         return null;
     }
 
