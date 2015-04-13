@@ -72,10 +72,10 @@ public interface Commits {
     Commit get(@NotNull(message = "sha can't be null") String sha);
 
     /**
-     * Return a Statuses object for a given SHA
-     * @param sha The sha of the Commit
+     * Return a Statuses object for a given ref (sha, branch name, etc).
+     * @param ref The ref of the Commit
      * @return Status
      */
     @NotNull(message = "status is never NULL")
-    Statuses statuses(@NotNull(message = "sha can't be NULL") final String sha);
+    Statuses statuses(@NotNull(message = "sha can't be NULL") final String ref);
 }

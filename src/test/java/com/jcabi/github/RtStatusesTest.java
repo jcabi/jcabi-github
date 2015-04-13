@@ -35,17 +35,17 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import java.net.HttpURLConnection;
+import javax.json.Json;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import javax.json.Json;
-import java.net.HttpURLConnection;
-
 /**
  * Testcase for RtCommits.
  *
- * @author Marcin Cylke
+ * @author Marcin Cylke (marcin.cylke+github@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
@@ -60,45 +60,26 @@ public class RtStatusesTest {
     public final void createsStatus() throws Exception {
         final String sha = "0abcd89jcabitest";
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\n" +
-                        "  \"created_at\": \"2012-07-20T01:19:13Z\",\n" +
-                        "  \"updated_at\": \"2012-07-20T01:19:13Z\",\n" +
-                        "  \"state\": \"failure\",\n" +
-                        "  \"target_url\": \"https://ci.example.com/1000/output\",\n" +
-                        "  \"description\": \"Build has completed successfully\",\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"url\": \"https://api.github.com/repos/octocat/Hello-World/statuses/1\",\n" +
-                        "  \"context\": \"continuous-integration/jenkins\",\n" +
-                        "  \"creator\": {\n" +
-                        "    \"login\": \"octocat\",\n" +
-                        "    \"id\": 1,\n" +
-                        "    \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n" +
-                        "    \"gravatar_id\": \"\",\n" +
-                        "    \"url\": \"https://api.github.com/users/octocat\",\n" +
-                        "    \"html_url\": \"https://github.com/octocat\",\n" +
-                        "    \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n" +
-                        "    \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n" +
-                        "    \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n" +
-                        "    \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n" +
-                        "    \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n" +
-                        "    \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n" +
-                        "    \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n" +
-                        "    \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n" +
-                        "    \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n" +
-                        "    \"type\": \"User\",\n" +
-                        "    \"site_admin\": false\n" +
-                        "  }\n" +
-                        "}"
+                new MkAnswer.Simple(
+                        HttpURLConnection.HTTP_CREATED,
+                        IOUtils.toString(this.getClass()
+                                .getResourceAsStream(
+                                        "/status-api.response.json"
+                    )
+                )
             )
         ).start();
         final Request req = new ApacheRequest(container.home());
-        final Statuses statuses = new RtStatuses(req, new RtCommit(req, repo(), sha));
-
+        final Statuses statuses = new RtStatuses(
+                req, new RtCommit(req, repo(), sha)
+        );
         try {
             final Status newStatus = statuses.create(
-                    new RtStatus(StatusState.failure, "http://example.com", "description", "ctx"));
+                    new RtStatus(
+                            StatusState.failure, "http://example.com",
+                            "description", "ctx"
+                )
+            );
             MatcherAssert.assertThat(
                     newStatus,
                 Matchers.instanceOf(Status.class)
