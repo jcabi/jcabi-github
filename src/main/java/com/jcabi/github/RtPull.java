@@ -38,9 +38,11 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github pull request.
@@ -156,6 +158,40 @@ final class RtPull implements Pull {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
+    }
+
+    @Override
+    public MergeState merge(
+        @NotNull(message = "message can't be NULL") final String msg, final String sha)
+        throws IOException {
+        final JsonObjectBuilder builder = Json.createObjectBuilder()
+            .add("commit_message", msg);
+        if (sha != null) {
+            builder.add("sha", sha);
+        }
+        final RestResponse response = this.request
+            .uri().path("/merge").back()
+            .body().set(builder.build()).back()
+            .method(Request.PUT)
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(Matchers.isOneOf(
+                HttpURLConnection.HTTP_OK,
+                HttpURLConnection.HTTP_BAD_METHOD,
+                HttpURLConnection.HTTP_CONFLICT
+            ));
+        final MergeState mergeState;
+        switch (response.status()) {
+            case HttpURLConnection.HTTP_OK:
+                mergeState = MergeState.SUCCESS;
+                break;
+            case HttpURLConnection.HTTP_BAD_METHOD:
+                mergeState = MergeState.NOT_MERGEABLE;
+                break;
+            default:
+                mergeState = MergeState.BAD_HEAD;
+        }
+        return mergeState;
     }
 
     @Override

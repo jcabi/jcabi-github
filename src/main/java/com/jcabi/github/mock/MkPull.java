@@ -31,11 +31,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Commit;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Pull;
-import com.jcabi.github.PullComments;
-import com.jcabi.github.Repo;
+import com.jcabi.github.*;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -127,6 +124,12 @@ final class MkPull implements Pull {
         @NotNull(message = "msg can't be NULL") final String msg
     ) throws IOException {
         // nothing to do here
+    }
+
+    @Override
+    public MergeState merge(@NotNull(message = "message can't be NULL") final String msg,
+        String sha) throws IOException {
+        return null;
     }
 
     @Override
