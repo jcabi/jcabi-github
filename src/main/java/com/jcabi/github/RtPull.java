@@ -180,8 +180,8 @@ final class RtPull implements Pull {
                     HttpURLConnection.HTTP_OK,
                     HttpURLConnection.HTTP_BAD_METHOD,
                     HttpURLConnection.HTTP_CONFLICT
-                )
-            );
+            )
+        );
         final MergeState mergeState;
         switch (response.status()) {
             case HttpURLConnection.HTTP_OK:
