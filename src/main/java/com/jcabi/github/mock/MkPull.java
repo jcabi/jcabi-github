@@ -33,10 +33,10 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.MergeState;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
-import com.jcabi.github.MergeState;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -47,6 +47,7 @@ import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
 /**
  * Mock Github pull.
  * @author Yegor Bugayenko (yegor@tpc2.com)
