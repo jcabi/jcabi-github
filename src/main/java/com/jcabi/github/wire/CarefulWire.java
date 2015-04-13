@@ -90,7 +90,7 @@ public final class CarefulWire implements Wire {
      *
      * @param wire Original wire
      * @param thrshld Threshold of number of remaining requests, below which
-     *  requests are blocked util reset
+     *  requests are blocked until reset
      */
     public CarefulWire(@NotNull(message = "wire can't be NULL")
         final Wire wire, final int thrshld) {
