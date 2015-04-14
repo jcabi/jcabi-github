@@ -367,8 +367,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         }
         /**
          * Get the latest event of a given type.
+         * Throws {@link IllegalStateException} if the issue has no events of
+         * the given type.
          * @param type Type of event
-         * @return Event found (runtime exception if it doesn't exist)
+         * @return Latest event of the given type
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "event is never NULL")
