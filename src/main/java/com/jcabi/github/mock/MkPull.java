@@ -135,7 +135,7 @@ final class MkPull implements Pull {
         @NotNull(message = "message can't be NULL") final String msg,
         @NotNull(message = "sha can't be NULL") final String sha)
         throws IOException {
-        return null;
+        throw new UnsupportedOperationException("Merge not supported");
     }
 
     @Override
