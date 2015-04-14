@@ -151,13 +151,7 @@ final class RtPull implements Pull {
         final JsonStructure json = Json.createObjectBuilder()
             .add("commit_message", msg)
             .build();
-        this.request
-            .uri().path("/merge").back()
-            .body().set(json).back()
-            .method(Request.PUT)
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+        this.merge(json).assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
@@ -169,19 +163,14 @@ final class RtPull implements Pull {
         if (sha != null) {
             builder.add("sha", sha);
         }
-        final RestResponse response = this.request
-            .uri().path("/merge").back()
-            .body().set(builder.build()).back()
-            .method(Request.PUT)
-            .fetch()
-            .as(RestResponse.class)
+        final RestResponse response = this.merge(builder.build())
             .assertStatus(
                 Matchers.isOneOf(
                     HttpURLConnection.HTTP_OK,
                     HttpURLConnection.HTTP_BAD_METHOD,
                     HttpURLConnection.HTTP_CONFLICT
-            )
-        );
+                )
+            );
         final MergeState mergeState;
         switch (response.status()) {
             case HttpURLConnection.HTTP_OK:
@@ -219,6 +208,22 @@ final class RtPull implements Pull {
         @NotNull(message = "pull can't be NULL") final Pull pull
     ) {
         return this.number() - pull.number();
+    }
+
+    /**
+     * Helper method for merge operations.
+     * @param payload The JSON payload for the merge
+     * @return Response received from GitHub
+     * @throws IOException If there is any I/O problem
+     */
+    private RestResponse merge(final JsonStructure payload)
+        throws IOException {
+        return this.request.uri()
+            .path("/merge").back()
+            .body().set(payload).back()
+            .method(Request.PUT)
+            .fetch()
+            .as(RestResponse.class);
     }
 
 }
