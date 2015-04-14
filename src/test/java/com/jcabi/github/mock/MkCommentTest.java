@@ -29,8 +29,11 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Coordinates;
+import java.net.URL;
+import java.util.Date;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -43,14 +46,13 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class MkCommentTest {
-
     /**
      * MkComment can change body.
      * @throws Exception If some problem inside
      */
     @Test
     public void changesBody() throws Exception {
-        final Comment comment = this.comment();
+        final Comment comment = this.comment("hey buddy");
         new Comment.Smart(comment).body("hello, this is a new body");
         MatcherAssert.assertThat(
             new Comment.Smart(comment).body(),
@@ -90,14 +92,78 @@ public final class MkCommentTest {
     }
 
     /**
+     * MkComment should store all its data properly.
+     * We should get the proper data back when accessing its properties.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    public void dataStoredProperly() throws Exception {
+        final String cmt = "what's up?";
+        final long before = MkCommentTest.now();
+        final Comment comment = this.comment(cmt);
+        final long after = MkCommentTest.now();
+        MatcherAssert.assertThat(
+            comment.number(),
+            Matchers.greaterThan(0)
+        );
+        final Comment.Smart smart = new Comment.Smart(comment);
+        MatcherAssert.assertThat(
+            smart.issue().number(),
+            Matchers.greaterThan(0)
+        );
+        MatcherAssert.assertThat(
+            smart.author().login(),
+            Matchers.equalTo("jeff")
+        );
+        MatcherAssert.assertThat(
+            smart.body(),
+            Matchers.equalTo(cmt)
+        );
+        MatcherAssert.assertThat(
+            smart.url(),
+            Matchers.equalTo(
+                new URL(
+                    // @checkstyle LineLength (1 line)
+                    "https://api.jcabi-github.invalid/repos/jeff/test/issues/comments/1"
+                )
+            )
+        );
+        MatcherAssert.assertThat(
+            smart.createdAt().getTime(),
+            Matchers.greaterThanOrEqualTo(before)
+        );
+        MatcherAssert.assertThat(
+            smart.createdAt().getTime(),
+            Matchers.lessThanOrEqualTo(after)
+        );
+        MatcherAssert.assertThat(
+            smart.updatedAt().getTime(),
+            Matchers.greaterThanOrEqualTo(before)
+        );
+        MatcherAssert.assertThat(
+            smart.updatedAt().getTime(),
+            Matchers.lessThanOrEqualTo(after)
+        );
+    }
+
+    /**
      * Create a comment to work with.
+     * @param text Text of comment
      * @return Comment just created
      * @throws Exception If some problem inside
      */
-    private Comment comment() throws Exception {
+    private Comment comment(final String text) throws Exception {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add("name", "test").build()
-        ).issues().create("hey", "how are you?").comments().post("what's up?");
+        ).issues().create("hey", "how are you?").comments().post(text);
     }
 
+    /**
+     * Obtains the current time.
+     * @return Current time (in milliseconds since epoch) truncated to the nearest second
+     */
+    private static long now() {
+        final long sinceepoch = new Date().getTime();
+        return sinceepoch - (sinceepoch % Tv.THOUSAND);
+    }
 }
