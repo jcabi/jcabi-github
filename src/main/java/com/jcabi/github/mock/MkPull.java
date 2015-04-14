@@ -133,7 +133,8 @@ final class MkPull implements Pull {
     @Override
     public MergeState merge(
         @NotNull(message = "message can't be NULL") final String msg,
-        final String sha) throws IOException {
+        @NotNull(message = "sha can't be NULL") final String sha)
+        throws IOException {
         return null;
     }
 

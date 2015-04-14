@@ -157,12 +157,10 @@ final class RtPull implements Pull {
     @Override
     public MergeState merge(
         @NotNull(message = "message can't be NULL") final String msg,
-        final String sha) throws IOException {
+        @NotNull(message = "sha can't be NULL") final String sha)
+        throws IOException {
         final JsonObjectBuilder builder = Json.createObjectBuilder()
-            .add("commit_message", msg);
-        if (sha != null) {
-            builder.add("sha", sha);
-        }
+            .add("commit_message", msg).add("sha", sha);
         final RestResponse response = this.merge(builder.build())
             .assertStatus(
                 Matchers.isOneOf(

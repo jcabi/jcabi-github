@@ -103,7 +103,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
    * @throws IOException IOException If there is any I/O problem
    */
     MergeState merge(@NotNull(message = "message can't be NULL") String msg,
-        String sha) throws IOException;
+        @NotNull(message = "sha can't be NULL") String sha) throws IOException;
 
     /**
      * Get Pull Comments.
@@ -336,7 +336,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         @Override
         public MergeState merge(
             @NotNull(message = "msg can't be NULL") final String msg,
-            final String sha) throws IOException {
+            @NotNull(message = "sha can't be NULL") final String sha)
+            throws IOException {
             return this.pull.merge(msg, sha);
         }
 
