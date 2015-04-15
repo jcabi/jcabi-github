@@ -140,19 +140,13 @@ final class RtRepo implements Repo {
     @Override
     @NotNull(message = "Iterable of events is never NULL")
     public Iterable<Event> events() {
-        return new RtPagination<Event>(
-            this.request.uri().path("/issues/events").back(),
-            new RtValuePagination.Mapping<Event, JsonObject>() {
-                @Override
-                public Event map(final JsonObject object) {
-                    return new RtEvent(
-                        RtRepo.this.entry,
-                        RtRepo.this,
-                        object.getInt("id")
-                    );
-                }
-            }
-        );
+        return this.issueEvents().iterate();
+    }
+
+    @Override
+    @NotNull(message = "events are never NULL")
+    public IssueEvents issueEvents() {
+        return new RtIssueEvents(this.entry, this);
     }
 
     @Override
