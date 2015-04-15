@@ -37,6 +37,7 @@ import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
@@ -72,6 +73,7 @@ import lombok.ToString;
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "origin", "threshold" })
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class CarefulWire implements Wire {
 
     /**
@@ -115,13 +117,9 @@ public final class CarefulWire implements Wire {
     ) throws IOException {
         final Response resp = this.origin
             .send(req, home, method, headers, content);
-        final int remaining = Integer.parseInt(
-            resp.headers().get("X-RateLimit-Remaining").get(0)
-        );
+        final int remaining = this.remainingHeader(resp);
         if (remaining < this.threshold) {
-            final long reset = Long.parseLong(
-                resp.headers().get("X-RateLimit-Reset").get(0)
-            );
+            final long reset = this.resetHeader(resp);
             final long now = TimeUnit.MILLISECONDS
                 .toSeconds(System.currentTimeMillis());
             if (reset > now) {
@@ -141,5 +139,62 @@ public final class CarefulWire implements Wire {
             }
         }
         return resp;
+    }
+
+    /**
+     * Get the header with the given name from the response.
+     * If there is no such header, returns null.
+     * @param resp Response to get header from
+     * @param headername Name of header to get
+     * @return The value of the first header with the given name, or null.
+     */
+    private String headerOrNull(
+        @NotNull(message = "response can't be NULL")
+        final Response resp,
+        @NotNull(message = "header name can't be NULL")
+        final String headername) {
+        final List<String> values = resp.headers().get(headername);
+        String value = null;
+        if (values != null && !values.isEmpty()) {
+            value = values.get(0);
+        }
+        return value;
+    }
+
+    /**
+     * Returns the value of the X-RateLimit-Remaining header.
+     * If there is no such header, returns Integer.MAX_VALUE (no rate limit).
+     * @param resp Response to get header from
+     * @return Number of requests remaining before the rate limit will be hit
+     */
+    private int remainingHeader(
+        @NotNull(message = "response can't be NULL")
+        final Response resp) {
+        final String remainingstr = this.headerOrNull(
+            resp,
+            "X-RateLimit-Remaining"
+        );
+        int remaining = Integer.MAX_VALUE;
+        if (remainingstr != null) {
+            remaining = Integer.parseInt(remainingstr);
+        }
+        return remaining;
+    }
+
+    /**
+     * Returns the value of the X-RateLimit-Reset header.
+     * If there is no such header, returns 0 (reset immediately).
+     * @param resp Response to get header from
+     * @return Timestamp (in seconds) at which the rate limit will reset
+     */
+    private long resetHeader(
+        @NotNull(message = "response can't be NULL")
+        final Response resp) {
+        final String resetstr = this.headerOrNull(resp, "X-RateLimit-Reset");
+        long reset = 0;
+        if (resetstr != null) {
+            reset = Long.parseLong(resetstr);
+        }
+        return reset;
     }
 }
