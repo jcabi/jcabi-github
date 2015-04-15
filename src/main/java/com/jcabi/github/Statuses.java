@@ -54,7 +54,7 @@ import lombok.ToString;
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
  */
 @Immutable
-public interface Statuses extends Comparable<Statuses>, JsonReadable {
+public interface Statuses extends JsonReadable {
 
     /**
      * Associated commit.
@@ -151,12 +151,6 @@ public interface Statuses extends Comparable<Statuses>, JsonReadable {
         @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.statuses.json();
-        }
-        @Override
-        public int compareTo(
-                @NotNull(message = "obj can't be NULL") final Statuses obj
-        ) {
-            return this.statuses.compareTo(obj);
         }
     }
 }

@@ -134,7 +134,7 @@ public class RtStatuses implements Statuses {
                 .as(JsonResponse.class)
                 .json().readObject();
         return new RtStatus(
-                StatusState.valueOf(jsonObject.getString(STATE)),
+                Status.State.valueOf(jsonObject.getString(STATE)),
                 jsonObject.getString(TARGET_URL),
                 jsonObject.getString(DESCRIPTION),
                 jsonObject.getString(CONTEXT)
@@ -163,12 +163,5 @@ public class RtStatuses implements Statuses {
     @NotNull(message = "JSON can't be NULL")
     public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
-    }
-
-    @Override
-    public final int compareTo(
-            @NotNull(message = "Statuses can't be NULL") final Statuses statuses
-    ) {
-        return this.commit().sha().compareTo(statuses.commit().sha());
     }
 }

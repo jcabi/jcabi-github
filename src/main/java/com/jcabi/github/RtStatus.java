@@ -48,7 +48,7 @@ public final class RtStatus implements Status {
     /**
      * Commit status.
      */
-    private final transient StatusState cstate;
+    private final transient State cstate;
 
     /**
      * Details url.
@@ -73,7 +73,7 @@ public final class RtStatus implements Status {
      * @param ctx Context.
      */
     public RtStatus(
-            @NotNull(message = "status can't be NULL") final StatusState status,
+            @NotNull(message = "status can't be NULL") final State status,
             final String address,
             final String descr,
             final String ctx
@@ -89,7 +89,7 @@ public final class RtStatus implements Status {
      * @return Present status
      */
     @Override
-    public StatusState state() {
+    public State state() {
         return this.cstate;
     }
 

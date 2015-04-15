@@ -37,7 +37,6 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -61,12 +60,12 @@ public class RtStatusesTest {
         final String sha = "0abcd89jcabitest";
         final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_CREATED,
-                        IOUtils.toString(this.getClass()
-                                .getResourceAsStream(
-                                        "/status-api.response.json"
-                    )
-                )
+                    HttpURLConnection.HTTP_CREATED,
+                    Json.createObjectBuilder().add("state", "failure")
+                        .add("target_url", "https://ci.example.com/1000/output")
+                        .add("description", "Build has completed successfully")
+                        .add("context", "continuous-integration/jenkins")
+                        .build().toString()
             )
         ).start();
         final Request req = new ApacheRequest(container.home());
@@ -74,14 +73,14 @@ public class RtStatusesTest {
                 req, new RtCommit(req, repo(), sha)
         );
         try {
-            final Status newStatus = statuses.create(
+            final Status status = statuses.create(
                     new RtStatus(
-                            StatusState.failure, "http://example.com",
+                            Status.State.failure, "http://example.com",
                             "description", "ctx"
                 )
             );
             MatcherAssert.assertThat(
-                    newStatus,
+                    status,
                 Matchers.instanceOf(Status.class)
             );
             MatcherAssert.assertThat(
@@ -89,8 +88,8 @@ public class RtStatusesTest {
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                newStatus.state().name(),
-                Matchers.equalTo(StatusState.failure.name())
+                status.state().name(),
+                Matchers.equalTo(Status.State.failure.name())
             );
         } finally {
             container.stop();

@@ -45,7 +45,7 @@ public interface Status {
      * @return State as enum
      */
     @NotNull(message = "state is never NULL")
-    StatusState state();
+    State state();
 
     /**
      * Get URL.
@@ -64,4 +64,28 @@ public interface Status {
      * @return Context as string
      */
     String context();
+
+    /**
+     * States of Status API.
+     * @author Marcin Cylke(marcin.cylke+github@gmail.com)
+     * @version $Id$
+     */
+    public static enum State {
+        /**
+         * Pending state.
+         */
+        pending,
+        /**
+         * Success state.
+         */
+        success,
+        /**
+         * Error state.
+         */
+        error,
+        /**
+         * Failure state.
+         */
+        failure
+    }
 }
