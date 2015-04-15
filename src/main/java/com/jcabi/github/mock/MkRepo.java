@@ -67,6 +67,7 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
+ * @todo #1061 Fix code to avoid CouplingBetweenObjects
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
