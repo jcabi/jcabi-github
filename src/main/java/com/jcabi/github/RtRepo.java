@@ -138,12 +138,6 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    @NotNull(message = "Iterable of events is never NULL")
-    public Iterable<Event> events() {
-        return this.issueEvents().iterate();
-    }
-
-    @Override
     @NotNull(message = "events are never NULL")
     public IssueEvents issueEvents() {
         return new RtIssueEvents(this.entry, this);

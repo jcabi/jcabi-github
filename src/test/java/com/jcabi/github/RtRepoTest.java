@@ -72,7 +72,7 @@ public final class RtRepoTest {
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
-            repo.events(),
+            repo.issueEvents().iterate(),
             Matchers.<Event>iterableWithSize(2)
         );
         container.stop();

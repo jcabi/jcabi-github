@@ -120,7 +120,7 @@ public final class RtRepoITCase {
         final Issue issue = repo.issues().create("Test", "This is a bug");
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            repo.events(),
+            repo.issueEvents().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
     }

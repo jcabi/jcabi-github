@@ -36,7 +36,6 @@ import com.jcabi.github.Collaborators;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Event;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Git;
 import com.jcabi.github.Github;
@@ -161,12 +160,6 @@ final class MkRepo implements Repo {
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
-    }
-
-    @Override
-    @NotNull(message = "Iterable of events is never NULL")
-    public Iterable<Event> events() {
-        return null;
     }
 
     @Override

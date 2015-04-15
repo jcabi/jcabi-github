@@ -93,16 +93,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Hooks hooks();
 
     /**
-     * Get all events for the repository.
-     * @return Events
-     * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
-     * @deprecated Going to be replaced with {@link #issueEvents()} and {@link IssueEvents#iterate()}
-     */
-    @Deprecated
-    @NotNull(message = "iterable of events is never NULL")
-    Iterable<Event> events();
-
-    /**
      * Get all issue events for the repository.
      * @return Issue events
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
@@ -283,12 +273,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "hooks is never NULL")
         public Hooks hooks() {
             return this.repo.hooks();
-        }
-
-        @Override
-        @NotNull(message = "Iterable of events is never NULL")
-        public Iterable<Event> events() {
-            return this.repo.events();
         }
         @Override
         @NotNull(message = "events are never NULL")
