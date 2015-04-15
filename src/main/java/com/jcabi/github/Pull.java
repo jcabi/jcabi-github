@@ -95,13 +95,13 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     void merge(@NotNull(message = "message can't be NULL") String msg)
         throws IOException;
 
-  /**
-   * Merge it.
-   * @param msg Commit message
-   * @param sha Optional SHA hash for head comparison
-   * @return State of the Merge
-   * @throws IOException IOException If there is any I/O problem
-   */
+    /**
+     * Merge it.
+     * @param msg Commit message
+     * @param sha Optional SHA hash for head comparison
+     * @return State of the Merge
+     * @throws IOException IOException If there is any I/O problem
+     */
     MergeState merge(@NotNull(message = "message can't be NULL") String msg,
         @NotNull(message = "sha can't be NULL") String sha) throws IOException;
 
