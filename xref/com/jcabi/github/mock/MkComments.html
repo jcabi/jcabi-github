@@ -154,40 +154,54 @@
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>         <strong class="jxr_keyword">this</strong>.storage.lock();
 <a class="jxr_linenumber" name="L147" href="#L147">147</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> number;
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>             number = 1 + <strong class="jxr_keyword">this</strong>.storage.xml()
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>                 .nodes(<span class="jxr_string">"//comment/number"</span>).size();
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>             <strong class="jxr_keyword">this</strong>.storage.apply(
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>                 <strong class="jxr_keyword">new</strong> Directives().xpath(<strong class="jxr_keyword">this</strong>.xpath()).add(<span class="jxr_string">"comment"</span>)
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>                     .add(<span class="jxr_string">"number"</span>).set(Integer.toString(number)).up()
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>                     .add(<span class="jxr_string">"body"</span>).set(text).up()
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>                     .add(<span class="jxr_string">"user"</span>).add(<span class="jxr_string">"login"</span>).set(<strong class="jxr_keyword">this</strong>.self).up()
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>                     .add(<span class="jxr_string">"created_at"</span>).set(<strong class="jxr_keyword">new</strong> Github.Time().toString()).up()
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>                     .add(<span class="jxr_string">"updated_at"</span>).set(<strong class="jxr_keyword">new</strong> Github.Time().toString())
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>             );
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>         }
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         Logger.info(
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>             <strong class="jxr_keyword">this</strong>, <span class="jxr_string">"comment #%d posted to issue #%d by %s: %[text]s"</span>,
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>             number, <strong class="jxr_keyword">this</strong>.issue().number(), <strong class="jxr_keyword">this</strong>.self, text
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>         );
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(number);
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>     }
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>             <em class="jxr_comment">// @checkstyle LineLength (1 line)</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments"</span>,
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>             <strong class="jxr_keyword">this</strong>.repo, <strong class="jxr_keyword">this</strong>.ticket
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>             <strong class="jxr_keyword">final</strong> String timestamp = <strong class="jxr_keyword">new</strong> Github.Time().toString();
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>             number = 1 + <strong class="jxr_keyword">this</strong>.storage.xml()
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>                 .nodes(<span class="jxr_string">"//comment/number"</span>).size();
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>             <strong class="jxr_keyword">this</strong>.storage.apply(
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>                 <strong class="jxr_keyword">new</strong> Directives().xpath(<strong class="jxr_keyword">this</strong>.xpath()).add(<span class="jxr_string">"comment"</span>)
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>                     .add(<span class="jxr_string">"number"</span>).set(Integer.toString(number)).up()
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>                     .add(<span class="jxr_string">"url"</span>)
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>                     .set(
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>                         String.format(
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>                             <em class="jxr_comment">// @checkstyle LineLength (1 line)</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>                             <span class="jxr_string">"https://api.jcabi-github.invalid/repos/%s/%s/issues/comments/%d"</span>,
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>                             <strong class="jxr_keyword">this</strong>.repo.user(),
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>                             <strong class="jxr_keyword">this</strong>.repo.repo(),
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>                             number
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>                     )
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                 )
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>                     .up()
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>                     .add(<span class="jxr_string">"body"</span>).set(text).up()
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                     .add(<span class="jxr_string">"user"</span>)
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>                         .add(<span class="jxr_string">"login"</span>).set(<strong class="jxr_keyword">this</strong>.self).up()
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>                     .up()
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>                     .add(<span class="jxr_string">"created_at"</span>).set(timestamp).up()
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>                     .add(<span class="jxr_string">"updated_at"</span>).set(timestamp)
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>             );
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>         }
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>         Logger.info(
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>             <strong class="jxr_keyword">this</strong>, <span class="jxr_string">"comment #%d posted to issue #%d by %s: %[text]s"</span>,
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>             number, <strong class="jxr_keyword">this</strong>.issue().number(), <strong class="jxr_keyword">this</strong>.self, text
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>         );
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>     }
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(number);
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     }
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>     @NotNull(message = <span class="jxr_string">"Xpath is never NULL"</span>)
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>             <em class="jxr_comment">// @checkstyle LineLength (1 line)</em>
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments"</span>,
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>             <strong class="jxr_keyword">this</strong>.repo, <strong class="jxr_keyword">this</strong>.ticket
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         );
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>     }
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
