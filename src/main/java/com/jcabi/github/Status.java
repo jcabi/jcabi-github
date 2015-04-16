@@ -97,8 +97,8 @@ public interface Status {
         public static State forValue(final String name) {
             for (final State state : State.values()) {
                 if (name != null
-                        && state.name().toLowerCase().equals(
-                            name.toLowerCase()
+                        && state.name().toLowerCase().equalsIgnoreCase(
+                            name
                         )) {
                     return state;
                 }
