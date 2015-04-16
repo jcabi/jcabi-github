@@ -50,7 +50,7 @@ import lombok.ToString;
  *
  * @author Marcin Cylke (marcin.cylke+github@gmail.com)
  * @version $Id$
- * @since 1.16
+ * @since 0.23
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
  */
 @Immutable

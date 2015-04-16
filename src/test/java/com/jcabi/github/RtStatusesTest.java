@@ -53,11 +53,10 @@ public class RtStatusesTest {
     /**
      * Tests creating a Commit.
      *
-     * @throws Exception when an error occurs
+     * @throws Exception when an Error occurs
      */
     @Test
     public final void createsStatus() throws Exception {
-        final String sha = "0abcd89jcabitest";
         final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_CREATED,
@@ -70,27 +69,20 @@ public class RtStatusesTest {
         ).start();
         final Request req = new ApacheRequest(container.home());
         final Statuses statuses = new RtStatuses(
-                req, new RtCommit(req, repo(), sha)
+                req, new RtCommit(req, repo(), "0abcd89jcabitest")
         );
         try {
             final Status status = statuses.create(
                     new RtStatus(
-                            Status.State.failure, "http://example.com",
+                            Status.State.Failure, "http://example.com",
                             "description", "ctx"
                 )
-            );
-            MatcherAssert.assertThat(
-                    status,
-                Matchers.instanceOf(Status.class)
             );
             MatcherAssert.assertThat(
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                status.state().name(),
-                Matchers.equalTo(Status.State.failure.name())
-            );
+            Matchers.equalToIgnoringCase(Status.State.Failure.name());
         } finally {
             container.stop();
         }

@@ -36,6 +36,7 @@ import javax.validation.constraints.NotNull;
  * Model class for adding a new Status via Status API.
  * @author Marcin Cylke (marcin.cylke+github@gmail.com)
  * @version $Id$
+ * @since 0.23
  */
 @Immutable
 public interface Status {
@@ -70,22 +71,41 @@ public interface Status {
      * @author Marcin Cylke(marcin.cylke+github@gmail.com)
      * @version $Id$
      */
-    public static enum State {
+    public enum State {
         /**
          * Pending state.
          */
-        pending,
+        Pending,
         /**
          * Success state.
          */
-        success,
+        Success,
         /**
          * Error state.
          */
-        error,
+        Error,
         /**
          * Failure state.
          */
-        failure
+        Failure;
+
+        /**
+         * Get enum value from string.
+         * @param name Enum name
+         * @return Matched enum name
+         */
+        public static State forValue(final String name) {
+            for (final State state : State.values()) {
+                if (name != null
+                        && state.name().toLowerCase().equals(
+                            name.toLowerCase()
+                        )) {
+                    return state;
+                }
+            }
+            throw new IllegalArgumentException(
+                    String.format("No enum value found for %s", name)
+            );
+        }
     }
 }

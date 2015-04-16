@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
  * Github commit status.
  * @author Marcin Cylke (maracin.cylke+github@gmail.com)
  * @version $Id$
- * @checkstyle ParameterNumberCheck (500 lines)
+ * @since 0.23
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -71,6 +71,7 @@ public final class RtStatus implements Status {
      * @param address Target url.
      * @param descr Description.
      * @param ctx Context.
+     * @checkstyle ParameterNumberCheck (500 lines)
      */
     public RtStatus(
             @NotNull(message = "status can't be NULL") final State status,

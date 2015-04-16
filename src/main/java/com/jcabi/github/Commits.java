@@ -39,7 +39,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.8
+ * @since 0.23
  * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
  */
 @Immutable

@@ -91,7 +91,7 @@ public final class RtReposTest {
 
     /**
      * RtUsers can iterate users.
-     * @throws Exception if there is any error
+     * @throws Exception if there is any Error
      */
     @Test
     public void iterateRepos() throws Exception {

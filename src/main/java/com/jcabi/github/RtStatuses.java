@@ -43,25 +43,10 @@ import javax.validation.constraints.NotNull;
  * Github statuses for a given commit.
  * @author Marcin Cylke (maracin.cylke+github@gmail.com)
  * @version $Id$
+ * @since 0.23
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 public class RtStatuses implements Statuses {
-
-    /**
-     * Target url field name.
-     */
-    public static final String TARGET_URL = "target_url";
-    /**
-     * Description field name.
-     */
-    public static final String DESCRIPTION = "description";
-    /**
-     * Context field name.
-     */
-    public static final String CONTEXT = "context";
-    /**
-     * State field name.
-     */
-    public static final String STATE = "state";
 
     /**
      * RESTful request.
@@ -69,9 +54,9 @@ public class RtStatuses implements Statuses {
     private final transient Request request;
 
     /**
-     * Commit hash.
+     * Commit cmmt.
      */
-    private final transient Commit hash;
+    private final transient Commit cmmt;
 
     /**
      * Create a new status-aware object based on given commit.
@@ -87,7 +72,7 @@ public class RtStatuses implements Statuses {
                 .path("/statuses")
                 .path(commit.sha())
                 .back();
-        this.hash = commit;
+        this.cmmt = commit;
     }
 
     /**
@@ -105,9 +90,9 @@ public class RtStatuses implements Statuses {
      * @return Commit object
      */
     @Override
-    @NotNull(message = "Commit hash can't be NULL")
+    @NotNull(message = "Commit can't be NULL")
     public final Commit commit() {
-        return this.hash;
+        return this.cmmt;
     }
 
     /**
@@ -121,12 +106,12 @@ public class RtStatuses implements Statuses {
             @NotNull(message = "status can't be NULL") final Status status
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add(STATE, status.state().name())
-                .add(TARGET_URL, status.targetUrl())
-                .add(DESCRIPTION, status.description())
-                .add(CONTEXT, status.context())
+                .add("state", status.state().name())
+                .add("target_url", status.targetUrl())
+                .add("description", status.description())
+                .add("context", status.context())
                 .build();
-        final JsonObject jsonObject = this.request.method(Request.POST)
+        final JsonObject response = this.request.method(Request.POST)
                 .body().set(json).back()
                 .fetch()
                 .as(RestResponse.class)
@@ -134,10 +119,10 @@ public class RtStatuses implements Statuses {
                 .as(JsonResponse.class)
                 .json().readObject();
         return new RtStatus(
-                Status.State.valueOf(jsonObject.getString(STATE)),
-                jsonObject.getString(TARGET_URL),
-                jsonObject.getString(DESCRIPTION),
-                jsonObject.getString(CONTEXT)
+                Status.State.forValue(response.getString("state")),
+                response.getString("target_url"),
+                response.getString("description"),
+                response.getString("context")
         );
     }
 
