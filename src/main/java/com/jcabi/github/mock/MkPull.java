@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.MergeState;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
@@ -127,6 +128,14 @@ final class MkPull implements Pull {
         @NotNull(message = "msg can't be NULL") final String msg
     ) throws IOException {
         // nothing to do here
+    }
+
+    @Override
+    public MergeState merge(
+        @NotNull(message = "message can't be NULL") final String msg,
+        @NotNull(message = "sha can't be NULL") final String sha)
+        throws IOException {
+        throw new UnsupportedOperationException("Merge not supported");
     }
 
     @Override
