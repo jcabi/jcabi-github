@@ -72,7 +72,7 @@ public class RtStatusesTest {
                 req, new RtCommit(req, repo(), "0abcd89jcabitest")
         );
         try {
-            final Status status = statuses.create(
+            statuses.create(
                     new RtStatus(
                             Status.State.Failure, "http://example.com",
                             "description", "ctx"
