@@ -36,11 +36,11 @@ import com.jcabi.github.Collaborators;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Event;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Git;
 import com.jcabi.github.Github;
 import com.jcabi.github.Hooks;
+import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Language;
@@ -67,12 +67,17 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
+ * @todo #1061 Fix code to avoid CouplingBetweenObjects
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords" })
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports" })
+@SuppressWarnings({
+    "PMD.TooManyMethods",
+    "PMD.ExcessiveImports",
+    "PMD.CouplingBetweenObjects"
+})
 final class MkRepo implements Repo {
 
     /**
@@ -159,8 +164,8 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    @NotNull(message = "Iterable of events is never NULL")
-    public Iterable<Event> events() {
+    @NotNull(message = "events are never NULL")
+    public IssueEvents issueEvents() {
         return null;
     }
 
