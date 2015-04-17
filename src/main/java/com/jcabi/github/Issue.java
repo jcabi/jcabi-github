@@ -201,8 +201,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             );
         }
         /**
-         * Get its body.
-         * @return Body of issue
+         * Get its title.
+         * @return Title of issue
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "title is never NULL")
@@ -210,8 +210,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             return this.jsn.text("title");
         }
         /**
-         * Change its state.
-         * @param text Text of issue
+         * Change its title.
+         * @param text Title of issue
          * @throws IOException If there is any I/O problem
          */
         public void title(
@@ -222,8 +222,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             );
         }
         /**
-         * Get its title.
-         * @return Title of issue
+         * Get its body.
+         * @return Body of issue
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "body is never NULL")
