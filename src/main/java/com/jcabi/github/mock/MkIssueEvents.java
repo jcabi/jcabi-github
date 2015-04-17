@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
@@ -143,11 +144,12 @@ final class MkIssueEvents implements IssueEvents {
      *  See https://developer.github.com/v3/issues/events/ for details.
      */
     @NotNull(message = "event is never NULL")
-    // @checkstyle ParameterNumberCheck (7 lines)
+    // @checkstyle ParameterNumberCheck (4 lines)
     public Event create(
         @NotNull(message = "type can't be NULL") final String type,
         final int issue, @NotNull(message = "login can't be NULL")
-        final String login, final String label
+        final String login, @NotNull(message = "option itself can't be NULL")
+        final Optional<String> label
     ) throws IOException {
         final String created = new Github.Time().toString();
         this.storage.lock();
@@ -164,8 +166,8 @@ final class MkIssueEvents implements IssueEvents {
                 .add("event").set(type).up()
                 .add("created_at").set(created).up()
                 .add("login").set(login).up();
-            if (label != null) {
-                directives = directives.add("label").set(label).up();
+            if (label.isPresent()) {
+                directives = directives.add("label").set(label.get()).up();
             }
             this.storage.apply(directives);
         } finally {

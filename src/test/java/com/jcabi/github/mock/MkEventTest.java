@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.base.Optional;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -58,7 +59,7 @@ public final class MkEventTest {
             "test_type",
             1,
             user,
-            "test_label"
+            Optional.of("test_label")
         ).number();
         MatcherAssert.assertThat(
             new MkEvent(

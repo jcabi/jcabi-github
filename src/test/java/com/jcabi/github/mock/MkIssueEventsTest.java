@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Event;
 import java.util.Iterator;
@@ -48,6 +49,10 @@ public final class MkIssueEventsTest {
      * Name string used in various APIs.
      */
     private static final String NAME = "name";
+    /**
+     * Absent optional string.
+     */
+    private static final Optional<String> ABSENT_STR = Optional.absent();
 
     /**
      * MkIssueEvents can create issue events.
@@ -60,7 +65,12 @@ public final class MkIssueEventsTest {
         final String type = "locked";
         final long before = MkIssueEventsTest.now();
         final Event.Smart event = new Event.Smart(
-            events.create(type, 2, login, null)
+            events.create(
+                type,
+                2,
+                login,
+                MkIssueEventsTest.ABSENT_STR
+            )
         );
         final long after = MkIssueEventsTest.now();
         MatcherAssert.assertThat(
@@ -94,7 +104,12 @@ public final class MkIssueEventsTest {
     public void createsIssueEventWithLabel() throws Exception {
         final MkIssueEvents events = this.issueEvents();
         final String label = "my label";
-        final Event event = events.create("labeled", 2, "samuel", label);
+        final Event event = events.create(
+            "labeled",
+            2,
+            "samuel",
+            Optional.of(label)
+        );
         MatcherAssert.assertThat(
             event.json()
                 .getJsonObject("label")
@@ -112,7 +127,12 @@ public final class MkIssueEventsTest {
         final MkIssueEvents events = this.issueEvents();
         final String type = "unlocked";
         final String login = "jill";
-        final int eventnum = events.create(type, 2, login, null).number();
+        final int eventnum = events.create(
+            type,
+            2,
+            login,
+            MkIssueEventsTest.ABSENT_STR
+        ).number();
         final Event.Smart event = new Event.Smart(events.get(eventnum));
         MatcherAssert.assertThat(
             event.number(),
@@ -135,8 +155,18 @@ public final class MkIssueEventsTest {
     @Test
     public void iteratesIssueEvents() throws Exception {
         final MkIssueEvents events = this.issueEvents();
-        final Event first = events.create("closed", 3, "john", null);
-        final Event second = events.create("reopened", 3, "jane", null);
+        final Event first = events.create(
+            "closed",
+            3,
+            "john",
+            MkIssueEventsTest.ABSENT_STR
+        );
+        final Event second = events.create(
+            "reopened",
+            3,
+            "jane",
+            MkIssueEventsTest.ABSENT_STR
+        );
         MatcherAssert.assertThat(
             events.iterate(),
             Matchers.<Event>iterableWithSize(2)
@@ -155,7 +185,7 @@ public final class MkIssueEventsTest {
     /**
      * Create an MkIssueEvents to work with.
      * Can't use normal IssueEvents because we need the mock-only
-     * {@link MkIssueEvents#create(String, int, String, String)} method.
+     * {@link MkIssueEvents#create(String, int, String, Optional)} method.
      * @return MkIssueEvents
      * @throws Exception If some problem inside
      */
