@@ -29,7 +29,9 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Coordinates;
+import com.google.common.base.Optional;
+import com.jcabi.github.Repo;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -47,12 +49,26 @@ public final class MkEventTest {
      */
     @Test
     public void canGetCreatedAt() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        final String user = "test_user";
+        final Repo repo = new MkGithub(storage, user).repos().create(
+            Json.createObjectBuilder().add("name", "test").build()
+        );
+        final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
+        final int eventnum = events.create(
+            "test_type",
+            1,
+            user,
+            Optional.of("test_label")
+        ).number();
         MatcherAssert.assertThat(
             new MkEvent(
-                new MkStorage.InFile(), "test", new Coordinates.Simple(
-                    "test_user", "test_repo"
-                ), "test_type"
-            ).json().getString("created_at"),
+                storage,
+                user,
+                repo.coordinates(),
+                eventnum
+            )
+                .json().getString("created_at"),
             Matchers.notNullValue()
         );
     }

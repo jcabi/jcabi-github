@@ -164,9 +164,13 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    @NotNull(message = "events are never NULL")
+    @NotNull(message = "issue events is never NULL")
     public IssueEvents issueEvents() {
-        return null;
+        try {
+            return new MkIssueEvents(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
