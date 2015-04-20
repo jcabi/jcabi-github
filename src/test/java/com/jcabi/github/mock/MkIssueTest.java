@@ -30,11 +30,13 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Event;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import java.util.Collections;
+import java.util.Iterator;
 import javax.json.Json;
 import org.hamcrest.CustomMatcher;
 import org.hamcrest.MatcherAssert;
@@ -249,6 +251,53 @@ public final class MkIssueTest {
         MatcherAssert.assertThat(
             issue.assignee().login(),
             Matchers.startsWith("wal")
+        );
+    }
+
+    /**
+     * MkIssue can create a closed event when closing an issue.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsClosedEvent() throws Exception {
+        final Issue.Smart issue = new Issue.Smart(this.issue());
+        issue.close();
+        MatcherAssert.assertThat(
+            issue.events(),
+            Matchers.<Event>iterableWithSize(1)
+        );
+        final Event.Smart closed = new Event.Smart(
+            issue.events().iterator().next()
+        );
+        MatcherAssert.assertThat(
+            closed.type(),
+            Matchers.equalTo(Event.CLOSED)
+        );
+    }
+
+    /**
+     * MkIssue can create a reopened event when closing an issue.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsReopenedEvent() throws Exception {
+        final Issue.Smart issue = new Issue.Smart(this.issue());
+        issue.close();
+        issue.open();
+        MatcherAssert.assertThat(
+            issue.events(),
+            Matchers.<Event>iterableWithSize(2)
+        );
+        final Iterator<Event> events = issue.events().iterator();
+        final Event.Smart closed = new Event.Smart(events.next());
+        final Event.Smart reopened = new Event.Smart(events.next());
+        MatcherAssert.assertThat(
+            closed.type(),
+            Matchers.equalTo(Event.CLOSED)
+        );
+        MatcherAssert.assertThat(
+            reopened.type(),
+            Matchers.equalTo(Event.REOPENED)
         );
     }
 

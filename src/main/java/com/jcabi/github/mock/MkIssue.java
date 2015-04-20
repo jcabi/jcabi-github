@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comments;
@@ -176,7 +177,20 @@ final class MkIssue implements Issue {
     public void patch(
         @NotNull(message = "json can't be NULL") final JsonObject json
     ) throws IOException {
+        final Issue.Smart smart = new Issue.Smart(this);
+        final boolean was = smart.isOpen();
         new JsonPatch(this.storage).patch(this.xpath(), json);
+        final boolean now = smart.isOpen();
+        if (now != was) {
+            final String type;
+            if (now) {
+                type = Event.REOPENED;
+            } else {
+                type = Event.CLOSED;
+            }
+            new MkIssueEvents(this.storage, this.self, this.coords)
+                .create(type, this.num, this.self, Optional.<String>absent());
+        }
     }
 
     @Override
