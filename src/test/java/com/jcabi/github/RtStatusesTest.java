@@ -58,24 +58,24 @@ public class RtStatusesTest {
     @Test
     public final void createsStatus() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_CREATED,
-                    Json.createObjectBuilder().add("state", "failure")
-                        .add("target_url", "https://ci.example.com/1000/output")
-                        .add("description", "Build has completed successfully")
-                        .add("context", "continuous-integration/jenkins")
-                        .build().toString()
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_CREATED,
+                Json.createObjectBuilder().add("state", "failure")
+                    .add("target_url", "https://ci.example.com/1000/output")
+                    .add("description", "Build has completed successfully")
+                    .add("context", "continuous-integration/jenkins")
+                    .build().toString()
             )
         ).start();
         final Request req = new ApacheRequest(container.home());
         final Statuses statuses = new RtStatuses(
-                req, new RtCommit(req, repo(), "0abcd89jcabitest")
+            req, new RtCommit(req, repo(), "0abcd89jcabitest")
         );
         try {
             statuses.create(
-                    new RtStatus(
-                            Status.State.Failure, "http://example.com",
-                            "description", "ctx"
+                new RtStatus(
+                    Status.State.Failure, "http://example.com",
+                    "description", "ctx"
                 )
             );
             MatcherAssert.assertThat(
