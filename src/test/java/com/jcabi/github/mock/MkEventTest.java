@@ -30,6 +30,8 @@
 package com.jcabi.github.mock;
 
 import com.google.common.base.Optional;
+import com.jcabi.github.Event;
+import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -42,6 +44,10 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class MkEventTest {
+    /**
+     * Name of field for name of repository.
+     */
+    private static final String NAME = "name";
 
     /**
      * Can get created_at value from json object.
@@ -52,7 +58,7 @@ public final class MkEventTest {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGithub(storage, user).repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            Json.createObjectBuilder().add(NAME, "test").build()
         );
         final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
         final int eventnum = events.create(
@@ -70,6 +76,68 @@ public final class MkEventTest {
             )
                 .json().getString("created_at"),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkEvent can get present label value from json object.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canGetPresentLabel() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        final String user = "ken";
+        final Repo repo = new MkGithub(storage, user).repos().create(
+            Json.createObjectBuilder().add(NAME, "foo").build()
+        );
+        final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
+        final String label = "problem";
+        final int num = events.create(
+            Event.LABELED,
+            1,
+            user,
+            Optional.of(label)
+        ).number();
+        MatcherAssert.assertThat(
+            new Event.Smart(
+                new MkEvent(
+                    storage,
+                    user,
+                    repo.coordinates(),
+                    num
+                )
+            ).label().get().name(),
+            Matchers.equalTo(label)
+        );
+    }
+
+    /**
+     * MkEvent can get absent label value from json object.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void canGetAbsentLabel() throws Exception {
+        final MkStorage storage = new MkStorage.InFile();
+        final String user = "barbie";
+        final Repo repo = new MkGithub(storage, user).repos().create(
+            Json.createObjectBuilder().add(NAME, "bar").build()
+        );
+        final int num = ((MkIssueEvents) (repo.issueEvents())).create(
+            Event.LABELED,
+            1,
+            user,
+            Optional.<String>absent()
+        ).number();
+        MatcherAssert.assertThat(
+            new Event.Smart(
+                new MkEvent(
+                    storage,
+                    user,
+                    repo.coordinates(),
+                    num
+                )
+            ).label(),
+            Matchers.equalTo(Optional.<Label>absent())
         );
     }
 }

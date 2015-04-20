@@ -104,16 +104,16 @@ public final class MkIssueEventsTest {
     public void createsIssueEventWithLabel() throws Exception {
         final MkIssueEvents events = this.issueEvents();
         final String label = "my label";
-        final Event event = events.create(
-            "labeled",
-            2,
-            "samuel",
-            Optional.of(label)
+        final Event.Smart event = new Event.Smart(
+            events.create(
+                "labeled",
+                2,
+                "samuel",
+                Optional.of(label)
+            )
         );
         MatcherAssert.assertThat(
-            event.json()
-                .getJsonObject("label")
-                .getString(MkIssueEventsTest.NAME),
+            event.label().get().name(),
             Matchers.equalTo(label)
         );
     }

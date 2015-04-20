@@ -34,7 +34,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import javax.json.Json;
@@ -122,7 +121,7 @@ public final class MkIssueLabelsTest {
             Matchers.equalTo(repo)
         );
         MatcherAssert.assertThat(
-            MkIssueLabelsTest.labelOf(labeled),
+            labeled.label().get().name(),
             Matchers.equalTo(name)
         );
     }
@@ -159,7 +158,7 @@ public final class MkIssueLabelsTest {
             Matchers.equalTo(repo)
         );
         MatcherAssert.assertThat(
-            MkIssueLabelsTest.labelOf(unlabeled),
+            unlabeled.label().get().name(),
             Matchers.equalTo(name)
         );
     }
@@ -173,15 +172,5 @@ public final class MkIssueLabelsTest {
         return new MkGithub().repos().create(
             Json.createObjectBuilder().add(NAME, "test").build()
         );
-    }
-
-    /**
-     * Get label from event.
-     * @param event Event to get label of
-     * @return Name of label
-     * @throws IOException If some I/O problem inside
-     */
-    private static String labelOf(final Event event) throws IOException {
-        return event.json().getJsonObject("label").getString(NAME);
     }
 }
