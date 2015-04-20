@@ -66,12 +66,12 @@ public class RtStatuses implements Statuses {
     RtStatuses(final Request req, final Commit commit) {
         final Coordinates coords = commit.repo().coordinates();
         this.request = req.uri()
-                .path("/repos")
-                .path(coords.user())
-                .path(coords.repo())
-                .path("/statuses")
-                .path(commit.sha())
-                .back();
+            .path("/repos")
+            .path(coords.user())
+            .path(coords.repo())
+            .path("/statuses")
+            .path(commit.sha())
+            .back();
         this.cmmt = commit;
     }
 
@@ -103,26 +103,26 @@ public class RtStatuses implements Statuses {
      */
     @Override
     public final Status create(
-            @NotNull(message = "status can't be NULL") final Status status
+        @NotNull(message = "status can't be NULL") final Status status
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-                .add("state", status.state().name())
-                .add("target_url", status.targetUrl())
-                .add("description", status.description())
-                .add("context", status.context())
-                .build();
+            .add("state", status.state().name())
+            .add("target_url", status.targetUrl())
+            .add("description", status.description())
+            .add("context", status.context())
+            .build();
         final JsonObject response = this.request.method(Request.POST)
-                .body().set(json).back()
-                .fetch()
-                .as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                .json().readObject();
+            .body().set(json).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_CREATED)
+            .as(JsonResponse.class)
+            .json().readObject();
         return new RtStatus(
-                Status.State.forValue(response.getString("state")),
-                response.getString("target_url"),
-                response.getString("description"),
-                response.getString("context")
+            Status.State.forValue(response.getString("state")),
+            response.getString("target_url"),
+            response.getString("description"),
+            response.getString("context")
         );
     }
 
@@ -134,7 +134,7 @@ public class RtStatuses implements Statuses {
     @Override
     @NotNull(message = "list of statuses can't be NULL")
     public final Iterable<Statuses> list(
-            @NotNull(message = "ref can't be NULL") final String ref
+        @NotNull(message = "ref can't be NULL") final String ref
     ) {
         throw new UnsupportedOperationException("Not implemented");
     }

@@ -74,10 +74,10 @@ public final class RtStatus implements Status {
      * @checkstyle ParameterNumberCheck (500 lines)
      */
     public RtStatus(
-            @NotNull(message = "status can't be NULL") final State status,
-            final String address,
-            final String descr,
-            final String ctx
+        @NotNull(message = "status can't be NULL") final State status,
+        final String address,
+        final String descr,
+        final String ctx
     ) {
         this.url = address;
         this.message = descr;

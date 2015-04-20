@@ -39,7 +39,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @since 0.23
+ * @since 0.8
  * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
  */
 @Immutable
@@ -74,6 +74,7 @@ public interface Commits {
     /**
      * Return a Statuses object for a given ref (sha, branch name, etc).
      * @param ref The ref of the Commit
+     * @since 0.23
      * @return Status
      */
     @NotNull(message = "status is never NULL")
