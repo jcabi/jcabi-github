@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,19 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
+import com.jcabi.immutable.ArrayMap;
+import com.jcabi.log.VerboseCallable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -130,6 +138,36 @@ public final class MkGithubTest {
         MatcherAssert.assertThat(
             github.repos().get(repo.coordinates()).coordinates(),
             Matchers.equalTo(repo.coordinates())
+        );
+    }
+
+    /**
+     * MkGithub can handle multiple threads in parallel.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void canHandleMultipleThreads() throws Exception {
+        final Repo repo = new MkGithub().randomRepo();
+        final int threads = Tv.HUNDRED;
+        final ExecutorService svc = Executors.newFixedThreadPool(threads);
+        final Callable<Void> task = new VerboseCallable<Void>(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    repo.issues().create("", "");
+                    return null;
+                }
+            }
+        );
+        final Collection<Callable<Void>> tasks =
+            new ArrayList<Callable<Void>>(threads);
+        for (int idx = 0; idx < threads; ++idx) {
+            tasks.add(task);
+        }
+        svc.invokeAll(tasks);
+        MatcherAssert.assertThat(
+            repo.issues().iterate(new ArrayMap<String, String>()),
+            Matchers.<Issue>iterableWithSize(threads)
         );
     }
 

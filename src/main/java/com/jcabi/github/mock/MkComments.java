@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -146,15 +146,29 @@ final class MkComments implements Comments {
         this.storage.lock();
         final int number;
         try {
+            final String timestamp = new Github.Time().toString();
             number = 1 + this.storage.xml()
                 .nodes("//comment/number").size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Integer.toString(number)).up()
+                    .add("url")
+                    .set(
+                        String.format(
+                            // @checkstyle LineLength (1 line)
+                            "https://api.jcabi-github.invalid/repos/%s/%s/issues/comments/%d",
+                            this.repo.user(),
+                            this.repo.repo(),
+                            number
+                    )
+                )
+                    .up()
                     .add("body").set(text).up()
-                    .add("user").add("login").set(this.self).up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("updated_at").set(new Github.Time().toString())
+                    .add("user")
+                        .add("login").set(this.self).up()
+                    .up()
+                    .add("created_at").set(timestamp).up()
+                    .add("updated_at").set(timestamp)
             );
         } finally {
             this.storage.unlock();

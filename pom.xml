@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@
     <parent>
         <groupId>com.jcabi</groupId>
         <artifactId>jcabi</artifactId>
-        <version>1.16</version>
+        <version>1.17</version>
     </parent>
     <artifactId>jcabi-github</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -82,6 +82,7 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-http</artifactId>
+            <version>1.10.2</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi.incubator</groupId>
@@ -95,6 +96,7 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-log</artifactId>
+            <version>0.16</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -127,7 +129,6 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -213,23 +214,6 @@
         </dependency>
     </dependencies>
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <configuration>
-                        <systemPropertyVariables>
-                            <failsafe.github.key>${failsafe.github.key}</failsafe.github.key>
-                            <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
-                            <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
-                            <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
-                            <failsafe.github.user>${failsafe.github.user}</failsafe.github.user>
-                            <failsafe.github.password>${failsafe.github.password}</failsafe.github.password>
-                        </systemPropertyVariables>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -239,6 +223,16 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <failsafe.github.key>${failsafe.github.key}</failsafe.github.key>
+                                <failsafe.github.repo>${failsafe.github.repo}</failsafe.github.repo>
+                                <failsafe.github.key.second>${failsafe.github.key.second}</failsafe.github.key.second>
+                                <failsafe.github.repo.second>${failsafe.github.repo.second}</failsafe.github.repo.second>
+                                <failsafe.github.user>${failsafe.github.user}</failsafe.github.user>
+                                <failsafe.github.password>${failsafe.github.password}</failsafe.github.password>
+                            </systemPropertyVariables>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -295,6 +289,7 @@
                                 <exclude>checkstyle:/src/test/java/com/jcabi/github/NullabilityTest.java</exclude>
                                 <exclude>xml:/src/it/settings.xml</exclude>
                             </excludes>
+                            <license>file:${basedir}/LICENSE.txt</license>
                         </configuration>
                     </plugin>
                 </plugins>

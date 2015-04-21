@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,7 @@ final class RtSearch implements Search {
         @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<Repo>(
-            this.request, "repositories", keywords, sort, order.getOrder(),
+            this.request, "repositories", keywords, sort, order.identifier(),
             new RtValuePagination.Mapping<Repo, JsonObject>() {
                 @Override
                 public Repo map(final JsonObject object) {
@@ -121,11 +121,15 @@ final class RtSearch implements Search {
         final StringBuilder keyword = new StringBuilder(keywords);
         for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
             .entrySet()) {
-            keyword.append('+').append(entry.getKey().getQualifier())
+            keyword.append('+').append(entry.getKey().identifier())
                 .append(':').append(entry.getValue());
         }
         return new RtSearchPagination<Issue>(
-            this.request, "issues", keyword.toString(), sort, order.getOrder(),
+            this.request,
+            "issues",
+            keyword.toString(),
+            sort,
+            order.identifier(),
             new RtValuePagination.Mapping<Issue, JsonObject>() {
                 @Override
                 public Issue map(final JsonObject object) {
@@ -155,7 +159,7 @@ final class RtSearch implements Search {
         @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<User>(
-            this.request, "users", keywords, sort, order.getOrder(),
+            this.request, "users", keywords, sort, order.identifier(),
             new RtValuePagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
@@ -176,7 +180,7 @@ final class RtSearch implements Search {
         @NotNull(message = "Sort order can't be NULL") final Order order)
         throws IOException {
         return new RtSearchPagination<Content>(
-            this.request, "code", keywords, sort, order.getOrder(),
+            this.request, "code", keywords, sort, order.identifier(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
             new RtValuePagination.Mapping<Content, JsonObject>() {
                 @Override

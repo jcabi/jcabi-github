@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,15 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtForkTest {
+    /**
+     * The rule for skipping test if there's BindException.
+     * @todo #989 Apply this rule to other classes that use MkGrizzlyContainer
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtFork can patch comment and return new json.
@@ -61,8 +71,12 @@ public final class RtForkTest {
         final String patched = "some patched organization";
         final MkContainer container =
             new MkGrizzlyContainer().next(this.answer(original))
-                .next(this.answer(patched)).next(this.answer(original)).start();
-        final MkContainer forksContainer = new MkGrizzlyContainer().start();
+                .next(this.answer(patched)).next(this.answer(original)).start(
+                    this.resource.port()
+                );
+        final MkContainer forksContainer = new MkGrizzlyContainer().start(
+            this.resource.port()
+        );
         final RtRepo repo =
             new RtRepo(
                 new MkGithub(),
@@ -108,4 +122,5 @@ public final class RtForkTest {
             .add("name", "nm")
             .build();
     }
+
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -259,6 +259,17 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.cmnt.json();
+        }
+
+        /**
+         * Get its author.
+         * @return Pull comment author
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "Comment author is never NULL")
+        public String author() throws IOException {
+            return this.json().getJsonObject("user")
+                .getString("login");
         }
     }
 }

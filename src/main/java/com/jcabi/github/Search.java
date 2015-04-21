@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -126,7 +126,7 @@ public interface Search {
         @NotNull(message = "Sort order can't be NULL") Order order)
         throws IOException;
 
-    enum Qualifier {
+    enum Qualifier implements StringEnum {
         /**
          * The search by issues or pull request only.
          */
@@ -159,6 +159,11 @@ public interface Search {
          *  or were commented on by that user.</p>
          */
         INVOLVES("involves"),
+        /**
+         * Finds issues or pull requests which mention a particular team within
+         * an organization which the user is a member of.
+        */
+        TEAM("team"),
         /**
          * Filter issues based on whether they’re open or closed.
          */
@@ -225,12 +230,14 @@ public interface Search {
          * Get search qualifier.
          * @return String
          */
-        public String getQualifier() {
+        @Override
+        @NotNull(message = "identifier string is never NULL")
+        public String identifier() {
             return this.qualifier;
         }
     }
 
-    enum Order {
+    enum Order implements StringEnum {
         /**
          * Sorting ascending.
          */
@@ -257,7 +264,9 @@ public interface Search {
          * Get sort order.
          * @return String
          */
-        public String getOrder() {
+        @Override
+        @NotNull(message = "identifier string is never NULL")
+        public String identifier() {
             return this.order;
         }
     }

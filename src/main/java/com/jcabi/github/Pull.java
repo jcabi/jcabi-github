@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,6 +94,16 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      */
     void merge(@NotNull(message = "message can't be NULL") String msg)
         throws IOException;
+
+    /**
+     * Merge it.
+     * @param msg Commit message
+     * @param sha Optional SHA hash for head comparison
+     * @return State of the Merge
+     * @throws IOException IOException If there is any I/O problem
+     */
+    MergeState merge(@NotNull(message = "message can't be NULL") String msg,
+        @NotNull(message = "sha can't be NULL") String sha) throws IOException;
 
     /**
      * Get Pull Comments.
@@ -321,6 +331,14 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             @NotNull(message = "msg can't be NULL") final String msg
         ) throws IOException {
             this.pull.merge(msg);
+        }
+
+        @Override
+        public MergeState merge(
+            @NotNull(message = "msg can't be NULL") final String msg,
+            @NotNull(message = "sha can't be NULL") final String sha)
+            throws IOException {
+            return this.pull.merge(msg, sha);
         }
 
         @Override

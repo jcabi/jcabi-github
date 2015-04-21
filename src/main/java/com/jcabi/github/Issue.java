@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -114,7 +114,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     Iterable<Event> events() throws IOException;
 
     /**
-     * Is this issue exists in Github?
+     * Does this issue exist in Github?
      * @return TRUE if this issue exists
      * @throws IOException If there is any I/O problem
      */
@@ -201,8 +201,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             );
         }
         /**
-         * Get its body.
-         * @return Body of issue
+         * Get its title.
+         * @return Title of issue
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "title is never NULL")
@@ -210,8 +210,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             return this.jsn.text("title");
         }
         /**
-         * Change its state.
-         * @param text Text of issue
+         * Change its title.
+         * @param text Title of issue
          * @throws IOException If there is any I/O problem
          */
         public void title(
@@ -222,8 +222,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             );
         }
         /**
-         * Get its title.
-         * @return Title of issue
+         * Get its body.
+         * @return Body of issue
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "body is never NULL")
@@ -242,7 +242,23 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
-
+        /**
+         * Has body?
+         * @return TRUE if body exists
+         * @throws IOException If there is any I/O problem
+         * @since 0.22
+         */
+        public boolean hasBody() throws IOException {
+            return this.jsn.hasNotNull("body");
+        }
+        /**
+         * Has assignee?
+         * @return TRUE if assignee exists
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean hasAssignee() throws IOException {
+            return this.jsn.hasNotNull("assignee");
+        }
         /**
          * Get its assignee.
          * @return User Assignee of issue
@@ -250,6 +266,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          */
         @NotNull(message = "user is never NULL")
         public User assignee() throws IOException {
+            if (!this.hasAssignee()) {
+                throw new IllegalArgumentException(
+                    String.format(
+                        "issue #%d doesn't have an assignee, use hasAssignee()",
+                        this.number()
+                    )
+                );
+            }
             return this.issue.repo().github().users().get(
                 this.jsn.value(
                     "assignee", JsonObject.class
@@ -317,7 +341,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             }
         }
         /**
-         * Is it a pull requests?
+         * Is it a pull request?
          * @return TRUE if it is a pull request
          * @throws IOException If there is any I/O problem
          */
@@ -343,8 +367,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         }
         /**
          * Get the latest event of a given type.
+         * Throws {@link IllegalStateException} if the issue has no events of
+         * the given type.
          * @param type Type of event
-         * @return Event found (runtime exception if it doesn't exist)
+         * @return Latest event of the given type
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "event is never NULL")

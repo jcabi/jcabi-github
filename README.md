@@ -4,6 +4,7 @@
 [![DevOps By Rultor.com](http://www.rultor.com/b/jcabi/jcabi-github)](http://www.rultor.com/p/jcabi/jcabi-github)
 
 [![Build Status](https://travis-ci.org/jcabi/jcabi-github.svg?branch=master)](https://travis-ci.org/jcabi/jcabi-github)
+[![Build status](https://ci.appveyor.com/api/projects/status/rdhq60kvt75ic3cv/branch/master?svg=true)](https://ci.appveyor.com/project/yegor256/jcabi-github/branch/master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/). Also,
@@ -63,18 +64,25 @@ $ mvn clean install -Pqulice
 
 There are many integration tests that check our classes against
 live Github accounts. In order to run them, you should create
-a new Github OAuth access token
+a new Github OAuth access tokens
 ([how?](https://help.github.com/articles/creating-an-access-token-for-command-line-use)),
-and provide it in command line, like this:
+and provide them in command line, like this:
 
 ```
-$ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfailsafe.github.repo=<repo>
+$ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfailsafe.github.key.second=<second-token> -Dfailsafe.github.repo=<repo>
 ```
 
-Replace `<token>` with the OAuth access token, and `<repo>` with the name of
-repository you create in your account (for test purposes only), for example `yegor256/test`.
-RtForksITCase requires additional parameter -Dfailsafe.github.organization=<organization>
-where <organization> is an organization name to fork test github repository.
+Replace `<token>` and `<second-token>` with the OAuth access tokens of two different Github
+accounts. This test case will try to fork a gist from first account into second. Replace
+`<repo>` with the name of repository you create in your first account (for test purposes
+only), for example `yegor256/test`. OAuth access tokens should have permissions in their
+respective repos to all scopes needed by the integration test suite you want to run
+(including `delete_repo`, which is not set by default!).
+Please note that different integration tests may need keys with permissions to different
+[scopes](https://developer.github.com/v3/oauth/#scopes);
+the `RtGistITCase` test requires permissions to gist scope.
+`RtForksITCase` requires additional parameter `-Dfailsafe.github.organization=<organization>`
+where `<organization>` is an organization name to fork test github repository.
 
 In order to run static analysis checks only use this:
 

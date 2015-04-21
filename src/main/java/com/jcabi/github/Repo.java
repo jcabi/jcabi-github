@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -93,12 +93,12 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Hooks hooks();
 
     /**
-     * Get all events for the repository.
-     * @return Events
+     * Get all issue events for the repository.
+     * @return Issue events
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
      */
-    @NotNull(message = "iterable of events is never NULL")
-    Iterable<Event> events();
+    @NotNull(message = "events are never NULL")
+    IssueEvents issueEvents();
 
     /**
      * Get all labels of the repo.
@@ -191,6 +191,16 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Notifications notifications();
 
     /**
+     * Get languages for the specified repository.
+     * @return Languages
+     * @throws IOException If there is any I/O problem
+     * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
+     * @since 0.15
+     */
+    @NotNull(message = "Notifications is never NULL")
+    Iterable<Language> languages() throws IOException;
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -264,11 +274,10 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         public Hooks hooks() {
             return this.repo.hooks();
         }
-
         @Override
-        @NotNull(message = "Iterable of events is never NULL")
-        public Iterable<Event> events() {
-            return this.repo.events();
+        @NotNull(message = "events are never NULL")
+        public IssueEvents issueEvents() {
+            return this.repo.issueEvents();
         }
         @Override
         @NotNull(message = "labels is never NULL")
@@ -319,6 +328,11 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "notifications is never NULL")
         public Notifications notifications() {
             return this.repo.notifications();
+        }
+        @Override
+        @NotNull(message = "languages is never NULL")
+        public Iterable<Language> languages() throws IOException {
+            return this.repo.languages();
         }
         @Override
         public void patch(

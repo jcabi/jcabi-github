@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,21 +36,25 @@ import com.jcabi.github.Collaborators;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Event;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Git;
 import com.jcabi.github.Github;
 import com.jcabi.github.Hooks;
+import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Labels;
+import com.jcabi.github.Language;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Notifications;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
+import com.jcabi.github.RtLanguage;
 import com.jcabi.github.Stars;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -63,12 +67,17 @@ import lombok.ToString;
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
+ * @todo #1061 Fix code to avoid CouplingBetweenObjects
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords" })
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({
+    "PMD.TooManyMethods",
+    "PMD.ExcessiveImports",
+    "PMD.CouplingBetweenObjects"
+})
 final class MkRepo implements Repo {
 
     /**
@@ -155,9 +164,13 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    @NotNull(message = "Iterable of events is never NULL")
-    public Iterable<Event> events() {
-        return null;
+    @NotNull(message = "issue events is never NULL")
+    public IssueEvents issueEvents() {
+        try {
+            return new MkIssueEvents(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
@@ -262,13 +275,29 @@ final class MkRepo implements Repo {
     @Override
     @NotNull(message = "Stars is never NULL")
     public Stars stars() {
-        return new MkStars();
+        try {
+            return new MkStars(this.storage, this.self, this.coords);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
     @NotNull(message = "Notifications is never NULL")
     public Notifications notifications() {
         return new MkNotifications();
+    }
+
+    @Override
+    public Iterable<Language> languages() {
+        final List<Language> languages = new ArrayList<Language>(0);
+        final int java = 999;
+        languages.add(new RtLanguage("Java", java));
+        final int php = 888;
+        languages.add(new RtLanguage("PHP", php));
+        final int ruby = 777;
+        languages.add(new RtLanguage("Ruby", ruby));
+        return languages;
     }
 
     @Override

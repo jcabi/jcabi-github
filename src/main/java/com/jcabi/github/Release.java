@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -192,6 +192,16 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Has release tag?
+         * @return TRUE if tag exists
+         * @throws IOException If there is any I/O problem
+         * @since 0.21
+         */
+        public boolean hasTag() throws IOException {
+            return this.jsn.hasNotNull("tag_name");
+        }
+
+        /**
          * Change its tag name.
          * @param text Tag name
          * @throws IOException If there is any I/O problem
@@ -263,13 +273,28 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         /**
+         * Has release body.
+         * @return TRUE if release body exists
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean hasBody() throws IOException {
+            return this.jsn.hasNotNull("body");
+        }
+
+        /**
          * Get release body.
          * @return Release body
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "body is never NULL")
         public String body() throws IOException {
-            return this.jsn.text("body");
+            final String body;
+            if (this.hasBody()) {
+                body = this.jsn.text("body");
+            } else {
+                body = "";
+            }
+            return body;
         }
 
         /**

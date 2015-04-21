@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,8 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -142,4 +144,23 @@ final class RtIssues implements Issues {
         );
     }
 
+    @Override
+    @NotNull(message = "Iterable of issues is never NULL")
+    @SuppressWarnings("PMD.UseConcurrentHashMap")
+    public Iterable<Issue> search(
+        @NotNull(message = "Sort field can't be NULL") final Sort sort,
+        @NotNull(message = "Sort direction can't be NULL")
+        final Search.Order direction,
+        @NotNull(message = "Search qualifiers can't be NULL")
+        final EnumMap<Qualifier, String> qualifiers)
+        throws IOException {
+        final Map<String, String> params = new HashMap<String, String>();
+        for (final EnumMap.Entry<Qualifier, String> pair : qualifiers
+            .entrySet()) {
+            params.put(pair.getKey().identifier(), pair.getValue());
+        }
+        params.put("sort", sort.identifier());
+        params.put("direction", direction.identifier());
+        return this.iterate(params);
+    }
 }

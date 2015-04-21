@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,9 +36,12 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Search;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -162,6 +165,26 @@ final class MkIssues implements Issues {
                 }
             }
         );
+    }
+
+    @Override
+    @NotNull(message = "Iterable of issues is never NULL")
+    @SuppressWarnings("PMD.UseConcurrentHashMap")
+    public Iterable<Issue> search(
+        @NotNull(message = "Sort field can't be NULL") final Sort sort,
+        @NotNull(message = "Sort direction can't be NULL")
+        final Search.Order direction,
+        @NotNull(message = "Search qualifiers can't be NULL")
+        final EnumMap<Qualifier, String> qualifiers)
+        throws IOException {
+        final Map<String, String> params = new HashMap<String, String>();
+        for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
+            .entrySet()) {
+            params.put(entry.getKey().identifier(), entry.getValue());
+        }
+        params.put("sort", sort.identifier());
+        params.put("direction", direction.identifier());
+        return this.iterate(params);
     }
 
     /**

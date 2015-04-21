@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,9 +38,8 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -49,7 +48,6 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Mock Github issue.
@@ -61,8 +59,8 @@ import lombok.ToString;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkIssue implements Issue {
 
     /**
@@ -106,6 +104,11 @@ final class MkIssue implements Issue {
     }
 
     @Override
+    public String toString() {
+        return Integer.toString(this.num);
+    }
+
+    @Override
     @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
@@ -143,16 +146,16 @@ final class MkIssue implements Issue {
     @Override
     @NotNull(message = "Iterable of events is never NULL")
     public Iterable<Event> events() throws IOException {
-        final Collection<Event> events = new LinkedList<Event>();
-        if (!new Issue.Smart(this).isOpen()) {
-            events.add(
-                new MkEvent(
-                    this.storage, this.self, this.coords,
-                    Event.CLOSED
-                )
-            );
-        }
-        return events;
+        return new MkIterable<Event>(
+            this.storage,
+            String.format(
+                // @checkstyle LineLength (1 line)
+                "/github/repos/repo[@coords='%s']/issue-events/issue-event[issue='%s']",
+                this.coords,
+                this.num
+            ),
+            new MkIssueEventMapping(this)
+        );
     }
 
     @Override
@@ -195,6 +198,13 @@ final class MkIssue implements Issue {
         return json
             .add("labels", array)
             .add(
+                // @checkstyle MultipleStringLiteralsCheck (1 line)
+                "assignee",
+                Json.createObjectBuilder().add(
+                    "login", obj.getString("assignee", "")
+                ).build()
+            )
+            .add(
                 "pull_request",
                 Json.createObjectBuilder().addNull("html_url").build()
             )
@@ -213,4 +223,35 @@ final class MkIssue implements Issue {
         );
     }
 
+    private static class MkIssueEventMapping
+        implements MkIterable.Mapping<Event> {
+        /**
+         * Issue events.
+         */
+        private final transient MkIssueEvents evts;
+
+        /**
+         * Constructor.
+         * @param issue Mock issue to get events from
+         * @throws IOException If there is any I/O problem
+         */
+        public MkIssueEventMapping(
+            @NotNull(message = "issue is never NULL") final MkIssue issue
+        ) throws IOException {
+            this.evts = new MkIssueEvents(
+                issue.storage,
+                issue.self,
+                issue.coords
+            );
+        }
+
+        @Override
+        public Event map(
+            @NotNull(message = "xml is never NULL") final XML xml
+        ) {
+            return this.evts.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            );
+        }
+    }
 }

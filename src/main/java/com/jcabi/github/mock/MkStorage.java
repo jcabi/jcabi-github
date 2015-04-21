@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,8 +35,6 @@ import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
-import java.util.ConcurrentModificationException;
-import java.util.concurrent.locks.ReentrantLock;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.io.Charsets;
@@ -143,24 +141,28 @@ public interface MkStorage {
         @Override
         @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
-            return new XMLDocument(
-                FileUtils.readFileToString(
-                    new File(this.name), Charsets.UTF_8
-                )
-            );
+            synchronized (this.name) {
+                return new XMLDocument(
+                    FileUtils.readFileToString(
+                        new File(this.name), Charsets.UTF_8
+                    )
+                );
+            }
         }
         @Override
         public void apply(
             @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
-            FileUtils.write(
-                new File(this.name),
-                new XMLDocument(
-                    new Xembler(dirs).applyQuietly(this.xml().node())
-                ).toString(),
-                Charsets.UTF_8
-            );
+            synchronized (this.name) {
+                FileUtils.write(
+                    new File(this.name),
+                    new XMLDocument(
+                        new Xembler(dirs).applyQuietly(this.xml().node())
+                    ).toString(),
+                    Charsets.UTF_8
+                );
+            }
         }
         @Override
         public void lock() {
@@ -186,7 +188,8 @@ public interface MkStorage {
         /**
          * Lock object.
          */
-        private final transient ReentrantLock lock = new ReentrantLock();
+        private final transient ImmutableReentrantLock lock =
+            new ImmutableReentrantLock();
         /**
          * Public ctor.
          * @param storage Original
@@ -200,31 +203,11 @@ public interface MkStorage {
         }
         @Override
         public XML xml() throws IOException {
-            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
-                throw new ConcurrentModificationException(
-                    "lock should be taken before method call"
-                );
-            }
-            this.lock.lock();
-            try {
-                return this.origin.xml();
-            } finally {
-                this.lock.unlock();
-            }
+            return this.origin.xml();
         }
         @Override
         public void apply(final Iterable<Directive> dirs) throws IOException {
-            if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
-                throw new ConcurrentModificationException(
-                    "lock should be taken before method call"
-                );
-            }
-            this.lock.lock();
-            try {
-                this.origin.apply(dirs);
-            } finally {
-                this.lock.unlock();
-            }
+            this.origin.apply(dirs);
         }
         @Override
         public void lock() {

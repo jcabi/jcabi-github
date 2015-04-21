@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.immutable.ArrayMap;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Set;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -101,6 +105,50 @@ public final class RtIssuesITCase {
             MatcherAssert.assertThat(
                 issue.title(),
                 Matchers.notNullValue()
+            );
+        }
+    }
+
+    /**
+     * RtIssues can search issues within a repository.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void searchesIssues() throws Exception {
+        final String targetLabel = "bug";
+        final EnumMap<Issues.Qualifier, String> qualifiers =
+            new EnumMap<Issues.Qualifier, String>(Issues.Qualifier.class);
+        qualifiers.put(Issues.Qualifier.LABELS, targetLabel);
+        final Iterable<Issue.Smart> issues = new Smarts<Issue.Smart>(
+            new Bulk<Issue>(
+                repo.issues().search(
+                    Issues.Sort.UPDATED,
+                    Search.Order.ASC,
+                    qualifiers
+                )
+            )
+        );
+        Date prevUpdated = null;
+        final Set<String> labelNames = new HashSet<String>();
+        for (final Issue.Smart issue : issues) {
+            MatcherAssert.assertThat(
+                issue.title(),
+                Matchers.notNullValue()
+            );
+            if (prevUpdated != null) {
+                MatcherAssert.assertThat(
+                    issue.updatedAt(),
+                    Matchers.lessThanOrEqualTo(prevUpdated)
+                );
+            }
+            prevUpdated = issue.updatedAt();
+            labelNames.clear();
+            for (final Label label : issue.roLabels().iterate()) {
+                labelNames.add(label.name());
+            }
+            MatcherAssert.assertThat(
+                labelNames,
+                Matchers.contains(targetLabel)
             );
         }
     }

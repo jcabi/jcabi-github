@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,6 @@ final class RtRepoCommit implements RepoCommit {
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
-            .path("/git")
             .path("/commits")
             .path(sha)
             .back();

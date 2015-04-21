@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,6 +94,66 @@ public interface Event extends Comparable<Event>, JsonReadable {
      * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String ASSIGNED = "assigned";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String UNASSIGNED = "unassigned";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String LABELED = "labeled";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String UNLABELED = "unlabeled";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String MILESTONED = "milestoned";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String DEMILESTONED = "demilestoned";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String RENAMED = "renamed";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String LOCKED = "locked";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String UNLOCKED = "unlocked";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String HEAD_REF_DELETED = "head_ref_deleted";
+
+    /**
+     * Event type.
+     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     */
+    String HEAD_REF_RESTORED = "head_ref_restored";
 
     /**
      * Repository we're in.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,14 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import org.hamcrest.Matchers;
 
 /**
  * Github starring API.
@@ -40,5 +48,66 @@ import com.jcabi.aspects.Immutable;
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  */
 @Immutable
-public final class RtStars implements Stars {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "owner", "request" })
+final class RtStars implements Stars {
+
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Repository.
+     */
+    private final transient Repo owner;
+
+    /**
+     * Public ctor.
+     * @param req Request
+     * @param repo Repository
+     */
+    RtStars(final Request req, final Repo repo) {
+        final Coordinates coords = repo.coordinates();
+        this.request = req.uri()
+            .path("/user/starred")
+            .path(coords.user())
+            .path(coords.repo())
+            .back();
+        this.owner = repo;
+    }
+
+    @Override
+    @NotNull(message = "repository is never NULL")
+    public Repo repo() {
+        return this.owner;
+    }
+
+    @Override
+    public boolean starred() throws IOException {
+        return this.request
+            .fetch().as(RestResponse.class)
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_NOT_FOUND
+            )
+        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+    }
+
+    @Override
+    public void star() throws IOException {
+        this.request
+            .method(Request.PUT)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public void unstar() throws IOException {
+        this.request
+            .method(Request.DELETE)
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
 }

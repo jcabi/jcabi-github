@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,14 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class CarefulWireTest {
+    /**
+     * HTTP 200 status reason.
+     */
+    private static final String OK = "OK";
+    /**
+     * Name of GitHub's number-of-requests-remaining rate limit header.
+     */
+    private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
 
     /**
      * CarefulWire can wait until the limit reset.
@@ -57,13 +65,52 @@ public final class CarefulWireTest {
             .toSeconds(System.currentTimeMillis()) + 5L;
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason("OK")
-            .withHeader("X-RateLimit-Remaining", "9")
+            .withReason(OK)
+            .withHeader(REMAINING_HEADER, "9")
             .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             .through(CarefulWire.class, threshold)
             .fetch();
         final long now = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis());
         MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
+    }
+
+    /**
+     * CarefulWire can tolerate the lack the X-RateLimit-Remaining header.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void tolerateMissingRateLimitRemainingHeader() throws IOException {
+        final int threshold = 10;
+        // @checkstyle MagicNumber (1 lines)
+        new FakeRequest()
+            .withStatus(HttpURLConnection.HTTP_OK)
+            .withReason(OK)
+            .through(CarefulWire.class, threshold)
+            .fetch();
+        MatcherAssert.assertThat(
+            "Did not crash when X-RateLimit-Remaining header was absent",
+            true
+        );
+    }
+
+    /**
+     * CarefulWire can tolerate the lack the X-RateLimit-Reset header.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void tolerateMissingRateLimitResetHeader() throws IOException {
+        final int threshold = 8;
+        // @checkstyle MagicNumber (1 lines)
+        new FakeRequest()
+            .withStatus(HttpURLConnection.HTTP_OK)
+            .withReason(OK)
+            .withHeader(REMAINING_HEADER, "7")
+            .through(CarefulWire.class, threshold)
+            .fetch();
+        MatcherAssert.assertThat(
+            "Did not crash when X-RateLimit-Reset header was absent",
+            true
+        );
     }
 }

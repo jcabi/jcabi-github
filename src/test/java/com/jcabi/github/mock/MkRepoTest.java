@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,10 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.collect.Lists;
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Language;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
@@ -138,5 +141,25 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo3")
         );
         MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+    }
+
+    /**
+     * Repo can return Languages iterable.
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void fetchLanguages() throws IOException {
+        final String user = "testuser4";
+        final Repo repo = new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo4")
+        );
+        final Iterable<Language> languages = repo.languages();
+        MatcherAssert.assertThat(languages, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            Lists.newArrayList(languages),
+            Matchers.hasSize(Tv.THREE)
+        );
     }
 }

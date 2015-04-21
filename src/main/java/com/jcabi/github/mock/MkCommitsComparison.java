@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -98,7 +98,7 @@ final class MkCommitsComparison implements CommitsComparison {
             .add(
                 "author",
                 Json.createObjectBuilder()
-                // @checkstyle MultipleStringLiterals (3 lines)
+                    // @checkstyle MultipleStringLiterals (3 lines)
                     .add("login", "test")
                     .build()
             )
@@ -107,10 +107,11 @@ final class MkCommitsComparison implements CommitsComparison {
                 Json.createObjectBuilder()
                     .add("sha", "bbcd538c8e72b8c175046e27cc8f907076331401")
                     .add("filename", "test-file")
-                    // @checkstyle MultipleStringLiterals (1 lines)
+                        // @checkstyle MultipleStringLiterals (1 lines)
                     .add("status", "test")
                     .build()
             )
+            .add("commits", Json.createArrayBuilder())
             .build();
     }
 }

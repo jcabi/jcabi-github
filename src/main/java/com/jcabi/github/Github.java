@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2014, jcabi.com
+ * Copyright (c) 2013-2015, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,9 @@ import lombok.EqualsAndHashCode;
  * <p>This is how you start communicating with Github API:
  *
  * <pre> Github github = new RtGithub(oauthKey);
- * Repo repo = github.repo("jcabi/jcabi-github");
+ * Repo repo = github.repos().get(
+ *     new Coordinates.Simple("jcabi/jcabi-github")
+ * );
  * Issues issues = repo.issues();
  * Issue issue = issues.post("issue title", "issue body");</pre>
  *
@@ -75,6 +77,7 @@ import lombok.EqualsAndHashCode;
  * int found = github.entry()
  *   .uri().path("/search/repositories").back()
  *   .method(Request.GET)
+ *   .fetch()
  *   .as(JsonResponse.class)
  *   .getJsonObject()
  *   .getNumber("total_count")

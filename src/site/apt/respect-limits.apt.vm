@@ -7,7 +7,7 @@
  ------
 
 ~~
-~~ Copyright (c) 2014, jcabi.com
+~~ Copyright (c) 2014-2015, jcabi.com
 ~~ All rights reserved.
 ~~
 ~~ Redistribution and use in source and binary forms, with or without
@@ -45,16 +45,16 @@ Respect Limits
   {{{http://developer.github.com/v3/#rate-limiting} API Documentation}}.
 
   If you want to control limits, you can use
-  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWire.html}<<<CarefulWire>>>}}
+  {{{./apidocs-${project.version}/com/jcabi/github/wire/CarefulWire.html}<<<CarefulWire>>>}}
   class for it. If <<<X-RateLimit-Remaining>>> of received response is less than
   a given threshold,
-  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWire.html}<<<CarefulWire>>>}}
+  {{{./apidocs-${project.version}/com/jcabi/github/wire/CarefulWire.html}<<<CarefulWire>>>}}
   will sleep until a time specified in the <<<X-RateLimit-Reset>>> header.
 
   You can use
-  {{{./apidocs-${project.version}/com/github/jcabi/wire/CarefulWire.html}<<<CarefulWire>>>}}
+  {{{./apidocs-${project.version}/com/jcabi/github/wire/CarefulWire.html}<<<CarefulWire>>>}}
   with
-  {{{./apidocs-${project.version}/com/github/jcabi/Github.html}<<<Github>>>}}:
+  {{{./apidocs-${project.version}/com/jcabi/github/Github.html}<<<Github>>>}}:
 
 +--
 Github github = new RtGithub(
