@@ -29,14 +29,19 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -115,11 +120,31 @@ final class MkIssueLabels implements IssueLabels {
     public void add(@NotNull(message = "labels can't be NULL")
         final Iterable<String> labels
     ) throws IOException {
+        final Collection<String> existing = this.labels();
+        final Set<String> added = new HashSet<String>();
         final Directives dirs = new Directives().xpath(this.xpath());
         for (final String label : labels) {
             dirs.add("label").set(label).up();
+            if (!existing.contains(label)) {
+                added.add(label);
+            }
         }
         this.storage.apply(dirs);
+        if (!added.isEmpty()) {
+            final MkIssueEvents events = new MkIssueEvents(
+                this.storage,
+                this.self,
+                this.repo
+            );
+            for (final String label : added) {
+                events.create(
+                    Event.LABELED,
+                    this.ticket,
+                    this.self,
+                    Optional.of(label)
+                );
+            }
+        }
     }
 
     @Override
@@ -154,20 +179,30 @@ final class MkIssueLabels implements IssueLabels {
     public void remove(@NotNull(message = "name cannot be NULL")
         final String name
     ) throws IOException {
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("%s/label[.='%s']", this.xpath(), name)
-            ).remove()
-        );
+        if (this.labels().contains(name)) {
+            this.storage.apply(
+                new Directives().xpath(
+                    String.format("%s/label[.='%s']", this.xpath(), name)
+                ).remove()
+            );
+            new MkIssueEvents(
+                this.storage,
+                this.self,
+                this.repo
+            ).create(
+                Event.UNLABELED,
+                this.ticket,
+                this.self,
+                Optional.of(name)
+            );
+        }
     }
 
     @Override
     public void clear() throws IOException {
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("%s/label", this.xpath())
-            ).remove()
-        );
+        for (final String label : this.labels()) {
+            this.remove(label);
+        }
     }
 
     /**
@@ -182,4 +217,15 @@ final class MkIssueLabels implements IssueLabels {
         );
     }
 
+    /**
+     * Returns a set of all of the issue's labels.
+     * @return Set of label names
+     */
+    private Collection<String> labels() {
+        final Set<String> labels = new HashSet<String>();
+        for (final Label label : this.iterate()) {
+            labels.add(label.name());
+        }
+        return labels;
+    }
 }

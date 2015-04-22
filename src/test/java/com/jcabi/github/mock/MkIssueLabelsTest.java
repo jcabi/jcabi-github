@@ -29,11 +29,14 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.Iterator;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,6 +48,15 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class MkIssueLabelsTest {
+    /**
+     * Name string constant.
+     */
+    private static final String NAME = "name";
+
+    /**
+     * Username of actor.
+     */
+    private static final String USER = "jeff";
 
     /**
      * MkIssueLabels can list labels.
@@ -80,14 +92,96 @@ public final class MkIssueLabelsTest {
     }
 
     /**
+     * MkIssueLabels creates a "labeled" event when a label is added.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void addingLabelGeneratesEvent() throws Exception {
+        final Repo repo = this.repo();
+        final String name = "confirmed";
+        repo.labels().create(name, "663399");
+        final Issue issue = repo.issues().create("Titular", "Corpus");
+        issue.labels().add(Collections.singletonList(name));
+        MatcherAssert.assertThat(
+            issue.events(),
+            Matchers.<Event>iterableWithSize(1)
+        );
+        final Event.Smart labeled = new Event.Smart(
+            issue.events().iterator().next()
+        );
+        MatcherAssert.assertThat(
+            labeled.type(),
+            Matchers.equalTo(Event.LABELED)
+        );
+        MatcherAssert.assertThat(
+            labeled.author().login(),
+            Matchers.equalTo(USER)
+        );
+        MatcherAssert.assertThat(
+            labeled.repo(),
+            Matchers.equalTo(repo)
+        );
+        MatcherAssert.assertThat(
+            MkIssueLabelsTest.labelOf(labeled),
+            Matchers.equalTo(name)
+        );
+    }
+
+    /**
+     * MkIssueLabels creates an "unlabeled" event when a label is removed.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void removingLabelGeneratesEvent() throws Exception {
+        final Repo repo = this.repo();
+        final String name = "invalid";
+        repo.labels().create(name, "ee82ee");
+        final Issue issue = repo.issues().create("Rewrite", "Sound good?");
+        issue.labels().add(Collections.singletonList(name));
+        issue.labels().remove(name);
+        MatcherAssert.assertThat(
+            issue.events(),
+            Matchers.<Event>iterableWithSize(2)
+        );
+        final Iterator<Event> events = issue.events().iterator();
+        events.next();
+        final Event.Smart unlabeled = new Event.Smart(events.next());
+        MatcherAssert.assertThat(
+            unlabeled.type(),
+            Matchers.equalTo(Event.UNLABELED)
+        );
+        MatcherAssert.assertThat(
+            unlabeled.author().login(),
+            Matchers.equalTo(USER)
+        );
+        MatcherAssert.assertThat(
+            unlabeled.repo(),
+            Matchers.equalTo(repo)
+        );
+        MatcherAssert.assertThat(
+            MkIssueLabelsTest.labelOf(unlabeled),
+            Matchers.equalTo(name)
+        );
+    }
+
+    /**
      * Create an repo to work with.
      * @return Repo
      * @throws Exception If some problem inside
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            Json.createObjectBuilder().add(NAME, "test").build()
         );
     }
 
+    /**
+     * Get label from event.
+     * @param event Event to get label of
+     * @return Name of label
+     * @throws IOException If some I/O problem inside
+     */
+    private static String labelOf(final Event event) throws IOException {
+        return event.json().getJsonObject("label").getString(NAME);
+    }
 }
