@@ -117,7 +117,15 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>     ) {
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtCommit.html">RtCommit</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>.owner, sha);
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>     }
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> }
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     @Override
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>     @NotNull(message = <span class="jxr_string">"status is never NULL"</span>)
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Statuses.html">Statuses</a> statuses(
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>         @NotNull(message = <span class="jxr_string">"ref can't be NULL"</span>) <strong class="jxr_keyword">final</strong> String ref
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>     ) {
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtStatuses.html">RtStatuses</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>.get(ref));
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     }
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
