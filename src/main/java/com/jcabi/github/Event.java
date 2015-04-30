@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
@@ -245,6 +246,25 @@ public interface Event extends Comparable<Event>, JsonReadable {
             } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
+        }
+        /**
+         * Label that was added or removed in this event (if any).
+         * @return Label that was added or removed
+         * @throws IOException If there is any I/O problem
+         * @since 0.24
+         */
+        @NotNull(message = "Optional itself is never NULL")
+        public Optional<Label> label() throws IOException {
+            Optional<Label> lab = Optional.absent();
+            final JsonObject lbl = this.jsn.json().getJsonObject("label");
+            if (lbl != null) {
+                lab = Optional.of(
+                    this.event.repo()
+                        .labels()
+                        .get(lbl.getString("name"))
+                );
+            }
+            return lab;
         }
         @Override
         @NotNull(message = "Repository is never NULL")
