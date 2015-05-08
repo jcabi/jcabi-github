@@ -46,7 +46,7 @@ public class Main {
 
    * Entire Github API is available, at least through a configurable HTTP request
 
-  The only dependency you need is
+  Java 7 or higher is required. The only dependency you need is
   (you can also download
   {{{http://repo1.maven.org/maven2/com/jcabi/jcabi-github/${project.version}/jcabi-github-${project.version}.jar}<<<jcabi-github-${project.version}.jar>>>}}
   and add it to the classpath):
