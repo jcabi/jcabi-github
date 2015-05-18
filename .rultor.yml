@@ -8,8 +8,7 @@ assets:
   pubring.gpg: yegor256/home#assets/pubring.gpg
   s3cfg: yegor256/home#assets/s3cfg
 merge:
-  commanders:
-  - yegor256
+  commanders: []
   script: |-
     mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml
     mvn clean
