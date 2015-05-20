@@ -81,7 +81,7 @@ respective repos to all scopes needed by the integration test suite you want to 
 (including `delete_repo`, which is not set by default!).
 
 Please note that different integration tests may need keys with permissions to different
-[scopes](https://developer.github.com/v3/oauth/#scopes);
+[scopes](https://developer.github.com/v3/oauth/#scopes).
 To run all integration tests, the key should have the following OAuth scopes:
 - read:org
 - repo
