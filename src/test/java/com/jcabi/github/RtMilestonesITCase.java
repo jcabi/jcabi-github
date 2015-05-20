@@ -42,7 +42,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Milestones}.
+ * Integration case for {@link Milestones}. This test requires OAuth scope
+ * "repo".
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (500 lines)

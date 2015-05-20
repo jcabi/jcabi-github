@@ -36,7 +36,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtGitignores}.
+ * Integration case for {@link RtGitignores}. This test requires OAuth scope
+ * "repo".
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$

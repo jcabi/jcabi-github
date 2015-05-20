@@ -36,7 +36,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration test for {@link RtGistComments}.
+ * Integration test for {@link RtGistComments}. This test requires OAuth scope
+ * "gist".
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>

@@ -40,7 +40,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtAssignees}.
+ * Test case for {@link RtAssignees}. This test requires OAuth scope
+ * "read:org".
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7

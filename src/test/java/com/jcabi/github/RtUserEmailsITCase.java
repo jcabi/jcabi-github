@@ -36,7 +36,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtUserEmails}.
+ * Test case for {@link RtUserEmails}. This test requires OAuth scope
+ * "user:email".
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */

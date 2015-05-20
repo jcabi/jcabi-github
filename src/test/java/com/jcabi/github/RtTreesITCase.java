@@ -39,7 +39,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtTrees}.
+ * Test case for {@link RtTrees}. This test requires OAuth scope "repo".
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)

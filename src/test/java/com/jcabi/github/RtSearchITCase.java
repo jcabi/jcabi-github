@@ -38,7 +38,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtSearch}.
+ * Test case for {@link RtSearch}. This test requires OAuth scope "repo, user".
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$

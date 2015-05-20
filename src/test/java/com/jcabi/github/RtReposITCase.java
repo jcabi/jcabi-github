@@ -37,7 +37,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtRepos}.
+ * Integration case for {@link RtRepos}. This test requires OAuth scope
+ * "repo, delete_repo".
  *
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$

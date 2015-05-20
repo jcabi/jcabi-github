@@ -40,7 +40,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration test for {@link RtReleaseAsset}.
+ * Integration test for {@link RtReleaseAsset}. This test requires OAuth scope
+ * "repo".
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$

@@ -38,7 +38,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration test case for {@link RtStars}.
+ * Integration test case for {@link RtStars}. This test requires OAuth scope
+ * "repo, user".
  *
  * @author Artem Nakonechny (wentwogcq@gmail.com)
  * @version $Id$

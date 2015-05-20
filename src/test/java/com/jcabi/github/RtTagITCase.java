@@ -42,7 +42,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration testcase for RtTag.
+ * Integration testcase for RtTag. This test requires OAuth scope "repo".
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)

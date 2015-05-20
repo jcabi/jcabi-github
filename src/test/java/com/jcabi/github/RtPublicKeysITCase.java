@@ -38,7 +38,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtPublicKeys}.
+ * Test case for {@link RtPublicKeys}. This test requires OAuth scope
+ * "admin:public_key".
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$

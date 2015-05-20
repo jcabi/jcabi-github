@@ -35,7 +35,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtPublicKey}.
+ * Test case for {@link RtPublicKey}. This test requires OAuth scope
+ * "read:public_key".
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$

@@ -35,7 +35,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtOrganizations}.
+ * Test case for {@link RtOrganizations}. This test requires OAuth scope
+ * "read:org".
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>

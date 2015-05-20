@@ -36,7 +36,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtMarkdown}.
+ * Integration case for {@link RtMarkdown}. This test requires OAuth scope
+ * "repo".
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */

@@ -35,7 +35,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtUser}.
+ * Integration case for {@link RtUser}. This test requires OAuth scope "user".
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */

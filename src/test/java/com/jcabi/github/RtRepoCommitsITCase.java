@@ -39,7 +39,8 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RepoCommits}.
+ * Integration case for {@link RepoCommits}. This test requires OAuth scope
+ * "repo".
  *
  * <p>
  * WARNING: As there is no way to create Commit directly it was decided to use

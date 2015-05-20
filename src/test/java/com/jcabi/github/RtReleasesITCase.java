@@ -39,7 +39,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtReleases}.
+ * Test case for {@link RtReleases}. This test requires OAuth scope "repo".
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
