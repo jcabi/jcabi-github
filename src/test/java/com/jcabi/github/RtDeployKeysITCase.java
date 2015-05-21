@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
@@ -43,12 +44,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtDeployKeys}. This test requires OAuth scope
- * "admin:public_key".
+ * Test case for {@link RtDeployKeys}.
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
  */
+@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
 public final class RtDeployKeysITCase {
 
     /**

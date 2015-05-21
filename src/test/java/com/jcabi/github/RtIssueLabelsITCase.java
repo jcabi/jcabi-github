@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -40,13 +41,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link IssueLabels}. This test requires OAuth scope
- * "repo".
+ * Integration case for {@link IssueLabels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtIssueLabelsITCase {
     /**
      * Test repos.

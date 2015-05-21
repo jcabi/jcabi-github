@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.util.Collections;
 import javax.json.Json;
@@ -42,12 +43,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Milestones}. This test requires OAuth scope
- * "repo".
+ * Integration case for {@link Milestones}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtMilestonesITCase {
     /**
      * Test repos.

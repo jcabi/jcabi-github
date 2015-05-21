@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,13 +37,13 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration test for {@link RtGistComments}. This test requires OAuth scope
- * "gist".
+ * Integration test for {@link RtGistComments}.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
+@OAuthScope(Scope.GIST)
 public final class RtGistCommentsITCase {
     /**
      * RtGistComments can create a comment.

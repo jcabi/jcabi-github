@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -38,12 +39,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration test case for {@link RtStars}. This test requires OAuth scope
- * "repo, user".
+ * Integration test case for {@link RtStars}.
  *
  * @author Artem Nakonechny (wentwogcq@gmail.com)
  * @version $Id$
  */
+@OAuthScope({ Scope.REPO, Scope.USER })
 public final class RtStarsITCase {
     /**
      * Test repos.

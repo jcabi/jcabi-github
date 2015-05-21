@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -40,14 +41,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration test for {@link RtReleaseAsset}. This test requires OAuth scope
- * "repo".
+ * Integration test for {@link RtReleaseAsset}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtReleaseAssetITCase {
 
     /**

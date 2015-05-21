@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,11 +37,11 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtUserEmails}. This test requires OAuth scope
- * "user:email".
+ * Test case for {@link RtUserEmails}.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
+@OAuthScope(Scope.USER_EMAIL)
 public final class RtUserEmailsITCase {
 
     /**

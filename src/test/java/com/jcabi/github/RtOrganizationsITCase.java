@@ -29,19 +29,20 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtOrganizations}. This test requires OAuth scope
- * "read:org".
+ * Test case for {@link RtOrganizations}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
+@OAuthScope(Scope.READ_ORG)
 public final class RtOrganizationsITCase {
     /**
      * RtOrganizations can get an organization.

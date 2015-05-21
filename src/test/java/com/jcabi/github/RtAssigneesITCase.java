@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -40,12 +41,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtAssignees}. This test requires OAuth scope
- * "read:org".
+ * Test case for {@link RtAssignees}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.7
  */
+@OAuthScope(Scope.READ_ORG)
 public final class RtAssigneesITCase {
     /**
      * Test repos.

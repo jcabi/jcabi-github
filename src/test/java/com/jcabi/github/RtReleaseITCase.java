@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -41,12 +42,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtRelease}. This test requires OAuth scope "repo".
+ * Test case for {@link RtRelease}.
  * @author Haris Osmanagic (haris.osmanagic@gmail.com)
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtReleaseITCase {
 
     /**

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,11 +37,11 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RtMarkdown}. This test requires OAuth scope
- * "repo".
+ * Integration case for {@link RtMarkdown}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
+@OAuthScope(Scope.REPO)
 public final class RtMarkdownITCase {
 
     /**

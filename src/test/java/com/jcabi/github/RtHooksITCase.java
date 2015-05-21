@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -38,12 +39,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtHooks}. This test requires OAuth scope
- * "admin:repo_hook".
+ * Test case for {@link RtHooks}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
  */
+@OAuthScope(Scope.ADMIN_REPO_HOOK)
 public final class RtHooksITCase {
 
     /**

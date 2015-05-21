@@ -29,18 +29,19 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtPublicKey}. This test requires OAuth scope
- * "read:public_key".
+ * Test case for {@link RtPublicKey}.
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
+@OAuthScope(Scope.READ_PUBLIC_KEY)
 public final class RtPublicKeyITCase {
     /**
      * RtPublicKey can retrieve correctly URI.

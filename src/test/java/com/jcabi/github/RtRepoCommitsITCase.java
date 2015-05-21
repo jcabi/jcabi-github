@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,8 +40,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link RepoCommits}. This test requires OAuth scope
- * "repo".
+ * Integration case for {@link RepoCommits}.
  *
  * <p>
  * WARNING: As there is no way to create Commit directly it was decided to use
@@ -50,6 +50,7 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
+@OAuthScope(Scope.REPO)
 public class RtRepoCommitsITCase {
 
     /**

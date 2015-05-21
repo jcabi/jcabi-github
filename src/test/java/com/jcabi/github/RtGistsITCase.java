@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,11 +37,11 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Gists}. This test requires OAuth scope
- * "gist".
+ * Integration case for {@link Gists}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  */
+@OAuthScope(Scope.GIST)
 public final class RtGistsITCase {
     /**
      * RtGists can create a gist.

@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import java.util.EnumMap;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
@@ -38,12 +39,13 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtSearch}. This test requires OAuth scope "repo, user".
+ * Test case for {@link RtSearch}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (140 lines)
  */
+@OAuthScope({ Scope.REPO, Scope.USER })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtSearchITCase {
 

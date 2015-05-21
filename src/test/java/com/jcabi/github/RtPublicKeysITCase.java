@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
@@ -38,12 +39,12 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtPublicKeys}. This test requires OAuth scope
- * "admin:public_key".
+ * Test case for {@link RtPublicKeys}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
+@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
 public class RtPublicKeysITCase {
 
     /**

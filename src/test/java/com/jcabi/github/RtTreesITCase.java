@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -39,11 +40,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtTrees}. This test requires OAuth scope "repo".
+ * Test case for {@link RtTrees}.
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtTreesITCase {
 
     /**

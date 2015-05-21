@@ -31,6 +31,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -42,11 +43,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration testcase for RtTag. This test requires OAuth scope "repo".
+ * Integration testcase for RtTag.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtTagITCase {
 
     /**

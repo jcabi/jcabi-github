@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -39,11 +40,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtReleases}. This test requires OAuth scope "repo".
+ * Test case for {@link RtReleases}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
  */
+@OAuthScope(Scope.REPO)
 public final class RtReleasesITCase {
 
     /**
