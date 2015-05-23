@@ -38,7 +38,11 @@ import java.lang.annotation.Target;
 /**
  * Annotates an integration test case to indicate required OAuth scopes to run
  * such case.
- *
+ * @todo #975:30min Now all IT cases are annotated with OAuthScope annotation
+ *  to marked down its required scopes. A checker needs to be implemented to
+ *  check if the supplied account can fulfill the IT case requirement before
+ *  it is run and make the case fail if the required OAuth scopes is not
+ *  present. 
  * @author Jason Wong (super132j@yahoo.com)
  * @version $Id$
  * @see <a href="https://developer.github.com/v3/oauth/#scopes">Github OAuth
