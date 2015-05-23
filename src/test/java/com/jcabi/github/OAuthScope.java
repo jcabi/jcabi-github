@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
  *  to marked down its required scopes. A checker needs to be implemented to
  *  check if the supplied account can fulfill the IT case requirement before
  *  it is run and make the case fail if the required OAuth scopes is not
- *  present. 
+ *  present.
  * @author Jason Wong (super132j@yahoo.com)
  * @version $Id$
  * @see <a href="https://developer.github.com/v3/oauth/#scopes">Github OAuth
