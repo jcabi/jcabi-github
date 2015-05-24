@@ -38,6 +38,7 @@ import com.jcabi.http.Wire;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Iterator;
@@ -95,7 +96,8 @@ final class RtSearchPagination<T> implements Iterable<T> {
     @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         return new RtPagination<T>(
-            new RtSearchPagination.SearchRequest(this.request), this.mapping
+            new RtSearchPagination.SearchRequest(this.request),
+            this.mapping
         ).iterator();
     }
 
@@ -210,7 +212,11 @@ final class RtSearchPagination<T> implements Iterable<T> {
         }
         @Override
         public byte[] binary() {
-            return this.response.binary();
+            try {
+                return this.body().getBytes("UTF-8");
+            } catch (final UnsupportedEncodingException ex) {
+                throw new IllegalStateException(ex);
+            }
         }
         // @checkstyle MethodName (4 lines)
         @Override

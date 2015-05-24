@@ -97,8 +97,7 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final Order order)
-        throws IOException {
+        @NotNull(message = "Sort order can't be NULL") final Order order) {
         return new RtSearchPagination<Repo>(
             this.request, "repositories", keywords, sort, order.identifier(),
             new RtValuePagination.Mapping<Repo, JsonObject>() {
@@ -116,8 +115,7 @@ final class RtSearch implements Search {
     @Override
     @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> issues(final String keywords, final String sort,
-        final Order order, final EnumMap<Qualifier, String> qualifiers)
-        throws IOException {
+        final Order order, final EnumMap<Qualifier, String> qualifiers) {
         final StringBuilder keyword = new StringBuilder(keywords);
         for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
             .entrySet()) {
@@ -156,8 +154,7 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final Order order)
-        throws IOException {
+        @NotNull(message = "Sort order can't be NULL") final Order order) {
         return new RtSearchPagination<User>(
             this.request, "users", keywords, sort, order.identifier(),
             new RtValuePagination.Mapping<User, JsonObject>() {
@@ -177,8 +174,7 @@ final class RtSearch implements Search {
         @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
         @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final Order order)
-        throws IOException {
+        @NotNull(message = "Sort order can't be NULL") final Order order) {
         return new RtSearchPagination<Content>(
             this.request, "code", keywords, sort, order.identifier(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
