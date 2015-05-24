@@ -73,7 +73,7 @@ public final class RtSearchITCase {
         ).iterator();
         int count = 0;
         while (iter.hasNext() && count < Tv.HUNDRED) {
-            iter.next();
+            iter.next().coordinates();
             count += 1;
         }
         MatcherAssert.assertThat(
