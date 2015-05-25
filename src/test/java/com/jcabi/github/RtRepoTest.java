@@ -111,6 +111,22 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtRepo can fetch its branches.
+     *
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void fetchesBranches() throws Exception {
+        final Repo repo = RtRepoTest.repo(
+            new FakeRequest()
+        );
+        MatcherAssert.assertThat(
+            repo.branches(),
+            Matchers.notNullValue()
+        );
+    }
+
+    /**
      * RtRepo can fetch its pulls.
      *
      * @throws Exception if a problem occurs.

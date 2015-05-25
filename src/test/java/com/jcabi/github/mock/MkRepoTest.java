@@ -96,6 +96,22 @@ public final class MkRepoTest {
     }
 
     /**
+     * Repo can fetch its branches.
+     *
+     * @throws IOException if some problem inside
+     */
+    @Test
+    public void fetchBranches() throws IOException {
+        final String user = "testuser";
+        final Repo repo = new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo")
+        );
+        MatcherAssert.assertThat(repo.branches(), Matchers.notNullValue());
+    }
+
+    /**
      * Repo can exponse attributes.
      * @throws Exception If some problem inside
      */

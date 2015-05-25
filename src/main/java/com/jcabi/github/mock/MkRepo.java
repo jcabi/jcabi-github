@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Branches;
 import com.jcabi.github.Collaborators;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Coordinates;
@@ -255,6 +256,18 @@ final class MkRepo implements Repo {
     public RepoCommits commits() {
         try {
             return new MkRepoCommits(
+                this.storage, this.self, this.coordinates()
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
+    @NotNull(message = "branches is never NULL")
+    public Branches branches() {
+        try {
+            return new MkBranches(
                 this.storage, this.self, this.coordinates()
             );
         } catch (final IOException ex) {

@@ -45,7 +45,7 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount" })
 public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
@@ -147,6 +147,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      */
     @NotNull(message = "RepoCommits are never NULL")
     RepoCommits commits();
+
+    /**
+     * Get repository's branches.
+     * @return Branches
+     * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
+     */
+    @NotNull(message = "Branches are never NULL")
+    Branches branches();
 
     /**
      * Get all contents of the repo.
@@ -344,6 +352,11 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @NotNull(message = "commits is never NULL")
         public RepoCommits commits() {
             return this.repo.commits();
+        }
+        @Override
+        @NotNull(message = "branches is never NULL")
+        public Branches branches() {
+            return this.repo.branches();
         }
         @Override
         @NotNull(message = "JSON is never NULL")

@@ -240,6 +240,12 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Branches is never NULL")
+    public Branches branches() {
+        return new RtBranches(this.entry, this);
+    }
+
+    @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
