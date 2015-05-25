@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -40,6 +41,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtGithubITCase {
 
     /**

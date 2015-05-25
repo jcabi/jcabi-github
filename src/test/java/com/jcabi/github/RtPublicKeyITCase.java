@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -40,6 +41,7 @@ import org.junit.Test;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
+@OAuthScope(Scope.READ_PUBLIC_KEY)
 public final class RtPublicKeyITCase {
     /**
      * RtPublicKey can retrieve correctly URI.

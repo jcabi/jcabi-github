@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -47,6 +48,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtReleaseAssetITCase {
 
     /**

@@ -31,6 +31,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -47,6 +48,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtTagsITCase {
 
     /**

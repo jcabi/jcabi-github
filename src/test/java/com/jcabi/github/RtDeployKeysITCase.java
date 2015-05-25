@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
@@ -48,6 +49,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
+@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
 public final class RtDeployKeysITCase {
 
     /**

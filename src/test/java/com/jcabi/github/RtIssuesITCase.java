@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.util.Date;
 import java.util.EnumMap;
@@ -49,6 +50,7 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
+@OAuthScope(Scope.REPO)
 public final class RtIssuesITCase {
     /**
      * Test repos.

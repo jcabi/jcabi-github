@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -42,6 +43,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
+@OAuthScope(Scope.REPO)
 public final class RtBlobsITCase {
 
     /**

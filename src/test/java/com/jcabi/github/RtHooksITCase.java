@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -43,6 +44,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
+@OAuthScope(Scope.ADMIN_REPO_HOOK)
 public final class RtHooksITCase {
 
     /**

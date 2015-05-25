@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -42,6 +43,7 @@ import org.junit.Test;
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
+@OAuthScope({ Scope.REPO, Scope.DELETE_REPO })
 public class RtReposITCase {
 
     /**

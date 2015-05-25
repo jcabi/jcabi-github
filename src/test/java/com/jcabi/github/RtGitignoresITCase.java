@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -44,6 +45,7 @@ import org.junit.Test;
  *
  */
 @Immutable
+@OAuthScope(Scope.REPO)
 public final class RtGitignoresITCase {
 
     /**

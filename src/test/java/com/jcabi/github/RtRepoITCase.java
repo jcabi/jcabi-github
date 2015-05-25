@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -48,6 +49,7 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
+@OAuthScope(Scope.REPO)
 public final class RtRepoITCase {
     /**
      * Test repos.

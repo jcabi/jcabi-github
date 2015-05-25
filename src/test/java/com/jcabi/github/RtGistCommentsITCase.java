@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -42,6 +43,7 @@ import org.junit.Test;
  * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
+@OAuthScope(Scope.GIST)
 public final class RtGistCommentsITCase {
     /**
      * RtGistComments can create a comment.

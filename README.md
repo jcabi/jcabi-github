@@ -80,9 +80,19 @@ accounts. This test case will try to fork a gist from first account into second.
 only), for example `yegor256/test`. OAuth access tokens should have permissions in their
 respective repos to all scopes needed by the integration test suite you want to run
 (including `delete_repo`, which is not set by default!).
+
 Please note that different integration tests may need keys with permissions to different
-[scopes](https://developer.github.com/v3/oauth/#scopes);
-the `RtGistITCase` test requires permissions to gist scope.
+[scopes](https://developer.github.com/v3/oauth/#scopes).
+To run all integration tests, the key should have the following OAuth scopes:
+- read:org
+- repo
+- delete_repo
+- admin:public_key
+- gist
+- admin:repo_hook
+- user
+- user:email
+
 `RtForksITCase` requires additional parameter `-Dfailsafe.github.organization=<organization>`
 where `<organization>` is an organization name to fork test github repository.
 

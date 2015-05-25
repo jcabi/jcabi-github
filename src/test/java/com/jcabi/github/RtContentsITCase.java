@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.codec.binary.Base64;
@@ -48,6 +49,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
 

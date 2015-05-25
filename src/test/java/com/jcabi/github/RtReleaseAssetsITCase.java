@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.OAuthScope.Scope;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,6 +46,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
+@OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtReleaseAssetsITCase {
 

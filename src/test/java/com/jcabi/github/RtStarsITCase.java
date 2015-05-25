@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -43,6 +44,7 @@ import org.junit.Test;
  * @author Artem Nakonechny (wentwogcq@gmail.com)
  * @version $Id$
  */
+@OAuthScope({ Scope.REPO, Scope.USER })
 public final class RtStarsITCase {
     /**
      * Test repos.

@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,6 +50,7 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
+@OAuthScope(Scope.REPO)
 public class RtRepoCommitsITCase {
 
     /**
