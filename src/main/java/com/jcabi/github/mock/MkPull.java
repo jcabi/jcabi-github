@@ -36,6 +36,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.MergeState;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComments;
+import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
@@ -121,6 +122,48 @@ final class MkPull implements Pull {
     @Override
     public int number() {
         return this.num;
+    }
+
+    @Override
+    @NotNull(message = "base is never NULL")
+    public PullRef base() throws IOException {
+        return new MkPullRef(
+            this.storage,
+            new MkBranches(
+                this.storage,
+                this.self,
+                this.coords
+            ).get(
+                this.storage.xml().xpath(
+                    String.format("%s/base/text()", this.xpath())
+                ).get(0)
+            )
+        );
+    }
+
+    @Override
+    @NotNull(message = "head is never NULL")
+    public PullRef head() throws IOException {
+        final String userbranch = this.storage.xml()
+            .xpath(String.format("%s/head/text()", this.xpath()))
+            .get(0);
+        final String[] parts = userbranch.split(MkPull.USER_BRANCH_SEP, 2);
+        if (parts.length != 2) {
+            throw new IllegalStateException("Invalid MkPull head");
+        }
+        final String user = parts[0];
+        final String branch = parts[1];
+        return new MkPullRef(
+            this.storage,
+            new MkBranches(
+                this.storage,
+                this.self,
+                new Coordinates.Simple(
+                    user,
+                    this.coords.repo()
+                )
+            ).get(branch)
+        );
     }
 
     @Override

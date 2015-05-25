@@ -69,6 +69,22 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     int number();
 
     /**
+     * Get its base ref.
+     * @return Base ref
+     * @throws IOException If there is any I/O problem
+     */
+    @NotNull(message = "base is never NULL")
+    PullRef base() throws IOException;
+
+    /**
+     * Get its head ref.
+     * @return Head ref
+     * @throws IOException If there is any I/O problem
+     */
+    @NotNull(message = "head is never NULL")
+    PullRef head() throws IOException;
+
+    /**
      * Get all commits of the pull request.
      * @return Commits
      * @throws IOException If there is any I/O problem
@@ -378,6 +394,17 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         ) {
             return this.pull.compareTo(obj);
         }
-    }
 
+        @Override
+        @NotNull(message = "base is never NULL")
+        public PullRef base() throws IOException {
+            return this.pull.base();
+        }
+
+        @Override
+        @NotNull(message = "head is never NULL")
+        public PullRef head() throws IOException {
+            return this.pull.head();
+        }
+    }
 }

@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
+import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -131,6 +132,28 @@ public final class MkPullTest {
             pull.comments(),
             Matchers.notNullValue()
         );
+    }
+
+    /**
+     * MkPull can get its base ref.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canGetBase() throws Exception {
+        final PullRef base = pullRequest().base();
+        MatcherAssert.assertThat(base, Matchers.notNullValue());
+        MatcherAssert.assertThat(base.ref(), Matchers.equalTo(BASE));
+    }
+
+    /**
+     * MkPull can get its head ref.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canGetHead() throws Exception {
+        final PullRef head = pullRequest().head();
+        MatcherAssert.assertThat(head, Matchers.notNullValue());
+        MatcherAssert.assertThat(head.ref(), Matchers.equalTo(HEAD));
     }
 
     /**

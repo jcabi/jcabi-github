@@ -190,6 +190,24 @@ final class RtPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "base is never NULL")
+    public PullRef base() throws IOException {
+        return new RtPullRef(
+            this.owner.github(),
+            this.json().getJsonObject("base")
+        );
+    }
+
+    @Override
+    @NotNull(message = "head is never NULL")
+    public PullRef head() throws IOException {
+        return new RtPullRef(
+            this.owner.github(),
+            this.json().getJsonObject("head")
+        );
+    }
+
+    @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
