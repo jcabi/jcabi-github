@@ -170,8 +170,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             );
         }
         /**
-         * Get its body.
-         * @return Body of pull request
+         * Get its title.
+         * @return Title of pull request
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "title can't be NULL")
@@ -179,8 +179,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             return this.jsn.text("title");
         }
         /**
-         * Change its state.
-         * @param text Text of pull request
+         * Change its title.
+         * @param text Title of pull request
          * @throws IOException If there is any I/O problem
          */
         public void title(
@@ -191,8 +191,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             );
         }
         /**
-         * Get its title.
-         * @return Title of pull request
+         * Get its body.
+         * @return Body of pull request
          * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "body is never NULL")
