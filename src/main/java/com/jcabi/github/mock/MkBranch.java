@@ -75,6 +75,8 @@ public final class MkBranch implements Branch {
      * @param rep Repo
      * @param nom Branch name
      * @param sha Commit sha
+     * @todo #1085:30m Refactor this to reduce number of arguments to avoid
+     *  ParameterNumberCheck warning.
      * @checkstyle ParameterNumberCheck (7 lines)
      */
     MkBranch(
