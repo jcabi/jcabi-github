@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -100,4 +101,30 @@ public final class PullTest {
         );
     }
 
+    /**
+     * Pull.Smart can get the author.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void getsAuthor() throws IOException {
+        final String login = "rose";
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.when(repo.github()).thenReturn(new MkGithub());
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.when(pull.json()).thenReturn(
+            Json.createObjectBuilder()
+                .add(
+                    "user",
+                    Json.createObjectBuilder()
+                        .add("login", login)
+                        .build()
+                )
+                .build()
+        );
+        Mockito.when(pull.repo()).thenReturn(repo);
+        MatcherAssert.assertThat(
+            new Pull.Smart(pull).author().login(),
+            Matchers.equalTo(login)
+        );
+    }
 }
