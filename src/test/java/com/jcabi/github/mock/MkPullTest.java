@@ -47,6 +47,10 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkPullTest {
+    /**
+     * Login of test user.
+     */
+    private static final String USERNAME = "patrick";
 
     /**
      * MkPull should be able to compare different instances.
@@ -146,6 +150,10 @@ public final class MkPullTest {
             json.getString("base"),
             Matchers.equalTo(base)
         );
+        MatcherAssert.assertThat(
+            json.getJsonObject("user").getString("login"),
+            Matchers.equalTo(USERNAME)
+        );
     }
 
     /**
@@ -172,7 +180,7 @@ public final class MkPullTest {
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
+        return new MkGithub(USERNAME).repos().create(
             Json.createObjectBuilder().add("name", "test").build()
         );
     }

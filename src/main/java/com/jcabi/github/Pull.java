@@ -291,6 +291,20 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         }
 
         /**
+         * Get its author.
+         * @return Author of pull request (who submitted it)
+         * @throws IOException If there is any I/O problem
+         */
+        @NotNull(message = "author is never NULL")
+        public User author() throws IOException {
+            return this.pull.repo().github().users().get(
+                this.jsn.value(
+                    "user", JsonObject.class
+                ).getString("login")
+            );
+        }
+
+        /**
          * Get an issue where the pull request is submitted.
          * @return Issue
          */

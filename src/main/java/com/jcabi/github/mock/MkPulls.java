@@ -126,6 +126,9 @@ final class MkPulls implements Pulls {
                     .add("number").set(Integer.toString(number)).up()
                     .add("head").set(head).up()
                     .add("base").set(base).up()
+                    .add("user")
+                    .add("login").set(this.self)
+                    .up()
             );
         } finally {
             this.storage.unlock();
