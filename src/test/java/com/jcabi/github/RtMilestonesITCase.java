@@ -33,7 +33,6 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.util.Collections;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -71,9 +70,10 @@ public final class RtMilestonesITCase {
         final Github github = new RtGithub(key);
         repos = github.repos();
         repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+            new Repos.RepoCreate(
+                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                false
+            ).withAutoInit(true)
         );
     }
 

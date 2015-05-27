@@ -30,9 +30,9 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import com.jcabi.github.Search;
 import java.util.EnumMap;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -56,7 +56,7 @@ public final class MkSearchTest {
     public void canSearchForRepos() throws Exception {
         final MkGithub github = new MkGithub();
         github.repos().create(
-            Json.createObjectBuilder().add("name", "TestRepo").build()
+            new Repos.RepoCreate("TestRepo", false)
         );
         MatcherAssert.assertThat(
             github.search().repos("TestRepo", "updated", Search.Order.ASC),
@@ -73,7 +73,7 @@ public final class MkSearchTest {
     public void canSearchForIssues() throws Exception {
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(
-            Json.createObjectBuilder().add("name", "TestIssues").build()
+            new Repos.RepoCreate("TestIssues", false)
         );
         repo.issues().create("test issue", "TheTest");
         MatcherAssert.assertThat(
@@ -111,7 +111,7 @@ public final class MkSearchTest {
     public void canSearchForCodes() throws Exception {
         final MkGithub github = new MkGithub("jeff");
         github.repos().create(
-            Json.createObjectBuilder().add("name", "TestCode").build()
+            new Repos.RepoCreate("TestCode", false)
         );
         MatcherAssert.assertThat(
             github.search().codes("jeff", "repositories", Search.Order.DESC),

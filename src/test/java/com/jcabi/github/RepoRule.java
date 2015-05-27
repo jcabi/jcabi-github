@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Tv;
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -64,14 +63,17 @@ public final class RepoRule implements TestRule {
      * @throws IOException If error occurred.
      */
     public Repo repo(final Repos repos) throws IOException {
+        final Repos.RepoCreate settings = new Repos.RepoCreate(
+            "foo",
+            false
+        ).withAutoInit(true);
         Repo repo = null;
         while (repo == null) {
             try {
                 repo = repos.create(
-                    Json.createObjectBuilder()
-                        .add(
-                            "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-                        ).add("auto_init", true).build()
+                    settings.withName(
+                        RandomStringUtils.randomAlphanumeric(Tv.TEN)
+                    )
                 );
             } catch (final AssertionError exception) {
                 Logger.warn(

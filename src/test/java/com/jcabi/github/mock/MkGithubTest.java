@@ -34,6 +34,7 @@ import com.jcabi.github.Comment;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import com.jcabi.github.User;
 import com.jcabi.immutable.ArrayMap;
 import com.jcabi.log.VerboseCallable;
@@ -42,8 +43,6 @@ import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -54,6 +53,14 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class MkGithubTest {
+    /**
+     * Settings to use when creating temporary repos.
+     */
+    private static final Repos.RepoCreate NEW_REPO_SETTINGS =
+        new Repos.RepoCreate(
+            "test",
+            false
+        );
 
     /**
      * MkGithub can work.
@@ -61,7 +68,7 @@ public final class MkGithubTest {
      */
     @Test
     public void worksWithMockedData() throws Exception {
-        final Repo repo = new MkGithub().repos().create(MkGithubTest.json());
+        final Repo repo = new MkGithub().repos().create(NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -89,7 +96,7 @@ public final class MkGithubTest {
     public void canRelogin() throws Exception {
         final String login = "mark";
         final MkGithub github = new MkGithub();
-        final Repo repo = github.repos().create(MkGithubTest.json());
+        final Repo repo = github.repos().create(NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("title", "Found a bug");
         final Comment comment = github
             .relogin(login)
@@ -169,16 +176,5 @@ public final class MkGithubTest {
             repo.issues().iterate(new ArrayMap<String, String>()),
             Matchers.<Issue>iterableWithSize(threads)
         );
-    }
-
-    /**
-     * Create and return JsonObject to test.
-     * @return JsonObject
-     * @throws Exception If some problem inside
-     */
-    private static JsonObject json() throws Exception {
-        return Json.createObjectBuilder()
-            .add("name", "test")
-            .build();
     }
 }

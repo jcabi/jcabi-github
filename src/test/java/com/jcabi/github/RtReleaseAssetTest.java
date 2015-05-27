@@ -189,7 +189,7 @@ public final class RtReleaseAssetTest {
     private static Release release() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final Repo repo = new MkGithub("john").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
         Mockito.doReturn(repo).when(release).repo();
         Mockito.doReturn(1).when(release).number();

@@ -32,7 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
-import javax.json.Json;
+import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -91,7 +91,7 @@ public final class MkForksTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 

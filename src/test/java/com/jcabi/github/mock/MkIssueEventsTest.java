@@ -32,8 +32,8 @@ package com.jcabi.github.mock;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Event;
+import com.jcabi.github.Repos;
 import java.util.Iterator;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -45,10 +45,6 @@ import org.junit.Test;
  * @since 0.23
  */
 public final class MkIssueEventsTest {
-    /**
-     * Name string used in various APIs.
-     */
-    private static final String NAME = "name";
     /**
      * Absent optional string.
      */
@@ -192,9 +188,7 @@ public final class MkIssueEventsTest {
     private MkIssueEvents issueEvents() throws Exception {
         return MkIssueEvents.class.cast(
             new MkGithub().repos().create(
-                Json.createObjectBuilder()
-                    .add(MkIssueEventsTest.NAME, "test")
-                    .build()
+                new Repos.RepoCreate("test", false)
             ).issueEvents()
         );
     }

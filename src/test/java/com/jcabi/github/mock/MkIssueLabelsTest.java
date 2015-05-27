@@ -34,9 +34,9 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import java.util.Collections;
 import java.util.Iterator;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -47,11 +47,6 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class MkIssueLabelsTest {
-    /**
-     * Name string constant.
-     */
-    private static final String NAME = "name";
-
     /**
      * Username of actor.
      */
@@ -170,7 +165,7 @@ public final class MkIssueLabelsTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add(NAME, "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 }

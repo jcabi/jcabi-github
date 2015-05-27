@@ -30,7 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
-import javax.json.Json;
+import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -76,7 +76,7 @@ public final class MkGitTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 

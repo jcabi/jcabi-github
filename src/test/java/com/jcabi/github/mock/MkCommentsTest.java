@@ -31,7 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
-import javax.json.Json;
+import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -65,7 +65,7 @@ public final class MkCommentsTest {
      */
     private Comments comments() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         ).issues().create("hey", "how are you?").comments();
     }
 

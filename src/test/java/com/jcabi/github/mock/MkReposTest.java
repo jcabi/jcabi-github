@@ -31,7 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -126,10 +125,7 @@ public final class MkReposTest {
     private static Repo repo(final Repos repos, final String name,
         final String desc) throws Exception {
         return repos.create(
-            Json.createObjectBuilder()
-                .add("name", name)
-                .add("description", desc)
-                .build()
+            new Repos.RepoCreate(name, false).withDescription(desc)
         );
     }
 }

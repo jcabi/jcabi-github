@@ -72,9 +72,10 @@ public final class RtRepoITCase {
         final Github github = new RtGithub(key);
         repos = github.repos();
         repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+            new Repos.RepoCreate(
+                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                false
+            ).withAutoInit(true)
         );
         repo.contents().create(
             Json.createObjectBuilder()

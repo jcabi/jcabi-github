@@ -32,8 +32,8 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import java.util.Collections;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -142,7 +142,7 @@ public final class MkHooksTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 

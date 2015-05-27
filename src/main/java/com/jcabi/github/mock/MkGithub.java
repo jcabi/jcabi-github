@@ -226,10 +226,10 @@ public final class MkGithub implements Github {
     @NotNull(message = "Repo is never NULL")
     public Repo randomRepo() throws IOException {
         return this.repos().create(
-            Json.createObjectBuilder().add(
-                "name",
-                RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).build()
+            new Repos.RepoCreate(
+                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                true
+            )
         );
     }
 }

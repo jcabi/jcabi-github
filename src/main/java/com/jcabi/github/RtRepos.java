@@ -87,13 +87,13 @@ final class RtRepos implements Repos {
 
     @Override
     @NotNull(message = "repo is never NULL")
-    public Repo create(@NotNull(message = "JSON can't be NULL")
-        final JsonObject json) throws IOException {
+    public Repo create(@NotNull(message = "settings can't be NULL")
+        final RepoCreate settings) throws IOException {
         return this.get(
             new Coordinates.Simple(
                 this.entry.uri().path("user/repos")
                     .back().method(Request.POST)
-                    .body().set(json).back()
+                    .body().set(settings.json()).back()
                     .fetch().as(RestResponse.class)
                     .assertStatus(HttpURLConnection.HTTP_CREATED)
                     .as(JsonResponse.class)

@@ -32,9 +32,9 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Repos;
 import java.net.URL;
 import java.util.Date;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -154,7 +154,7 @@ public final class MkCommentTest {
      */
     private Comment comment(final String text) throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         ).issues().create("hey", "how are you?").comments().post(text);
     }
 

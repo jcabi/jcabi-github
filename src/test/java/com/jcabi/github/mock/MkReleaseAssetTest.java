@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import com.jcabi.github.Repos;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import javax.json.Json;
@@ -210,7 +211,7 @@ public final class MkReleaseAssetTest {
      */
     private static Release release() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         ).releases().create("v1.0");
     }
 }

@@ -33,8 +33,8 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import java.util.Collections;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -106,7 +106,7 @@ public final class MkLabelsTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 

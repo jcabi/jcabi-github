@@ -33,6 +33,7 @@ import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
+import com.jcabi.github.Repos;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.Json;
@@ -443,7 +444,7 @@ public final class MkContentsTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 
@@ -457,7 +458,7 @@ public final class MkContentsTest {
         final MkStorage storage) throws IOException {
         final String login = "test";
         return new MkGithub(storage, login).repos().create(
-            Json.createObjectBuilder().add("name", login).build()
+            new Repos.RepoCreate(login, false)
         );
     }
 

@@ -32,8 +32,8 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import com.jcabi.immutable.ArrayMap;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -124,7 +124,7 @@ public final class MkMilestonesTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 }

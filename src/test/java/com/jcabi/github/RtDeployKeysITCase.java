@@ -34,7 +34,6 @@ import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -73,9 +72,10 @@ public final class RtDeployKeysITCase {
         final Github github = new RtGithub(key);
         repos = github.repos();
         repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+            new Repos.RepoCreate(
+                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                false
+            ).withAutoInit(true)
         );
     }
 

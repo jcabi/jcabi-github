@@ -35,9 +35,9 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import java.util.Collections;
 import java.util.Iterator;
-import javax.json.Json;
 import org.hamcrest.CustomMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -49,6 +49,7 @@ import org.mockito.Mockito;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class MkIssueTest {
@@ -197,7 +198,7 @@ public final class MkIssueTest {
         final MkGithub first = new MkGithub("first");
         final Github second = first.relogin("second");
         final Repo repo = first.repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
         final int number = second.repos()
             .get(repo.coordinates())
@@ -308,7 +309,7 @@ public final class MkIssueTest {
      */
     private Issue issue() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         ).issues().create("hey", "how are you?");
     }
 

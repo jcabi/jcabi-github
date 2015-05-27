@@ -32,8 +32,8 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Github;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
+import com.jcabi.github.Repos;
 import java.io.IOException;
-import javax.json.Json;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
@@ -48,12 +48,6 @@ import org.junit.Test;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class MkReleaseTest {
-
-    /**
-     * NAME constant.
-     */
-    private static final String NAME = "name";
-
     /**
      * Check if a release can be deleted.
      * @throws Exception If any problems occur.
@@ -163,7 +157,7 @@ public final class MkReleaseTest {
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.name(),
-            Matchers.equalTo(this.value(release, MkReleaseTest.NAME))
+            Matchers.equalTo(this.value(release, "name"))
         );
     }
 
@@ -246,7 +240,7 @@ public final class MkReleaseTest {
      */
     private static Releases releases() throws IOException {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add(MkReleaseTest.NAME, "test").build()
+            new Repos.RepoCreate("test", false)
         ).releases();
     }
 }

@@ -38,7 +38,6 @@ import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -92,19 +91,22 @@ final class MkRepos implements Repos {
     @Override
     @NotNull(message = "repo is never NULL")
     public Repo create(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        @NotNull(message = "settings can't be NULL")
+        final RepoCreate settings
     ) throws IOException {
-        final String name = json.getString("name");
-        final Coordinates coords = new Coordinates.Simple(this.self, name);
+        final Coordinates coords = new Coordinates.Simple(
+            this.self,
+            settings.name()
+        );
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("repo")
                 .attr("coords", coords.toString())
-                .add("name").set(name).up()
+                .add("name").set(settings.name()).up()
                 .add("description").set("test repository").up()
                 .add("private").set("false").up()
         );
         final Repo repo = this.get(coords);
-        repo.patch(json);
+        repo.patch(settings.json());
         Logger.info(
             this, "repository %s created by %s",
             coords, this.self

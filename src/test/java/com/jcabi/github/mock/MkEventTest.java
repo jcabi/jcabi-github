@@ -33,7 +33,7 @@ import com.google.common.base.Optional;
 import com.jcabi.github.Event;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
-import javax.json.Json;
+import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -45,11 +45,6 @@ import org.junit.Test;
  */
 public final class MkEventTest {
     /**
-     * Name of field for name of repository.
-     */
-    private static final String NAME = "name";
-
-    /**
      * Can get created_at value from json object.
      * @throws Exception If some problem inside
      */
@@ -58,7 +53,7 @@ public final class MkEventTest {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGithub(storage, user).repos().create(
-            Json.createObjectBuilder().add(NAME, "test").build()
+            new Repos.RepoCreate("test", false)
         );
         final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
         final int eventnum = events.create(
@@ -88,7 +83,7 @@ public final class MkEventTest {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "ken";
         final Repo repo = new MkGithub(storage, user).repos().create(
-            Json.createObjectBuilder().add(NAME, "foo").build()
+            new Repos.RepoCreate("foo", false)
         );
         final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
         final String label = "problem";
@@ -120,7 +115,7 @@ public final class MkEventTest {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "barbie";
         final Repo repo = new MkGithub(storage, user).repos().create(
-            Json.createObjectBuilder().add(NAME, "bar").build()
+            new Repos.RepoCreate("bar", false)
         );
         final int num = ((MkIssueEvents) (repo.issueEvents())).create(
             Event.LABELED,

@@ -36,7 +36,6 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
-import javax.json.Json;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -73,9 +72,10 @@ public final class RtIssuesITCase {
         final Github github = new RtGithub(key);
         repos = github.repos();
         repo = repos.create(
-            Json.createObjectBuilder().add(
-                "name", RandomStringUtils.randomAlphanumeric(Tv.TEN)
-            ).add("auto_init", true).build()
+            new Repos.RepoCreate(
+                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                false
+            ).withAutoInit(true)
         );
     }
 

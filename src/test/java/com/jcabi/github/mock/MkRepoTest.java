@@ -37,7 +37,6 @@ import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import java.io.IOException;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -58,7 +57,7 @@ public final class MkRepoTest {
     public void works() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
         MatcherAssert.assertThat(
             repo.coordinates(),
@@ -74,7 +73,7 @@ public final class MkRepoTest {
     public void returnsMkMilestones() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
-            Json.createObjectBuilder().add("name", "test1").build()
+            new Repos.RepoCreate("test1", false)
         );
         final Milestones milestones = repo.milestones();
         MatcherAssert.assertThat(milestones, Matchers.notNullValue());

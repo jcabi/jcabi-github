@@ -33,8 +33,8 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import com.jcabi.immutable.ArrayMap;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -87,7 +87,7 @@ public final class MkIssuesTest {
     public void createsMultipleIssues() throws Exception {
         final Github github = new MkGithub("jeff");
         final Repo repo = github.repos().create(
-            Json.createObjectBuilder().add("name", "test-3").build()
+            new Repos.RepoCreate("test-3", false)
         );
         for (int idx = 1; idx < Tv.TEN; ++idx) {
             repo.issues().create("title", "body");
@@ -101,7 +101,7 @@ public final class MkIssuesTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 

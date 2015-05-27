@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Commit;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -82,7 +83,7 @@ public class MkCommitsTest {
      */
     private Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 }

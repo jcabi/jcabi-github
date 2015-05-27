@@ -47,6 +47,7 @@ import org.junit.Test;
  * @author Marcin Cylke (marcin.cylke+github@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public class RtStatusesTest {
 
@@ -96,7 +97,7 @@ public class RtStatusesTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 }

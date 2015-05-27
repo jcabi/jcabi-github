@@ -147,7 +147,7 @@ public final class RtPullCommentTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub("joe").repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 }

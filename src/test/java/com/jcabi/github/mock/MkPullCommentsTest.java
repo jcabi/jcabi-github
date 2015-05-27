@@ -32,10 +32,10 @@ package com.jcabi.github.mock;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
+import com.jcabi.github.Repos;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -208,7 +208,7 @@ public final class MkPullCommentsTest {
     private PullComments comments() throws IOException {
         return new MkGithub().repos().create(
             // @checkstyle MultipleStringLiteralsCheck (3 lines)
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         ).pulls().create("hello", "", "").comments();
     }
 
@@ -222,7 +222,7 @@ public final class MkPullCommentsTest {
         final MkStorage storage) throws IOException {
         final String login = "test";
         return new MkGithub(storage, login).repos().create(
-            Json.createObjectBuilder().add("name", login).build()
+            new Repos.RepoCreate(login, false)
         );
     }
 

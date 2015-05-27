@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -79,9 +78,7 @@ public class RtReposITCase {
         final Repo repo = this.rule.repo(repos);
         try {
             repos.create(
-                Json.createObjectBuilder().add(
-                    "name", repo.coordinates().repo()
-                ).build()
+                new Repos.RepoCreate(repo.coordinates().repo(), false)
             );
         } finally {
             repos.remove(repo.coordinates());

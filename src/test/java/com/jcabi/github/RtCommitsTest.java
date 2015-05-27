@@ -101,7 +101,7 @@ public class RtCommitsTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub().repos().create(
-            Json.createObjectBuilder().add("name", "test").build()
+            new Repos.RepoCreate("test", false)
         );
     }
 }
