@@ -230,7 +230,7 @@ public final class RtUserTest {
     public void hasFollwersUrl() throws Exception {
         final String value = "http://github.example.com/followers";
         final User.Smart smart = this.userWith("followers_url", value);
-        MatcherAssert.assertThat(smart.follwersUrl(), Matchers.is(value));
+        MatcherAssert.assertThat(smart.followersUrl(), Matchers.is(value));
     }
 
     /**

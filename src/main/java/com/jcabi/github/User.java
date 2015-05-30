@@ -309,7 +309,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If any I/O error occurs.
          */
         @NotNull(message = "Followers URL is never NULL")
-        public String follwersUrl() throws IOException {
+        public String followersUrl() throws IOException {
             return this.jsn.text("followers_url");
         }
 
