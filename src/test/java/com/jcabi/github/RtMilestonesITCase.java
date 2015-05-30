@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
+import com.jcabi.http.wire.RetryWire;
 import com.jcabi.immutable.ArrayMap;
 import java.util.Collections;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -67,7 +68,9 @@ public final class RtMilestonesITCase {
     public static void setUp() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
+        final Github github = new RtGithub(
+            new RtGithub(key).entry().through(RetryWire.class)
+        );
         repos = github.repos();
         repo = repos.create(
             new Repos.RepoCreate(
