@@ -196,7 +196,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetPublichedAt() throws Exception {
+    public void canGetPublishedAt() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
