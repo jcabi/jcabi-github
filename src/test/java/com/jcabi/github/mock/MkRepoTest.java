@@ -57,11 +57,11 @@ public final class MkRepoTest {
     public void works() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
-            new Repos.RepoCreate("test", false)
+            new Repos.RepoCreate("test5", false)
         );
         MatcherAssert.assertThat(
             repo.coordinates(),
-            Matchers.hasToString("jeff/test")
+            Matchers.hasToString("jeff/test5")
         );
     }
 
