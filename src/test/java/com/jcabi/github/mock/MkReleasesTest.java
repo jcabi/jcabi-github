@@ -31,8 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -50,7 +48,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canFetchEmptyListOfReleases() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.emptyIterable()
@@ -63,7 +61,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canFetchNonEmptyListOfReleases() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v1.0";
         releases.create(tag);
         MatcherAssert.assertThat(
@@ -79,7 +77,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canFetchSingleRelease() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
     }
 
@@ -89,7 +87,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canCreateRelease() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v1.0.0";
         final Release release = releases.create(tag);
         MatcherAssert.assertThat(
@@ -104,7 +102,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void iteratesReleases() throws Exception {
-        final Releases releases = repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         releases.create("v1.0.1");
         releases.create("v1.0.2");
         MatcherAssert.assertThat(
@@ -119,7 +117,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canRemoveRelease() throws Exception {
-        final Releases releases = repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         releases.create("v1.1.1");
         releases.create("v1.1.2");
         MatcherAssert.assertThat(
@@ -139,7 +137,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void findsReleaseByTag() throws Exception {
-        final Releases releases = MkReleasesTest.repo().releases();
+        final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v5.0";
         releases.create(tag);
         MatcherAssert.assertThat(
@@ -149,17 +147,6 @@ public final class MkReleasesTest {
         MatcherAssert.assertThat(
             new Release.Smart(new Releases.Smart(releases).find(tag)).tag(),
             Matchers.equalTo(tag)
-        );
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
         );
     }
 }

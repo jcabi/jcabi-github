@@ -66,7 +66,7 @@ public class RtCommitsTest {
         ).start();
         final Commits commits = new RtCommits(
             new ApacheRequest(container.home()),
-            repo()
+            new MkGithub().randomRepo()
         );
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
@@ -91,17 +91,5 @@ public class RtCommitsTest {
         } finally {
             container.stop();
         }
-    }
-
-    /**
-     * This method returns a Repo for testing.
-     *
-     * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
     }
 }

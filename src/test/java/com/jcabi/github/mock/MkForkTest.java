@@ -30,8 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Fork;
-import com.jcabi.github.Forks;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -50,21 +48,10 @@ public final class MkForkTest {
      */
     @Test
     public void fetchAsJson() throws Exception {
-        final Fork fork = forks().create("fork");
+        final Fork fork = new MkGithub().randomRepo().forks().create("fork");
         MatcherAssert.assertThat(
             fork.json().toString(),
             Matchers.containsString("{")
         );
-    }
-
-    /**
-     * Create and return forks to test.
-     * @return Forks
-     * @throws Exception if any problem inside
-     */
-    private static Forks forks() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).forks();
     }
 }

@@ -44,14 +44,6 @@ import org.junit.Test;
  */
 public final class RtBranchTest {
     /**
-     * Test username to own test repo.
-     */
-    private static final String REPO_USER = "jack";
-    /**
-     * Test repo name.
-     */
-    private static final String REPO_NAME = "project-42";
-    /**
      * Test branch name.
      */
     private static final String BRANCH_NAME = "topic";
@@ -67,11 +59,18 @@ public final class RtBranchTest {
      */
     @Test
     public void fetchesCommit() throws Exception {
-        final Commit commit = RtBranchTest.newBranch().commit();
+        final Repo repo = new MkGithub().randomRepo();
+        final Commit commit = RtBranchTest.newBranch(repo).commit();
         MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(SHA));
         final Coordinates coords = commit.repo().coordinates();
-        MatcherAssert.assertThat(coords.user(), Matchers.equalTo(REPO_USER));
-        MatcherAssert.assertThat(coords.repo(), Matchers.equalTo(REPO_NAME));
+        MatcherAssert.assertThat(
+            coords.user(),
+            Matchers.equalTo(repo.coordinates().user())
+        );
+        MatcherAssert.assertThat(
+            coords.repo(),
+            Matchers.equalTo(repo.coordinates().repo())
+        );
     }
 
     /**
@@ -81,7 +80,7 @@ public final class RtBranchTest {
     @Test
     public void fetchesName() throws Exception {
         MatcherAssert.assertThat(
-            RtBranchTest.newBranch().name(),
+            RtBranchTest.newBranch(new MkGithub().randomRepo()).name(),
             Matchers.equalTo(BRANCH_NAME)
         );
     }
@@ -92,34 +91,31 @@ public final class RtBranchTest {
      */
     @Test
     public void fetchesRepo() throws Exception {
-        final Coordinates coords = RtBranchTest.newBranch()
+        final Repo repo = new MkGithub().randomRepo();
+        final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();
-        MatcherAssert.assertThat(coords.user(), Matchers.equalTo(REPO_USER));
-        MatcherAssert.assertThat(coords.repo(), Matchers.equalTo(REPO_NAME));
-    }
-
-    /**
-     * RtBranch for testing.
-     * @return The RtBranch.
-     * @throws IOException If there is any I/O problem
-     */
-    private static Branch newBranch() throws IOException {
-        return new RtBranch(
-            new FakeRequest(),
-            RtBranchTest.repository(),
-            BRANCH_NAME,
-            SHA
+        MatcherAssert.assertThat(
+            coords.user(),
+            Matchers.equalTo(repo.coordinates().user())
+        );
+        MatcherAssert.assertThat(
+            coords.repo(),
+            Matchers.equalTo(repo.coordinates().repo())
         );
     }
 
     /**
-     * Mock repo for RtBranch creation.
-     * @return The mock repo.
+     * RtBranch for testing.
+     * @param repo Repository to create the branch in
+     * @return The RtBranch.
      * @throws IOException If there is any I/O problem
      */
-    private static Repo repository() throws IOException {
-        return new MkGithub(REPO_USER).repos().create(
-            new Repos.RepoCreate(REPO_NAME, false)
+    private static Branch newBranch(final Repo repo) throws IOException {
+        return new RtBranch(
+            new FakeRequest(),
+            repo,
+            BRANCH_NAME,
+            SHA
         );
     }
 }

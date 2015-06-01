@@ -31,7 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -64,9 +63,8 @@ public final class MkCommentsTest {
      * @throws Exception If some problem inside
      */
     private Comments comments() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).issues().create("hey", "how are you?").comments();
+        return new MkGithub().randomRepo()
+            .issues().create("hey", "how are you?")
+            .comments();
     }
-
 }

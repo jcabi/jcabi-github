@@ -31,7 +31,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Reference;
-import com.jcabi.github.Repos;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -111,8 +110,7 @@ public final class MkReferenceTest {
      * @throws Exception - if something goes wrong.
      */
     private Reference reference() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).git().references().create("refs/tags/hello", "testsha");
+        return new MkGithub().randomRepo().git()
+            .references().create("refs/tags/hello", "testsha");
     }
 }

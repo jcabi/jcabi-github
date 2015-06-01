@@ -53,7 +53,7 @@ public final class MkIssuesTest {
      */
     @Test
     public void iteratesIssues() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         repo.issues().create("hey, you", "body of issue");
         repo.issues().create("hey", "body of 2nd issue");
         repo.issues().create("hey again", "body of 3rd issue");
@@ -69,7 +69,7 @@ public final class MkIssuesTest {
      */
     @Test
     public void createsNewIssueWithCorrectAuthor() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue.Smart issue = new Issue.Smart(
             repo.issues().create("hello", "the body")
         );
@@ -93,16 +93,4 @@ public final class MkIssuesTest {
             repo.issues().create("title", "body");
         }
     }
-
-    /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

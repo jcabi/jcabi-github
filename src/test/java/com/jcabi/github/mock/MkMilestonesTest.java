@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import com.jcabi.immutable.ArrayMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -52,7 +51,7 @@ public final class MkMilestonesTest {
      */
     @Test
     public void returnsRepo() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(repo, Matchers.is(owner));
     }
@@ -63,7 +62,8 @@ public final class MkMilestonesTest {
      */
     @Test
     public void createsMilestone() throws Exception {
-        final Milestones milestones = this.repo().milestones();
+        final Milestones milestones = new MkGithub().randomRepo()
+            .milestones();
         final Milestone milestone = milestones.create("test milestone");
         MatcherAssert.assertThat(milestone, Matchers.notNullValue());
         MatcherAssert.assertThat(
@@ -78,7 +78,8 @@ public final class MkMilestonesTest {
      */
     @Test
     public void getsMilestone() throws Exception {
-        final Milestones milestones = this.repo().milestones();
+        final Milestones milestones = new MkGithub().randomRepo()
+            .milestones();
         final Milestone created = milestones.create("test");
         MatcherAssert.assertThat(
             milestones.get(created.number()),
@@ -91,7 +92,8 @@ public final class MkMilestonesTest {
      */
     @Test
     public void removesMilestone() throws Exception {
-        final Milestones milestones = this.repo().milestones();
+        final Milestones milestones = new MkGithub().randomRepo()
+            .milestones();
         final Milestone created = milestones.create("testTitle");
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<String, String>()),
@@ -110,21 +112,12 @@ public final class MkMilestonesTest {
      */
     @Test
     public void iteratesMilestones() throws Exception {
-        final Milestones milestones = this.repo().milestones();
+        final Milestones milestones = new MkGithub().randomRepo()
+            .milestones();
         milestones.create("testMilestone");
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<String, String>()),
             Matchers.<Milestone>iterableWithSize(1)
-        );
-    }
-    /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
         );
     }
 }

@@ -62,7 +62,7 @@ public final class RtReferencesTest {
         ).start();
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
-            repo()
+            new MkGithub().randomRepo()
         );
         try {
             MatcherAssert.assertThat(
@@ -92,7 +92,7 @@ public final class RtReferencesTest {
         ).start();
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
-            repo()
+            new MkGithub().randomRepo()
         );
         try {
             MatcherAssert.assertThat(
@@ -115,7 +115,7 @@ public final class RtReferencesTest {
         ).start();
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
-            repo()
+            new MkGithub().randomRepo()
         );
         refs.remove("heads/feature-a");
         try {
@@ -142,7 +142,7 @@ public final class RtReferencesTest {
         ).start();
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
-            repo()
+            new MkGithub().randomRepo()
         );
         try {
             MatcherAssert.assertThat(
@@ -172,7 +172,7 @@ public final class RtReferencesTest {
         ).start();
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
-            repo()
+            new MkGithub().randomRepo()
         );
         try {
             MatcherAssert.assertThat(
@@ -186,16 +186,5 @@ public final class RtReferencesTest {
         } finally {
             container.stop();
         }
-    }
-
-    /**
-     * This method returns a Repo for testing.
-     * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
     }
 }

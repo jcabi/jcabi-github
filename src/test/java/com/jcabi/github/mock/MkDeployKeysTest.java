@@ -31,8 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.DeployKey;
 import com.jcabi.github.DeployKeys;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -50,7 +48,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canFetchEmptyListOfDeployKeys() throws Exception {
-        final DeployKeys deployKeys = MkDeployKeysTest.repo().keys();
+        final DeployKeys deployKeys = new MkGithub().randomRepo().keys();
         MatcherAssert.assertThat(
             deployKeys.iterate(),
             Matchers.emptyIterable()
@@ -63,7 +61,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canFetchSingleDeployKey() throws Exception {
-        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey key = keys.create("Title", "Key");
         MatcherAssert.assertThat(keys.get(key.number()), Matchers.equalTo(key));
     }
@@ -74,7 +72,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canCreateDeployKey() throws Exception {
-        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey key = keys.create("Title1", "Key1");
         MatcherAssert.assertThat(key, Matchers.equalTo(keys.get(key.number())));
     }
@@ -86,7 +84,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canCreateDistinctDeployKeys() throws Exception {
-        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey first = keys.create("Title2", "Key2");
         final DeployKey second = keys.create("Title3", "Key3");
         MatcherAssert.assertThat(
@@ -106,7 +104,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canRepresentAsJson() throws Exception {
-        final DeployKeys keys = MkDeployKeysTest.repo().keys();
+        final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey first = keys.create("Title4", "Key4");
         MatcherAssert.assertThat(
             first.json().toString(),
@@ -114,17 +112,6 @@ public final class MkDeployKeysTest {
                 Matchers.containsString("\"title\":\"Title4\""),
                 Matchers.containsString("\"key\":\"Key4\"")
             )
-        );
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
         );
     }
 }

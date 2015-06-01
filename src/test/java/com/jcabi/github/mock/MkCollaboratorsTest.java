@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Collaborators;
-import com.jcabi.github.Repos;
 import com.jcabi.github.User;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -93,8 +92,6 @@ public final class MkCollaboratorsTest {
      * @throws Exception If some problem inside
      */
     private Collaborators collaborators() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).collaborators();
+        return new MkGithub().randomRepo().collaborators();
     }
 }

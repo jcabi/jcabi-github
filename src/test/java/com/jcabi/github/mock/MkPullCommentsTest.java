@@ -124,23 +124,36 @@ public final class MkPullCommentsTest {
         final String commit = "commit_id";
         final String path = "path";
         final String bodytext = "some text as a body";
-        MkPullCommentsTest.repo(storage).pulls()
+        final String login = "jamie";
+        final String reponame = "incredible";
+        final Repo repo = new MkGithub(storage, login).repos().create(
+            new Repos.RepoCreate(reponame, false)
+        );
+        repo.pulls()
             .create("pullrequest1", "head", "base").comments()
             .post(bodytext, commit, path, 1);
         final String[] fields = {commit, path};
         for (final String element : fields) {
-            MkPullCommentsTest.assertFieldContains(storage, element);
+            MkPullCommentsTest.assertFieldContains(storage, repo, element);
         }
         final List<String> position = storage.xml().xpath(
-            // @checkstyle LineLength (1 line)
-            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/position/text()"
+            String.format(
+                // @checkstyle LineLength (1 line)
+                "/github/repos/repo[@coords='%s/%s']/pulls/pull/comments/comment/position/text()",
+                repo.coordinates().user(),
+                repo.coordinates().repo()
+            )
         );
         MatcherAssert.assertThat(
             position.get(0), Matchers.notNullValue()
         );
         final List<String> body = storage.xml().xpath(
-            // @checkstyle LineLength (1 line)
-            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/body/text()"
+            String.format(
+                // @checkstyle LineLength (1 line)
+                "/github/repos/repo[@coords='%s/%s']/pulls/pull/comments/comment/body/text()",
+                repo.coordinates().user(),
+                repo.coordinates().repo()
+            )
         );
         MatcherAssert.assertThat(body.get(0), Matchers.equalTo(bodytext));
     }
@@ -206,37 +219,27 @@ public final class MkPullCommentsTest {
      * @throws IOException If an IO Exception occurs
      */
     private PullComments comments() throws IOException {
-        return new MkGithub().repos().create(
-            // @checkstyle MultipleStringLiteralsCheck (3 lines)
-            new Repos.RepoCreate("test", false)
-        ).pulls().create("hello", "", "").comments();
-    }
-
-    /**
-     * Create a test repo.
-     * @param storage The storage
-     * @return Test repo
-     * @throws IOException If any I/O error occurs.
-     */
-    private static Repo repo(
-        final MkStorage storage) throws IOException {
-        final String login = "test";
-        return new MkGithub(storage, login).repos().create(
-            new Repos.RepoCreate(login, false)
-        );
+        // @checkstyle MultipleStringLiteralsCheck (1 line)
+        return new MkGithub().randomRepo().pulls().create("hello", "", "")
+            .comments();
     }
 
     /**
      * Assert if fields doesn't contain value.
      * @param storage The storage
+     * @param repo The repo
      * @param element The element to be tested and the value.
      * @throws IOException If any I/O error occurs.
      */
-    private static void assertFieldContains(final MkStorage storage,
+    private static void assertFieldContains(
+        final MkStorage storage,
+        final Repo repo,
         final String element) throws IOException {
         final String xpath = String.format(
             // @checkstyle LineLength (1 line)
-            "/github/repos/repo[@coords='test/test']/pulls/pull/comments/comment/%s/text()",
+            "/github/repos/repo[@coords='%s/%s']/pulls/pull/comments/comment/%s/text()",
+            repo.coordinates().user(),
+            repo.coordinates().repo(),
             element
         );
         MatcherAssert.assertThat(

@@ -33,7 +33,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Reference;
 import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -52,7 +51,8 @@ public final class MkReferencesTest {
      */
     @Test
     public void createsMkReference() throws Exception {
-        final References refs = this.repo().git().references();
+        final References refs = new MkGithub().randomRepo()
+            .git().references();
         MatcherAssert.assertThat(
             refs.create("refs/heads/branch1", "abcderf122"),
             Matchers.notNullValue()
@@ -65,7 +65,8 @@ public final class MkReferencesTest {
      */
     @Test
     public void returnsRepo() throws Exception {
-        final References refs = this.repo().git().references();
+        final References refs = new MkGithub().randomRepo()
+            .git().references();
         MatcherAssert.assertThat(
             refs.repo(),
             Matchers.notNullValue()
@@ -78,7 +79,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesReferences() throws Exception {
-        final Repo owner = this.repo();
+        final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
@@ -94,7 +95,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesReferencesInSubNamespace() throws Exception {
-        final Repo owner = this.repo();
+        final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
@@ -114,7 +115,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesTags() throws Exception {
-        final Repo owner = this.repo();
+        final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/tags/t2", "2322f34");
         MatcherAssert.assertThat(
@@ -129,7 +130,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesHeads() throws Exception {
-        final Repo owner = this.repo();
+        final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/branch2", "blahblah");
         MatcherAssert.assertThat(
@@ -144,7 +145,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void removesReference() throws Exception {
-        final Repo owner = this.repo();
+        final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/testbr", "qweqwe22");
         refs.create("refs/tags/t2", "111teee");
@@ -158,15 +159,4 @@ public final class MkReferencesTest {
             Matchers.<Reference>iterableWithSize(1)
         );
     }
-    /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

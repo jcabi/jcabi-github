@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -70,7 +69,7 @@ public final class MkForksTest {
      */
     @Test
     public void iteratesForks() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Fork fork = repo.forks().create("Organization");
         final Iterable<Fork> iterate = repo.forks().iterate("Order");
         MatcherAssert.assertThat(
@@ -82,17 +81,4 @@ public final class MkForksTest {
             Matchers.hasItem(fork)
         );
     }
-
-    /**
-     * Create a repo to work with.
-     *
-     * @return Repo
-     * @throws Exception if a problem occurs.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

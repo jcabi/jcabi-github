@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Github;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
-import com.jcabi.github.Repos;
 import java.io.IOException;
 import javax.json.JsonString;
 import javax.json.JsonValue;
@@ -239,8 +238,6 @@ public final class MkReleaseTest {
      * @throws IOException if any I/O problems occur.
      */
     private static Releases releases() throws IOException {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).releases();
+        return new MkGithub().randomRepo().releases();
     }
 }

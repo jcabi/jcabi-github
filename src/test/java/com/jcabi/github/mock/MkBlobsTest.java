@@ -31,8 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Blob;
 import com.jcabi.github.Blobs;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -51,7 +49,7 @@ public final class MkBlobsTest {
      */
     @Test
     public void canCreateBlob() throws Exception {
-        final Blobs blobs = repo().git().blobs();
+        final Blobs blobs = new MkGithub().randomRepo().git().blobs();
         final Blob blob = blobs.create("content1", "encoding1");
         MatcherAssert.assertThat(
             blobs.get(blob.sha()),
@@ -65,22 +63,11 @@ public final class MkBlobsTest {
      */
     @Test
     public void getBlob() throws Exception {
-        final Blobs blobs = repo().git().blobs();
+        final Blobs blobs = new MkGithub().randomRepo().git().blobs();
         final Blob created =  blobs.create("content", "base64");
         MatcherAssert.assertThat(
             blobs.get(created.sha()),
             Matchers.notNullValue()
-        );
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").repos().create(
-            new Repos.RepoCreate("test", false)
         );
     }
 }

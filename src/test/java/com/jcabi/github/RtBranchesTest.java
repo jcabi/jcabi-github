@@ -52,19 +52,6 @@ import org.junit.Test;
  */
 public final class RtBranchesTest {
     /**
-     * Name parameter.
-     */
-    private static final String NAME_PARAM = "name";
-    /**
-     * Name of test user to own test repository.
-     */
-    private static final String REPO_USER = "mary";
-    /**
-     * Name of test repository.
-     */
-    private static final String REPO_NAME = "epicness";
-
-    /**
      * RtBranches can iterate over all branches.
      * @throws Exception if there is any error
      */
@@ -87,7 +74,7 @@ public final class RtBranchesTest {
             .start();
         final RtBranches branches = new RtBranches(
             new JdkRequest(container.home()),
-            repository()
+            new MkGithub().randomRepo()
         );
         MatcherAssert.assertThat(
             branches.iterate(),
@@ -115,11 +102,17 @@ public final class RtBranchesTest {
      */
     @Test
     public void fetchesRepo() throws IOException {
-        final Repo repo = RtBranchesTest.repository();
+        final Repo repo = new MkGithub().randomRepo();
         final RtBranches branch = new RtBranches(new FakeRequest(), repo);
         final Coordinates coords = branch.repo().coordinates();
-        MatcherAssert.assertThat(coords.user(), Matchers.equalTo(REPO_USER));
-        MatcherAssert.assertThat(coords.repo(), Matchers.equalTo(REPO_NAME));
+        MatcherAssert.assertThat(
+            coords.user(),
+            Matchers.equalTo(repo.coordinates().user())
+        );
+        MatcherAssert.assertThat(
+            coords.repo(),
+            Matchers.equalTo(repo.coordinates().repo())
+        );
     }
 
     /**
@@ -132,7 +125,7 @@ public final class RtBranchesTest {
     private static JsonObject branch(final String name, final String sha)
         throws Exception {
         return Json.createObjectBuilder()
-            .add(NAME_PARAM, name)
+            .add("name", name)
             .add(
                 "commit",
                 Json.createObjectBuilder()
@@ -141,16 +134,5 @@ public final class RtBranchesTest {
                     .add("url", String.format("https://api.jcabi-github.invalid/repos/user/repo/commits/%s", sha))
             )
             .build();
-    }
-
-    /**
-     * Mock repo for RtBranch creation.
-     * @return The mock repo.
-     * @throws IOException If there is any I/O problem
-     */
-    private static Repo repository() throws IOException {
-        return new MkGithub(REPO_USER).repos().create(
-            new Repos.RepoCreate(REPO_NAME, false)
-        );
     }
 }

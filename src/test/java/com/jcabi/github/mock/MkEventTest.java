@@ -52,9 +52,7 @@ public final class MkEventTest {
     public void canGetCreatedAt() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
-        final Repo repo = new MkGithub(storage, user).repos().create(
-            new Repos.RepoCreate("test", false)
-        );
+        final Repo repo = new MkGithub(storage, user).randomRepo();
         final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
         final int eventnum = events.create(
             "test_type",

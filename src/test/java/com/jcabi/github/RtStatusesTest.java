@@ -70,7 +70,12 @@ public class RtStatusesTest {
         ).start();
         final Request req = new ApacheRequest(container.home());
         final Statuses statuses = new RtStatuses(
-            req, new RtCommit(req, repo(), "0abcd89jcabitest")
+            req,
+            new RtCommit(
+                req,
+                new MkGithub().randomRepo(),
+                "0abcd89jcabitest"
+            )
         );
         try {
             statuses.create(
@@ -87,17 +92,5 @@ public class RtStatusesTest {
         } finally {
             container.stop();
         }
-    }
-
-    /**
-     * This method returns a Repo for testing.
-     *
-     * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
     }
 }

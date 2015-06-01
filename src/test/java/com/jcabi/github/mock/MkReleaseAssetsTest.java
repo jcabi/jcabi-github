@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -118,8 +117,6 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If some problem inside
      */
     private static Release release() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).releases().create("v1.0");
+        return new MkGithub().randomRepo().releases().create("v1.0");
     }
 }

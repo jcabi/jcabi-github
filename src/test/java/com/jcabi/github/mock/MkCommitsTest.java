@@ -31,8 +31,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Commit;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -59,13 +57,14 @@ public class MkCommitsTest {
             .add("date", "2008-07-09T16:13:30+12:00").build();
         final JsonArray tree = Json.createArrayBuilder()
             .add("xyzsha12").build();
-        final Commit newCommit = this.repo().git().commits().create(
-            Json.createObjectBuilder().add("message", "my commit message")
-                .add("sha", "12ahscba")
-                .add("tree", "abcsha12")
-                .add("parents", tree)
-                .add("author", author).build()
-        );
+        final Commit newCommit = new MkGithub().randomRepo()
+            .git().commits().create(
+                Json.createObjectBuilder().add("message", "my commit message")
+                    .add("sha", "12ahscba")
+                    .add("tree", "abcsha12")
+                    .add("parents", tree)
+                    .add("author", author).build()
+            );
         MatcherAssert.assertThat(
             newCommit,
             Matchers.notNullValue()
@@ -73,17 +72,6 @@ public class MkCommitsTest {
         MatcherAssert.assertThat(
             newCommit.sha(),
             Matchers.equalTo("12ahscba")
-        );
-    }
-
-    /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
         );
     }
 }

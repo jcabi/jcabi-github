@@ -30,7 +30,6 @@
 
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Repos;
 import com.jcabi.github.Tag;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -67,9 +66,7 @@ public final class MkTagTest {
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "abcsha12").add("message", "test tag")
             .add("name", "v.0.1").build();
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).git().tags().create(json);
+        return new MkGithub().randomRepo().git().tags().create(json);
     }
 
 }

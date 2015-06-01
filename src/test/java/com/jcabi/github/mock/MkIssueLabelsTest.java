@@ -34,7 +34,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import java.util.Collections;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
@@ -58,7 +57,7 @@ public final class MkIssueLabelsTest {
      */
     @Test
     public void iteratesIssues() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final String name = "bug";
         repo.labels().create(name, "c0c0c0");
         final Issue issue = repo.issues().create("title", "body");
@@ -75,7 +74,7 @@ public final class MkIssueLabelsTest {
      */
     @Test
     public void createsLabelsThroughDecorator() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("how are you?", "");
         final String name = "task";
         new IssueLabels.Smart(issue.labels()).addIfAbsent(name, "f0f0f0");
@@ -91,7 +90,7 @@ public final class MkIssueLabelsTest {
      */
     @Test
     public void addingLabelGeneratesEvent() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final String name = "confirmed";
         repo.labels().create(name, "663399");
         final Issue issue = repo.issues().create("Titular", "Corpus");
@@ -127,7 +126,7 @@ public final class MkIssueLabelsTest {
      */
     @Test
     public void removingLabelGeneratesEvent() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final String name = "invalid";
         repo.labels().create(name, "ee82ee");
         final Issue issue = repo.issues().create("Rewrite", "Sound good?");
@@ -155,17 +154,6 @@ public final class MkIssueLabelsTest {
         MatcherAssert.assertThat(
             unlabeled.label().get().name(),
             Matchers.equalTo(name)
-        );
-    }
-
-    /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
         );
     }
 }

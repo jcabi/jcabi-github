@@ -30,8 +30,6 @@
 
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import com.jcabi.github.Stars;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -50,7 +48,7 @@ public class MkStarsTest {
      */
     @Test
     public final void starsRepository() throws Exception {
-        final Stars stars = this.repo().stars();
+        final Stars stars = new MkGithub().randomRepo().stars();
         stars.star();
         MatcherAssert.assertThat(
             stars.starred(),
@@ -64,7 +62,7 @@ public class MkStarsTest {
      */
     @Test
     public final void unstarsRepository() throws Exception {
-        final Stars stars = this.repo().stars();
+        final Stars stars = new MkGithub().randomRepo().stars();
         stars.star();
         stars.unstar();
         MatcherAssert.assertThat(
@@ -72,16 +70,4 @@ public class MkStarsTest {
             Matchers.is(false)
         );
     }
-
-    /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }
