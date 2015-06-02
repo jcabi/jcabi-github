@@ -29,10 +29,8 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.log.Logger;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -68,12 +66,7 @@ public final class RtIssueITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
-                false
-            ).withAutoInit(true)
-        );
+        repo = new RepoRule().repo(repos);
     }
 
     /**

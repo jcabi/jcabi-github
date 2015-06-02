@@ -72,12 +72,7 @@ public final class RtMilestonesITCase {
             new RtGithub(key).entry().through(RetryWire.class)
         );
         repos = github.repos();
-        repo = repos.create(
-            new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
-                false
-            ).withAutoInit(true)
-        );
+        repo = new RepoRule().repo(repos);
     }
 
     /**

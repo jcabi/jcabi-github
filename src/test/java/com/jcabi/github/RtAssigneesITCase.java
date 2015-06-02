@@ -67,12 +67,7 @@ public final class RtAssigneesITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
-                false
-            ).withAutoInit(true)
-        );
+        repo = new RepoRule().repo(repos);
     }
 
     /**
