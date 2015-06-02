@@ -34,6 +34,7 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Locale;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
@@ -106,7 +107,7 @@ public class RtStatuses implements Statuses {
         @NotNull(message = "status can't be NULL") final Status status
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-            .add("state", status.state().name())
+            .add("state", status.state().name().toLowerCase(Locale.getDefault()))
             .add("target_url", status.targetUrl())
             .add("description", status.description())
             .add("context", status.context())
