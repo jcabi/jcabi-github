@@ -69,7 +69,9 @@ public final class MkHooksTest {
         final Hooks hooks = MkHooksTest.repo().hooks();
         final Hook hook = hooks.create(
             // @checkstyle MultipleStringLiterals (1 line)
-            "geocommit", Collections.<String, String>emptyMap()
+            "web",
+            Collections.<String, String>emptyMap(),
+            true
         );
         MatcherAssert.assertThat(
             hooks.iterate(),
@@ -91,7 +93,9 @@ public final class MkHooksTest {
         final Hooks hooks = MkHooksTest.repo().hooks();
         final Hook hook = hooks.create(
             // @checkstyle MultipleStringLiterals (1 line)
-            "geocommit", Collections.<String, String>emptyMap()
+            "web",
+            Collections.<String, String>emptyMap(),
+            true
         );
         MatcherAssert.assertThat(
             hooks.get(hook.number()),
@@ -108,10 +112,14 @@ public final class MkHooksTest {
         final Hooks hooks = MkHooksTest.repo().hooks();
         hooks.create(
             // @checkstyle MultipleStringLiterals (1 line)
-            "geocommit", Collections.<String, String>emptyMap()
+            "web",
+            Collections.<String, String>emptyMap(),
+            true
         );
         hooks.create(
-            "web", Collections.<String, String>emptyMap()
+            "web",
+            Collections.<String, String>emptyMap(),
+            true
         );
         MatcherAssert.assertThat(
             hooks.iterate(),
@@ -127,7 +135,9 @@ public final class MkHooksTest {
     public void canCreateHook() throws Exception {
         final Hooks hooks = MkHooksTest.repo().hooks();
         final Hook hook = hooks.create(
-            "geocommit", Collections.<String, String>emptyMap()
+            "web",
+            Collections.<String, String>emptyMap(),
+            true
         );
         MatcherAssert.assertThat(
             hooks.iterate().iterator().next().number(),

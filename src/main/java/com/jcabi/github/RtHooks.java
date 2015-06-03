@@ -127,7 +127,9 @@ final class RtHooks implements Hooks {
     public Hook create(
         @NotNull(message = "name can't be NULL") final String name,
         @NotNull(message = "config can't be NULL")
-        final Map<String, String> config) throws IOException {
+        final Map<String, String> config,
+        final boolean active
+    ) throws IOException {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final Map.Entry<String, String> entr : config.entrySet()) {
             builder.add(entr.getKey(), entr.getValue());
@@ -135,6 +137,7 @@ final class RtHooks implements Hooks {
         final JsonStructure json = Json.createObjectBuilder()
             .add("name", name)
             .add("config", builder)
+            .add("active", active)
             .build();
         return this.get(
             this.request.method(Request.POST)
