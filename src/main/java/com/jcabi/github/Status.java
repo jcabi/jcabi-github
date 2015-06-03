@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import javax.validation.constraints.NotNull;
 
@@ -39,7 +40,7 @@ import javax.validation.constraints.NotNull;
  * @since 0.23
  */
 @Immutable
-public interface Status {
+public interface Status extends JsonReadable {
 
     /**
      * Get state.
@@ -52,57 +53,82 @@ public interface Status {
      * Get URL.
      * @return URL as string.
      */
-    String targetUrl();
+    Optional<String> targetUrl();
 
     /**
      * Get description.
      * @return Description as string.
      */
-    String description();
+    Optional<String> description();
 
     /**
      * Get context.
      * @return Context as string
      */
-    String context();
+    Optional<String> context();
 
     /**
      * States of Status API.
      * @author Marcin Cylke(marcin.cylke+github@gmail.com)
      * @version $Id$
      */
-    public enum State {
+    enum State implements StringEnum {
         /**
          * Pending state.
          */
-        Pending,
+        Pending("pending"),
         /**
          * Success state.
          */
-        Success,
+        Success("success"),
         /**
          * Error state.
          */
-        Error,
+        Error("error"),
         /**
          * Failure state.
          */
-        Failure;
+        Failure("failure");
 
         /**
-         * Get enum value from string.
-         * @param name Enum name
-         * @return Matched enum name
+         * Commit status state.
          */
-        public static State forValue(final String name) {
+        private final transient String state;
+
+        /**
+         * Ctor.
+         * @param stat Commit status state string
+         */
+        State(final String stat) {
+            this.state = stat;
+        }
+
+        /**
+         * Get enum value from identifier string.
+         * @param ident Commit status state string
+         * @return Corresponding State
+         */
+        public static State forValue(
+            @NotNull(message = "ident is never NULL") final String ident
+        ) {
             for (final State state : State.values()) {
-                if (name != null && state.name().equalsIgnoreCase(name)) {
+                if (state.identifier().equalsIgnoreCase(ident)) {
                     return state;
                 }
             }
             throw new IllegalArgumentException(
-                    String.format("No enum value found for %s", name)
+                    String.format("No enum value found for %s", ident)
             );
+        }
+
+        /**
+         * Get commit status state string.
+         * @return String
+         */
+        @Override
+        @NotNull(message = "identifier is never NULL")
+        public String identifier() {
+            return this.state;
         }
     }
 }

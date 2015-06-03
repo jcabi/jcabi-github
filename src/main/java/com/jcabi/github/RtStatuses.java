@@ -29,14 +29,13 @@
  */
 package com.jcabi.github;
 
+import com.google.common.base.Optional;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -105,14 +104,8 @@ public class RtStatuses implements Statuses {
     public final Status create(
         @NotNull(message = "status can't be NULL") final Status status
     ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("state", status.state().name())
-            .add("target_url", status.targetUrl())
-            .add("description", status.description())
-            .add("context", status.context())
-            .build();
         final JsonObject response = this.request.method(Request.POST)
-            .body().set(json).back()
+            .body().set(status.json()).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)
@@ -120,9 +113,9 @@ public class RtStatuses implements Statuses {
             .json().readObject();
         return new RtStatus(
             Status.State.forValue(response.getString("state")),
-            response.getString("target_url"),
-            response.getString("description"),
-            response.getString("context")
+            Optional.fromNullable(response.getString("target_url", null)),
+            Optional.fromNullable(response.getString("description", null)),
+            Optional.fromNullable(response.getString("context", null))
         );
     }
 

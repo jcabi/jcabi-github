@@ -29,8 +29,11 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Loggable;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
@@ -40,7 +43,6 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.23
  */
-@Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "cstate", "url", "message", "name" })
 public final class RtStatus implements Status {
@@ -53,17 +55,17 @@ public final class RtStatus implements Status {
     /**
      * Details url.
      */
-    private final transient String url;
+    private final transient Optional<String> url;
 
     /**
      * Complete message.
      */
-    private final transient String message;
+    private final transient Optional<String> message;
 
     /**
      * Short message.
      */
-    private final transient String name;
+    private final transient Optional<String> name;
 
     /**
      * Create new status object.
@@ -74,10 +76,14 @@ public final class RtStatus implements Status {
      * @checkstyle ParameterNumberCheck (500 lines)
      */
     public RtStatus(
-        @NotNull(message = "status can't be NULL") final State status,
-        final String address,
-        final String descr,
-        final String ctx
+        @NotNull(message = "status can't be NULL")
+        final State status,
+        @NotNull(message = "address optional itself can't be NULL")
+        final Optional<String> address,
+        @NotNull(message = "descr optional itself can't be NULL")
+        final Optional<String> descr,
+        @NotNull(message = "ctx optional itself can't be NULL")
+        final Optional<String> ctx
     ) {
         this.url = address;
         this.message = descr;
@@ -90,6 +96,7 @@ public final class RtStatus implements Status {
      * @return Present status
      */
     @Override
+    @NotNull(message = "state is never NULL")
     public State state() {
         return this.cstate;
     }
@@ -99,7 +106,7 @@ public final class RtStatus implements Status {
      * @return Url as string
      */
     @Override
-    public String targetUrl() {
+    public Optional<String> targetUrl() {
         return this.url;
     }
 
@@ -108,7 +115,7 @@ public final class RtStatus implements Status {
      * @return Description string
      */
     @Override
-    public String description() {
+    public Optional<String> description() {
         return this.message;
     }
 
@@ -117,7 +124,24 @@ public final class RtStatus implements Status {
      * @return Context
      */
     @Override
-    public String context() {
+    public Optional<String> context() {
         return this.name;
+    }
+
+    @Override
+    @NotNull(message = "json is never NULL")
+    public JsonObject json() {
+        JsonObjectBuilder builder = Json.createObjectBuilder()
+            .add("state", this.cstate.identifier());
+        if (this.url.isPresent()) {
+            builder = builder.add("target_url", this.url.get());
+        }
+        if (this.message.isPresent()) {
+            builder = builder.add("description", this.message.get());
+        }
+        if (this.name.isPresent()) {
+            builder = builder.add("context", this.name.get());
+        }
+        return builder.build();
     }
 }

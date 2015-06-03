@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.google.common.base.Optional;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
@@ -75,15 +76,16 @@ public class RtStatusesTest {
         try {
             statuses.create(
                 new RtStatus(
-                    Status.State.Failure, "http://example.com",
-                    "description", "ctx"
+                    Status.State.Failure,
+                    Optional.of("http://example.com"),
+                    Optional.of("description"),
+                    Optional.of("ctx")
                 )
             );
             MatcherAssert.assertThat(
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            Matchers.equalToIgnoringCase(Status.State.Failure.name());
         } finally {
             container.stop();
         }
