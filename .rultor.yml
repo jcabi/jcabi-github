@@ -18,7 +18,6 @@ merge:
   - krzyk
   - longtimeago
   - pinaf
-  - yegor256
   script: |-
     mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml
     mvn clean
