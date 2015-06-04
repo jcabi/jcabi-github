@@ -76,7 +76,7 @@ public class RtStatusesTest {
         try {
             statuses.create(
                 new RtStatus(
-                    Status.State.Failure,
+                    Status.State.FAILURE,
                     Optional.of("http://example.com"),
                     Optional.of("description"),
                     Optional.of("ctx")

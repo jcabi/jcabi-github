@@ -76,19 +76,19 @@ public interface Status extends JsonReadable {
         /**
          * Pending state.
          */
-        Pending("pending"),
+        PENDING("pending"),
         /**
          * Success state.
          */
-        Success("success"),
+        SUCCESS("success"),
         /**
          * Error state.
          */
-        Error("error"),
+        ERROR("error"),
         /**
          * Failure state.
          */
-        Failure("failure");
+        FAILURE("failure");
 
         /**
          * Commit status state.
