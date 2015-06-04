@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
+import java.util.Locale;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -111,14 +112,7 @@ public interface Status extends JsonReadable {
         public static State forValue(
             @NotNull(message = "ident is never NULL") final String ident
         ) {
-            for (final State state : State.values()) {
-                if (state.identifier().equalsIgnoreCase(ident)) {
-                    return state;
-                }
-            }
-            throw new IllegalArgumentException(
-                    String.format("No enum value found for %s", ident)
-            );
+            return State.valueOf(ident.toUpperCase(Locale.ENGLISH));
         }
 
         /**
