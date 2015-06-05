@@ -85,7 +85,9 @@ public interface Hooks {
      * @return Hook
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/hooks/#create-a-hook">Create a hook</a>
-     * @todo #1106:30min Add support for the "events" parameter.
+     * @todo #1106:30min Add support for the "events" parameter of the hook
+     *  creation API. It's a list of strings of the names of events which the
+     *  hook will be triggered for.
      */
     @NotNull(message = "hook is never NULL")
     Hook create(
