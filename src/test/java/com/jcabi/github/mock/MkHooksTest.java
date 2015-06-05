@@ -31,8 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
-import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -47,12 +45,17 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkHooksTest {
     /**
+     * Type of hook to create and use for tests.
+     */
+    private static final String HOOK_TYPE = "web";
+
+    /**
      * MkHooks can fetch empty list of hooks.
      * @throws Exception if some problem inside
      */
     @Test
     public void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hooks hooks = MkHooksTest.newHooks();
         MatcherAssert.assertThat(
             hooks.iterate(),
             Matchers.emptyIterable()
@@ -66,10 +69,9 @@ public final class MkHooksTest {
      */
     @Test
     public void canDeleteSingleHook() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            // @checkstyle MultipleStringLiterals (1 line)
-            "web",
+            HOOK_TYPE,
             Collections.<String, String>emptyMap(),
             true
         );
@@ -90,10 +92,9 @@ public final class MkHooksTest {
      */
     @Test
     public void canFetchSingleHook() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            // @checkstyle MultipleStringLiterals (1 line)
-            "web",
+            HOOK_TYPE,
             Collections.<String, String>emptyMap(),
             true
         );
@@ -109,15 +110,14 @@ public final class MkHooksTest {
      */
     @Test
     public void canFetchNonEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hooks hooks = MkHooksTest.newHooks();
         hooks.create(
-            // @checkstyle MultipleStringLiterals (1 line)
-            "web",
+            HOOK_TYPE,
             Collections.<String, String>emptyMap(),
             true
         );
         hooks.create(
-            "web",
+            HOOK_TYPE,
             Collections.<String, String>emptyMap(),
             true
         );
@@ -133,9 +133,9 @@ public final class MkHooksTest {
      */
     @Test
     public void canCreateHook() throws Exception {
-        final Hooks hooks = MkHooksTest.repo().hooks();
+        final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            "web",
+            HOOK_TYPE,
             Collections.<String, String>emptyMap(),
             true
         );
@@ -146,14 +146,11 @@ public final class MkHooksTest {
     }
 
     /**
-     * Create a repo to work with.
-     * @return Repo
+     * Create hooks to work with.
+     * @return Hooks
      * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
+    private static Hooks newHooks() throws Exception {
+        return new MkGithub().randomRepo().hooks();
     }
-
 }
