@@ -29,9 +29,11 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -146,9 +148,22 @@ public final class RtHooksITCase {
      * @throws IOException If there is any I/O problem
      */
     private static Hook createHook(final Repo repo) throws IOException {
+        final ConcurrentHashMap<String, String> config =
+            new ConcurrentHashMap<String, String>();
+        config.put(
+            "url",
+            String.format(
+                "http://github.jcabi.invalid/hooks/%s",
+                RandomStringUtils.random(Tv.TWENTY)
+            )
+        );
+        config.put("content_type", "json");
+        config.put("secret", "shibboleet");
+        config.put("insecure_ssl", "0");
         return repo.hooks().create(
-            "geocommit", Collections.<String, String>emptyMap()
+            "web",
+            config,
+            false
         );
     }
-
 }

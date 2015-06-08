@@ -129,7 +129,8 @@ final class MkHooks implements Hooks {
     public Hook create(
         @NotNull(message = "name can't be NULL") final String name,
         @NotNull(message = "config can't be NULL")
-        final Map<String, String> config
+        final Map<String, String> config,
+        final boolean active
     ) throws IOException {
         this.storage.lock();
         final int number;
@@ -141,7 +142,7 @@ final class MkHooks implements Hooks {
                 .add("hook")
                 .add("id").set(String.valueOf(number)).up()
                 .add("name").set(name).up()
-                .add("active").set("true").up()
+                .add("active").set(Boolean.toString(active)).up()
                 .add("events").up()
                 .add("config");
             for (final Map.Entry<String, String> entr : config.entrySet()) {

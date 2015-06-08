@@ -81,13 +81,18 @@ public interface Hooks {
      * Create new hook.
      * @param name Hook name
      * @param config Configuration for the hook
+     * @param active Actually trigger the hook when the events occur?
      * @return Hook
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/hooks/#create-a-hook">Create a hook</a>
+     * @todo #1106:30min Add support for the "events" parameter of the hook
+     *  creation API. It's a list of strings of the names of events which the
+     *  hook will be triggered for.
      */
     @NotNull(message = "hook is never NULL")
     Hook create(
         @NotNull(message = "name is never NULL") String name,
-        @NotNull(message = "config is never NULL") Map<String, String> config
+        @NotNull(message = "config is never NULL") Map<String, String> config,
+        boolean active
     ) throws IOException;
 }

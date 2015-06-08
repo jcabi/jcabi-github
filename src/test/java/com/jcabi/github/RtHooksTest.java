@@ -156,7 +156,7 @@ public final class RtHooksTest {
             RtHooksTest.repo()
         );
         try {
-            final Hook hook = hooks.create(name, config);
+            final Hook hook = hooks.create(name, config, true);
             MatcherAssert.assertThat(
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
