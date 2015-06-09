@@ -31,7 +31,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,15 +44,6 @@ import org.junit.Test;
  */
 public final class MkBranchTest {
     /**
-     * Test user to own test repository.
-     */
-    private static final String REPO_USER = "jacqueline";
-    /**
-     * Test repository name.
-     */
-    private static final String REPO_NAME = "wonderful";
-
-    /**
      * MkBranch can fetch its name.
      * @throws IOException If an I/O problem occurs
      */
@@ -61,7 +51,7 @@ public final class MkBranchTest {
     public void fetchesName() throws IOException {
         final String name = "topic";
         MatcherAssert.assertThat(
-            MkBranchTest.branches()
+            MkBranchTest.branches(new MkGithub().randomRepo())
                 .create(name, "f8dfc75138a2b57859b65cfc45239978081b8de4")
                 .name(),
             Matchers.equalTo(name)
@@ -76,7 +66,7 @@ public final class MkBranchTest {
     public void fetchesCommit() throws IOException {
         final String sha = "ad1298cac285d601cd66b37ec8989836d7c6e651";
         MatcherAssert.assertThat(
-            MkBranchTest.branches()
+            MkBranchTest.branches(new MkGithub().randomRepo())
                 .create("feature-branch", sha).commit().sha(),
             Matchers.equalTo(sha)
         );
@@ -88,30 +78,27 @@ public final class MkBranchTest {
      */
     @Test
     public void fetchesRepo() throws IOException {
-        final Coordinates coords = MkBranchTest.branches()
+        final Repo repo = new MkGithub().randomRepo();
+        final Coordinates coords = MkBranchTest.branches(repo)
             .create("test", "sha")
             .repo().coordinates();
-        MatcherAssert.assertThat(coords.user(), Matchers.equalTo(REPO_USER));
-        MatcherAssert.assertThat(coords.repo(), Matchers.equalTo(REPO_NAME));
-    }
-
-    /**
-     * Mock repo for MkBranch creation.
-     * @return The mock repo.
-     * @throws IOException If there is any I/O problem
-     */
-    private static Repo repository() throws IOException {
-        return new MkGithub(REPO_USER).repos().create(
-            new Repos.RepoCreate(REPO_NAME, false)
+        MatcherAssert.assertThat(
+            coords.user(),
+            Matchers.equalTo(repo.coordinates().user())
+        );
+        MatcherAssert.assertThat(
+            coords.repo(),
+            Matchers.equalTo(repo.coordinates().repo())
         );
     }
 
     /**
      * MkBranches for MkBranch creation.
+     * @param repo Repository to get MkBranches of
      * @return MkBranches
      * @throws IOException If there is any I/O problem
      */
-    private static MkBranches branches() throws IOException {
-        return (MkBranches) (repository().branches());
+    private static MkBranches branches(final Repo repo) throws IOException {
+        return (MkBranches) (repo.branches());
     }
 }

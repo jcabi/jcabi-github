@@ -61,7 +61,9 @@ public final class RtTagTest {
             )
         ).start();
         final Tag tag = new RtTag(
-            new ApacheRequest(container.home()), repo(), "abdes00test"
+            new ApacheRequest(container.home()),
+            new MkGithub().randomRepo(),
+            "abdes00test"
         );
         try {
             MatcherAssert.assertThat(
@@ -72,16 +74,4 @@ public final class RtTagTest {
             container.stop();
         }
     }
-
-    /**
-     * This method returns a Repo for testing.
-     * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

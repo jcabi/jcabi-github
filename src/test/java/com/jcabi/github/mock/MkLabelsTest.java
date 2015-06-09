@@ -33,7 +33,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -52,7 +51,7 @@ public final class MkLabelsTest {
      */
     @Test
     public void iteratesLabels() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         repo.labels().create("bug", "e0e0e0");
         MatcherAssert.assertThat(
             repo.labels().iterate(),
@@ -66,7 +65,7 @@ public final class MkLabelsTest {
      */
     @Test
     public void deletesLabels() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Labels labels = repo.labels();
         final String name = "label-0";
         labels.create(name, "e1e1e1");
@@ -89,7 +88,7 @@ public final class MkLabelsTest {
      */
     @Test
     public void setsLabelColor() throws Exception {
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final String color = "f0f0f0";
         final String name = "task";
         repo.labels().create(name, color);
@@ -98,16 +97,4 @@ public final class MkLabelsTest {
             Matchers.equalTo(color)
         );
     }
-
-    /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

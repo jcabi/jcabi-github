@@ -124,7 +124,7 @@ public final class MkCommentTest {
             Matchers.equalTo(
                 new URL(
                     // @checkstyle LineLength (1 line)
-                    "https://api.jcabi-github.invalid/repos/jeff/test/issues/comments/1"
+                    "https://api.jcabi-github.invalid/repos/jeff/blueharvest/issues/comments/1"
                 )
             )
         );
@@ -154,7 +154,7 @@ public final class MkCommentTest {
      */
     private Comment comment(final String text) throws Exception {
         return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
+            new Repos.RepoCreate("blueharvest", false)
         ).issues().create("hey", "how are you?").comments().post(text);
     }
 

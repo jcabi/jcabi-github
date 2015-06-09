@@ -72,7 +72,7 @@ public final class RepoRule implements TestRule {
             try {
                 repo = repos.create(
                     settings.withName(
-                        RandomStringUtils.randomAlphanumeric(Tv.TEN)
+                        RandomStringUtils.randomAlphanumeric(Tv.TWENTY)
                     )
                 );
             } catch (final AssertionError exception) {

@@ -64,7 +64,9 @@ public final class RtReferenceTest {
             )
         ).start();
         final Reference reference = new RtReference(
-            new ApacheRequest(container.home()), repo(), "refs/heads/featureA"
+            new ApacheRequest(container.home()),
+            new MkGithub().randomRepo(),
+            "refs/heads/featureA"
         );
         try {
             reference.patch(
@@ -93,7 +95,9 @@ public final class RtReferenceTest {
             )
         ).start();
         final Reference reference = new RtReference(
-            new ApacheRequest(container.home()), repo(), "refs/heads/featureB"
+            new ApacheRequest(container.home()),
+            new MkGithub().randomRepo(),
+            "refs/heads/featureB"
         );
         try {
             MatcherAssert.assertThat(
@@ -118,7 +122,9 @@ public final class RtReferenceTest {
             )
         ).start();
         final Reference reference = new RtReference(
-            new ApacheRequest(container.home()), repo(), "refs/heads/featureC"
+            new ApacheRequest(container.home()),
+            new MkGithub().randomRepo(),
+            "refs/heads/featureC"
         );
         try {
             MatcherAssert.assertThat(
@@ -136,7 +142,7 @@ public final class RtReferenceTest {
      */
     @Test
     public void returnsOwner() throws Exception {
-        final Repo owner = repo();
+        final Repo owner = new MkGithub().randomRepo();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -155,16 +161,4 @@ public final class RtReferenceTest {
             container.stop();
         }
     }
-
-    /**
-     * This method returns a Repo for testing.
-     * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

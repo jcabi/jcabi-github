@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import javax.json.Json;
@@ -59,7 +58,7 @@ public final class MkContentTest {
      */
     @Test
     public void canGetOwnRepo() throws Exception {
-        final Repo repo = MkContentTest.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Contents contents = repo.contents();
         final Content content = contents.create(
             jsonContent("repo.txt", "for repo", "json repo")
@@ -77,7 +76,7 @@ public final class MkContentTest {
      */
     @Test
     public void canGetOwnPath() throws Exception {
-        final Contents contents = MkContentTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final String path = "dummy.txt";
         final Content content = contents.create(
             jsonContent(path, "for path", "path test")
@@ -95,7 +94,7 @@ public final class MkContentTest {
      */
     @Test
     public void fetchesJsonRepresentation() throws Exception {
-        final Contents contents = MkContentTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final String path = "fake.txt";
         final Content content = contents.create(
             jsonContent(path, "for json", "json test")
@@ -114,7 +113,7 @@ public final class MkContentTest {
      */
     @Test
     public void fetchesRawRepresentation() throws Exception {
-        final Contents contents = MkContentTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final String raw = "raw test \u20ac\u0000";
         final InputStream stream = contents.create(
             jsonContent("raw.txt", "for raw", raw)
@@ -152,16 +151,5 @@ public final class MkContentTest {
                     content.getBytes(CharEncoding.UTF_8)
                 )
             ).build();
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
     }
 }

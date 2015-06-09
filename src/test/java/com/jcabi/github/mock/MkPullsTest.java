@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -54,7 +53,7 @@ public final class MkPullsTest {
      */
     @Test
     public void canCreateAPull() throws Exception {
-        final Repo repo = MkPullsTest.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Pull pull = repo.pulls().create("hello", "", "");
         final Issue.Smart issue = new Issue.Smart(
             repo.issues().get(pull.number())
@@ -83,16 +82,5 @@ public final class MkPullsTest {
     @Ignore
     public void canFetchSinglePull() throws Exception {
         // to be implemented
-    }
-
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
     }
 }

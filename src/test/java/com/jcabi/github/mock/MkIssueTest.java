@@ -35,7 +35,6 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import java.util.Collections;
 import java.util.Iterator;
 import org.hamcrest.CustomMatcher;
@@ -197,9 +196,7 @@ public final class MkIssueTest {
     public void canRememberItsAuthor() throws Exception {
         final MkGithub first = new MkGithub("first");
         final Github second = first.relogin("second");
-        final Repo repo = first.repos().create(
-            new Repos.RepoCreate("test", false)
-        );
+        final Repo repo = first.randomRepo();
         final int number = second.repos()
             .get(repo.coordinates())
             .issues()
@@ -308,9 +305,8 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     private Issue issue() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).issues().create("hey", "how are you?");
+        return new MkGithub().randomRepo()
+            .issues().create("hey", "how are you?");
     }
 
 }

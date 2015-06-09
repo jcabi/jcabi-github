@@ -31,7 +31,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -66,7 +65,7 @@ public final class MkTreesTest {
                 )
             ).build();
         MatcherAssert.assertThat(
-            this.repo().git().trees().create(tree),
+            new MkGithub().randomRepo().git().trees().create(tree),
             Matchers.notNullValue()
         );
     }
@@ -91,23 +90,11 @@ public final class MkTreesTest {
                     .build()
             ).build()
         ).build();
-        final Repo repo = this.repo();
+        final Repo repo = new MkGithub().randomRepo();
         repo.git().trees().create(json);
         MatcherAssert.assertThat(
             repo.git().trees().getRec(sha).json().getString("sha"),
             Matchers.containsString(sha)
         );
     }
-
-    /**
-     * Repo for testing.
-     * @return Repo
-     * @throws Exception - if something goes wrong.
-     */
-    private Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
 }

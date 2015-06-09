@@ -227,7 +227,7 @@ public final class MkGithub implements Github {
     public Repo randomRepo() throws IOException {
         return this.repos().create(
             new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                RandomStringUtils.randomAlphanumeric(Tv.TWENTY),
                 true
             )
         );

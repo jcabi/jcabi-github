@@ -61,7 +61,7 @@ public final class RtPullCommentTest {
     @Test
     public void canCompareInstances() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(new MkGithub().randomRepo()).when(pull).repo();
         final RtPullComment less =
             new RtPullComment(new FakeRequest(), pull, 1);
         final RtPullComment greater =
@@ -99,7 +99,7 @@ public final class RtPullCommentTest {
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith("/repos/joe/test/pulls/comments/1")
+                Matchers.endsWith("/repos/joe/blueharvest/pulls/comments/1")
             );
         } finally {
             container.stop();
@@ -133,7 +133,7 @@ public final class RtPullCommentTest {
             );
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/joe/test/pulls/comments/2")
+                Matchers.endsWith("/repos/joe/blueharvest/pulls/comments/2")
             );
         } finally {
             container.stop();
@@ -147,7 +147,7 @@ public final class RtPullCommentTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub("joe").repos().create(
-            new Repos.RepoCreate("test", false)
+            new Repos.RepoCreate("blueharvest", false)
         );
     }
 }

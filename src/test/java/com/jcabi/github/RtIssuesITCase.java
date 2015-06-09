@@ -29,14 +29,12 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -71,12 +69,7 @@ public final class RtIssuesITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
-        repo = repos.create(
-            new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
-                false
-            ).withAutoInit(true)
-        );
+        repo = new RepoRule().repo(repos);
     }
 
     /**

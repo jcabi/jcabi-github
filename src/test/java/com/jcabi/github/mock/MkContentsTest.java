@@ -33,7 +33,6 @@ import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
-import com.jcabi.github.Repos;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.Json;
@@ -58,7 +57,7 @@ public final class MkContentsTest {
      */
     @Test
     public void canFetchReadmeFile() throws Exception {
-        final Contents contents = MkContentsTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final String body = "Readme On Master";
         // @checkstyle MultipleStringLiterals (6 lines)
         contents.create(
@@ -78,7 +77,7 @@ public final class MkContentsTest {
     @Test
     public void canFetchReadmeFromBranch() throws Exception {
         final String branch = "branch-1";
-        final Contents contents = MkContentsTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final String body = "Readme On Branch";
         contents.create(
             content("README.md", "readme on branch", body)
@@ -100,7 +99,7 @@ public final class MkContentsTest {
     public void canCreateFile() throws Exception {
         final String path = "file.txt";
         final Content.Smart content = new Content.Smart(
-            this.createFile(MkContentsTest.repo(), path)
+            this.createFile(new MkGithub().randomRepo(), path)
         );
         MatcherAssert.assertThat(
             content.path(),
@@ -127,7 +126,7 @@ public final class MkContentsTest {
         final String branch = "branch-2";
         final String body = "some file";
         final Content.Smart content = new Content.Smart(
-            MkContentsTest.repo().contents().create(
+            new MkGithub().randomRepo().contents().create(
                 content(path, "some file", body)
                     .add("ref", branch)
                     .build()
@@ -158,7 +157,7 @@ public final class MkContentsTest {
      */
     @Test
     public void canRemoveFile() throws Exception {
-        final Repo repo = MkContentsTest.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final String path = "removeme.txt";
         this.createFile(repo, path);
         final JsonObject json = MkContentsTest
@@ -181,7 +180,7 @@ public final class MkContentsTest {
     @Test
     public void canRemoveFileFromBranch() throws Exception {
         final String branch = "branch-1";
-        final Repo repo = MkContentsTest.repo();
+        final Repo repo = new MkGithub().randomRepo();
         final String path = "removeme.txt";
         this.createFile(repo, path);
         final JsonObject json = MkContentsTest
@@ -208,7 +207,7 @@ public final class MkContentsTest {
         final String initial = "initial text";
         final String updated = "updated text";
         final String cont = "content";
-        final Contents contents = MkContentsTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         MatcherAssert.assertThat(
             contents.create(
                 MkContentsTest.content(path, message, initial).build()
@@ -272,7 +271,7 @@ public final class MkContentsTest {
         final String initial = "Hello World!";
         final String updated = "update content";
         final String branch = "master";
-        final Contents contents = MkContentsTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final JsonObject content = MkContentsTest
             .content(path, message, initial)
             .add("ref", branch)
@@ -299,7 +298,7 @@ public final class MkContentsTest {
     public void checkExists() throws Exception {
         final String path = "content-exist.txt";
         final String branch = "rel.08";
-        final Contents contents = MkContentsTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         contents.create(
             MkContentsTest.content(path, "commit", "content exists")
                 .add("ref", branch)
@@ -324,7 +323,7 @@ public final class MkContentsTest {
         final String path = "content-default-branch.txt";
         final String message = "content default branch created";
         final String text = "I'm content of default branch";
-        final Contents contents = MkContentsTest.repo().contents();
+        final Contents contents = new MkGithub().randomRepo().contents();
         final JsonObject content = MkContentsTest
             .content(path, message, text)
             .build();
@@ -438,17 +437,6 @@ public final class MkContentsTest {
     }
 
     /**
-     * Create a repo to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
-    }
-
-    /**
      * Create a test repo with custom {@code MkStorage}.
      * @param storage The storage
      * @return Test repo
@@ -457,9 +445,7 @@ public final class MkContentsTest {
     private static Repo repo(
         final MkStorage storage) throws IOException {
         final String login = "test";
-        return new MkGithub(storage, login).repos().create(
-            new Repos.RepoCreate(login, false)
-        );
+        return new MkGithub(storage, login).randomRepo();
     }
 
 }

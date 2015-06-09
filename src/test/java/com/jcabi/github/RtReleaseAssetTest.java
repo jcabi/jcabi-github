@@ -119,7 +119,7 @@ public final class RtReleaseAssetTest {
             );
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/john/test/releases/assets/2")
+                Matchers.endsWith("/repos/john/blueharvest/releases/assets/2")
             );
         } finally {
             container.stop();
@@ -189,7 +189,7 @@ public final class RtReleaseAssetTest {
     private static Release release() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final Repo repo = new MkGithub("john").repos().create(
-            new Repos.RepoCreate("test", false)
+            new Repos.RepoCreate("blueharvest", false)
         );
         Mockito.doReturn(repo).when(release).repo();
         Mockito.doReturn(1).when(release).number();

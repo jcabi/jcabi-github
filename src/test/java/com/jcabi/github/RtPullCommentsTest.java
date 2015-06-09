@@ -231,7 +231,8 @@ public final class RtPullCommentsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
         ).start();
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        final Repo repository = repo();
+        Mockito.doReturn(repository).when(pull).repo();
         final RtPullComments comments =
             new RtPullComments(new ApacheRequest(container.home()), pull);
         try {
@@ -242,7 +243,12 @@ public final class RtPullCommentsTest {
             );
             MatcherAssert.assertThat(
                 query.uri().toString(),
-                Matchers.endsWith("/repos/johnny/test/pulls/0/comments/2")
+                Matchers.endsWith(
+                    String.format(
+                        "/repos/johnny/%s/pulls/0/comments/2",
+                        repository.coordinates().repo()
+                    )
+                )
             );
         } finally {
             container.stop();
@@ -255,9 +261,7 @@ public final class RtPullCommentsTest {
      * @throws Exception - if anything goes wrong.
      */
     private static Repo repo() throws Exception {
-        return new MkGithub("johnny").repos().create(
-            new Repos.RepoCreate("test", false)
-        );
+        return new MkGithub("johnny").randomRepo();
     }
 
     /**

@@ -108,9 +108,7 @@ public final class RtReleaseAssetsTest {
      */
     private static Release release() throws Exception {
         final Release release = Mockito.mock(Release.class);
-        final Repo repo = new MkGithub("john").repos().create(
-            new Repos.RepoCreate("test", false)
-        );
+        final Repo repo = new MkGithub("john").randomRepo();
         Mockito.doReturn(repo).when(release).repo();
         Mockito.doReturn(1).when(release).number();
         return release;

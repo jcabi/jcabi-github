@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
-import com.jcabi.github.Repos;
 import com.jcabi.github.User;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -89,8 +88,6 @@ public final class MkAssigneesTest {
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").repos().create(
-            new Repos.RepoCreate("test", false)
-        );
+        return new MkGithub("Jonathan").randomRepo();
     }
 }

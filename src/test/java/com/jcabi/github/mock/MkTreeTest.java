@@ -30,7 +30,6 @@
 
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Repos;
 import com.jcabi.github.Tree;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -72,9 +71,7 @@ public final class MkTreeTest {
                     .add("name", "v.0.1").build()
             )
         ).build();
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        ).git().trees().create(json);
+        return new MkGithub().randomRepo().git().trees().create(json);
     }
 
 }

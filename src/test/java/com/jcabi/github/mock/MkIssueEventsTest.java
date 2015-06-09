@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Event;
-import com.jcabi.github.Repos;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -79,8 +78,13 @@ public final class MkIssueEventsTest {
         );
         MatcherAssert.assertThat(
             event.url().toString(),
-            // @checkstyle LineLength (1 line)
-            Matchers.equalTo("https://api.jcabi-github.invalid/repos/jeff/test/issues/events/1")
+            Matchers.equalTo(
+                String.format(
+                    // @checkstyle LineLength (1 line)
+                    "https://api.jcabi-github.invalid/repos/jeff/%s/issues/events/1",
+                    events.repo().coordinates().repo()
+                )
+            )
         );
         MatcherAssert.assertThat(
             event.createdAt().getTime(),
@@ -187,9 +191,7 @@ public final class MkIssueEventsTest {
      */
     private MkIssueEvents issueEvents() throws Exception {
         return MkIssueEvents.class.cast(
-            new MkGithub().repos().create(
-                new Repos.RepoCreate("test", false)
-            ).issueEvents()
+            new MkGithub().randomRepo().issueEvents()
         );
     }
 

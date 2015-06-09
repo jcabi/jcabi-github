@@ -30,7 +30,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.PullComment;
-import com.jcabi.github.Repos;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -80,8 +79,7 @@ public final class MkPullCommentTest {
      */
     private static PullComment comment() throws Exception {
         return new MkGithub()
-            .repos()
-            .create(new Repos.RepoCreate("test", false))
+            .randomRepo()
             .pulls()
             .create("hello", "", "")
             .comments()

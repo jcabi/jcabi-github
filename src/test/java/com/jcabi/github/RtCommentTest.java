@@ -59,7 +59,7 @@ public final class RtCommentTest {
      */
     @Test
     public void canCompareInstances() throws Exception {
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("title", "body");
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
         final RtComment greater = new RtComment(new FakeRequest(), issue, 2);
@@ -77,7 +77,7 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsIssue() throws Exception {
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
         MatcherAssert.assertThat(comment.issue(), Matchers.is(issue));
@@ -89,7 +89,7 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsNumber() throws Exception {
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing2", "issue2");
         final int num = 10;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
@@ -105,7 +105,7 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
         ).start();
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing3", "issue3");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
@@ -132,7 +132,7 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
         ).start();
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing4", "issue4");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
@@ -157,7 +157,7 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing5", "issue5");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
@@ -184,7 +184,7 @@ public final class RtCommentTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
-        final Repo repo = repo();
+        final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing6", "issue6");
         final RtComment comment = new RtComment(
             new ApacheRequest(container.home()), issue, 10
@@ -198,16 +198,5 @@ public final class RtCommentTest {
         } finally {
             container.stop();
         }
-    }
-
-    /**
-     * This method returns a Repo for testing.
-     * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
-     */
-    private static Repo repo() throws Exception {
-        return new MkGithub().repos().create(
-            new Repos.RepoCreate("test", false)
-        );
     }
 }

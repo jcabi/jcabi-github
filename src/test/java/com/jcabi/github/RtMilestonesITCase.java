@@ -72,12 +72,7 @@ public final class RtMilestonesITCase {
             new RtGithub(key).entry().through(RetryWire.class)
         );
         repos = github.repos();
-        repo = repos.create(
-            new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
-                false
-            ).withAutoInit(true)
-        );
+        repo = new RepoRule().repo(repos);
     }
 
     /**
@@ -99,7 +94,7 @@ public final class RtMilestonesITCase {
     public void iteratesIssues() throws Exception {
         final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create(
-            RandomStringUtils.randomAlphabetic(10)
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
         try {
             MatcherAssert.assertThat(
@@ -119,7 +114,7 @@ public final class RtMilestonesITCase {
     public void createsNewMilestone() throws Exception {
         final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create(
-            RandomStringUtils.randomAlphabetic(10)
+            RandomStringUtils.randomAlphabetic(Tv.TEN)
         );
         try {
             MatcherAssert.assertThat(
