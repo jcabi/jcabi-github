@@ -33,9 +33,13 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Commits comparison.
@@ -83,6 +87,12 @@ final class RtCommitsComparison implements CommitsComparison {
     }
 
     @Override
+    @NotNull(message = "files is never NULL")
+    public Iterable<FileChange> files() throws IOException {
+        return new FileChanges(this.json().getJsonArray("files"));
+    }
+
+    @Override
     @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
@@ -94,4 +104,74 @@ final class RtCommitsComparison implements CommitsComparison {
         return new RtJson(this.request).fetch();
     }
 
+    /**
+     * Iterator that yields FileChange objects converted
+     * from JSON objects in a JSON list.
+     */
+    @EqualsAndHashCode(of = { "iterator" })
+    @ToString
+    private static final class FileChangesIterator
+        implements Iterator<FileChange> {
+        /**
+         * Encapsulated iterator of file change JSON objects.
+         */
+        private final transient Iterator<JsonObject> iterator;
+
+        /**
+         * Ctor.
+         * @param iter Iterator of file change JSON objects
+         */
+        FileChangesIterator(
+            @NotNull(message = "files can't be NULL")
+            final Iterator<JsonObject> iter
+        ) {
+            this.iterator = iter;
+        }
+
+        @Override
+        public FileChange next() {
+            return new RtFileChange(this.iterator.next());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.iterator.hasNext();
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("#remove()");
+        }
+    }
+
+    /**
+     * Trivial iterable that returns FileChangesIterators using
+     * the given JSON list.
+     */
+    @EqualsAndHashCode(of = { "list" })
+    @Loggable(Loggable.DEBUG)
+    @ToString
+    private static final class FileChanges
+        implements Iterable<FileChange> {
+        /**
+         * List of file change JSON objects.
+         */
+        private final transient List<JsonObject> list;
+
+        /**
+         * Ctor.
+         * @param files JsonArray of file change objects
+         */
+        FileChanges(
+            @NotNull(message = "files can't be NULL")
+            final JsonArray files
+        ) {
+            this.list = files.getValuesAs(JsonObject.class);
+        }
+
+        @Override
+        public Iterator<FileChange> iterator() {
+            return new FileChangesIterator(this.list.iterator());
+        }
+    }
 }

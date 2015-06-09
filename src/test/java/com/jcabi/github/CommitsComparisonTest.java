@@ -101,7 +101,9 @@ public final class CommitsComparisonTest {
             )
         );
         MatcherAssert.assertThat(
-            comparison.files().getJsonObject(0).getString("filename"),
+            new FileChange.Smart(
+                comparison.files().iterator().next()
+            ).filename(),
             Matchers.equalTo(filename)
         );
     }
