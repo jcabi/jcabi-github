@@ -38,7 +38,7 @@ import javax.validation.constraints.NotNull;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
+ * @see <a href="https://developer.github.com/v3/users/">Users API</a>
  */
 @Immutable
 public interface Users {
