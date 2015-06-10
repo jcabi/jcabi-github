@@ -77,6 +77,13 @@ public interface Organization extends Comparable<Organization>,
     String login();
 
     /**
+     * Get this organization's public members.
+     * @return Public members
+     */
+    @NotNull(message = "public members is never NULL")
+    PublicMembers publicMembers();
+
+    /**
      * Smart Organization with extra features.
      */
     @Immutable
@@ -345,6 +352,12 @@ public interface Organization extends Comparable<Organization>,
         @NotNull(message = "github is never NULL")
         public Github github() {
             return this.org.github();
+        }
+
+        @Override
+        @NotNull(message = "public members is never NULL")
+        public PublicMembers publicMembers() {
+            return this.org.publicMembers();
         }
 
         @Override

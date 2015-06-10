@@ -55,6 +55,11 @@ final class RtOrganization implements Organization {
     private final transient Github ghub;
 
     /**
+     * API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -76,6 +81,7 @@ final class RtOrganization implements Organization {
         final String login
     ) {
         this.ghub = github;
+        this.entry = req;
         this.request = req.uri()
             .path("/orgs")
             .path(login)
@@ -99,6 +105,12 @@ final class RtOrganization implements Organization {
     @NotNull(message = "login is never NULL")
     public String login() {
         return this.self;
+    }
+
+    @Override
+    @NotNull(message = "public members is never NULL")
+    public PublicMembers publicMembers() {
+        return new RtPublicMembers(this.entry, this);
     }
 
     @Override
