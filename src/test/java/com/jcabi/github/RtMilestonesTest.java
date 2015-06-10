@@ -56,15 +56,19 @@ public final class RtMilestonesTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
         ).start();
-        final RtMilestones milestones = new RtMilestones(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        milestones.remove(1);
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.DELETE)
-        );
+        try {
+            final RtMilestones milestones = new RtMilestones(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            milestones.remove(1);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        } finally {
+            container.stop();
+        }
     }
 
     /**
