@@ -71,7 +71,7 @@ public final class RtPublicMembersITCase {
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         final Users users = github.users();
-        org = users.get(ORG_NAME).organizations().get(ORG_NAME);
+        org = github.organizations().get(ORG_NAME);
         member = users.get("yegor256");
         nonMember = users.get("charset");
     }

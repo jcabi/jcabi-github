@@ -158,9 +158,8 @@ public final class MkPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     private static MkOrganization organization() throws IOException {
-        return (MkOrganization) new MkUserOrganizations(
-            new MkStorage.InFile(),
-            "maxwell"
+        return (MkOrganization) new MkOrganizations(
+            new MkStorage.InFile()
         ).get(RandomStringUtils.randomAlphanumeric(Tv.TWENTY));
     }
 }
