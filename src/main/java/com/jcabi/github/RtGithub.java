@@ -74,6 +74,7 @@ import org.apache.commons.io.Charsets;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = "request")
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtGithub implements Github {
 
     /**
@@ -177,6 +178,12 @@ public final class RtGithub implements Github {
     @NotNull(message = "users are never NULL")
     public Users users() {
         return new RtUsers(this, this.request);
+    }
+
+    @Override
+    @NotNull(message = "organizations is never NULL")
+    public Organizations organizations() {
+        return new RtOrganizations(this, this.request);
     }
 
     @Override

@@ -120,6 +120,14 @@ public interface Github {
     Users users();
 
     /**
+     * Get Organizations API entry point.
+     * @return Organizations API entry point
+     * @since 0.24
+     */
+    @NotNull(message = "organizations is never NULL")
+    Organizations organizations();
+
+    /**
      * Get Markdown API entry point.
      * @return Markdown API entry point
      * @since 0.6

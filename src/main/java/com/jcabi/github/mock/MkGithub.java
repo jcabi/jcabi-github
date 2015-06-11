@@ -37,6 +37,7 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Gitignores;
 import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
+import com.jcabi.github.Organizations;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Search;
@@ -158,6 +159,16 @@ public final class MkGithub implements Github {
     public Users users() {
         try {
             return new MkUsers(this.storage, this.self);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
+    @NotNull(message = "organizations is never NULL")
+    public Organizations organizations() {
+        try {
+            return new MkOrganizations(this.storage);
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
