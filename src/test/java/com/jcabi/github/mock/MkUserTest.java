@@ -29,7 +29,7 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Organizations;
+import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -54,7 +54,7 @@ public final class MkUserTest {
             new MkStorage.InFile(),
             "orgTestIterate"
         );
-        final Organizations orgs = user.organizations();
+        final UserOrganizations orgs = user.organizations();
         MatcherAssert.assertThat(
             orgs,
             Matchers.notNullValue()

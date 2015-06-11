@@ -33,10 +33,10 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.Notification;
-import com.jcabi.github.Organizations;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
+import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -106,9 +106,9 @@ final class MkUser implements User {
 
     @Override
     @NotNull(message = "orgs is never NULL")
-    public Organizations organizations() {
+    public UserOrganizations organizations() {
         try {
-            return new MkOrganizations(this.storage, this.self);
+            return new MkUserOrganizations(this.storage, this.self);
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

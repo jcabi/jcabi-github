@@ -27,98 +27,103 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Organization;
-import com.jcabi.github.Organizations;
-import com.jcabi.xml.XML;
+import com.jcabi.http.Request;
 import java.io.IOException;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.xembly.Directives;
 
 /**
- * Github organizations.
+ * Github user organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@ToString
-@EqualsAndHashCode(of = { "storage" })
-final class MkOrganizations implements Organizations {
+@EqualsAndHashCode(of = { "entry", "ghub", "owner" })
+final class RtUserOrganizations implements UserOrganizations {
+
     /**
-     * Storage.
+     * API entry point.
      */
-    private final transient MkStorage storage;
+    private final transient Request entry;
+
+    /**
+     * Github.
+     */
+    private final transient Github ghub;
+
+    /**
+     * User we're in.
+     */
+    private final transient User owner;
 
     /**
      * Public ctor.
-     * @param stg Storage
-     * @throws IOException If there is any I/O problem
+     * @param github Github
+     * @param req Request
+     * @param user User
      */
-    MkOrganizations(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg
-    )
-        throws IOException {
-        this.storage = stg;
-        this.storage.apply(
-            new Directives().xpath("/github").addIf("orgs")
-        );
+    RtUserOrganizations(
+        final Github github,
+        final Request req,
+        final User user
+    ) {
+        this.entry = req;
+        this.ghub = github;
+        this.owner = user;
     }
 
     @Override
-    @NotNull(message = "org is never NULL")
-    public Organization get(
-        @NotNull(message = "login is never NULl") final String login
-    ) {
-        try {
-            this.storage.apply(
-                new Directives()
-                    .xpath(
-                        String.format(
-                            "/github/orgs[not(org[login='%s'])]",
-                            login
-                    )
-                )
-                    .add("org")
-                    .add("login").set(login).up()
-                    .add("members").up()
-            );
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
-        return new MkOrganization(this.storage, login);
+    @NotNull(message = "Github is never NULL")
+    public Github github() {
+        return this.ghub;
+    }
+
+    @Override
+    @NotNull(message = "user is never NULL")
+    public User user() {
+        return this.owner;
     }
 
     @Override
     @NotNull(message = "Iterable of orgs is never NULL")
-    public Iterable<Organization> iterate() {
-        return new MkIterable<Organization>(
-            this.storage,
-            String.format("%s/org", this.xpath()),
-            new MkIterable.Mapping<Organization>() {
-                @Override
-                public Organization map(final XML xml) {
-                    return MkOrganizations.this.get(
-                        xml.xpath("login/text()").get(0)
-                    );
-                }
-            }
+    public Iterable<Organization> iterate() throws IOException {
+        final String login = this.owner.login();
+        return new RtPagination<Organization>(
+            this.entry.uri().path("/users").path(login).path("/orgs").back(),
+            new OrganizationMapping(this.ghub.organizations())
         );
     }
 
     /**
-     * XPath of this element in XML tree.
-     * @return XPath
+     * Maps organization JSON objects to Organization instances.
      */
-    @NotNull(message = "Xpath is never NULL")
-    private String xpath() {
-        return "/github/orgs";
+    private static final class OrganizationMapping
+        implements RtValuePagination.Mapping<Organization, JsonObject> {
+        /**
+         * Organizations.
+         */
+        private final transient Organizations organizations;
+
+        /**
+         * Ctor.
+         * @param orgs Organizations
+         */
+        OrganizationMapping(final Organizations orgs) {
+            this.organizations = orgs;
+        }
+
+        @Override
+        public Organization map(final JsonObject object) {
+            return this.organizations.get(object.getString("login"));
+        }
     }
 }

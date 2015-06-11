@@ -31,8 +31,11 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Github;
 import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
+import com.jcabi.github.User;
+import com.jcabi.github.UserOrganizations;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.validation.constraints.NotNull;
@@ -41,84 +44,94 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github organizations.
+ * Github user organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCoupling (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage" })
-final class MkOrganizations implements Organizations {
+@EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.TooManyMethods")
+final class MkUserOrganizations implements UserOrganizations {
     /**
      * Storage.
      */
     private final transient MkStorage storage;
 
     /**
+     * Login of the user logged in.
+     */
+    private final transient String self;
+
+    /**
      * Public ctor.
      * @param stg Storage
+     * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkOrganizations(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg
+    MkUserOrganizations(
+        @NotNull(message = "stg can't be NULL") final MkStorage stg,
+        @NotNull(message = "login can't be NULL") final String login
     )
         throws IOException {
         this.storage = stg;
+        this.self = login;
         this.storage.apply(
             new Directives().xpath("/github").addIf("orgs")
         );
     }
 
     @Override
-    @NotNull(message = "org is never NULL")
-    public Organization get(
-        @NotNull(message = "login is never NULl") final String login
-    ) {
+    @NotNull(message = "Github is never NULL")
+    public Github github() {
+        return new MkGithub(this.storage, this.self);
+    }
+
+    @Override
+    @NotNull(message = "User is never NULL")
+    public User user() {
         try {
-            this.storage.apply(
-                new Directives()
-                    .xpath(
-                        String.format(
-                            "/github/orgs[not(org[login='%s'])]",
-                            login
-                    )
-                )
-                    .add("org")
-                    .add("login").set(login).up()
-                    .add("members").up()
-            );
+            return new MkUser(this.storage, this.self);
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
-        return new MkOrganization(this.storage, login);
     }
 
     @Override
     @NotNull(message = "Iterable of orgs is never NULL")
-    public Iterable<Organization> iterate() {
+    public Iterable<Organization> iterate() throws IOException {
         return new MkIterable<Organization>(
             this.storage,
-            String.format("%s/org", this.xpath()),
-            new MkIterable.Mapping<Organization>() {
-                @Override
-                public Organization map(final XML xml) {
-                    return MkOrganizations.this.get(
-                        xml.xpath("login/text()").get(0)
-                    );
-                }
-            }
+            "/github/orgs/org/login",
+            new OrganizationMapping(new MkOrganizations(this.storage))
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
-    @NotNull(message = "Xpath is never NULL")
-    private String xpath() {
-        return "/github/orgs";
+    private static final class OrganizationMapping
+        implements MkIterable.Mapping<Organization> {
+        /**
+         * Organizations.
+         */
+        private final transient Organizations organizations;
+
+        /**
+         * Ctor.
+         * @param orgs Organizations
+         */
+        OrganizationMapping(final Organizations orgs) {
+            this.organizations = orgs;
+        }
+
+        @Override
+        public Organization map(final XML xml) {
+            return this.organizations.get(
+                xml.xpath("login/text()").get(0)
+            );
+        }
     }
 }

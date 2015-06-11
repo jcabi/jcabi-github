@@ -41,23 +41,16 @@ import lombok.EqualsAndHashCode;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
+ * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "ghub", "request", "owner" })
+@EqualsAndHashCode(of = { "entry", "ghub", "request" })
 final class RtOrganizations implements Organizations {
-
     /**
      * API entry point.
      */
     private final transient Request entry;
-
-    /**
-     * Github.
-     */
-    private final transient Github ghub;
 
     /**
      * RESTful request.
@@ -65,33 +58,19 @@ final class RtOrganizations implements Organizations {
     private final transient Request request;
 
     /**
-     * User we're in.
+     * Github.
      */
-    private final transient User owner;
+    private final transient Github ghub;
 
     /**
      * Public ctor.
      * @param github Github
      * @param req Request
-     * @param user User
      */
-    RtOrganizations(final Github github, final Request req, final User user) {
+    RtOrganizations(final Github github, final Request req) {
         this.entry = req;
-        this.ghub = github;
-        this.owner = user;
         this.request = this.entry.uri().path("/user").path("/orgs").back();
-    }
-
-    @Override
-    @NotNull(message = "Github is never NULL")
-    public Github github() {
-        return this.ghub;
-    }
-
-    @Override
-    @NotNull(message = "user is never NULL")
-    public User user() {
-        return this.owner;
+        this.ghub = github;
     }
 
     @Override
@@ -107,22 +86,6 @@ final class RtOrganizations implements Organizations {
     public Iterable<Organization> iterate() {
         return new RtPagination<Organization>(
             this.request,
-            new RtValuePagination.Mapping<Organization, JsonObject>() {
-                @Override
-                public Organization map(final JsonObject object) {
-                    return RtOrganizations.this.get(object.getString("login"));
-                }
-            }
-        );
-    }
-
-    @Override
-    @NotNull(message = "Iterable of orgs is never NULL")
-    public Iterable<Organization> iterate(
-        @NotNull(message = "username can't be NULL") final String username
-    ) {
-        return new RtPagination<Organization>(
-            this.entry.uri().path("/users").path(username).path("/orgs").back(),
             new RtValuePagination.Mapping<Organization, JsonObject>() {
                 @Override
                 public Organization map(final JsonObject object) {

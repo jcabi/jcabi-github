@@ -36,7 +36,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtOrganizations}.
+ * Test case for {@link RtUserOrganizations}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
@@ -45,7 +45,7 @@ import org.junit.Test;
 @OAuthScope(Scope.READ_ORG)
 public final class RtOrganizationsITCase {
     /**
-     * RtOrganizations can get an organization.
+     * RtUserOrganizations can get an organization.
      * @throws Exception if any problem inside
      */
     @Test
@@ -57,12 +57,12 @@ public final class RtOrganizationsITCase {
     }
 
     /**
-     * RtOrganizations can iterate all organizations.
+     * RtUserOrganizations can iterate all organizations.
      * @throws Exception if any problem inside
      */
     @Test
     public void iterateOrganizations() throws Exception {
-        final Organizations orgs = github().users().self().organizations();
+        final UserOrganizations orgs = github().users().self().organizations();
         MatcherAssert.assertThat(
             orgs.iterate("yegor256").iterator().next(),
             Matchers.notNullValue()

@@ -45,15 +45,15 @@ import org.junit.Test;
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-public final class MkOrganizationsTest {
+public final class MkUserOrganizationsTest {
 
     /**
-     * MkOrganizations can list organizations.
+     * MkUserOrganizations can list organizations.
      * @throws Exception If some problem inside
      */
     @Test
     public void iteratesOrganizations() throws Exception {
-        final MkOrganizations orgs = new MkOrganizations(
+        final MkUserOrganizations orgs = new MkUserOrganizations(
             new MkStorage.InFile(),
             "orgTestIterate"
         );
@@ -65,13 +65,13 @@ public final class MkOrganizationsTest {
     }
 
     /**
-     * MkOrganizations can list user organizations.
+     * MkUserOrganizations can list user organizations.
      * @throws Exception If some problem inside
      */
     @Test
     public void iteratesUserOrganizations() throws Exception {
         final String login = "orgTestIterate";
-        final MkOrganizations orgs = new MkOrganizations(
+        final MkUserOrganizations orgs = new MkUserOrganizations(
             new MkStorage.InFile(),
             login
         );
@@ -83,13 +83,13 @@ public final class MkOrganizationsTest {
     }
 
     /**
-     * MkOrganizations can get specific organization.
+     * MkUserOrganizations can get specific organization.
      * @throws Exception If some problem inside
      */
     @Test
     public void getSingleOrganization() throws Exception {
         final String login = "orgTestGet";
-        final MkOrganizations orgs = new MkOrganizations(
+        final MkUserOrganizations orgs = new MkUserOrganizations(
             new MkStorage.InFile(),
             login
         );
@@ -109,7 +109,7 @@ public final class MkOrganizationsTest {
      */
     @Test
     public void testCreatedAt() throws Exception {
-        final MkOrganizations orgs = new MkOrganizations(
+        final MkUserOrganizations orgs = new MkUserOrganizations(
             new MkStorage.InFile(), "testCreatedAt"
         );
         final String created = "created_at";

@@ -130,8 +130,8 @@ final class RtUser implements User {
 
     @Override
     @NotNull(message = "organizations is never NULL")
-    public Organizations organizations() {
-        return new RtOrganizations(this.ghub, this.ghub.entry(), this);
+    public UserOrganizations organizations() {
+        return new RtUserOrganizations(this.ghub, this.ghub.entry(), this);
     }
 
     @Override

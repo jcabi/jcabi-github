@@ -44,15 +44,15 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link RtOrganizations}.
+ * Test case for {@link RtUserOrganizations}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtOrganizationsTest {
+public final class RtUserOrganizationsTest {
 
     /**
-     * RtOrganizations should be able to iterate its organizations.
+     * RtUserOrganizations should be able to iterate its organizations.
      *
      * @throws Exception If a problem occurs
      * @checkstyle MagicNumberCheck (25 lines)
@@ -70,7 +70,7 @@ public final class RtOrganizationsTest {
             )
         ).start();
         try {
-            final Organizations orgs = new RtOrganizations(
+            final UserOrganizations orgs = new RtUserOrganizations(
                 new MkGithub(),
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
@@ -89,7 +89,7 @@ public final class RtOrganizationsTest {
     }
 
     /**
-     * RtOrganizations can iterate organizations for an unauthenticated user.
+     * RtUserOrganizations can iterate organizations for an unauthenticated user.
      *
      * @throws Exception If a problem occurs
      */
@@ -106,7 +106,7 @@ public final class RtOrganizationsTest {
             )
         ).start();
         try {
-            final Organizations orgs = new RtOrganizations(
+            final UserOrganizations orgs = new RtUserOrganizations(
                 new MkGithub(),
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
@@ -126,7 +126,7 @@ public final class RtOrganizationsTest {
     }
 
     /**
-     * RtOrganizations should be able to get a single organization.
+     * RtUserOrganizations should be able to get a single organization.
      *
      * @throws Exception if a problem occurs
      */
@@ -136,7 +136,7 @@ public final class RtOrganizationsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
         ).start();
         try {
-            final Organizations orgs = new RtOrganizations(
+            final UserOrganizations orgs = new RtUserOrganizations(
                 new MkGithub(),
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)

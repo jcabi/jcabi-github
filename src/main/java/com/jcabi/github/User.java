@@ -72,10 +72,10 @@ public interface User extends JsonReadable, JsonPatchable {
 
     /**
      * Get his organizations.
-     * @return Organizations organizations
+     * @return UserOrganizations organizations
      */
     @NotNull(message = "organizations is never NULL")
-    Organizations organizations();
+    UserOrganizations organizations();
 
     /**
      * Get his keys.
@@ -244,7 +244,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         @Override
         @NotNull(message = "Organizations is never NULL")
-        public Organizations organizations() {
+        public UserOrganizations organizations() {
             return this.user.organizations();
         }
 

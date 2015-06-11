@@ -30,31 +30,42 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import java.io.IOException;
 import javax.validation.constraints.NotNull;
 
 /**
- * Github organizations.
+ * Organizations of a Github user.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
 @Immutable
-public interface Organizations {
-    /**
-     * Get specific organization by name.
-     * @param login Login name of the organization.
-     * @return Organization
-     * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
-     */
-    @NotNull(message = "organization is never NULL")
-    Organization get(@NotNull(message = "login is never NULL") String login);
+public interface UserOrganizations {
 
     /**
-     * Iterate over organizations of the currently logged-in user.
+     * Github we're in.
+     * @return Github
+     */
+    @NotNull(message = "Github is never NULL")
+    Github github();
+
+    /**
+     * Get its owner.
+     * @return User
+     */
+    @NotNull(message = "user is never NULL")
+    User user();
+
+    /**
+     * Iterate organizations of particular user.
+     * All public organizations for an unauthenticated user or
+     * private and public organizations for authenticated users
      * @return Iterator of Organizations
-     * @see <a href="https://developer.github.com/v3/orgs/#list-your-organizations">List Your Organizations</a>
+     * @throws IOException If there is an I/O problem
+     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List User Organizations</a>
+     * @since 0.24
      */
     @NotNull(message = "iterable is never NULL")
-    Iterable<Organization> iterate();
+    Iterable<Organization> iterate() throws IOException;
 }
