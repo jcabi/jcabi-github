@@ -30,33 +30,76 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
-import com.jcabi.github.UserOrganizations;
+import com.jcabi.github.Organizations;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Github user organizations.
+ * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-public final class MkUserOrganizationsTest {
+public final class MkOrganizationsTest {
     /**
-     * MkUserOrganizations can list user organizations.
+     * MkOrganizations can get specific organization.
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesUserOrganizations() throws Exception {
-        final String login = "orgTestIterate";
-        final Github github = new MkGithub(login);
-        final UserOrganizations userOrgs = github.users().get(login)
-            .organizations();
-        github.organizations().get(login);
+    public void getSingleOrganization() throws Exception {
+        final String login = "orgTestGet";
+        final MkOrganizations orgs = new MkOrganizations(
+            new MkStorage.InFile()
+        );
         MatcherAssert.assertThat(
-            userOrgs.iterate(),
+            orgs.get(login),
+            Matchers.notNullValue()
+        );
+        MatcherAssert.assertThat(
+            orgs.get(login).json().getString("login"),
+            Matchers.equalTo(login)
+        );
+    }
+
+    /**
+     * Organization created_at field should be variable.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void testCreatedAt() throws Exception {
+        final String name = "testCreatedAt";
+        final MkOrganizations orgs = new MkOrganizations(
+            new MkStorage.InFile()
+        );
+        final String created = "created_at";
+        final Date early = new Github.Time(
+            orgs.get(name)
+                .json()
+                .getString(created)
+        ).date();
+        TimeUnit.SECONDS.sleep(1L);
+        final Date later = new Github.Time(
+            orgs.get(name)
+                .json()
+                .getString(created)
+        ).date();
+        MatcherAssert.assertThat(later, Matchers.greaterThanOrEqualTo(early));
+    }
+
+    /**
+     * MkOrganizations can list the logged-in user's organizations.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void iteratesCurrentUserOrganizations() throws Exception {
+        final Organizations orgs = new MkGithub().organizations();
+        orgs.get("orgTestIterate");
+        MatcherAssert.assertThat(
+            orgs.iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
     }

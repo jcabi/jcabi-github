@@ -29,29 +29,33 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtOrganizations}.
+ * Test case for {@link RtUserOrganizations}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
-public final class RtOrganizationsITCase {
+@OAuthScope(Scope.READ_ORG)
+public final class RtUserOrganizationsITCase {
     /**
-     * RtOrganizations can get an organization.
+     * RtUserOrganizations can iterate all organizations of a user.
      * @throws Exception if any problem inside
      */
     @Test
-    public void getOrganization() throws Exception {
-        final String login = "github";
-        final Organization org = github()
-            .organizations().get(login);
-        MatcherAssert.assertThat(org.login(), Matchers.equalTo(login));
+    public void iterateOrganizations() throws Exception {
+        final UserOrganizations orgs = github().users().get("yegor256")
+            .organizations();
+        MatcherAssert.assertThat(
+            orgs.iterate().iterator().next(),
+            Matchers.notNullValue()
+        );
     }
 
     /**

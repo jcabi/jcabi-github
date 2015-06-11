@@ -43,38 +43,60 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtUserOrganizations}.
+ * Test case for {@link RtOrganizations}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtUserOrganizationsTest {
+public final class RtOrganizationsTest {
     /**
-     * RtUserOrganizations can iterate organizations for
-     * an unauthenticated user.
+     * RtOrganizations should be able to get a single organization.
      *
-     * @throws Exception If a problem occurs
+     * @throws Exception if a problem occurs
      */
     @Test
-    public void canIterateOrganizationsForUnauthUser() throws Exception {
-        final String username = "octopus";
+    public void fetchesSingleOrganization() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+        ).start();
+        try {
+            final Organizations orgs = new RtOrganizations(
+                new MkGithub(),
+                new ApacheRequest(container.home())
+            );
+            MatcherAssert.assertThat(
+                orgs.get("org"),
+                Matchers.notNullValue()
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtOrganizations should be able to iterate
+     * the logged-in user's organizations.
+     *
+     * @throws Exception If a problem occurs
+     * @checkstyle MagicNumberCheck (25 lines)
+     */
+    @Test
+    public void retrievesOrganizations() throws Exception {
         final Github github = new MkGithub();
-        final User user = github.users().get(username);
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(org(Tv.THREE, "org11"))
-                    .add(org(Tv.FOUR, "org12"))
-                    .add(org(Tv.FIVE, "org13"))
+                    .add(org(1, "org1"))
+                    .add(org(2, "org2"))
+                    .add(org(3, "org3"))
                     .build().toString()
             )
         ).start();
         try {
-            final UserOrganizations orgs = new RtUserOrganizations(
+            final Organizations orgs = new RtOrganizations(
                 github,
-                new ApacheRequest(container.home()),
-                user
+                new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
                 orgs.iterate(),
@@ -82,7 +104,7 @@ public final class RtUserOrganizationsTest {
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
-                Matchers.endsWith(String.format("/users/%s/orgs", username))
+                Matchers.endsWith("/user/orgs")
             );
         } finally {
             container.stop();
