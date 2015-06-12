@@ -330,10 +330,14 @@ public final class RtRepoTest {
                     .build().toString()
             )
         ).start();
-        final Repo repo = RtRepoTest.repo(
-            new ApacheRequest(container.home())
-        );
-        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+        try {
+            final Repo repo = RtRepoTest.repo(
+                new ApacheRequest(container.home())
+            );
+            MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+        } finally {
+            container.stop();
+        }
     }
 
     /**
