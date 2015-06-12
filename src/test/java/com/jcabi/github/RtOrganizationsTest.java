@@ -46,6 +46,7 @@ import org.junit.Test;
  * Test case for {@link RtOrganizations}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  */
 public final class RtOrganizationsTest {

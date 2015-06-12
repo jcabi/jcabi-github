@@ -36,6 +36,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Organizations of a Github user.
  * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
