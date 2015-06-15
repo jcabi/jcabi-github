@@ -31,93 +31,65 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
  * Github commit status.
  * @author Marcin Cylke (maracin.cylke+github@gmail.com)
+ * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  * @since 0.23
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "cstate", "url", "message", "name" })
+@EqualsAndHashCode(of = { "cmmt", "jsn" })
 public final class RtStatus implements Status {
-
     /**
-     * Commit status.
+     * Associated commit.
      */
-    private final transient State cstate;
-
+    private final transient Commit cmmt;
     /**
-     * Details url.
+     * Encapsulated status JSON object.
      */
-    private final transient String url;
+    private final transient JsonObject jsn;
 
     /**
-     * Complete message.
-     */
-    private final transient String message;
-
-    /**
-     * Short message.
-     */
-    private final transient String name;
-
-    /**
-     * Create new status object.
-     * @param status State.
-     * @param address Target url.
-     * @param descr Description.
-     * @param ctx Context.
-     * @checkstyle ParameterNumberCheck (500 lines)
+     * Public ctor.
+     * @param cmt Associated commit
+     * @param jsonobj Status JSON object
      */
     public RtStatus(
-        @NotNull(message = "status can't be NULL") final State status,
-        final String address,
-        final String descr,
-        final String ctx
+        @NotNull(message = "commit can't be NULL")
+        final Commit cmt,
+        @NotNull(message = "JSON can't be NULL")
+        final JsonObject jsonobj
     ) {
-        this.url = address;
-        this.message = descr;
-        this.name = ctx;
-        this.cstate = status;
+        this.cmmt = cmt;
+        this.jsn = jsonobj;
     }
 
-    /**
-     * Get status of this status.
-     * @return Present status
-     */
     @Override
-    public State state() {
-        return this.cstate;
+    @NotNull(message = "JSON is never NULL")
+    public JsonObject json() {
+        return this.jsn;
     }
 
-    /**
-     * Get url of the status.
-     * @return Url as string
-     */
     @Override
-    public String targetUrl() {
-        return this.url;
+    public int identifier() {
+        return this.jsn.getInt("id");
     }
 
-    /**
-     * Get message from container.
-     * @return Description string
-     */
     @Override
-    public String description() {
-        return this.message;
+    @NotNull(message = "URL is never NULL")
+    public String url() {
+        return this.jsn.getString("url");
     }
 
-    /**
-     * Get name info from container.
-     * @return Context
-     */
     @Override
-    public String context() {
-        return this.name;
+    @NotNull(message = "commit is never NULL")
+    public Commit commit() {
+        return this.cmmt;
     }
 }

@@ -29,11 +29,14 @@
  */
 package com.jcabi.github;
 
+import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -54,6 +57,7 @@ import lombok.ToString;
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Statuses extends JsonReadable {
 
     /**
@@ -68,19 +72,22 @@ public interface Statuses extends JsonReadable {
      * @param status Add this status
      * @throws java.io.IOException If there is any I/O problem
      * @return The added status
+     * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
     Status create(
-            @NotNull(message = "status can't be NULL") final Status status
+        @NotNull(message = "status creation data can't be NULL")
+        final StatusCreate status
     ) throws IOException;
 
     /**
      * List all statuses for a given ref.
      * @param ref It can be a SHA, a branch name, or a tag name.
-     * @return List of statuses
+     * @return Iterable of statuses
+     * @see <a href="https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref">List Statuses for a specific Ref</a>
      */
-    @NotNull(message = "list of statuses is never NULL")
-    Iterable<Statuses> list(
-            @NotNull(message = "ref can't be NULL") final String ref
+    @NotNull(message = "iterable of statuses is never NULL")
+    Iterable<Status> list(
+        @NotNull(message = "ref can't be NULL") final String ref
     );
 
     /**
@@ -104,7 +111,8 @@ public interface Statuses extends JsonReadable {
          * @param stats Status
          */
         public Smart(
-                @NotNull(message = "cmt can't be NULL") final Statuses stats
+            @NotNull(message = "cmt can't be NULL")
+            final Statuses stats
         ) {
             this.statuses = stats;
             this.jsn = new SmartJson(this.statuses);
@@ -135,14 +143,15 @@ public interface Statuses extends JsonReadable {
 
         @Override
         public Status create(
-                @NotNull(message = "status can't be NULL") final Status status
+            @NotNull(message = "status can't be NULL")
+            final StatusCreate status
         ) throws IOException {
             return this.statuses.create(status);
         }
 
         @Override
-        public Iterable<Statuses> list(
-                @NotNull(message = "ref can't be NULL") final String ref
+        public Iterable<Status> list(
+            @NotNull(message = "ref can't be NULL") final String ref
         ) {
             return this.statuses.list(ref);
         }
@@ -151,6 +160,152 @@ public interface Statuses extends JsonReadable {
         @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.statuses.json();
+        }
+    }
+
+    /**
+     * Data to use when creating a new GitHub commit status.
+     *
+     * @author Chris Rebert (github@rebertia.com)
+     * @version $Id$
+     * @since 0.24
+     * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
+     */
+    @ToString
+    @Loggable(Loggable.DEBUG)
+    @EqualsAndHashCode(of = {
+            "state",
+            "description",
+            "context",
+            "targeturl"
+            })
+    final class StatusCreate implements JsonReadable {
+        /**
+         * State.
+         */
+        private final transient Status.State state;
+        /**
+         * Description.
+         */
+        private final transient String description;
+        /**
+         * Context string.
+         */
+        private final transient Optional<String> context;
+        /**
+         * Target URL.
+         */
+        private final transient Optional<String> targeturl;
+
+        /**
+         * Public ctor.
+         * @param stat State
+         */
+        public StatusCreate(
+            @NotNull(message = "state can't be NULL")
+            final Status.State stat
+        ) {
+            this(
+                stat,
+                "",
+                Optional.<String>absent(),
+                Optional.<String>absent()
+            );
+        }
+
+        /**
+         * Private ctor.
+         * @param stat State
+         * @param desc Description
+         * @param cntxt Context
+         * @param target Target URL
+         * @checkstyle ParameterNumberCheck (10 lines)
+         */
+        private StatusCreate(
+            @NotNull(message = "state can't be NULL")
+            final Status.State stat,
+            @NotNull(message = "description can't be NULL")
+            final String desc,
+            @NotNull(message = "context optional itself can't be NULL")
+            final Optional<String> cntxt,
+            @NotNull(message = "target URL optional itself can't be NULL")
+            final Optional<String> target
+        ) {
+            this.state = stat;
+            this.description = desc;
+            this.context = cntxt;
+            this.targeturl = target;
+        }
+
+        /**
+         * Returns a StatusCreate with the given state.
+         * @param stat State
+         * @return StatusCreate
+         */
+        public StatusCreate withState(final Status.State stat) {
+            return new StatusCreate(
+                stat,
+                this.description,
+                this.context,
+                this.targeturl
+            );
+        }
+
+        /**
+         * Returns a StatusCreate with the given description.
+         * @param desc Description
+         * @return StatusCreate
+         */
+        public StatusCreate withDescription(final String desc) {
+            return new StatusCreate(
+                this.state,
+                desc,
+                this.context,
+                this.targeturl
+            );
+        }
+
+        /**
+         * Returns a StatusCreate with the given context.
+         * @param cntxt Context
+         * @return StatusCreate
+         */
+        public StatusCreate withContext(final Optional<String> cntxt) {
+            return new StatusCreate(
+                this.state,
+                this.description,
+                cntxt,
+                this.targeturl
+            );
+        }
+
+        /**
+         * Returns a StatusCreate with the given target URL.
+         * @param target Target URL
+         * @return StatusCreate
+         */
+        public StatusCreate withTargetUrl(final Optional<String> target) {
+            return new StatusCreate(
+                this.state,
+                this.description,
+                this.context,
+                target
+            );
+        }
+
+        @Override
+        @NotNull(message = "JSON is never NULL")
+        public JsonObject json() {
+            final JsonObjectBuilder builder = Json.createObjectBuilder()
+                .add("state", this.state.identifier())
+                .add("description", this.description);
+            if (this.context.isPresent()) {
+                builder.add("context", this.context.get());
+            }
+            if (this.targeturl.isPresent()) {
+                builder.add("target_url", this.targeturl.get());
+            }
+            return builder.build();
         }
     }
 }
