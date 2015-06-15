@@ -117,6 +117,7 @@ public class RtStatuses implements Statuses {
      * Get all status messages for a given commit.
      * @param ref It can be a SHA, a branch name, or a tag name.
      * @return Full list of statuses for this commit.
+     * @todo #1126:30min Implement this method which gets all status messages for a given commit.
      */
     @Override
     @NotNull(message = "iterable of statuses can't be NULL")
