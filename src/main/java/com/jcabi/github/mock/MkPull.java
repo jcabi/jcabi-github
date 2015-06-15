@@ -37,13 +37,12 @@ import com.jcabi.github.MergeState;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -60,6 +59,19 @@ import lombok.ToString;
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
 @SuppressWarnings("PMD.TooManyMethods")
 final class MkPull implements Pull {
+    /**
+     * The separator between the username and
+     * the branch name in the labels of pull request base/head objects.
+     */
+    private static final String USER_BRANCH_SEP = ":";
+    /**
+     * Property name for ref in pull request ref JSON object.
+     */
+    private static final String REF_PROP = "ref";
+    /**
+     * Property name for label in pull request ref JSON object.
+     */
+    private static final String LABEL_PROP = "label";
 
     /**
      * Storage.
@@ -161,18 +173,55 @@ final class MkPull implements Pull {
     @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
-        final JsonObject obj = new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-        final JsonObjectBuilder json = Json.createObjectBuilder();
-        for (final Map.Entry<String, JsonValue> val : obj.entrySet()) {
-            json.add(val.getKey(), val.getValue());
+        final XML xml = this.storage.xml().nodes(this.xpath()).get(0);
+        final String basebranch = xml.xpath("base/text()").get(0);
+        final String head = xml.xpath("head/text()").get(0);
+        final String[] headparts = head.split(MkPull.USER_BRANCH_SEP, 2);
+        final List<String> patches = xml.xpath("patch/text()");
+        final String patch;
+        if (patches.isEmpty()) {
+            patch = "";
+        } else {
+            patch = patches.get(0);
         }
-        return json
+        return Json.createObjectBuilder()
+            .add(
+                "number",
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
+            .add(
+                "user",
+                Json.createObjectBuilder()
+                    .add("login", xml.xpath("user/login/text()").get(0))
+                    .build()
+            )
+            .add("patch", patch)
+            .add(
+                "head",
+                Json.createObjectBuilder()
+                    .add(REF_PROP, headparts[1])
+                    .add(LABEL_PROP, head)
+                    .build()
+            )
+            .add(
+                "base",
+                Json.createObjectBuilder()
+                    .add(REF_PROP, basebranch)
+                    .add(
+                        LABEL_PROP,
+                        String.format(
+                            "%s:%s",
+                            this.coords.user(),
+                            basebranch
+                        )
+                    )
+                    .build()
+            )
             .add(
                 "comments",
                 this.storage.xml().nodes(this.comment()).size()
-        ).build();
+            )
+            .build();
     }
 
     /**

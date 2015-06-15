@@ -145,16 +145,16 @@ public final class MkPullTest {
         final Pull pull = repo().pulls().create("Test Pull Json", head, base);
         final JsonObject json = pull.json();
         MatcherAssert.assertThat(
-            json.getString("number"),
-            Matchers.equalTo("1")
+            json.getInt("number"),
+            Matchers.equalTo(1)
         );
         MatcherAssert.assertThat(
-            json.getString("head"),
-            Matchers.equalTo(head)
+            json.getJsonObject("head").getString("label"),
+            Matchers.equalTo(String.format("%s:%s", USERNAME, head))
         );
         MatcherAssert.assertThat(
-            json.getString("base"),
-            Matchers.equalTo(base)
+            json.getJsonObject("base").getString("label"),
+            Matchers.equalTo(String.format("%s:%s", USERNAME, base))
         );
         MatcherAssert.assertThat(
             json.getJsonObject("user").getString("login"),
