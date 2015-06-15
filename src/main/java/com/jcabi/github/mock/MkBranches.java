@@ -55,6 +55,11 @@ import org.xembly.Directives;
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 public final class MkBranches implements Branches {
     /**
+     * XPath from a given branch to its commit SHA string.
+     */
+    private static final String XPATH_TO_SHA = "sha/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -114,7 +119,7 @@ public final class MkBranches implements Branches {
                         MkBranches.this.self,
                         MkBranches.this.coords,
                         xml.xpath("@name").get(0),
-                        xml.xpath("sha/text()").get(0)
+                        xml.xpath(XPATH_TO_SHA).get(0)
                     );
                 }
             }
@@ -140,6 +145,36 @@ public final class MkBranches implements Branches {
             .add("sha").set(sha).up();
         this.storage.apply(directives);
         return new MkBranch(this.storage, this.self, this.coords, name, sha);
+    }
+
+    /**
+     * Gets a branch by name.
+     * @param name Name of branch.
+     * @return The branch with the given name
+     * @throws IOException If there is an I/O problem
+     */
+    @NotNull(message = "branch is never NULL")
+    public Branch get(
+        @NotNull(message = "name cannot be NULL")
+        final String name
+    ) throws IOException {
+        return new MkBranch(
+            this.storage,
+            this.self,
+            this.coords,
+            name,
+            this.storage.xml()
+                .nodes(
+                    String.format(
+                        "%s/branch[@name='%s']",
+                        this.xpath(),
+                        name
+                    )
+                )
+                .get(0)
+                .xpath(XPATH_TO_SHA)
+                .get(0)
+        );
     }
 
     /**
