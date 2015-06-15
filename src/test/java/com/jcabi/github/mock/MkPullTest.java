@@ -51,6 +51,14 @@ public final class MkPullTest {
      * Login of test user.
      */
     private static final String USERNAME = "patrick";
+    /**
+     * Base branch name.
+     */
+    private static final String BASE = "my-base-branch";
+    /**
+     * Head branch name.
+     */
+    private static final String HEAD = "my-head-branch";
 
     /**
      * MkPull should be able to compare different instances.
@@ -88,7 +96,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetCommentsNumberIfZero() throws Exception {
-        final Pull pull = MkPullTest.repo().pulls().create("", "", "");
+        final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             pull.json().getInt("comments"),
             Matchers.is(0)
@@ -102,8 +110,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetCommentsNumberIfNonZero() throws Exception {
-        final Repo repo =  MkPullTest.repo();
-        final Pull pull = repo.pulls().create("", "", "");
+        final Pull pull = MkPullTest.pullRequest();
         pull.comments().post("comment1", "path1", "how are you?", 1);
         pull.comments().post("comment2", "path2", "how are you2?", 2);
         MatcherAssert.assertThat(
@@ -119,8 +126,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetComments() throws Exception {
-        final Repo repo =  MkPullTest.repo();
-        final Pull pull = repo.pulls().create("", "", "");
+        final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             pull.comments(),
             Matchers.notNullValue()
@@ -181,5 +187,18 @@ public final class MkPullTest {
      */
     private static Repo repo() throws Exception {
         return new MkGithub(USERNAME).randomRepo();
+    }
+
+    /**
+     * Create a pull request to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Pull pullRequest() throws Exception {
+        final Repo rpo = MkPullTest.repo();
+        final MkBranches branches = (MkBranches) (rpo.branches());
+        branches.create(BASE, "e11f7ffa797f8422f016576cb7c2f5bb6f66aa51");
+        branches.create(HEAD, "5a8d0143b3fa9de883a5672d4a1f44d472657a8a");
+        return rpo.pulls().create("Test PR", HEAD, BASE);
     }
 }

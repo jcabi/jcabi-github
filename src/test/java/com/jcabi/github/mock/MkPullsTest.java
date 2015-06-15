@@ -54,7 +54,11 @@ public final class MkPullsTest {
     @Test
     public void canCreateAPull() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
-        final Pull pull = repo.pulls().create("hello", "", "");
+        final Pull pull = repo.pulls().create(
+            "hello",
+            "head-branch",
+            "base-branch"
+        );
         final Issue.Smart issue = new Issue.Smart(
             repo.issues().get(pull.number())
         );

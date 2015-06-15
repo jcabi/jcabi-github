@@ -116,6 +116,12 @@ final class MkPulls implements Pulls {
         @NotNull(message = "head can't be NULL") final String head,
         @NotNull(message = "base can't be NULL") final String base
     ) throws IOException {
+        if (head.isEmpty()) {
+            throw new IllegalArgumentException("head cannot be empty!");
+        }
+        if (base.isEmpty()) {
+            throw new IllegalArgumentException("base cannot be empty!");
+        }
         this.storage.lock();
         final int number;
         try {
