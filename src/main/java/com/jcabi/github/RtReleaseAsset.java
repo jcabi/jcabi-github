@@ -59,7 +59,7 @@ final class RtReleaseAsset implements ReleaseAsset {
     private final transient Request request;
 
     /**
-     * Issue we're in.
+     * Release we're in.
      */
     private final transient Release owner;
 

@@ -56,7 +56,7 @@ import lombok.ToString;
 public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
-     * Pull we're in.
+     * Repo we're in.
      * @return Repo
      */
     @NotNull(message = "repository is never NULL")
