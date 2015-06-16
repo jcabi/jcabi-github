@@ -107,7 +107,7 @@ public class RtStatuses implements Statuses {
         @NotNull(message = "status can't be NULL") final Status status
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-            .add("state", status.state().name().toLowerCase(Locale.getDefault()))
+            .add("state", status.state().name().toLowerCase(Locale.ENGLISH))
             .add("target_url", status.targetUrl())
             .add("description", status.description())
             .add("context", status.context())
