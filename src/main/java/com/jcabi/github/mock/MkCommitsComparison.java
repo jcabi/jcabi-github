@@ -29,10 +29,12 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.collect.ImmutableList;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.FileChange;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.Json;
@@ -49,6 +51,15 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkCommitsComparison implements CommitsComparison {
+    /**
+     * File change JSON object.
+     */
+    private static final JsonObject FILE_JSON = Json.createObjectBuilder()
+        .add("sha", "bbcd538c8e72b8c175046e27cc8f907076331401")
+        .add("filename", "test-file")
+        // @checkstyle MultipleStringLiterals (1 lines)
+        .add("status", "modified")
+        .build();
 
     /**
      * Storage.
@@ -104,14 +115,19 @@ final class MkCommitsComparison implements CommitsComparison {
             )
             .add(
                 "files",
-                Json.createObjectBuilder()
-                    .add("sha", "bbcd538c8e72b8c175046e27cc8f907076331401")
-                    .add("filename", "test-file")
-                        // @checkstyle MultipleStringLiterals (1 lines)
-                    .add("status", "test")
+                Json.createArrayBuilder()
+                    .add(MkCommitsComparison.FILE_JSON)
                     .build()
             )
-            .add("commits", Json.createArrayBuilder())
+            .add("commits", Json.createArrayBuilder().build())
             .build();
+    }
+
+    @Override
+    @NotNull(message = "files is never NULL")
+    public Iterable<FileChange> files() {
+        return ImmutableList.<FileChange>of(
+            new MkFileChange(MkCommitsComparison.FILE_JSON)
+        );
     }
 }

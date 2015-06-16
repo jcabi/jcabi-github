@@ -58,6 +58,15 @@ public interface CommitsComparison extends JsonReadable {
     Repo repo();
 
     /**
+     * Iterate over the file changes between the two commits being
+     * compared.
+     * @return Iterable of file changes
+     * @throws IOException If there is any I/O problem
+     */
+    @NotNull(message = "files is never NULL")
+    Iterable<FileChange> files() throws IOException;
+
+    /**
      * Smart commits comparison with extra features.
      */
     @Immutable
@@ -102,14 +111,10 @@ public interface CommitsComparison extends JsonReadable {
             return commits;
         }
 
-        /**
-         * Get a JSON-array of objects with information about files.
-         * @return JSON-array
-         * @throws IOException If there is any I/O problem
-         */
-        @NotNull(message = "json array is never NULL")
-        public JsonArray files() throws IOException {
-            return this.comparison.json().getJsonArray("files");
+        @Override
+        @NotNull(message = "files is never NULL")
+        public Iterable<FileChange> files() throws IOException {
+            return this.comparison.files();
         }
 
         @Override
