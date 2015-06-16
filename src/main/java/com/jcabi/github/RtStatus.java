@@ -58,16 +58,16 @@ public final class RtStatus implements Status {
     /**
      * Public ctor.
      * @param cmt Associated commit
-     * @param jsonobj Status JSON object
+     * @param obj Status JSON object
      */
     public RtStatus(
         @NotNull(message = "commit can't be NULL")
         final Commit cmt,
         @NotNull(message = "JSON can't be NULL")
-        final JsonObject jsonobj
+        final JsonObject obj
     ) {
         this.cmmt = cmt;
-        this.jsn = jsonobj;
+        this.jsn = obj;
     }
 
     @Override
