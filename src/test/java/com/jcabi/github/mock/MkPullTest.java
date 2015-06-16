@@ -140,7 +140,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetBase() throws Exception {
-        final PullRef base = pullRequest().base();
+        final PullRef base = MkPullTest.pullRequest().base();
         MatcherAssert.assertThat(base, Matchers.notNullValue());
         MatcherAssert.assertThat(base.ref(), Matchers.equalTo(BASE));
     }
@@ -151,7 +151,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetHead() throws Exception {
-        final PullRef head = pullRequest().head();
+        final PullRef head = MkPullTest.pullRequest().head();
         MatcherAssert.assertThat(head, Matchers.notNullValue());
         MatcherAssert.assertThat(head.ref(), Matchers.equalTo(HEAD));
     }

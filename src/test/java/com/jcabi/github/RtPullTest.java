@@ -132,8 +132,8 @@ public final class RtPullTest {
                     .add(
                         "base",
                         Json.createObjectBuilder()
-                            .add(REF_PROP, ref)
-                            .add(SHA_PROP, sha)
+                            .add(RtPullTest.REF_PROP, ref)
+                            .add(RtPullTest.SHA_PROP, sha)
                             .build()
                     )
                     .build()
@@ -179,8 +179,8 @@ public final class RtPullTest {
                     .add(
                         "head",
                         Json.createObjectBuilder()
-                            .add(REF_PROP, ref)
-                            .add(SHA_PROP, sha)
+                            .add(RtPullTest.REF_PROP, ref)
+                            .add(RtPullTest.SHA_PROP, sha)
                             .build()
                     )
                     .build()

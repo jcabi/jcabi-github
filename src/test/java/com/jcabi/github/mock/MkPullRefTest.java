@@ -50,9 +50,9 @@ public final class MkPullRefTest {
     private static final String REF = "awesome-branch";
     /**
      * Test commit SHA.
-     * @checkstyle LineLength (2 lines)
      */
-    private static final String SHA = "361bb23ed4c028914d45d53c3727c48b035ee643";
+    private static final String SHA =
+        "361bb23ed4c028914d45d53c3727c48b035ee643";
     /**
      * Test username.
      */
@@ -65,9 +65,10 @@ public final class MkPullRefTest {
     @Test
     public void fetchesRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = new MkGithub(storage, USERNAME).randomRepo();
+        final Repo repo = new MkGithub(storage, MkPullRefTest.USERNAME)
+            .randomRepo();
         MatcherAssert.assertThat(
-            pullRef(storage, repo).repo().coordinates(),
+            MkPullRefTest.pullRef(storage, repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
     }
@@ -80,7 +81,7 @@ public final class MkPullRefTest {
     public void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             pullRef().ref(),
-            Matchers.equalTo(REF)
+            Matchers.equalTo(MkPullRefTest.REF)
         );
     }
 
@@ -92,7 +93,7 @@ public final class MkPullRefTest {
     public void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             pullRef().sha(),
-            Matchers.equalTo(SHA)
+            Matchers.equalTo(MkPullRefTest.SHA)
         );
     }
 
@@ -105,10 +106,10 @@ public final class MkPullRefTest {
         final MkStorage storage = new MkStorage.InFile();
         return new MkPullRef(
             storage,
-            ((MkBranches) (new MkGithub(storage, USERNAME)
+            ((MkBranches) (new MkGithub(storage, MkPullRefTest.USERNAME)
                 .randomRepo()
                 .branches()
-            )).create(REF, SHA)
+            )).create(MkPullRefTest.REF, MkPullRefTest.SHA)
         );
     }
 
@@ -125,7 +126,8 @@ public final class MkPullRefTest {
     ) throws IOException {
         return new MkPullRef(
             storage,
-            ((MkBranches) (repo.branches())).create(REF, SHA)
+            ((MkBranches) (repo.branches()))
+                .create(MkPullRefTest.REF, MkPullRefTest.SHA)
         );
     }
 }
