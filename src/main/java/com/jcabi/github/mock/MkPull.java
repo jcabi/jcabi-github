@@ -245,8 +245,7 @@ final class MkPull implements Pull {
                     .add(MkPull.REF_PROP, parts[1])
                     .add(MkPull.LABEL_PROP, head)
                     .build()
-            )
-            .add(
+            ).add(
                 "base",
                 Json.createObjectBuilder()
                     .add(MkPull.REF_PROP, branch)
@@ -257,14 +256,11 @@ final class MkPull implements Pull {
                             this.coords.user(),
                             branch
                         )
-                    )
-                    .build()
-            )
-            .add(
+                    ).build()
+            ).add(
                 "comments",
                 this.storage.xml().nodes(this.comment()).size()
-            )
-            .build();
+            ).build();
     }
 
     /**

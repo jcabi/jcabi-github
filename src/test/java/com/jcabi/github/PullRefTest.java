@@ -165,8 +165,7 @@ public final class PullRefTest {
                             .add("full_name", coords.toString())
                             .add("owner", user)
                             .build()
-                    )
-                    .build()
+                    ).build()
             )
         );
     }

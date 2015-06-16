@@ -124,8 +124,7 @@ public final class RtPullRefTest {
                         .add("name", coords.repo())
                         .add("full_name", coords.toString())
                         .build()
-                )
-                .build()
+                ).build()
         );
     }
 }
