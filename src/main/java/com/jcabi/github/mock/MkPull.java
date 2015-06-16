@@ -217,9 +217,9 @@ final class MkPull implements Pull {
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         final XML xml = this.storage.xml().nodes(this.xpath()).get(0);
-        final String basebranch = xml.xpath("base/text()").get(0);
+        final String branch = xml.xpath("base/text()").get(0);
         final String head = xml.xpath("head/text()").get(0);
-        final String[] headparts = head.split(MkPull.USER_BRANCH_SEP, 2);
+        final String[] parts = head.split(MkPull.USER_BRANCH_SEP, 2);
         final List<String> patches = xml.xpath("patch/text()");
         final String patch;
         if (patches.isEmpty()) {
@@ -242,20 +242,20 @@ final class MkPull implements Pull {
             .add(
                 "head",
                 Json.createObjectBuilder()
-                    .add(REF_PROP, headparts[1])
-                    .add(LABEL_PROP, head)
+                    .add(MkPull.REF_PROP, parts[1])
+                    .add(MkPull.LABEL_PROP, head)
                     .build()
             )
             .add(
                 "base",
                 Json.createObjectBuilder()
-                    .add(REF_PROP, basebranch)
+                    .add(MkPull.REF_PROP, branch)
                     .add(
-                        LABEL_PROP,
+                        MkPull.LABEL_PROP,
                         String.format(
                             "%s:%s",
                             this.coords.user(),
-                            basebranch
+                            branch
                         )
                     )
                     .build()

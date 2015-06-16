@@ -67,7 +67,7 @@ public final class PullRefTest {
     public void fetchesRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
-            pullRef(repo).repo().coordinates(),
+            PullRefTest.pullRef(repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
     }
@@ -79,8 +79,8 @@ public final class PullRefTest {
     @Test
     public void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().ref(),
-            Matchers.equalTo(REF)
+            PullRefTest.pullRef().ref(),
+            Matchers.equalTo(PullRefTest.REF)
         );
     }
 
@@ -91,8 +91,8 @@ public final class PullRefTest {
     @Test
     public void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().sha(),
-            Matchers.equalTo(SHA)
+            PullRefTest.pullRef().sha(),
+            Matchers.equalTo(PullRefTest.SHA)
         );
     }
 
@@ -103,8 +103,8 @@ public final class PullRefTest {
     @Test
     public void fetchesLabel() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().label(),
-            Matchers.equalTo(LABEL)
+            PullRefTest.pullRef().label(),
+            Matchers.equalTo(PullRefTest.LABEL)
         );
     }
 
@@ -115,14 +115,14 @@ public final class PullRefTest {
     @Test
     public void fetchesCommit() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
-        final Commit commit = pullRef(repo).commit();
+        final Commit commit = PullRefTest.pullRef(repo).commit();
         MatcherAssert.assertThat(
             commit.repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
         MatcherAssert.assertThat(
             commit.sha(),
-            Matchers.equalTo(SHA)
+            Matchers.equalTo(PullRefTest.SHA)
         );
     }
 
@@ -134,7 +134,7 @@ public final class PullRefTest {
     public void fetchesUser() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
-            pullRef(repo).user().login(),
+            PullRefTest.pullRef(repo).user().login(),
             Matchers.equalTo(repo.coordinates().user())
         );
     }
@@ -154,9 +154,9 @@ public final class PullRefTest {
             new RtPullRef(
                 repo.github(),
                 Json.createObjectBuilder()
-                    .add("label", LABEL)
-                    .add("ref", REF)
-                    .add("sha", SHA)
+                    .add("label", PullRefTest.LABEL)
+                    .add("ref", PullRefTest.REF)
+                    .add("sha", PullRefTest.SHA)
                     .add("user", user)
                     .add(
                         "repo",
@@ -177,6 +177,6 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     private static PullRef.Smart pullRef() throws IOException {
-        return pullRef(new MkGithub().randomRepo());
+        return PullRefTest.pullRef(new MkGithub().randomRepo());
     }
 }

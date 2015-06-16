@@ -119,7 +119,7 @@ public final class MkBranches implements Branches {
                         MkBranches.this.self,
                         MkBranches.this.coords,
                         xml.xpath("@name").get(0),
-                        xml.xpath(XPATH_TO_SHA).get(0)
+                        xml.xpath(MkBranches.XPATH_TO_SHA).get(0)
                     );
                 }
             }
@@ -172,7 +172,7 @@ public final class MkBranches implements Branches {
                     )
                 )
                 .get(0)
-                .xpath(XPATH_TO_SHA)
+                .xpath(MkBranches.XPATH_TO_SHA)
                 .get(0)
         );
     }

@@ -128,11 +128,16 @@ final class MkPulls implements Pulls {
         if (base.isEmpty()) {
             throw new IllegalArgumentException("base cannot be empty!");
         }
-        final String canonicalHead;
-        if (head.contains(USER_BRANCH_SEP)) {
-            canonicalHead = head;
+        final String canonical;
+        if (head.contains(MkPulls.USER_BRANCH_SEP)) {
+            canonical = head;
         } else {
-            canonicalHead = this.coords.user() + USER_BRANCH_SEP + head;
+            canonical = String.format(
+                "%s%s%s",
+                this.coords.user(),
+                MkPulls.USER_BRANCH_SEP,
+                head
+            );
         }
         this.storage.lock();
         final int number;
@@ -142,7 +147,7 @@ final class MkPulls implements Pulls {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("pull")
                     .add("number").set(Integer.toString(number)).up()
-                    .add("head").set(canonicalHead).up()
+                    .add("head").set(canonical).up()
                     .add("base").set(base).up()
                     .add("user")
                     .add("login").set(this.self)
