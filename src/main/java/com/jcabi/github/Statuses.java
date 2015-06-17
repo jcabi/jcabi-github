@@ -119,15 +119,6 @@ public interface Statuses extends JsonReadable {
             this.jsn = new SmartJson(this.statuses);
         }
         /**
-         * Get its message.
-         * @return Message of commit
-         * @throws IOException If there is any I/O problem
-         */
-        @NotNull(message = "message is never NULL")
-        public String message() throws IOException {
-            return this.jsn.text("message");
-        }
-        /**
          * Get its URL.
          * @return URL of comment
          * @throws IOException If there is any I/O problem
