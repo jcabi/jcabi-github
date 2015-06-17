@@ -111,7 +111,7 @@ public final class RtCommits implements Commits {
     }
 
     @Override
-    @NotNull(message = "status is never NULL")
+    @NotNull(message = "statuses is never NULL")
     public Statuses statuses(
         @NotNull(message = "ref can't be NULL") final String ref
     ) {

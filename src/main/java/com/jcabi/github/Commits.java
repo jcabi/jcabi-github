@@ -77,6 +77,6 @@ public interface Commits {
      * @since 0.23
      * @return Status
      */
-    @NotNull(message = "status is never NULL")
+    @NotNull(message = "statuses is never NULL")
     Statuses statuses(@NotNull(message = "sha can't be NULL") final String ref);
 }
