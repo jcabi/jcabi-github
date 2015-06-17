@@ -50,6 +50,8 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @todo #1130:30min Write RtStatusesITCase, an integration test case for
+ *  RtStatuses/RtStatus against real GitHub commit status data.
  */
 public class RtStatusesTest {
     /**
