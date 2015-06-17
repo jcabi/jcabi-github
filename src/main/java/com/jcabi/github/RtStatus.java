@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -42,7 +41,6 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.23
  */
-@Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "cmmt", "jsn" })
 public final class RtStatus implements Status {
