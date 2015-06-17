@@ -27,97 +27,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
-import com.jcabi.github.Commits;
-import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
+import com.jcabi.github.Status;
 import com.jcabi.github.Statuses;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-import org.xembly.Directives;
 
 /**
- * Mock of Github Commits.
- * @author Ed Hillmann (edhillmann@yahoo.com)
+ * Mock of GitHub commit statuses.
+ * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
+ * @since 0.24
+ * @todo Finish implementing this class (MkStatuses), a mock of GitHub's
+ *  commits statuses (the "Statuses" interface).
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-public final class MkCommits implements Commits {
+@EqualsAndHashCode(of = { "cmmt" })
+final class MkStatuses implements Statuses {
+    /**
+     * Commit whose statuses this represents.
+     */
+    private final transient Commit cmmt;
 
     /**
-     * Storage.
+     * Ctor.
+     * @param cmt Commit whose statuses this represents
      */
-    private final transient MkStorage storage;
-
-    /**
-     * Login of the user logged in.
-     */
-    private final transient String self;
-
-    /**
-     * Repo's name.
-     */
-    private final transient Coordinates coords;
-
-    /**
-     * Public constructor.
-     * @param stg The storage.
-     * @param login The login name.
-     * @param rep Repo's coordinates.
-     * @throws IOException If something goes wrong.
-     */
-    MkCommits(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
-    ) throws IOException {
-        this.storage = stg;
-        this.self = login;
-        this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/git",
-                    this.coords
-                )
-            ).addIf("commits")
-        );
-    }
-    @Override
-    @NotNull(message = "Repository can't be NULL")
-    public Repo repo() {
-        return new MkRepo(this.storage, this.self, this.coords);
-    }
-
-    @Override
-    @NotNull(message = "created commit is never NULL")
-    public Commit create(
-        @NotNull(message = "params can't be NULL") final JsonObject params
+    MkStatuses(
+        @NotNull(message = "commit can't be NULL")
+        final Commit cmt
     ) {
-        return this.get(params.getString("sha"));
+        this.cmmt = cmt;
     }
 
     @Override
     @NotNull(message = "commit is never NULL")
-    public Commit get(
-        @NotNull(message = "sha can't be NULL") final String sha
-    ) {
-        return new MkCommit(this.storage, this.self, this.coords, sha);
+    public Commit commit() {
+        return this.cmmt;
     }
 
     @Override
-    public Statuses statuses(
-            @NotNull(message = "sha can't be NULL") final String sha
+    public Status create(
+        @NotNull(message = "status creation data can't be NULL")
+        final StatusCreate status
+    ) throws IOException {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    @NotNull(message = "iterable of statuses is never NULL")
+    public Iterable<Status> list(
+        @NotNull(message = "ref can't be NULL") final String ref
     ) {
-        return new MkStatuses(this.get(sha));
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    @NotNull(message = "JSON is never NULL")
+    public JsonObject json() {
+        throw new UnsupportedOperationException("Yet to be implemented");
     }
 }
