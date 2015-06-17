@@ -120,7 +120,7 @@ public interface Statuses extends JsonReadable {
         /**
          * Get its message.
          * @return Message of commit
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         @NotNull(message = "message is never NULL")
         public String message() throws IOException {
