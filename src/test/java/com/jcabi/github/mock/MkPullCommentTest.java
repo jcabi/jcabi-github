@@ -81,7 +81,7 @@ public final class MkPullCommentTest {
         return new MkGithub()
             .randomRepo()
             .pulls()
-            .create("hello", "", "")
+            .create("hello", "head", "base")
             .comments()
             .post("comment", "commit", "/", 1);
     }

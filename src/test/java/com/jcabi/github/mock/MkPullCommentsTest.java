@@ -75,7 +75,7 @@ public final class MkPullCommentsTest {
         comments.pull()
             .repo()
             .pulls()
-            .create("new", "", "")
+            .create("new", "head-branch", "base-branch")
             .comments()
             .post("new pull comment", "new commit", "/p", 1);
         comments.post("test 1", "tesst 1", "/test1", 1);
@@ -220,7 +220,8 @@ public final class MkPullCommentsTest {
      */
     private PullComments comments() throws IOException {
         // @checkstyle MultipleStringLiteralsCheck (1 line)
-        return new MkGithub().randomRepo().pulls().create("hello", "", "")
+        return new MkGithub().randomRepo().pulls()
+            .create("hello", "awesome-head", "awesome-base")
             .comments();
     }
 

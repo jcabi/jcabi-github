@@ -36,14 +36,14 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.MergeState;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComments;
+import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -60,6 +60,19 @@ import lombok.ToString;
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
 @SuppressWarnings("PMD.TooManyMethods")
 final class MkPull implements Pull {
+    /**
+     * The separator between the username and
+     * the branch name in the labels of pull request base/head objects.
+     */
+    private static final String USER_BRANCH_SEP = ":";
+    /**
+     * Property name for ref in pull request ref JSON object.
+     */
+    private static final String REF_PROP = "ref";
+    /**
+     * Property name for label in pull request ref JSON object.
+     */
+    private static final String LABEL_PROP = "label";
 
     /**
      * Storage.
@@ -112,6 +125,48 @@ final class MkPull implements Pull {
     }
 
     @Override
+    @NotNull(message = "base is never NULL")
+    public PullRef base() throws IOException {
+        return new MkPullRef(
+            this.storage,
+            new MkBranches(
+                this.storage,
+                this.self,
+                this.coords
+            ).get(
+                this.storage.xml().xpath(
+                    String.format("%s/base/text()", this.xpath())
+                ).get(0)
+            )
+        );
+    }
+
+    @Override
+    @NotNull(message = "head is never NULL")
+    public PullRef head() throws IOException {
+        final String userbranch = this.storage.xml()
+            .xpath(String.format("%s/head/text()", this.xpath()))
+            .get(0);
+        final String[] parts = userbranch.split(MkPull.USER_BRANCH_SEP, 2);
+        if (parts.length != 2) {
+            throw new IllegalStateException("Invalid MkPull head");
+        }
+        final String user = parts[0];
+        final String branch = parts[1];
+        return new MkPullRef(
+            this.storage,
+            new MkBranches(
+                this.storage,
+                this.self,
+                new Coordinates.Simple(
+                    user,
+                    this.coords.repo()
+                )
+            ).get(branch)
+        );
+    }
+
+    @Override
     @NotNull(message = "Iterable of commits is never NULL")
     public Iterable<Commit> commits() throws IOException {
         return Collections.emptyList();
@@ -161,18 +216,51 @@ final class MkPull implements Pull {
     @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
-        final JsonObject obj = new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
-        ).json();
-        final JsonObjectBuilder json = Json.createObjectBuilder();
-        for (final Map.Entry<String, JsonValue> val : obj.entrySet()) {
-            json.add(val.getKey(), val.getValue());
+        final XML xml = this.storage.xml().nodes(this.xpath()).get(0);
+        final String branch = xml.xpath("base/text()").get(0);
+        final String head = xml.xpath("head/text()").get(0);
+        final String[] parts = head.split(MkPull.USER_BRANCH_SEP, 2);
+        final List<String> patches = xml.xpath("patch/text()");
+        final String patch;
+        if (patches.isEmpty()) {
+            patch = "";
+        } else {
+            patch = patches.get(0);
         }
-        return json
+        return Json.createObjectBuilder()
             .add(
+                "number",
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
+            .add(
+                "user",
+                Json.createObjectBuilder()
+                    .add("login", xml.xpath("user/login/text()").get(0))
+                    .build()
+            )
+            .add("patch", patch)
+            .add(
+                "head",
+                Json.createObjectBuilder()
+                    .add(MkPull.REF_PROP, parts[1])
+                    .add(MkPull.LABEL_PROP, head)
+                    .build()
+            ).add(
+                "base",
+                Json.createObjectBuilder()
+                    .add(MkPull.REF_PROP, branch)
+                    .add(
+                        MkPull.LABEL_PROP,
+                        String.format(
+                            "%s:%s",
+                            this.coords.user(),
+                            branch
+                        )
+                    ).build()
+            ).add(
                 "comments",
                 this.storage.xml().nodes(this.comment()).size()
-        ).build();
+            ).build();
     }
 
     /**

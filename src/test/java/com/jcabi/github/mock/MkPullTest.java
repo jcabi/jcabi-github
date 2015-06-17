@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
+import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -51,6 +52,14 @@ public final class MkPullTest {
      * Login of test user.
      */
     private static final String USERNAME = "patrick";
+    /**
+     * Base branch name.
+     */
+    private static final String BASE = "my-base-branch";
+    /**
+     * Head branch name.
+     */
+    private static final String HEAD = "my-head-branch";
 
     /**
      * MkPull should be able to compare different instances.
@@ -88,7 +97,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetCommentsNumberIfZero() throws Exception {
-        final Pull pull = MkPullTest.repo().pulls().create("", "", "");
+        final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             pull.json().getInt("comments"),
             Matchers.is(0)
@@ -102,8 +111,7 @@ public final class MkPullTest {
      */
     @Test
     public void canGetCommentsNumberIfNonZero() throws Exception {
-        final Repo repo =  MkPullTest.repo();
-        final Pull pull = repo.pulls().create("", "", "");
+        final Pull pull = MkPullTest.pullRequest();
         pull.comments().post("comment1", "path1", "how are you?", 1);
         pull.comments().post("comment2", "path2", "how are you2?", 2);
         MatcherAssert.assertThat(
@@ -119,11 +127,38 @@ public final class MkPullTest {
      */
     @Test
     public void canGetComments() throws Exception {
-        final Repo repo =  MkPullTest.repo();
-        final Pull pull = repo.pulls().create("", "", "");
+        final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             pull.comments(),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * MkPull can get its base ref.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canGetBase() throws Exception {
+        final PullRef base = MkPullTest.pullRequest().base();
+        MatcherAssert.assertThat(base, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            base.ref(),
+            Matchers.equalTo(MkPullTest.BASE)
+        );
+    }
+
+    /**
+     * MkPull can get its head ref.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void canGetHead() throws Exception {
+        final PullRef head = MkPullTest.pullRequest().head();
+        MatcherAssert.assertThat(head, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            head.ref(),
+            Matchers.equalTo(MkPullTest.HEAD)
         );
     }
 
@@ -136,23 +171,36 @@ public final class MkPullTest {
     public void canRetrieveAsJson() throws Exception {
         final String head = "blah";
         final String base = "aaa";
-        final Pull pull = repo().pulls().create("Test Pull Json", head, base);
+        final Pull pull = MkPullTest.repo().pulls()
+            .create("Test Pull Json", head, base);
         final JsonObject json = pull.json();
         MatcherAssert.assertThat(
-            json.getString("number"),
-            Matchers.equalTo("1")
+            json.getInt("number"),
+            Matchers.equalTo(1)
         );
         MatcherAssert.assertThat(
-            json.getString("head"),
-            Matchers.equalTo(head)
+            json.getJsonObject("head").getString("label"),
+            Matchers.equalTo(
+                String.format(
+                    "%s:%s",
+                    MkPullTest.USERNAME,
+                    head
+                )
+            )
         );
         MatcherAssert.assertThat(
-            json.getString("base"),
-            Matchers.equalTo(base)
+            json.getJsonObject("base").getString("label"),
+            Matchers.equalTo(
+                String.format(
+                    "%s:%s",
+                    MkPullTest.USERNAME,
+                    base
+                )
+            )
         );
         MatcherAssert.assertThat(
             json.getJsonObject("user").getString("login"),
-            Matchers.equalTo(USERNAME)
+            Matchers.equalTo(MkPullTest.USERNAME)
         );
     }
 
@@ -163,7 +211,8 @@ public final class MkPullTest {
      */
     @Test
     public void canPatchJson() throws Exception {
-        final Pull pull = repo().pulls().create("Test Patch", "def", "abc");
+        final Pull pull = MkPullTest.repo().pulls()
+            .create("Test Patch", "def", "abc");
         final String value = "someValue";
         pull.patch(
             Json.createObjectBuilder().add("patch", value).build()
@@ -180,6 +229,29 @@ public final class MkPullTest {
      * @throws Exception If some problem inside
      */
     private static Repo repo() throws Exception {
-        return new MkGithub(USERNAME).randomRepo();
+        return new MkGithub(MkPullTest.USERNAME).randomRepo();
+    }
+
+    /**
+     * Create a pull request to work with.
+     * @return Repo
+     * @throws Exception If some problem inside
+     */
+    private static Pull pullRequest() throws Exception {
+        final Repo rpo = MkPullTest.repo();
+        final MkBranches branches = (MkBranches) (rpo.branches());
+        branches.create(
+            MkPullTest.BASE,
+            "e11f7ffa797f8422f016576cb7c2f5bb6f66aa51"
+        );
+        branches.create(
+            MkPullTest.HEAD,
+            "5a8d0143b3fa9de883a5672d4a1f44d472657a8a"
+        );
+        return rpo.pulls().create(
+            "Test PR",
+            MkPullTest.HEAD,
+            MkPullTest.BASE
+        );
     }
 }

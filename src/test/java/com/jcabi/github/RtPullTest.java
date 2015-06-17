@@ -36,7 +36,9 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -50,6 +52,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtPullTest {
+    /**
+     * Property name for ref name in pull request ref JSON object.
+     */
+    private static final String REF_PROP = "ref";
+    /**
+     * Property name for commit SHA in pull request ref JSON object.
+     */
+    private static final String SHA_PROP = "sha";
 
     /**
      * RtPull should be able to retrieve commits.
@@ -101,6 +111,100 @@ public final class RtPullTest {
             MatcherAssert.assertThat(
                 pull.files().iterator().next().getString("file1"),
                 Matchers.equalTo("testFile")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtPull can fetch its base ref.
+     * @throws IOException If some I/O problem occurs
+     */
+    @Test
+    public void fetchesBase() throws IOException {
+        final String ref = "sweet-feature-branch";
+        final String sha = "e93c6a2216c69daa574abc16e7c14767fce44ad6";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add(
+                        "base",
+                        Json.createObjectBuilder()
+                            .add(RtPullTest.REF_PROP, ref)
+                            .add(RtPullTest.SHA_PROP, sha)
+                            .build()
+                    )
+                    .build()
+                    .toString()
+            )
+        ).start();
+        final RtPull pull = new RtPull(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            1
+        );
+        try {
+            final PullRef base = pull.base();
+            MatcherAssert.assertThat(
+                base,
+                Matchers.notNullValue()
+            );
+            MatcherAssert.assertThat(
+                base.ref(),
+                Matchers.equalTo(ref)
+            );
+            MatcherAssert.assertThat(
+                base.sha(),
+                Matchers.equalTo(sha)
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtPull can fetch its head ref.
+     * @throws IOException If some I/O problem occurs
+     */
+    @Test
+    public void fetchesHead() throws IOException {
+        final String ref = "neat-other-branch";
+        final String sha = "9c717b4716e4fc4d917f546e8e6b562e810e3922";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createObjectBuilder()
+                    .add(
+                        "head",
+                        Json.createObjectBuilder()
+                            .add(RtPullTest.REF_PROP, ref)
+                            .add(RtPullTest.SHA_PROP, sha)
+                            .build()
+                    )
+                    .build()
+                    .toString()
+            )
+        ).start();
+        final RtPull pull = new RtPull(
+            new ApacheRequest(container.home()),
+            this.repo(),
+            1
+        );
+        try {
+            final PullRef head = pull.head();
+            MatcherAssert.assertThat(
+                head,
+                Matchers.notNullValue()
+            );
+            MatcherAssert.assertThat(
+                head.ref(),
+                Matchers.equalTo(ref)
+            );
+            MatcherAssert.assertThat(
+                head.sha(),
+                Matchers.equalTo(sha)
             );
         } finally {
             container.stop();

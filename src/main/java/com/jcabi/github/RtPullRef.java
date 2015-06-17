@@ -27,64 +27,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Issue;
-import com.jcabi.github.Pull;
-import com.jcabi.github.Repo;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Test;
+import com.jcabi.aspects.Loggable;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 
 /**
- * Test case for {@link MkPulls}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * GitHub pull request ref.
+ *
+ * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
- * @since 1.0
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
+ * @since 0.24
  */
-public final class MkPullsTest {
+@Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = { "github", "jsn" })
+final class RtPullRef implements PullRef {
+    /**
+     * API entry point.
+     */
+    private final transient Github github;
+    /**
+     * JSON of the pull request ref.
+     */
+    private final transient JsonObject jsn;
 
     /**
-     * MkPulls can create a pull.
-     * It should create an issue first, and then pull with the same number
-     * @throws Exception if some problem inside
+     * Public ctor.
+     * @param gthb Github
+     * @param json Pull request ref JSON object
      */
-    @Test
-    public void canCreateAPull() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
-        final Pull pull = repo.pulls().create(
-            "hello",
-            "head-branch",
-            "base-branch"
-        );
-        final Issue.Smart issue = new Issue.Smart(
-            repo.issues().get(pull.number())
-        );
-        MatcherAssert.assertThat(
-            issue.title(),
-            Matchers.is("hello")
-        );
+    RtPullRef(final Github gthb, final JsonObject json) {
+        this.github = gthb;
+        this.jsn = json;
     }
 
-    /**
-     * MkPulls can fetch empty list of pulls.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchEmptyListOfPulls() throws Exception {
-        // to be implemented
+    @Override
+    @NotNull(message = "JSON is never NULL")
+    public JsonObject json() {
+        return this.jsn;
     }
 
-    /**
-     * MkPulls can fetch single pull.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchSinglePull() throws Exception {
-        // to be implemented
+    @Override
+    @NotNull(message = "ref is never NULL")
+    public String ref() {
+        return this.jsn.getString("ref");
+    }
+
+    @Override
+    @NotNull(message = "sha is never NULL")
+    public String sha() {
+        return this.jsn.getString("sha");
+    }
+
+    @Override
+    @NotNull(message = "sha is never NULL")
+    public Repo repo() {
+        return this.github.repos().get(
+            new Coordinates.Simple(
+                this.jsn.getJsonObject("repo").getString("full_name")
+            )
+        );
     }
 }

@@ -27,64 +27,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
-
-import com.jcabi.github.Issue;
-import com.jcabi.github.Pull;
-import com.jcabi.github.Repo;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Test;
+package com.jcabi.github;
 
 /**
- * Test case for {@link MkPulls}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * Test case for {@link RtPullRef}.
+ * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
- * @since 1.0
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
+ * @todo #1125:30min Implement this integration test for RtPullRef and
+ *  PullRef.Smart to check that they work with actual JSON from GitHub.
  */
-public final class MkPullsTest {
-
-    /**
-     * MkPulls can create a pull.
-     * It should create an issue first, and then pull with the same number
-     * @throws Exception if some problem inside
-     */
-    @Test
-    public void canCreateAPull() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
-        final Pull pull = repo.pulls().create(
-            "hello",
-            "head-branch",
-            "base-branch"
-        );
-        final Issue.Smart issue = new Issue.Smart(
-            repo.issues().get(pull.number())
-        );
-        MatcherAssert.assertThat(
-            issue.title(),
-            Matchers.is("hello")
-        );
-    }
-
-    /**
-     * MkPulls can fetch empty list of pulls.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchEmptyListOfPulls() throws Exception {
-        // to be implemented
-    }
-
-    /**
-     * MkPulls can fetch single pull.
-     * @throws Exception if some problem inside
-     */
-    @Test
-    @Ignore
-    public void canFetchSinglePull() throws Exception {
-        // to be implemented
-    }
+public final class RtPullRefITCase {
 }

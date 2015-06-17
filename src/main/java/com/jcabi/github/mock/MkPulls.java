@@ -56,6 +56,12 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkPulls implements Pulls {
+    /**
+     * The separator between the username and
+     * the branch name in the base/head parameters
+     * when creating a pull request.
+     */
+    private static final String USER_BRANCH_SEP = ":";
 
     /**
      * Storage.
@@ -116,6 +122,23 @@ final class MkPulls implements Pulls {
         @NotNull(message = "head can't be NULL") final String head,
         @NotNull(message = "base can't be NULL") final String base
     ) throws IOException {
+        if (head.isEmpty()) {
+            throw new IllegalArgumentException("head cannot be empty!");
+        }
+        if (base.isEmpty()) {
+            throw new IllegalArgumentException("base cannot be empty!");
+        }
+        final String canonical;
+        if (head.contains(MkPulls.USER_BRANCH_SEP)) {
+            canonical = head;
+        } else {
+            canonical = String.format(
+                "%s%s%s",
+                this.coords.user(),
+                MkPulls.USER_BRANCH_SEP,
+                head
+            );
+        }
         this.storage.lock();
         final int number;
         try {
@@ -124,7 +147,7 @@ final class MkPulls implements Pulls {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("pull")
                     .add("number").set(Integer.toString(number)).up()
-                    .add("head").set(head).up()
+                    .add("head").set(canonical).up()
                     .add("base").set(base).up()
                     .add("user")
                     .add("login").set(this.self)
