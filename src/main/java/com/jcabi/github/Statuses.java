@@ -74,6 +74,7 @@ public interface Statuses extends JsonReadable {
      * @return The added status
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
+    @NotNull(message = "status is never NULL")
     Status create(
         @NotNull(message = "status creation data can't be NULL")
         final StatusCreate status

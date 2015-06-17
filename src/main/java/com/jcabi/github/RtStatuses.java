@@ -100,6 +100,7 @@ public class RtStatuses implements Statuses {
      * @throws IOException In case of any I/O problems
      */
     @Override
+    @NotNull(message = "status is never NULL")
     public final Status create(
         @NotNull(message = "status can't be NULL") final StatusCreate status
     ) throws IOException {
