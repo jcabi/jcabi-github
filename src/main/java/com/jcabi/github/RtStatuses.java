@@ -34,9 +34,7 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -103,37 +101,27 @@ public class RtStatuses implements Statuses {
      */
     @Override
     public final Status create(
-        @NotNull(message = "status can't be NULL") final Status status
+        @NotNull(message = "status can't be NULL") final StatusCreate status
     ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("state", status.state().name())
-            .add("target_url", status.targetUrl())
-            .add("description", status.description())
-            .add("context", status.context())
-            .build();
         final JsonObject response = this.request.method(Request.POST)
-            .body().set(json).back()
+            .body().set(status.json()).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)
             .as(JsonResponse.class)
             .json().readObject();
-        return new RtStatus(
-            Status.State.forValue(response.getString("state")),
-            response.getString("target_url"),
-            response.getString("description"),
-            response.getString("context")
-        );
+        return new RtStatus(this.cmmt, response);
     }
 
     /**
-     * Get all status messages for current commit.
+     * Get all status messages for a given commit.
      * @param ref It can be a SHA, a branch name, or a tag name.
      * @return Full list of statuses for this commit.
+     * @todo #1126:30min Implement this method which gets all status messages for a given commit.
      */
     @Override
-    @NotNull(message = "list of statuses can't be NULL")
-    public final Iterable<Statuses> list(
+    @NotNull(message = "iterable of statuses can't be NULL")
+    public final Iterable<Status> list(
         @NotNull(message = "ref can't be NULL") final String ref
     ) {
         throw new UnsupportedOperationException("Not implemented");

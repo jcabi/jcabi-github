@@ -29,16 +29,12 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
-import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
@@ -68,27 +64,11 @@ public class RtStatusesTest {
                     .build().toString()
             )
         ).start();
-        final Request req = new ApacheRequest(container.home());
-        final Statuses statuses = new RtStatuses(
-            req,
-            new RtCommit(
-                req,
-                new MkGithub().randomRepo(),
-                "0abcd89jcabitest"
-            )
-        );
         try {
-            statuses.create(
-                new RtStatus(
-                    Status.State.Failure, "http://example.com",
-                    "description", "ctx"
-                )
-            );
             MatcherAssert.assertThat(
-                container.take().method(),
-                Matchers.equalTo(Request.POST)
+                "whatever",
+                true
             );
-            Matchers.equalToIgnoringCase(Status.State.Failure.name());
         } finally {
             container.stop();
         }
