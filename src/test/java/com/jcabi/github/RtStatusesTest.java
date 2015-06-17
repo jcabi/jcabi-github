@@ -38,7 +38,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 /**
- * Testcase for RtCommits.
+ * Testcase for {@link RtStatuses}.
  *
  * @author Marcin Cylke (marcin.cylke+github@gmail.com)
  * @version $Id$
@@ -48,7 +48,7 @@ import org.junit.Test;
 public class RtStatusesTest {
 
     /**
-     * Tests creating a Commit.
+     * Tests creating a Status.
      *
      * @throws Exception when an Error occurs
      */
