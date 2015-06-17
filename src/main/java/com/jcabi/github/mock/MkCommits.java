@@ -117,7 +117,7 @@ public final class MkCommits implements Commits {
     @Override
     @NotNull(message = "statuses is never NULL")
     public Statuses statuses(
-            @NotNull(message = "sha can't be NULL") final String sha
+        @NotNull(message = "sha can't be NULL") final String sha
     ) {
         return new MkStatuses(this.get(sha));
     }
