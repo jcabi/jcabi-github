@@ -33,7 +33,6 @@ import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import java.net.URL;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -90,62 +89,6 @@ public interface Statuses extends JsonReadable {
     Iterable<Status> list(
         @NotNull(message = "ref can't be NULL") final String ref
     );
-
-    /**
-     * Smart commit.
-     */
-    @Immutable
-    @ToString
-    @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = { "statuses", "jsn" })
-    final class Smart implements Statuses {
-        /**
-         * Encapsulated status.
-         */
-        private final transient Statuses statuses;
-        /**
-         * SmartJson object for convenient JSON parsing.
-         */
-        private final transient SmartJson jsn;
-        /**
-         * Public ctor.
-         * @param stats Status
-         */
-        public Smart(
-            @NotNull(message = "statuses can't be NULL")
-            final Statuses stats
-        ) {
-            this.statuses = stats;
-            this.jsn = new SmartJson(this.statuses);
-        }
-
-        @Override
-        @NotNull(message = "commit is never NULL")
-        public Commit commit() {
-            return this.statuses.commit();
-        }
-
-        @Override
-        public Status create(
-            @NotNull(message = "status can't be NULL")
-            final StatusCreate status
-        ) throws IOException {
-            return this.statuses.create(status);
-        }
-
-        @Override
-        public Iterable<Status> list(
-            @NotNull(message = "ref can't be NULL") final String ref
-        ) {
-            return this.statuses.list(ref);
-        }
-
-        @Override
-        @NotNull(message = "JSON is never NULL")
-        public JsonObject json() throws IOException {
-            return this.statuses.json();
-        }
-    }
 
     /**
      * Data to use when creating a new GitHub commit status.
