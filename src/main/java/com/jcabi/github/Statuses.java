@@ -111,7 +111,7 @@ public interface Statuses extends JsonReadable {
          * @param stats Status
          */
         public Smart(
-            @NotNull(message = "cmt can't be NULL")
+            @NotNull(message = "statuses can't be NULL")
             final Statuses stats
         ) {
             this.statuses = stats;
