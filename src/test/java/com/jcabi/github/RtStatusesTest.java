@@ -35,6 +35,8 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -50,6 +52,19 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public class RtStatusesTest {
+    /**
+     * RtStatuses can fetch its commit.
+     * @throws IOException If there is an I/O problem.
+     */
+    @Test
+    public void fetchesCommit() throws IOException {
+        final Commit original = new MkGithub().randomRepo().git()
+            .commits().get("5e8d65e0dbfab0716db16493e03a0baba480625a");
+        MatcherAssert.assertThat(
+            new RtStatuses(new FakeRequest(), original).commit(),
+            Matchers.equalTo(original)
+        );
+    }
 
     /**
      * Tests creating a Commit.
