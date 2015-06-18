@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.google.common.base.Optional;
+import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -42,10 +43,25 @@ import org.junit.Test;
  */
 public final class StatusesTest {
     /**
+     * Name of state property in Status JSON object.
+     */
+    private static final String STATE_PROP = "state";
+    /**
+     * Name of description property in Status JSON object.
+     */
+    private static final String DESCRIPTION_PROP = "description";
+    /**
+     * Name of description property in Status JSON object.
+     */
+    private static final String TARGET_PROP = "target_url";
+    /**
+     * Name of context property in Status JSON object.
+     */
+    private static final String CONTEXT_PROP = "context";
+    /**
      * Test status URL.
      */
     private static final String URL = "http://status.jcabi-github.invalid/42";
-
     /**
      * Test commit status context string.
      */
@@ -56,15 +72,21 @@ public final class StatusesTest {
      */
     @Test
     public void convertsToJsonWhenAllPresent() {
-        final String success = "Everything is awesome";
+        final String success = "Everything is not so awesome";
         MatcherAssert.assertThat(
-            new Statuses.StatusCreate(Status.State.SUCCESS)
-                .withTargetUrl(Optional.of(URL))
+            new Statuses.StatusCreate(Status.State.ERROR)
+                .withTargetUrl(Optional.of(StatusesTest.URL))
                 .withDescription(success)
-                .withContext(Optional.of(CONTEXT))
+                .withContext(Optional.of(StatusesTest.CONTEXT))
                 .json().toString(),
-            // @checkstyle LineLength (1 line)
-            Matchers.equalTo("{\"state\":\"success\",\"description\":\"Everything is awesome\",\"context\":\"jcabi/github/test\",\"target_url\":\"http://status.jcabi-github.invalid/42\"}")
+            Matchers.equalTo(
+                Json.createObjectBuilder()
+                    .add(StatusesTest.STATE_PROP, "error")
+                    .add(StatusesTest.DESCRIPTION_PROP, success)
+                    .add(StatusesTest.CONTEXT_PROP, StatusesTest.CONTEXT)
+                    .add(StatusesTest.TARGET_PROP, StatusesTest.URL)
+                    .build().toString()
+            )
         );
     }
 
@@ -77,10 +99,15 @@ public final class StatusesTest {
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.SUCCESS)
                 .withDescription(success)
-                .withContext(Optional.of(CONTEXT))
+                .withContext(Optional.of(StatusesTest.CONTEXT))
                 .json().toString(),
-            // @checkstyle LineLength (1 line)
-            Matchers.equalTo("{\"state\":\"success\",\"description\":\"Living the dream!\",\"context\":\"jcabi/github/test\"}")
+            Matchers.equalTo(
+                Json.createObjectBuilder()
+                    .add(StatusesTest.STATE_PROP, "success")
+                    .add(StatusesTest.DESCRIPTION_PROP, success)
+                    .add(StatusesTest.CONTEXT_PROP, StatusesTest.CONTEXT)
+                    .build().toString()
+            )
         );
     }
 
@@ -91,11 +118,17 @@ public final class StatusesTest {
     public void convertsToJsonWhenDescriptionAbsent() {
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.FAILURE)
-                .withTargetUrl(Optional.of(URL))
-                .withContext(Optional.of(CONTEXT))
+                .withTargetUrl(Optional.of(StatusesTest.URL))
+                .withContext(Optional.of(StatusesTest.CONTEXT))
                 .json().toString(),
-            // @checkstyle LineLength (1 line)
-            Matchers.equalTo("{\"state\":\"failure\",\"description\":\"\",\"context\":\"jcabi/github/test\",\"target_url\":\"http://status.jcabi-github.invalid/42\"}")
+            Matchers.equalTo(
+                Json.createObjectBuilder()
+                    .add(StatusesTest.STATE_PROP, "failure")
+                    .add(StatusesTest.DESCRIPTION_PROP, "")
+                    .add(StatusesTest.CONTEXT_PROP, StatusesTest.CONTEXT)
+                    .add(StatusesTest.TARGET_PROP, StatusesTest.URL)
+                    .build().toString()
+            )
         );
     }
 
@@ -107,11 +140,16 @@ public final class StatusesTest {
         final String pending = "Kragle is drying...";
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.PENDING)
-                .withTargetUrl(Optional.of(URL))
+                .withTargetUrl(Optional.of(StatusesTest.URL))
                 .withDescription(pending)
                 .json().toString(),
-            // @checkstyle LineLength (1 line)
-            Matchers.equalTo("{\"state\":\"pending\",\"description\":\"Kragle is drying...\",\"target_url\":\"http://status.jcabi-github.invalid/42\"}")
+            Matchers.equalTo(
+                Json.createObjectBuilder()
+                    .add(StatusesTest.STATE_PROP, "pending")
+                    .add(StatusesTest.DESCRIPTION_PROP, pending)
+                    .add(StatusesTest.TARGET_PROP, StatusesTest.URL)
+                    .build().toString()
+            )
         );
     }
 }
