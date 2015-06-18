@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.google.common.base.Optional;
 import com.jcabi.github.mock.MkGithub;
-import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -60,10 +59,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its commit.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    public void fetchesCommit() throws Exception {
         final Commit cmmt = StatusTest.commit();
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -75,10 +74,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its ID number.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesId() throws IOException {
+    public void fetchesId() throws Exception {
         final int ident = 777;
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -93,10 +92,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its URL.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUrl() throws IOException {
+    public void fetchesUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/wherever";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -111,10 +110,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's error.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesErrorState() throws IOException {
+    public void fetchesErrorState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -129,10 +128,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's failure.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFailureState() throws IOException {
+    public void fetchesFailureState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -147,10 +146,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's pending.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPendingState() throws IOException {
+    public void fetchesPendingState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -165,10 +164,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's success.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesSuccessState() throws IOException {
+    public void fetchesSuccessState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -183,10 +182,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its target URL when it's present.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPresentTargetUrl() throws IOException {
+    public void fetchesPresentTargetUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/good-luck";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -202,10 +201,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its target URL when it's absent.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAbsentTargetUrl() throws IOException {
+    public void fetchesAbsentTargetUrl() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -219,10 +218,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its target URL when it's null.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNullTargetUrl() throws IOException {
+    public void fetchesNullTargetUrl() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -237,10 +236,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its description when it's present.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPresentDescription() throws IOException {
+    public void fetchesPresentDescription() throws Exception {
         final String description = "Mostly harmless";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -256,10 +255,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its description when it's absent.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAbsentDescription() throws IOException {
+    public void fetchesAbsentDescription() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -273,10 +272,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its description when it's null.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNullDescription() throws IOException {
+    public void fetchesNullDescription() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -291,10 +290,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its context.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesContext() throws IOException {
+    public void fetchesContext() throws Exception {
         final String context = "jcabi/github/tester";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -345,10 +344,10 @@ public final class StatusTest {
 
     /**
      * Status.Smart can fetch its creator.
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreator() throws IOException {
+    public void fetchesCreator() throws Exception {
         final String login = "bob";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -369,9 +368,9 @@ public final class StatusTest {
     /**
      * Returns a test commit to work with.
      * @return Commit
-     * @throws IOException If there is an I/O problem.
+     * @throws Exception If some problem inside
      */
-    private static Commit commit() throws IOException {
+    private static Commit commit() throws Exception {
         return new MkGithub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");
     }
