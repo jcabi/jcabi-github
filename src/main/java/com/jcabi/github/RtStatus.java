@@ -29,7 +29,10 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import java.io.StringReader;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -41,6 +44,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.23
  */
+@Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "cmmt", "jsn" })
 public final class RtStatus implements Status {
@@ -49,9 +53,9 @@ public final class RtStatus implements Status {
      */
     private final transient Commit cmmt;
     /**
-     * Encapsulated status JSON object.
+     * Encapsulated status JSON.
      */
-    private final transient JsonObject jsn;
+    private final transient String jsn;
 
     /**
      * Public ctor.
@@ -65,24 +69,24 @@ public final class RtStatus implements Status {
         final JsonObject obj
     ) {
         this.cmmt = cmt;
-        this.jsn = obj;
+        this.jsn = obj.toString();
     }
 
     @Override
     @NotNull(message = "JSON is never NULL")
     public JsonObject json() {
-        return this.jsn;
+        return Json.createReader(new StringReader(this.jsn)).readObject();
     }
 
     @Override
     public int identifier() {
-        return this.jsn.getInt("id");
+        return this.json().getInt("id");
     }
 
     @Override
     @NotNull(message = "URL is never NULL")
     public String url() {
-        return this.jsn.getString("url");
+        return this.json().getString("url");
     }
 
     @Override
