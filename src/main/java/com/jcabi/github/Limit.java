@@ -103,7 +103,7 @@ public interface Limit extends JsonReadable {
         @NotNull(message = "date is never NULL")
         public Date reset() throws IOException {
             return new Date(
-                (long) new SmartJson(this.origin).number("reset")
+                (long) new SmartJson(this.origin).number("reset") * 1000
             );
         }
         @Override
