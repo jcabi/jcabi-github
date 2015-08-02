@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
@@ -103,7 +104,10 @@ public interface Limit extends JsonReadable {
         @NotNull(message = "date is never NULL")
         public Date reset() throws IOException {
             return new Date(
-                (long) new SmartJson(this.origin).number("reset") * 1000
+                TimeUnit.MILLISECONDS.convert(
+                    (long) new SmartJson(this.origin).number("reset"),
+                    TimeUnit.SECONDS
+                )
             );
         }
         @Override
