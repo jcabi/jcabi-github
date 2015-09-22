@@ -81,6 +81,11 @@ public final class RtGithub implements Github {
      * The project name.
      */
     private static final String JCABI_GITHUB = "jcabi-github";
+
+    /**
+     * The client name.
+     */
+    private static final String JCABI_CLIENT = "JCabi-Client";
     /**
      * Blank constant.
      */
@@ -116,7 +121,7 @@ public final class RtGithub implements Github {
             valid = false;
         }
         if (valid) {
-            USER_AGENT = JCABI_GITHUB + BLANK
+            USER_AGENT = prop.getProperty(JCABI_CLIENT) + BLANK
                     + prop.getProperty("JCabi-Version") + BLANK
                     + prop.getProperty("JCabi-Build") + BLANK
                     + prop.getProperty("JCabi-Date");
