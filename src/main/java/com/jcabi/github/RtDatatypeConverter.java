@@ -1,151 +1,248 @@
 /**
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 2013-2015, jcabi.com
+ * All rights reserved.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met: 1) Redistributions of source code must retain the above
+ * copyright notice, this list of conditions and the following
+ * disclaimer. 2) Redistributions in binary form must reproduce the above
+ * copyright notice, this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided
+ * with the distribution. 3) Neither the name of the jcabi.com nor
+ * the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
- *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+ * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.jcabi.github;
 
 /**
  *
- * The mostly code in this class is copied from OpenJDK 7u40-b43.
+ * The code is based on the RtDatatypeConverter from OpenJDK 7u40-b43.
  * See https://github.com/jcabi/jcabi-github/issues/932
- * 
- * @author openjdk
- * @version 1.0
+ *
+ * @author Haris Peco (snpe@gmail60.com)
+ * @version $Id$
  *
  */
-final public class RtDatatypeConverter {
+public final class RtDatatypeConverter {
 
+    /**
+     * Buffer.
+     */
+    private static final int BUFFER = 64;
+        /**
+     * Constant.
+     */
+    private static final int C_63 = 63;
+    /**
+     * Constant.
+     */
+    private static final int C_52 = 52;
+    /**
+     * Constant.
+     */
+    private static final int C_62 = 62;
+    /**
+     * Constant.
+     */
+    private static final int C_26 = 26;
+    /**
+     * Constant.
+     */
+    private static final int C_0X3F = 0x3F;
+    /**
+     * Constant.
+     */
+    private static final int C_0XF = 0xF;
+    /**
+     * Constant.
+     */
+    private static final int C_0X3 = 0x3;
+    /**
+     * Constant.
+     */
+    private static final int SIX = 6;
+    /**
+     * Constant.
+     */
+    private static final int FOUR = 4;
+    /**
+     * Constant.
+     */
+    private static final int THREE = 3;
+    /**
+     * Encoded map.
+     */
     private static final char[] ENCODE_MAP = initEncodeMap();
 
+    /**
+     * Constructor for utility class.
+     */
     private RtDatatypeConverter() {
     }
-    
-    public static String printBase64Binary(final byte[] data) {
 
+    /**
+     * Returns base64 string.
+     * @param data Array of bytes
+     * @return String Base64 string
+     */
+    public static String printBinary(final byte[] data) {
         String value;
         if (isJRE("javax.xml.bind.DatatypeConverter")) {
             value = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
         } else {
-            // there isn't javax.xml.bind.DatatypeConverter; 
-            // it is probably Android
-            value = printBase64BinaryInternal(data);
+            value = printInternal(data);
         }
         return value;
     }
 
     /**
-     * Check is the class exists.return
-     * @param fqn
-     * @return
+     * Check is the class exists.return.
+     * @param fqn Fully qualified name
+     * @return Boolean true if exists
      */
     private static boolean isJRE(final String fqn) {
         boolean ret;
         try {
             Class.forName(fqn);
             ret = true;
-        } catch (ClassNotFoundException e) {
-        	try {
-				Thread.currentThread().getContextClassLoader().loadClass(fqn);
-				ret = true;
-			} catch (ClassNotFoundException ex) {
-				ret = false;
-			}
+        } catch (final ClassNotFoundException ex) {
+            try {
+                Thread.currentThread().getContextClassLoader().loadClass(fqn);
+                ret = true;
+            } catch (final ClassNotFoundException ex1) {
+                ret = false;
+            }
         }
         return ret;
     }
 
-    public static String printBase64BinaryInternal(final byte[] input) {
-        return printBase64Binary(input, 0, input.length);
+    /**
+     * Returns Base64 string.
+     * @param input Array of bytes
+     * @return String Base64 string
+     */
+    private static String printInternal(final byte[] input) {
+        return printBinary(input, 0, input.length);
     }
 
-    public static String printBase64Binary(final byte[] input, final int offset, final int len) {
-        final char[] buf = new char[((len + 2) / 3) * 4];
-        final int ptr = printBase64Binary(input, offset, len, buf, 0);
+    /**
+     * Returns Base64 string.
+     * @param input Array of bytes
+     * @param offset Int
+     * @param len Int
+     * @return String Base64 string
+     */
+    private static String printBinary(final byte[] input,
+            final int offset, final int len) {
+        final char[] buf = new char[((len + 2) / THREE) * FOUR];
+        final int ptr = printBinary(input, offset, len, buf, 0);
         assert ptr == buf.length;
         return new String(buf);
     }
 
     /**
-     * Encodes a byte array into a char array by doing base64 encoding.
-     *
-     * The caller must supply a big enough buffer.
-     *
-     * @return
-     *      the value of {@code ptr+((len+2)/3)*4}, which is the new offset
-     *      in the output buffer where the further bytes should be placed.
+     * Returns Base64 string.
+     * @param input Array of bytes
+     * @param offset Int
+     * @param len Int
+     * @param buf Array of char
+     * @param start Int
+     * @return String Base64 string
+     * @checkstyle ParameterNumber (5 lines)
+     * @checkstyle ExecutableStatementCountCheck (30 lines)
      */
-    public static int printBase64Binary(final byte[] input, final int offset, final int len, final char[] buf, final int p) {
-        // encode elements until only 1 or 2 elements are left to encode
+    private static int printBinary(final byte[] input, final int offset,
+            final int len, final char[] buf, final int start) {
         int remaining = len;
-        int i;
-        int ptr = p;
-        for (i = offset;remaining >= 3; remaining -= 3, i += 3) {
-            buf[ptr++] = encode(input[i] >> 2);
-            buf[ptr++] = encode(
-                    ((input[i] & 0x3) << 4)
-                    | ((input[i + 1] >> 4) & 0xF));
-            buf[ptr++] = encode(
-                    ((input[i + 1] & 0xF) << 2)
-                    | ((input[i + 2] >> 6) & 0x3));
-            buf[ptr++] = encode(input[i + 2] & 0x3F);
+        int index;
+        int ptr = start;
+        for (index = offset;
+                remaining >= THREE;
+                remaining -= THREE, index += THREE) {
+            buf[ptr] = encode(input[index] >> 2);
+            ptr = ptr + 1;
+            buf[ptr] = encode(
+                    ((input[index] & C_0X3) << FOUR)
+                    | ((input[index + 1] >> FOUR) & C_0XF)
+            );
+            ptr = ptr + 1;
+            buf[ptr] = encode(
+                    ((input[index + 1] & C_0XF) << 2)
+                    | ((input[index + 2] >> SIX) & C_0X3)
+            );
+            ptr = ptr + 1;
+            buf[ptr] = encode(input[index + 2] & C_0X3F);
+            ptr = ptr + 1;
         }
-        // encode when exactly 1 element (left) to encode
         if (remaining == 1) {
-            buf[ptr++] = encode(input[i] >> 2);
-            buf[ptr++] = encode(((input[i]) & 0x3) << 4);
-            buf[ptr++] = '=';
-            buf[ptr++] = '=';
+            buf[ptr] = encode(input[index] >> 2);
+            ptr = ptr + 1;
+            buf[ptr] = encode(((input[index]) & C_0X3) << FOUR);
+            ptr = ptr + 1;
+            buf[ptr] = '=';
+            ptr = ptr + 1;
+            buf[ptr] = '=';
+            ptr = ptr + 1;
         }
-        // encode when exactly 2 elements (left) to encode
         if (remaining == 2) {
-            buf[ptr++] = encode(input[i] >> 2);
-            buf[ptr++] = encode(((input[i] & 0x3) << 4)
-                    | ((input[i + 1] >> 4) & 0xF));
-            buf[ptr++] = encode((input[i + 1] & 0xF) << 2);
-            buf[ptr++] = '=';
+            buf[ptr] = encode(input[index] >> 2);
+            ptr = ptr + 1;
+            buf[ptr] = encode(((input[index] & C_0X3) << FOUR)
+                    | ((input[index + 1] >> FOUR) & C_0XF)
+            );
+            ptr = ptr + 1;
+            buf[ptr] = encode((input[index + 1] & C_0XF) << 2);
+            ptr = ptr + 1;
+            buf[ptr] = '=';
+            ptr = ptr + 1;
         }
         return ptr;
     }
 
-    public static char encode(final int i) {
-        return ENCODE_MAP[i & 0x3F];
+    /**
+     * Encodes int.
+     * @param input Int
+     * @return Char Encoded int
+     */
+    private static char encode(final int input) {
+        return ENCODE_MAP[input & C_0X3F];
     }
-
+    /**
+     * Initializes map.
+     * @return Char Array of chars
+     */
     private static char[] initEncodeMap() {
-        char[] map = new char[64];
-        int i;
-        for (i = 0; i < 26; i++) {
-            map[i] = (char) ('A' + i);
+        final char[] map = new char[BUFFER];
+        int index;
+        // @checkstyle IllegalTokenCheck (1 line)
+        for (index = 0; index < C_26; index++) {
+            map[index] = (char) ('A' + index);
         }
-        for (i = 26; i < 52; i++) {
-            map[i] = (char) ('a' + (i - 26));
+        // @checkstyle IllegalTokenCheck (1 line)
+        for (index = C_26; index < C_52; index++) {
+            map[index] = (char) ('a' + (index - C_26));
         }
-        for (i = 52; i < 62; i++) {
-            map[i] = (char) ('0' + (i - 52));
+        // @checkstyle IllegalTokenCheck (1 line)
+        for (index = C_52; index < C_62; index++) {
+            map[index] = (char) ('0' + (index - C_52));
         }
-        map[62] = '+';
-        map[63] = '/';
-
+        map[C_62] = '+';
+        map[C_63] = '/';
         return map;
     }
 }

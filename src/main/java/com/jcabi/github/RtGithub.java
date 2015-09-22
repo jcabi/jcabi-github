@@ -97,11 +97,7 @@ public final class RtGithub implements Github {
     /**
      * Default request to start with.
      */
-    private static final Request REQUEST =
-        new ApacheRequest("https://api.github.com")
-            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+    private static final Request REQUEST;
 
     /**
      * REST request.
@@ -129,6 +125,14 @@ public final class RtGithub implements Github {
                 + "? "
                 + new Date().toString();
         }
+        REQUEST =
+                new ApacheRequest("https://api.github.com")
+                    .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
+                    .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+                    .header(
+                        HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON
+                    );
+
     }
 
     /**
@@ -153,7 +157,7 @@ public final class RtGithub implements Github {
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
-                    RtDatatypeConverter.printBase64Binary(
+                    RtDatatypeConverter.printBinary(
                         String.format("%s:%s", user, pwd)
                             .getBytes(Charsets.UTF_8)
                     )

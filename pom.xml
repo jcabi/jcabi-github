@@ -303,7 +303,6 @@
                         <configuration>
                             <excludes>
                                 <exclude>checkstyle:/src/test/java/com/jcabi/github/NullabilityTest.java</exclude>
-                                <exclude>checkstyle:/src/main/java/com/jcabi/github/RtDatatypeConverter.java</exclude>
                                 <exclude>xml:/src/it/settings.xml</exclude>
                             </excludes>
                             <license>file:${basedir}/LICENSE.txt</license>
