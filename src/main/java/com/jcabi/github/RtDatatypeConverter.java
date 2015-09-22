@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -26,51 +26,62 @@ package com.jcabi.github;
 
 /**
  *
- * The mostly code in this class is copied from OpenJDK 7u40-b43
+ * The mostly code in this class is copied from OpenJDK 7u40-b43.
  * See https://github.com/jcabi/jcabi-github/issues/932
+ * 
+ * @author openjdk
+ * @version 1.0
  *
  */
-public class GtDatatypeConverter {
+final public class RtDatatypeConverter {
 
-	public static String printBase64Binary(byte[] data) {
+    private static final char[] ENCODE_MAP = initEncodeMap();
 
-		if (isJRE("javax.xml.bind.DatatypeConverter")) {
-			return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
-		}
-		// there isn't javax.xml.bind.DatatypeConverter; 
-		// it is probably Android
-		return _printBase64Binary(data);
-	}
+    private RtDatatypeConverter() {
+    }
+    
+    public static String printBase64Binary(final byte[] data) {
 
-	/**
-	 * Check is the class exists.
-	 * FIXME create more robust implementation
-	 * @param fullyQualifiedClassName
-	 * @return
-	 */
-	private static boolean isJRE(String fullyQualifiedClassName) {
-		boolean ret = false;
-		try {
-			Class.forName(fullyQualifiedClassName);
-			ret = true;
-		} catch (ClassNotFoundException e) {
-			// ignore ; ret - false
-		}
-		return ret;
-	}
+        String value;
+        if (isJRE("javax.xml.bind.DatatypeConverter")) {
+            value = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
+        } else {
+            // there isn't javax.xml.bind.DatatypeConverter; 
+            // it is probably Android
+            value = printBase64BinaryInternal(data);
+        }
+        return value;
+    }
 
-	public static String _printBase64Binary(byte[] input) {
-		return _printBase64Binary(input, 0, input.length);
-	}
+    /**
+     * Check is the class exists.return
+     * FIXME create more robust implementation
+     * @param fqn
+     * @return
+     */
+    private static boolean isJRE(final String fqn) {
+        boolean ret = false;
+        try {
+            Class.forName(fqn);
+            ret = true;
+        } catch (ClassNotFoundException e) {
+            // ignore ; ret - false
+        }
+        return ret;
+    }
 
-	public static String _printBase64Binary(byte[] input, int offset, int len) {
-		char[] buf = new char[((len + 2) / 3) * 4];
-		int ptr = _printBase64Binary(input, offset, len, buf, 0);
-		assert ptr == buf.length;
-		return new String(buf);
-	}
+    public static String printBase64BinaryInternal(final byte[] input) {
+        return printBase64Binary(input, 0, input.length);
+    }
 
-	/**
+    public static String printBase64Binary(final byte[] input, final int offset, final int len) {
+        final char[] buf = new char[((len + 2) / 3) * 4];
+        final int ptr = printBase64Binary(input, offset, len, buf, 0);
+        assert ptr == buf.length;
+        return new String(buf);
+    }
+
+    /**
      * Encodes a byte array into a char array by doing base64 encoding.
      *
      * The caller must supply a big enough buffer.
@@ -79,10 +90,11 @@ public class GtDatatypeConverter {
      *      the value of {@code ptr+((len+2)/3)*4}, which is the new offset
      *      in the output buffer where the further bytes should be placed.
      */
-    public static int _printBase64Binary(byte[] input, int offset, int len, char[] buf, int ptr) {
+    public static int printBase64Binary(final byte[] input, final int offset, final int len, final char[] buf, final int p) {
         // encode elements until only 1 or 2 elements are left to encode
         int remaining = len;
         int i;
+        int ptr = p;
         for (i = offset;remaining >= 3; remaining -= 3, i += 3) {
             buf[ptr++] = encode(input[i] >> 2);
             buf[ptr++] = encode(
@@ -111,11 +123,9 @@ public class GtDatatypeConverter {
         return ptr;
     }
 
-    public static char encode(int i) {
-        return encodeMap[i & 0x3F];
+    public static char encode(final int i) {
+        return ENCODE_MAP[i & 0x3F];
     }
-
-    private static final char[] encodeMap = initEncodeMap();
 
     private static char[] initEncodeMap() {
         char[] map = new char[64];

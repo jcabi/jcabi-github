@@ -29,23 +29,19 @@
  */
 package com.jcabi.github;
 
-import java.io.IOException;
-
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.io.Charsets;
-
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
-
+import java.io.IOException;
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.io.Charsets;
 
 /**
  * Github client, starting point to the entire library.
@@ -62,7 +58,7 @@ import lombok.ToString;
  *
  * <p>It is strongly recommended to use
  * {@link com.jcabi.http.wire.RetryWire} to avoid
- * accidental I/O exceptions:
+ * accidental I/O exceptions:import com.jcabi.manifests.Manifests;
  *
  * <pre> Github github = new RtGithub(
  *   new RtGithub(oauthKey).entry().through(RetryWire.class)
@@ -79,19 +75,13 @@ import lombok.ToString;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtGithub implements Github {
 
+    // FIXME We would probably read this property from
+    // some resource property file
     /**
      * Version of us.
      */
-//    private static final String USER_AGENT = String.format(
-//        "jcabi-github %s %s %s",
-//        Manifests.read("JCabi-Version"),
-//        Manifests.read("JCabi-Build"),
-//        Manifests.read("JCabi-Date")
-//    );
-
-	// FIXME We would probably read this property from
-	// some resource property file
-	private static final String USER_AGENT = "jcabi-github 1.0 1 2015-09-21 13:31";
+    private static final String USER_AGENT =
+        "jcabi-github 1.0 1 2015-09-21 13:31";
 
     /**
      * Default request to start with.
@@ -129,7 +119,7 @@ public final class RtGithub implements Github {
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
-                    GtDatatypeConverter.printBase64Binary(
+                    RtDatatypeConverter.printBase64Binary(
                         String.format("%s:%s", user, pwd)
                             .getBytes(Charsets.UTF_8)
                     )
