@@ -65,6 +65,8 @@
         <jersey.version>1.18.1</jersey.version>
         <httpcomponents.version>4.3</httpcomponents.version>
         <saxon.version>9.1.0.8</saxon.version>
+        <timestamp>${maven.build.timestamp}</timestamp>
+           <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     </properties>
     <dependencies>
         <dependency>
@@ -89,10 +91,6 @@
             <artifactId>xembly</artifactId>
             <version>0.21</version>
         </dependency>
-<!--         <dependency> -->
-<!--             <groupId>com.jcabi</groupId> -->
-<!--             <artifactId>jcabi-manifests</artifactId> -->
-<!--         </dependency> -->
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-log</artifactId>
@@ -215,6 +213,24 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <docheck>false</docheck>
+                    <doupdate>false</doupdate>
+                    <shortRevisionLength>8</shortRevisionLength>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>

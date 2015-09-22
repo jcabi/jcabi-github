@@ -55,17 +55,21 @@ final public class RtDatatypeConverter {
 
     /**
      * Check is the class exists.return
-     * FIXME create more robust implementation
      * @param fqn
      * @return
      */
     private static boolean isJRE(final String fqn) {
-        boolean ret = false;
+        boolean ret;
         try {
             Class.forName(fqn);
             ret = true;
         } catch (ClassNotFoundException e) {
-            // ignore ; ret - false
+        	try {
+				Thread.currentThread().getContextClassLoader().loadClass(fqn);
+				ret = true;
+			} catch (ClassNotFoundException ex) {
+				ret = false;
+			}
         }
         return ret;
     }

@@ -35,6 +35,8 @@ import com.jcabi.http.Request;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Properties;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
@@ -58,7 +60,7 @@ import org.apache.commons.io.Charsets;
  *
  * <p>It is strongly recommended to use
  * {@link com.jcabi.http.wire.RetryWire} to avoid
- * accidental I/O exceptions:import com.jcabi.manifests.Manifests;
+ * accidental I/O exceptions:
  *
  * <pre> Github github = new RtGithub(
  *   new RtGithub(oauthKey).entry().through(RetryWire.class)
@@ -75,13 +77,22 @@ import org.apache.commons.io.Charsets;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtGithub implements Github {
 
-    // FIXME We would probably read this property from
-    // some resource property file
+    /**
+     * The project name.
+     */
+    private static final String JCABI_GITHUB = "jcabi-github";
+    /**
+     * Blank constant.
+     */
+    private static final String BLANK = " ";
+    /**
+     * Jcabi properties.
+     */
+    private static final String JCABI_PROPERTIES = "jcabi.properties";
     /**
      * Version of us.
      */
-    private static final String USER_AGENT =
-        "jcabi-github 1.0 1 2015-09-21 13:31";
+    private static final String USER_AGENT;
 
     /**
      * Default request to start with.
@@ -96,6 +107,29 @@ public final class RtGithub implements Github {
      * REST request.
      */
     private final transient Request request;
+
+    static {
+        final Properties prop = new Properties();
+        boolean valid;
+        try {
+            prop.load(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(JCABI_PROPERTIES)
+            );
+            valid = true;
+        } catch (final IOException ex) {
+            valid = false;
+        }
+        if (valid) {
+            USER_AGENT = JCABI_GITHUB + BLANK
+                    + prop.getProperty("JCabi-Version") + BLANK
+                    + prop.getProperty("JCabi-Build") + BLANK
+                    + prop.getProperty("JCabi-Date");
+        } else {
+            USER_AGENT = JCABI_GITHUB + BLANK
+                + "? "
+                + new Date().toString();
+        }
+    }
 
     /**
      * Public ctor, for anonymous access to Github.
