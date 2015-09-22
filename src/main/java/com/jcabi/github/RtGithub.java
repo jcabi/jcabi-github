@@ -29,21 +29,23 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
+
+import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.io.Charsets;
+
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
-import com.jcabi.manifests.Manifests;
-import java.io.IOException;
-import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.xml.bind.DatatypeConverter;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.io.Charsets;
 
 /**
  * Github client, starting point to the entire library.
@@ -80,12 +82,16 @@ public final class RtGithub implements Github {
     /**
      * Version of us.
      */
-    private static final String USER_AGENT = String.format(
-        "jcabi-github %s %s %s",
-        Manifests.read("JCabi-Version"),
-        Manifests.read("JCabi-Build"),
-        Manifests.read("JCabi-Date")
-    );
+//    private static final String USER_AGENT = String.format(
+//        "jcabi-github %s %s %s",
+//        Manifests.read("JCabi-Version"),
+//        Manifests.read("JCabi-Build"),
+//        Manifests.read("JCabi-Date")
+//    );
+
+	// FIXME We would probably read this property from
+	// some resource property file
+	private static final String USER_AGENT = "jcabi-github 1.0 1 2015-09-21 13:31";
 
     /**
      * Default request to start with.
@@ -123,7 +129,7 @@ public final class RtGithub implements Github {
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
-                    DatatypeConverter.printBase64Binary(
+                    GtDatatypeConverter.printBase64Binary(
                         String.format("%s:%s", user, pwd)
                             .getBytes(Charsets.UTF_8)
                     )
