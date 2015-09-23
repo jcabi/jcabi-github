@@ -41,6 +41,7 @@ import java.util.List;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -55,6 +56,16 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 public final class RtUserTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtUser can understand who am I.
      * @throws Exception If some problem inside
@@ -161,7 +172,7 @@ public final class RtUserTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"login\":\"octocate\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final RtUser json = new RtUser(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())

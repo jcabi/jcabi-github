@@ -42,6 +42,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,8 +52,18 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtPullCommentTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtPullComment should be able to compare different instances.
@@ -86,7 +97,7 @@ public final class RtPullCommentTest {
         final String body = "{\"body\":\"test\"}";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-        ).start();
+        ).start(this.resource.port());
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo()).when(pull).repo();
         final RtPullComment comment =
@@ -114,7 +125,7 @@ public final class RtPullCommentTest {
     public void patchesComment() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start();
+        ).start(this.resource.port());
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo()).when(pull).repo();
         final RtPullComment comment =

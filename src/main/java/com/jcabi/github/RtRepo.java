@@ -204,6 +204,7 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    @NotNull(message = "Iterable<Language> is never NULL")
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Language> languages() throws IOException {
         final RtJson json = new RtJson(

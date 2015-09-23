@@ -36,6 +36,7 @@ import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -46,6 +47,15 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtHookTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
@@ -59,7 +69,7 @@ public final class RtHookTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"test\":\"hook\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         try {
             final Hook hook = new RtHook(
                 new ApacheRequest(container.home()),

@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,15 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtGistTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtGist should be able to do reads.
@@ -65,7 +75,7 @@ public final class RtGistTest {
                 "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
-            .start();
+            .start(this.resource.port());
         final RtGist gist = new RtGist(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -89,7 +99,7 @@ public final class RtGistTest {
     public void writesFileContents() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
-        ).start();
+        ).start(this.resource.port());
         final RtGist gist = new RtGist(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -141,7 +151,7 @@ public final class RtGistTest {
         container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
         );
-        container.start();
+        container.start(this.resource.port());
         final Gist gist = new RtGist(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -171,7 +181,7 @@ public final class RtGistTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Gist.Smart smart = new Gist.Smart(
             new RtGist(
                 new MkGithub(),
@@ -200,7 +210,8 @@ public final class RtGistTest {
      */
     @Test
     public void canRepresentAsString() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().start();
+        final MkContainer container = new MkGrizzlyContainer()
+                .start(this.resource.port());
         final RtGist gist = new RtGist(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -224,7 +235,7 @@ public final class RtGistTest {
     public void canUnstarAGist() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final RtGist gist = new RtGist(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -252,7 +263,7 @@ public final class RtGistTest {
     public void executePatchRequest() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}")
-        ).start();
+        ).start(this.resource.port());
         try {
             final RtGist gist = new RtGist(
                 new MkGithub(),

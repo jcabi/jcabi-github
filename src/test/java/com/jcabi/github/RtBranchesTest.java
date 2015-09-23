@@ -42,6 +42,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -51,6 +52,16 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtBranchesTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtBranches can iterate over all branches.
      * @throws Exception if there is any error
@@ -71,7 +82,7 @@ public final class RtBranchesTest {
         final MkContainer container = new MkGrizzlyContainer()
             .next(answer)
             .next(answer)
-            .start();
+            .start(this.resource.port());
         final RtBranches branches = new RtBranches(
             new JdkRequest(container.home()),
             new MkGithub().randomRepo()

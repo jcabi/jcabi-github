@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,16 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtUserOrganizationsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtUserOrganizations can iterate organizations for
      * an unauthenticated user.
@@ -70,7 +81,7 @@ public final class RtUserOrganizationsTest {
                     .add(org(Tv.FIVE, "org13"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         try {
             final UserOrganizations orgs = new RtUserOrganizations(
                 github,

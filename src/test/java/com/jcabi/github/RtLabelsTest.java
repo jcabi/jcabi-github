@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -50,6 +51,16 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtLabelsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtLabels can create a label.
      * @throws Exception if some problem inside
@@ -61,7 +72,8 @@ public final class RtLabelsTest {
         final String body = label(name, color).toString();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            .start(this.resource.port());
         final RtLabels labels = new RtLabels(
             new JdkRequest(container.home()),
             repo()
@@ -96,7 +108,7 @@ public final class RtLabelsTest {
                 HttpURLConnection.HTTP_OK,
                 label(name, color).toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtLabels issues = new RtLabels(
             new JdkRequest(container.home()),
             repo()
@@ -117,7 +129,7 @@ public final class RtLabelsTest {
     public void deleteLabel() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final RtLabels issues = new RtLabels(
             new JdkRequest(container.home()),
             repo()
@@ -149,7 +161,7 @@ public final class RtLabelsTest {
                     .add(label("new bug", "f29522"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtLabels labels = new RtLabels(
             new JdkRequest(container.home()),
             repo()

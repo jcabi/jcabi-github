@@ -39,6 +39,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,15 @@ import org.junit.Test;
  */
 @Immutable
 public final class RtGitignoresTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtGitignores can iterate template names.
@@ -66,7 +76,7 @@ public final class RtGitignoresTest {
                     .build()
                     .toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtGitignores gitignores = new RtGitignores(
             new RtGithub(new JdkRequest(container.home()))
         );

@@ -37,6 +37,7 @@ import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -48,6 +49,15 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtEventTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtEvent can retrieve its own repo.
@@ -91,7 +101,7 @@ public final class RtEventTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"test\":\"events\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final RtEvent event = new RtEvent(
             new ApacheRequest(container.home()),
             this.repo(),

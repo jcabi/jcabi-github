@@ -38,6 +38,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -48,6 +49,16 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtLabelTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtLabel can  can fetch HTTP request and describe response as a JSON.
      *
@@ -57,7 +68,7 @@ public final class RtLabelTest {
     public void sendHttpRequestAndWriteResponseAsJson() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\": \"hi\"}")
-        ).start();
+        ).start(this.resource.port());
         final RtLabel label = new RtLabel(
             new ApacheRequest(container.home()),
             RtLabelTest.repo(),
@@ -79,7 +90,7 @@ public final class RtLabelTest {
     public void executePatchRequest() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}")
-        ).start();
+        ).start(this.resource.port());
         final RtLabel label = new RtLabel(
             new ApacheRequest(container.home()),
             RtLabelTest.repo(),

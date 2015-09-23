@@ -41,6 +41,7 @@ import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -50,8 +51,18 @@ import org.mockito.Mockito;
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtBlobsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtBlobs can create a blob.
@@ -63,8 +74,9 @@ public final class RtBlobsTest {
         final String content = "Content of the blob";
         final String body = blob().toString();
         final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            .start(this.resource.port());
         final RtBlobs blobs = new RtBlobs(
             new ApacheRequest(container.home()),
             repo()

@@ -42,6 +42,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,10 +52,20 @@ import org.mockito.Mockito;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtContents can fetch the default branch readme file.
@@ -69,7 +80,7 @@ public final class RtContentsTest {
             .build();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-        ).start();
+        ).start(this.resource.port());
         final RtContents contents = new RtContents(
             new ApacheRequest(container.home()),
             repo()
@@ -106,7 +117,7 @@ public final class RtContentsTest {
             .build();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-        ).start();
+        ).start(this.resource.port());
         final RtContents contents = new RtContents(
             new ApacheRequest(container.home()),
             repo()
@@ -153,7 +164,7 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start();
+            .start(this.resource.port());
         final RtContents contents = new RtContents(
             new ApacheRequest(container.home()),
             repo()
@@ -211,7 +222,7 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start();
+            .start(this.resource.port());
         final RtContents contents = new RtContents(
             new ApacheRequest(container.home()),
             repo()
@@ -264,7 +275,7 @@ public final class RtContentsTest {
                         .build()
                 ).build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtContents contents = new RtContents(
             new ApacheRequest(container.home()),
             repo()
@@ -315,7 +326,7 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
-            .start();
+            .start(this.resource.port());
         try {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -368,7 +379,7 @@ public final class RtContentsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
         ).next(new MkAnswer.Simple("{\"path\":\"README.md\"}"))
             .next(new MkAnswer.Simple("{\"path\":\".gitignore\"}"))
-            .start();
+            .start(this.resource.port());
         final RtContents contents = new RtContents(
             new ApacheRequest(container.home()),
             repo()
