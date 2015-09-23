@@ -29,12 +29,10 @@
  */
 package com.jcabi.github;
 /**
- *
  * The code is based on the RtDatatypeConverter from OpenJDK 7u40-b43.
  * See https://github.com/jcabi/jcabi-github/issues/932
  * @author Haris Peco (snpe@gmail60.com)
  * @version $Id$
- *
  */
 public final class RtDatatypeConverter {
 
