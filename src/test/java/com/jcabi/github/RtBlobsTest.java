@@ -52,6 +52,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * //todo: Re-design this class and remove switching off checkstyle
  */
 public final class RtBlobsTest {
 
@@ -74,7 +75,7 @@ public final class RtBlobsTest {
         final String content = "Content of the blob";
         final String body = blob().toString();
         final MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
             .start(this.resource.port());
         final RtBlobs blobs = new RtBlobs(
