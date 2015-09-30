@@ -89,7 +89,7 @@ public interface Contents {
         throws IOException;
 
     /**
-     * Get the contents of a file or symbolic link in a repository.
+     * Get the contents of a single file or symbolic link in a repository.
      * @param path The content path
      * @param ref The name of the commit/branch/tag.
      * @return Content fetched
@@ -103,8 +103,8 @@ public interface Contents {
     ) throws IOException;
 
     /**
-     * Get the contents of a file or symbolic link in a repository's default
-     * branch (usually master).
+     * Get the contents of a single file or symbolic link.
+     * in a repository's default branch (usually master).
      * @param path The content path
      * @return Content fetched
      * @throws IOException If there is any I/O problem
