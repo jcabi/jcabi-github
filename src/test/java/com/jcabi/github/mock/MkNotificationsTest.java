@@ -29,45 +29,51 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.github.GitHubThread;
-import com.jcabi.github.Notification;
-import com.jcabi.github.Notifications;
-import java.util.Collections;
-import org.apache.commons.lang3.NotImplementedException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
- * Mock for Github Notifications.
+ * Test case for {@link MkNotifications}.
  *
- * @author Giang Le (lthuangiang@gmail.com)
- * @author Paul Polishchuk (ppol@ua.fm)
  * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
- * @since 0.15
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
- * @todo #913:30min Implement markAsRead() and thread() operations in
- *  MkNotifications. Don't forget about unit tests.
+ * @todo #952 Create a test fetchNonEmptyListOfNotifications and implement
+ *  iterate() operation in MkNotifications.
  */
-@Immutable
-final class MkNotifications implements Notifications {
+public final class MkNotificationsTest {
 
-    @Override
-    public Iterable<Notification> iterate() {
-        return Collections.emptyList();
+    /**
+     * MkNotifications can fetch empty list of Notification.
+     * @throws Exception if some problem inside
+     */
+    @Test
+    public void fetchEmptyListOfNotifications() throws Exception {
+        MatcherAssert.assertThat(
+            new MkNotifications().iterate(),
+            Matchers.emptyIterable()
+        );
     }
 
-    @Override
-    public Notification get(final int number) {
-        return new MkNotification(number);
+    /**
+     * MkNotifications can get single Notification.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchSingleNotification() throws Exception {
+        Assert.assertNotNull(new MkNotifications().get(0));
     }
 
-    @Override
-    public void markAsRead() {
-        throw new NotImplementedException("MkNotifications#markAsRead");
+    /**
+     * MkNotifications can fetch non empty list of Notifications.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void fetchNonEmptyListOfNotifications() throws Exception  {
+        // Not implemented
     }
 
-    @Override
-    public GitHubThread thread(final int number) {
-        throw new NotImplementedException("MkNotifications#thread");
-    }
 }
