@@ -37,6 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,6 +47,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
+@Ignore
 @OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtReleaseAssetsITCase {
