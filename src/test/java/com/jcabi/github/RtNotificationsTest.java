@@ -39,11 +39,11 @@ import org.junit.Test;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo 920 Create a test fetchSingleNotification and implement
+ * @todo #920 Create a test fetchSingleNotification and implement
  *  get() operation in RtNotifications.
- * @todo 920 Create a test fetchNonEmptyListOfNotifications and implement
+ * @todo #920 Create a test fetchNonEmptyListOfNotifications and implement
  *  iterate() operation in RtNotifications.
- * @todo 920 Create a test markNotificationAsRead and implement
+ * @todo #920 Create a test markNotificationAsRead and implement
  *  mark() operation in RtNotifications.
  */
 public final class RtNotificationsTest {
