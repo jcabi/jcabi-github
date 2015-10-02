@@ -34,6 +34,7 @@ import com.jcabi.github.GitHubThread;
 import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
 import java.util.Collections;
+import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
@@ -51,14 +52,33 @@ import org.apache.commons.lang3.NotImplementedException;
 @Immutable
 final class MkNotifications implements Notifications {
 
+    /**
+     * Notifications.
+     */
+    private final transient List<Notification> notifications;
+
+    /**
+     * Public ctor.
+     * @param quantity Number of notifications.
+     * @checkstyle InnerAssignmentCheck (7 lines)
+     */
+    MkNotifications(final int quantity) {
+        int identifier = 0;
+        this.notifications = Collections
+            .<Notification>nCopies(
+                quantity,
+                new MkNotification(identifier += 1)
+        );
+    }
+
     @Override
     public Iterable<Notification> iterate() {
-        return Collections.emptyList();
+        return this.notifications;
     }
 
     @Override
     public Notification get(final int number) {
-        return new MkNotification(number);
+        return this.notifications.get(number);
     }
 
     @Override

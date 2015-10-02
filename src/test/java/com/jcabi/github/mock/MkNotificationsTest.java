@@ -29,10 +29,9 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Notification;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -40,8 +39,6 @@ import org.junit.Test;
  *
  * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
- * @todo #952 Create a test fetchNonEmptyListOfNotifications and implement
- *  iterate() operation in MkNotifications.
  */
 public final class MkNotificationsTest {
 
@@ -50,20 +47,11 @@ public final class MkNotificationsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchEmptyListOfNotifications() throws Exception {
+    public void fetchesEmptyListOfNotifications() throws Exception {
         MatcherAssert.assertThat(
-            new MkNotifications().iterate(),
+            new MkNotifications(0).iterate(),
             Matchers.emptyIterable()
         );
-    }
-
-    /**
-     * MkNotifications can get single Notification.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchSingleNotification() throws Exception {
-        Assert.assertNotNull(new MkNotifications().get(0));
     }
 
     /**
@@ -71,9 +59,12 @@ public final class MkNotificationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void fetchNonEmptyListOfNotifications() throws Exception  {
-        // Not implemented
+    public void fetchesNonEmptyListOfNotifications() throws Exception  {
+        final int size = 5;
+        MatcherAssert.assertThat(
+            new MkNotifications(size).iterate(),
+            Matchers.<Notification>iterableWithSize(size)
+        );
     }
 
 }
