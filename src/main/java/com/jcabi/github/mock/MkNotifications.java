@@ -33,7 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.GitHubThread;
 import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -60,15 +60,13 @@ final class MkNotifications implements Notifications {
     /**
      * Public ctor.
      * @param quantity Number of notifications.
-     * @checkstyle InnerAssignmentCheck (7 lines)
      */
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     MkNotifications(final int quantity) {
-        int identifier = 0;
-        this.notifications = Collections
-            .<Notification>nCopies(
-                quantity,
-                new MkNotification(identifier += 1)
-        );
+        this.notifications = new ArrayList<Notification>(quantity);
+        for (int index = 0; index < quantity; index += 1) {
+            this.notifications.add(index, new MkNotification(index));
+        }
     }
 
     @Override
