@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -84,6 +85,7 @@ public final class RtIssueITCase {
      * RtIssue can talk in github.
      * @throws Exception If some problem inside
      */
+    @Ignore
     @Test
     public void talksInGithubProject() throws Exception {
         final Issue issue = RtIssueITCase.issue();
