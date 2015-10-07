@@ -82,7 +82,8 @@ public final class RtIssueITCase {
     }
 
     /**
-     * RtIssue can talk in github.
+     * RtIssue can talk in github. This test is ignored because of bug
+     * https://github.com/jcabi/jcabi-github/issues/1178.
      * @throws Exception If some problem inside
      */
     @Ignore
