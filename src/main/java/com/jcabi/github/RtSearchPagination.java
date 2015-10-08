@@ -147,6 +147,11 @@ final class RtSearchPagination<T> implements Iterable<T> {
             final String method) {
             return new SearchRequest(this.request.method(method));
         }
+        @Override
+        public Request timeout(final int first, final int second) {
+            return new SearchRequest(this.request);
+        }
+
         /**
          * Hide everything from the body but items.
          * @return Response

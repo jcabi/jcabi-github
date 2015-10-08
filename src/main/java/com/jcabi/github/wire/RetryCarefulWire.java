@@ -75,31 +75,31 @@ public final class RetryCarefulWire implements Wire {
 
     /**
      * Public ctor.
-     *
      * @param wire Original wire
      * @param threshold Threshold of number of remaining requests, below which
      *  requests are blocked until reset
      */
     public RetryCarefulWire(@NotNull(message = "wire can't be NULL")
-        final Wire wire, final int threshold) {
+    final Wire wire, final int threshold) {
         this.real = new RetryWire(new CarefulWire(wire, threshold));
     }
 
-    /**
-     * {@inheritDoc}
-     * @checkstyle ParameterNumber (6 lines)
-     */
     @Override
     @NotNull(message = "response can't be NULL")
+    // @checkstyle ParameterNumber (8 lines)
     public Response send(
         @NotNull(message = "req can't be NULL") final Request req,
         @NotNull(message = "home can't be NULL") final String home,
-        @NotNull(message = "method can't be NULL")final String method,
+        @NotNull(message = "method can't be NULL") final String method,
         @NotNull(message = "headers can't be NULL")
         final Collection<Map.Entry<String, String>> headers,
         @NotNull(message = "content can't be NULL")
-        final InputStream content
+        final InputStream content,
+        final int connect, final int read
     ) throws IOException {
-        return this.real.send(req, home, method, headers, content);
+        return this.real.send(
+            req, home, method, headers, content, connect, read
+        );
     }
+
 }

@@ -100,12 +100,9 @@ public final class CarefulWire implements Wire {
         this.threshold = thrshld;
     }
 
-    /**
-     * {@inheritDoc}
-     * @checkstyle ParameterNumber (6 lines)
-     */
     @Override
     @NotNull(message = "response can't be NULL")
+    // @checkstyle ParameterNumber (8 lines)
     public Response send(
         @NotNull(message = "req can't be NULL") final Request req,
         @NotNull(message = "home can't be NULL") final String home,
@@ -113,10 +110,11 @@ public final class CarefulWire implements Wire {
         @NotNull(message = "headers can't be NULL")
         final Collection<Map.Entry<String, String>> headers,
         @NotNull(message = "content can't be NULL")
-        final InputStream content
+        final InputStream content,
+        final int connect, final int read
     ) throws IOException {
         final Response resp = this.origin
-            .send(req, home, method, headers, content);
+            .send(req, home, method, headers, content, connect, read);
         final int remaining = this.remainingHeader(resp);
         if (remaining < this.threshold) {
             final long reset = this.resetHeader(resp);
@@ -197,4 +195,5 @@ public final class CarefulWire implements Wire {
         }
         return reset;
     }
+
 }
