@@ -54,9 +54,6 @@ public final class RtForkTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @todo #989 Apply this rule to other classes that use MkGrizzlyContainer
-     *  and make MkGrizzlyContainers use port() given by this resource to avoid
-     *  tests fail with BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Rule
