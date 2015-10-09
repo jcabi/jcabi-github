@@ -39,7 +39,7 @@ import com.jcabi.aspects.Immutable;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.19
- * @todo 920 Create Smart decorator to get other properties of Notification,
+ * @todo #920 Create Smart decorator to get other properties of Notification,
  *  such as reason, unread, updated_at, last_read_at, url, etc.
  *  See
  *  https://developer.github.com/v3/activity/notifications/#view-a-single-thread
