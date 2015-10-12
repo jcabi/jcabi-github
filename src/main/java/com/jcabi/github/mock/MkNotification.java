@@ -27,29 +27,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Notification;
 
 /**
- * Github Notification.
- * <p>Use a supplementary "smart" decorator to get other properties
- * from an notification.
+ * Mock for Github Notification.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
- * @since 0.19
- * @todo #920 Create Smart decorator to get other properties of Notification,
- *  such as reason, unread, updated_at, last_read_at, url, etc.
- *  See
- *  https://developer.github.com/v3/activity/notifications/#view-a-single-thread
- *  for details. Don't forget about unit tests.
+ * @since 0.25
+ * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */
 @Immutable
-public interface Notification {
+final class MkNotification implements Notification {
+
     /**
-     * Notification id.
-     * @return Id
+     * Release notifnumber.
      */
-    long number();
+    private final transient long notifnumber;
+
+    /**
+     * Public ctor.
+     * @param notifid Notification notifnumber
+     */
+    MkNotification(final long notifid) {
+        this.notifnumber = notifid;
+    }
+
+    @Override
+    public long number() {
+        return this.notifnumber;
+    }
 }

@@ -34,7 +34,7 @@ package com.jcabi.github;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @todo 920 Create integration tests for at least
+ * @todo #920 Create integration tests for at least
  *  iterate() and get() operations of RtNotifications.
  */
 public final class RtNotificationsITestCase {

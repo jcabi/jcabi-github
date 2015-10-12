@@ -33,6 +33,8 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.GitHubThread;
 import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
@@ -40,24 +42,41 @@ import org.apache.commons.lang3.NotImplementedException;
  *
  * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
- * @todo #920 Implement iterate() and get() operations in MkNotifications.
- *  Don't forget about unit tests.
  * @todo #913:30min Implement markAsRead() and thread() operations in
  *  MkNotifications. Don't forget about unit tests.
  */
 @Immutable
 final class MkNotifications implements Notifications {
+
+    /**
+     * Notifications.
+     */
+    private final transient List<Notification> notifications;
+
+    /**
+     * Public ctor.
+     * @param quantity Number of notifications.
+     */
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    MkNotifications(final int quantity) {
+        this.notifications = new ArrayList<Notification>(quantity);
+        for (int index = 0; index < quantity; ++index) {
+            this.notifications.add(index, new MkNotification(index));
+        }
+    }
+
     @Override
     public Iterable<Notification> iterate() {
-        throw new NotImplementedException("MkNotifications#iterate");
+        return this.notifications;
     }
 
     @Override
     public Notification get(final int number) {
-        throw new NotImplementedException("MkNotifications#get");
+        return this.notifications.get(number);
     }
 
     @Override

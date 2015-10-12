@@ -298,7 +298,7 @@ final class MkRepo implements Repo {
     @Override
     @NotNull(message = "Notifications is never NULL")
     public Notifications notifications() {
-        return new MkNotifications();
+        return new MkNotifications(0);
     }
 
     @Override

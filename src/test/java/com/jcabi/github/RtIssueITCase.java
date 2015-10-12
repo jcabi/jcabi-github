@@ -36,6 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -81,9 +82,11 @@ public final class RtIssueITCase {
     }
 
     /**
-     * RtIssue can talk in github.
+     * RtIssue can talk in github. This test is ignored because of bug
+     * https://github.com/jcabi/jcabi-github/issues/1178.
      * @throws Exception If some problem inside
      */
+    @Ignore
     @Test
     public void talksInGithubProject() throws Exception {
         final Issue issue = RtIssueITCase.issue();

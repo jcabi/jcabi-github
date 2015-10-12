@@ -27,29 +27,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
+import com.jcabi.github.Notification;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * Github Notification.
- * <p>Use a supplementary "smart" decorator to get other properties
- * from an notification.
+ * Test case for {@link MkNotifications}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
- * @since 0.19
- * @todo #920 Create Smart decorator to get other properties of Notification,
- *  such as reason, unread, updated_at, last_read_at, url, etc.
- *  See
- *  https://developer.github.com/v3/activity/notifications/#view-a-single-thread
- *  for details. Don't forget about unit tests.
  */
-@Immutable
-public interface Notification {
+public final class MkNotificationsTest {
+
     /**
-     * Notification id.
-     * @return Id
+     * MkNotifications can fetch empty list of Notification.
+     * @throws Exception if some problem inside
      */
-    long number();
+    @Test
+    public void fetchesEmptyListOfNotifications() throws Exception {
+        MatcherAssert.assertThat(
+            new MkNotifications(0).iterate(),
+            Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * MkNotifications can fetch non empty list of Notifications.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchesNonEmptyListOfNotifications() throws Exception  {
+        final int size = 5;
+        MatcherAssert.assertThat(
+            new MkNotifications(size).iterate(),
+            Matchers.<Notification>iterableWithSize(size)
+        );
+    }
+
 }
