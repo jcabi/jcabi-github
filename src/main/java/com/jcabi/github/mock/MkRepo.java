@@ -74,11 +74,14 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords" })
-@SuppressWarnings({
-    "PMD.TooManyMethods",
-    "PMD.ExcessiveImports",
-    "PMD.CouplingBetweenObjects"
-})
+@SuppressWarnings
+    (
+        {
+            "PMD.TooManyMethods",
+            "PMD.ExcessiveImports",
+            "PMD.CouplingBetweenObjects"
+        }
+    )
 final class MkRepo implements Repo {
 
     /**

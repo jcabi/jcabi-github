@@ -46,6 +46,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(Scope.REPO)
+@SuppressWarnings("PMD.ConsecutiveLiteralAppends")
 public final class RtReferencesITCase {
 
     /**
@@ -96,8 +97,8 @@ public final class RtReferencesITCase {
     public void createsReference() throws Exception {
         final References refs = repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
-            .append("refs/tags/").append(name);
+        final StringBuilder builder = new StringBuilder("refs/tags/")
+            .append(name);
         final Reference reference = refs.create(
             builder.toString(),
             refs.get("refs/heads/master").json().getJsonObject("object")
@@ -120,8 +121,8 @@ public final class RtReferencesITCase {
     public void iteratesReferences() throws Exception {
         final References refs = repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
-            .append("refs/heads/").append(name);
+        final StringBuilder builder = new StringBuilder("refs/heads/")
+            .append(name);
         refs.create(
             builder.toString(),
             refs.get("refs/heads/master").json().getJsonObject("object")
@@ -144,8 +145,8 @@ public final class RtReferencesITCase {
     public void iteratesReferencesInSubNamespace() throws Exception {
         final References refs = repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-        final StringBuilder builder = new StringBuilder(Tv.HUNDRED)
-            .append("refs/heads/").append(name);
+        final StringBuilder builder = new StringBuilder("refs/heads/")
+            .append(name);
         refs.create(
             builder.toString(),
             refs.get("refs/heads/master").json().getJsonObject("object")

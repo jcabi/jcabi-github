@@ -107,6 +107,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
                             item.getClass().getInterfaces(),
                             new InvocationHandler() {
                                 @Override
+                                @SuppressWarnings("PMD.UseVarargs")
                                 public Object invoke(final Object proxy,
                                     final Method method, final Object[] args) {
                                     final Object result;

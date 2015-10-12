@@ -53,7 +53,7 @@ public final class BulkTest {
         final Comment origin = Mockito.mock(Comment.class);
         final Request request = new FakeRequest()
             .withBody("[{\"body\": \"hey you\"}]");
-        final Comment comment = new Bulk<Comment>(
+        final Iterable<Comment> comments = new Bulk<Comment>(
             new RtPagination<Comment>(
                 request,
                 new RtValuePagination.Mapping<Comment, JsonObject>() {
@@ -63,7 +63,8 @@ public final class BulkTest {
                     }
                 }
             )
-        ).iterator().next();
+        );
+        final Comment comment = comments.iterator().next();
         MatcherAssert.assertThat(
             new Comment.Smart(comment).body(),
             Matchers.equalTo("hey you")

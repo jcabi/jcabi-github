@@ -179,6 +179,7 @@ final class RtPull implements Pull {
                 break;
             default:
                 mergeState = MergeState.BAD_HEAD;
+                break;
         }
         return mergeState;
     }

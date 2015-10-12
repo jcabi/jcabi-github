@@ -80,7 +80,7 @@ public final class RetryCarefulWire implements Wire {
      *  requests are blocked until reset
      */
     public RetryCarefulWire(@NotNull(message = "wire can't be NULL")
-    final Wire wire, final int threshold) {
+        final Wire wire, final int threshold) {
         this.real = new RetryWire(new CarefulWire(wire, threshold));
     }
 
