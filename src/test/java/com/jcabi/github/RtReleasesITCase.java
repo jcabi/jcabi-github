@@ -37,6 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -45,6 +46,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
+@Ignore
 @OAuthScope(Scope.REPO)
 public final class RtReleasesITCase {
 

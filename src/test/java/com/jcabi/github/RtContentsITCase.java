@@ -49,6 +49,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@Ignore
 @OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {

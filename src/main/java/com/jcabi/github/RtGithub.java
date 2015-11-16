@@ -34,13 +34,13 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
-import com.jcabi.manifests.Manifests;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Properties;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.io.Charsets;
@@ -78,28 +78,67 @@ import org.apache.commons.io.Charsets;
 public final class RtGithub implements Github {
 
     /**
+     * The project name.
+     */
+    private static final String JCABI_GITHUB = "jcabi-github";
+
+    /**
+     * The client name.
+     */
+    private static final String JCABI_CLIENT = "JCabi-Client";
+    /**
+     * Blank constant.
+     */
+    private static final String BLANK = " ";
+    /**
+     * Jcabi properties.
+     */
+    private static final String JCABI_PROPERTIES = "jcabi.properties";
+    /**
      * Version of us.
      */
-    private static final String USER_AGENT = String.format(
-        "jcabi-github %s %s %s",
-        Manifests.read("JCabi-Version"),
-        Manifests.read("JCabi-Build"),
-        Manifests.read("JCabi-Date")
-    );
+    private static final String USER_AGENT;
 
     /**
      * Default request to start with.
      */
-    private static final Request REQUEST =
-        new ApacheRequest("https://api.github.com")
-            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+    private static final Request REQUEST;
 
     /**
      * REST request.
      */
     private final transient Request request;
+
+    static {
+        final Properties prop = new Properties();
+        boolean valid;
+        try {
+            prop.load(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(JCABI_PROPERTIES)
+            );
+            valid = true;
+        } catch (final IOException ex) {
+            valid = false;
+        }
+        if (valid) {
+            USER_AGENT = prop.getProperty(JCABI_CLIENT) + BLANK
+                    + prop.getProperty("JCabi-Version") + BLANK
+                    + prop.getProperty("JCabi-Build") + BLANK
+                    + prop.getProperty("JCabi-Date");
+        } else {
+            USER_AGENT = JCABI_GITHUB + BLANK
+                + "? "
+                + new Date().toString();
+        }
+        REQUEST =
+                new ApacheRequest("https://api.github.com")
+                    .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
+                    .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+                    .header(
+                        HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON
+                    );
+
+    }
 
     /**
      * Public ctor, for anonymous access to Github.
@@ -123,7 +162,7 @@ public final class RtGithub implements Github {
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
-                    DatatypeConverter.printBase64Binary(
+                    RtDatatypeConverter.printBinary(
                         String.format("%s:%s", user, pwd)
                             .getBytes(Charsets.UTF_8)
                     )
