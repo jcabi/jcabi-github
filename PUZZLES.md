@@ -1,6 +1,6 @@
 ## Puzzles
 
-There are 25 active puzzles (175 total), updated on 2015-12-09T10:20:57Z:
+There are 25 active puzzles (175 total), updated on 2015-12-09T12:13:47Z:
 
 unknown ?
 &nbsp;1-e4398e4c pom.xml:257-262
