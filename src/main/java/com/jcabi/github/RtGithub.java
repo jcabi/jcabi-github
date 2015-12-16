@@ -87,14 +87,17 @@ public final class RtGithub implements Github {
         Manifests.read("JCabi-Date")
     );
 
+    public static final String DEFAULT_GITHUB_HOST = "https://api.github.com";
+
     /**
-     * Default request to start with.
+     * Create ApacheRequest used to talk to Github server
      */
-    private static final Request REQUEST =
-        new ApacheRequest("https://api.github.com")
+    private static Request getRequest(String uri) {
+        return new ApacheRequest(uri)
             .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+    }
 
     /**
      * REST request.
@@ -106,7 +109,7 @@ public final class RtGithub implements Github {
      * @since 0.4
      */
     public RtGithub() {
-        this(RtGithub.REQUEST);
+        this(getRequest(DEFAULT_GITHUB_HOST));
     }
 
     /**
@@ -119,7 +122,7 @@ public final class RtGithub implements Github {
         @NotNull(message = "user name can't be NULL") final String user,
         @NotNull(message = "password can't be NULL") final String pwd) {
         this(
-            RtGithub.REQUEST.header(
+            getRequest(DEFAULT_GITHUB_HOST).header(
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
@@ -139,7 +142,7 @@ public final class RtGithub implements Github {
     public RtGithub(
         @NotNull(message = "token can't be NULL") final String token) {
         this(
-            RtGithub.REQUEST.header(
+            getRequest(DEFAULT_GITHUB_HOST).header(
                 HttpHeaders.AUTHORIZATION,
                 String.format("token %s", token)
             )
