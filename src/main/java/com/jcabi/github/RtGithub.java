@@ -36,6 +36,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.manifests.Manifests;
 import java.io.IOException;
+import java.net.URI;
 import javax.json.JsonObject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
@@ -90,7 +91,7 @@ public final class RtGithub implements Github {
     public static final String DEFAULT_GITHUB_HOST = "https://api.github.com";
 
     /**
-     * Create ApacheRequest used to talk to Github server
+     * Create ApacheRequest used to talk to Github server.
      */
     private static Request getRequest(String uri) {
         return new ApacheRequest(uri)
@@ -121,8 +122,39 @@ public final class RtGithub implements Github {
     public RtGithub(
         @NotNull(message = "user name can't be NULL") final String user,
         @NotNull(message = "password can't be NULL") final String pwd) {
+        this(URI.create(DEFAULT_GITHUB_HOST), user, pwd);
+    }
+
+    /**
+     * Public ctor, for authentication with OAuth2 token.
+     * @param token OAuth token
+     */
+    public RtGithub(
+        @NotNull(message = "token can't be NULL") final String token) {
+        this(URI.create(DEFAULT_GITHUB_HOST), token);
+    }
+
+    /**
+     * Public ctor, for anonymous access to Github Enterprise.
+     * @param uri URI of Github server
+     */
+    public RtGithub(
+        @NotNull(message = "uri can't be NULL") final URI uri) {
+        this(getRequest(uri.toString()));
+    }
+
+    /**
+     * Public ctor, for HTTP Basic Authentication.
+     * @param uri URI of Github server
+     * @param user User name
+     * @param pwd Password
+     */
+    public RtGithub(
+        @NotNull(message = "uri can't be NULL") final URI uri,
+        @NotNull(message = "user name can't be NULL") final String user,
+        @NotNull(message = "password can't be NULL") final String pwd) {
         this(
-            getRequest(DEFAULT_GITHUB_HOST).header(
+            getRequest(uri.toString()).header(
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
@@ -137,12 +169,14 @@ public final class RtGithub implements Github {
 
     /**
      * Public ctor, for authentication with OAuth2 token.
+     * @param uri URI of Github server
      * @param token OAuth token
      */
     public RtGithub(
+        @NotNull(message = "uri can't be NULL") final URI uri,
         @NotNull(message = "token can't be NULL") final String token) {
         this(
-            getRequest(DEFAULT_GITHUB_HOST).header(
+            getRequest(uri.toString()).header(
                 HttpHeaders.AUTHORIZATION,
                 String.format("token %s", token)
             )

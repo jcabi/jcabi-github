@@ -34,6 +34,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import java.net.URI;
+
 /**
  * Test case for {@link RtGithub}.
  *
@@ -189,6 +191,20 @@ public final class RtGithubTest {
         MatcherAssert.assertThat(
             new RtGithub(new FakeRequest()),
             Matchers.equalTo(new RtGithub(new FakeRequest()))
+        );
+    }
+
+    /**
+     * RtGithub can connect easily to another Github [enterprise] server
+     */
+    @Test
+    public void connectsToAnotherGithubServer() throws Exception {
+        final RtGithub github = new RtGithub(URI.create("http://localhost:12345"));
+        MatcherAssert.assertThat(
+            github.entry().uri().toString(),
+              Matchers.equalTo(
+                "http://localhost:12345/"
+              )
         );
     }
 }
