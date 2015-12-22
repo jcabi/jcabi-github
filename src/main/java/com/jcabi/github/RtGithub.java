@@ -88,6 +88,9 @@ public final class RtGithub implements Github {
         Manifests.read("JCabi-Date")
     );
 
+    /**
+     * The default Github api URI
+     */
     public static final String DEFAULT_GITHUB_HOST = "https://api.github.com";
 
     /**
@@ -110,7 +113,7 @@ public final class RtGithub implements Github {
      * @since 0.4
      */
     public RtGithub() {
-        this(getRequest(DEFAULT_GITHUB_HOST));
+        this(RtGithub.getRequest(DEFAULT_GITHUB_HOST));
     }
 
     /**
@@ -122,7 +125,7 @@ public final class RtGithub implements Github {
     public RtGithub(
         @NotNull(message = "user name can't be NULL") final String user,
         @NotNull(message = "password can't be NULL") final String pwd) {
-        this(URI.create(DEFAULT_GITHUB_HOST), user, pwd);
+        this(URI.create(RtGithub.DEFAULT_GITHUB_HOST), user, pwd);
     }
 
     /**
@@ -131,7 +134,7 @@ public final class RtGithub implements Github {
      */
     public RtGithub(
         @NotNull(message = "token can't be NULL") final String token) {
-        this(URI.create(DEFAULT_GITHUB_HOST), token);
+        this(URI.create(RtGithub.DEFAULT_GITHUB_HOST), token);
     }
 
     /**
@@ -140,7 +143,7 @@ public final class RtGithub implements Github {
      */
     public RtGithub(
         @NotNull(message = "uri can't be NULL") final URI uri) {
-        this(getRequest(uri.toString()));
+        this(RtGithub.getRequest(uri.toString()));
     }
 
     /**
@@ -176,7 +179,7 @@ public final class RtGithub implements Github {
         @NotNull(message = "uri can't be NULL") final URI uri,
         @NotNull(message = "token can't be NULL") final String token) {
         this(
-            getRequest(uri.toString()).header(
+            RtGithub.getRequest(uri.toString()).header(
                 HttpHeaders.AUTHORIZATION,
                 String.format("token %s", token)
             )

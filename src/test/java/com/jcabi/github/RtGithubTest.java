@@ -199,12 +199,11 @@ public final class RtGithubTest {
      */
     @Test
     public void connectsToAnotherGithubServer() throws Exception {
-        final RtGithub github = new RtGithub(URI.create("http://localhost:12345"));
         MatcherAssert.assertThat(
-            github.entry().uri().toString(),
-              Matchers.equalTo(
+            new RtGithub(URI.create("http://localhost:12345")).entry().uri().toString(),
+            Matchers.equalTo(
                 "http://localhost:12345/"
-              )
+            )
         );
     }
 }
