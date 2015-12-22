@@ -186,20 +186,6 @@ public final class RtGithub implements Github {
         this.request = req;
     }
 
-    /**
-     * Create ApacheRequest used to talk to Github server.
-     *
-     * @param uri URI of Github server to connect to
-     *
-     * @return Request object for communication with server
-     */
-    private static Request getRequest(final String uri) {
-        return new ApacheRequest(uri)
-            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-    }
-
     @Override
     @NotNull(message = "request can't be NULL")
     public Request entry() {
@@ -268,6 +254,20 @@ public final class RtGithub implements Github {
     @NotNull(message = "Markdown is never NULL")
     public Markdown markdown() {
         return new RtMarkdown(this, this.request);
+    }
+
+    /**
+     * Create ApacheRequest used to talk to Github server.
+     *
+     * @param uri URI of Github server to connect to
+     *
+     * @return Request object for communication with server
+     */
+    private static Request getRequest(final String uri) {
+        return new ApacheRequest(uri)
+            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     }
 
 }

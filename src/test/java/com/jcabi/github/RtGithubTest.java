@@ -29,9 +29,8 @@
  */
 package com.jcabi.github;
 
-import java.net.URI;
-
 import com.jcabi.http.request.FakeRequest;
+import java.net.URI;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
