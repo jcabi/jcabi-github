@@ -29,12 +29,12 @@
  */
 package com.jcabi.github;
 
+import java.net.URI;
+
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-
-import java.net.URI;
 
 /**
  * Test case for {@link RtGithub}.
@@ -195,12 +195,14 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can connect easily to another Github [enterprise] server
+     * RtGithub can connect easily to another Github [enterprise] server.
+     * @throws Exception if a problem occurs.
      */
     @Test
     public void connectsToAnotherGithubServer() throws Exception {
         MatcherAssert.assertThat(
-            new RtGithub(URI.create("http://localhost:12345")).entry().uri().toString(),
+            new RtGithub(URI.create("http://localhost:12345"))
+                .entry().uri().toString(),
             Matchers.equalTo(
                 "http://localhost:12345/"
             )

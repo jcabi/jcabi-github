@@ -89,19 +89,9 @@ public final class RtGithub implements Github {
     );
 
     /**
-     * The default Github api URI
+     * The default Github api URI.
      */
-    public static final String DEFAULT_GITHUB_HOST = "https://api.github.com";
-
-    /**
-     * Create ApacheRequest used to talk to Github server.
-     */
-    private static Request getRequest(String uri) {
-        return new ApacheRequest(uri)
-            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
-            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-    }
+    private static final String DEFAULT_GITHUB_HOST = "https://api.github.com";
 
     /**
      * REST request.
@@ -194,6 +184,20 @@ public final class RtGithub implements Github {
     public RtGithub(
         @NotNull(message = "request can't be NULL") final Request req) {
         this.request = req;
+    }
+
+    /**
+     * Create ApacheRequest used to talk to Github server.
+     *
+     * @param uri URI of Github server to connect to
+     *
+     * @return Request object for communication with server
+     */
+    private static Request getRequest(final String uri) {
+        return new ApacheRequest(uri)
+            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     }
 
     @Override
