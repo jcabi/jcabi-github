@@ -260,7 +260,7 @@ public final class RtGithub implements Github {
      * Create ApacheRequest used to talk to Github server.
      *
      * @param uri URI of Github server to connect to
-     *
+     * 
      * @return Request object for communication with server
      */
     private static Request getRequest(final String uri) {
