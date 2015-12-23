@@ -41,6 +41,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtGithubTest {
 
     /**

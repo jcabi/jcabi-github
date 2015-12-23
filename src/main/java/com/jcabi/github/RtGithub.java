@@ -91,7 +91,7 @@ public final class RtGithub implements Github {
     /**
      * The default Github api URI.
      */
-    private static final String DEFAULT_GITHUB_HOST = "https://api.github.com";
+    private static final String DEFAULT_HOST = "https://api.github.com";
 
     /**
      * REST request.
@@ -103,7 +103,7 @@ public final class RtGithub implements Github {
      * @since 0.4
      */
     public RtGithub() {
-        this(RtGithub.getRequest(DEFAULT_GITHUB_HOST));
+        this(RtGithub.getRequest(DEFAULT_HOST));
     }
 
     /**
@@ -115,7 +115,7 @@ public final class RtGithub implements Github {
     public RtGithub(
         @NotNull(message = "user name can't be NULL") final String user,
         @NotNull(message = "password can't be NULL") final String pwd) {
-        this(URI.create(RtGithub.DEFAULT_GITHUB_HOST), user, pwd);
+        this(URI.create(RtGithub.DEFAULT_HOST), user, pwd);
     }
 
     /**
@@ -124,7 +124,7 @@ public final class RtGithub implements Github {
      */
     public RtGithub(
         @NotNull(message = "token can't be NULL") final String token) {
-        this(URI.create(RtGithub.DEFAULT_GITHUB_HOST), token);
+        this(URI.create(RtGithub.DEFAULT_HOST), token);
     }
 
     /**
@@ -260,7 +260,6 @@ public final class RtGithub implements Github {
      * Create ApacheRequest used to talk to Github server.
      *
      * @param uri URI of Github server to connect to
-     * 
      * @return Request object for communication with server
      */
     private static Request getRequest(final String uri) {
