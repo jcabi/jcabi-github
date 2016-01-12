@@ -45,6 +45,7 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -56,6 +57,13 @@ import org.mockito.Mockito;
  */
 @Immutable
 public final class RtContentTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtContent should be able to describe itself in JSON format.
@@ -84,7 +92,7 @@ public final class RtContentTest {
     public void patchWithJson() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start();
+        ).start(this.resource.port());
         final RtContent content = new RtContent(
             new ApacheRequest(container.home()),
             this.repo(),
@@ -146,7 +154,7 @@ public final class RtContentTest {
         final String raw = "the raw \u20ac";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
-        ).start();
+        ).start(this.resource.port());
         final InputStream stream = new RtContent(
             new ApacheRequest(container.home()),
             this.repo(),

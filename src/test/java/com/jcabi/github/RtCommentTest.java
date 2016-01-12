@@ -42,6 +42,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -52,6 +53,13 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtCommentTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtComment should be able to compare different instances.
@@ -104,7 +112,7 @@ public final class RtCommentTest {
     public void removesComment() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing3", "issue3");
         final RtComment comment = new RtComment(
@@ -131,7 +139,7 @@ public final class RtCommentTest {
         final String body = "{\"body\":\"test5\"}";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing4", "issue4");
         final RtComment comment = new RtComment(
@@ -156,7 +164,7 @@ public final class RtCommentTest {
     public void patchesComment() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing5", "issue5");
         final RtComment comment = new RtComment(
@@ -183,7 +191,7 @@ public final class RtCommentTest {
     public void givesToString() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing6", "issue6");
         final RtComment comment = new RtComment(
