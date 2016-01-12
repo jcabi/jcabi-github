@@ -55,6 +55,7 @@ import org.junit.rules.ExpectedException;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtPublicMembersTest {
+
     /**
      * Test organization.
      */
@@ -81,6 +82,15 @@ public final class RtPublicMembersTest {
         MEMBERS_URL,
         USERNAME
     );
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * Rule for checking thrown exception.
@@ -111,7 +121,7 @@ public final class RtPublicMembersTest {
         final MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start();
+            .start(this.resource.port());
         try {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -148,7 +158,7 @@ public final class RtPublicMembersTest {
         final MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start();
+            .start(this.resource.port());
         try {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -183,7 +193,7 @@ public final class RtPublicMembersTest {
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start();
+            .start(this.resource.port());
         try {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -228,7 +238,7 @@ public final class RtPublicMembersTest {
                 )
         )
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start();
+            .start(this.resource.port());
         try {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),

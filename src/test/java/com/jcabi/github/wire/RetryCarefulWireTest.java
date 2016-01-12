@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.wire;
 
+import com.jcabi.github.RandomPort;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -40,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -51,6 +53,7 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  */
 public final class RetryCarefulWireTest {
+
     /**
      * HTTP 200 status reason.
      */
@@ -59,6 +62,15 @@ public final class RetryCarefulWireTest {
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RetryCarefulWire can make a few requests before giving up and
@@ -78,7 +90,7 @@ public final class RetryCarefulWireTest {
                 .withHeader(REMAINING_HEADER, "9")
                 .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             )
-            .start();
+            .start(this.resource.port());
         new JdkRequest(container.home())
             .through(RetryCarefulWire.class, threshold)
             .fetch()

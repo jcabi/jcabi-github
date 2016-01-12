@@ -43,6 +43,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,9 +52,19 @@ import org.mockito.Mockito;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @since 0.8
  */
 public final class RtReleasesTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtReleases can fetch empty list of releases.
@@ -117,7 +128,8 @@ public final class RtReleasesTest {
         final String rel = release(tag).toString();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel)).start();
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
+            .start(this.resource.port());
         final RtReleases releases = new RtReleases(
             new JdkRequest(container.home()),
             repo()
@@ -145,7 +157,7 @@ public final class RtReleasesTest {
                 HttpURLConnection.HTTP_NO_CONTENT,
                 ""
             )
-        ).start();
+        ).start(this.resource.port());
         final Releases releases = new RtReleases(
             new ApacheRequest(container.home()),
             RtReleasesTest.repo()

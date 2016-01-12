@@ -43,6 +43,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -57,6 +58,15 @@ public class RtReleaseTest {
      * An empty JSON string.
      */
     private static final String EMPTY_JSON = "{}";
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * A mock container used in test to mimic the Github server.
@@ -87,7 +97,7 @@ public class RtReleaseTest {
     public final void editRelease() throws Exception {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
-        ).start();
+        ).start(this.resource.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         final JsonObject json = Json.createObjectBuilder()
             .add("tag_name", "v1.0.0")
@@ -112,7 +122,7 @@ public class RtReleaseTest {
     public final void deleteRelease() throws Exception {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, EMPTY_JSON)
-        ).start();
+        ).start(this.resource.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.delete();
         MatcherAssert.assertThat(
@@ -129,7 +139,7 @@ public class RtReleaseTest {
     public final void executePatchRequest() throws Exception {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
-        ).start();
+        ).start(this.resource.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.patch(Json.createObjectBuilder().add("name", "v1")
             .build()
@@ -157,5 +167,4 @@ public class RtReleaseTest {
             2
         );
     }
-
 }

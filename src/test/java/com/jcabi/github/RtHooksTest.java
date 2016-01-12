@@ -45,6 +45,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -54,9 +55,19 @@ import org.mockito.Mockito;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 public final class RtHooksTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtHooks can fetch empty list of hooks.
@@ -66,7 +77,7 @@ public final class RtHooksTest {
     public void canFetchEmptyListOfHooks() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
-        ).start();
+        ).start(this.resource.port());
         final Hooks hooks = new RtHooks(
             new JdkRequest(container.home()),
             RtHooksTest.repo()
@@ -95,7 +106,7 @@ public final class RtHooksTest {
                     .add(hook("hook 2", Collections.<String, String>emptyMap()))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtHooks hooks = new RtHooks(
             new JdkRequest(container.home()),
             RtHooksTest.repo()
@@ -122,7 +133,7 @@ public final class RtHooksTest {
                     Collections.<String, String>emptyMap()
                 ).toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Hooks hooks = new RtHooks(
             new JdkRequest(container.home()),
             RtHooksTest.repo()
@@ -150,7 +161,8 @@ public final class RtHooksTest {
         final String body = RtHooksTest.hook(name, config).toString();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            .start(this.resource.port());
         final Hooks hooks = new RtHooks(
             new JdkRequest(container.home()),
             RtHooksTest.repo()
@@ -179,7 +191,7 @@ public final class RtHooksTest {
     public void canDeleteHook() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final Hooks hooks = new RtHooks(
             new JdkRequest(container.home()),
             RtHooksTest.repo()

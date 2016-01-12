@@ -38,6 +38,7 @@ import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -48,6 +49,16 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtDeployKeyTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtDeployKey can delete a deploy key.
      *
@@ -60,7 +71,7 @@ public final class RtDeployKeyTest {
                 HttpURLConnection.HTTP_NO_CONTENT,
                 ""
             )
-        ).start();
+        ).start(this.resource.port());
         final DeployKey key = new RtDeployKey(
             new ApacheRequest(container.home()),
             3,

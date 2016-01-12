@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -49,6 +50,15 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtGistsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtGists can create new files.
@@ -62,7 +72,7 @@ public final class RtGistsTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"id\":\"1\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
@@ -90,7 +100,7 @@ public final class RtGistsTest {
     public void canRetrieveSpecificGist() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
-        ).start();
+        ).start(this.resource.port());
         final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
@@ -117,7 +127,7 @@ public final class RtGistsTest {
                 HttpURLConnection.HTTP_OK,
                 "[{\"id\":\"hello\"}]"
             )
-        ).start();
+        ).start(this.resource.port());
         final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())
@@ -143,7 +153,7 @@ public final class RtGistsTest {
                 ""
             )
         )
-            .start();
+            .start(this.resource.port());
         final Gists gists = new RtGists(
             new MkGithub(),
             new ApacheRequest(container.home())

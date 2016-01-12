@@ -41,14 +41,25 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Test case for {@link RtGistComment}.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public class RtGistCommentTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtGistComment can patch comment and return new json.
@@ -84,8 +95,9 @@ public class RtGistCommentTest {
         );
         final MkContainer container =
             new MkGrizzlyContainer().next(first).next(second).next(third)
-                .start();
-        final MkContainer gistContainer = new MkGrizzlyContainer().start();
+                .start(this.resource.port());
+        final MkContainer gistContainer = new MkGrizzlyContainer()
+                .start(this.resource.port());
         final RtGist gist =
             new RtGist(
                 new MkGithub(),
@@ -116,7 +128,7 @@ public class RtGistCommentTest {
         final int identifier = 1;
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final RtGist gist = new RtGist(
             new MkGithub(),
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),

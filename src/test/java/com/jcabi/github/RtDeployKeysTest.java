@@ -41,6 +41,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -52,6 +53,15 @@ import org.mockito.Mockito;
  */
 @Immutable
 public final class RtDeployKeysTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtDeployKeys can fetch empty list of deploy keys.
@@ -84,7 +94,7 @@ public final class RtDeployKeysTest {
                     .build().toString()
             )
         );
-        container.start();
+        container.start(this.resource.port());
         try {
             MatcherAssert.assertThat(
                 new RtDeployKeys(
@@ -130,7 +140,7 @@ public final class RtDeployKeysTest {
                 String.format("{\"id\":%d}", number)
             )
         );
-        container.start();
+        container.start(this.resource.port());
         try {
             final DeployKeys keys = new RtDeployKeys(
                 new ApacheRequest(container.home()), RtDeployKeysTest.repo()

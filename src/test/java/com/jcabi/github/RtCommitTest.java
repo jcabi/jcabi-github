@@ -37,6 +37,7 @@ import com.jcabi.http.request.JdkRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,15 @@ import org.junit.Test;
 public class RtCommitTest {
 
     /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * Commit.Smart can read message.
      * @throws Exception when an error occurs
      */
@@ -60,7 +70,7 @@ public class RtCommitTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"sha\":\"a0b1c3\",\"commit\":{\"message\":\"hello\"}}"
             )
-        ).start();
+        ).start(this.resource.port());
         try {
             final Commit.Smart commit = new Commit.Smart(
                 new RtCommit(

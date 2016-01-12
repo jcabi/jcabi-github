@@ -45,6 +45,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -58,6 +59,16 @@ import org.junit.Test;
  *  RtStatuses/RtStatus against real GitHub commit status data.
  */
 public final class RtStatusesTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     *  and make MkGrizzlyContainers use port() given by this resource to avoid
+     *  tests fail with BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtStatuses can fetch its commit.
      * @throws IOException If there is an I/O problem.
@@ -95,7 +106,7 @@ public final class RtStatusesTest {
                     .add(contextprop, context)
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Request entry = new ApacheRequest(container.home());
         final Statuses statuses = new RtStatuses(
             entry,
