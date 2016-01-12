@@ -17,6 +17,7 @@ merge:
   - ggajos
   - krzyk
   - longtimeago
+  - mkordas
   - pinaf
   script: |-
     mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml
