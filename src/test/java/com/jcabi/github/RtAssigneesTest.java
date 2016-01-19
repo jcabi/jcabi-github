@@ -38,6 +38,7 @@ import javax.json.Json;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -49,6 +50,13 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtAssigneesTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtAssignees can iterate over assignees.
@@ -64,7 +72,7 @@ public final class RtAssigneesTest {
                     .add(RtAssigneesTest.json("dummy"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Assignees users = new RtAssignees(
             new JdkRequest(container.home()),
             this.repo()
@@ -90,7 +98,7 @@ public final class RtAssigneesTest {
                     .add(RtAssigneesTest.json("dummy"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Assignees users = new RtAssignees(
             new JdkRequest(container.home()),
             this.repo()
@@ -116,7 +124,7 @@ public final class RtAssigneesTest {
                     .add(RtAssigneesTest.json("dummy"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Assignees users = new RtAssignees(
             new JdkRequest(container.home()),
             this.repo()

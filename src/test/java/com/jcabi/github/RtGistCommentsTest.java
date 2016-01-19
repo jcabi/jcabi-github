@@ -39,6 +39,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -49,6 +50,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtGistCommentsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtGistComments can get a single comment.
      * @throws Exception if some problem inside
@@ -61,7 +70,7 @@ public final class RtGistCommentsTest {
                 HttpURLConnection.HTTP_OK,
                 comment(body).toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Gist gist = Mockito.mock(Gist.class);
         Mockito.doReturn("1").when(gist).identifier();
         final RtGistComments comments = new RtGistComments(
@@ -90,7 +99,7 @@ public final class RtGistCommentsTest {
                     .add(comment("comment 2"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Gist gist = Mockito.mock(Gist.class);
         Mockito.doReturn("2").when(gist).identifier();
         final RtGistComments comments = new RtGistComments(
@@ -120,7 +129,7 @@ public final class RtGistCommentsTest {
                 HttpURLConnection.HTTP_CREATED,
                 comment(body).toString()
             )
-        ).next(answer).start();
+        ).next(answer).start(this.resource.port());
         final Gist gist = Mockito.mock(Gist.class);
         Mockito.doReturn("3").when(gist).identifier();
         final RtGistComments comments = new RtGistComments(

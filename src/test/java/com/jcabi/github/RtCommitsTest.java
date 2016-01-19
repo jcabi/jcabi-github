@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,13 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RtCommitsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * Tests creating a Commit.
@@ -63,7 +71,7 @@ public class RtCommitsTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"sha\":\"0abcd89jcabitest\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Commits commits = new RtCommits(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()

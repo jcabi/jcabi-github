@@ -41,6 +41,7 @@ import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -56,6 +57,13 @@ public final class RtForksTest {
      * Fork's organization name in JSON object.
      */
     public static final String ORGANIZATION = "organization";
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtForks should be able to iterate its forks.
@@ -91,7 +99,7 @@ public final class RtForksTest {
                 HttpURLConnection.HTTP_ACCEPTED,
                 fork(organization).toString()
             )
-        ).next(answer).start();
+        ).next(answer).start(this.resource.port());
         final Repo owner = Mockito.mock(Repo.class);
         final Coordinates coordinates = new Coordinates.Simple(
             "test_user", "test_repo"
