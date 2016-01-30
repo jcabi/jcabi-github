@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -49,7 +48,6 @@ public interface Releases {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -57,7 +55,6 @@ public interface Releases {
      * @return Iterator of releases
      * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Release> iterate();
 
     /**
@@ -66,7 +63,6 @@ public interface Releases {
      * @return Release
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
      */
-    @NotNull(message = "release is never NULL")
     Release get(int number);
 
     /**
@@ -76,9 +72,8 @@ public interface Releases {
      * @throws java.io.IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
      */
-    @NotNull(message = "release is never NULL")
     Release create(
-        @NotNull(message = "release tag is never NULL") String tag)
+        String tag)
         throws IOException;
 
     /**
@@ -109,7 +104,7 @@ public interface Releases {
          * @param original Original releases
          */
         public Smart(
-            @NotNull(message = "original can't be NULL") final Releases original
+            final Releases original
         ) {
             this.releases = original;
         }

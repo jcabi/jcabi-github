@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
@@ -48,14 +47,12 @@ public interface Coordinates extends Comparable<Coordinates> {
      * Get usr name.
      * @return User name
      */
-    @NotNull(message = "user is never NULL")
     String user();
 
     /**
      * Get rpo name.
      * @return Repo name
      */
-    @NotNull(message = "repo is never NULL")
     String repo();
 
     /**
@@ -78,8 +75,8 @@ public interface Coordinates extends Comparable<Coordinates> {
          * @param repo Repository name
          */
         public Simple(
-            @NotNull(message = "user can't be NULL") final String user,
-            @NotNull(message = "repo can't be NULL") final String repo) {
+            final String user, final String repo
+        ) {
             this.usr = user;
             this.rpo = repo;
         }
@@ -87,8 +84,7 @@ public interface Coordinates extends Comparable<Coordinates> {
          * Public ctor.
          * @param mnemo Mnemo name
          */
-        public Simple(@NotNull(message = "mnemo can't be NULL")
-            final String mnemo) {
+        public Simple(final String mnemo) {
             final String[] parts = mnemo.split("/", 2);
             if (parts.length != 2) {
                 throw new IllegalArgumentException(
@@ -103,19 +99,15 @@ public interface Coordinates extends Comparable<Coordinates> {
             return String.format("%s/%s", this.usr, this.rpo);
         }
         @Override
-        @NotNull(message = "user is never NULL")
         public String user() {
             return this.usr;
         }
         @Override
-        @NotNull(message = "repo is never NULL")
         public String repo() {
             return this.rpo;
         }
         @Override
-        public int compareTo(
-            @NotNull(message = "other can't be NULL") final Coordinates other
-        ) {
+        public int compareTo(final Coordinates other) {
             return new CompareToBuilder()
                 .append(this.usr, other.user())
                 .append(this.rpo, other.repo())

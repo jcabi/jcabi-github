@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -82,13 +81,11 @@ final class RtPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "user is never NULL")
     public User user() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Iterable of public keys is never NULL")
     public Iterable<PublicKey> iterate() {
         return new RtPagination<PublicKey>(
             this.request,
@@ -102,10 +99,9 @@ final class RtPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "public key is never NULL")
     public PublicKey create(
-        @NotNull(message = "title key can't be NULL") final String title,
-        @NotNull(message = "key can't be NULL") final String key
+        final String title,
+        final String key
     ) throws IOException {
         return this.get(
             this.request.method(Request.POST)
@@ -123,7 +119,6 @@ final class RtPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "public key is never NULL")
     public PublicKey get(final int number) {
         return new RtPublicKey(this.entry, this.owner, number);
     }
@@ -138,7 +133,6 @@ final class RtPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

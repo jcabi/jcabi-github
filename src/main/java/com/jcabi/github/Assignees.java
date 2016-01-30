@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Assignees.
@@ -48,7 +47,6 @@ public interface Assignees {
      * @return Iterator of available assignees to which issues may be assigned
      * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<User> iterate();
 
     /**
@@ -58,7 +56,6 @@ public interface Assignees {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
      */
-    @NotNull(message = "check is never NULL")
-    boolean check(@NotNull(message = "login is never NULL") String login)
+    boolean check(String login)
         throws IOException;
 }

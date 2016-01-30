@@ -39,7 +39,6 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -86,13 +85,11 @@ final class RtReleases implements Releases {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Iterable of releases is never NULL")
     public Iterable<Release> iterate() {
         return new RtPagination<Release>(
             this.request,
@@ -111,15 +108,13 @@ final class RtReleases implements Releases {
     }
 
     @Override
-    @NotNull(message = "release is never NULL")
     public Release get(final int number) {
         return new RtRelease(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "release is never NULL")
     public Release create(
-        @NotNull(message = "tag can't be NULL") final String tag
+        final String tag
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("tag_name", tag)

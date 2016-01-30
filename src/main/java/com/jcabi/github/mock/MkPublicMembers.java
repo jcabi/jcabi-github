@@ -34,7 +34,6 @@ import com.jcabi.github.PublicMembers;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import org.xembly.Directives;
 
 /**
@@ -62,22 +61,20 @@ public final class MkPublicMembers implements PublicMembers {
      * @param organ Organization
      */
     public MkPublicMembers(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "organ can't be NULL") final Organization organ
+        final MkStorage stg,
+        final Organization organ
     ) {
         this.storage = stg;
         this.organization = organ;
     }
 
     @Override
-    @NotNull(message = "organization is never NULL")
     public Organization org() {
         return this.organization;
     }
 
     @Override
     public void conceal(
-        @NotNull(message = "user cannot be NULL")
         final User user
     ) throws IOException {
         this.storage.apply(
@@ -89,7 +86,6 @@ public final class MkPublicMembers implements PublicMembers {
 
     @Override
     public void publicize(
-        @NotNull(message = "user cannot be NULL")
         final User user
     ) throws IOException {
         this.storage.apply(
@@ -100,7 +96,6 @@ public final class MkPublicMembers implements PublicMembers {
     }
 
     @Override
-    @NotNull(message = "iterable is never NULL")
     public Iterable<User> iterate() {
         return new MkIterable<User>(
             this.storage,
@@ -123,7 +118,6 @@ public final class MkPublicMembers implements PublicMembers {
 
     @Override
     public boolean contains(
-        @NotNull(message = "user cannot be NULL")
         final User user
     ) throws IOException {
         boolean result = false;

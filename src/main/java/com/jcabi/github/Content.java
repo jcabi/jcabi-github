@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -57,14 +56,12 @@ public interface Content extends Comparable<Content>,
      * Repository we're in.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
      * Get its path name.
      * @return The path name
      */
-    @NotNull(message = "path is never NULL")
     String path();
 
     /**
@@ -72,7 +69,6 @@ public interface Content extends Comparable<Content>,
      * @throws IOException If an IO error occurs
      * @return Input stream of the raw content
      */
-    @NotNull(message = "raw is never NULL")
     InputStream raw() throws IOException;
 
     /**
@@ -96,7 +92,6 @@ public interface Content extends Comparable<Content>,
          * @param cont Content
          */
         public Smart(
-            @NotNull(message = "content is never NULL")
             final Content cont) {
             this.content = cont;
             this.jsn = new SmartJson(cont);
@@ -106,7 +101,6 @@ public interface Content extends Comparable<Content>,
          * @return Name of content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "name is never NULL")
         public String name() throws IOException {
             return this.jsn.text("name");
         }
@@ -115,7 +109,6 @@ public interface Content extends Comparable<Content>,
          * @return Type of content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "type is never NULL")
         public String type() throws IOException {
             return this.jsn.text("type");
         }
@@ -132,7 +125,6 @@ public interface Content extends Comparable<Content>,
          * @return Sha hash of content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "sha is never NULL")
         public String sha() throws IOException {
             return this.jsn.text("sha");
         }
@@ -141,7 +133,6 @@ public interface Content extends Comparable<Content>,
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "url is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -150,7 +141,6 @@ public interface Content extends Comparable<Content>,
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "html url is never NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -159,7 +149,6 @@ public interface Content extends Comparable<Content>,
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "git url is never NULL")
         public URL gitUrl() throws IOException {
             return new URL(this.jsn.text("git_url"));
         }
@@ -168,7 +157,6 @@ public interface Content extends Comparable<Content>,
          * @return Base64 encoded content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "content is never NULL")
         public String content() throws IOException {
             return this.jsn.text("content");
         }
@@ -177,39 +165,30 @@ public interface Content extends Comparable<Content>,
          * @return Decoded content
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "decoded is never NULL")
         public byte[] decoded() throws IOException {
             return DatatypeConverter.parseBase64Binary(this.content());
         }
         @Override
-        public int compareTo(
-            @NotNull(message = "cont can't be NULL") final Content cont
-        ) {
+        public int compareTo(final Content cont) {
             return this.content.compareTo(cont);
         }
         @Override
-        public void patch(
-            @NotNull(message = "JSON is never NULL")final JsonObject json)
-            throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.content.patch(json);
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.content.json();
         }
         @Override
-        @NotNull(message = "Repository is never NULL")
         public Repo repo() {
             return this.content.repo();
         }
         @Override
-        @NotNull(message = "path is never NULL")
         public String path() {
             return this.content.path();
         }
         @Override
-        @NotNull(message = "input stream is never NULL")
         public InputStream raw() throws IOException {
             return this.content.raw();
         }

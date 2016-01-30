@@ -32,7 +32,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github repository collaborators.
@@ -46,7 +45,6 @@ public interface Collaborators {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -58,9 +56,7 @@ public interface Collaborators {
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
      *  Check if a user is collaborator</a>
      */
-    boolean isCollaborator(
-        @NotNull(message = "User is never null") String user
-    ) throws IOException;
+    boolean isCollaborator(String user) throws IOException;
 
     /**
      * Add user as a collaborator.
@@ -69,9 +65,7 @@ public interface Collaborators {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
      */
-    void add(
-        @NotNull(message = "User is never null") String user
-    ) throws IOException;
+    void add(String user) throws IOException;
 
     /**
      * Remove user as a collaborator.
@@ -80,13 +74,11 @@ public interface Collaborators {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
      */
-    void remove(@NotNull(message = "user is never NULL") String user)
-        throws IOException;
+    void remove(String user) throws IOException;
 
     /**
      * Iterates over repo collaborators.
      * @return Iterator on repo collaborators.
      */
-    @NotNull(message = "iterator is never NULL")
     Iterable<User> iterate();
 }

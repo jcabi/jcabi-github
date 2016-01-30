@@ -35,7 +35,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -78,7 +77,6 @@ final class RtStars implements Stars {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }

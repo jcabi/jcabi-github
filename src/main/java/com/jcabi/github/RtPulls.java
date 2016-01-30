@@ -40,7 +40,6 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -89,29 +88,25 @@ final class RtPulls implements Pulls {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "pull is never NULL")
     public Pull get(final int number) {
         return new RtPull(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "pull is never NULL")
     public Pull create(
-        @NotNull(message = "pull title is never NULL") final String title,
-        @NotNull(message = "head is never NULL") final String head,
-        @NotNull(message = "base is never NULL") final String base)
+        final String title,
+        final String head,
+        final String base)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("title", title)
@@ -129,9 +124,7 @@ final class RtPulls implements Pulls {
     }
 
     @Override
-    @NotNull(message = "Iterable of pulls is never NULL")
-    public Iterable<Pull> iterate(@NotNull(message = "params can't be NULL")
-        final Map<String, String> params) {
+    public Iterable<Pull> iterate(final Map<String, String> params) {
         return new RtPagination<Pull>(
             this.request.uri().queryParams(params).back(),
             new RtValuePagination.Mapping<Pull, JsonObject>() {

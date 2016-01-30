@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -85,38 +84,33 @@ final class RtLabel implements Label {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "name is never NULL")
     public String name() {
         return this.txt;
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(@NotNull(message = "JSON is never NULL")
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
     public int compareTo(
-        @NotNull(message = "label can't be NULL") final Label label
+        final Label label
     ) {
         return label.name().compareTo(label.name());
     }

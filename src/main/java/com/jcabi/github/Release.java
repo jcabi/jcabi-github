@@ -38,7 +38,6 @@ import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -59,7 +58,6 @@ public interface Release extends JsonReadable, JsonPatchable {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -79,7 +77,6 @@ public interface Release extends JsonReadable, JsonPatchable {
      * @return Release assets.
      * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
      */
-    @NotNull(message = "assets are never NULL")
     ReleaseAssets assets();
 
     /**
@@ -105,27 +102,25 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @param original Original release
          */
         public Smart(
-            @NotNull(message = "original can't be NULL") final Release original
+            final Release original
         ) {
             this.release = original;
             this.jsn = new SmartJson(original);
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.release.json();
         }
 
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.release.patch(json);
         }
 
         @Override
-        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.release.repo();
         }
@@ -136,7 +131,6 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "assets is never NULL")
         public ReleaseAssets assets() {
             return this.release.assets();
         }
@@ -146,7 +140,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL cannot be NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -156,7 +149,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release html url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL cannot possibly be NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -166,7 +158,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release assets url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL isn't ever NULL")
         public URL assetsUrl() throws IOException {
             return new URL(this.jsn.text("assets_url"));
         }
@@ -176,7 +167,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release upload url
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL uploadUrl() throws IOException {
             return new URL(this.jsn.text("upload_url"));
         }
@@ -186,7 +176,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return The release tag name
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "tag is never NULL")
         public String tag() throws IOException {
             return this.jsn.text("tag_name");
         }
@@ -207,7 +196,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void tag(
-            @NotNull(message = "text cannot be NULL") final String text
+            final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("tag_name", text).build()
@@ -219,7 +208,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release target commitish value
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "commitish can't be NULL")
         public String commitish() throws IOException {
             return this.jsn.text("target_commitish");
         }
@@ -230,7 +218,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void commitish(
-            @NotNull(message = "text shouldn't be NULL") final String text
+            final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder()
@@ -254,7 +242,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release name
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "name is never NULL")
         public String name() throws IOException {
             return this.jsn.text("name");
         }
@@ -265,7 +252,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void name(
-            @NotNull(message = "text should not be NULL") final String text
+            final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("name", text).build()
@@ -286,7 +273,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release body
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "body is never NULL")
         public String body() throws IOException {
             final String body;
             if (this.hasBody()) {
@@ -303,7 +289,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void body(
-            @NotNull(message = "text can't be NULL") final String text
+            final String text
         ) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("body", text).build()
@@ -315,7 +301,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release creation date
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(this.jsn.text("created_at"))
@@ -330,7 +315,6 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release publication date
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date publishedAt() throws IOException {
             try {
                 return new Github.Time(this.jsn.text("published_at"))

@@ -35,7 +35,6 @@ import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -63,7 +62,7 @@ final class MkOrganizations implements Organizations {
      * @throws IOException If there is any I/O problem
      */
     MkOrganizations(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg
+        final MkStorage stg
     )
         throws IOException {
         this.storage = stg;
@@ -73,9 +72,8 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
-    @NotNull(message = "org is never NULL")
     public Organization get(
-        @NotNull(message = "login is never NULl") final String login
+        final String login
     ) {
         try {
             this.storage.apply(
@@ -97,7 +95,6 @@ final class MkOrganizations implements Organizations {
     }
 
     @Override
-    @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate() {
         return new MkIterable<Organization>(
             this.storage,
@@ -117,7 +114,6 @@ final class MkOrganizations implements Organizations {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return "/github/orgs";
     }

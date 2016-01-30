@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Loggable;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -64,25 +63,21 @@ final class RtPullRef implements PullRef {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() {
         return this.jsn;
     }
 
     @Override
-    @NotNull(message = "ref is never NULL")
     public String ref() {
         return this.jsn.getString("ref");
     }
 
     @Override
-    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.jsn.getString("sha");
     }
 
     @Override
-    @NotNull(message = "sha is never NULL")
     public Repo repo() {
         return this.github.repos().get(
             new Coordinates.Simple(

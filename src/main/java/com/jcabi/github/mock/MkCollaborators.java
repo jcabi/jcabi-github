@@ -36,7 +36,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import org.xembly.Directives;
 
 /**
@@ -71,9 +70,9 @@ final class MkCollaborators implements Collaborators {
      * @throws IOException If there is any I/O problem
      */
     public MkCollaborators(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "crds can't be NULL") final Coordinates crds
+        final MkStorage stg,
+        final String login,
+        final Coordinates crds
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -88,14 +87,13 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
-    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
     public boolean isCollaborator(
-        @NotNull(message = "User is never null") final String user
+        final String user
     ) throws IOException {
         return !this.storage.xml().xpath(
             String.format("%s/user[login='%s']/text()", this.xpath(), user)
@@ -104,7 +102,7 @@ final class MkCollaborators implements Collaborators {
 
     @Override
     public void add(
-        @NotNull(message = "User is never null") final String user
+        final String user
     ) throws IOException {
         this.storage.lock();
         try {
@@ -119,7 +117,7 @@ final class MkCollaborators implements Collaborators {
 
     @Override
     public void remove(
-        @NotNull(message = "user should not be NULL") final String user
+        final String user
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
@@ -129,7 +127,6 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
-    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> iterate() {
         return new MkIterable<User>(
             this.storage, String.format("%s/user", this.xpath()),
@@ -155,9 +152,8 @@ final class MkCollaborators implements Collaborators {
      * @return Mocked User
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "User is never NULL")
     public User get(
-        @NotNull(message = "login should not be NULL") final String login
+        final String login
     ) throws IOException {
         return new MkUser(this.storage, login);
     }
@@ -166,7 +162,6 @@ final class MkCollaborators implements Collaborators {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/collaborators",

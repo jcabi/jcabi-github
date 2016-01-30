@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github starring API.
@@ -48,7 +47,6 @@ public interface Stars {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -56,7 +54,6 @@ public interface Stars {
      * @return True if repo is starred
      * @throws IOException - If anything goes wrong.
      */
-    @NotNull(message = "starred is never NULL")
     boolean starred() throws IOException;
 
     /**

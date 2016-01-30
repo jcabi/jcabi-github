@@ -36,7 +36,6 @@ import com.jcabi.github.Gitignores;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -71,27 +70,22 @@ final class MkGitignores implements Gitignores {
      * Public ctor.
      * @param github The github
      */
-    MkGitignores(@NotNull(message = "github can't NULL")
-        final MkGithub github) {
+    MkGitignores(final MkGithub github) {
         this.ghub = github;
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "Iterable is never NULL")
     public Iterable<String> iterate() throws IOException {
         return GITIGNORES.keySet();
     }
 
     @Override
-    @NotNull(message = "template is never NULL")
     public String template(
-        @NotNull(message = "Template name can't be NULL")
         final String name) throws IOException {
         final String template = GITIGNORES.get(name);
         if (template == null) {

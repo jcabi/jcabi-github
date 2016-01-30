@@ -37,7 +37,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Tag;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -79,10 +78,10 @@ final class MkTag implements Tag {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkTag(
-        @NotNull(message = "strg can't be NULL") final MkStorage strg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "crds can't be NULL") final Coordinates crds,
-        @NotNull(message = "identifier can't be NULL") final String identifier
+        final MkStorage strg,
+        final String login,
+        final Coordinates crds,
+        final String identifier
     ) {
         this.storage = strg;
         this.self = login;
@@ -92,7 +91,6 @@ final class MkTag implements Tag {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -100,13 +98,11 @@ final class MkTag implements Tag {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "key is never NULL")
     public String key() {
         return this.sha;
     }
@@ -116,7 +112,6 @@ final class MkTag implements Tag {
      *
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords = '%s']/git/tags/tag[sha = '%s']",

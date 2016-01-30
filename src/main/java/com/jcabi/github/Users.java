@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github users.
@@ -47,14 +46,12 @@ public interface Users {
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
      * Get myself.
      * @return Myself
      */
-    @NotNull(message = "user is never NULL")
     User self();
 
     /**
@@ -63,8 +60,7 @@ public interface Users {
      * @return User
      * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
-    @NotNull(message = "user is never NULL")
-    User get(@NotNull(message = "login is never NULL") String login);
+    User get(String login);
 
     /**
      * Iterate all users, starting with the one you've seen already.
@@ -72,9 +68,8 @@ public interface Users {
      * @return Iterator of gists
      * @see <a href="http://developer.github.com/v3/users/#get-all-users">Get All Users</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<User> iterate(
-        @NotNull(message = "identifier can't be NULL") String identifier
+        String identifier
     );
 
 }

@@ -36,7 +36,6 @@ import com.jcabi.github.Limit;
 import com.jcabi.github.Limits;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -68,24 +67,20 @@ final class MkLimits implements Limits {
      * @param stg Storage
      * @param login User to login
      */
-    MkLimits(@NotNull(message = "stg cannot be NULL")
-        final MkStorage stg,
-        @NotNull(message = "login cannot be NULL") final String login
+    MkLimits(final MkStorage stg,
+        final String login
     ) {
         this.storage = stg;
         this.himself = login;
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.himself);
     }
 
     @Override
-    @NotNull(message = "limit is never NULL")
-    public Limit get(@NotNull(message = "resource shouldn't be NULL")
-        final String resource) {
+    public Limit get(final String resource) {
         // @checkstyle AnonInnerLength (50 lines)
         return new Limit() {
             @Override

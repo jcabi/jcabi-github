@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * An enum whose values correspond to unique strings.
@@ -45,6 +44,5 @@ public interface StringEnum {
      * The string that this enum value represents.
      * @return String
      */
-    @NotNull(message = "identifier string is never NULL")
     String identifier();
 }

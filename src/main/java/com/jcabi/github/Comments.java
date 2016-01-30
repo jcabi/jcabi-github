@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github comments.
@@ -54,7 +53,6 @@ public interface Comments {
      * The issue we're in.
      * @return Issue
      */
-    @NotNull(message = "issue is never NULL")
     Issue issue();
 
     /**
@@ -63,7 +61,6 @@ public interface Comments {
      * @return Comment
      * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
      */
-    @NotNull(message = "comment is never NULL")
     Comment get(int number);
 
     /**
@@ -71,7 +68,6 @@ public interface Comments {
      * @return All comments
      * @see <a href="http://developer.github.com/v3/issues/comments/#list-comments-on-an-issue">List Comments on an Issue</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Comment> iterate();
 
     /**
@@ -81,8 +77,7 @@ public interface Comments {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/comments/#create-a-comment">Create a Comment</a>
      */
-    @NotNull(message = "comment is never NULL")
-    Comment post(@NotNull(message = "text can't be NULL") String text)
+    Comment post(String text)
         throws IOException;
 
 }

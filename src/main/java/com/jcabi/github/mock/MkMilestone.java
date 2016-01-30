@@ -35,7 +35,6 @@ import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Mock Github milestone.
@@ -75,9 +74,9 @@ final class MkMilestone implements Milestone {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkMilestone(
-        @NotNull(message = "strg can't be NULL") final MkStorage strg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "crds can't be NULL") final Coordinates crds,
+        final MkStorage strg,
+        final String login,
+        final Coordinates crds,
         final int num
     ) {
         this.self = login;
@@ -88,7 +87,7 @@ final class MkMilestone implements Milestone {
 
     @Override
     public boolean equals(
-        @NotNull(message = "obj should not be NULL") final Object obj
+        final Object obj
     ) {
         return obj instanceof Milestone
             && this.code == Milestone.class.cast(obj).number();
@@ -101,7 +100,7 @@ final class MkMilestone implements Milestone {
 
     @Override
     public int compareTo(
-        @NotNull(message = "milestone can't be NULL") final Milestone milestone
+        final Milestone milestone
     ) {
         assert this.self != null;
         assert this.coords != null;
@@ -117,7 +116,6 @@ final class MkMilestone implements Milestone {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -126,7 +124,7 @@ final class MkMilestone implements Milestone {
 
     @Override
     public void patch(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new JsonPatch(
             this.storage
@@ -137,7 +135,6 @@ final class MkMilestone implements Milestone {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(
             this.storage,
@@ -155,7 +152,6 @@ final class MkMilestone implements Milestone {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/milestones[number='%d']",

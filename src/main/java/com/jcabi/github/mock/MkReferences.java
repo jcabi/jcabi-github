@@ -38,7 +38,6 @@ import com.jcabi.github.References;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -76,9 +75,9 @@ final class MkReferences implements References {
      * @throws IOException - If something goes wrong.
      */
     MkReferences(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -94,16 +93,14 @@ final class MkReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "created ref can't be NULL")
     public Reference create(
-        @NotNull(message = "ref can't be NULL") final String ref,
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String ref,
+        final String sha
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("reference")
@@ -114,9 +111,8 @@ final class MkReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Reference is never NULL")
     public Reference get(
-        @NotNull(message = "identifier can't be NULL") final String identifier
+        final String identifier
     ) {
         return new MkReference(
             this.storage, this.self, this.coords, identifier
@@ -124,7 +120,6 @@ final class MkReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Iterable of references can't be NULL")
     public Iterable<Reference> iterate() {
         return new MkIterable<Reference>(
             this.storage,
@@ -141,9 +136,7 @@ final class MkReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Iterable of references can't be NULL")
     public Iterable<Reference> iterate(
-        @NotNull(message = "subnamespace can't be NULL")
         final String subnamespace
     ) {
         return new MkIterable<Reference>(
@@ -164,20 +157,17 @@ final class MkReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Iterable of references is never NULL")
     public Iterable<Reference> tags() {
         return this.iterate("tags");
     }
 
     @Override
-    @NotNull(message = "Iterable of references is never NULL")
     public Iterable<Reference> heads() {
         return this.iterate("heads");
     }
 
     @Override
     public void remove(
-        @NotNull(message = "identifier shouldn't be NULL")
         final String identifier
     ) throws IOException {
         this.storage.apply(
@@ -193,7 +183,6 @@ final class MkReferences implements References {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/refs",

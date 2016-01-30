@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Organizations of a Github user.
@@ -48,14 +47,12 @@ public interface UserOrganizations {
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
      * Get its owner.
      * @return User
      */
-    @NotNull(message = "user is never NULL")
     User user();
 
     /**
@@ -67,6 +64,5 @@ public interface UserOrganizations {
      * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List User Organizations</a>
      * @since 0.24
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Organization> iterate() throws IOException;
 }

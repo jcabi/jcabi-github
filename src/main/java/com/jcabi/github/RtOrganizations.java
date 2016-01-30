@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -74,15 +73,13 @@ final class RtOrganizations implements Organizations {
     }
 
     @Override
-    @NotNull(message = "organization is never NULL")
     public Organization get(
-        @NotNull(message = "login can't be NULL")final String login
+        final String login
     ) {
         return new RtOrganization(this.ghub, this.entry, login);
     }
 
     @Override
-    @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate() {
         return new RtPagination<Organization>(
             this.request,

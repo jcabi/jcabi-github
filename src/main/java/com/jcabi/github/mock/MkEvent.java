@@ -39,7 +39,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -97,9 +96,9 @@ final class MkEvent implements Event {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkEvent(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int nmbr
     ) {
         this.storage = stg;
@@ -109,7 +108,6 @@ final class MkEvent implements Event {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -121,7 +119,7 @@ final class MkEvent implements Event {
 
     @Override
     public int compareTo(
-        @NotNull(message = "event can't be NULL") final Event event
+        final Event event
     ) {
         throw new UnsupportedOperationException("#compareTo()");
     }
@@ -135,7 +133,6 @@ final class MkEvent implements Event {
      *  updated accordingly.
      */
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         final JsonObject obj = new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -179,7 +176,6 @@ final class MkEvent implements Event {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

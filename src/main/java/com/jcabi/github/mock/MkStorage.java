@@ -35,7 +35,6 @@ import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
@@ -60,7 +59,6 @@ public interface MkStorage {
      * @throws IOException If there is any I/O problem, or if the current
      *  storage is locked by another thread.
      */
-    @NotNull(message = "xml is never NULL")
     XML xml() throws IOException;
 
     /**
@@ -70,7 +68,7 @@ public interface MkStorage {
      *  storage is locked by another thread.
      */
     void apply(
-        @NotNull(message = "dirs can't be NULL") Iterable<Directive> dirs
+        Iterable<Directive> dirs
     ) throws IOException;
 
     /**
@@ -125,7 +123,7 @@ public interface MkStorage {
          * @throws IOException If there is any I/O problem
          */
         public InFile(
-            @NotNull(message = "file can't be NULL") final File file
+            final File file
         ) throws IOException {
             FileUtils.write(file, "<github/>");
             this.name = file.getAbsolutePath();
@@ -139,7 +137,6 @@ public interface MkStorage {
             }
         }
         @Override
-        @NotNull(message = "XML is never NULL")
         public XML xml() throws IOException {
             synchronized (this.name) {
                 return new XMLDocument(
@@ -151,7 +148,6 @@ public interface MkStorage {
         }
         @Override
         public void apply(
-            @NotNull(message = "dirs cannot be NULL")
             final Iterable<Directive> dirs
         ) throws IOException {
             synchronized (this.name) {

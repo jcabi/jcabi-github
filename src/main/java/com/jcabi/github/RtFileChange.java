@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,14 +55,12 @@ final class RtFileChange implements FileChange {
      * @param obj File change JSON object
      */
     public RtFileChange(
-        @NotNull(message = "JSON object can't be NULL")
         final JsonObject obj
     ) {
         this.jsn = obj;
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return this.jsn;
     }

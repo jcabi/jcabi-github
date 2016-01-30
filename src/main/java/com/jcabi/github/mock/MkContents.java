@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -84,9 +83,9 @@ final class MkContents implements Contents {
      * @throws IOException If there is any I/O problem
      */
     public MkContents(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -99,22 +98,19 @@ final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "the content is never NULL")
     public Content readme() throws IOException {
         // @checkstyle MultipleStringLiterals (1 line)
         return this.readme("master");
     }
 
     @Override
-    @NotNull(message = "the content is never NULL")
     public Content readme(
-        @NotNull(message = "github can't be  NULL") final String branch
+        final String branch
     ) throws IOException {
         return new MkContent(
             this.storage, this.self, this.coords, "README.md", branch
@@ -122,9 +118,8 @@ final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "created content is never NULL")
     public Content create(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         this.storage.lock();
         // @checkstyle MultipleStringLiterals (20 lines)
@@ -158,18 +153,16 @@ final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "retrieved content is never NULL")
     public Content get(
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String path,
+        final String ref
     ) throws IOException {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
     @Override
-    @NotNull(message = "retrieved content is never NULL")
     public Content get(
-        @NotNull(message = "path can't be NULL") final String path
+        final String path
     ) throws IOException {
         return new MkContent(
             this.storage, this.self, this.coords, path, "master"
@@ -177,10 +170,9 @@ final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Iterable of contents is never NULL")
     public Iterable<Content> iterate(
-        @NotNull(message = "pattern can't be NULL") final String pattern,
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String pattern,
+        final String ref
     ) throws IOException {
         final Collection<XML> nodes = this.storage.xml().nodes(
             String.format("%s/content[@ref='%s']", this.xpath(), ref)
@@ -198,9 +190,7 @@ final class MkContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public RepoCommit remove(
-        @NotNull(message = "content should not be NULL")
         final JsonObject content
     ) throws IOException {
         this.storage.lock();
@@ -234,10 +224,9 @@ final class MkContents implements Contents {
      * @throws IOException If any I/O problem occurs.
      */
     @Override
-    @NotNull(message = "updated commit is never NULL")
     public RepoCommit update(
-        @NotNull(message = "path cannot be NULL") final String path,
-        @NotNull(message = "json should not be NULL") final JsonObject json
+        final String path,
+        final JsonObject json
     ) throws IOException {
         this.storage.lock();
         try {
@@ -284,7 +273,6 @@ final class MkContents implements Contents {
      * XPath of this element in XML tree.
      * @return The XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/contents",
@@ -296,7 +284,6 @@ final class MkContents implements Contents {
      * Xpath of the commits element in XML tree.
      * @return Xpath
      */
-    @NotNull(message = "commit xpath is never NULL")
     private String commitXpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/commits",
@@ -310,9 +297,8 @@ final class MkContents implements Contents {
      * @return SHA string
      * @throws IOException If an IO Exception occurs
      */
-    @NotNull(message = "MkRepoCommit is never NULL")
     private MkRepoCommit commit(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         final String sha = fakeSha();
         // @checkstyle MultipleStringLiterals (40 lines)
@@ -343,7 +329,6 @@ final class MkContents implements Contents {
      *
      * @return Fake SHA string.
      */
-    @NotNull(message = "fake sha can't be NULL")
     private static String fakeSha() {
         // @checkstyle MagicNumberCheck (1 line)
         return RandomStringUtils.random(40, "0123456789abcdef");

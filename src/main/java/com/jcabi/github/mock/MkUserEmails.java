@@ -35,7 +35,6 @@ import com.jcabi.github.UserEmails;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -81,8 +80,8 @@ final class MkUserEmails implements UserEmails {
      * @throws IOException If there is any I/O problem
      */
     MkUserEmails(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -92,7 +91,6 @@ final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -100,7 +98,6 @@ final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    @NotNull(message = "Iterable is never NULL")
     public Iterable<String> iterate() {
         return new MkIterable<String>(
             this.storage,
@@ -110,9 +107,8 @@ final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    @NotNull(message = "Iterable can't be NULL")
     public Iterable<String> add(
-        @NotNull(message = "emails can't be NULL") final Iterable<String> emails
+        final Iterable<String> emails
     ) throws IOException {
         this.storage.lock();
         try {
@@ -129,7 +125,6 @@ final class MkUserEmails implements UserEmails {
 
     @Override
     public void remove(
-        @NotNull(message = "emails should not be NULL")
         final Iterable<String> emails
     ) throws IOException {
         final Directives directives = new Directives();
@@ -145,7 +140,6 @@ final class MkUserEmails implements UserEmails {
      * XPath of user element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "User's xpath is never NULL")
     private String userXpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }
@@ -154,7 +148,6 @@ final class MkUserEmails implements UserEmails {
      * XPath of user emails element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "xpath is never NULL")
     private String xpath() {
         return String.format("%s/emails", this.userXpath());
     }

@@ -36,7 +36,6 @@ import com.jcabi.github.Status;
 import com.jcabi.github.Statuses;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -61,36 +60,31 @@ final class MkStatuses implements Statuses {
      * @param cmt Commit whose statuses this represents
      */
     MkStatuses(
-        @NotNull(message = "commit can't be NULL")
         final Commit cmt
     ) {
         this.cmmt = cmt;
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public Commit commit() {
         return this.cmmt;
     }
 
     @Override
     public Status create(
-        @NotNull(message = "status creation data can't be NULL")
         final StatusCreate status
     ) throws IOException {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    @NotNull(message = "iterable of statuses is never NULL")
     public Iterable<Status> list(
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String ref
     ) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() {
         throw new UnsupportedOperationException("Yet to be implemented");
     }

@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -84,21 +83,17 @@ final class RtGists implements Gists {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "Github can't be NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "Gist can't be NULL")
-    public Gist create(@NotNull(message = "list of files can't be NULL")
-        final Map<String, String> files, final boolean visible
+    public Gist create(final Map<String, String> files, final boolean visible
     ) throws IOException {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final Map.Entry<String, String> file : files.entrySet()) {
@@ -122,14 +117,11 @@ final class RtGists implements Gists {
     }
 
     @Override
-    @NotNull(message = "Gist can't be NULL")
-    public Gist get(@NotNull(message = "gist name can't be NULL")
-        final String name) {
+    public Gist get(final String name) {
         return new RtGist(this.ghub, this.entry, name);
     }
 
     @Override
-    @NotNull(message = "Iterable of Gist can't be NULL")
     public Iterable<Gist> iterate() {
         return new RtPagination<Gist>(
             this.request,
@@ -144,7 +136,7 @@ final class RtGists implements Gists {
 
     @Override
     public void remove(
-        @NotNull(message = "identifier can't be NULL") final String identifier
+        final String identifier
     ) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(identifier).back()

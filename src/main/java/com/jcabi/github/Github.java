@@ -39,7 +39,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -94,21 +93,18 @@ public interface Github {
      * RESTful request, an entry point to the Github API.
      * @return Request
      */
-    @NotNull(message = "request is never NULL")
     Request entry();
 
     /**
      * Get repositories.
      * @return Repositories
      */
-    @NotNull(message = "list of repositories is never NULL")
     Repos repos();
 
     /**
      * Get Gists API entry point.
      * @return Gists API entry point
      */
-    @NotNull(message = "gists is never NULL")
     Gists gists();
 
     /**
@@ -116,7 +112,6 @@ public interface Github {
      * @return Users API entry point
      * @since 0.4
      */
-    @NotNull(message = "users is never NULL")
     Users users();
 
     /**
@@ -124,7 +119,6 @@ public interface Github {
      * @return Organizations API entry point
      * @since 0.24
      */
-    @NotNull(message = "organizations is never NULL")
     Organizations organizations();
 
     /**
@@ -132,7 +126,6 @@ public interface Github {
      * @return Markdown API entry point
      * @since 0.6
      */
-    @NotNull(message = "markdown API is never NULL")
     Markdown markdown();
 
     /**
@@ -140,7 +133,6 @@ public interface Github {
      * @return Rate limit API
      * @since 0.6
      */
-    @NotNull(message = "rate limit API is never NULL")
     Limits limits();
 
     /**
@@ -148,7 +140,6 @@ public interface Github {
      * @return Search API
      * @since 0.8
      */
-    @NotNull(message = "search API is never NULL")
     Search search();
 
     /**
@@ -158,7 +149,6 @@ public interface Github {
      * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
      * @since 0.8
      */
-    @NotNull(message = "gitignores JSON is never NULL")
     Gitignores gitignores() throws IOException;
 
     /**
@@ -168,7 +158,6 @@ public interface Github {
      * @see <a href="http://developer.github.com/v3/meta/">Meta API</a>
      * @since 0.6
      */
-    @NotNull(message = "meta JSON is never NULL")
     JsonObject meta() throws IOException;
 
     /**
@@ -178,7 +167,6 @@ public interface Github {
      * @see <a href="http://developer.github.com/v3/emojis/">Emojis API</a>
      * @since 0.6
      */
-    @NotNull(message = "emojis JSON is never NULL")
     JsonObject emojis() throws IOException;
 
     /**
@@ -214,9 +202,7 @@ public interface Github {
          * @param text ISO date/time
          * @throws ParseException If fails
          */
-        public Time(
-            @NotNull(message = "text can't be NULL") final String text
-        ) throws ParseException {
+        public Time(final String text) throws ParseException {
             this(Github.Time.format().parse(text));
         }
 
@@ -224,7 +210,7 @@ public interface Github {
          * Ctor.
          * @param date Date to encapsulate
          */
-        public Time(@NotNull(message = "date can't be NULL") final Date date) {
+        public Time(final Date date) {
             this(date.getTime());
         }
 
@@ -245,7 +231,6 @@ public interface Github {
          * Get date.
          * @return Date
          */
-        @NotNull(message = "date is never NULL")
         public Date date() {
             return new Date(this.msec);
         }

@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -57,14 +56,12 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
      * @return Issue
      * @since 0.6
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
      * Name of it.
      * @return Name
      */
-    @NotNull(message = "label name is never NULL")
     String name();
 
     /**
@@ -88,7 +85,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Public ctor.
          * @param lbl Label
          */
-        public Smart(@NotNull(message = "lbl can't be NULL") final Label lbl) {
+        public Smart(final Label lbl) {
             this.label = lbl;
             this.jsn = new SmartJson(lbl);
         }
@@ -98,7 +95,6 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @return Color of it
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "color is never NULL")
         public String color() throws IOException {
             return this.jsn.text("color");
         }
@@ -109,7 +105,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void color(
-            @NotNull(message = "color can't be NULL") final String color
+            final String color
         ) throws IOException {
             this.label.patch(
                 Json.createObjectBuilder().add("color", color).build()
@@ -117,33 +113,30 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.label.repo();
         }
 
         @Override
-        @NotNull(message = "name is never NULL")
         public String name() {
             return this.label.name();
         }
 
         @Override
         public int compareTo(
-            @NotNull(message = "lbl can't be NULL") final Label lbl
+            final Label lbl
         ) {
             return this.label.compareTo(lbl);
         }
 
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.label.patch(json);
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.label.json();
         }
@@ -172,29 +165,24 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @param object String
          */
         public Unmodified(
-            @NotNull(message = "rep can't be NULL") final Repo rep,
-            @NotNull(message = "object can't be NULL") final String object
+            final Repo rep, final String object
         ) {
             this.repo = rep;
             this.obj = object;
         }
 
         @Override
-        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.repo;
         }
 
         @Override
-        @NotNull(message = "name is never NULL")
         public String name() {
             return this.json().getString("name");
         }
 
         @Override
-        public int compareTo(
-            @NotNull(message = "label can't be NULL") final Label label
-        ) {
+        public int compareTo(final Label label) {
             return new CompareToBuilder()
                 .append(this.repo().coordinates(), label.repo().coordinates())
                 .append(this.obj, label.name())
@@ -203,13 +191,12 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             throw new UnsupportedOperationException("#patch()");
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() {
             return Json.createReader(new StringReader(this.obj)).readObject();
         }

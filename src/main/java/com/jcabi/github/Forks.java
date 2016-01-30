@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github forks.
@@ -48,7 +47,6 @@ public interface Forks {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -58,9 +56,7 @@ public interface Forks {
      * @return All forks
      * @see <a href="http://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
      */
-    @NotNull(message = "Iterable of forks is never NULL")
-    Iterable<Fork> iterate(@NotNull(message = "Sort order can't be NULL")
-        String sort);
+    Iterable<Fork> iterate(String sort);
 
     /**
      * Create a fork for the authenticated user.
@@ -70,7 +66,5 @@ public interface Forks {
      * @throws IOException  If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
      */
-    @NotNull(message = "Fork is never NULL")
-    Fork create(@NotNull(message = "organization can't be NULL")
-        String organization) throws IOException;
+    Fork create(String organization) throws IOException;
 }

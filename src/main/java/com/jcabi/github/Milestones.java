@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Milestones.
@@ -48,7 +47,6 @@ public interface Milestones {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -59,8 +57,7 @@ public interface Milestones {
      * @see <a href="http://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
      * @since 0.5
      */
-    @NotNull(message = "repository is never NULL")
-    Milestone create(@NotNull(message = "Title can't be NULL") String title)
+    Milestone create(String title)
         throws IOException;
 
     /**
@@ -69,7 +66,6 @@ public interface Milestones {
      * @return Milestone
      * @see <a href="http://developer.github.com/v3/issues/milestones/#get-a-single-milestone">Get a single milestone</a>
      */
-    @NotNull(message = "milestone is never NULL")
     Milestone get(int number);
 
     /**
@@ -78,9 +74,7 @@ public interface Milestones {
      * @return Iterator of milestones
      * @see <a href="http://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Milestone> iterate(
-        @NotNull(message = "map of params can't be NULL")
         Map<String, String> params);
 
     /**
@@ -89,6 +83,6 @@ public interface Milestones {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>
      */
-    void remove(@NotNull(message = "int can never be NULL") int number)
+    void remove(int number)
         throws IOException;
 }

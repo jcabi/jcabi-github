@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github pull comments.
@@ -50,7 +49,6 @@ public interface PullComments {
      *
      * @return Pull
      */
-    @NotNull(message = "pull is never NULL")
     Pull pull();
 
     /**
@@ -60,7 +58,6 @@ public interface PullComments {
      * @return Pull comment
      * @see <a href="http://developer.github.com/v3/pulls/comments/#get-a-single-comment">Get a single comment</a>
      */
-    @NotNull(message = "PullComment is never NULL")
     PullComment get(int number);
 
     /**
@@ -70,9 +67,7 @@ public interface PullComments {
      * @return Iterable of pull comments
      * @see <a href="http://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<PullComment> iterate(
-        @NotNull(message = "map of params can't be NULL")
         Map<String, String> params);
 
     /**
@@ -83,9 +78,7 @@ public interface PullComments {
      * @return Iterable of pull comments
      * @see <a href="http://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<PullComment> iterate(int number,
-        @NotNull(message = "map of params can't be NULL")
         Map<String, String> params);
 
     /**
@@ -100,12 +93,11 @@ public interface PullComments {
      * @see <a href="http://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
      * @checkstyle ParameterNumberCheck (7 lines)
      */
-    @NotNull(message = "PullComment is never NULL")
     PullComment post(
-        @NotNull(message = "Comment body is never NULL") String body,
-        @NotNull(message = "commit ID is never NULL") String commit,
-        @NotNull(message = "path body is never NULL") String path,
-        @NotNull(message = "position is never NULL") int position)
+        String body,
+        String commit,
+        String path,
+        int position)
         throws IOException;
 
     /**
@@ -117,10 +109,9 @@ public interface PullComments {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
      */
-    @NotNull(message = "PullComment is never NULL")
     PullComment reply(
-        @NotNull(message = "Comment body is never NULL") String body,
-        @NotNull(message = "comment ID is never NULL") int comment)
+        String body,
+        int comment)
         throws IOException;
 
     /**

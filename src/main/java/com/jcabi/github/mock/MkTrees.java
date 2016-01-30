@@ -41,7 +41,6 @@ import java.util.Map.Entry;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -78,9 +77,9 @@ final class MkTrees implements Trees {
      * @throws IOException If something goes wrong.
      */
     MkTrees(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -95,16 +94,14 @@ final class MkTrees implements Trees {
         );
     }
     @Override
-    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "created tree is never NULL")
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Tree create(
-        @NotNull(message = "params can't be NULL") final JsonObject params
+        final JsonObject params
     ) throws IOException {
         final JsonArray trees = params.getJsonArray("tree");
         for (final JsonValue val : trees) {
@@ -131,8 +128,7 @@ final class MkTrees implements Trees {
     }
 
     @Override
-    @NotNull(message = "tree is never NULL")
-    public Tree get(@NotNull(message = "sha can't be NULL") final String sha) {
+    public Tree get(final String sha) {
         return new MkTree(this.storage, this.self, this.coords, sha);
     }
 
@@ -143,8 +139,7 @@ final class MkTrees implements Trees {
      * @see <a href="https://developer.github.com/v3/git/trees/#get-a-tree-recursively">Trees API</a>
      */
     @Override
-    @NotNull(message = "tree is never NULL")
-    public Tree getRec(@NotNull(message = "sha can't be NULL") final String sha
+    public Tree getRec(final String sha
     ) {
         return new MkTree(this.storage, this.self, this.coords, sha);
     }
@@ -153,7 +148,6 @@ final class MkTrees implements Trees {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/trees",

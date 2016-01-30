@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -77,7 +76,6 @@ public interface Milestone extends Comparable<Milestone>,
      * Repository we're in.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -130,7 +128,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @param mls Issue
          */
         public Smart(
-            @NotNull(message = "mls can't be NULL") final Milestone mls
+            final Milestone mls
         ) {
             this.milestone = mls;
             this.jsn = new SmartJson(mls);
@@ -141,7 +139,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Creator of milestone (who submitted it)
          * @throws java.io.IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User creator() throws IOException {
             return this.milestone.repo().github().users().get(
                 this.jsn.value(
@@ -180,7 +177,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return State of milestone
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "state is never NULL")
         public String state() throws IOException {
             return this.jsn.text(STATE);
         }
@@ -191,7 +187,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public void state(
-            @NotNull(message = "state can't be NULL") final String state
+            final String state
         ) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder().add(STATE, state).build()
@@ -203,7 +199,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Title of milestone
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "title is never NULL")
         public String title() throws IOException {
             return this.jsn.text(TITLE);
         }
@@ -214,7 +209,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public void title(
-            @NotNull(message = "title can't be NULL") final String title
+            final String title
         ) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder().add(TITLE, title).build()
@@ -226,7 +221,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Title of milestone
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "description is never NULL")
         public String description() throws IOException {
             return this.jsn.text(DESCRIPTION);
         }
@@ -237,7 +231,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public void description(
-            @NotNull(message = "description can't be NULL")
             final String description
         ) throws IOException {
             this.milestone.patch(
@@ -251,7 +244,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return URL of milestone
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -261,7 +253,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "Date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -277,7 +268,6 @@ public interface Milestone extends Comparable<Milestone>,
          * @return The milestone due date
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date dueOn() throws IOException {
             try {
                 return new Github.Time(
@@ -294,7 +284,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public void dueOn(
-            @NotNull(message = "dueon can't be NULL") final Date dueon
+            final Date dueon
         ) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder()
@@ -321,7 +311,6 @@ public interface Milestone extends Comparable<Milestone>,
         }
 
         @Override
-        @NotNull(message = "Repo is never NULL")
         public Repo repo() {
             return this.milestone.repo();
         }
@@ -332,21 +321,20 @@ public interface Milestone extends Comparable<Milestone>,
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.milestone.json();
         }
 
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.milestone.patch(json);
         }
 
         @Override
         public int compareTo(
-            @NotNull(message = "obj can't be NULL") final Milestone obj
+            final Milestone obj
         ) {
             return this.milestone.compareTo(obj);
         }

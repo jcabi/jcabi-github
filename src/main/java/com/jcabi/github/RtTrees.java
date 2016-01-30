@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -83,21 +82,18 @@ final class RtTrees implements Trees {
     }
 
     @Override
-    @NotNull(message = "Repo is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Tree is never NULL")
-    public Tree get(@NotNull(message = "sha can't be NULL") final String sha) {
+    public Tree get(final String sha) {
         return new RtTree(this.entry, this.owner, sha);
     }
 
     @Override
-    @NotNull(message = "tree is never NULL")
     public Tree getRec(
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String sha
     ) {
         return new RtTree(
             this.entry.uri().queryParam("recursive", "1").back(),
@@ -106,9 +102,8 @@ final class RtTrees implements Trees {
     }
 
     @Override
-    @NotNull(message = "tree is never NULL")
     public Tree create(
-        @NotNull(message = "params can't be NULL") final JsonObject params
+        final JsonObject params
     ) throws IOException {
         return this.get(
             this.request.method(Request.POST)

@@ -38,7 +38,6 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
@@ -77,21 +76,18 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "render is never NULL")
     public String render(
-        @NotNull(message = "JSON can't be NULL") final JsonObject json)
+        final JsonObject json)
         throws IOException {
         final StringWriter output = new StringWriter();
         Json.createWriter(output).writeObject(json);
@@ -112,9 +108,8 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
-    @NotNull(message = "raw is never NULL")
     public String raw(
-        @NotNull(message = "Markdown can't be NULL") final String text)
+        final String text)
         throws IOException {
         return this.request
             .body()

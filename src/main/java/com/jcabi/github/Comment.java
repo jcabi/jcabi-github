@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -72,7 +71,6 @@ public interface Comment
      * The issue it's in.
      * @return Owner of the comment
      */
-    @NotNull(message = "issue is never NULL")
     Issue issue();
 
     /**
@@ -110,9 +108,7 @@ public interface Comment
          * Public ctor.
          * @param cmt Comment
          */
-        public Smart(
-            @NotNull(message = "cmt can't be NULL") final Comment cmt
-        ) {
+        public Smart(final Comment cmt) {
             this.comment = cmt;
             this.jsn = new SmartJson(cmt);
         }
@@ -121,7 +117,6 @@ public interface Comment
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User author() throws IOException {
             return this.comment.issue().repo().github().users().get(
                 this.comment.json().getJsonObject("user").getString("login")
@@ -132,7 +127,6 @@ public interface Comment
          * @return Body of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "body is never NULL")
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -141,9 +135,7 @@ public interface Comment
          * @param text Body of comment
          * @throws IOException If there is any I/O problem
          */
-        public void body(
-            @NotNull(message = "text can't be NULL") final String text
-        ) throws IOException {
+        public void body(final String text) throws IOException {
             this.comment.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -153,7 +145,6 @@ public interface Comment
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "url is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -162,7 +153,6 @@ public interface Comment
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -177,7 +167,6 @@ public interface Comment
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "Date is never NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -188,7 +177,6 @@ public interface Comment
             }
         }
         @Override
-        @NotNull(message = "issue is never NULL")
         public Issue issue() {
             return this.comment.issue();
         }
@@ -201,20 +189,15 @@ public interface Comment
             this.comment.remove();
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.comment.json();
         }
         @Override
-        public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.comment.patch(json);
         }
         @Override
-        public int compareTo(
-            @NotNull(message = "obj can't be NULL") final Comment obj
-        ) {
+        public int compareTo(final Comment obj) {
             return this.comment.compareTo(obj);
         }
     }

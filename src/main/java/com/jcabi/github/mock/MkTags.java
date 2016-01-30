@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.util.Map.Entry;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -77,9 +76,9 @@ final class MkTags implements Tags {
      * @throws IOException If something goes wrong.
      */
     MkTags(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -94,15 +93,13 @@ final class MkTags implements Tags {
         );
     }
     @Override
-    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "created tag is never NULL")
     public Tag create(
-        @NotNull(message = "params can't be NULL") final JsonObject params
+        final JsonObject params
     ) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
         for (final Entry<String, JsonValue> entry : params.entrySet()) {
@@ -119,8 +116,7 @@ final class MkTags implements Tags {
     }
 
     @Override
-    @NotNull(message = "tag is never NULL")
-    public Tag get(@NotNull(message = "sha can't be NULL") final String sha) {
+    public Tag get(final String sha) {
         return new MkTag(this.storage, this.self, this.coords, sha);
     }
 
@@ -128,7 +124,6 @@ final class MkTags implements Tags {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/tags",

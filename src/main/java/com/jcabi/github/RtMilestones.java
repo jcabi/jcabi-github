@@ -40,7 +40,6 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -87,21 +86,18 @@ final class RtMilestones implements Milestones {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "milestone is never NULL")
     public Milestone create(
-        @NotNull(message = "title can't be NULL") final String title)
+        final String title)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("title", title)
@@ -117,7 +113,6 @@ final class RtMilestones implements Milestones {
     }
 
     @Override
-    @NotNull(message = "Milestone is never NULL")
     public Milestone get(final int number) {
         return new RtMilestone(this.entry, this.owner, number);
     }
@@ -132,9 +127,7 @@ final class RtMilestones implements Milestones {
     }
 
     @Override
-    @NotNull(message = "Iterable of Milestones is never NULL")
     public Iterable<Milestone> iterate(
-        @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
         return new RtPagination<Milestone>(
             this.request.uri().queryParams(params).back(),

@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -81,7 +80,6 @@ final class RtPublicKey implements PublicKey {
     }
 
     @Override
-    @NotNull(message = "user is never NULL")
     public User user() {
         return this.owner;
     }
@@ -92,14 +90,13 @@ final class RtPublicKey implements PublicKey {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
     public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        final JsonObject json)
         throws IOException {
         new RtJson(this.request).patch(json);
     }

@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -86,16 +85,14 @@ final class RtReferences implements References {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "reference is never NULL")
     public Reference create(
-        @NotNull(message = "ref can't be NULL") final String ref,
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String ref,
+        final String sha
     ) throws IOException {
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", sha).add(RtReferences.REF, ref).build();
@@ -110,15 +107,13 @@ final class RtReferences implements References {
     }
 
     @Override
-    @NotNull(message = "reference is never NULL")
     public Reference get(
-        @NotNull(message = "identifier can't be NULL") final String identifier
+        final String identifier
     ) {
         return new RtReference(this.entry, this.owner, identifier);
     }
 
     @Override
-    @NotNull(message = "Iterable of references is never NULL")
     public Iterable<Reference> iterate() {
         return new RtPagination<Reference>(
             this.request,
@@ -134,9 +129,7 @@ final class RtReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Iterable of references is never NULL")
     public Iterable<Reference> iterate(
-        @NotNull(message = "subnamespace can't be NULL")
         final String subnamespace
     ) {
         return new RtPagination<Reference>(
@@ -153,20 +146,18 @@ final class RtReferences implements References {
     }
 
     @Override
-    @NotNull(message = "Iterable of tag references is never NULL")
     public Iterable<Reference> tags() {
         return this.iterate("tags");
     }
 
     @Override
-    @NotNull(message = "Iterable of head references is never NULL")
     public Iterable<Reference> heads() {
         return this.iterate("heads");
     }
 
     @Override
     public void remove(
-        @NotNull(message = "identifier can't be NULL") final String identifier
+        final String identifier
     ) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(identifier).back().fetch()

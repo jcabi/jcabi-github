@@ -38,7 +38,6 @@ import java.net.URISyntaxException;
 import java.util.EnumMap;
 import java.util.regex.Pattern;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -86,18 +85,15 @@ final class RtSearch implements Search {
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "Iterable of repos is never NULL")
     public Iterable<Repo> repos(
-        @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
-        @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final Order order) {
+        final String sort,
+        final Order order) {
         return new RtSearchPagination<Repo>(
             this.request, "repositories", keywords, sort, order.identifier(),
             new RtValuePagination.Mapping<Repo, JsonObject>() {
@@ -113,7 +109,6 @@ final class RtSearch implements Search {
 
     //@checkstyle ParameterNumberCheck (5 lines)
     @Override
-    @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> issues(final String keywords, final String sort,
         final Order order, final EnumMap<Qualifier, String> qualifiers) {
         final StringBuilder keyword = new StringBuilder(keywords);
@@ -149,12 +144,10 @@ final class RtSearch implements Search {
     }
 
     @Override
-    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> users(
-        @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
-        @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final Order order) {
+        final String sort,
+        final Order order) {
         return new RtSearchPagination<User>(
             this.request, "users", keywords, sort, order.identifier(),
             new RtValuePagination.Mapping<User, JsonObject>() {
@@ -169,12 +162,10 @@ final class RtSearch implements Search {
     }
 
     @Override
-    @NotNull(message = "Iterable of contents is never NULL")
     public Iterable<Content> codes(
-        @NotNull(message = "Search keywords can't be NULL")
         final String keywords,
-        @NotNull(message = "Sort field can't be NULL") final String sort,
-        @NotNull(message = "Sort order can't be NULL") final Order order) {
+        final String sort,
+        final Order order) {
         return new RtSearchPagination<Content>(
             this.request, "code", keywords, sort, order.identifier(),
             // @checkstyle AnonInnerLengthCheck (25 lines)

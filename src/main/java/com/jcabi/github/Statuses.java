@@ -36,7 +36,6 @@ import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -63,7 +62,6 @@ public interface Statuses extends JsonReadable {
      * Associated commit.
      * @return Commit
      */
-    @NotNull(message = "commit is never NULL")
     Commit commit();
 
     /**
@@ -73,9 +71,7 @@ public interface Statuses extends JsonReadable {
      * @return The added status
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
-    @NotNull(message = "status is never NULL")
     Status create(
-        @NotNull(message = "status creation data can't be NULL")
         final StatusCreate status
     ) throws IOException;
 
@@ -85,9 +81,8 @@ public interface Statuses extends JsonReadable {
      * @return Iterable of statuses
      * @see <a href="https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref">List Statuses for a specific Ref</a>
      */
-    @NotNull(message = "iterable of statuses is never NULL")
     Iterable<Status> list(
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String ref
     );
 
     /**
@@ -129,7 +124,6 @@ public interface Statuses extends JsonReadable {
          * @param stat State
          */
         public StatusCreate(
-            @NotNull(message = "state can't be NULL")
             final Status.State stat
         ) {
             this(
@@ -149,13 +143,9 @@ public interface Statuses extends JsonReadable {
          * @checkstyle ParameterNumberCheck (10 lines)
          */
         private StatusCreate(
-            @NotNull(message = "state can't be NULL")
             final Status.State stat,
-            @NotNull(message = "description can't be NULL")
             final String desc,
-            @NotNull(message = "context optional itself can't be NULL")
             final Optional<String> cntxt,
-            @NotNull(message = "target URL optional itself can't be NULL")
             final Optional<String> target
         ) {
             this.state = stat;
@@ -221,7 +211,6 @@ public interface Statuses extends JsonReadable {
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() {
             final JsonObjectBuilder builder = Json.createObjectBuilder()
                 .add("state", this.state.identifier())

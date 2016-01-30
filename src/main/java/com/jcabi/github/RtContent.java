@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -88,38 +87,33 @@ final class RtContent implements Content {
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "string path can't be NULL")
     public String path() {
         return this.location;
     }
 
     @Override
     public int compareTo(
-        @NotNull(message = "other can't be NULL") final Content other
+        final Content other
     ) {
         return this.path().compareTo(other.path());
     }
 
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(@NotNull(message = "JSON object can't be NULL")
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
-    @NotNull(message = "InputStream can't be NULL")
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             this.request.reset(HttpHeaders.ACCEPT)

@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -87,10 +86,10 @@ final class MkPullComments implements PullComments {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkPullComments(
-        @NotNull(message = "stg is never NULL") final MkStorage stg,
-        @NotNull(message = "login is never NULL") final String login,
-        @NotNull(message = "rep is never NULL") final Coordinates rep,
-        @NotNull(message = "pull is never NULL") final Pull pull
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
+        final Pull pull
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -106,21 +105,17 @@ final class MkPullComments implements PullComments {
         );
     }
     @Override
-    @NotNull(message = "pull is never NULL")
     public Pull pull() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "pull comment is never NULL")
     public PullComment get(final int number) {
         return new MkPullComment(this.storage, this.repo, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(
-        @NotNull(message = "params is never NULL")
         final Map<String, String> params
     ) {
         return new MkIterable<PullComment>(
@@ -141,10 +136,8 @@ final class MkPullComments implements PullComments {
     }
 
     @Override
-    @NotNull(message = "Iterable is never NULL")
     public Iterable<PullComment> iterate(
         final int number,
-        @NotNull(message = "params cannot be NULL")
         final Map<String, String> params
     ) {
         return new MkIterable<PullComment>(
@@ -162,11 +155,10 @@ final class MkPullComments implements PullComments {
 
     // @checkstyle ParameterNumberCheck (7 lines)
     @Override
-    @NotNull(message = "pull comment isn't ever NULL")
     public PullComment post(
-        @NotNull(message = "body can't be NULL") final String body,
-        @NotNull(message = "commit can't be NULL") final String commit,
-        @NotNull(message = "path can't be NULL") final String path,
+        final String body,
+        final String commit,
+        final String path,
         final int position
     ) throws IOException {
         this.storage.lock();
@@ -199,9 +191,8 @@ final class MkPullComments implements PullComments {
     }
 
     @Override
-    @NotNull(message = "reply is never NULL")
     public PullComment reply(
-        @NotNull(message = "body can't be NULL") final String body,
+        final String body,
         final int comment
     )
         throws IOException {
@@ -237,7 +228,6 @@ final class MkPullComments implements PullComments {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

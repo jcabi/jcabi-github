@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -66,21 +65,18 @@ public interface Organization extends Comparable<Organization>,
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
      * Get this organization's login.
      * @return Login name
      */
-    @NotNull(message = "login is never NULL")
     String login();
 
     /**
      * Get this organization's public members.
      * @return Public members
      */
-    @NotNull(message = "public members is never NULL")
     PublicMembers publicMembers();
 
     /**
@@ -107,7 +103,7 @@ public interface Organization extends Comparable<Organization>,
          * @param orgn Organization
          */
         public Smart(
-            @NotNull(message = "orgn can't be NULL") final Organization orgn
+            final Organization orgn
         ) {
             this.org = orgn;
             this.jsn = new SmartJson(orgn);
@@ -127,7 +123,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Company of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "company is never NULL")
         public String company() throws IOException {
             return this.jsn.text("company");
         }
@@ -138,7 +133,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public void company(
-            @NotNull(message = "company can't be NULL") final String company
+            final String company
         ) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("company", company).build()
@@ -150,7 +145,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Location of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "location is never NULL")
         public String location() throws IOException {
             return this.jsn.text("location");
         }
@@ -161,7 +155,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public void location(
-            @NotNull(message = "location can't be NULL") final String location
+            final String location
         ) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("location", location).build()
@@ -173,7 +167,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Name of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "name is never NULL")
         public String name() throws IOException {
             return this.jsn.text("name");
         }
@@ -184,7 +177,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public void name(
-            @NotNull(message = "name can't be NULL") final String name
+            final String name
         ) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("name", name).build()
@@ -196,7 +189,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Email of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "email is never NULL")
         public String email() throws IOException {
             return this.jsn.text("email");
         }
@@ -207,7 +199,7 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public void email(
-            @NotNull(message = "email can't be NULL") final String email
+            final String email
         ) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("email", email).build()
@@ -219,7 +211,6 @@ public interface Organization extends Comparable<Organization>,
          * @return BillingEmail of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "billing email is never NULL")
         public String billingEmail() throws IOException {
             return this.jsn.text("billing_email");
         }
@@ -230,7 +221,6 @@ public interface Organization extends Comparable<Organization>,
          * @throws IOException If there is any I/O problem
          */
         public void billingEmail(
-            @NotNull(message = "billingemail can't be NULL")
             final String billingemail
         )
             throws IOException {
@@ -245,7 +235,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Blog of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "blog is never NULL")
         public String blog() throws IOException {
             return this.jsn.text("blog");
         }
@@ -255,7 +244,6 @@ public interface Organization extends Comparable<Organization>,
          * @return URL of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -265,7 +253,6 @@ public interface Organization extends Comparable<Organization>,
          * @return HTML URL of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "url is never NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -275,7 +262,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Avatar URL of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "avatar url is never NULL")
         public URL avatarUrl() throws IOException {
             return new URL(this.jsn.text("avatar_url"));
         }
@@ -285,7 +271,6 @@ public interface Organization extends Comparable<Organization>,
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -337,45 +322,40 @@ public interface Organization extends Comparable<Organization>,
          * @return Type of organization
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "type is never NULL")
         public String type() throws IOException {
             return this.jsn.text("type");
         }
 
         @Override
-        @NotNull(message = "login is never NULL")
         public String login() {
             return this.org.login();
         }
 
         @Override
-        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.org.github();
         }
 
         @Override
-        @NotNull(message = "public members is never NULL")
         public PublicMembers publicMembers() {
             return this.org.publicMembers();
         }
 
         @Override
-        @NotNull(message = "Json is never NULL")
         public JsonObject json() throws IOException {
             return this.org.json();
         }
 
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.org.patch(json);
         }
 
         @Override
         public int compareTo(
-            @NotNull(message = "obj can't be NULL") final Organization obj
+            final Organization obj
         ) {
             return this.org.compareTo(obj);
         }

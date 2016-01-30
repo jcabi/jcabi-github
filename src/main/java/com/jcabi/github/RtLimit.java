@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -77,13 +76,11 @@ final class RtLimit implements Limit {
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         final JsonObject json = new RtJson(this.entry)
             .fetch()

@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github organizations.
@@ -48,14 +47,12 @@ public interface Organizations {
      * @return Organization
      * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
      */
-    @NotNull(message = "organization is never NULL")
-    Organization get(@NotNull(message = "login is never NULL") String login);
+    Organization get(String login);
 
     /**
      * Iterate over organizations of the currently logged-in user.
      * @return Iterator of Organizations
      * @see <a href="https://developer.github.com/v3/orgs/#list-your-organizations">List Your Organizations</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Organization> iterate();
 }

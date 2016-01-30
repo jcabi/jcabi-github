@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * JSON patchable.
@@ -49,7 +48,7 @@ public interface JsonPatchable {
      * @param json JSON object
      * @throws IOException If there is any I/O problem
      */
-    void patch(@NotNull(message = "JSON is never NULL") JsonObject json)
+    void patch(JsonObject json)
         throws IOException;
 
 }

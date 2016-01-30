@@ -39,7 +39,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -87,9 +86,9 @@ final class MkComments implements Comments {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkComments(
-        @NotNull(message = "stg cannot be NULL") final MkStorage stg,
-        @NotNull(message = "login cannot be NULL") final String login,
-        @NotNull(message = "reo cannot be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int issue
     ) throws IOException {
         this.storage = stg;
@@ -108,13 +107,11 @@ final class MkComments implements Comments {
     }
 
     @Override
-    @NotNull(message = "Issue is never NULL")
     public Issue issue() {
         return new MkIssue(this.storage, this.self, this.repo, this.ticket);
     }
 
     @Override
-    @NotNull(message = "Comment isn't ever NULL")
     public Comment get(final int number) {
         return new MkComment(
             this.storage, this.self, this.repo, this.ticket, number
@@ -122,7 +119,6 @@ final class MkComments implements Comments {
     }
 
     @Override
-    @NotNull(message = "Iterable of comments is never NULL")
     public Iterable<Comment> iterate() {
         return new MkIterable<Comment>(
             this.storage,
@@ -139,9 +135,8 @@ final class MkComments implements Comments {
     }
 
     @Override
-    @NotNull(message = "comment is never NULL")
     public Comment post(
-        @NotNull(message = "text should not be NULL") final String text
+        final String text
     ) throws IOException {
         this.storage.lock();
         final int number;
@@ -184,7 +179,6 @@ final class MkComments implements Comments {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

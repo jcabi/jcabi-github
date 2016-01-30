@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -75,8 +74,8 @@ final class RtReleaseAssets implements ReleaseAssets {
      * @param release Issue
      */
     RtReleaseAssets(
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "release can't be NULL") final Release release
+        final Request req,
+        final Release release
     ) {
         this.entry = req;
         final Coordinates coords = release.repo().coordinates();
@@ -93,13 +92,11 @@ final class RtReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "release is never NULL")
     public Release release() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Iterable of ReleaseAsset is never NULL")
     public Iterable<ReleaseAsset> iterate() {
         return new RtPagination<ReleaseAsset>(
             this.request.uri().back()
@@ -117,11 +114,10 @@ final class RtReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "ReleaseAsset is never NULL")
     public ReleaseAsset upload(
-        @NotNull(message = "content is never NULL") final byte[] content,
-        @NotNull(message = "type can't be NULL") final String type,
-        @NotNull(message = "name can't be NULL") final String name
+        final byte[] content,
+        final String type,
+        final String name
     ) throws IOException {
         return this.get(
             this.request.uri()
@@ -146,7 +142,6 @@ final class RtReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "ReleaseAsset is never NULL")
     public ReleaseAsset get(final int number) {
         return new RtReleaseAsset(this.entry, this.owner, number);
     }

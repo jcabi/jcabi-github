@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * Git branch.
@@ -46,20 +45,17 @@ public interface Branch {
      * The repo we're in.
      * @return Repo
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
      * Name of the branch.
      * @return Branch name
      */
-    @NotNull(message = "name is never NULL")
     String name();
 
     /**
      * Commit that the branch currently points to.
      * @return Commit the branch currently points to
      */
-    @NotNull(message = "commit is never NULL")
     Commit commit();
 }

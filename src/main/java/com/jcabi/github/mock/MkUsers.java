@@ -36,7 +36,6 @@ import com.jcabi.github.User;
 import com.jcabi.github.Users;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -71,8 +70,8 @@ final class MkUsers implements Users {
      * @throws IOException If there is any I/O problem
      */
     MkUsers(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) throws IOException {
         this.storage = stg;
         this.himself = login;
@@ -82,21 +81,18 @@ final class MkUsers implements Users {
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.himself);
     }
 
     @Override
-    @NotNull(message = "self is never NULL")
     public User self() {
         return this.get(this.himself);
     }
 
     @Override
-    @NotNull(message = "user is never NULL")
     public User get(
-        @NotNull(message = "login is never NULL") final String login
+        final String login
     ) {
         try {
             return new MkUser(this.storage, login);
@@ -106,9 +102,8 @@ final class MkUsers implements Users {
     }
 
     @Override
-    @NotNull(message = "Iterable is never NULL")
     public Iterable<User> iterate(
-        @NotNull(message = "identifier is never NULL") final String identifier
+        final String identifier
     ) {
         return new MkIterable<User>(
             this.storage,

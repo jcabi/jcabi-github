@@ -40,7 +40,6 @@ import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -79,7 +78,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      * Repository we're in.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -93,7 +91,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      * @return Comments
      * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
      */
-    @NotNull(message = "comments are never NULL")
     Comments comments();
 
     /**
@@ -101,7 +98,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      * @return Labels
      * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
      */
-    @NotNull(message = "labels are never NULL")
     IssueLabels labels();
 
     /**
@@ -110,7 +106,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-an-issue">List Events for an Issue</a>
      */
-    @NotNull(message = "iterable of events is never NULL")
     Iterable<Event> events() throws IOException;
 
     /**
@@ -140,7 +135,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Public ctor.
          * @param iss Issue
          */
-        public Smart(@NotNull(message = "iss can't be NULL") final Issue iss) {
+        public Smart(final Issue iss) {
             this.issue = iss;
             this.jsn = new SmartJson(iss);
         }
@@ -149,7 +144,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Author of issue (who submitted it)
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User author() throws IOException {
             return this.issue.repo().github().users().get(
                 this.jsn.value(
@@ -184,7 +178,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "state is never NULL")
         public String state() throws IOException {
             return this.jsn.text("state");
         }
@@ -193,9 +186,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param state State of issue
          * @throws IOException If there is any I/O problem
          */
-        public void state(
-            @NotNull(message = "state can't be NULL") final String state
-        ) throws IOException {
+        public void state(final String state) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("state", state).build()
             );
@@ -205,7 +196,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Title of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "title is never NULL")
         public String title() throws IOException {
             return this.jsn.text("title");
         }
@@ -214,9 +204,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param text Title of issue
          * @throws IOException If there is any I/O problem
          */
-        public void title(
-            @NotNull(message = "text can't be NULL") final String text
-        ) throws IOException {
+        public void title(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
@@ -226,7 +214,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Body of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "body is never NULL")
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -235,9 +222,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param text Body of issue
          * @throws IOException If there is any I/O problem
          */
-        public void body(
-            @NotNull(message = "text can't be NULL") final String text
-        ) throws IOException {
+        public void body(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -264,7 +249,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return User Assignee of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User assignee() throws IOException {
             if (!this.hasAssignee()) {
                 throw new IllegalArgumentException(
@@ -285,9 +269,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param login Login of the user to assign to
          * @throws IOException If there is any I/O problem
          */
-        public void assign(
-            @NotNull(message = "login can't be NULL") final String login
-        ) throws IOException {
+        public void assign(final String login) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("assignee", login).build()
             );
@@ -297,7 +279,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -306,7 +287,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -315,7 +295,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -330,7 +309,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -356,7 +334,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Pull request
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "pull is never NULL")
         public Pull pull() throws IOException {
             final String url = this.jsn.value(
                 "pull_request", JsonObject.class
@@ -373,9 +350,8 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Latest event of the given type
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "event is never NULL")
         public Event latestEvent(
-            @NotNull(message = "type can't be NULL") final String type
+            final String type
         ) throws IOException {
             final Iterable<Event.Smart> events = new Smarts<Event.Smart>(
                 this.issue.events()
@@ -403,7 +379,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.6.2
          */
-        @NotNull(message = "collection is never NULL")
         public IssueLabels roLabels() throws IOException {
             final Collection<JsonObject> array =
                 this.jsn.value("labels", JsonArray.class)
@@ -420,13 +395,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             // @checkstyle AnonInnerLength (1 line)
             return new IssueLabels() {
                 @Override
-                @NotNull(message = "issue is never NULL")
                 public Issue issue() {
                     return Issue.Smart.this;
                 }
                 @Override
                 public void add(
-                    @NotNull(message = "iterable of label names can't be NULL")
                     final Iterable<String> labels) throws IOException {
                     throw new UnsupportedOperationException(
                         "The issue is read-only."
@@ -434,20 +407,17 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 }
                 @Override
                 public void replace(
-                    @NotNull(message = "iterable of label names can't be NULL")
                     final Iterable<String> labels) throws IOException {
                     throw new UnsupportedOperationException(
                         "The issue is read-only."
                     );
                 }
                 @Override
-                @NotNull(message = "Iterable of labels is never NULL")
                 public Iterable<Label> iterate() {
                     return labels;
                 }
                 @Override
                 public void remove(
-                    @NotNull(message = "label name can't be NULL")
                     final String name) throws IOException {
                     throw new UnsupportedOperationException(
                         "This issue is read-only."
@@ -462,7 +432,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             };
         }
         @Override
-        @NotNull(message = "repository is never NULL")
         public Repo repo() {
             return this.issue.repo();
         }
@@ -471,34 +440,30 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             return this.issue.number();
         }
         @Override
-        @NotNull(message = "comments is never NULL")
         public Comments comments() {
             return this.issue.comments();
         }
         @Override
-        @NotNull(message = "labels is never NULL")
         public IssueLabels labels() {
             return this.issue.labels();
         }
         @Override
-        @NotNull(message = "Iterable of events is never NULL")
         public Iterable<Event> events() throws IOException {
             return this.issue.events();
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.issue.json();
         }
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.issue.patch(json);
         }
         @Override
         public int compareTo(
-            @NotNull(message = "obj can't be NULL") final Issue obj
+            final Issue obj
         ) {
             return this.issue.compareTo(obj);
         }

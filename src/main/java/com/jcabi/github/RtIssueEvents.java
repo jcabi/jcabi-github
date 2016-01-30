@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -81,25 +80,21 @@ final class RtIssueEvents implements IssueEvents {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "issue event is never NULL")
     public Event get(final int number) {
         return new RtEvent(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "iterable is never NULL")
     public Iterable<Event> iterate() {
         return new RtPagination<Event>(
             this.request,

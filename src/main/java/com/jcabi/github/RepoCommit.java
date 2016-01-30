@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -60,14 +59,12 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
      * The repo we're in.
      * @return Repo
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
      * SHA of it.
      * @return SHA
      */
-    @NotNull(message = "commit SHA is never NULL")
     String sha();
 
     /**
@@ -91,7 +88,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @param cmt RepoCommit
          */
         public Smart(
-            @NotNull(message = "cmt can't be NULL") final RepoCommit cmt
+            final RepoCommit cmt
         ) {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
@@ -101,7 +98,6 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @return Message of repo commit
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "message is never NULL")
         public String message() throws IOException {
             return this.jsn.json().getJsonObject("commit").getString("message");
         }
@@ -110,28 +106,24 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @return URL of repo commit
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "url is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
         @Override
-        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.commit.repo();
         }
         @Override
-        @NotNull(message = "sha is never NULL")
         public String sha() {
             return this.commit.sha();
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.commit.json();
         }
         @Override
         public int compareTo(
-            @NotNull(message = "obj can't be NULL") final RepoCommit obj
+            final RepoCommit obj
         ) {
             return this.commit.compareTo(obj);
         }

@@ -33,7 +33,6 @@ import com.jcabi.github.Branch;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-import javax.validation.constraints.NotNull;
 
 /**
  * Mock Git branch.
@@ -80,11 +79,11 @@ public final class MkBranch implements Branch {
      * @checkstyle ParameterNumberCheck (7 lines)
      */
     MkBranch(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
-        @NotNull(message = "nom can't be NULL") final String nom,
-        @NotNull(message = "sha can't be NULL") final String sha
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
+        final String nom,
+        final String sha
     ) {
         this.storage = stg;
         this.self = login;
@@ -94,19 +93,16 @@ public final class MkBranch implements Branch {
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "name is never NULL")
     public String name() {
         return this.nam;
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public Commit commit() {
         return new MkCommit(this.storage, this.self, this.coords, this.hash);
     }

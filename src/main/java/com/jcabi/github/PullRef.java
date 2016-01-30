@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -52,7 +51,6 @@ public interface PullRef extends JsonReadable {
      * Get the repository which its commit is in.
      * @return Repo
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
@@ -60,7 +58,6 @@ public interface PullRef extends JsonReadable {
      * @return Ref
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "ref is never NULL")
     String ref() throws IOException;
 
     /**
@@ -68,7 +65,6 @@ public interface PullRef extends JsonReadable {
      * @return Commit SHA
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "sha is never NULL")
     String sha() throws IOException;
 
     /**
@@ -93,7 +89,6 @@ public interface PullRef extends JsonReadable {
          * @param pref Pull request ref
          */
         public Smart(
-            @NotNull(message = "pull request ref can't be NULL")
             final PullRef pref
         ) {
             this.pullref = pref;
@@ -101,19 +96,16 @@ public interface PullRef extends JsonReadable {
         }
 
         @Override
-        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.pullref.repo();
         }
 
         @Override
-        @NotNull(message = "ref is never NULL")
         public String ref() throws IOException {
             return this.pullref.ref();
         }
 
         @Override
-        @NotNull(message = "sha is never NULL")
         public String sha() throws IOException {
             return this.pullref.sha();
         }
@@ -123,7 +115,6 @@ public interface PullRef extends JsonReadable {
          * @return User
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User user() throws IOException {
             return this.pullref.repo().github().users().get(
                 this.jsn.value("user", JsonObject.class).getString("login")
@@ -135,7 +126,6 @@ public interface PullRef extends JsonReadable {
          * @return Label string
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "label is never NULL")
         public String label() throws IOException {
             return this.jsn.text("label");
         }
@@ -145,13 +135,11 @@ public interface PullRef extends JsonReadable {
          * @return Commit
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "commit is never NULL")
         public Commit commit() throws IOException {
             return this.repo().git().commits().get(this.sha());
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.pullref.json();
         }

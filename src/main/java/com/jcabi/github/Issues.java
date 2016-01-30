@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github issues.
@@ -51,7 +50,6 @@ public interface Issues {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -60,7 +58,6 @@ public interface Issues {
      * @return Issue
      * @see <a href="http://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
      */
-    @NotNull(message = "issue is never NULL")
     Issue get(int number);
 
     /**
@@ -71,10 +68,8 @@ public interface Issues {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
      */
-    @NotNull(message = "issue is never NULL")
     Issue create(
-        @NotNull(message = "issue title is never NULL") String title,
-        @NotNull(message = "issue body is never NULL") String body)
+        String title, String body)
         throws IOException;
 
     /**
@@ -83,9 +78,7 @@ public interface Issues {
      * @return Iterator of issues
      * @see <a href="http://developer.github.com/v3/issues/#list-issues">List Issues</a>
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Issue> iterate(@NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
+    Iterable<Issue> iterate(Map<String, String> params);
 
     /**
      * Search for issues within the given repository.
@@ -98,12 +91,8 @@ public interface Issues {
      * @since 0.22.0
      * @see <a href="https://developer.github.com/v3/issues/#list-issues-for-a-repository">List issues for a repository</a>
      */
-    @NotNull(message = "Iterable of issues is never NULL")
     Iterable<Issue> search(
-        @NotNull(message = "Sort field can't be NULL") Sort sort,
-        @NotNull(message = "Sort direction can't be NULL")
-        Search.Order direction,
-        @NotNull(message = "Search qualifiers can't be NULL")
+        Sort sort, Search.Order direction,
         EnumMap<Qualifier, String> qualifiers)
         throws IOException;
 
@@ -160,7 +149,6 @@ public interface Issues {
          * @return String
          */
         @Override
-        @NotNull(message = "identifier string is never NULL")
         public String identifier() {
             return this.qualifier;
         }
@@ -198,7 +186,6 @@ public interface Issues {
          * @return String
          */
         @Override
-        @NotNull(message = "identifier string is never NULL")
         public String identifier() {
             return this.sort;
         }

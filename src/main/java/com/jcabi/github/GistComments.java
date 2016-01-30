@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Gist Comments.
@@ -53,7 +52,6 @@ public interface GistComments {
      * The gist we're in.
      * @return Issue
      */
-    @NotNull(message = "gist is never NULL")
     Gist gist();
 
     /**
@@ -62,7 +60,6 @@ public interface GistComments {
      * @return Comment
      * @see <a href="http://developer.github.com/v3/gists/comments/#get-a-single-comment">Get a Single Comment</a>
      */
-    @NotNull(message = "comment is never NULL")
     GistComment get(int number);
 
     /**
@@ -70,7 +67,6 @@ public interface GistComments {
      * @return All comments
      * @see <a href="http://developer.github.com/v3/gists/comments/#list-comments-on-a-gist">List Comments on an Gist</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<GistComment> iterate();
 
     /**
@@ -80,7 +76,6 @@ public interface GistComments {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/comments/#create-a-comment">Create a Comment</a>
      */
-    @NotNull(message = "comment is never NULL")
-    GistComment post(@NotNull(message = "text can't be NULL") String text)
+    GistComment post(String text)
         throws IOException;
 }

@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -59,7 +58,6 @@ public interface User extends JsonReadable, JsonPatchable {
      * @return Github
      * @since 0.4
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
@@ -67,21 +65,18 @@ public interface User extends JsonReadable, JsonPatchable {
      * @return Login name
      * @throws IOException If it fails
      */
-    @NotNull(message = "login is never NULL")
     String login() throws IOException;
 
     /**
      * Get his organizations.
      * @return UserOrganizations organizations
      */
-    @NotNull(message = "organizations is never NULL")
     UserOrganizations organizations();
 
     /**
      * Get his keys.
      * @return PublicKeys keys
      */
-    @NotNull(message = "keys is never NULL")
     PublicKeys keys();
 
     /**
@@ -89,7 +84,6 @@ public interface User extends JsonReadable, JsonPatchable {
      * @return User's emails
      * @since 0.8
      */
-    @NotNull(message = "user emails is never NULL")
     UserEmails emails();
 
     /**
@@ -134,7 +128,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @param usr User
          */
         public Smart(
-            @NotNull(message = "user can't be NULL") final User usr
+            final User usr
         ) {
             this.user = usr;
             this.jsn = new SmartJson(usr);
@@ -156,7 +150,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return URL of the avatar
          * @throws IOException If it fails
          */
-        @NotNull(message = "URL is never NULL")
         public URL avatarUrl() throws IOException {
             return new URL(this.jsn.text("avatar_url"));
         }
@@ -166,7 +159,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return URL of the user
          * @throws IOException If it fails
          */
-        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -176,7 +168,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return User name
          * @throws IOException If it fails
          */
-        @NotNull(message = "Name is never NULL")
         public String name() throws IOException {
             final JsonObject json = this.json();
             if (!json.containsKey("name")) {
@@ -205,7 +196,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return Company name
          * @throws IOException If it fails
          */
-        @NotNull(message = "Company is never NULL")
         public String company() throws IOException {
             return this.jsn.text("company");
         }
@@ -215,7 +205,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return Location name
          * @throws IOException If it fails
          */
-        @NotNull(message = "Location is never NULL")
         public String location() throws IOException {
             return this.jsn.text("location");
         }
@@ -225,37 +214,31 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return Email
          * @throws IOException If it fails
          */
-        @NotNull(message = "Email is never NULL")
         public String email() throws IOException {
             return this.jsn.text("email");
         }
 
         @Override
-        @NotNull(message = "Github is never NULL")
         public Github github() {
             return this.user.github();
         }
 
         @Override
-        @NotNull(message = "Login is never NULL")
         public String login() throws IOException {
             return this.user.login();
         }
 
         @Override
-        @NotNull(message = "Organizations is never NULL")
         public UserOrganizations organizations() {
             return this.user.organizations();
         }
 
         @Override
-        @NotNull(message = "Keys is never NULL")
         public PublicKeys keys() {
             return this.user.keys();
         }
 
         @Override
-        @NotNull(message = "Emails is never NULL")
         public UserEmails emails() {
             return this.user.emails();
         }
@@ -271,14 +254,13 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "Json is never NULL")
         public JsonObject json() throws IOException {
             return this.user.json();
         }
 
         @Override
         public void patch(
-            @NotNull(message = "Json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.user.patch(json);
         }
@@ -288,7 +270,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'gravatar_id' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Gravatar is never NULL")
         public String gravatar() throws IOException {
             return this.jsn.text("gravatar_id");
         }
@@ -298,7 +279,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'html_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Html URL is never NULL")
         public String htmlUrl() throws IOException {
             return this.jsn.text("html_url");
         }
@@ -308,7 +288,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'followers_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Followers URL is never NULL")
         public String followersUrl() throws IOException {
             return this.jsn.text("followers_url");
         }
@@ -318,7 +297,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'following_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Following URL is never NULL")
         public String followingUrl() throws IOException {
             return this.jsn.text("following_url");
         }
@@ -328,7 +306,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'gists_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Gists URL is never NULL")
         public String gistsUrl() throws IOException {
             return this.jsn.text("gists_url");
         }
@@ -338,7 +315,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'starred_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Starred URL is never NULL")
         public String starredUrl() throws IOException {
             return this.jsn.text("starred_url");
         }
@@ -348,7 +324,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'subscriptions_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Subscriptions URL is never NULL")
         public String subscriptionsUrl() throws IOException {
             return this.jsn.text("subscriptions_url");
         }
@@ -358,7 +333,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'organizations_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Organizations URL is never NULL")
         public String organizationsUrl() throws IOException {
             return this.jsn.text("organizations_url");
         }
@@ -368,7 +342,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'repos_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Repos URL is never NULL")
         public String reposUrl() throws IOException {
             return this.jsn.text("repos_url");
         }
@@ -378,7 +351,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'events_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Events URL is never NULL")
         public String eventsUrl() throws IOException {
             return this.jsn.text("events_url");
         }
@@ -388,7 +360,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'received_events_url' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Received enets URL is never NULL")
         public String receivedEventsUrl() throws IOException {
             return this.jsn.text("received_events_url");
         }
@@ -398,7 +369,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'type' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Type is never NULL")
         public String type() throws IOException {
             return this.jsn.text("type");
         }
@@ -417,7 +387,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'blog' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Blog is never NULL")
         public String blog() throws IOException {
             return this.jsn.text("blog");
         }
@@ -427,7 +396,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'hireable' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Hireable is never NULL")
         public boolean hireable() throws IOException {
             return "true".equals(this.jsn.text("hireable"));
         }
@@ -437,7 +405,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'bio' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Bio is never NULL")
         public String bio() throws IOException {
             return this.jsn.text("bio");
         }
@@ -483,7 +450,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'created_at' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Created time is never NULL")
         public Github.Time created() throws IOException {
             try {
                 return new Github.Time(this.jsn.text("created_at"));
@@ -500,7 +466,6 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'updated_at' property value.
          * @throws IOException If any I/O error occurs.
          */
-        @NotNull(message = "Updated time is never NULL")
         public Github.Time updated() throws IOException {
             try {
                 return new Github.Time(this.jsn.text("updated_at"));

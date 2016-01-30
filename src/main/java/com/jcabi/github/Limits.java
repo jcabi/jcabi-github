@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -60,7 +59,6 @@ public interface Limits {
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
@@ -68,8 +66,7 @@ public interface Limits {
      * @param resource Name of resource
      * @return Limit
      */
-    @NotNull(message = "Limit si never NULL")
-    Limit get(@NotNull(message = "resource is never NULL") String resource);
+    Limit get(String resource);
 
     /**
      * Throttled Limits.
@@ -94,21 +91,19 @@ public interface Limits {
          * @param allowed Maximum allowed
          */
         public Throttled(
-            @NotNull(message = "limits can't be NULL") final Limits limits,
+            final Limits limits,
             final int allowed
         ) {
             this.origin = limits;
             this.max = allowed;
         }
         @Override
-        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.origin.github();
         }
         @Override
-        @NotNull(message = "limit is never NULL")
         public Limit get(
-            @NotNull(message = "resource can't be NULL") final String resource
+            final String resource
         ) {
             return new Limit.Throttled(this.origin.get(resource), this.max);
         }

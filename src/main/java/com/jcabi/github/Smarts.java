@@ -33,7 +33,6 @@ import com.jcabi.log.Logger;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -69,19 +68,17 @@ public final class Smarts<T> implements Iterable<T> {
      * @param items Items original
      */
     public Smarts(
-        @NotNull(message = "items can't be NULL") final Iterable<?> items
+        final Iterable<?> items
     ) {
         this.origin = items;
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.origin.toString();
     }
 
     @Override
-    @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         final Iterator<?> iterator = this.origin.iterator();
         return new Iterator<T>() {

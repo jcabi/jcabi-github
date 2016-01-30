@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -90,9 +89,9 @@ final class MkIssueLabels implements IssueLabels {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkIssueLabels(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int issue
     ) throws IOException {
         this.storage = stg;
@@ -111,14 +110,12 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    @NotNull(message = "Issue is never NULL")
     public Issue issue() {
         return new MkIssue(this.storage, this.self, this.repo, this.ticket);
     }
 
     @Override
-    public void add(@NotNull(message = "labels can't be NULL")
-        final Iterable<String> labels
+    public void add(final Iterable<String> labels
     ) throws IOException {
         final Collection<String> existing = this.labels();
         final Set<String> added = new HashSet<String>();
@@ -148,15 +145,13 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void replace(@NotNull(message = "labels should not be NULL")
-        final Iterable<String> labels
+    public void replace(final Iterable<String> labels
     ) throws IOException {
         this.clear();
         this.add(labels);
     }
 
     @Override
-    @NotNull(message = "Iterable of labels is never NULL")
     public Iterable<Label> iterate() {
         return new MkIterable<Label>(
             this.storage,
@@ -176,8 +171,7 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void remove(@NotNull(message = "name cannot be NULL")
-        final String name
+    public void remove(final String name
     ) throws IOException {
         if (this.labels().contains(name)) {
             this.storage.apply(
@@ -209,7 +203,6 @@ final class MkIssueLabels implements IssueLabels {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/labels",

@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Gitignore.
@@ -48,7 +47,6 @@ public interface Gitignores {
      * Get its owner.
      * @return Github
      */
-    @NotNull(message = "github is never NULL")
     Github github();
 
     /**
@@ -57,7 +55,6 @@ public interface Gitignores {
      * @throws IOException If it fails due to I/O problem
      * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<String> iterate() throws IOException;
 
     /**
@@ -66,8 +63,5 @@ public interface Gitignores {
      * @return Raw template
      * @throws IOException If it fails due to I/O problem
      */
-    @NotNull(message = "Raw template is never NULL")
-    String template(
-        @NotNull(message = "Template name can't be NULL") String name)
-        throws IOException;
+    String template(String name) throws IOException;
 }

@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Commits of a Github repository.
@@ -50,9 +49,7 @@ public interface RepoCommits extends JsonReadable {
      * @param params Url's parameters
      * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<RepoCommit> iterate(
-        @NotNull(message = "params can't be NULL")
         final Map<String, String> params
     );
 
@@ -63,8 +60,7 @@ public interface RepoCommits extends JsonReadable {
      * @return RepoCommit
      * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
      */
-    @NotNull(message = "RepoCommit is never NULL")
-    RepoCommit get(@NotNull(message = "sha is never NULL") String sha);
+    RepoCommit get(String sha);
 
     /**
      * Compare two commits.
@@ -72,10 +68,9 @@ public interface RepoCommits extends JsonReadable {
      * @param head SHA of the head repo commit
      * @return Commits comparison
      */
-    @NotNull(message = "repo commits comparison is never NULL")
     CommitsComparison compare(
-        @NotNull(message = "base is never NULL") String base,
-        @NotNull(message = "base is never NULL") String head);
+        String base,
+        String head);
 
     /**
      * Compare two commits and provide result in diff format.
@@ -85,10 +80,9 @@ public interface RepoCommits extends JsonReadable {
      * @throws IOException If there is any I/O problem
      * @since 0.8
      */
-    @NotNull(message = "repo commits comparison is never NULL")
     String diff(
-        @NotNull(message = "base is never NULL") String base,
-        @NotNull(message = "head is never NULL") String head
+        String base,
+        String head
     ) throws IOException;
 
     /**
@@ -99,9 +93,8 @@ public interface RepoCommits extends JsonReadable {
      * @throws IOException If there is any I/O problem
      * @since 0.8
      */
-    @NotNull(message = "repo commits comparison is never NULL")
     String patch(
-        @NotNull(message = "base is never NULL") String base,
-        @NotNull(message = "head is never NULL") String head
+        String base,
+        String head
     ) throws IOException;
 }

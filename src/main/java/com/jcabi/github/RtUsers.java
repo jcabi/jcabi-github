@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -69,8 +68,8 @@ final class RtUsers implements Users {
      * @param req Request
      */
     RtUsers(
-        @NotNull(message = "github can't be NULL") final Github github,
-        @NotNull(message = "req can't be NULL") final Request req
+        final Github github,
+        final Request req
     ) {
         this.entry = req;
         this.ghub = github;
@@ -78,34 +77,28 @@ final class RtUsers implements Users {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "user is never NULL")
     public User self() {
         return new RtUser(this.ghub, this.entry, "");
     }
 
     @Override
-    @NotNull(message = "user is never NULL")
-    public User get(@NotNull(message = "login can't be NULL")
-        final String login) {
+    public User get(final String login) {
         return new RtUser(this.ghub, this.entry, login);
     }
 
     @Override
-    @NotNull(message = "Iterable of users is never NULL")
     public Iterable<User> iterate(
-        @NotNull(message = "identifier is never NULL") final String identifier
+        final String identifier
     ) {
         return new RtPagination<User>(
             this.request.uri().queryParam("since", identifier).back(),

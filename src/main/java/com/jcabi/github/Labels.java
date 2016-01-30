@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -52,7 +51,6 @@ public interface Labels {
      * The repo we're in.
      * @return Repo
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
@@ -63,11 +61,9 @@ public interface Labels {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
      */
-    @NotNull(message = "Label is never NULL")
     Label create(
-        @NotNull(message = "label name can't be NULL") String name,
-        @NotNull(message = "label color can't be NULL") String color)
-        throws IOException;
+        String name, String color
+    ) throws IOException;
 
     /**
      * Get a label by name.
@@ -75,15 +71,13 @@ public interface Labels {
      * @return The label
      * @see <a href="http://developer.github.com/v3/issues/labels/#get-a-single-label">Get a single label</a>
      */
-    @NotNull(message = "Label is never NULL")
-    Label get(@NotNull(message = "label name can't be NULL") String name);
+    Label get(String name);
 
     /**
      * Iterate them all.
      * @return Iterator of labels
      * @see <a href="http://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Label> iterate();
 
     /**
@@ -92,7 +86,7 @@ public interface Labels {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
      */
-    void delete(@NotNull(message = "label name can't be NULL") String name)
+    void delete(String name)
         throws IOException;
 
     /**
@@ -112,7 +106,7 @@ public interface Labels {
          * @param lbl Labels
          */
         public Smart(
-            @NotNull(message = "lbl can't be NULL") final Labels lbl
+            final Labels lbl
         ) {
             this.labels = lbl;
         }
@@ -122,7 +116,7 @@ public interface Labels {
          * @return TRUE if it exists
          */
         public boolean contains(
-            @NotNull(message = "name cannot be NULL") final String name
+            final String name
         ) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
@@ -139,9 +133,8 @@ public interface Labels {
          * @return Label found or created
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "label should never be NULL")
         public Label createOrGet(
-            @NotNull(message = "name is not NULL") final String name
+            final String name
         ) throws IOException {
             return this.createOrGet(name, "c0c0c0");
         }
@@ -153,10 +146,8 @@ public interface Labels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        @NotNull(message = "label should not be NULL")
         public Label createOrGet(
-            @NotNull(message = "name shouldn't be NULL") final String name,
-            @NotNull(message = "color can't be NULL") final String color
+            final String name, final String color
         ) throws IOException {
             final Label.Smart label;
             if (this.contains(name)) {
@@ -170,33 +161,28 @@ public interface Labels {
             return label;
         }
         @Override
-        @NotNull(message = "repo is never NULL")
         public Repo repo() {
             return this.labels.repo();
         }
         @Override
-        @NotNull(message = "label is never null")
         public Label create(
-            @NotNull(message = "name can't be NULL") final String name,
-            @NotNull(message = "color can't be NULL") final String color
+            final String name, final String color
         ) throws IOException {
             return this.labels.create(name, color);
         }
         @Override
-        @NotNull(message = "label is never NULL")
         public Label get(
-            @NotNull(message = "name can't be NULL") final String name
+            final String name
         ) {
             return this.labels.get(name);
         }
         @Override
-        @NotNull(message = "Iterable of labels is never NULL")
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
         @Override
         public void delete(
-            @NotNull(message = "name can't be NULL") final String name
+            final String name
         ) throws IOException {
             this.labels.delete(name);
         }

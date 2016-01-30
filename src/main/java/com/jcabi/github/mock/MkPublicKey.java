@@ -35,7 +35,6 @@ import com.jcabi.github.PublicKey;
 import com.jcabi.github.User;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -71,8 +70,8 @@ final class MkPublicKey implements PublicKey {
      * @param number Key number
      */
     MkPublicKey(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
+        final MkStorage stg,
+        final String login,
         final int number
     ) {
         this.storage = stg;
@@ -81,7 +80,6 @@ final class MkPublicKey implements PublicKey {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -90,13 +88,12 @@ final class MkPublicKey implements PublicKey {
 
     @Override
     public void patch(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    @NotNull(message = "user is never NULL")
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
@@ -115,7 +112,6 @@ final class MkPublicKey implements PublicKey {
      *
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/users/user[login='%s']/keys/key[id='%d']",

@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -71,8 +70,8 @@ final class RtBlobs implements Blobs {
      * @param repo Repository
      */
     public RtBlobs(
-        @NotNull(message = "Request can't be NULL") final Request req,
-        @NotNull(message = "Repo can't be NULL") final Repo repo) {
+        final Request req,
+        final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
@@ -86,23 +85,20 @@ final class RtBlobs implements Blobs {
     }
 
     @Override
-    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "blob is never NULL")
     public Blob get(
-        @NotNull(message = "Sha can't be NULL") final String sha) {
+        final String sha) {
         return new RtBlob(this.entry, this.owner, sha);
     }
 
     @Override
-    @NotNull(message = "created blob is never NULL")
     public Blob create(
-        @NotNull(message = "content can't be NULL") final String content,
-        @NotNull(message = "encoding can't be NULL") final String encoding)
+        final String content,
+        final String encoding)
         throws IOException {
         return this.get(
             this.request.method(Request.POST)

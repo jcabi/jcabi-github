@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.FileChange;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,14 +55,12 @@ public final class MkFileChange implements FileChange {
      * @param obj File change JSON object
      */
     public MkFileChange(
-        @NotNull(message = "JSON obj can't be NULL")
         final JsonObject obj
     ) {
         this.jsn = obj;
     }
 
     @Override
-    @NotNull(message = "json is never NULL")
     public JsonObject json() {
         return this.jsn;
     }

@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.net.URL;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -88,9 +87,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param dkey Deploy key
          */
-        public Smart(
-            @NotNull(message = "deploy key is never NULL") final DeployKey dkey
-        ) {
+        public Smart(final DeployKey dkey) {
             this.key = dkey;
             this.jsn = new SmartJson(dkey);
         }
@@ -100,7 +97,6 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @return Value of deploy key
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "key is never NULL")
         public String key() throws IOException {
             return this.jsn.text("key");
         }
@@ -110,9 +106,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @param value Title of deploy key
          * @throws IOException If there is any I/O problem
          */
-        public void key(
-            @NotNull(message = "value can't be NULL") final String value
-        ) throws IOException {
+        public void key(final String value) throws IOException {
             this.key.patch(
                 Json.createObjectBuilder().add("key", value).build()
             );
@@ -123,7 +117,6 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @return URL of deploy key
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL can't be NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -133,7 +126,6 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @return Title of deploy key
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "title is never NULL")
         public String title() throws IOException {
             return this.jsn.text("title");
         }
@@ -143,24 +135,19 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
          * @param text Title of deploy key
          * @throws IOException If there is any I/O problem
          */
-        public void title(
-            @NotNull(message = "text can't be NULL") final String text
-        ) throws IOException {
+        public void title(final String text) throws IOException {
             this.key.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.key.json();
         }
 
         @Override
-        public void patch(
-            @NotNull(message = "JSON is never NULL") final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.key.patch(json);
         }
 

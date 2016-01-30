@@ -40,7 +40,6 @@ import java.util.List;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -78,8 +77,8 @@ final class RtUser implements User {
      * @param req Request
      */
     RtUser(
-        @NotNull(message = "github can't be NULL") final Github github,
-        @NotNull(message = "req can't be NULL") final Request req
+        final Github github,
+        final Request req
     ) {
         this(github, req, "");
     }
@@ -91,9 +90,9 @@ final class RtUser implements User {
      * @param login User identity/identity
      */
     RtUser(
-        @NotNull(message = "github can't be NULL") final Github github,
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "login can't be NULL") final String login
+        final Github github,
+        final Request req,
+        final String login
     ) {
         this.ghub = github;
         if (login.isEmpty()) {
@@ -105,19 +104,16 @@ final class RtUser implements User {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "login is never NULL")
     public String login() throws IOException {
         final String login;
         if (this.self.isEmpty()) {
@@ -129,19 +125,16 @@ final class RtUser implements User {
     }
 
     @Override
-    @NotNull(message = "organizations is never NULL")
     public UserOrganizations organizations() {
         return new RtUserOrganizations(this.ghub, this.ghub.entry(), this);
     }
 
     @Override
-    @NotNull(message = "PublicKeys is never NULL")
     public PublicKeys keys() {
         return new RtPublicKeys(this.ghub.entry(), this);
     }
 
     @Override
-    @NotNull(message = "user emails is never NULL")
     public UserEmails emails() {
         return new RtUserEmails(this.ghub.entry());
     }
@@ -169,14 +162,13 @@ final class RtUser implements User {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
     public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        final JsonObject json)
         throws IOException {
         new RtJson(this.request).patch(json);
     }

@@ -40,7 +40,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -99,13 +98,11 @@ final class RtPull implements Pull {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -116,7 +113,6 @@ final class RtPull implements Pull {
     }
 
     @Override
-    @NotNull(message = "Iterable of commits is never NULL")
     public Iterable<Commit> commits() throws IOException {
         return new RtPagination<Commit>(
             this.request.uri().path("/commits").back(),
@@ -134,7 +130,6 @@ final class RtPull implements Pull {
     }
 
     @Override
-    @NotNull(message = "Iterable of files is never NULL")
     public Iterable<JsonObject> files() throws IOException {
         return this.request
             .uri().path("/files").back()
@@ -146,7 +141,7 @@ final class RtPull implements Pull {
 
     @Override
     public void merge(
-        @NotNull(message = "message can't be NULL") final String msg)
+        final String msg)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("commit_message", msg)
@@ -156,8 +151,8 @@ final class RtPull implements Pull {
 
     @Override
     public MergeState merge(
-        @NotNull(message = "message can't be NULL") final String msg,
-        @NotNull(message = "sha can't be NULL") final String sha)
+        final String msg,
+        final String sha)
         throws IOException {
         final JsonObjectBuilder builder = Json.createObjectBuilder()
             .add("commit_message", msg).add("sha", sha);
@@ -185,13 +180,11 @@ final class RtPull implements Pull {
     }
 
     @Override
-    @NotNull(message = "PullComments is never NULL")
     public PullComments comments() throws IOException {
         return new RtPullComments(this.entry, this);
     }
 
     @Override
-    @NotNull(message = "base is never NULL")
     public PullRef base() throws IOException {
         return new RtPullRef(
             this.owner.github(),
@@ -200,7 +193,6 @@ final class RtPull implements Pull {
     }
 
     @Override
-    @NotNull(message = "head is never NULL")
     public PullRef head() throws IOException {
         return new RtPullRef(
             this.owner.github(),
@@ -209,20 +201,18 @@ final class RtPull implements Pull {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(@NotNull(message = "JSON can't be NULL")
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
     public int compareTo(
-        @NotNull(message = "pull can't be NULL") final Pull pull
+        final Pull pull
     ) {
         return this.number() - pull.number();
     }

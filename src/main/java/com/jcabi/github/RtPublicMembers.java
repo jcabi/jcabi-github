@@ -36,7 +36,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -73,9 +72,7 @@ public final class RtPublicMembers implements PublicMembers {
      * @param organ Organization
      */
     public RtPublicMembers(
-        @NotNull(message = "request cannot be NULL")
         final Request req,
-        @NotNull(message = "organization cannot be NULL")
         final Organization organ
     ) {
         this.entry = req;
@@ -88,14 +85,12 @@ public final class RtPublicMembers implements PublicMembers {
     }
 
     @Override
-    @NotNull(message = "organization is never NULL")
     public Organization org() {
         return this.organization;
     }
 
     @Override
     public void conceal(
-        @NotNull(message = "user cannot be NULL")
         final User user
     ) throws IOException {
         this.request
@@ -107,7 +102,6 @@ public final class RtPublicMembers implements PublicMembers {
 
     @Override
     public void publicize(
-        @NotNull(message = "user cannot be NULL")
         final User user
     ) throws IOException {
         this.request
@@ -118,7 +112,6 @@ public final class RtPublicMembers implements PublicMembers {
     }
 
     @Override
-    @NotNull(message = "iterable is never NULL")
     public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,
@@ -137,7 +130,6 @@ public final class RtPublicMembers implements PublicMembers {
 
     @Override
     public boolean contains(
-        @NotNull(message = "user cannot be NULL")
         final User user
     ) throws IOException {
         return this.request

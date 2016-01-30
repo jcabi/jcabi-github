@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -102,7 +101,7 @@ public final class MkGithub implements Github {
      * @throws IOException If there is any I/O problem
      */
     public MkGithub(
-        @NotNull(message = "login can't be NULL") final String login
+        final String login
     ) throws IOException {
         this(new MkStorage.Synced(new MkStorage.InFile()), login);
     }
@@ -113,21 +112,19 @@ public final class MkGithub implements Github {
      * @param login User to login
      */
     public MkGithub(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login should not be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) {
         this.storage = stg;
         this.self = login;
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.storage.toString();
     }
 
     @Override
-    @NotNull(message = "entry request is never NULL")
     public Request entry() {
         return new FakeRequest()
             .withBody("{}")
@@ -135,7 +132,6 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "repos is never NULL")
     public Repos repos() {
         try {
             return new MkRepos(this.storage, this.self);
@@ -145,7 +141,6 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "gists is never NULL")
     public Gists gists() {
         try {
             return new MkGists(this.storage, this.self);
@@ -155,7 +150,6 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "users is never NULL")
     public Users users() {
         try {
             return new MkUsers(this.storage, this.self);
@@ -165,7 +159,6 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "organizations is never NULL")
     public Organizations organizations() {
         try {
             return new MkOrganizations(this.storage);
@@ -175,13 +168,11 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "limits is never NULL")
     public Limits limits() {
         return new MkLimits(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "JSON meta is never NULL")
     public JsonObject meta() {
         return Json.createObjectBuilder()
             .add("hooks", Json.createArrayBuilder().build())
@@ -190,19 +181,16 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "Search is never NULL")
     public Search search() {
         return new MkSearch(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "Gitignores is never NULL")
     public Gitignores gitignores() throws IOException {
         return new MkGitignores(this);
     }
 
     @Override
-    @NotNull(message = "emojis JSON is never NULL")
     public JsonObject emojis() {
         return Json.createObjectBuilder()
             .add("+1", "http://locahost/up")
@@ -211,7 +199,6 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "markdown is never NULL")
     public Markdown markdown() {
         return new MkMarkdown(this);
     }
@@ -222,9 +209,7 @@ public final class MkGithub implements Github {
      * @return Github
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "github is never NULL")
-    public Github relogin(@NotNull(message = "login is never NULL")
-        final String login
+    public Github relogin(final String login
     ) throws IOException {
         return new MkGithub(this.storage, login);
     }
@@ -234,7 +219,6 @@ public final class MkGithub implements Github {
      * @return Repo
      * @throws IOException If fails
      */
-    @NotNull(message = "Repo is never NULL")
     public Repo randomRepo() throws IOException {
         return this.repos().create(
             new Repos.RepoCreate(

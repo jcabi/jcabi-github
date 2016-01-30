@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Iterator;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -72,10 +71,9 @@ final class MkIterable<T> implements Iterable<T> {
      * @param path Path to search
      * @param map Mapping
      */
-    MkIterable(@NotNull(message = "stg can't be NULL")
-        final MkStorage stg,
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "map can't be NULL") final MkIterable.Mapping<T> map
+    MkIterable(final MkStorage stg,
+        final String path,
+        final MkIterable.Mapping<T> map
     ) {
         this.storage = stg;
         this.xpath = path;
@@ -83,7 +81,6 @@ final class MkIterable<T> implements Iterable<T> {
     }
 
     @Override
-    @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         final Iterator<XML> nodes;
         try {

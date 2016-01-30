@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -75,7 +74,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param frk Fork
          */
-        public Smart(@NotNull(message = "fork can't be NULL") final Fork frk) {
+        public Smart(final Fork frk) {
             this.fork = frk;
             this.jsn = new SmartJson(frk);
         }
@@ -85,7 +84,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Name of fork
          * @throws java.io.IOException If there is any I/O problem
          */
-        @NotNull(message = "name is never NULL")
         public String name() throws IOException {
             return this.jsn.text("name");
         }
@@ -95,7 +93,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Organization
          * @throws java.io.IOException If there is any I/O problem
          */
-        @NotNull(message = "organization is never NULL")
         public String organization() throws IOException {
             return this.jsn.text("organization");
         }
@@ -105,7 +102,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return URL of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "url is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -115,7 +111,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Full name of fork
          * @throws java.io.IOException If there is any I/O problem
          */
-        @NotNull(message = "full_name is never NULL")
         public String fullName() throws IOException {
             return this.jsn.text("full_name");
         }
@@ -125,7 +120,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Description of fork
          * @throws java.io.IOException If there is any I/O problem
          */
-        @NotNull(message = "description is never NULL")
         public String description() throws IOException {
             return this.jsn.text("description");
         }
@@ -135,7 +129,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Html url of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "html url is never NULL")
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
@@ -145,7 +138,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Clone url of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "clone url is never NULL")
         public URL cloneUrl() throws IOException {
             return new URL(this.jsn.text("clone_url"));
         }
@@ -155,7 +147,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Git url of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "git url is never NULL")
         public String gitUrl() throws IOException {
             return this.jsn.text("git_url");
         }
@@ -165,7 +156,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Ssh url of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "ssh url is never NULL")
         public String sshUrl() throws IOException {
             return this.jsn.text("ssh_url");
         }
@@ -175,7 +165,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Svn url of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "svn url is never NULL")
         public URL svnUrl() throws IOException {
             return new URL(this.jsn.text("svn_url"));
         }
@@ -185,7 +174,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Mirror url of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "mirror url is never NULL")
         public String mirrorUrl() throws IOException {
             return this.jsn.text("mirror_url");
         }
@@ -195,7 +183,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Url of home page of fork
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "homepage url is never NULL")
         public URL homeUrl() throws IOException {
             return new URL(this.jsn.text("homepage"));
         }
@@ -241,7 +228,6 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * @return Default branch
          * @throws java.io.IOException If there is any I/O problem
          */
-        @NotNull(message = "default branch is never NULL")
         public String defaultBranch() throws IOException {
             return this.jsn.text("default_branch");
         }
@@ -261,15 +247,12 @@ public interface Fork extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.fork.json();
         }
 
         @Override
-        public void patch(
-            @NotNull(message = "JSON is never NULL")final JsonObject json)
-            throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.fork.patch(json);
         }
     }

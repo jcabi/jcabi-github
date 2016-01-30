@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import java.util.Iterator;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github pagination.
@@ -81,8 +80,7 @@ public final class RtPagination<T> implements Iterable<T> {
      * @param mpp Mapping
      */
     public RtPagination(
-        @NotNull(message = "request can't be NULL") final Request req,
-        @NotNull(message = "mapping can't be NULL")
+        final Request req,
         final RtValuePagination.Mapping<T, JsonObject> mpp
     ) {
         this.pages = new RtValuePagination<T, JsonObject>(req, mpp);
@@ -97,7 +95,6 @@ public final class RtPagination<T> implements Iterable<T> {
      * Entry.
      * @return Entry point
      */
-    @NotNull(message = "Request is never NULL")
     public Request request() {
         return this.pages.request();
     }
@@ -106,7 +103,6 @@ public final class RtPagination<T> implements Iterable<T> {
      * Mapping.
      * @return Mapping
      */
-    @NotNull(message = "map is never NULLs")
     public RtValuePagination.Mapping<T, JsonObject> mapping() {
         return this.pages.mapping();
     }

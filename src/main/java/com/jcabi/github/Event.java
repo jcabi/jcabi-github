@@ -37,7 +37,6 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -160,7 +159,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
      * Repository we're in.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -189,9 +187,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * Public ctor.
          * @param evt Event
          */
-        public Smart(
-            @NotNull(message = "evt can't be NULL") final Event evt
-        ) {
+        public Smart(final Event evt) {
             this.event = evt;
             this.jsn = new SmartJson(evt);
         }
@@ -208,7 +204,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User author() throws IOException {
             return this.event.repo().github().users().get(
                 this.event.json().getJsonObject("actor").getString("login")
@@ -219,7 +214,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "type can't be NULL")
         public String type() throws IOException {
             return this.jsn.text("event");
         }
@@ -228,7 +222,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -237,7 +230,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "Date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -253,7 +245,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If there is any I/O problem
          * @since 0.24
          */
-        @NotNull(message = "Optional itself is never NULL")
         public Optional<Label> label() throws IOException {
             Optional<Label> lab = Optional.absent();
             final JsonObject lbl = this.jsn.json().getJsonObject("label");
@@ -267,7 +258,6 @@ public interface Event extends Comparable<Event>, JsonReadable {
             return lab;
         }
         @Override
-        @NotNull(message = "Repository is never NULL")
         public Repo repo() {
             return this.event.repo();
         }
@@ -276,14 +266,11 @@ public interface Event extends Comparable<Event>, JsonReadable {
             return this.event.number();
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.event.json();
         }
         @Override
-        public int compareTo(
-            @NotNull(message = "obj can't be NULL") final Event obj
-        ) {
+        public int compareTo(final Event obj) {
             return this.event.compareTo(obj);
         }
     }

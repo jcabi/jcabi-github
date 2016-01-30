@@ -38,7 +38,6 @@ import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -85,9 +84,9 @@ final class MkReleaseAssets implements ReleaseAssets {
      * @checkstyle ParameterNumber (7 lines)
      */
     MkReleaseAssets(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int number
     ) throws IOException {
         this.storage = stg;
@@ -106,7 +105,6 @@ final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "release is never NULL")
     public Release release() {
         return new MkRelease(
             this.storage,
@@ -117,7 +115,6 @@ final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "Iterable is never NULL")
     public Iterable<ReleaseAsset> iterate() {
         return new MkIterable<ReleaseAsset>(
             this.storage,
@@ -134,11 +131,10 @@ final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "Asset is never NULL")
     public ReleaseAsset upload(
-        @NotNull(message = "content can't be NULL") final byte[] content,
-        @NotNull(message = "type can't be NULL") final String type,
-        @NotNull(message = "name can't be NULL") final String name
+        final byte[] content,
+        final String type,
+        final String name
     ) throws IOException {
         this.storage.lock();
         final int number;
@@ -166,7 +162,6 @@ final class MkReleaseAssets implements ReleaseAssets {
     }
 
     @Override
-    @NotNull(message = "Asset can't be NULL")
     public ReleaseAsset get(final int number) {
         return new MkReleaseAsset(
             this.storage,
@@ -181,7 +176,6 @@ final class MkReleaseAssets implements ReleaseAssets {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath si never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets",

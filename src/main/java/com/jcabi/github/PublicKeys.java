@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github public keys.
@@ -48,7 +47,6 @@ public interface PublicKeys {
      *
      * @return User
      */
-    @NotNull(message = "user is never NULL")
     User user();
 
     /**
@@ -57,7 +55,6 @@ public interface PublicKeys {
      * @return All public keys.
      * @see <a href="http://developer.github.com/v3/users/keys#list-your-public-keys/">List your public keys.</a>
      */
-    @NotNull(message = "Iterable of public keys is never NULL")
     Iterable<PublicKey> iterate();
 
     /**
@@ -67,7 +64,6 @@ public interface PublicKeys {
      * @return A single public key.
      * @see <a href="http://developer.github.com/v3/users/keys#get-a-single-public-key/">Get a single public key.</a>
      */
-    @NotNull(message = "PublicKey is never NULL")
     PublicKey get(int number);
 
     /**
@@ -79,10 +75,9 @@ public interface PublicKeys {
      * @throws IOException If an IO problem occurs.
      * @see <a href="http://developer.github.com/v3/users/keys/#create-a-public-key/">Create a public key.</a>
      */
-    @NotNull(message = "PublicKey is never NULL")
     PublicKey create(
-        @NotNull(message = "title is never NULL") String title,
-        @NotNull(message = "key is never NULL") String key
+        String title,
+        String key
     ) throws IOException;
 
     /**
