@@ -65,8 +65,6 @@ public interface Blobs {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
      */
-    Blob create(
-        String content, String encoding
-    ) throws IOException;
+    Blob create(String content, String encoding) throws IOException;
 
 }

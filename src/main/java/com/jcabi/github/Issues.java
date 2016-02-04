@@ -68,9 +68,7 @@ public interface Issues {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
      */
-    Issue create(
-        String title, String body)
-        throws IOException;
+    Issue create(String title, String body) throws IOException;
 
     /**
      * Iterate them all.

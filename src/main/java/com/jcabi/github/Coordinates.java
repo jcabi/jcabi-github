@@ -74,9 +74,7 @@ public interface Coordinates extends Comparable<Coordinates> {
          * @param user User name
          * @param repo Repository name
          */
-        public Simple(
-            final String user, final String repo
-        ) {
+        public Simple(final String user, final String repo) {
             this.usr = user;
             this.rpo = repo;
         }

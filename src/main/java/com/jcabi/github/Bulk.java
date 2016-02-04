@@ -88,9 +88,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
      * @checkstyle AnonInnerLength (50 lines)
      */
     @SuppressWarnings("unchecked")
-    public Bulk(
-        final Iterable<T> items
-    ) {
+    public Bulk(final Iterable<T> items) {
         if (items instanceof RtPagination) {
             final RtPagination<T> page = RtPagination.class.cast(items);
             final RtValuePagination.Mapping<T, JsonObject> mapping =

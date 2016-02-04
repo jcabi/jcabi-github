@@ -104,9 +104,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @param color Color to set
          * @throws IOException If there is any I/O problem
          */
-        public void color(
-            final String color
-        ) throws IOException {
+        public void color(final String color) throws IOException {
             this.label.patch(
                 Json.createObjectBuilder().add("color", color).build()
             );
@@ -123,16 +121,12 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public int compareTo(
-            final Label lbl
-        ) {
+        public int compareTo(final Label lbl) {
             return this.label.compareTo(lbl);
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.label.patch(json);
         }
 
@@ -190,9 +184,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             throw new UnsupportedOperationException("#patch()");
         }
 

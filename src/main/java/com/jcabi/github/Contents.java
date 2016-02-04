@@ -88,9 +88,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
-    Content get(
-        String path, String ref
-    ) throws IOException;
+    Content get(String path, String ref) throws IOException;
 
     /**
      * Get the contents of a single file or symbolic link.
@@ -110,9 +108,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
-    Iterable<Content> iterate(
-        String path, String ref
-    ) throws IOException;
+    Iterable<Content> iterate(String path, String ref) throws IOException;
 
     /**
      * Removes a file.
@@ -131,9 +127,7 @@ public interface Contents {
      * @throws IOException If any I/O problems occur.
      * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
      */
-    RepoCommit update(
-        String path, JsonObject json
-    ) throws IOException;
+    RepoCommit update(String path, JsonObject json) throws IOException;
 
     /**
      * Check whether content exists or not.
@@ -142,8 +136,6 @@ public interface Contents {
      * @return True if content exists, false otherwise.
      * @throws IOException If there is any I/O problem
      */
-    boolean exists(
-        String path, String ref
-    ) throws IOException;
+    boolean exists(String path, String ref) throws IOException;
 
 }

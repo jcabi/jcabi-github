@@ -81,9 +81,7 @@ public interface CommitsComparison extends JsonReadable {
          * Public ctor.
          * @param cmprsn Commits comparison
          */
-        public Smart(
-            final CommitsComparison cmprsn
-        ) {
+        public Smart(final CommitsComparison cmprsn) {
             this.comparison = cmprsn;
         }
 

@@ -70,8 +70,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
-    String read(String name)
-        throws IOException;
+    String read(String name) throws IOException;
 
     /**
      * Write file content.
@@ -168,9 +167,8 @@ public interface Gist extends JsonReadable, JsonPatchable {
             return this.gist.read(name);
         }
         @Override
-        public void write(
-            final String name, final String content
-        ) throws IOException {
+        public void write(final String name, final String content)
+            throws IOException {
             this.gist.write(name, content);
         }
 

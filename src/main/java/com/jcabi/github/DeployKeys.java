@@ -72,8 +72,6 @@ public interface DeployKeys {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
      */
-    DeployKey create(
-        String title, String key
-    ) throws IOException;
+    DeployKey create(String title, String key) throws IOException;
 
 }

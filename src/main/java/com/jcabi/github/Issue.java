@@ -350,9 +350,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Latest event of the given type
          * @throws IOException If there is any I/O problem
          */
-        public Event latestEvent(
-            final String type
-        ) throws IOException {
+        public Event latestEvent(final String type) throws IOException {
             final Iterable<Event.Smart> events = new Smarts<Event.Smart>(
                 this.issue.events()
             );
@@ -456,15 +454,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             return this.issue.json();
         }
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.issue.patch(json);
         }
         @Override
-        public int compareTo(
-            final Issue obj
-        ) {
+        public int compareTo(final Issue obj) {
             return this.issue.compareTo(obj);
         }
         @Override

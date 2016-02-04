@@ -77,7 +77,6 @@ public interface Comments {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/issues/comments/#create-a-comment">Create a Comment</a>
      */
-    Comment post(String text)
-        throws IOException;
+    Comment post(String text) throws IOException;
 
 }

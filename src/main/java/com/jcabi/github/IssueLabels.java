@@ -161,9 +161,7 @@ public interface IssueLabels {
          * @return TRUE if it was added
          * @throws IOException If there is any I/O problem
          */
-        public boolean addIfAbsent(
-            final String name
-        ) throws IOException {
+        public boolean addIfAbsent(final String name) throws IOException {
             final boolean added;
             if (this.contains(name)) {
                 added = false;
@@ -185,8 +183,7 @@ public interface IssueLabels {
          */
         public boolean addIfAbsent(
             final String name, final String color
-        )
-            throws IOException {
+        ) throws IOException {
             Label label = null;
             for (final Label opt : new Bulk<Label>(this.labels.iterate())) {
                 if (opt.name().equals(name)) {
@@ -214,9 +211,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public Collection<Label> findByColor(
-            final String color
-        )
+        public Collection<Label> findByColor(final String color)
             throws IOException {
             final Collection<Label> found = new LinkedList<Label>();
             for (final Label label : this.labels.iterate()) {
@@ -233,9 +228,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public boolean removeIfExists(
-            final String name
-        )
+        public boolean removeIfExists(final String name)
             throws IOException {
             boolean removed = false;
             for (final Label label : this.labels.iterate()) {
@@ -252,15 +245,11 @@ public interface IssueLabels {
             return this.labels.issue();
         }
         @Override
-        public void add(
-            final Iterable<String> names
-        ) throws IOException {
+        public void add(final Iterable<String> names) throws IOException {
             this.labels.add(names);
         }
         @Override
-        public void replace(
-            final Iterable<String> names
-        ) throws IOException {
+        public void replace(final Iterable<String> names) throws IOException {
             this.labels.replace(names);
         }
         @Override
@@ -268,9 +257,7 @@ public interface IssueLabels {
             return this.labels.iterate();
         }
         @Override
-        public void remove(
-            final String name
-        ) throws IOException {
+        public void remove(final String name) throws IOException {
             this.labels.remove(name);
         }
         @Override

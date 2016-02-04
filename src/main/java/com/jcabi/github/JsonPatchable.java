@@ -48,7 +48,6 @@ public interface JsonPatchable {
      * @param json JSON object
      * @throws IOException If there is any I/O problem
      */
-    void patch(JsonObject json)
-        throws IOException;
+    void patch(JsonObject json) throws IOException;
 
 }
