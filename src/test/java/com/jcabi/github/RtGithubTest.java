@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
+import java.net.URI;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -40,6 +41,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtGithubTest {
 
     /**
@@ -189,6 +191,21 @@ public final class RtGithubTest {
         MatcherAssert.assertThat(
             new RtGithub(new FakeRequest()),
             Matchers.equalTo(new RtGithub(new FakeRequest()))
+        );
+    }
+
+    /**
+     * RtGithub can connect easily to another Github [enterprise] server.
+     * @throws Exception if a problem occurs.
+     */
+    @Test
+    public void connectsToAnotherGithubServer() throws Exception {
+        MatcherAssert.assertThat(
+            new RtGithub(URI.create("http://localhost:12345"))
+                .entry().uri().toString(),
+            Matchers.equalTo(
+                "http://localhost:12345/"
+            )
         );
     }
 }
