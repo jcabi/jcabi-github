@@ -36,7 +36,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -95,13 +94,11 @@ final class RtIssue implements Issue {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -112,19 +109,16 @@ final class RtIssue implements Issue {
     }
 
     @Override
-    @NotNull(message = "Comments can't be NULL")
     public Comments comments() {
         return new RtComments(this.entry, this);
     }
 
     @Override
-    @NotNull(message = "IssueLabels is never NULL")
     public IssueLabels labels() {
         return new RtIssueLabels(this.entry, this);
     }
 
     @Override
-    @NotNull(message = "Iterable of events is never NULL")
     public Iterable<Event> events() {
         return new RtPagination<Event>(
             this.request.uri().path("/events").back(),
@@ -153,20 +147,18 @@ final class RtIssue implements Issue {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    public void patch(@NotNull(message = "JSON object can't be NULL")
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
     public int compareTo(
-        @NotNull(message = "issue can't be NULL") final Issue issue
+        final Issue issue
     ) {
         return this.number() - issue.number();
     }

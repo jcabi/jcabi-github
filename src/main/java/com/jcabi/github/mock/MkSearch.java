@@ -41,7 +41,6 @@ import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.EnumMap;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -75,25 +74,23 @@ final class MkSearch implements Search {
      * @param login User to login
      */
     MkSearch(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) {
         this.storage = stg;
         this.self = login;
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "Iterable of repos is never NULL")
     public Iterable<Repo> repos(
-        @NotNull(message = "keywords can't be NULL") final String keywords,
-        @NotNull(message = "sort can't be NULL") final String sort,
-        @NotNull(message = "order can't be NULL") final Order order
+        final String keywords,
+        final String sort,
+        final Order order
     ) throws IOException {
         return new MkIterable<Repo>(
             this.storage,
@@ -112,7 +109,6 @@ final class MkSearch implements Search {
 
     //@checkstyle ParameterNumberCheck (5 lines)
     @Override
-    @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> issues(final String keywords, final String sort,
         final Order order, final EnumMap<Qualifier, String> qualifiers
     ) throws IOException {
@@ -135,11 +131,10 @@ final class MkSearch implements Search {
     }
 
     @Override
-    @NotNull(message = "iterable of users is never NULL")
     public Iterable<User> users(
-        @NotNull(message = "keywords shouldn't be NULL") final String keywords,
-        @NotNull(message = "sort shouldn't be NULL") final String sort,
-        @NotNull(message = "order shouldn't be NULL") final Order order
+        final String keywords,
+        final String sort,
+        final Order order
     ) throws IOException {
         return new MkIterable<User>(
             this.storage,
@@ -161,11 +156,10 @@ final class MkSearch implements Search {
     }
 
     @Override
-    @NotNull(message = "iterable of contents is never NULL")
     public Iterable<Content> codes(
-        @NotNull(message = "keywords shouldn't be NULL") final String keywords,
-        @NotNull(message = "sort shouldn't be NULL") final String sort,
-        @NotNull(message = "order shouldn't be NULL") final Order order
+        final String keywords,
+        final String sort,
+        final Order order
     ) throws IOException {
         return new MkIterable<Content>(
             this.storage,

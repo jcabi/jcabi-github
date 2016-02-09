@@ -36,7 +36,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -86,7 +85,6 @@ final class RtAssignees implements Assignees {
     }
 
     @Override
-    @NotNull(message = "iterable of users is never NULL")
     public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,
@@ -105,7 +103,7 @@ final class RtAssignees implements Assignees {
 
     @Override
     public boolean check(
-        @NotNull(message = "login can't be NULL") final String login
+        final String login
     ) throws IOException {
         return this.request
             .method(Request.GET)
@@ -121,7 +119,6 @@ final class RtAssignees implements Assignees {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }

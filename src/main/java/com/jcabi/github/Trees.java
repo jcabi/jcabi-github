@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Trees.
@@ -49,7 +48,6 @@ public interface Trees {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -58,8 +56,7 @@ public interface Trees {
      * @return Tree
      * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
      */
-    @NotNull(message = "tree is never NULL")
-    Tree get(@NotNull(message = "sha can't be null") String sha);
+    Tree get(String sha);
 
     /**
      * Get specific tree recursively by sha.
@@ -67,16 +64,14 @@ public interface Trees {
      * @return Tree
      * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
      */
-    @NotNull(message = "tree is never NULL")
-    Tree getRec(@NotNull(message = "sha can't be null") String sha);
+    Tree getRec(String sha);
     /**
      * Create new tree.
      * @param params Parameters to create new tree
      * @return Tree
      * @throws java.io.IOException If there is any I/O problem
      */
-    @NotNull(message = "Tree is never NULL")
     Tree create(
-        @NotNull(message = "params can't be null") JsonObject params)
+        JsonObject params)
         throws IOException;
 }

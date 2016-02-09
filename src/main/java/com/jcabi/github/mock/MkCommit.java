@@ -37,7 +37,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -79,10 +78,10 @@ public final class MkCommit implements Commit {
      * @checkstyle ParameterNumber (5 lines)
      */
     public MkCommit(
-        @NotNull(message = "strg can't be NULL") final MkStorage strg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "crds can't be NULL") final Coordinates crds,
-        @NotNull(message = "identifier can't be NULL") final String commitsha
+        final MkStorage strg,
+        final String login,
+        final Coordinates crds,
+        final String commitsha
     ) {
         this.storage = strg;
         this.self = login;
@@ -91,19 +90,16 @@ public final class MkCommit implements Commit {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.identifier;
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -120,7 +116,6 @@ public final class MkCommit implements Commit {
      *
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords = '%s']/git/commits/commit[sha = '%s']",

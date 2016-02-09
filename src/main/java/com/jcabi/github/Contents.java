@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github contents.
@@ -51,7 +50,6 @@ public interface Contents {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -61,7 +59,6 @@ public interface Contents {
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
-    @NotNull(message = "Content is never NULL")
     Content readme() throws IOException;
 
     /**
@@ -72,9 +69,7 @@ public interface Contents {
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
-    @NotNull(message = "Content is never NULL")
-    Content readme(@NotNull(message = "branch is never NULL") String branch)
-        throws IOException;
+    Content readme(String branch) throws IOException;
 
     /**
      * Create new file.
@@ -83,10 +78,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
      */
-    @NotNull(message = "Content is never NULL")
-    Content create(
-        @NotNull(message = "content is never NULL") JsonObject content)
-        throws IOException;
+    Content create(JsonObject content) throws IOException;
 
     /**
      * Get the contents of a single file or symbolic link in a repository.
@@ -96,11 +88,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
-    @NotNull(message = "Content is never NULL")
-    Content get(
-        @NotNull(message = "path  is never NULL") String path,
-        @NotNull(message = "ref is never NULL") String ref
-    ) throws IOException;
+    Content get(String path, String ref) throws IOException;
 
     /**
      * Get the contents of a single file or symbolic link.
@@ -110,10 +98,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
-    @NotNull(message = "Content is never NULL")
-    Content get(
-        @NotNull(message = "path  is never NULL") String path
-    ) throws IOException;
+    Content get(String path) throws IOException;
 
     /**
      * Get the contents of a directory in a repository.
@@ -123,11 +108,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Content> iterate(
-        @NotNull(message = "path  is never NULL") String path,
-        @NotNull(message = "ref is never NULL") String ref)
-        throws IOException;
+    Iterable<Content> iterate(String path, String ref) throws IOException;
 
     /**
      * Removes a file.
@@ -136,10 +117,7 @@ public interface Contents {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
      */
-    @NotNull(message = "Content is never NULL")
-    RepoCommit remove(
-        @NotNull(message = "content is never NULL") JsonObject content)
-        throws IOException;
+    RepoCommit remove(JsonObject content) throws IOException;
 
     /**
      * Updates a file.
@@ -149,11 +127,7 @@ public interface Contents {
      * @throws IOException If any I/O problems occur.
      * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
      */
-    @NotNull(message = "RepoCommit is never NULL")
-    RepoCommit update(
-        @NotNull(message = "path is never NULL") String path,
-        @NotNull(message = "json is never NULL") JsonObject json)
-        throws IOException;
+    RepoCommit update(String path, JsonObject json) throws IOException;
 
     /**
      * Check whether content exists or not.
@@ -162,9 +136,6 @@ public interface Contents {
      * @return True if content exists, false otherwise.
      * @throws IOException If there is any I/O problem
      */
-    boolean exists(
-        @NotNull(message = "path  is never NULL") String path,
-        @NotNull(message = "ref is never NULL") String ref
-    ) throws IOException;
+    boolean exists(String path, String ref) throws IOException;
 
 }

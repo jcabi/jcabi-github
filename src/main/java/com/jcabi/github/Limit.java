@@ -36,7 +36,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,7 +55,6 @@ public interface Limit extends JsonReadable {
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
@@ -76,7 +74,7 @@ public interface Limit extends JsonReadable {
          * @param limit Limit
          */
         public Smart(
-            @NotNull(message = "limit can't be NULL") final Limit limit
+            final Limit limit
         ) {
             this.origin = limit;
         }
@@ -101,7 +99,6 @@ public interface Limit extends JsonReadable {
          * @return Date when this will happen
          * @throws IOException If it fails
          */
-        @NotNull(message = "date is never NULL")
         public Date reset() throws IOException {
             return new Date(
                 TimeUnit.MILLISECONDS.convert(
@@ -111,12 +108,10 @@ public interface Limit extends JsonReadable {
             );
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.origin.json();
         }
         @Override
-        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.origin.github();
         }
@@ -149,7 +144,7 @@ public interface Limit extends JsonReadable {
          * @param allowed Maximum allowed
          */
         public Throttled(
-            @NotNull(message = "limit is never NULL") final Limit limit,
+            final Limit limit,
             final int allowed
         ) {
             this.origin = limit;
@@ -157,7 +152,6 @@ public interface Limit extends JsonReadable {
             this.jsn = new SmartJson(limit);
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             final int limit = new SmartJson(this.origin).number("limit");
             final int remaining = this.max - (
@@ -170,7 +164,6 @@ public interface Limit extends JsonReadable {
                 .build();
         }
         @Override
-        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.origin.github();
         }

@@ -35,7 +35,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -70,9 +69,9 @@ final class RtTag implements Tag {
      * @param key The sha.
      */
     RtTag(
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "repo can't be NULL") final Repo repo,
-        @NotNull(message = "key can't be NULL") final String key
+        final Request req,
+        final Repo repo,
+        final String key
     ) {
         this.sha = key;
         this.owner = repo;
@@ -82,19 +81,16 @@ final class RtTag implements Tag {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "key is never NULL")
     public String key() {
         return this.sha;
     }

@@ -40,7 +40,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -80,9 +79,9 @@ final class MkIssueEvents implements IssueEvents {
      * @throws IOException If there is any I/O problem
      */
     MkIssueEvents(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -98,19 +97,16 @@ final class MkIssueEvents implements IssueEvents {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "issue event is never NULL")
     public Event get(final int number) {
         return new MkEvent(this.storage, this.self, this.coords, number);
     }
 
     @Override
-    @NotNull(message = "iterable is never NULL")
     public Iterable<Event> iterate() {
         return new MkIterable<Event>(
             this.storage,
@@ -142,14 +138,11 @@ final class MkIssueEvents implements IssueEvents {
      *  possible to set the "rename" field for "renamed" events. Make it
      *  possible to set the "commit_id" field for events related to commits.
      *  See https://developer.github.com/v3/issues/events/ for details.
+     * @checkstyle ParameterNumberCheck (4 lines)
      */
-    @NotNull(message = "event is never NULL")
-    // @checkstyle ParameterNumberCheck (4 lines)
     public Event create(
-        @NotNull(message = "type can't be NULL") final String type,
-        final int issue, @NotNull(message = "login can't be NULL")
-        final String login, @NotNull(message = "option itself can't be NULL")
-        final Optional<String> label
+        final String type,
+        final int issue, final String login, final Optional<String> label
     ) throws IOException {
         final String created = new Github.Time().toString();
         this.storage.lock();
@@ -185,7 +178,6 @@ final class MkIssueEvents implements IssueEvents {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issue-events",

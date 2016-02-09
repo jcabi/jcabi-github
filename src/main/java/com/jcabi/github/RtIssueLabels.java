@@ -40,7 +40,6 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -90,20 +89,17 @@ final class RtIssueLabels implements IssueLabels {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "issue is never NULL")
     public Issue issue() {
         return this.owner;
     }
 
     @Override
-    public void add(@NotNull(message = "iterable of labels can't be NULL")
-        final Iterable<String> labels) throws IOException {
+    public void add(final Iterable<String> labels) throws IOException {
         JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final String label : labels) {
             builder = builder.add(label);
@@ -119,8 +115,7 @@ final class RtIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void replace(@NotNull(message = "iterable of labels can't be NULL")
-        final Iterable<String> labels) throws IOException {
+    public void replace(final Iterable<String> labels) throws IOException {
         JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final String label : labels) {
             builder = builder.add(label);
@@ -136,8 +131,7 @@ final class RtIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void remove(@NotNull(message = "label name can't be NULL")
-        final String name) throws IOException {
+    public void remove(final String name) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(name).back()
             .fetch()
@@ -154,7 +148,6 @@ final class RtIssueLabels implements IssueLabels {
     }
 
     @Override
-    @NotNull(message = "Iterable of labels is never NULL")
     public Iterable<Label> iterate() {
         return new RtPagination<Label>(
             this.request,

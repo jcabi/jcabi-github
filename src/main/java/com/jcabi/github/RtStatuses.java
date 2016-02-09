@@ -35,7 +35,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github statuses for a given commit.
@@ -78,7 +77,6 @@ public class RtStatuses implements Statuses {
      * @return String representation
      */
     @Override
-    @NotNull(message = "toString is never NULL")
     public final String toString() {
         return this.request.uri().get().toString();
     }
@@ -88,7 +86,6 @@ public class RtStatuses implements Statuses {
      * @return Commit object
      */
     @Override
-    @NotNull(message = "Commit can't be NULL")
     public final Commit commit() {
         return this.cmmt;
     }
@@ -100,9 +97,8 @@ public class RtStatuses implements Statuses {
      * @throws IOException In case of any I/O problems
      */
     @Override
-    @NotNull(message = "status is never NULL")
     public final Status create(
-        @NotNull(message = "status can't be NULL") final StatusCreate status
+        final StatusCreate status
     ) throws IOException {
         final JsonObject response = this.request.method(Request.POST)
             .body().set(status.json()).back()
@@ -121,9 +117,8 @@ public class RtStatuses implements Statuses {
      * @todo #1126:30min Implement this method which gets all status messages for a given commit.
      */
     @Override
-    @NotNull(message = "iterable of statuses can't be NULL")
     public final Iterable<Status> list(
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String ref
     ) {
         throw new UnsupportedOperationException("Not implemented");
     }
@@ -134,7 +129,6 @@ public class RtStatuses implements Statuses {
      * @throws IOException In case of I/O problems
      */
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

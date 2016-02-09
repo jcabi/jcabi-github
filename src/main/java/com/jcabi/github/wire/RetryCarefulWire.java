@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -79,21 +78,17 @@ public final class RetryCarefulWire implements Wire {
      * @param threshold Threshold of number of remaining requests, below which
      *  requests are blocked until reset
      */
-    public RetryCarefulWire(@NotNull(message = "wire can't be NULL")
-        final Wire wire, final int threshold) {
+    public RetryCarefulWire(final Wire wire, final int threshold) {
         this.real = new RetryWire(new CarefulWire(wire, threshold));
     }
 
     @Override
-    @NotNull(message = "response can't be NULL")
     // @checkstyle ParameterNumber (8 lines)
     public Response send(
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "home can't be NULL") final String home,
-        @NotNull(message = "method can't be NULL") final String method,
-        @NotNull(message = "headers can't be NULL")
+        final Request req,
+        final String home,
+        final String method,
         final Collection<Map.Entry<String, String>> headers,
-        @NotNull(message = "content can't be NULL")
         final InputStream content,
         final int connect, final int read
     ) throws IOException {

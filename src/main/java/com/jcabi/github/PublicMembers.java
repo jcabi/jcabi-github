@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Public members of a GitHub organization.
@@ -47,7 +46,6 @@ public interface PublicMembers {
      * Organization of which these are public members.
      * @return Organization
      */
-    @NotNull(message = "organization is never NULL")
     Organization org();
 
     /**
@@ -57,7 +55,7 @@ public interface PublicMembers {
      * @see <a href="https://developer.github.com/v3/orgs/members/#conceal-a-users-membership">Conceal a user's membership</a>
      */
     void conceal(
-        @NotNull(message = "user cannot be NULL") User user
+        User user
     ) throws IOException;
 
     /**
@@ -67,7 +65,7 @@ public interface PublicMembers {
      * @see <a href="https://developer.github.com/v3/orgs/members/#publicize-a-users-membership">Publicize a user's membership</a>
      */
     void publicize(
-        @NotNull(message = "user cannot be NULL") User user
+        User user
     ) throws IOException;
 
     /**
@@ -75,7 +73,6 @@ public interface PublicMembers {
      * @return Members
      * @see <a href="https://developer.github.com/v3/orgs/members/#public-members-list">Public members list</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<User> iterate();
 
     /**
@@ -86,6 +83,6 @@ public interface PublicMembers {
      * @see <a href="https://developer.github.com/v3/orgs/members/#check-public-membership">Check public membership</a>
      */
     boolean contains(
-        @NotNull(message = "user cannot be NULL") User user
+        User user
     ) throws IOException;
 }

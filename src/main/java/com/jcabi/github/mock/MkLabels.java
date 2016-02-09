@@ -37,7 +37,6 @@ import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -77,10 +76,9 @@ final class MkLabels implements Labels {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    MkLabels(@NotNull(message = "stg cannot be NULL")
-        final MkStorage stg,
-        @NotNull(message = "login cannot be NULL") final String login,
-        @NotNull(message = "rep cannot be NULL") final Coordinates rep
+    MkLabels(final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -96,24 +94,19 @@ final class MkLabels implements Labels {
     }
 
     @Override
-    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "Label is never NULL")
-    public Label get(@NotNull(message = "name cannot be NULL")
-        final String name
+    public Label get(final String name
     ) {
         return new MkLabel(this.storage, this.self, this.coords, name);
     }
 
     @Override
-    @NotNull(message = "Created label is never NULL")
-    public Label create(@NotNull(message = "name can't be NULL")
-        final String name,
-        @NotNull(message = "color can't be NULL") final String color
+    public Label create(final String name,
+        final String color
     ) throws IOException {
         if (!color.matches("[0-9a-f]{6}")) {
             throw new IllegalArgumentException(
@@ -132,7 +125,6 @@ final class MkLabels implements Labels {
     }
 
     @Override
-    @NotNull(message = "iterable of labels is never NULL")
     public Iterable<Label> iterate() {
         return new MkIterable<Label>(
             this.storage,
@@ -149,8 +141,7 @@ final class MkLabels implements Labels {
     }
 
     @Override
-    public void delete(@NotNull(message = "name should not be NULL")
-        final String name
+    public void delete(final String name
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(this.xpath())
@@ -167,7 +158,6 @@ final class MkLabels implements Labels {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/labels",

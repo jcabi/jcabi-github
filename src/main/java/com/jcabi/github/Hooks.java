@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github hooks.
@@ -49,7 +48,6 @@ public interface Hooks {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -57,7 +55,6 @@ public interface Hooks {
      * @return Iterator of hooks
      * @see <a href="http://developer.github.com/v3/repos/hooks/#list">List</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Hook> iterate();
 
     /**
@@ -74,7 +71,6 @@ public interface Hooks {
      * @return Hook
      * @see <a href="http://developer.github.com/v3/repos/hooks/#get-single-hook">Get single hook</a>
      */
-    @NotNull(message = "hook is never NULL")
     Hook get(int number);
 
     /**
@@ -89,10 +85,8 @@ public interface Hooks {
      *  creation API. It's a list of strings of the names of events which the
      *  hook will be triggered for.
      */
-    @NotNull(message = "hook is never NULL")
     Hook create(
-        @NotNull(message = "name is never NULL") String name,
-        @NotNull(message = "config is never NULL") Map<String, String> config,
+        String name, Map<String, String> config,
         boolean active
     ) throws IOException;
 }

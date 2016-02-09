@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git.
@@ -47,7 +46,6 @@ public interface Git {
      * Owner of it.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -56,7 +54,6 @@ public interface Git {
      * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
      * @throws IOException If some io problem occurs
      */
-    @NotNull(message = "Blobs is never NULL")
     Blobs blobs() throws IOException;
 
     /**
@@ -64,7 +61,6 @@ public interface Git {
      * @return Commits
      * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
      */
-    @NotNull(message = "Commits is never NULL")
     Commits commits();
 
     /**
@@ -72,7 +68,6 @@ public interface Git {
      * @return References
      * @see <a href="http://developer.github.com/v3/git/references/">References API</a>
      */
-    @NotNull(message = "References is never NULL")
     References references();
 
     /**
@@ -80,7 +75,6 @@ public interface Git {
      * @return Tags
      * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
      */
-    @NotNull(message = "Tags is never NULL")
     Tags tags();
 
     /**
@@ -88,6 +82,5 @@ public interface Git {
      * @return Trees
      * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
      */
-    @NotNull(message = "Trees is never NULL")
     Trees trees();
 }

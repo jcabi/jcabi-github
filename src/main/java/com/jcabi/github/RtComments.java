@@ -39,7 +39,6 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -89,27 +88,22 @@ final class RtComments implements Comments {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "Issue is never NULL")
     public Issue issue() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Comment is never NULL")
     public Comment get(final int number) {
         return new RtComment(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "Comment is never NULL")
-    public Comment post(@NotNull(message = "post text can't be NULL")
-        final String text) throws IOException {
+    public Comment post(final String text) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("body", text)
             .build();
@@ -126,7 +120,6 @@ final class RtComments implements Comments {
     }
 
     @Override
-    @NotNull(message = "Iterable of comments is never NULL")
     public Iterable<Comment> iterate() {
         return new RtPagination<Comment>(
             this.request,

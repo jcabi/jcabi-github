@@ -36,7 +36,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Stars;
 import java.io.IOException;
 import java.util.List;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
@@ -75,9 +74,9 @@ final class MkStars implements Stars {
      * @throws java.io.IOException If something goes wrong.
      */
     MkStars(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -123,7 +122,6 @@ final class MkStars implements Stars {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/stars",

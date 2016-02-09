@@ -39,7 +39,6 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -85,15 +84,13 @@ final class RtForks implements Forks {
     }
 
     @Override
-    @NotNull(message = "Repository can't be null")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "iterable of Fork can't be NULL")
     public Iterable<Fork> iterate(
-        @NotNull(message = "sort can't be NULL") final String sort) {
+        final String sort) {
         return new RtPagination<Fork>(
             this.request.uri().queryParam("sort", sort).back(),
             new RtValuePagination.Mapping<Fork, JsonObject>() {
@@ -106,9 +103,7 @@ final class RtForks implements Forks {
     }
 
     @Override
-    @NotNull(message = "Fork can't be NULL")
     public Fork create(
-        @NotNull(message = "organization can't be NULL")
         final String organization) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("organization", organization)

@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Loggable;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -63,13 +62,11 @@ public final class RtLanguage implements Language {
     }
 
     @Override
-    @NotNull(message = "name is never NULL")
     public String name() {
         return this.txt;
     }
 
     @Override
-    @NotNull(message = "bytes is never NULL")
     public long bytes() {
         return this.length;
     }

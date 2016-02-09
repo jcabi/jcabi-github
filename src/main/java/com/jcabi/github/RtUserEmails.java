@@ -42,7 +42,6 @@ import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -65,13 +64,12 @@ final class RtUserEmails implements UserEmails {
      * Ctor.
      * @param req RESTful API entry point
      */
-    RtUserEmails(@NotNull(message = "req can't be NULL") final Request req) {
+    RtUserEmails(final Request req) {
         this.request = req.header("Accept", "application/vnd.github.v3")
             .uri().path("/user/emails").back();
     }
 
     @Override
-    @NotNull(message = "iterable is never NULL")
     public Iterable<String> iterate() throws IOException {
         final List<JsonObject> array = this.request.method(Request.GET)
             .fetch().as(RestResponse.class)
@@ -87,9 +85,9 @@ final class RtUserEmails implements UserEmails {
     }
 
     @Override
-    @NotNull(message = "iterable is never NULL")
-    public Iterable<String> add(@NotNull(message = "emails is never NULL")
-        final Iterable<String> emails) throws IOException {
+    public Iterable<String> add(
+        final Iterable<String> emails
+    ) throws IOException {
         final JsonArrayBuilder json = Json.createArrayBuilder();
         for (final String email : emails) {
             json.add(email);
@@ -108,8 +106,7 @@ final class RtUserEmails implements UserEmails {
     }
 
     @Override
-    public void remove(@NotNull(message = "emails is never NULL")
-        final Iterable<String> emails) throws IOException {
+    public void remove(final Iterable<String> emails) throws IOException {
         final JsonArrayBuilder json = Json.createArrayBuilder();
         for (final String email : emails) {
             json.add(email);
@@ -126,7 +123,6 @@ final class RtUserEmails implements UserEmails {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

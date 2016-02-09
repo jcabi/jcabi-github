@@ -37,7 +37,6 @@ import java.util.Iterator;
 import java.util.List;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -81,25 +80,21 @@ final class RtCommitsComparison implements CommitsComparison {
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "files is never NULL")
     public Iterable<FileChange> files() throws IOException {
         return new FileChanges(this.json().getJsonArray("files"));
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -122,7 +117,6 @@ final class RtCommitsComparison implements CommitsComparison {
          * @param iter Iterator of file change JSON objects
          */
         FileChangesIterator(
-            @NotNull(message = "files can't be NULL")
             final Iterator<JsonObject> iter
         ) {
             this.iterator = iter;
@@ -163,7 +157,6 @@ final class RtCommitsComparison implements CommitsComparison {
          * @param files JsonArray of file change objects
          */
         FileChanges(
-            @NotNull(message = "files can't be NULL")
             final JsonArray files
         ) {
             this.list = files.getValuesAs(JsonObject.class);

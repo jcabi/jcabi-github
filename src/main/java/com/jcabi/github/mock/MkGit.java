@@ -40,7 +40,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Tags;
 import com.jcabi.github.Trees;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -81,9 +80,9 @@ final class MkGit implements Git {
      * @throws IOException If there is any I/O problem
      */
     public MkGit(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -99,19 +98,16 @@ final class MkGit implements Git {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "blobs is never NULL")
     public Blobs blobs() throws IOException {
         return new MkBlobs(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "commits is never NULL")
     public Commits commits() {
         try {
             return new MkCommits(this.storage, this.self, this.coords);
@@ -121,7 +117,6 @@ final class MkGit implements Git {
     }
 
     @Override
-    @NotNull(message = "References is never NULL")
     public References references() {
         try {
             return new MkReferences(this.storage, this.self, this.coords);
@@ -131,7 +126,6 @@ final class MkGit implements Git {
     }
 
     @Override
-    @NotNull(message = "Tags is never NULL")
     public Tags tags() {
         try {
             return new MkTags(this.storage, this.self, this.coords);
@@ -141,7 +135,6 @@ final class MkGit implements Git {
     }
 
     @Override
-    @NotNull(message = "Trees is never NULL")
     public Trees trees() {
         try {
             return new MkTrees(this.storage, this.self, this.coords);

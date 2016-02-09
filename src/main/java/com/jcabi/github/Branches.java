@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * Git branches.
@@ -46,7 +45,6 @@ public interface Branches {
      * Repo which the branches are in.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -54,6 +52,5 @@ public interface Branches {
      * @return Iterator of branches
      * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Branch> iterate();
 }

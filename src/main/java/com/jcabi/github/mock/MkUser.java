@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.NotImplementedException;
@@ -80,8 +79,8 @@ final class MkUser implements User {
      * @throws IOException If there is any I/O problem
      */
     MkUser(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -93,19 +92,16 @@ final class MkUser implements User {
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "login is never NULL")
     public String login() {
         return this.self;
     }
 
     @Override
-    @NotNull(message = "orgs is never NULL")
     public UserOrganizations organizations() {
         try {
             return new MkUserOrganizations(this.storage, this.self);
@@ -115,7 +111,6 @@ final class MkUser implements User {
     }
 
     @Override
-    @NotNull(message = "public keys is never NULL")
     public PublicKeys keys() {
         try {
             return new MkPublicKeys(this.storage, this.self);
@@ -125,7 +120,6 @@ final class MkUser implements User {
     }
 
     @Override
-    @NotNull(message = "emails is never NULL")
     public UserEmails emails() {
         try {
             return new MkUserEmails(this.storage, this.self);
@@ -146,13 +140,12 @@ final class MkUser implements User {
 
     @Override
     public void patch(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -163,7 +156,6 @@ final class MkUser implements User {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }

@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github release assets.
@@ -48,7 +47,6 @@ public interface ReleaseAssets {
      * The release we're in.
      * @return Issue
      */
-    @NotNull(message = "release is never NULL")
     Release release();
 
     /**
@@ -56,7 +54,6 @@ public interface ReleaseAssets {
      * @return All comments
      * @see <a href="http://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<ReleaseAsset> iterate();
 
     /**
@@ -68,11 +65,10 @@ public interface ReleaseAssets {
      * @throws IOException If an IO Exception occurs
      * @see <a href="http://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
      */
-    @NotNull(message = "ReleaseAsset is never NULL")
     ReleaseAsset upload(
-        @NotNull(message = "content is never NULL") byte[] content,
-        @NotNull(message = "type is never NULL") String type,
-        @NotNull(message = "name is never NULL") String name
+        byte[] content,
+        String type,
+        String name
     ) throws IOException;
 
     /**
@@ -81,7 +77,6 @@ public interface ReleaseAssets {
      * @return The release asset.
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
      */
-    @NotNull(message = "ReleaseAsset is never NULL")
     ReleaseAsset get(int number);
 
 }

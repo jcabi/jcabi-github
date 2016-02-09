@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github gists.
@@ -49,7 +48,6 @@ public interface Gists {
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
@@ -61,9 +59,9 @@ public interface Gists {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#create-a-gist">Create a Gist</a>
      */
-    @NotNull(message = "gist is never NULL")
-    Gist create(@NotNull(message = "list of files can't be NULL")
-        Map<String, String> files, boolean visible) throws IOException;
+    Gist create(
+        Map<String, String> files, boolean visible
+    ) throws IOException;
 
     /**
      * Get gist by name.
@@ -71,15 +69,13 @@ public interface Gists {
      * @return Gist
      * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
-    @NotNull(message = "gist is never NULL")
-    Gist get(@NotNull(message = "name can't be NULL") String name);
+    Gist get(String name);
 
     /**
      * Iterate all gists.
      * @return Iterator of gists
      * @see <a href="http://developer.github.com/v3/gists/#list-gists">List Gists</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Gist> iterate();
 
     /**
@@ -89,7 +85,5 @@ public interface Gists {
      * @param identifier Identifier of the gist to be removed.
      * @throws IOException If there is any I/O problem
      */
-    void remove(
-        @NotNull(message = "identifier is never NULL") String identifier
-    ) throws IOException;
+    void remove(String identifier) throws IOException;
 }

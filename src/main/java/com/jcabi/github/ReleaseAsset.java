@@ -38,7 +38,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,7 +55,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      * The release we're in.
      * @return Release
      */
-    @NotNull(message = "release is never NULL")
     Release release();
 
     /**
@@ -78,7 +76,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
      */
-    @NotNull(message = "InputStream is never NULL")
     InputStream raw() throws IOException;
 
     /**
@@ -104,7 +101,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @param ast Release asset
          */
         public Smart(
-            @NotNull(message = "ast can't be NULL") final ReleaseAsset ast
+            final ReleaseAsset ast
         ) {
             this.asset = ast;
             this.jsn = new SmartJson(ast);
@@ -115,7 +112,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return URL of release asset
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -125,7 +121,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Name of release asset
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "name is never NULL")
         public String name() throws IOException {
             return this.jsn.text("name");
         }
@@ -135,7 +130,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Label of release asset
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "label is never NULL")
         public String label() throws IOException {
             return this.jsn.text("label");
         }
@@ -145,7 +139,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return State of release asset
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "state is never NULL")
         public String state() throws IOException {
             return this.jsn.text("state");
         }
@@ -155,7 +148,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Content type of release asset
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "type is never NULL")
         public String contentType() throws IOException {
             return this.jsn.text("content_type");
         }
@@ -183,7 +175,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -199,7 +190,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date is never NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -216,7 +206,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void name(
-            @NotNull(message = "text can't be NULL") final String text
+            final String text
         ) throws IOException {
             this.asset.patch(
                 Json.createObjectBuilder().add("name", text).build()
@@ -229,7 +219,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public void label(
-            @NotNull(message = "text can't be NULL") final String text
+            final String text
         ) throws IOException {
             this.asset.patch(
                 Json.createObjectBuilder().add("label", text).build()
@@ -237,7 +227,6 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "release is never NULL")
         public Release release() {
             return this.asset.release();
         }
@@ -253,20 +242,18 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "input stream is never NULL")
         public InputStream raw() throws IOException {
             return this.asset.raw();
         }
 
         @Override
         public void patch(
-            @NotNull(message = "JSON is never NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.asset.patch(json);
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.asset.json();
         }

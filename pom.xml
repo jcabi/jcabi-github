@@ -73,11 +73,12 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-xml</artifactId>
+            <version>0.17.2</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-http</artifactId>
-            <version>1.14</version>
+            <version>1.14.2</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi.incubator</groupId>
@@ -138,6 +139,7 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -281,7 +283,6 @@
                         <artifactId>qulice-maven-plugin</artifactId>
                         <configuration>
                             <excludes>
-                                <exclude>checkstyle:/src/test/java/com/jcabi/github/NullabilityTest.java</exclude>
                                 <exclude>xml:/src/it/settings.xml</exclude>
                             </excludes>
                             <license>file:${basedir}/LICENSE.txt</license>

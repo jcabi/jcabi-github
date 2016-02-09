@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Commits.
@@ -49,7 +48,6 @@ public interface Commits {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -58,18 +56,14 @@ public interface Commits {
      * @return Commit
      * @throws IOException - If anything goes wrong.
      */
-    @NotNull(message = "commit is never NULL")
-    Commit create(
-        @NotNull(message = "params can't be null") JsonObject params
-    ) throws IOException;
+    Commit create(JsonObject params) throws IOException;
 
     /**
      * Return a Commit by its SHA.
      * @param sha The sha of the Commit.
      * @return Commit
      */
-    @NotNull(message = "commit is never NULL")
-    Commit get(@NotNull(message = "sha can't be null") String sha);
+    Commit get(String sha);
 
     /**
      * Return a Statuses object for a given ref (sha, branch name, etc).
@@ -77,6 +71,5 @@ public interface Commits {
      * @since 0.23
      * @return Status
      */
-    @NotNull(message = "statuses is never NULL")
-    Statuses statuses(@NotNull(message = "sha can't be NULL") final String ref);
+    Statuses statuses(final String ref);
 }

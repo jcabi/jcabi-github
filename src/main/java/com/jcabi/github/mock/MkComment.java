@@ -36,7 +36,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -89,9 +88,9 @@ final class MkComment implements Comment {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkComment(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int issue,
         final int number
     ) {
@@ -103,7 +102,6 @@ final class MkComment implements Comment {
     }
 
     @Override
-    @NotNull(message = "Issue is never NULL")
     public Issue issue() {
         return new MkIssue(this.storage, this.self, this.repo, this.ticket);
     }
@@ -122,20 +120,19 @@ final class MkComment implements Comment {
 
     @Override
     public int compareTo(
-        @NotNull(message = "comment cannot be NULL") final Comment comment
+        final Comment comment
     ) {
         return this.number() - comment.number();
     }
 
     @Override
     public void patch(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -146,7 +143,6 @@ final class MkComment implements Comment {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

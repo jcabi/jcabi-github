@@ -35,7 +35,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -72,11 +71,8 @@ final class MkRepoCommit implements RepoCommit {
      * @param sha Commit SHA
      */
     MkRepoCommit(
-        @NotNull(message = "storage must not be NULL")
         final MkStorage stg,
-        @NotNull(message = "repo must not be null")
         final Repo repo,
-        @NotNull(message = "sha must not be NULL")
         final String sha) {
         this.storage = stg;
         this.repository = repo;
@@ -85,7 +81,7 @@ final class MkRepoCommit implements RepoCommit {
 
     @Override
     public int compareTo(
-        @NotNull(message = "other can't be NULL") final RepoCommit other
+        final RepoCommit other
     ) {
         return new CompareToBuilder().append(
             this.repo().coordinates(),
@@ -94,7 +90,6 @@ final class MkRepoCommit implements RepoCommit {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(
@@ -107,13 +102,11 @@ final class MkRepoCommit implements RepoCommit {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.repository;
     }
 
     @Override
-    @NotNull(message = "sha should no be NULL")
     public String sha() {
         return this.hash;
     }

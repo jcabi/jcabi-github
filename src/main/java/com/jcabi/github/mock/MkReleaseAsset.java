@@ -38,7 +38,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -90,9 +89,9 @@ final class MkReleaseAsset implements ReleaseAsset {
      * @checkstyle ParameterNumber (7 lines)
      */
     MkReleaseAsset(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int release,
         final int asset
     ) {
@@ -104,7 +103,6 @@ final class MkReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -113,13 +111,12 @@ final class MkReleaseAsset implements ReleaseAsset {
 
     @Override
     public void patch(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    @NotNull(message = "Release is never NULL")
     public Release release() {
         return new MkRelease(
             this.storage,
@@ -154,7 +151,6 @@ final class MkReleaseAsset implements ReleaseAsset {
      * @throws IOException If some problem inside.
      */
     @Override
-    @NotNull(message = "Input stream is never NULL")
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             DatatypeConverter.parseBase64Binary(
@@ -169,7 +165,6 @@ final class MkReleaseAsset implements ReleaseAsset {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

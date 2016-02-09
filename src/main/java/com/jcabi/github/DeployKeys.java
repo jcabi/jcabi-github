@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github deploy keys.
@@ -48,7 +47,6 @@ public interface DeployKeys {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -56,7 +54,6 @@ public interface DeployKeys {
      * @return Iterator of deploy keys
      * @see <a href="http://developer.github.com/v3/repos/keys/#list">List</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<DeployKey> iterate();
 
     /**
@@ -65,7 +62,6 @@ public interface DeployKeys {
      * @return Deploy key
      * @see <a href="http://developer.github.com/v3/repos/keys/#get">Get a deploy key</a>
      */
-    @NotNull(message = "deploy key is never NULL")
     DeployKey get(int number);
 
     /**
@@ -76,10 +72,6 @@ public interface DeployKeys {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
      */
-    @NotNull(message = "deploy key is never NULL")
-    DeployKey create(
-        @NotNull(message = "title can't be NULL") String title,
-        @NotNull(message = "key can't be NULL") String key
-    ) throws IOException;
+    DeployKey create(String title, String key) throws IOException;
 
 }

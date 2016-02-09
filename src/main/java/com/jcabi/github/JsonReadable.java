@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * JSON readable.
@@ -49,7 +48,6 @@ public interface JsonReadable {
      * @return JSON object
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;
 
 }

@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -54,7 +53,6 @@ public interface Status extends JsonReadable {
      * Associated commit.
      * @return Commit
      */
-    @NotNull(message = "commit is never NULL")
     Commit commit();
 
     /**
@@ -67,7 +65,6 @@ public interface Status extends JsonReadable {
      * Get its URL.
      * @return URL
      */
-    @NotNull(message = "url is never NULL")
     String url();
 
     /**
@@ -103,14 +100,12 @@ public interface Status extends JsonReadable {
          * @param stat Commit status state identifier string
          */
         State(
-            @NotNull(message = "stat can't be NULL")
             final String stat
         ) {
             this.state = stat;
         }
 
         @Override
-        @NotNull(message = "identifier is never NULL")
         public String identifier() {
             return this.state;
         }
@@ -120,9 +115,7 @@ public interface Status extends JsonReadable {
          * @param ident Commit status state string
          * @return Corresponding State
          */
-        @NotNull(message = "state is never NULL")
         public static State forValue(
-            @NotNull(message = "ident is never NULL")
             final String ident
         ) {
             return State.valueOf(ident.toUpperCase(Locale.ENGLISH));
@@ -154,7 +147,6 @@ public interface Status extends JsonReadable {
          * @param stat Status
          */
         public Smart(
-            @NotNull(message = "status can't be NULL")
             final Status stat
         ) {
             this.status = stat;
@@ -166,7 +158,6 @@ public interface Status extends JsonReadable {
          * @return State as enum
          * @throws IOException If there is an I/O problem
          */
-        @NotNull(message = "state is never NULL")
         public State state() throws IOException {
             return State.forValue(this.jsn.text("state"));
         }
@@ -196,7 +187,6 @@ public interface Status extends JsonReadable {
          * @return Context as string
          * @throws IOException If there is an I/O problem
          */
-        @NotNull(message = "context is never NULL")
         public String context() throws IOException {
             return this.jsn.text("context");
         }
@@ -206,7 +196,6 @@ public interface Status extends JsonReadable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "creation date is never NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -222,7 +211,6 @@ public interface Status extends JsonReadable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "updated date is never NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -238,7 +226,6 @@ public interface Status extends JsonReadable {
          * @return Creator of the commit status
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "creator is never NULL")
         public User creator() throws IOException {
             return this.status.commit().repo().github()
                 .users()
@@ -255,19 +242,16 @@ public interface Status extends JsonReadable {
         }
 
         @Override
-        @NotNull(message = "url is never NULL")
         public String url() {
             return this.status.url();
         }
 
         @Override
-        @NotNull(message = "commit is never NULL")
         public Commit commit() {
             return this.status.commit();
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.status.json();
         }

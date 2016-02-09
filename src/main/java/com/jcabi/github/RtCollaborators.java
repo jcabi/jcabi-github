@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -86,14 +85,13 @@ final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
     public boolean isCollaborator(
-        @NotNull(message = "User is never null") final String user)
+        final String user)
         throws IOException {
         return this.request
             .method(Request.GET)
@@ -110,7 +108,7 @@ final class RtCollaborators implements Collaborators {
 
     @Override
     public void add(
-        @NotNull(message = "User is never null") final String user)
+        final String user)
         throws IOException {
         this.request.method(Request.PUT)
             .uri().path(user).back()
@@ -121,7 +119,7 @@ final class RtCollaborators implements Collaborators {
 
     @Override
     public void remove(
-        @NotNull(message = "user is never NULL") final String user
+        final String user
     )
         throws IOException {
         this.request.method(Request.DELETE)
@@ -132,7 +130,6 @@ final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    @NotNull(message = "iterable of users is never NULL")
     public Iterable<User> iterate() {
         return new RtPagination<User>(
             this.request,

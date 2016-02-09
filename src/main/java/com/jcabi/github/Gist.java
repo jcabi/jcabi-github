@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,14 +55,12 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * Github we're in.
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
      * Get gist identifier.
      * @return Gist identifier
      */
-    @NotNull(message = "Identifier is never NULL")
     String identifier();
 
     /**
@@ -73,9 +70,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
-    @NotNull(message = "file content is never NULL")
-    String read(@NotNull(message = "file name can't be NULL") String name)
-        throws IOException;
+    String read(String name) throws IOException;
 
     /**
      * Write file content.
@@ -84,10 +79,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/#edit-a-gist">Edit a Gist</a>
      */
-    void write(
-        @NotNull(message = "file name can't be NULL") String name,
-        @NotNull(message = "file content can't be NULL") String content)
-        throws IOException;
+    void write(String name, String content) throws IOException;
 
     /**
      * Star a gist.
@@ -113,7 +105,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @return Forked gist
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "gist is never NULL")
     Gist fork() throws IOException;
 
     /**
@@ -122,7 +113,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
      */
-    @NotNull(message = "comments are never NULL")
     GistComments comments() throws IOException;
 
     /**
@@ -141,7 +131,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param gst Gist
          */
-        public Smart(@NotNull(message = "gst can't be NULL") final Gist gst) {
+        public Smart(final Gist gst) {
             this.gist = gst;
         }
 
@@ -150,7 +140,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * @return Gist id
          */
         @Override
-        @NotNull(message = "identifier is never NULL")
         public String identifier() {
             return this.gist.identifier();
         }
@@ -160,7 +149,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * @return File names
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "Iterable of files is never NULL")
         public Iterable<String> files() throws IOException {
             final JsonObject array = this.gist.json().getJsonObject("files");
             final Collection<String> files =
@@ -171,22 +159,16 @@ public interface Gist extends JsonReadable, JsonPatchable {
             return files;
         }
         @Override
-        @NotNull(message = "Github is never NULL")
         public Github github() {
             return this.gist.github();
         }
         @Override
-        @NotNull(message = "read is never NULL")
-        public String read(
-            @NotNull(message = "name can't be NULL") final String name
-        ) throws IOException {
+        public String read(final String name) throws IOException {
             return this.gist.read(name);
         }
         @Override
-        public void write(
-            @NotNull(message = "name can't be NULL") final String name,
-            @NotNull(message = "content can't be NULL") final String content
-        ) throws IOException {
+        public void write(final String name, final String content)
+            throws IOException {
             this.gist.write(name, content);
         }
 
@@ -206,27 +188,22 @@ public interface Gist extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        @NotNull(message = "fork is never NULL")
         public Gist fork() throws IOException {
             return this.gist.fork();
         }
 
         @Override
-        @NotNull(message = "gist comments is never NULL")
         public GistComments comments() throws IOException {
             return this.gist.comments();
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.gist.json();
         }
 
         @Override
-        public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.gist.patch(json);
         }
     }

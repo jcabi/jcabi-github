@@ -38,7 +38,6 @@ import com.jcabi.github.User;
 import com.jcabi.github.UserOrganizations;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -76,8 +75,8 @@ final class MkUserOrganizations implements UserOrganizations {
      * @throws IOException If there is any I/O problem
      */
     MkUserOrganizations(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     )
         throws IOException {
         this.storage = stg;
@@ -88,13 +87,11 @@ final class MkUserOrganizations implements UserOrganizations {
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "User is never NULL")
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
@@ -104,7 +101,6 @@ final class MkUserOrganizations implements UserOrganizations {
     }
 
     @Override
-    @NotNull(message = "Iterable of orgs is never NULL")
     public Iterable<Organization> iterate() throws IOException {
         return new MkIterable<Organization>(
             this.storage,

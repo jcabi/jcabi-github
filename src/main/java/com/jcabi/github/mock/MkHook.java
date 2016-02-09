@@ -36,7 +36,6 @@ import com.jcabi.github.Hook;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -81,9 +80,9 @@ final class MkHook implements Hook {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkHook(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
         final int number) {
         this.storage = stg;
         this.self = login;
@@ -91,7 +90,6 @@ final class MkHook implements Hook {
         this.num = number;
     }
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -100,7 +98,6 @@ final class MkHook implements Hook {
         return this.num;
     }
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         throw new UnsupportedOperationException("#json()");
     }

@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -67,7 +66,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
      * Pull we're in.
      * @return Pull
      */
-    @NotNull(message = "pull is never NULL")
     Pull pull();
 
     /**
@@ -120,7 +118,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @param pcomment Pull comment
          */
         public Smart(
-            @NotNull(message = "pull comment is never NULL")
             final PullComment pcomment
         ) {
             this.cmnt = pcomment;
@@ -132,7 +129,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @return Id of pull comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "identifier is never NULL")
         public String identifier() throws IOException {
             return this.jsn.text(ID);
         }
@@ -143,7 +139,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void identifier(
-            @NotNull(message = "value cannot be NULL") final String value
+            final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(ID, value).build()
@@ -155,7 +151,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @return Commit id of pull comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "commit id is never NULL")
         public String commitId() throws IOException {
             return this.jsn.text(COMMIT_ID);
         }
@@ -166,7 +161,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void commitId(
-            @NotNull(message = "value shouldn't be NULL") final String value
+            final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(COMMIT_ID, value).build()
@@ -178,7 +173,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @return Url of pull comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public String url() throws IOException {
             return this.jsn.text(URL);
         }
@@ -188,7 +182,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @return Reply id of pull comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL is never NULL")
         public int reply() throws IOException {
             return this.jsn.number("in_reply_to");
         }
@@ -199,7 +192,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void url(
-            @NotNull(message = "value is never NULL") final String value
+            final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(URL, value).build()
@@ -211,7 +204,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @return Url of pull comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "body is never NULL")
         public String body() throws IOException {
             return this.jsn.text(BODY);
         }
@@ -222,7 +214,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public void body(
-            @NotNull(message = "value can't be NULL") final String value
+            final String value
         ) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(BODY, value).build()
@@ -230,7 +222,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         }
 
         @Override
-        @NotNull(message = "pull is never NULL")
         public Pull pull() {
             return this.cmnt.pull();
         }
@@ -242,7 +233,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         @Override
         public int compareTo(
-            @NotNull(message = "comment can't be NULL")
             final PullComment comment
         ) {
             return this.cmnt.compareTo(comment);
@@ -250,13 +240,12 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         @Override
         public void patch(
-            @NotNull(message = "JSON is never NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.cmnt.patch(json);
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.cmnt.json();
         }
@@ -266,7 +255,6 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @return Pull comment author
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "Comment author is never NULL")
         public String author() throws IOException {
             return this.json().getJsonObject("user")
                 .getString("login");

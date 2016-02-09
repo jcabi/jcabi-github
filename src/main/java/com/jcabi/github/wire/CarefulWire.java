@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -94,22 +93,18 @@ public final class CarefulWire implements Wire {
      * @param thrshld Threshold of number of remaining requests, below which
      *  requests are blocked until reset
      */
-    public CarefulWire(@NotNull(message = "wire can't be NULL")
-        final Wire wire, final int thrshld) {
+    public CarefulWire(final Wire wire, final int thrshld) {
         this.origin = wire;
         this.threshold = thrshld;
     }
 
     @Override
-    @NotNull(message = "response can't be NULL")
     // @checkstyle ParameterNumber (8 lines)
     public Response send(
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "home can't be NULL") final String home,
-        @NotNull(message = "method can't be NULL")final String method,
-        @NotNull(message = "headers can't be NULL")
+        final Request req,
+        final String home,
+        final String method,
         final Collection<Map.Entry<String, String>> headers,
-        @NotNull(message = "content can't be NULL")
         final InputStream content,
         final int connect, final int read
     ) throws IOException {
@@ -147,9 +142,7 @@ public final class CarefulWire implements Wire {
      * @return The value of the first header with the given name, or null.
      */
     private String headerOrNull(
-        @NotNull(message = "response can't be NULL")
         final Response resp,
-        @NotNull(message = "header name can't be NULL")
         final String headername) {
         final List<String> values = resp.headers().get(headername);
         String value = null;
@@ -166,7 +159,6 @@ public final class CarefulWire implements Wire {
      * @return Number of requests remaining before the rate limit will be hit
      */
     private int remainingHeader(
-        @NotNull(message = "response can't be NULL")
         final Response resp) {
         final String remainingstr = this.headerOrNull(
             resp,
@@ -186,7 +178,6 @@ public final class CarefulWire implements Wire {
      * @return Timestamp (in seconds) at which the rate limit will reset
      */
     private long resetHeader(
-        @NotNull(message = "response can't be NULL")
         final Response resp) {
         final String resetstr = this.headerOrNull(resp, "X-RateLimit-Reset");
         long reset = 0;

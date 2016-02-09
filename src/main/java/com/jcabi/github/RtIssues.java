@@ -42,7 +42,6 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -91,28 +90,24 @@ final class RtIssues implements Issues {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Issue is never NULL")
     public Issue get(final int number) {
         return new RtIssue(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "Issue is never NULL")
     public Issue create(
-        @NotNull(message = "title can't be NULL") final String title,
-        @NotNull(message = "body can't be NULL")final String body)
+        final String title,
+        final String body)
         throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("title", title)
@@ -129,9 +124,7 @@ final class RtIssues implements Issues {
     }
 
     @Override
-    @NotNull(message = "Iterable of issues is never NULL")
     public Iterable<Issue> iterate(
-        @NotNull(message = "map or params can't be NULL")
         final Map<String, String> params) {
         return new RtPagination<Issue>(
             this.request.uri().queryParams(params).back(),
@@ -145,13 +138,10 @@ final class RtIssues implements Issues {
     }
 
     @Override
-    @NotNull(message = "Iterable of issues is never NULL")
     @SuppressWarnings("PMD.UseConcurrentHashMap")
     public Iterable<Issue> search(
-        @NotNull(message = "Sort field can't be NULL") final Sort sort,
-        @NotNull(message = "Sort direction can't be NULL")
+        final Sort sort,
         final Search.Order direction,
-        @NotNull(message = "Search qualifiers can't be NULL")
         final EnumMap<Qualifier, String> qualifiers)
         throws IOException {
         final Map<String, String> params = new HashMap<String, String>();

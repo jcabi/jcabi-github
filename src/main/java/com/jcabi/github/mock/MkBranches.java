@@ -37,7 +37,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -82,9 +81,9 @@ public final class MkBranches implements Branches {
      * @throws IOException If there is any I/O problem
      */
     MkBranches(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -100,13 +99,11 @@ public final class MkBranches implements Branches {
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "Iterable of branches is never NULL")
     public Iterable<Branch> iterate() {
         return new MkIterable<Branch>(
             this.storage,
@@ -133,10 +130,9 @@ public final class MkBranches implements Branches {
      * @return New branch
      * @throws IOException if there is an I/O problem
      */
-    @NotNull(message = "new branch is never NULL")
     public Branch create(
-        @NotNull(message = "name cannot be NULL") final String name,
-        @NotNull(message = "sha cannot be NULL") final String sha)
+        final String name,
+        final String sha)
         throws IOException {
         final Directives directives = new Directives()
             .xpath(this.xpath())
@@ -153,9 +149,7 @@ public final class MkBranches implements Branches {
      * @return The branch with the given name
      * @throws IOException If there is an I/O problem
      */
-    @NotNull(message = "branch is never NULL")
     public Branch get(
-        @NotNull(message = "name cannot be NULL")
         final String name
     ) throws IOException {
         return new MkBranch(
@@ -181,7 +175,6 @@ public final class MkBranches implements Branches {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/branches",

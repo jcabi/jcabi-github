@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -88,19 +87,16 @@ public final class RtBranch implements Branch {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "name is never NULL")
     public String name() {
         return this.nam;
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public Commit commit() {
         return new RtCommit(this.entry, this.owner, this.hash);
     }

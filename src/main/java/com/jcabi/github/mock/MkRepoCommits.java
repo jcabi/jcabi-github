@@ -39,7 +39,6 @@ import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
@@ -79,9 +78,9 @@ final class MkRepoCommits implements RepoCommits {
      * @throws IOException If something goes wrong.
      */
     MkRepoCommits(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL")  final String login,
-        @NotNull(message = "repo can't be NULL")final Coordinates repo
+        final MkStorage stg,
+        final String login,
+        final Coordinates repo
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -94,9 +93,7 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "Iterable of commits can't be NULL")
     public Iterable<RepoCommit> iterate(
-        @NotNull(message = "params can't be NULL")
         final Map<String, String> params
     ) {
         return new MkIterable<RepoCommit>(
@@ -113,9 +110,8 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "repocommit can't be NULL")
     public RepoCommit get(
-        @NotNull(message = "sha shouldn't be NULL") final String sha
+        final String sha
     ) {
         return new MkRepoCommit(
             this.storage, new MkRepo(this.storage, this.self, this.coords), sha
@@ -123,19 +119,17 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "comparison is never NULL")
     public CommitsComparison compare(
-        @NotNull(message = "base can't be NULL") final String base,
-        @NotNull(message = "head can't be NULL") final String head
+        final String base,
+        final String head
     ) {
         return new MkCommitsComparison(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "diff is never NULL")
     public String diff(
-        @NotNull(message = "base should not be NULL") final String base,
-        @NotNull(message = "head should not be NULL") final String head
+        final String base,
+        final String head
     ) {
         return
         String.format(
@@ -146,10 +140,9 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "patch is never NULL")
     public String patch(
-        @NotNull(message = "base shouldn't be NULL") final String base,
-        @NotNull(message = "head shouldn't be NULL") final String head
+        final String base,
+        final String head
     ) {
         return StringUtils.join(
             String.format("From %s Mon Sep 17 00:00:00 2001\n", head),
@@ -178,7 +171,6 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -189,7 +181,6 @@ final class MkRepoCommits implements RepoCommits {
      * Xpath of this element in XML tree.
      * @return Xpath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/commits",

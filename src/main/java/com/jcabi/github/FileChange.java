@@ -35,7 +35,6 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.util.Locale;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -76,12 +75,11 @@ public interface FileChange extends JsonReadable {
          * Ctor.
          * @param stat File status string.
          */
-        Status(@NotNull(message = "stat can't be NULL") final String stat) {
+        Status(final String stat) {
             this.status = stat;
         }
 
         @Override
-        @NotNull(message = "identifier is never NULL")
         public String identifier() {
             return this.status;
         }
@@ -118,10 +116,7 @@ public interface FileChange extends JsonReadable {
          * Public ctor.
          * @param chng File change
          */
-        public Smart(
-            @NotNull(message = "chng can't be NULL")
-            final FileChange chng
-        ) {
+        public Smart(final FileChange chng) {
             this.change = chng;
             this.jsn = new SmartJson(chng);
         }
@@ -131,7 +126,6 @@ public interface FileChange extends JsonReadable {
          * @return SHA
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "commit SHA is never NULL")
         public String sha() throws IOException {
             return this.jsn.text("sha");
         }
@@ -143,7 +137,6 @@ public interface FileChange extends JsonReadable {
          * @return Filename
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "filename is never NULL")
         public String filename() throws IOException {
             return this.jsn.text("filename");
         }
@@ -153,7 +146,6 @@ public interface FileChange extends JsonReadable {
          * @return File status
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "status is never NULL")
         public FileChange.Status status() throws IOException {
             return FileChange.Status.forValue(this.jsn.text("status"));
         }
@@ -192,7 +184,6 @@ public interface FileChange extends JsonReadable {
          * @return Diff string
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "optional itself is never NULL")
         public Optional<String> patch() throws IOException {
             return Optional.fromNullable(this.json().getString("patch", null));
         }
@@ -202,7 +193,6 @@ public interface FileChange extends JsonReadable {
          * @return URL
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "raw url is never NULL")
         public String rawUrl() throws IOException {
             return this.jsn.text("raw_url");
         }
@@ -212,7 +202,6 @@ public interface FileChange extends JsonReadable {
          * @return URL
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "blob url is never NULL")
         public String blobUrl() throws IOException {
             return this.jsn.text("blob_url");
         }
@@ -222,13 +211,11 @@ public interface FileChange extends JsonReadable {
          * @return URL
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "contents url is never NULL")
         public String contentsUrl() throws IOException {
             return this.jsn.text("contents_url");
         }
 
         @Override
-        @NotNull(message = "json is never NULL")
         public JsonObject json() throws IOException {
             return this.change.json();
         }

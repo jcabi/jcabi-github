@@ -38,7 +38,6 @@ import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.List;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
@@ -81,9 +80,9 @@ final class MkGist implements Gist {
      * @checkstyle ParameterNumber (5 lines)
      */
     MkGist(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "name can't be NULL") final String name
+        final MkStorage stg,
+        final String login,
+        final String name
     ) {
         this.storage = stg;
         this.self = login;
@@ -91,21 +90,18 @@ final class MkGist implements Gist {
     }
 
     @Override
-    @NotNull(message = "github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "itentifier is never NULL")
     public String identifier() {
         return this.gist;
     }
 
     @Override
-    @NotNull(message = "content of file is never NULL")
     public String read(
-        @NotNull(message = "file can't be NULL") final String file
+        final String file
     ) throws IOException {
         final List<XML> files = this.storage.xml().nodes(
             String.format(
@@ -129,8 +125,8 @@ final class MkGist implements Gist {
 
     @Override
     public void write(
-        @NotNull(message = "file should not be NULL") final String file,
-        @NotNull(message = "content should nto be NULL") final String content
+        final String file,
+        final String content
     )
         throws IOException {
         this.storage.apply(
@@ -194,7 +190,6 @@ final class MkGist implements Gist {
     }
 
     @Override
-    @NotNull(message = "Gist is never NULL")
     public Gist fork() throws IOException {
         this.storage.lock();
         final String number;
@@ -225,13 +220,11 @@ final class MkGist implements Gist {
     }
 
     @Override
-    @NotNull(message = "comments is never NULL")
     public GistComments comments() throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -240,7 +233,7 @@ final class MkGist implements Gist {
 
     @Override
     public void patch(
-        @NotNull(message = "json can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
@@ -249,7 +242,6 @@ final class MkGist implements Gist {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/gists/gist[id='%s']",

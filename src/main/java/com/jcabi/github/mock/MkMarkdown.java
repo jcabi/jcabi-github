@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.Markdown;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.ToString;
 
 /**
@@ -62,23 +61,20 @@ public final class MkMarkdown implements Markdown {
     }
 
     @Override
-    @NotNull(message = "Github can't be NULL")
     public Github github() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Rendered string can't be NULL")
     public String render(
-        @NotNull(message = "JSON can't be NULL") final JsonObject json
+        final JsonObject json
     ) {
         return json.getString("text");
     }
 
     @Override
-    @NotNull(message = "Rendered string can't be NULL")
     public String raw(
-        @NotNull(message = "Markdown can't be NULL") final String text
+        final String text
     ) {
         return text;
     }

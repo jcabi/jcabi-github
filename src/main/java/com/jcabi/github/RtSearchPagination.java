@@ -46,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -93,7 +92,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
     }
 
     @Override
-    @NotNull(message = "Iterator is never NULL")
     public Iterator<T> iterator() {
         return new RtPagination<T>(
             new RtSearchPagination.SearchRequest(this.request),
@@ -114,37 +112,27 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Ctor.
          * @param req Request to wrap
          */
-        SearchRequest(@NotNull(message = "request can't be NULL")
-            final Request req) {
+        SearchRequest(final Request req) {
             this.request = req;
         }
         @Override
-        @NotNull(message = "Request isn't ever NULL")
         public RequestURI uri() {
             return new SearchURI(this.request.uri());
         }
         @Override
-        @NotNull(message = "body is never NULL")
         public RequestBody body() {
             return this.request.body();
         }
         @Override
-        @NotNull(message = "header is nerver NULL")
-        public Request header(@NotNull(message = "header name can't be NULL")
-            final String name, @NotNull(message = "header value can't be NULL")
-            final Object value) {
+        public Request header(final String name, final Object value) {
             return new SearchRequest(this.request.header(name, value));
         }
         @Override
-        @NotNull(message = "Request is nerver NULL")
-        public Request reset(@NotNull(message = "header name can't be NULL")
-            final String name) {
+        public Request reset(final String name) {
             return new SearchRequest(this.request.reset(name));
         }
         @Override
-        @NotNull(message = "Request is never NULL")
-        public Request method(@NotNull(message = "method can't be NULL")
-            final String method) {
+        public Request method(final String method) {
             return new SearchRequest(this.request.method(method));
         }
         @Override
@@ -158,7 +146,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * @throws IOException If any I/O problem occurs
          */
         @Override
-        @NotNull(message = "Response is never NULL")
         public Response fetch() throws IOException {
             return new RtSearchPagination.Hidden(this.request.fetch());
         }
@@ -167,7 +154,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
             return new RtSearchPagination.Hidden(this.request.fetch(stream));
         }
         @Override
-        @NotNull(message = "Request should never be NULL")
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
             return new SearchRequest(this.request.through(type, args));
@@ -191,7 +177,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
             this.response = resp;
         }
         @Override
-        @NotNull(message = "Request cannot be NULL")
         public Request back() {
             return new SearchRequest(this.response.back());
         }
@@ -200,17 +185,14 @@ final class RtSearchPagination<T> implements Iterable<T> {
             return this.response.status();
         }
         @Override
-        @NotNull(message = "reason is never NULL")
         public String reason() {
             return this.response.reason();
         }
         @Override
-        @NotNull(message = "headers is never NULL")
         public Map<String, List<String>> headers() {
             return this.response.headers();
         }
         @Override
-        @NotNull(message = "body is never NULL")
         public String body() {
             return Json.createReader(new StringReader(this.response.body()))
                 .readObject().getJsonArray("items").toString();
@@ -226,7 +208,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
         // @checkstyle MethodName (4 lines)
         @Override
         @SuppressWarnings("PMD.ShortMethodName")
-        @NotNull(message = "T is never NULL")
         public <T extends Response> T as(final Class<T> type) {
             try {
                 return type.getDeclaredConstructor(Response.class)

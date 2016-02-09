@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Tags.
@@ -49,7 +48,6 @@ public interface Tags {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -58,9 +56,8 @@ public interface Tags {
      * @return Tag
      * @throws IOException - If anything goes wrong.
      */
-    @NotNull(message = "tag is never NULL")
     Tag create(
-        @NotNull(message = "params can't be null") JsonObject params
+        JsonObject params
     ) throws IOException;
 
     /**
@@ -68,7 +65,6 @@ public interface Tags {
      * @param sha The sha of the Tag.
      * @return Tag
      */
-    @NotNull(message = "tag is never NULL")
-    Tag get(@NotNull(message = "sha can't be null") String sha);
+    Tag get(String sha);
 
 }

@@ -37,7 +37,6 @@ import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -64,7 +63,7 @@ final class SmartJson {
      * Public ctor.
      * @param obj Readable object
      */
-    SmartJson(@NotNull(message = "obj can't be NULL") final JsonReadable obj) {
+    SmartJson(final JsonReadable obj) {
         this.object = obj;
     }
 
@@ -74,9 +73,8 @@ final class SmartJson {
      * @return Value
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "text is never NULL")
     public String text(
-        @NotNull(message = "name can't be NULL") final String name
+        final String name
     ) throws IOException {
         return this.value(name, JsonString.class).getString();
     }
@@ -88,7 +86,7 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      */
     public int number(
-        @NotNull(message = "name can't be NULL") final String name
+        final String name
     ) throws IOException {
         return this.value(name, JsonNumber.class).intValue();
     }
@@ -99,7 +97,6 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      * @since 0.14
      */
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return this.object.json();
     }
@@ -112,10 +109,9 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      * @param <T> Type expected
      */
-    @NotNull(message = "T is never NULL")
     public <T> T value(
-        @NotNull(message = "name can't be NULL") final String name,
-        @NotNull(message = "type can't be NULL") final Class<T> type
+        final String name,
+        final Class<T> type
     ) throws IOException {
         final JsonObject json = this.json();
         if (!json.containsKey(name)) {
@@ -152,7 +148,7 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      */
     public boolean hasNotNull(
-        @NotNull(message = "name can't be NULL") final String name
+        final String name
     ) throws IOException {
         final JsonValue value = this.object.json().get(name);
         return value != null

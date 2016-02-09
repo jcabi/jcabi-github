@@ -41,7 +41,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -87,13 +86,11 @@ final class RtHooks implements Hooks {
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "iterable of hooks is never NULL")
     public Iterable<Hook> iterate() {
         return new RtPagination<Hook>(
             this.request,
@@ -117,16 +114,13 @@ final class RtHooks implements Hooks {
     }
 
     @Override
-    @NotNull(message = "Hook is never NULL")
     public Hook get(final int number) {
         return new RtHook(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "Hook is never NULL")
     public Hook create(
-        @NotNull(message = "name can't be NULL") final String name,
-        @NotNull(message = "config can't be NULL")
+        final String name,
         final Map<String, String> config,
         final boolean active
     ) throws IOException {

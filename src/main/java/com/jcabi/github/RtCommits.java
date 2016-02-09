@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -70,8 +69,8 @@ public final class RtCommits implements Commits {
      * @param repo The owner repo.
      */
     RtCommits(
-        @NotNull(message = "req can't be NULL") final Request req,
-        @NotNull(message = "repo can't be NULL") final Repo repo
+        final Request req,
+        final Repo repo
     ) {
         this.entry = req;
         this.owner = repo;
@@ -82,15 +81,13 @@ public final class RtCommits implements Commits {
     }
 
     @Override
-    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "tag is never NULL")
     public Commit create(
-        @NotNull(message = "params can't be NULL") final JsonObject params
+        final JsonObject params
     ) throws IOException {
         return this.get(
             this.request.method(Request.POST)
@@ -103,17 +100,15 @@ public final class RtCommits implements Commits {
     }
 
     @Override
-    @NotNull(message = "tag is never NULL")
     public Commit get(
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String sha
     ) {
         return new RtCommit(this.entry, this.owner, sha);
     }
 
     @Override
-    @NotNull(message = "statuses is never NULL")
     public Statuses statuses(
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String ref
     ) {
         return new RtStatuses(this.entry, this.get(ref));
     }

@@ -40,7 +40,6 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -89,21 +88,17 @@ final class RtPullComments implements PullComments {
     }
 
     @Override
-    @NotNull(message = "Pull is never NUll")
     public Pull pull() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "PullComment is never NULL")
     public PullComment get(final int number) {
         return new RtPullComment(this.entry, this.owner, number);
     }
 
     @Override
-    @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(
-        @NotNull(message = "params can't be NULL")
         final Map<String, String> params
     ) {
         return new RtPagination<PullComment>(
@@ -121,10 +116,8 @@ final class RtPullComments implements PullComments {
     }
 
     @Override
-    @NotNull(message = "Iterable of pull comments is never NULL")
     public Iterable<PullComment> iterate(
-        @NotNull(message = "number can't be NULL") final int number,
-        @NotNull(message = "params can't be NULL")
+        final int number,
         final Map<String, String> params) {
         final Request newreq = this.entry.uri()
             .path("/repos")
@@ -149,11 +142,10 @@ final class RtPullComments implements PullComments {
 
     // @checkstyle ParameterNumberCheck (7 lines)
     @Override
-    @NotNull(message = "PullComment is never NULL")
     public PullComment post(
-        @NotNull(message = "body can't be NULL") final String body,
-        @NotNull(message = "commit can't be NULL") final String commit,
-        @NotNull(message = "path can't be NULL") final String path,
+        final String body,
+        final String commit,
+        final String path,
         final int position
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
@@ -175,10 +167,9 @@ final class RtPullComments implements PullComments {
     }
 
     @Override
-    @NotNull(message = "pull comment is never NULL")
     public PullComment reply(
-        @NotNull(message = "text can't be NULL") final String body,
-        @NotNull(message = "comment can't be NULL") final int comment
+        final String body,
+        final int comment
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("body", body)

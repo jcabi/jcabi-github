@@ -35,7 +35,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -89,9 +88,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
      * @checkstyle AnonInnerLength (50 lines)
      */
     @SuppressWarnings("unchecked")
-    public Bulk(
-        @NotNull(message = "items can't be NULL") final Iterable<T> items
-    ) {
+    public Bulk(final Iterable<T> items) {
         if (items instanceof RtPagination) {
             final RtPagination<T> page = RtPagination.class.cast(items);
             final RtValuePagination.Mapping<T, JsonObject> mapping =
@@ -144,7 +141,6 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
     }
 
     @Override
-    @NotNull(message = "iterator is never NULL")
     public Iterator<T> iterator() {
         return this.origin.iterator();
     }

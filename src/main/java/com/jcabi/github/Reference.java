@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Reference.
@@ -46,14 +45,12 @@ public interface Reference {
      * Return its owner repo.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
      * Return its name.
      * @return String
      */
-    @NotNull(message = "ref is never NULL")
     String ref();
 
     /**
@@ -61,7 +58,6 @@ public interface Reference {
      * @return JsonObject
      * @throws IOException - If something goes wrong.
      */
-    @NotNull(message = "JSON is never NULL")
     JsonObject json() throws IOException;
 
     /**
@@ -69,7 +65,7 @@ public interface Reference {
      * @param json JSON object
      * @throws IOException If there is any I/O problem
      */
-    void patch(@NotNull(message = "JSON is never null") JsonObject json)
+    void patch(JsonObject json)
         throws IOException;
 
 }

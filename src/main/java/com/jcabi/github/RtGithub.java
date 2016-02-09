@@ -37,7 +37,6 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.manifests.Manifests;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
@@ -116,8 +115,8 @@ public final class RtGithub implements Github {
      * @since 0.4
      */
     public RtGithub(
-        @NotNull(message = "user name can't be NULL") final String user,
-        @NotNull(message = "password can't be NULL") final String pwd) {
+        final String user,
+        final String pwd) {
         this(
             RtGithub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
@@ -137,7 +136,7 @@ public final class RtGithub implements Github {
      * @param token OAuth token
      */
     public RtGithub(
-        @NotNull(message = "token can't be NULL") final String token) {
+        final String token) {
         this(
             RtGithub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
@@ -152,54 +151,46 @@ public final class RtGithub implements Github {
      * @since 0.4
      */
     public RtGithub(
-        @NotNull(message = "request can't be NULL") final Request req) {
+        final Request req) {
         this.request = req;
     }
 
     @Override
-    @NotNull(message = "request can't be NULL")
     public Request entry() {
         return this.request;
     }
 
     @Override
-    @NotNull(message = "repos is never NULL")
     public Repos repos() {
         return new RtRepos(this, this.request);
     }
 
     @Override
-    @NotNull(message = "gists are never NULL")
     public Gists gists() {
         return new RtGists(this, this.request);
     }
 
     @Override
-    @NotNull(message = "users are never NULL")
     public Users users() {
         return new RtUsers(this, this.request);
     }
 
     @Override
-    @NotNull(message = "organizations is never NULL")
     public Organizations organizations() {
         return new RtOrganizations(this, this.request);
     }
 
     @Override
-    @NotNull(message = "limmits can't be NULL")
     public Limits limits() {
         return new RtLimits(this, this.request);
     }
 
     @Override
-    @NotNull(message = "search is never NULL")
     public Search search() {
         return new RtSearch(this, this.request);
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject meta() throws IOException {
         return this.request.uri().path("meta").back().fetch()
             .as(JsonResponse.class)
@@ -207,7 +198,6 @@ public final class RtGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject emojis() throws IOException {
         return this.request.uri().path("emojis").back().fetch()
             .as(JsonResponse.class)
@@ -215,13 +205,11 @@ public final class RtGithub implements Github {
     }
 
     @Override
-    @NotNull(message = "GitIgnores is never NULL")
     public Gitignores gitignores() throws IOException {
         return new RtGitignores(this);
     }
 
     @Override
-    @NotNull(message = "Markdown is never NULL")
     public Markdown markdown() {
         return new RtMarkdown(this, this.request);
     }

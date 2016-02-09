@@ -41,7 +41,6 @@ import java.net.URI;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -92,27 +91,22 @@ final class RtGist implements Gist {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "github can't be NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "identifier can't be NULL")
     public String identifier() {
         return this.gist;
     }
 
     @Override
-    @NotNull(message = "file content can't be NULL")
-    public String read(@NotNull(message = "file name can't be NULL")
-        final String file) throws IOException {
+    public String read(final String file) throws IOException {
         final Response response = this.request.fetch();
         final String url = response
             .as(RestResponse.class)
@@ -131,8 +125,8 @@ final class RtGist implements Gist {
 
     @Override
     public void write(
-        @NotNull(message = "file name can't be NULL") final String file,
-        @NotNull(message = "file content can't be NULL") final String content)
+        final String file,
+        final String content)
         throws IOException {
         final JsonObjectBuilder builder = Json.createObjectBuilder()
             .add("content", content);
@@ -171,7 +165,6 @@ final class RtGist implements Gist {
     }
 
     @Override
-    @NotNull(message = "Gist can't be NULL")
     public Gist fork() throws IOException {
         return new RtGist(
             this.ghub, this.entry,
@@ -185,20 +178,17 @@ final class RtGist implements Gist {
     }
 
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    @NotNull(message = "GistComments can't be NULL")
     public GistComments comments() throws IOException {
         return new RtGistComments(this.entry, this);
     }
 
     @Override
-    public void patch(@NotNull(message = "JSON can't be NULL")
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 }

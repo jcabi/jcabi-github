@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -72,7 +71,6 @@ public interface GistComment
      * The gist it's in.
      * @return Owner of the comment
      */
-    @NotNull(message = "Gist is never NULL")
     Gist gist();
 
     /**
@@ -109,9 +107,7 @@ public interface GistComment
          * Public ctor.
          * @param cmt Comment
          */
-        public Smart(
-            @NotNull(message = "cmt can't be NULL") final GistComment cmt
-        ) {
+        public Smart(final GistComment cmt) {
             this.comment = cmt;
             this.jsn = new SmartJson(cmt);
         }
@@ -121,7 +117,6 @@ public interface GistComment
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "user is never NULL")
         public User author() throws IOException {
             return this.comment.gist().github().users().get(
                 this.comment.json().getJsonObject("user").getString("login")
@@ -133,7 +128,6 @@ public interface GistComment
          * @return Body of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "body is never NULL")
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -143,9 +137,7 @@ public interface GistComment
          * @param text Body of comment
          * @throws IOException If there is any I/O problem
          */
-        public void body(
-            @NotNull(message = "text can't be NULL") final String text
-        ) throws IOException {
+        public void body(final String text) throws IOException {
             this.comment.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -156,7 +148,6 @@ public interface GistComment
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "URL can't be NULL")
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
@@ -166,7 +157,6 @@ public interface GistComment
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date can't be NULL")
         public Date createdAt() throws IOException {
             try {
                 return new Github.Time(
@@ -182,7 +172,6 @@ public interface GistComment
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "date can't be NULL")
         public Date updatedAt() throws IOException {
             try {
                 return new Github.Time(
@@ -194,7 +183,6 @@ public interface GistComment
         }
 
         @Override
-        @NotNull(message = "gist is never NULL")
         public Gist gist() {
             return this.comment.gist();
         }
@@ -210,21 +198,16 @@ public interface GistComment
         }
 
         @Override
-        public int compareTo(
-            @NotNull(message = "cmt can't be NULL") final GistComment cmt
-        ) {
+        public int compareTo(final GistComment cmt) {
             return this.comment.compareTo(cmt);
         }
 
         @Override
-        public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.comment.patch(json);
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.comment.json();
         }

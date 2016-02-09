@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -63,23 +62,21 @@ final class RtLimits implements Limits {
      * @param req Request
      */
     RtLimits(
-        @NotNull(message = "github can't be NULL") final Github github,
-        @NotNull(message = "req can't be NULL") final Request req
+        final Github github,
+        final Request req
     ) {
         this.entry = req.uri().path("rate_limit").back();
         this.ghub = github;
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "Limit is never NULL")
     public Limit get(
-        @NotNull(message = "resource can't be NULL") final String resource
+        final String resource
     ) {
         return new RtLimit(this.ghub, this.entry, resource);
     }

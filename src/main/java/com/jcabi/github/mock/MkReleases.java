@@ -38,7 +38,6 @@ import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -78,9 +77,9 @@ final class MkReleases implements Releases {
      * @throws IOException If there is any I/O problem
      */
     public MkReleases(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -96,13 +95,11 @@ final class MkReleases implements Releases {
     }
 
     @Override
-    @NotNull(message = "Repository is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "Iterable of releases is never NULL")
     public Iterable<Release> iterate() {
         return new MkIterable<Release>(
             this.storage,
@@ -119,15 +116,13 @@ final class MkReleases implements Releases {
     }
 
     @Override
-    @NotNull(message = "Release is never NULL")
     public Release get(final int number) {
         return new MkRelease(this.storage, this.self, this.coords, number);
     }
 
     @Override
-    @NotNull(message = "created release is never NULL")
     public Release create(
-        @NotNull(message = "tag can't be NULL") final String tag
+        final String tag
     ) throws IOException {
         this.storage.lock();
         final int number;
@@ -175,7 +170,6 @@ final class MkReleases implements Releases {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/releases",

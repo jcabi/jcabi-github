@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -63,9 +62,7 @@ public final class RtStatus implements Status {
      * @param obj Status JSON object
      */
     public RtStatus(
-        @NotNull(message = "commit can't be NULL")
         final Commit cmt,
-        @NotNull(message = "JSON can't be NULL")
         final JsonObject obj
     ) {
         this.cmmt = cmt;
@@ -73,7 +70,6 @@ public final class RtStatus implements Status {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() {
         return Json.createReader(new StringReader(this.jsn)).readObject();
     }
@@ -84,13 +80,11 @@ public final class RtStatus implements Status {
     }
 
     @Override
-    @NotNull(message = "URL is never NULL")
     public String url() {
         return this.json().getString("url");
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public Commit commit() {
         return this.cmmt;
     }

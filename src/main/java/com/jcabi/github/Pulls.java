@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github pull requests.
@@ -49,7 +48,6 @@ public interface Pulls {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -58,7 +56,6 @@ public interface Pulls {
      * @return Pull request
      * @see <a href="http://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
      */
-    @NotNull(message = "pull is never NULL")
     Pull get(int number);
 
     /**
@@ -70,11 +67,10 @@ public interface Pulls {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/pulls/#create-a-pull-request">Create a Pull Request</a>
      */
-    @NotNull(message = "pull is never NULL")
     Pull create(
-        @NotNull(message = "pull title is never NULL") String title,
-        @NotNull(message = "head is never NULL") String head,
-        @NotNull(message = "base is never NULL") String base)
+        String title,
+        String head,
+        String base)
         throws IOException;
 
     /**
@@ -83,8 +79,6 @@ public interface Pulls {
      * @return Iterator of issues
      * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
      */
-    @NotNull(message = "iterable is never NULL")
-    Iterable<Pull> iterate(@NotNull(message = "map of params can't be NULL")
-        Map<String, String> params);
+    Iterable<Pull> iterate(Map<String, String> params);
 
 }

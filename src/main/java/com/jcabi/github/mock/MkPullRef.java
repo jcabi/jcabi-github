@@ -37,7 +37,6 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -69,33 +68,29 @@ final class MkPullRef implements PullRef {
      * @param brnch Branch
      */
     MkPullRef(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "branch can't be NULL") final Branch brnch
+        final MkStorage stg,
+        final Branch brnch
     ) {
         this.storage = stg;
         this.branch = brnch;
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return this.branch.repo();
     }
 
     @Override
-    @NotNull(message = "ref is never NULL")
     public String ref() {
         return this.branch.name();
     }
 
     @Override
-    @NotNull(message = "sha is never NULL")
     public String sha() {
         return this.branch.commit().sha();
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         final String user = this.repo().coordinates().user();
         return Json.createObjectBuilder()

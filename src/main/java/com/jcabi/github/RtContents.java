@@ -39,7 +39,6 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -87,13 +86,11 @@ final class RtContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "Content can't be NULL")
     public Content readme() throws IOException {
         return new RtContent(
             this.entry, this.owner,
@@ -113,9 +110,8 @@ final class RtContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Content can't be NULL")
     public Content readme(
-        @NotNull(message = "branch can't be NULL") final String branch
+        final String branch
     ) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
             .add("ref", branch)
@@ -139,9 +135,8 @@ final class RtContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Content can't be NULL")
     public Content create(
-        @NotNull(message = "JSON can't be NULL") final JsonObject content
+        final JsonObject content
     )
         throws IOException {
         if (!content.containsKey("path")) {
@@ -164,27 +159,24 @@ final class RtContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Content can't be NULL")
     public Content get(
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String path,
+        final String ref
     ) throws IOException {
         return this.content(path, ref);
     }
 
     @Override
-    @NotNull(message = "Content can't be NULL")
     public Content get(
-        @NotNull(message = "path can't be NULL") final String path
+        final String path
     ) throws IOException {
         return this.content(path, "master");
     }
 
     @Override
-    @NotNull(message = "Iterable of Content can't be NULL")
     public Iterable<Content> iterate(
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "ref can't be NULL") final String ref
+        final String path,
+        final String ref
     ) {
         return new RtPagination<Content>(
             this.request.method(Request.GET)
@@ -202,9 +194,7 @@ final class RtContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "Repo commit is never NULL")
-    public RepoCommit remove(@NotNull(message = "content can't be NULL")
-        final JsonObject content
+    public RepoCommit remove(final JsonObject content
     )
         throws IOException {
         if (!content.containsKey("path")) {
@@ -227,10 +217,9 @@ final class RtContents implements Contents {
     }
 
     @Override
-    @NotNull(message = "RepoCommit can't be NULL")
     public RepoCommit update(
-        @NotNull(message = "path is never NULL") final String path,
-        @NotNull(message = "json is never NULL") final JsonObject json)
+        final String path,
+        final JsonObject json)
         throws IOException {
         return new RtRepoCommit(
             this.entry,

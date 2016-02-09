@@ -40,7 +40,6 @@ import java.security.SecureRandom;
 import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -84,8 +83,8 @@ public final class MkOrganization implements Organization {
      * @param login Username of organization
      */
     public MkOrganization(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) {
         this.storage = stg;
         this.self = login;
@@ -138,7 +137,6 @@ public final class MkOrganization implements Organization {
     }
 
     @Override
-    @NotNull(message = "public members is never NULL")
     public PublicMembers publicMembers() {
         return new MkPublicMembers(this.storage, this);
     }
@@ -171,7 +169,6 @@ public final class MkOrganization implements Organization {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format("/github/orgs/org[login='%s']", this.self);
     }

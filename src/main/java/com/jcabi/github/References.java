@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data References.
@@ -48,7 +47,6 @@ public interface References {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never null")
     Repo repo();
 
     /**
@@ -58,10 +56,9 @@ public interface References {
      * @return Reference - The newly created Reference
      * @throws IOException - If there are any errors.
      */
-    @NotNull(message = "reference is never null")
     Reference create(
-        @NotNull(message = "ref can't be NULL") String ref,
-        @NotNull(message = "sha can't be NULL") String sha
+        String ref,
+        String sha
     ) throws IOException;
 
     /**
@@ -69,16 +66,14 @@ public interface References {
      * @param identifier Reference's name.
      * @return Reference The reference with the given name
      */
-    @NotNull(message = "reference is never null")
     Reference get(
-        @NotNull(message = "identifier can't be null") String identifier
+        String identifier
     );
 
     /**
      * Iterates all references.
      * @return Iterator of references.
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Reference> iterate();
 
     /**
@@ -86,23 +81,20 @@ public interface References {
      * @param subnamespace Sub-namespace
      * @return Iterator of references.
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Reference> iterate(
-        @NotNull(message = "identifier can't be null") String subnamespace
+        String subnamespace
     );
 
     /**
      * Iterate references under "tags" sub-namespace.
      * @return Iterator of references.
      */
-    @NotNull(message = "iterable of tags is never NULL")
     Iterable<Reference> tags();
 
     /**
      * Iterate references under "heads" sub-namespace.
      * @return Iterator of references.
      */
-    @NotNull(message = "iterable of heads is never NULL")
     Iterable<Reference> heads();
 
     /**
@@ -111,6 +103,6 @@ public interface References {
      * @throws IOException If there is any I/O problem.
      */
     void remove(
-        @NotNull(message = "identifier can't be NULL") String identifier
+        String identifier
     ) throws IOException;
 }

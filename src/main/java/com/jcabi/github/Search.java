@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import java.util.EnumMap;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github search.
@@ -51,7 +50,6 @@ public interface Search {
      *
      * @return Github
      */
-    @NotNull(message = "Github is never NULL")
     Github github();
 
     /**
@@ -64,11 +62,10 @@ public interface Search {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-repositories">Search repositories</a>
      */
-    @NotNull(message = "Iterable of repos is never NULL")
     Iterable<Repo> repos(
-        @NotNull(message = "Search keywords can't be NULL") String keywords,
-        @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") Order order
+        String keywords,
+        String sort,
+        Order order
     ) throws IOException;
 
     /**
@@ -83,12 +80,10 @@ public interface Search {
      * @see <a href="http://developer.github.com/v3/search/#search-issues">Search issues</a>
      * @checkstyle ParameterNumberCheck (7 lines)
      */
-    @NotNull(message = "Iterable of issues is never NULL")
     Iterable<Issue> issues(
-        @NotNull(message = "Search keywords can't be NULL") String keywords,
-        @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") Order order,
-        @NotNull(message = "Search qualifiers can't be NULL")
+        String keywords,
+        String sort,
+        Order order,
         EnumMap<Qualifier, String> qualifiers)
         throws IOException;
 
@@ -102,11 +97,10 @@ public interface Search {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-users">Search users</a>
      */
-    @NotNull(message = "Iterable of users is never NULL")
     Iterable<User> users(
-        @NotNull(message = "Search keywords can't be NULL") String keywords,
-        @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") Order order)
+        String keywords,
+        String sort,
+        Order order)
         throws IOException;
 
     /**
@@ -119,11 +113,10 @@ public interface Search {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-code">Search code</a>
      */
-    @NotNull(message = "Iterable of users is never NULL")
     Iterable<Content> codes(
-        @NotNull(message = "Search keywords can't be NULL") String keywords,
-        @NotNull(message = "Sort field can't be NULL") String sort,
-        @NotNull(message = "Sort order can't be NULL") Order order)
+        String keywords,
+        String sort,
+        Order order)
         throws IOException;
 
     enum Qualifier implements StringEnum {
@@ -231,7 +224,6 @@ public interface Search {
          * @return String
          */
         @Override
-        @NotNull(message = "identifier string is never NULL")
         public String identifier() {
             return this.qualifier;
         }
@@ -265,7 +257,6 @@ public interface Search {
          * @return String
          */
         @Override
-        @NotNull(message = "identifier string is never NULL")
         public String identifier() {
             return this.order;
         }

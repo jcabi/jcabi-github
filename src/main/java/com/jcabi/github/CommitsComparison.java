@@ -37,7 +37,6 @@ import java.util.Collection;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -54,7 +53,6 @@ public interface CommitsComparison extends JsonReadable {
      * Get a parent repository of commits.
      * @return Repository
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
@@ -63,7 +61,6 @@ public interface CommitsComparison extends JsonReadable {
      * @return Iterable of file changes
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "files is never NULL")
     Iterable<FileChange> files() throws IOException;
 
     /**
@@ -84,10 +81,7 @@ public interface CommitsComparison extends JsonReadable {
          * Public ctor.
          * @param cmprsn Commits comparison
          */
-        public Smart(
-            @NotNull(message = "cmprsn can't be NULL")
-            final CommitsComparison cmprsn
-        ) {
+        public Smart(final CommitsComparison cmprsn) {
             this.comparison = cmprsn;
         }
 
@@ -96,7 +90,6 @@ public interface CommitsComparison extends JsonReadable {
          * @return Commits
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "Iterable of commits is never NULL")
         public Iterable<RepoCommit> commits() throws IOException {
             final JsonArray array = this.comparison.json()
                 .getJsonArray("commits");
@@ -112,19 +105,16 @@ public interface CommitsComparison extends JsonReadable {
         }
 
         @Override
-        @NotNull(message = "files is never NULL")
         public Iterable<FileChange> files() throws IOException {
             return this.comparison.files();
         }
 
         @Override
-        @NotNull(message = "Repository is never NULL")
         public Repo repo() {
             return this.comparison.repo();
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.comparison.json();
         }

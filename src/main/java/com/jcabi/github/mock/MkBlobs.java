@@ -35,7 +35,6 @@ import com.jcabi.github.Blobs;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
@@ -73,9 +72,9 @@ final class MkBlobs implements Blobs {
      * @throws java.io.IOException If there is any I/O problem
      */
     public MkBlobs(
-        @NotNull(message = "stg is never NULL") final MkStorage stg,
-        @NotNull(message = "login is never NULL") final String login,
-        @NotNull(message = "rep is never NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -91,7 +90,6 @@ final class MkBlobs implements Blobs {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
@@ -100,16 +98,14 @@ final class MkBlobs implements Blobs {
      * @param sha Blob sha
      * @return Mocked Blob
      */
-    @NotNull(message = "blob is never NULL")
     public Blob get(
-        @NotNull(message = "Sha can't be NULL") final String sha) {
+        final String sha) {
         return new MkBlob(this.storage, sha, this.coords);
     }
     @Override
-    @NotNull(message = "created blob is never NULL")
     public Blob create(
-        @NotNull(message = "Content can't be NULL") final String content,
-        @NotNull(message = "Encoding can't be NULL") final String encoding)
+        final String content,
+        final String encoding)
         throws IOException {
         this.storage.lock();
         final String sha = fakeSha();
@@ -131,7 +127,6 @@ final class MkBlobs implements Blobs {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/blobs",

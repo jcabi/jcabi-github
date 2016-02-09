@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -94,9 +93,7 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "Iterable of commits is never NULL")
     public  Iterable<RepoCommit> iterate(
-        @NotNull(message = "params can't be NULL")
         final Map<String, String> params
     ) {
         return new RtPagination<RepoCommit>(
@@ -111,26 +108,23 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public RepoCommit get(
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String sha
     ) {
         return new RtRepoCommit(this.entry, this.owner, sha);
     }
 
     @Override
-    @NotNull(message = "commits comparison is never NULL")
     public CommitsComparison compare(
-        @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "head is never NULL") final String head) {
+        final String base,
+        final String head) {
         return new RtCommitsComparison(this.entry, this.owner, base, head);
     }
 
     @Override
-    @NotNull(message = "comparison result is never NULL")
     public String diff(
-        @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "head is never NULL") final String head)
+        final String base,
+        final String head)
         throws IOException {
         return this.comp.reset(HttpHeaders.ACCEPT)
             .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.diff")
@@ -143,10 +137,9 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "comparison result is never NULL")
     public String patch(
-        @NotNull(message = "base is never NULL") final String base,
-        @NotNull(message = "head is never NULL") final String head)
+        final String base,
+        final String head)
         throws IOException {
         return this.comp.reset(HttpHeaders.ACCEPT)
             .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.patch")
@@ -159,13 +152,11 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

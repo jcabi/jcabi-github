@@ -36,7 +36,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -82,13 +81,11 @@ final class RtDeployKey implements DeployKey {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -102,7 +99,7 @@ final class RtDeployKey implements DeployKey {
 
     @Override
     public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        final JsonObject json)
         throws IOException {
         new RtJson(this.request).patch(json);
     }

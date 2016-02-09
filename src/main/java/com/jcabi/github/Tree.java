@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github tree.
@@ -46,14 +45,12 @@ public interface Tree extends JsonReadable {
      * The repo we're in.
      * @return Repo
      */
-    @NotNull(message = "repo is never NULL")
     Repo repo();
 
     /**
      * SHA of it.
      * @return SHA
      */
-    @NotNull(message = "tree SHA is never NULL")
     String sha();
 
 }

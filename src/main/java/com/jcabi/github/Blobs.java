@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github Git Data Blobs.
@@ -48,7 +47,6 @@ public interface Blobs {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -57,10 +55,7 @@ public interface Blobs {
      * @return Blob
      * @see <a href="http://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
      */
-    @NotNull(message = "Blob is never NULL")
-    Blob get(
-        @NotNull(message = "Sha is never null") String sha
-    );
+    Blob get(String sha);
 
     /**
      * Create a blob.
@@ -70,10 +65,6 @@ public interface Blobs {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
      */
-    @NotNull(message = "Blob is never NULL")
-    Blob create(
-        @NotNull(message = "Content is never null") String content,
-        @NotNull(message = "Encoding is never null") String encoding
-    ) throws IOException;
+    Blob create(String content, String encoding) throws IOException;
 
 }

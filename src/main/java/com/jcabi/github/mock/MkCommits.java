@@ -39,7 +39,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Statuses;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -76,9 +75,9 @@ public final class MkCommits implements Commits {
      * @throws IOException If something goes wrong.
      */
     MkCommits(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -93,31 +92,27 @@ public final class MkCommits implements Commits {
         );
     }
     @Override
-    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "created commit is never NULL")
     public Commit create(
-        @NotNull(message = "params can't be NULL") final JsonObject params
+        final JsonObject params
     ) {
         return this.get(params.getString("sha"));
     }
 
     @Override
-    @NotNull(message = "commit is never NULL")
     public Commit get(
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String sha
     ) {
         return new MkCommit(this.storage, this.self, this.coords, sha);
     }
 
     @Override
-    @NotNull(message = "statuses is never NULL")
     public Statuses statuses(
-        @NotNull(message = "sha can't be NULL") final String sha
+        final String sha
     ) {
         return new MkStatuses(this.get(sha));
     }

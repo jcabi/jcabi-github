@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -74,21 +73,17 @@ final class RtRepos implements Repos {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.entry.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
-    public Repo create(@NotNull(message = "settings can't be NULL")
-        final RepoCreate settings) throws IOException {
+    public Repo create(final RepoCreate settings) throws IOException {
         return this.get(
             new Coordinates.Simple(
                 this.entry.uri().path("user/repos")
@@ -104,15 +99,12 @@ final class RtRepos implements Repos {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
-    public Repo get(@NotNull(message = "coordinates can't be NULL")
-        final Coordinates name) {
+    public Repo get(final Coordinates name) {
         return new RtRepo(this.ghub, this.entry, name);
     }
 
     @Override
     public void remove(
-        @NotNull(message = "coordinates can't be NULL")
         final Coordinates coords) throws IOException {
         this.entry.uri().path("/repos")
             .back().method(Request.DELETE)
@@ -124,7 +116,6 @@ final class RtRepos implements Repos {
 
     @Override
     public Iterable<Repo> iterate(
-        @NotNull(message = "identifier can't be NULL")
         final String identifier) {
         return new RtPagination<Repo>(
             this.entry.uri().queryParam("since", identifier).back(),

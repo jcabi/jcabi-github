@@ -35,7 +35,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -79,26 +78,22 @@ final class RtReference implements Reference {
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
-    @NotNull(message = "repository is never NULL")
     public Repo repo() {
         return this.owner;
     }
 
     @Override
-    @NotNull(message = "ref is never NULL")
     public String ref() {
         return this.name;
     }
 
     @Override
     public void patch(
-        @NotNull(message = "JSON object can't be NULL")
         final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }

@@ -36,7 +36,6 @@ import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -71,8 +70,8 @@ final class MkPublicKeys implements PublicKeys {
      * @throws IOException If there is any I/O problem
      */
     public MkPublicKeys(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -82,7 +81,6 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "User is never NULL")
     public User user() {
         try {
             return new MkUser(this.storage, this.self);
@@ -92,7 +90,6 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "Iterable of keys is never NULL")
     public Iterable<PublicKey> iterate() {
         return new MkIterable<PublicKey>(
             this.storage,
@@ -109,16 +106,14 @@ final class MkPublicKeys implements PublicKeys {
     }
 
     @Override
-    @NotNull(message = "key is never NULL")
     public PublicKey get(final int number) {
         return new MkPublicKey(this.storage, this.self, number);
     }
 
     @Override
-    @NotNull(message = "created public key is never NULL")
     public PublicKey create(
-        @NotNull(message = "title cannot be NULL") final String title,
-        @NotNull(message = "key cannot be NULL") final String key
+        final String title,
+        final String key
     ) throws IOException {
         this.storage.lock();
         final int number;
@@ -152,7 +147,6 @@ final class MkPublicKeys implements PublicKeys {
      * XPath of user element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath of the user is never NULL")
     private String userXpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }
@@ -161,7 +155,6 @@ final class MkPublicKeys implements PublicKeys {
      * XPath of user element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format("%s/keys", this.userXpath());
     }

@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -83,13 +82,11 @@ final class RtMilestone implements Milestone {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "Repository can't be NULL")
     public Repo repo() {
         return this.owner;
     }
@@ -100,21 +97,18 @@ final class RtMilestone implements Milestone {
     }
 
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
     public void patch(
-        @NotNull(message = "JSON object can't be NULL")
         final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
     public int compareTo(
-        @NotNull(message = "Milestone object can't be NULL")
         final Milestone milestone) {
         return Integer.valueOf(this.number()).compareTo(milestone.number());
     }

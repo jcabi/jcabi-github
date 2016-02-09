@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github issue events.
@@ -46,7 +45,6 @@ public interface IssueEvents {
      * Owner of them.
      * @return Repo
      */
-    @NotNull(message = "repository is never NULL")
     Repo repo();
 
     /**
@@ -55,7 +53,6 @@ public interface IssueEvents {
      * @return Event
      * @see <a href="https://developer.github.com/v3/issues/events/#get-a-single-event">Get a single event</a>
      */
-    @NotNull(message = "issue event is never NULL")
     Event get(int number);
 
     /**
@@ -63,6 +60,5 @@ public interface IssueEvents {
      * @return Iterator of issue events
      * @see <a href="https://developer.github.com/v3/issues/events/#list-events-for-a-repository">List events for a repository</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Event> iterate();
 }

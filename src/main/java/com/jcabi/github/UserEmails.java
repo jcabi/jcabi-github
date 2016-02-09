@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 
 /**
  * Github user's emails.
@@ -47,7 +46,6 @@ public interface UserEmails extends JsonReadable {
      * @return Emails
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<String> iterate() throws IOException;
 
     /**
@@ -56,9 +54,8 @@ public interface UserEmails extends JsonReadable {
      * @return Emails
      * @throws IOException If there is any I/O problem
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<String> add(
-        @NotNull(message = "emails is never NULL") Iterable<String> emails)
+        Iterable<String> emails)
         throws IOException;
 
     /**
@@ -67,7 +64,7 @@ public interface UserEmails extends JsonReadable {
      * @throws IOException If there is any I/O problem
      */
     void remove(
-        @NotNull(message = "emails is never NULL") Iterable<String> emails)
+        Iterable<String> emails)
         throws IOException;
 
 }

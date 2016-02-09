@@ -37,7 +37,6 @@ import com.jcabi.github.Github;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -72,8 +71,8 @@ final class MkGists implements Gists {
      * @throws IOException If there is any I/O problem
      */
     MkGists(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -83,15 +82,12 @@ final class MkGists implements Gists {
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "created gist is never NULL")
     public Gist create(
-        @NotNull(message = "map of files can't be NULL")
         final Map<String, String> files, final boolean visible
     ) throws IOException {
         this.storage.lock();
@@ -120,15 +116,12 @@ final class MkGists implements Gists {
     }
 
     @Override
-    @NotNull(message = "gist is never NULL")
-    public Gist get(@NotNull(message = "name can't be NULL")
-        final String name
+    public Gist get(final String name
     ) {
         return new MkGist(this.storage, this.self, name);
     }
 
     @Override
-    @NotNull(message = "Iterable of gists is never NULL")
     public Iterable<Gist> iterate() {
         return new MkIterable<Gist>(
             this.storage,
@@ -143,8 +136,7 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public void remove(@NotNull(message = "identifier should not be NULL")
-        final String identifier
+    public void remove(final String identifier
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
@@ -157,7 +149,6 @@ final class MkGists implements Gists {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return "/github/gists";
     }

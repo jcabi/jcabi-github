@@ -38,7 +38,6 @@ import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -74,8 +73,8 @@ final class MkRepos implements Repos {
      * @throws IOException If there is any I/O problem
      */
     MkRepos(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login
+        final MkStorage stg,
+        final String login
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -83,15 +82,12 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    @NotNull(message = "github can't be NULL")
     public Github github() {
         return new MkGithub(this.storage, this.self);
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo create(
-        @NotNull(message = "settings can't be NULL")
         final RepoCreate settings
     ) throws IOException {
         final Coordinates coords = new Coordinates.Simple(
@@ -115,9 +111,8 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    @NotNull(message = "Repo is never NULL")
     public Repo get(
-        @NotNull(message = "coords can't be NULL") final Coordinates coords
+        final Coordinates coords
     ) {
         try {
             final String xpath = String.format(
@@ -136,7 +131,6 @@ final class MkRepos implements Repos {
 
     @Override
     public void remove(
-        @NotNull(message = "coordinates can't be NULL")
         final Coordinates coords) {
         try {
             this.storage.apply(
@@ -156,7 +150,6 @@ final class MkRepos implements Repos {
      */
     @Override
     public Iterable<Repo> iterate(
-        @NotNull(message = "identifier can't be NULL")
         final String identifier) {
         return new MkIterable<Repo>(
             this.storage,
@@ -177,7 +170,6 @@ final class MkRepos implements Repos {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return "/github/repos";
     }

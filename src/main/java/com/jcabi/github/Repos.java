@@ -36,7 +36,6 @@ import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,7 +55,6 @@ public interface Repos {
      * Get its owner.
      * @return Github
      */
-    @NotNull(message = "github is never NULL")
     Github github();
     //byte[]
 
@@ -68,9 +66,7 @@ public interface Repos {
      * @since 0.5
      * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
      */
-    @NotNull(message = "repository is never NULL")
-    Repo create(@NotNull(message = "new repo settings can't be NULL")
-                RepoCreate settings)
+    Repo create(RepoCreate settings)
         throws IOException;
 
     /**
@@ -79,9 +75,7 @@ public interface Repos {
      * @return Repository
      * @see <a href="http://developer.github.com/v3/repos/#get">Get Repository</a>
      */
-    @NotNull(message = "repository is never NULL")
-    Repo get(@NotNull(message = "coordinates can't be NULL")
-        Coordinates coords);
+    Repo get(Coordinates coords);
 
     /**
      * Remove repository by name.
@@ -93,8 +87,7 @@ public interface Repos {
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/#delete-a-repository">Delete a Repository</a>
      */
-    void remove(@NotNull(message = "coordinates can't be NULL")
-        Coordinates coords) throws IOException;
+    void remove(Coordinates coords) throws IOException;
 
     /**
      * Iterate all public repos, starting with the one you've seen already.
@@ -102,9 +95,8 @@ public interface Repos {
      * @return Iterator of repo
      * @see <a href="https://developer.github.com/v3/repos/#list-all-public-repositories">List all public repositories</a>
      */
-    @NotNull(message = "iterable is never NULL")
     Iterable<Repo> iterate(
-        @NotNull(message = "identifier can't be NULL") String identifier
+        String identifier
     );
 
     /**
@@ -165,11 +157,10 @@ public interface Repos {
          * @checkstyle ParameterNumberCheck (7 lines)
          */
         private RepoCreate(
-            @NotNull(message = "name can't be NULL") final String nme,
+            final String nme,
             final boolean prvt,
-            @NotNull(message = "description can't be NULL") final String desc,
-            @NotNull(message = "homepage can't be NULL") final String page,
-            @NotNull(message = "optional itself can't be NULL")
+            final String desc,
+            final String page,
             final Optional<Boolean> auto) {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");
@@ -185,7 +176,6 @@ public interface Repos {
          * Name of the new repo.
          * @return Name
          */
-        @NotNull(message = "name is never NULL")
         public String name() {
             return this.nam;
         }
@@ -203,7 +193,6 @@ public interface Repos {
          * If it has no description, this is an empty string.
          * @return Description
          */
-        @NotNull(message = "description is never NULL")
         public String description() {
             return this.descr;
         }
@@ -213,7 +202,6 @@ public interface Repos {
          * If it has no homepage, this is an empty string.
          * @return Homepage
          */
-        @NotNull(message = "homepage is never NULL")
         public String homepage() {
             return this.home;
         }
@@ -223,7 +211,6 @@ public interface Repos {
          * If absent, the GitHub default will be used.
          * @return Optional boolean
          */
-        @NotNull(message = "optional itself is never NULL")
         public Optional<Boolean> autoInit() {
             return this.init;
         }
@@ -234,9 +221,8 @@ public interface Repos {
          * @param nme Name of the new repo
          * @return RepoCreate
          */
-        @NotNull(message = "renamed settings is never NULL")
         public RepoCreate withName(
-            @NotNull(message = "name can't be NULL") final String nme
+            final String nme
         ) {
             return new RepoCreate(
                 nme,
@@ -252,7 +238,6 @@ public interface Repos {
          * @param privacy Privateness of the new repo
          * @return RepoCreate
          */
-        @NotNull(message = "new repo settings is never NULL")
         public RepoCreate withPrivacy(final boolean privacy) {
             return new RepoCreate(
                 this.nam,
@@ -268,9 +253,8 @@ public interface Repos {
          * @param desc Description
          * @return RepoCreate
          */
-        @NotNull(message = "adjusted settings is never NULL")
         public RepoCreate withDescription(
-            @NotNull(message = "description can't be NULL") final String desc
+            final String desc
         ) {
             return new RepoCreate(
                 this.nam,
@@ -286,9 +270,8 @@ public interface Repos {
          * @param page Homepage URL
          * @return RepoCreate
          */
-        @NotNull(message = "changed settings is never NULL")
         public RepoCreate withHomepage(
-            @NotNull(message = "homepage can't be NULL") final String page
+            final String page
         ) {
             return new RepoCreate(
                 this.nam,
@@ -304,7 +287,6 @@ public interface Repos {
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
-        @NotNull(message = "modified settings is never NULL")
         public RepoCreate withAutoInit(final Optional<Boolean> auto) {
             return new RepoCreate(
                 this.nam,
@@ -320,7 +302,6 @@ public interface Repos {
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
-        @NotNull(message = "new settings is never NULL")
         public RepoCreate withAutoInit(final boolean auto) {
             return new RepoCreate(
                 this.nam,
@@ -332,7 +313,6 @@ public interface Repos {
         }
 
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() {
             JsonObjectBuilder builder = Json.createObjectBuilder()
                 .add("name", this.nam)

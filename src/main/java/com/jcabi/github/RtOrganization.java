@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -90,45 +89,39 @@ final class RtOrganization implements Organization {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "Github is never NULL")
     public Github github() {
         return this.ghub;
     }
 
     @Override
-    @NotNull(message = "login is never NULL")
     public String login() {
         return this.self;
     }
 
     @Override
-    @NotNull(message = "public members is never NULL")
     public PublicMembers publicMembers() {
         return new RtPublicMembers(this.entry, this);
     }
 
     @Override
     public int compareTo(
-        @NotNull(message = "other can't be NULL") final Organization other
+        final Organization other
     ) {
         return this.login().compareTo(other.login());
     }
 
     @Override
     public void patch(
-        @NotNull(message = "JSON is never NULL")
         final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
-    @NotNull(message = "JSON can't be NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }

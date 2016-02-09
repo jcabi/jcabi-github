@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 
 /**
  * Markdown API.
@@ -49,7 +48,6 @@ public interface Markdown {
      * Get its owner.
      * @return Github
      */
-    @NotNull(message = "github is never NULL")
     Github github();
 
     /**
@@ -58,8 +56,7 @@ public interface Markdown {
      * @return HTML
      * @throws IOException If it fails due to I/O problem
      */
-    @NotNull(message = "HTML object is never NULL")
-    String render(@NotNull(message = "JSON can't be NULL") JsonObject json)
+    String render(JsonObject json)
         throws IOException;
 
     /**
@@ -68,8 +65,7 @@ public interface Markdown {
      * @return HTML
      * @throws IOException If it fails due to I/O problem
      */
-    @NotNull(message = "HTML of issues is never NULL")
-    String raw(@NotNull(message = "Markdown can't be NULL") String text)
+    String raw(String text)
         throws IOException;
 
 }

@@ -38,7 +38,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -93,11 +92,11 @@ final class MkContent implements Content {
      * @checkstyle ParameterNumberCheck (6 lines)
      */
     public MkContent(
-        @NotNull(message = "stg can't be NULL") final MkStorage stg,
-        @NotNull(message = "login can't be NULL") final String login,
-        @NotNull(message = "rep can't be NULL") final Coordinates rep,
-        @NotNull(message = "path can't be NULL") final String path,
-        @NotNull(message = "ref can't be NULL") final String ref
+        final MkStorage stg,
+        final String login,
+        final Coordinates rep,
+        final String path,
+        final String ref
     ) throws IOException {
         this.storage = stg;
         this.self = login;
@@ -108,7 +107,7 @@ final class MkContent implements Content {
 
     @Override
     public int compareTo(
-        @NotNull(message = "cont should not be NULL") final Content cont
+        final Content cont
     ) {
         return new CompareToBuilder()
             .append(this.path(), cont.path())
@@ -118,13 +117,12 @@ final class MkContent implements Content {
 
     @Override
     public void patch(
-        @NotNull(message = "JSON is never NULL") final JsonObject json)
+        final JsonObject json)
         throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
@@ -132,19 +130,16 @@ final class MkContent implements Content {
     }
 
     @Override
-    @NotNull(message = "repo is never NULL")
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
     @Override
-    @NotNull(message = "path is never NULL")
     public String path() {
         return this.location;
     }
 
     @Override
-    @NotNull(message = "input stream is never NULL")
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             DatatypeConverter.parseBase64Binary(
@@ -159,7 +154,6 @@ final class MkContent implements Content {
      * XPath of this element in XML tree.
      * @return The XPath
      */
-    @NotNull(message = "Xpath is never NULL")
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)

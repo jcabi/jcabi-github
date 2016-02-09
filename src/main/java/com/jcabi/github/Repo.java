@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -52,21 +51,18 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * Get its owner.
      * @return Github
      */
-    @NotNull(message = "github is never NULL")
     Github github();
 
     /**
      * Get its coordinates.
      * @return Coordinates
      */
-    @NotNull(message = "coordinates is never NULL")
     Coordinates coordinates();
 
     /**
      * Iterate issues.
      * @return Issues
      */
-    @NotNull(message = "iterator of issues is never NULL")
     Issues issues();
 
     /**
@@ -74,14 +70,12 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Milestones
      * @since 0.7
      */
-    @NotNull(message = "iterator of milestones is never NULL")
     Milestones milestones();
 
     /**
      * Pull requests.
      * @return Pulls
      */
-    @NotNull(message = "iterator of pull requests is never NULL")
     Pulls pulls();
 
     /**
@@ -89,7 +83,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Hooks
      * @since 0.8
      */
-    @NotNull(message = "hooks are never NULL")
     Hooks hooks();
 
     /**
@@ -97,7 +90,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Issue events
      * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
      */
-    @NotNull(message = "events are never NULL")
     IssueEvents issueEvents();
 
     /**
@@ -105,7 +97,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Labels
      * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
      */
-    @NotNull(message = "labels are never NULL")
     Labels labels();
 
     /**
@@ -113,7 +104,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Assignees
      * @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
      */
-    @NotNull(message = "assignees are never NULL")
     Assignees assignees();
 
     /**
@@ -121,7 +111,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Releases
      * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
      */
-    @NotNull(message = "releases are never NULL")
     Releases releases();
 
     /**
@@ -129,7 +118,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return DeployKeys
      * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
      */
-    @NotNull(message = "deploy keys are never NULL")
     DeployKeys keys();
 
     /**
@@ -137,7 +125,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Forks
      * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
      */
-    @NotNull(message = "Forks are never NULL")
     Forks forks();
 
     /**
@@ -145,7 +132,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Commits
      * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
      */
-    @NotNull(message = "RepoCommits are never NULL")
     RepoCommits commits();
 
     /**
@@ -153,7 +139,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Branches
      * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
      */
-    @NotNull(message = "Branches are never NULL")
     Branches branches();
 
     /**
@@ -161,7 +146,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Contents
      * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
      */
-    @NotNull(message = "Contents are never NULL")
     Contents contents();
 
     /**
@@ -169,7 +153,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Collaborators
      * @see <a href="http://developer.github.com/v3/repos/collaborators/">Collaborators API</a>
      */
-    @NotNull(message = "Collaborators is never NULL")
     Collaborators collaborators();
 
     /**
@@ -177,7 +160,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @return Collaborators
      * @see <a href="http://developer.github.com/v3/git/">Git Data API</a>
      */
-    @NotNull(message = "Git is never NULL")
     Git git();
 
     /**
@@ -186,7 +168,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
      * @since 0.15
      */
-    @NotNull(message = "Stars is never NULL")
     Stars stars();
 
     /**
@@ -195,7 +176,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
      * @since 0.15
      */
-    @NotNull(message = "Notifications is never NULL")
     Notifications notifications();
 
     /**
@@ -205,7 +185,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
      * @since 0.15
      */
-    @NotNull(message = "Notifications is never NULL")
     Iterable<Language> languages() throws IOException;
 
     /**
@@ -229,7 +208,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * @param rep Repo
          */
         public Smart(
-            @NotNull(message = "rep can't be NULL") final Repo rep
+            final Repo rep
         ) {
             this.repo = rep;
             this.jsn = new SmartJson(rep);
@@ -239,7 +218,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * @return Description
          * @throws IOException If there is any I/O problem
          */
-        @NotNull(message = "description is never NULL")
         public String description() throws IOException {
             return this.jsn.text("description");
         }
@@ -252,114 +230,93 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
             return JsonValue.TRUE.equals(this.json().get("private"));
         }
         @Override
-        @NotNull(message = "github is never NULL")
         public Github github() {
             return this.repo.github();
         }
         @Override
-        @NotNull(message = "coordinates is never NULL")
         public Coordinates coordinates() {
             return this.repo.coordinates();
         }
         @Override
-        @NotNull(message = "issues is never NULL")
         public Issues issues() {
             return this.repo.issues();
         }
         @Override
-        @NotNull(message = "milestones is never NULL")
         public Milestones milestones() {
             return this.repo.milestones();
         }
         @Override
-        @NotNull(message = "pulls is never NULL")
         public Pulls pulls() {
             return this.repo.pulls();
         }
 
         @Override
-        @NotNull(message = "hooks is never NULL")
         public Hooks hooks() {
             return this.repo.hooks();
         }
         @Override
-        @NotNull(message = "events are never NULL")
         public IssueEvents issueEvents() {
             return this.repo.issueEvents();
         }
         @Override
-        @NotNull(message = "labels is never NULL")
         public Labels labels() {
             return this.repo.labels();
         }
         @Override
-        @NotNull(message = "assignees is never NULL")
         public Assignees assignees() {
             return this.repo.assignees();
         }
         @Override
-        @NotNull(message = "releases is never NULL")
         public Releases releases() {
             return this.repo.releases();
         }
         @Override
-        @NotNull(message = "keys is never NULL")
         public DeployKeys keys() {
             return this.repo.keys();
         }
         @Override
-        @NotNull(message = "forks is never NULL")
         public Forks forks() {
             return this.repo.forks();
         }
         @Override
-        @NotNull(message = "contents is never NULL")
         public Contents contents() {
             return this.repo.contents();
         }
         @Override
-        @NotNull(message = "collaborators is never NULL")
         public Collaborators collaborators() {
             return this.repo.collaborators();
         }
         @Override
-        @NotNull(message = "git is never NULL")
         public Git git() {
             return this.repo.git();
         }
         @Override
-        @NotNull(message = "stars is never NULL")
         public Stars stars() {
             return this.repo.stars();
         }
         @Override
-        @NotNull(message = "notifications is never NULL")
         public Notifications notifications() {
             return this.repo.notifications();
         }
         @Override
-        @NotNull(message = "languages is never NULL")
         public Iterable<Language> languages() throws IOException {
             return this.repo.languages();
         }
         @Override
         public void patch(
-            @NotNull(message = "json can't be NULL") final JsonObject json
+            final JsonObject json
         ) throws IOException {
             this.repo.patch(json);
         }
         @Override
-        @NotNull(message = "commits is never NULL")
         public RepoCommits commits() {
             return this.repo.commits();
         }
         @Override
-        @NotNull(message = "branches is never NULL")
         public Branches branches() {
             return this.repo.branches();
         }
         @Override
-        @NotNull(message = "JSON is never NULL")
         public JsonObject json() throws IOException {
             return this.repo.json();
         }

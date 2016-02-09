@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
 import javax.json.JsonObject;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -85,26 +84,23 @@ final class RtPullComment implements PullComment {
     }
 
     @Override
-    @NotNull(message = "toString is never NULL")
     public String toString() {
         return this.request.uri().get().toString();
     }
 
     @Override
-    @NotNull(message = "JSON is never NULL")
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
 
     @Override
     public void patch(
-        @NotNull(message = "JSON can't be NULL") final JsonObject json
+        final JsonObject json
     ) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
     @Override
-    @NotNull(message = "Pull is never NULL")
     public Pull pull() {
         return this.owner;
     }
@@ -116,7 +112,7 @@ final class RtPullComment implements PullComment {
 
     @Override
     public int compareTo(
-        @NotNull(message = "comment can't be NULL") final PullComment comment
+        final PullComment comment
     ) {
         return this.number() - comment.number();
     }
