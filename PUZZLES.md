@@ -149,7 +149,7 @@ There are 25 active puzzles (176 total):
 &nbsp;&nbsp;&nbsp;&nbsp;[<del>863</del>](https://github.com/jcabi/jcabi-github/issues/863) [`?`](../master/?)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[#1040](https://github.com/jcabi/jcabi-github/issues/1040):[**863-4e783bd3**](https://github.com/jcabi/jcabi-github/issues/1040) [`RtContentsITCase.java:263-264`](../master/src/test/java/com/jcabi/github/RtContentsITCase.java#L263-L264)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;[<del>989</del>](https://github.com/jcabi/jcabi-github/issues/989) [`?`](../master/?)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[#1017](https://github.com/jcabi/jcabi-github/issues/1017):[<del>989-33d6f233</del>](https://github.com/jcabi/jcabi-github/issues/1017) [`RtForkTest.java:56-58`](../master/src/test/java/com/jcabi/github/RtForkTest.java#L56-L58)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<del>989-33d6f233</del>](https://github.com/jcabi/jcabi-github/issues/1017) [`RtForkTest.java:56-58`](../master/src/test/java/com/jcabi/github/RtForkTest.java#L56-L58)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[#1197](https://github.com/jcabi/jcabi-github/issues/1197):[**1017-59643c80**](https://github.com/jcabi/jcabi-github/issues/1197) [`RtGistCommentTest.java:57-59`](../master/src/test/java/com/jcabi/github/RtGistCommentTest.java#L57-L59)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;[<del>1061</del>](https://github.com/jcabi/jcabi-github/pull/1061) [`?`](../master/?)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[#1067](https://github.com/jcabi/jcabi-github/issues/1067):[**1061-5da99a0c**](https://github.com/jcabi/jcabi-github/issues/1067) [`MkRepo.java:70-70`](../master/src/main/java/com/jcabi/github/mock/MkRepo.java#L70-L70)<br/>
