@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -257,17 +258,17 @@ final class RtContents implements Contents {
     ) throws IOException {
         final String name = "ref";
         RtContent content = null;
-        JsonStructure structure = this.request.method(Request.GET)
+        final JsonReader reader = this.request.method(Request.GET)
                 .uri().path(path).queryParam(name, ref).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class)
-                .json().read();
-        if (structure instanceof JsonObject) {
+                .json();
+        if (reader.read() instanceof JsonObject) {
             content = new RtContent(
                     this.entry.uri().queryParam(name, ref).back(), this.owner,
-                    ((JsonObject)structure).getString("path")
+                    reader.readObject().getString("path")
             );
         }
         return content;
