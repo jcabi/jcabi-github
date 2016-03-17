@@ -254,21 +254,21 @@ final class RtContents implements Contents {
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     private Content content(
-        final String path, final String ref
+            final String path, final String ref
     ) throws IOException {
         final String name = "ref";
         RtContent content = null;
-        final JsonReader reader = this.request.method(Request.GET)
+        final JsonStructure structure = this.request.method(Request.GET)
                 .uri().path(path).queryParam(name, ref).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class)
-                .json();
-        if (reader.read() instanceof JsonObject) {
+                .json().read();
+        if (structure instanceof JsonObject) {
             content = new RtContent(
                     this.entry.uri().queryParam(name, ref).back(), this.owner,
-                    reader.readObject().getString("path")
+                    ((JsonObject) structure).getString("path")
             );
         }
         return content;
