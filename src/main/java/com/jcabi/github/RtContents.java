@@ -253,7 +253,7 @@ final class RtContents implements Contents {
      * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     private Content content(
-            final String path, final String ref
+        final String path, final String ref
     ) throws IOException {
         final String name = "ref";
         RtContent content = null;
