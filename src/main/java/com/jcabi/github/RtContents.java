@@ -40,7 +40,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import javax.json.JsonValue;
-
 import lombok.EqualsAndHashCode;
 
 /**
