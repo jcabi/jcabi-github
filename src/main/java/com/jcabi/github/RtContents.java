@@ -39,6 +39,8 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
+import javax.json.JsonValue;
+
 import lombok.EqualsAndHashCode;
 
 /**
@@ -264,7 +266,7 @@ final class RtContents implements Contents {
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class)
                 .json().read();
-        if (structure instanceof JsonObject) {
+        if (JsonValue.ValueType.OBJECT.equals(structure.getValueType())) {
             content = new RtContent(
                     this.entry.uri().queryParam(name, ref).back(), this.owner,
                     ((JsonObject) structure).getString("path")
