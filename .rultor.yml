@@ -19,6 +19,7 @@ merge:
   - krzyk
   - longtimeago
   - mkordas
+  - original-brownbear
   - pinaf
   script: |-
     mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml
