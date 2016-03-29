@@ -39,6 +39,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -256,16 +257,21 @@ final class RtContents implements Contents {
         final String path, final String ref
     ) throws IOException {
         final String name = "ref";
-        return new RtContent(
-            this.entry.uri().queryParam(name, ref).back(), this.owner,
-            this.request.method(Request.GET)
+        RtContent content = null;
+        final JsonStructure structure = this.request.method(Request.GET)
                 .uri().path(path).queryParam(name, ref).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
                 .as(JsonResponse.class)
-                .json().readObject().getString("path")
-        );
+                .json().read();
+        if (JsonValue.ValueType.OBJECT.equals(structure.getValueType())) {
+            content = new RtContent(
+                    this.entry.uri().queryParam(name, ref).back(), this.owner,
+                    ((JsonObject) structure).getString("path")
+            );
+        }
+        return content;
     }
 
 }
