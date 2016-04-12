@@ -56,11 +56,10 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * <p>This is how you use it:
  *
- * <pre> Github github = new MkGithub(new MkStorage.InFile(file), "jeff");
- * github.repos().create("jcabi/jcabi-github");
- * Repo repo = github.repos().get("jcabi/jcabi-github");
- * Issues issues = repo.issues();
- * Issue issue = issues.post("issue title", "issue body");</pre>
+ * <pre> GitHub gitHub = new MkGithub("username");
+ * Repos.RepoCreate create = new Repos.RepoCreate("dummy", false);
+ * Repo repo = gitHub.repos().create(create);
+ * Issue issue = repo.issues().create("title", "body");</pre>
  *
  * <p>By default, it works with a temporary file, which will be deleted
  * on JVM exit:
