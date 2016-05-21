@@ -118,6 +118,20 @@ public final class RtGithubITCase {
     }
 
     /**
+     * RtGithub can fetch users.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void fetchesUsers() throws Exception {
+        final Github github = new RtGithub();
+        MatcherAssert.assertThat(
+                "Iterating over github.users() should return something",
+                github.users().iterate("").iterator().next(),
+                Matchers.anything()
+        );
+    }
+
+    /**
      * Create and return repo to test.
      * @return Repo
      * @throws Exception If some problem inside
