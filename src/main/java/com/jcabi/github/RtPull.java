@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -131,12 +130,10 @@ final class RtPull implements Pull {
 
     @Override
     public Iterable<JsonObject> files() throws IOException {
-        return this.request
-            .uri().path("/files").back()
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readArray().getValuesAs(JsonObject.class);
+        return new RtPagination<JsonObject>(
+                this.request.uri().path("/files").back(),
+                RtPagination.COPYING
+        );
     }
 
     @Override
