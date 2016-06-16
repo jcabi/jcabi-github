@@ -105,7 +105,9 @@ final class RtUsers implements Users {
             new RtValuePagination.Mapping<User, JsonObject>() {
                 @Override
                 public User map(final JsonObject object) {
-                    return RtUsers.this.get(object.getString("id"));
+                    return RtUsers.this.get(
+                            String.valueOf(object.getInt("id"))
+                    );
                 }
             }
         );

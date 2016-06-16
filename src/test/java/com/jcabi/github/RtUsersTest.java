@@ -136,7 +136,7 @@ public final class RtUsersTest {
         final String login, final String identifier
     ) throws Exception {
         return Json.createObjectBuilder()
-            .add("id", identifier)
+            .add("id", Integer.valueOf(identifier))
             .add("login", login)
             .build();
     }
