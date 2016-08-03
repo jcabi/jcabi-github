@@ -67,12 +67,12 @@ final class RtReleases implements Releases {
     /**
      * RESTful API releases request.
      */
-    private final transient Request requestLatest;
+    private final transient Request latest;
 
     /**
      * RESTful API releases request.
      */
-    private final transient RequestURI requestTagged;
+    private final transient RequestURI tagged;
 
     /**
      * Repository.
@@ -87,23 +87,13 @@ final class RtReleases implements Releases {
     public RtReleases(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
-        this.request = this.entry.uri()
-                .path("/repos")
-                .path(repo.coordinates().user())
-                .path(repo.coordinates().repo())
-                .path("/releases")
+        this.request = this.releaseURI(repo)
                 .back();
-        this.requestLatest = this.entry.uri()
-                .path("/repos")
-                .path(repo.coordinates().user())
-                .path(repo.coordinates().repo())
-                .path("/releases/latest")
+        this.latest = this.releaseURI(repo)
+                .path("/latest")
                 .back();
-        this.requestTagged = this.entry.uri()
-                .path("/repos")
-                .path(repo.coordinates().user())
-                .path(repo.coordinates().repo())
-                .path("/releases/tags/");
+        this.tagged = this.releaseURI(repo)
+                .path("/tags/");
     }
 
     @Override
@@ -135,9 +125,9 @@ final class RtReleases implements Releases {
     }
 
     @Override
-    public Release tagged(String name) throws IOException {
+    public Release tagged(final String name) throws IOException {
         return this.get(
-                this.requestTagged.path(name).back().method(Request.GET)
+                this.tagged.path(name).back().method(Request.GET)
                         .fetch().as(RestResponse.class)
                         .assertStatus(HttpURLConnection.HTTP_CREATED)
                         .as(JsonResponse.class)
@@ -148,7 +138,7 @@ final class RtReleases implements Releases {
     @Override
     public Release latest() throws IOException {
         return this.get(
-                this.requestLatest.method(Request.GET)
+                this.latest.method(Request.GET)
                         .fetch().as(RestResponse.class)
                         .assertStatus(HttpURLConnection.HTTP_CREATED)
                         .as(JsonResponse.class)
@@ -180,6 +170,19 @@ final class RtReleases implements Releases {
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Default URI from releases.
+     * @param repo Repository
+     * @return Release URI.
+     */
+    private RequestURI releaseURI(final Repo repo) {
+        return this.entry.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/releases");
     }
 
 }

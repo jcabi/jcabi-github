@@ -67,13 +67,13 @@ public interface Releases {
 
     /**
      * Get a release by tag name.
-     * @param tagName Release tag name
+     * @param name Release tag name
      * @return Release
      * @throws java.io.IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name">Get a release by tag name</a>
      */
     Release tagged(
-            String tagName)
+            String name)
             throws IOException;
 
     /**
@@ -140,8 +140,8 @@ public interface Releases {
             return this.releases.get(number);
         }
         @Override
-        public Release tagged(String tagName) throws IOException {
-            return this.releases.tagged(tagName);
+        public Release tagged(final String name) throws IOException {
+            return this.releases.tagged(name);
         }
         @Override
         public Release latest() throws IOException {

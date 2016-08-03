@@ -38,11 +38,8 @@ import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
+import java.util.Date;
+import java.util.Iterator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -127,32 +124,25 @@ final class MkReleases implements Releases {
 
     @Override
     public Release latest() throws IOException {
-        List<Release> values = listValues();
-        if(values.size() > 0){
-            Collections.sort(values, new Comparator<Release>() {
-                @Override
-                public int compare(Release o1, Release o2) {
-                    return createdAt(o1).compareTo(createdAt(o2));
-                }
-                Long createdAt(Release relAux) {
-                    try {
-                        Date createdAt = new Release.Smart(relAux).createdAt();
-                        return createdAt != null ? createdAt.getTime() : 0L;
-                    }
-                    catch (IOException e){
-                    }
-                    return 0L;
-                }
-            });
-            return values.get(0);
+        Release latestRelease = null;
+        final Iterator<Release> itRelease = this.iterate().iterator();
+        while (itRelease.hasNext()) {
+            final Release release = itRelease.next();
+            if (latestRelease == null) {
+                latestRelease = release;
+            } else if (this.createLatest(latestRelease, release)) {
+                latestRelease = release;
+            }
         }
-        return null;
+        return latestRelease;
     }
 
     @Override
-    public Release tagged(final String tagName) throws IOException {
-        for (Release release: listValues()) {
-            if(tagName.equals(new Release.Smart(release).tag())){
+    public Release tagged(final String name) throws IOException {
+        final Iterator<Release> itRelease = this.iterate().iterator();
+        while (itRelease.hasNext()) {
+            final Release release = itRelease.next();
+            if (name.equals(new Release.Smart(release).tag())) {
                 return release;
             }
         }
@@ -206,19 +196,6 @@ final class MkReleases implements Releases {
     }
 
     /**
-     * Iterate release values to collection.
-     * @return
-     */
-    private List<Release> listValues(){
-        List<Release> values = new ArrayList<Release>();
-        Iterator<Release> it = iterate().iterator();
-        while(it.hasNext()){
-            values.add(it.next());
-        }
-        return values;
-    }
-
-    /**
      * XPath of this element in XML tree.
      * @return XPath
      */
@@ -229,4 +206,36 @@ final class MkReleases implements Releases {
         );
     }
 
+    /**
+     * Check the first release is greater than last release.
+     * @param first First release.
+     * @param last Last release.
+     * @return True/False.
+     */
+    public boolean createLatest(
+            final Release first,
+            final Release last
+    ) {
+        return this.createdAt(first)
+                .compareTo(this.createdAt(last)) > 0;
+    }
+
+    /**
+     * Veriffy the date time release was created.
+     * @param release Release date.
+     * @return Zero or DateTime.
+     */
+    private Long createdAt(
+            final Release release
+    ) {
+        try {
+            final Release.Smart smart = new Release.Smart(release);
+            final Date created = smart.createdAt();
+            if (created != null) {
+                return created.getTime();
+            }
+        } catch (final IOException iox) {
+        }
+        return 0L;
+    }
 }
