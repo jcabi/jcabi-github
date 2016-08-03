@@ -38,8 +38,7 @@ import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Date;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -128,42 +127,36 @@ final class MkReleases implements Releases {
 
     @Override
     public Release latest() throws IOException {
-        return StreamSupport
-                    .stream(iterate().spliterator(), false)
-                    .sorted(new Comparator<Release>() {
-                        @Override
-                        public int compare(Release o1, Release o2) {
-                            return createdAt(o1).compareTo(createdAt(o2));
-                        }
-                        Long createdAt(Release relAux) {
-                            try {
-                                Date createdAt = new Release.Smart(relAux).createdAt();
-                                return createdAt != null ? createdAt.getTime() : 0L;
-                            }
-                            catch (IOException e){
-                            }
-                            return 0L;
-                        }
-                    })
-                    .findFirst().orElse(null);
+        List<Release> values = listValues();
+        if(values.size() > 0){
+            Collections.sort(values, new Comparator<Release>() {
+                @Override
+                public int compare(Release o1, Release o2) {
+                    return createdAt(o1).compareTo(createdAt(o2));
+                }
+                Long createdAt(Release relAux) {
+                    try {
+                        Date createdAt = new Release.Smart(relAux).createdAt();
+                        return createdAt != null ? createdAt.getTime() : 0L;
+                    }
+                    catch (IOException e){
+                    }
+                    return 0L;
+                }
+            });
+            return values.get(0);
+        }
+        return null;
     }
 
     @Override
     public Release tagged(final String tagName) throws IOException {
-        return StreamSupport
-                .stream(iterate().spliterator(), false)
-                .filter(new Predicate<Release>() {
-                    @Override
-                    public boolean test(Release release) {
-                        try {
-                            return tagName.equals(new Release.Smart(release).tag());
-                        }
-                        catch (IOException e){
-                            return false;
-                        }
-                    }
-                })
-                .findFirst().orElse(null);
+        for (Release release: listValues()) {
+            if(tagName.equals(new Release.Smart(release).tag())){
+                return release;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -210,6 +203,19 @@ final class MkReleases implements Releases {
         } finally {
             this.storage.unlock();
         }
+    }
+
+    /**
+     * Iterate release values to collection.
+     * @return
+     */
+    private List<Release> listValues(){
+        List<Release> values = new ArrayList<Release>();
+        Iterator<Release> it = iterate().iterator();
+        while(it.hasNext()){
+            values.add(it.next());
+        }
+        return values;
     }
 
     /**
