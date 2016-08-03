@@ -223,17 +223,4 @@ final class MkReleases implements Releases {
         );
     }
 
-//    private String xpathlatest() {
-//        return String.format(
-//                "/github/repos/repo[@coords='%s']/releases/latest",
-//                this.coords
-//        );
-//    }
-//
-//    private String xpathlatest() {
-//        return String.format(
-//                "/github/repos/repo[@coords='%s']/releases/tags",
-//                this.coords
-//        );
-//    }
 }
