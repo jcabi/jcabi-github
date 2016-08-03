@@ -38,6 +38,12 @@ import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -121,6 +127,46 @@ final class MkReleases implements Releases {
     }
 
     @Override
+    public Release latest() throws IOException {
+        return StreamSupport
+                    .stream(iterate().spliterator(), false)
+                    .sorted(new Comparator<Release>() {
+                        @Override
+                        public int compare(Release o1, Release o2) {
+                            return createdAt(o1).compareTo(createdAt(o2));
+                        }
+                        Long createdAt(Release relAux) {
+                            try {
+                                Date createdAt = new Release.Smart(relAux).createdAt();
+                                return createdAt != null ? createdAt.getTime() : 0L;
+                            }
+                            catch (IOException e){
+                            }
+                            return 0L;
+                        }
+                    })
+                    .findFirst().orElse(null);
+    }
+
+    @Override
+    public Release tagged(final String tagName) throws IOException {
+        return StreamSupport
+                .stream(iterate().spliterator(), false)
+                .filter(new Predicate<Release>() {
+                    @Override
+                    public boolean test(Release release) {
+                        try {
+                            return tagName.equals(new Release.Smart(release).tag());
+                        }
+                        catch (IOException e){
+                            return false;
+                        }
+                    }
+                })
+                .findFirst().orElse(null);
+    }
+
+    @Override
     public Release create(
         final String tag
     ) throws IOException {
@@ -176,4 +222,18 @@ final class MkReleases implements Releases {
             this.coords
         );
     }
+
+//    private String xpathlatest() {
+//        return String.format(
+//                "/github/repos/repo[@coords='%s']/releases/latest",
+//                this.coords
+//        );
+//    }
+//
+//    private String xpathlatest() {
+//        return String.format(
+//                "/github/repos/repo[@coords='%s']/releases/tags",
+//                this.coords
+//        );
+//    }
 }

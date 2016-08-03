@@ -66,6 +66,25 @@ public interface Releases {
     Release get(int number);
 
     /**
+     * Get a release by tag name.
+     * @param tagName Release tag name
+     * @return Release
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name">Get a release by tag name</a>
+     */
+    Release tagged(
+            String tagName)
+            throws IOException;
+
+    /**
+     * Get the latest release.
+     * @return Release
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-the-latest-release">Get the latest release</a>
+     */
+    Release latest() throws IOException;
+
+    /**
      * Create new release.
      * @param tag The name of the tag
      * @return Release just created
@@ -119,6 +138,14 @@ public interface Releases {
         @Override
         public Release get(final int number) {
             return this.releases.get(number);
+        }
+        @Override
+        public Release tagged(String tagName) throws IOException {
+            return this.releases.tagged(tagName);
+        }
+        @Override
+        public Release latest() throws IOException {
+            return this.releases.latest();
         }
         @Override
         public Release create(final String tag) throws IOException {

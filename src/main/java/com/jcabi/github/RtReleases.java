@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.RequestURI;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
@@ -64,6 +65,16 @@ final class RtReleases implements Releases {
     private final transient Request request;
 
     /**
+     * RESTful API releases request.
+     */
+    private final transient Request requestLatest;
+
+    /**
+     * RESTful API releases request.
+     */
+    private final transient RequestURI requestTagged;
+
+    /**
      * Repository.
      */
     private final transient Repo owner;
@@ -77,11 +88,22 @@ final class RtReleases implements Releases {
         this.entry = req;
         this.owner = repo;
         this.request = this.entry.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/releases")
-            .back();
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/releases")
+                .back();
+        this.requestLatest = this.entry.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/releases/latest")
+                .back();
+        this.requestTagged = this.entry.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/releases/tags/");
     }
 
     @Override
@@ -110,6 +132,28 @@ final class RtReleases implements Releases {
     @Override
     public Release get(final int number) {
         return new RtRelease(this.entry, this.owner, number);
+    }
+
+    @Override
+    public Release tagged(String name) throws IOException {
+        return this.get(
+                this.requestTagged.path(name).back().method(Request.GET)
+                        .fetch().as(RestResponse.class)
+                        .assertStatus(HttpURLConnection.HTTP_CREATED)
+                        .as(JsonResponse.class)
+                        .json().readObject().getInt("id")
+        );
+    }
+
+    @Override
+    public Release latest() throws IOException {
+        return this.get(
+                this.requestLatest.method(Request.GET)
+                        .fetch().as(RestResponse.class)
+                        .assertStatus(HttpURLConnection.HTTP_CREATED)
+                        .as(JsonResponse.class)
+                        .json().readObject().getInt("id")
+        );
     }
 
     @Override
