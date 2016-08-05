@@ -43,6 +43,7 @@ import lombok.ToString;
  * @since 0.8
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Releases {
     /**
      * Owner of them.

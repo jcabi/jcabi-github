@@ -204,26 +204,22 @@ final class MkReleases implements Releases {
     }
 
     /**
-     * Check the first release is greater than last release.
-     * @param first First release.
-     * @param last Last release
-     * @return True if it this
+     * Compare the creation timestamp between the releases.
+     * @param first First release
+     * @param second Second release
+     * @return True if second is newer than first
      */
-    private boolean isNewer(
-            final Release first,
-            final Release last
-    ) {
-        return this.createdAt(first)
-                .compareTo(this.createdAt(last)) > 0;
+    private boolean isNewer(final Release first, final Release second) {
+        return Long.compare(this.createdAt(first), this.createdAt(second)) > 0;
     }
 
     /**
-     * Verify the date time release was created.
+     * Release to get the creation timestamp.
      * @param release Release date
      * @return Zero or DateTime
      */
-    private Long createdAt(final Release release) {
-        Long result = 0L;
+    private long createdAt(final Release release) {
+        long result = 0;
         try {
             final Date created = this.smart(release).createdAt();
             if (created != null) {
@@ -238,7 +234,7 @@ final class MkReleases implements Releases {
     /**
      * Create a smart release.
      * @param release Release value
-     * @return Smart release.
+     * @return Smart release
      */
     private Release.Smart smart(final Release release) {
         return new Release.Smart(release);
