@@ -230,6 +230,7 @@ final class MkReleases implements Releases {
                 result = created.getTime();
             }
         } catch (final IOException iox) {
+            throw new IllegalArgumentException(iox);
         }
         return result;
     }
