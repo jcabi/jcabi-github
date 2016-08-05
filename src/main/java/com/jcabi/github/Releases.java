@@ -67,17 +67,15 @@ public interface Releases {
 
     /**
      * Get a release by tag name.
-     * @param name Release tag name
+     * @param name Release with given tag name
      * @return Release
      * @throws java.io.IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name">Get a release by tag name</a>
      */
-    Release tagged(
-            String name)
-            throws IOException;
+    Release tagged(String name) throws IOException;
 
     /**
-     * Get the latest release.
+     * Latest release.
      * @return Release
      * @throws java.io.IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-the-latest-release">Get the latest release</a>

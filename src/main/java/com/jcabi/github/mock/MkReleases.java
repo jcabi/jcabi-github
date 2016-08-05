@@ -39,7 +39,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Iterator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -124,29 +123,27 @@ final class MkReleases implements Releases {
 
     @Override
     public Release latest() throws IOException {
-        Release latestRelease = null;
-        final Iterator<Release> itRelease = this.iterate().iterator();
-        while (itRelease.hasNext()) {
-            final Release release = itRelease.next();
-            if (latestRelease == null) {
-                latestRelease = release;
-            } else if (this.createLatest(latestRelease, release)) {
-                latestRelease = release;
+        Release latest = null;
+        for (final Release release: this.iterate()) {
+            if (latest == null) {
+                latest = release;
+            } else if (this.isNewer(latest, release)) {
+                latest = release;
             }
         }
-        return latestRelease;
+        return latest;
     }
 
     @Override
     public Release tagged(final String name) throws IOException {
-        final Iterator<Release> itRelease = this.iterate().iterator();
-        while (itRelease.hasNext()) {
-            final Release release = itRelease.next();
-            if (name.equals(new Release.Smart(release).tag())) {
-                return release;
+        Release tagged = null;
+        for (final Release release: this.iterate()) {
+            if (name.equals(this.smart(release).tag())) {
+                tagged = release;
+                break;
             }
         }
-        return null;
+        return tagged;
     }
 
     @Override
@@ -209,10 +206,10 @@ final class MkReleases implements Releases {
     /**
      * Check the first release is greater than last release.
      * @param first First release.
-     * @param last Last release.
-     * @return True/False.
+     * @param last Last release
+     * @return True if it this
      */
-    public boolean createLatest(
+    private boolean isNewer(
             final Release first,
             final Release last
     ) {
@@ -221,21 +218,28 @@ final class MkReleases implements Releases {
     }
 
     /**
-     * Veriffy the date time release was created.
-     * @param release Release date.
-     * @return Zero or DateTime.
+     * Verify the date time release was created.
+     * @param release Release date
+     * @return Zero or DateTime
      */
-    private Long createdAt(
-            final Release release
-    ) {
+    private Long createdAt(final Release release) {
+        Long result = 0L;
         try {
-            final Release.Smart smart = new Release.Smart(release);
-            final Date created = smart.createdAt();
+            final Date created = this.smart(release).createdAt();
             if (created != null) {
-                return created.getTime();
+                result = created.getTime();
             }
         } catch (final IOException iox) {
         }
-        return 0L;
+        return result;
+    }
+
+    /**
+     * Create a smart release.
+     * @param release Release value
+     * @return Smart release.
+     */
+    private Release.Smart smart(final Release release) {
+        return new Release.Smart(release);
     }
 }
