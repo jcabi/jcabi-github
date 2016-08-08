@@ -114,24 +114,24 @@ final class RtReleases implements Releases {
     @Override
     public Release tagged(final String name) throws IOException {
         return this.get(
-                this.request.uri().path("/tags/").path(name)
-                        .back().method(Request.GET)
-                        .fetch().as(RestResponse.class)
-                        .assertStatus(HttpURLConnection.HTTP_CREATED)
-                        .as(JsonResponse.class)
-                        .json().readObject().getInt("id")
+            this.request.uri().path("/tags/").path(name)
+                .back().method(Request.GET)
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
         );
     }
 
     @Override
     public Release latest() throws IOException {
         return this.get(
-                this.request.uri().path("/latest")
-                        .back().method(Request.GET)
-                        .fetch().as(RestResponse.class)
-                        .assertStatus(HttpURLConnection.HTTP_CREATED)
-                        .as(JsonResponse.class)
-                        .json().readObject().getInt("id")
+            this.request.uri().path("/latest")
+                .back().method(Request.GET)
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("id")
         );
     }
 
