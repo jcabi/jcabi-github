@@ -5,6 +5,7 @@
 [![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
 
 [![Build Status](https://travis-ci.org/jcabi/jcabi-github.svg?branch=master)](https://travis-ci.org/jcabi/jcabi-github)
+[![PDD status](http://www.0pdd.com/svg?name=jcabi/jcabi-github)](http://www.0pdd.com/p?name=teamed/jcabi/jcabi-github)
 [![Build status](https://ci.appveyor.com/api/projects/status/rdhq60kvt75ic3cv/branch/master?svg=true)](https://ci.appveyor.com/project/yegor256/jcabi-github/branch/master)
 [![JavaDoc](https://img.shields.io/badge/javadoc-html-blue.svg)](http://www.javadoc.io/doc/com.jcabi/jcabi-github)
 
