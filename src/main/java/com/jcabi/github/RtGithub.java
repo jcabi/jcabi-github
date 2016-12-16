@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
-import com.jcabi.manifests.Manifests;
 import java.io.IOException;
 import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
@@ -77,21 +76,14 @@ import org.apache.commons.io.Charsets;
 public final class RtGithub implements Github {
 
     /**
-     * Version of us.
-     */
-    private static final String USER_AGENT = String.format(
-        "jcabi-github %s %s %s",
-        Manifests.read("JCabi-Version"),
-        Manifests.read("JCabi-Build"),
-        Manifests.read("JCabi-Date")
-    );
-
-    /**
      * Default request to start with.
      */
     private static final Request REQUEST =
         new ApacheRequest("https://api.github.com")
-            .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
+            .header(
+                HttpHeaders.USER_AGENT,
+                new FromProperties("jcabigithub.properties").format()
+            )
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 
