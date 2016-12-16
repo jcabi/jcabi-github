@@ -80,7 +80,7 @@ final class FromProperties implements UserAgent {
         boolean ioexception = false;
         try {
             this.props.load(
-                ClassLoader.getSystemResourceAsStream(this.name)
+                this.getClass().getClassLoader().getResourceAsStream(this.name)
             );
         } catch (final IOException ex) {
             ioexception = true;
