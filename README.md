@@ -105,3 +105,4 @@ In order to run static analysis checks only use this:
 ```
 $ mvn clean install -DskipTests -Dinvoker.skip=true -Pqulice
 ```
+
