@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.aspects.RetryOnFailure;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.net.BindException;
@@ -74,6 +75,7 @@ public class RandomPort extends ExternalResource {
      * @return Available port number
      * @throws IOException in case of IO error.
      */
+    @RetryOnFailure
     public final int port() throws IOException {
         final ServerSocket socket = new ServerSocket();
         try  {
