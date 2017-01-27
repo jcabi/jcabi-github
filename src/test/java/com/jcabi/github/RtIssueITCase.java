@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.log.Logger;
+import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -96,7 +97,7 @@ public final class RtIssueITCase {
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
-            issue.comments().iterate(),
+            issue.comments().iterate(new Date(0L)),
             Matchers.<Comment>iterableWithSize(1)
         );
         final User.Smart author = new User.Smart(

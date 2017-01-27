@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
+import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public final class MkCommentsTest {
         comments.post("hello, dude!");
         comments.post("hello again");
         MatcherAssert.assertThat(
-            comments.iterate(),
+            comments.iterate(new Date(0L)),
             Matchers.<Comment>iterableWithSize(2)
         );
     }

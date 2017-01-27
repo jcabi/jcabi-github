@@ -40,6 +40,7 @@ import com.jcabi.immutable.ArrayMap;
 import com.jcabi.log.VerboseCallable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,6 +52,7 @@ import org.junit.Test;
  * Test case for {@link MkGithub}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class MkGithubTest {
     /**
@@ -76,7 +78,7 @@ public final class MkGithubTest {
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
-            repo.issues().get(issue.number()).comments().iterate(),
+            repo.issues().get(issue.number()).comments().iterate(new Date(0L)),
             Matchers.<Comment>iterableWithSize(1)
         );
         MatcherAssert.assertThat(

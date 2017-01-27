@@ -36,6 +36,7 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
@@ -120,9 +121,11 @@ final class RtComments implements Comments {
     }
 
     @Override
-    public Iterable<Comment> iterate() {
+    public Iterable<Comment> iterate(final Date since) {
         return new RtPagination<Comment>(
-            this.request,
+            this.request.uri()
+                .queryParam("since", new Github.Time(since))
+                .back(),
             new RtValuePagination.Mapping<Comment, JsonObject>() {
                 @Override
                 public Comment map(final JsonObject object) {

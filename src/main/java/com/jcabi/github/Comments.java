@@ -31,6 +31,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Github comments.
@@ -65,10 +66,12 @@ public interface Comments {
 
     /**
      * Iterate them all.
+     * @param since Since when? Just give {@code new Date(0)} if you want
+     *  all comments.
      * @return All comments
      * @see <a href="http://developer.github.com/v3/issues/comments/#list-comments-on-an-issue">List Comments on an Issue</a>
      */
-    Iterable<Comment> iterate();
+    Iterable<Comment> iterate(Date since);
 
     /**
      * Post new comment.

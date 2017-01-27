@@ -39,6 +39,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -119,7 +120,7 @@ final class MkComments implements Comments {
     }
 
     @Override
-    public Iterable<Comment> iterate() {
+    public Iterable<Comment> iterate(final Date since) {
         return new MkIterable<Comment>(
             this.storage,
             String.format("%s/comment", this.xpath()),
