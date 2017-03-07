@@ -214,6 +214,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
             this.jsn = new SmartJson(rep);
         }
         /**
+         * Does it have a description.
+         * @return TRUE if description is present
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean hasDescription() throws IOException {
+            return this.jsn.hasNotNull("description");
+        }
+        /**
          * Get its description.
          * @return Description
          * @throws IOException If there is any I/O problem
