@@ -61,6 +61,9 @@
             <url>http://github.jcabi.com/</url>
         </site>
     </distributionManagement>
+    <properties>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.jcabi</groupId>
@@ -85,10 +88,6 @@
             <groupId>com.jcabi.incubator</groupId>
             <artifactId>xembly</artifactId>
             <version>0.22</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-manifests</artifactId>
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
