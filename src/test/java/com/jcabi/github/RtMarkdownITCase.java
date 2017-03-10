@@ -82,7 +82,7 @@ public final class RtMarkdownITCase {
      * @throws Exception If some problem inside
      */
     private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+        final String key = SystemProperty.githubKey();
         Assume.assumeThat(key, Matchers.notNullValue());
         return new RtGithub(key);
     }

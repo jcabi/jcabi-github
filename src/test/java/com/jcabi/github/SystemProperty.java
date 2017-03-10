@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2017, jcabi.com
+ * Copyright (c) 2013-2014, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,39 +29,24 @@
  */
 package com.jcabi.github;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
-
 /**
- * Test case for {@link RtOrganizations}.
- * @author Paul Polishchuk (ppol@ua.fm)
+ * System Properties used in JUnit test cases.
+ * @author Bin Wang (wbin00@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
- * @since 0.24
  */
-public final class RtOrganizationsITCase {
+public final class SystemProperty {
+
     /**
-     * RtOrganizations can get an organization.
-     * @throws Exception if any problem inside
+     * Default constructor.
      */
-    @Test
-    public void getOrganization() throws Exception {
-        final String login = "github";
-        final Organization org = github()
-            .organizations().get(login);
-        MatcherAssert.assertThat(org.login(), Matchers.equalTo(login));
+    private SystemProperty() {
     }
 
     /**
-     * Create and return github to test.
-     * @return Github
-     * @throws Exception If some problem inside
+     * Get GitHub key from system property.
+     * @return GitHub key.
      */
-    private static Github github() throws Exception {
-        final String key = SystemProperty.githubKey();
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
+    public static String githubKey() {
+        return System.getProperty("failsafe.github.key");
     }
 }

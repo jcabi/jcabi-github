@@ -73,7 +73,7 @@ public final class RtTagsITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+        final String key = SystemProperty.githubKey();
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
         repos = github.repos();
@@ -97,7 +97,7 @@ public final class RtTagsITCase {
      */
     @Test
     public void createsTag() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+        final String key = SystemProperty.githubKey();
         Assume.assumeThat(key, Matchers.notNullValue());
         final References refs = repo.git().references();
         final String sha = refs.get("refs/heads/master").json()

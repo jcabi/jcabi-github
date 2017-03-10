@@ -49,7 +49,7 @@ public final class RtPublicKeyITCase {
      */
     @Test
     public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
+        final String key = SystemProperty.githubKey();
         Assume.assumeThat(key, Matchers.notNullValue());
         MatcherAssert.assertThat(
             new RtGithub(key).users().self().keys().get(1).toString(),
