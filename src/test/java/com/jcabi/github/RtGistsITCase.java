@@ -37,7 +37,7 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Gists}.
+ * Integration case for {@link Gists}. This test requires OAuth scope gist.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  */

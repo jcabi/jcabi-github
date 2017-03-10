@@ -38,7 +38,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtBlobs}.
+ * Test case for {@link RtBlobs}. This test requires OAuth scope repo.
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)

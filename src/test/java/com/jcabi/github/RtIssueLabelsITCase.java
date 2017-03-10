@@ -38,7 +38,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link IssueLabels}.
+ * Integration case for {@link IssueLabels}. This test requires OAuth scope
+ * repo.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.6

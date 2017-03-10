@@ -41,7 +41,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtDeployKeys}.
+ * Test case for {@link RtDeployKeys}. This test requires OAuth scope
+ * admin:public_key.
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8

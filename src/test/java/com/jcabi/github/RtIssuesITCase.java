@@ -43,7 +43,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link Github}. This test requires OAuth scope repo.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
