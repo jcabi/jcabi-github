@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.wire.AutoRedirectingWire;
 import com.jcabi.manifests.Manifests;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -93,7 +94,8 @@ public final class RtGithub implements Github {
         new ApacheRequest("https://api.github.com")
             .header(HttpHeaders.USER_AGENT, RtGithub.USER_AGENT)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .through(AutoRedirectingWire.class);
 
     /**
      * REST request.
