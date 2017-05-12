@@ -43,6 +43,7 @@ import lombok.ToString;
  * @since 0.8
  */
 @Immutable
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Releases {
     /**
      * Owner of them.
@@ -64,6 +65,23 @@ public interface Releases {
      * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
      */
     Release get(int number);
+
+    /**
+     * Get a release by tag name.
+     * @param name Release with given tag name
+     * @return Release
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name">Get a release by tag name</a>
+     */
+    Release tagged(String name) throws IOException;
+
+    /**
+     * Latest release.
+     * @return Release
+     * @throws java.io.IOException If there is any I/O problem
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-the-latest-release">Get the latest release</a>
+     */
+    Release latest() throws IOException;
 
     /**
      * Create new release.
@@ -119,6 +137,14 @@ public interface Releases {
         @Override
         public Release get(final int number) {
             return this.releases.get(number);
+        }
+        @Override
+        public Release tagged(final String name) throws IOException {
+            return this.releases.tagged(name);
+        }
+        @Override
+        public Release latest() throws IOException {
+            return this.releases.latest();
         }
         @Override
         public Release create(final String tag) throws IOException {

@@ -38,6 +38,7 @@ import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -121,6 +122,31 @@ final class MkReleases implements Releases {
     }
 
     @Override
+    public Release latest() throws IOException {
+        Release latest = null;
+        for (final Release release: this.iterate()) {
+            if (latest == null) {
+                latest = release;
+            } else if (this.isNewer(latest, release)) {
+                latest = release;
+            }
+        }
+        return latest;
+    }
+
+    @Override
+    public Release tagged(final String name) throws IOException {
+        Release tagged = null;
+        for (final Release release: this.iterate()) {
+            if (name.equals(this.smart(release).tag())) {
+                tagged = release;
+                break;
+            }
+        }
+        return tagged;
+    }
+
+    @Override
     public Release create(
         final String tag
     ) throws IOException {
@@ -175,5 +201,42 @@ final class MkReleases implements Releases {
             "/github/repos/repo[@coords='%s']/releases",
             this.coords
         );
+    }
+
+    /**
+     * Compare the creation timestamp between the releases.
+     * @param first First release
+     * @param second Second release
+     * @return True if second is newer than first
+     */
+    private boolean isNewer(final Release first, final Release second) {
+        return Long.compare(this.createdAt(first), this.createdAt(second)) > 0;
+    }
+
+    /**
+     * Release to get the creation timestamp.
+     * @param release Release date
+     * @return Zero or DateTime
+     */
+    private long createdAt(final Release release) {
+        long result = 0;
+        try {
+            final Date created = this.smart(release).createdAt();
+            if (created != null) {
+                result = created.getTime();
+            }
+        } catch (final IOException iox) {
+            throw new IllegalArgumentException(iox);
+        }
+        return result;
+    }
+
+    /**
+     * Create a smart release.
+     * @param release Release value
+     * @return Smart release
+     */
+    private Release.Smart smart(final Release release) {
+        return new Release.Smart(release);
     }
 }
