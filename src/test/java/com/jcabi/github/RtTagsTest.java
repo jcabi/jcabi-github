@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import javax.json.Json;
@@ -85,13 +86,15 @@ public final class RtTagsTest {
                 tags.create(input),
                 Matchers.instanceOf(Tag.class)
             );
+            final MkQuery queryTags = container.take();
             MatcherAssert.assertThat(
-                container.take().method(),
+                queryTags.method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                container.take().method(),
-                Matchers.equalTo(Request.POST)
+                queryTags.uri().toString()
+                .replace(container.home().toString(), "/"),
+                Matchers.equalTo("/repos/jeff/test/git/refs/tags")
             );
         } finally {
             container.stop();
