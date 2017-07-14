@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
+import com.jcabi.github.Organization;
 import com.jcabi.github.UserOrganizations;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -58,7 +59,7 @@ public final class MkUserOrganizationsTest {
         github.organizations().get(login);
         MatcherAssert.assertThat(
             userOrgs.iterate(),
-            Matchers.not(Matchers.emptyIterable())
+            Matchers.<Organization>iterableWithSize(1)
         );
     }
 }
