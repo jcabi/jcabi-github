@@ -190,8 +190,9 @@ final class MkIssue implements Issue {
 
     @Override
     public JsonObject json() throws IOException {
+        final XML xml = this.storage.xml();
         final JsonObject obj = new JsonNode(
-            this.storage.xml().nodes(this.xpath()).get(0)
+            xml.nodes(this.xpath()).get(0)
         ).json();
         final JsonObjectBuilder json = Json.createObjectBuilder();
         for (final Map.Entry<String, JsonValue> val: obj.entrySet()) {
@@ -203,7 +204,7 @@ final class MkIssue implements Issue {
                 Json.createObjectBuilder().add("name", label.name()).build()
             );
         }
-        return json
+        final JsonObjectBuilder res = json
             .add("labels", array)
             .add(
                 // @checkstyle MultipleStringLiteralsCheck (1 line)
@@ -211,12 +212,29 @@ final class MkIssue implements Issue {
                 Json.createObjectBuilder().add(
                     "login", obj.getString("assignee", "")
                 ).build()
-            )
-            .add(
-                "pull_request",
-                Json.createObjectBuilder().addNull("html_url").build()
-            )
-            .build();
+            );
+        final JsonObjectBuilder pull = Json.createObjectBuilder();
+        final String html = "html_url";
+        if (xml.nodes(
+                String.format(
+                    // @checkstyle LineLengthCheck (1 line)
+                    "/github/repos/repo[@coords='%s']/pulls/pull/number[text() = '%d']",
+                    this.coords,
+                    this.num
+                )
+            ).isEmpty()) {
+            pull.addNull(html);
+        } else {
+            pull.add(
+                html,
+                String.format(
+                    "https://%s/pulls/%d",
+                    this.coords,
+                    this.num
+                )
+            );
+        }
+        return res.add("pull_request", pull.build()).build();
     }
 
     /**

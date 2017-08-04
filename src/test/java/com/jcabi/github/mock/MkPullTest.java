@@ -30,6 +30,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
@@ -46,6 +47,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class MkPullTest {
     /**
@@ -220,6 +222,16 @@ public final class MkPullTest {
         MatcherAssert.assertThat(
             pull.json().getString("patch"),
             Matchers.equalTo(value)
+        );
+    }
+
+    @Test
+    public void issueIsPull() throws Exception {
+        final Pull pull = MkPullTest.pullRequest();
+        MatcherAssert.assertThat(
+            "Issue is not a pull request",
+            new Issue.Smart(pull.repo().issues().get(pull.number())).isPull(),
+            Matchers.is(true)
         );
     }
 
