@@ -39,6 +39,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.json.JsonObject;
 import org.apache.commons.io.IOUtils;
@@ -173,7 +174,7 @@ public final class RtReleaseAssetTest {
                 query.method(), Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
-                IOUtils.toString(stream),
+                IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.notNullValue()
             );
         } finally {

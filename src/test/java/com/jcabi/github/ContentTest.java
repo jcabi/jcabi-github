@@ -30,8 +30,8 @@
 package com.jcabi.github;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
-import org.apache.commons.io.Charsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -231,7 +231,9 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
-            new String(new Content.Smart(content).decoded(), Charsets.UTF_8),
+            new String(
+                new Content.Smart(content).decoded(), StandardCharsets.UTF_8
+            ),
             Matchers.is("test encode\u20ac")
         );
     }

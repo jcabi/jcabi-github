@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -152,8 +153,9 @@ public final class SmartJsonTest {
         return new JsonReadable() {
             @Override
             public JsonObject json() {
-                return Json.createReader(IOUtils.toInputStream(txt))
-                    .readObject();
+                return Json.createReader(
+                    IOUtils.toInputStream(txt, StandardCharsets.UTF_8)
+                ).readObject();
             }
         };
     }
