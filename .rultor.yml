@@ -3,6 +3,7 @@ architect:
 - dmarkov
 install:
 - sudo gem install --no-rdoc --no-ri pdd
+- sudo gem install --no-rdoc --no-ri xcop
 assets:
   secring.gpg: zerocracy/home#assets/secring.gpg
   settings.xml: zerocracy/home#assets/jcabi/settings.xml
