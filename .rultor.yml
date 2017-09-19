@@ -20,12 +20,12 @@ merge:
   - mkordas
   - pinaf
   script: |-
-    mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml
+    mvn clean install -Pjcabi-github -DskipITs -Pqulice --errors --settings ../settings.xml
     mvn clean
     pdd --source=$(pwd) --verbose --file=/dev/null
 deploy:
   script: |-
-    mvn clean deploy -Pqulice --errors --settings ../settings.xml
+    mvn clean deploy -Pqulice -DskipITs --errors --settings ../settings.xml
     mvn clean
     pdd --source=$(pwd) --verbose --file=jcabi-github.xml
     s3cmd --no-progress put jcabi-github.xml --config=../s3cfg s3://pdd.teamed.io/jcabi-github.xml
@@ -35,7 +35,7 @@ release:
   script: |-
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Pqulice -Psonatype -Pjcabi --errors --settings ../settings.xml
-    mvn clean site-deploy -Psite --errors --settings ../settings.xml || echo 'site-deploy failed'
+    mvn clean deploy -Pqulice -Psonatype -DskipITs -Pjcabi --errors --settings ../settings.xml
+    mvn clean site-deploy -Psite -DskipITs --errors --settings ../settings.xml || echo 'site-deploy failed'
   commanders:
   - yegor256
