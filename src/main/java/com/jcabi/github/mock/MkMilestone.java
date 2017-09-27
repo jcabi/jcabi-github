@@ -110,7 +110,7 @@ final class MkMilestone implements Milestone {
             milestone.repo().coordinates()
         );
         if (result == 0) {
-            result = Integer.valueOf(this.code).compareTo(milestone.number());
+            result = Integer.compare(this.code, milestone.number());
         }
         return result;
     }

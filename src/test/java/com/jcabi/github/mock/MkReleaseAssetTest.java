@@ -34,6 +34,7 @@ import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
@@ -197,8 +198,8 @@ public final class MkReleaseAssetTest {
             )
         );
         MatcherAssert.assertThat(
-            IOUtils.toString(asset.raw()),
-            Matchers.is(IOUtils.toString(raw))
+            IOUtils.toString(asset.raw(), StandardCharsets.UTF_8),
+            Matchers.is(IOUtils.toString(raw, StandardCharsets.UTF_8))
         );
         asset.remove();
     }

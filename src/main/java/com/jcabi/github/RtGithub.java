@@ -37,13 +37,13 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.wire.AutoRedirectingWire;
 import com.jcabi.manifests.Manifests;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.io.Charsets;
 
 /**
  * Github client, starting point to the entire library.
@@ -126,7 +126,7 @@ public final class RtGithub implements Github {
                     "Basic %s",
                     DatatypeConverter.printBase64Binary(
                         String.format("%s:%s", user, pwd)
-                            .getBytes(Charsets.UTF_8)
+                            .getBytes(StandardCharsets.UTF_8)
                     )
                 )
             )

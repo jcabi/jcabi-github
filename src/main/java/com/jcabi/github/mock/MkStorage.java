@@ -35,8 +35,8 @@ import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.xembly.Directive;
 import org.xembly.Xembler;
@@ -125,7 +125,7 @@ public interface MkStorage {
         public InFile(
             final File file
         ) throws IOException {
-            FileUtils.write(file, "<github/>");
+            FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
             this.name = file.getAbsolutePath();
         }
         @Override
@@ -141,7 +141,7 @@ public interface MkStorage {
             synchronized (this.name) {
                 return new XMLDocument(
                     FileUtils.readFileToString(
-                        new File(this.name), Charsets.UTF_8
+                        new File(this.name), StandardCharsets.UTF_8
                     )
                 );
             }
@@ -156,7 +156,7 @@ public interface MkStorage {
                     new XMLDocument(
                         new Xembler(dirs).applyQuietly(this.xml().node())
                     ).toString(),
-                    Charsets.UTF_8
+                    StandardCharsets.UTF_8
                 );
             }
         }

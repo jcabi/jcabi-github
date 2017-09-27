@@ -108,8 +108,7 @@ final class RtMilestone implements Milestone {
     }
 
     @Override
-    public int compareTo(
-        final Milestone milestone) {
-        return Integer.valueOf(this.number()).compareTo(milestone.number());
+    public int compareTo(final Milestone milestone) {
+        return Integer.compare(this.number(), milestone.number());
     }
 }

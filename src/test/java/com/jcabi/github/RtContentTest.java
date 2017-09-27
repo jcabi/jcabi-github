@@ -39,9 +39,9 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.ws.rs.core.HttpHeaders;
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -162,7 +162,7 @@ public final class RtContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
-                IOUtils.toString(stream, Charsets.UTF_8),
+                IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.is(raw)
             );
             MatcherAssert.assertThat(
