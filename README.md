@@ -9,6 +9,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/rdhq60kvt75ic3cv/branch/master?svg=true)](https://ci.appveyor.com/project/yegor256/jcabi-github/branch/master)
 [![JavaDoc](https://img.shields.io/badge/javadoc-html-blue.svg)](http://www.javadoc.io/doc/com.jcabi/jcabi-github)
 
+[![jpeek report](http://i.jpeek.org/com.jcabi/jcabi-github/badge.svg)](http://i.jpeek.org/com.jcabi/jcabi-github/)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
 [![Dependencies](https://www.versioneye.com/user/projects/561a9e43a193340f2800106e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/561a9e43a193340f2800106e)
 
