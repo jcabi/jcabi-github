@@ -61,7 +61,12 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
+@SuppressWarnings
+    (
+        {
+            "PMD.TooManyMethods", "PMD.GodClass", "PMD.ExcessivePublicCount"
+        }
+    )
 public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
@@ -121,7 +126,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = { "issue", "jsn" })
+    @EqualsAndHashCode(of = {"issue", "jsn"})
     final class Smart implements Issue {
         /**
          * Encapsulated issue.
@@ -326,7 +331,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public boolean isPull() throws IOException {
             return this.json().containsKey("pull_request")
                 && !this.jsn.value("pull_request", JsonObject.class)
-                    .isNull("html_url");
+                .isNull("html_url");
         }
 
         /**
@@ -428,6 +433,37 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     );
                 }
             };
+        }
+        /**
+         * Does issue have milestone?
+         * @return True if has
+         * @throws IOException If fails
+         */
+        public boolean hasMilestone() throws IOException {
+            return this.jsn.hasNotNull("milestone");
+        }
+        /**
+         * Get milestone for this issue.
+         * @return Milestone
+         * @throws IOException If fails
+         */
+        public Milestone milestone() throws IOException {
+            return this.repo().milestones().get(
+                this.jsn.value("milestone", JsonObject.class)
+                    .getInt("number")
+            );
+        }
+        /**
+         * Add issueto milestone.
+         * @param milestone Milestone
+         * @throws IOException If fails
+         */
+        public void milestone(final Milestone milestone) throws IOException {
+            this.patch(
+                Json.createObjectBuilder().add(
+                    "milestone", milestone.number()
+                ).build()
+            );
         }
         @Override
         public Repo repo() {
