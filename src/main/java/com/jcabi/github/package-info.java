@@ -42,19 +42,20 @@
  * <p>There are some design conventions in this library, which is important
  * to keep in mind.
  *
- * <p>Sometimes we use {@link JsonObject} as an input argument for a method
- * (for example, in {@link Repos#create(JsonObject)}),
- * somewhere else we use {@link Map}
+ * <p>Sometimes we use {@link javax.json.JsonObject}
+ * as an input argument for a method
+ * (for example, in {@link Repos}),
+ * somewhere else we use {@link java.util.Map}
  * (see {@link Issues#iterate(Map)}),
  * in other case we use just a few plain Java types
  * (see {@link DeployKeys#create(String,String)}),
  * and sometimes we combine them
- * (see {@link Hooks#create(String,Map)}).
+ * (see {@link Hooks}).
  * This is not a bug, it's done intentionally.
  * The logic is simple.
- * Class {@link JsonObject} is used when Github API is
+ * Class {@link javax.json.JsonObject} is used when Github API is
  * expecting a JSON object as HTTP request body.
- * {@link Map} is used when Github API expects HTTP query parameters,
+ * {@link java.util.Map} is used when Github API expects HTTP query parameters,
  * and some of them are optional, and there are more than two of them.
  * In all other situations we're using plain Java types.
  *

@@ -33,12 +33,12 @@ deploy:
     pdd --source=$(pwd) --verbose --file=jcabi-github.xml
     s3cmd --no-progress put jcabi-github.xml --config=../s3cfg s3://pdd.teamed.io/jcabi-github.xml
 env:
-  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g -Xdoclint:none
+  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g
 release:
   script: |-
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Pqulice -Psonatype -DskipITs -Pjcabi --errors --settings ../settings.xml
-    mvn clean site-deploy -Psite -DskipITs --errors --settings ../settings.xml || echo 'site-deploy failed'
+    mvn clean deploy -Pqulice -Psonatype -Dinvoker.skip -DskipITs -Pjcabi --errors --settings ../settings.xml
+    mvn clean site-deploy -Psite -DskipITs -Dinvoker.skip --errors --settings ../settings.xml || echo 'site-deploy failed'
   commanders:
   - yegor256

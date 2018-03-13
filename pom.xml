@@ -228,45 +228,17 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionalparam>${javadoc.opts}</additionalparam>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
   <profiles>
-    <profile>
-      <id>cobertura</id>
-      <activation>
-        <!--
-        This is not enabled by default, because too much of the code
-        is not covered by tests and the build will fail.  It is possible
-        to use cobertura by enabling this profile, though.
-        -->
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cobertura-maven-plugin</artifactId>
-            <version>2.7</version>
-            <configuration>
-              <check>
-                <haltOnFailure>true</haltOnFailure>
-                <branchRate>85</branchRate>
-                <lineRate>85</lineRate>
-                <totalBranchRate>85</totalBranchRate>
-                <totalLineRate>85</totalLineRate>
-                <packageLineRate>85</packageLineRate>
-                <packageBranchRate>85</packageBranchRate>
-              </check>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>qulice</id>
       <build>
