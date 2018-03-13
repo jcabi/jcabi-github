@@ -31,8 +31,11 @@ package com.jcabi.github.safe;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Comment;
+import com.jcabi.github.Comments;
+import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
+import com.jcabi.github.IssueLabels;
+import com.jcabi.github.Repo;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -40,28 +43,28 @@ import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Safe comment.
+ * Safe issue.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
- * @since 0.34
+ * @since 0.36
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "origin")
-public final class SfComment implements Comment {
+public final class SfIssue implements Issue {
 
     /**
-     * Original comment.
+     * Original issue.
      */
-    private final transient Comment origin;
+    private final transient Issue origin;
 
     /**
      * Public ctor.
-     * @param cmt The original comment
+     * @param issue The original issue
      */
-    public SfComment(final Comment cmt) {
-        this.origin = cmt;
+    public SfIssue(final Issue issue) {
+        this.origin = issue;
     }
 
     @Override
@@ -70,8 +73,30 @@ public final class SfComment implements Comment {
     }
 
     @Override
-    public Issue issue() {
-        return this.origin.issue();
+    public JsonObject json() throws IOException {
+        JsonObject json;
+        try {
+            json = this.origin.json();
+        } catch (final AssertionError ex) {
+            json = new MkGithub().randomRepo()
+                .issues().create("", "").json();
+            Logger.warn(this, "failed to fetch issue: %[exception]s", ex);
+        }
+        return json;
+    }
+
+    @Override
+    public void patch(final JsonObject json) throws IOException {
+        try {
+            this.origin.patch(json);
+        } catch (final AssertionError ex) {
+            Logger.warn(this, "failed to patch issue: %[exception]s", ex);
+        }
+    }
+
+    @Override
+    public Repo repo() {
+        return this.origin.repo();
     }
 
     @Override
@@ -80,42 +105,27 @@ public final class SfComment implements Comment {
     }
 
     @Override
-    public void remove() throws IOException {
-        try {
-            this.origin.remove();
-        } catch (final AssertionError ex) {
-            Logger.warn(this, "Failed to remove comment: %[exception]s", ex);
-        }
+    public Comments comments() {
+        return new SfComments(this.origin.comments());
     }
 
     @Override
-    public int compareTo(final Comment cmt) {
-        return this.origin.compareTo(cmt);
+    public IssueLabels labels() {
+        return this.origin.labels();
     }
 
     @Override
-    public void patch(final JsonObject json) throws IOException {
-        try {
-            this.origin.patch(json);
-        } catch (final AssertionError ex) {
-            Logger.warn(this, "Failed to path comment: %[exception]s", ex);
-        }
+    public Iterable<Event> events() throws IOException {
+        return this.origin.events();
     }
 
     @Override
-    public JsonObject json() throws IOException {
-        JsonObject json;
-        try {
-            json = this.origin.json();
-        } catch (final AssertionError ex) {
-            final String author = new Issue.Smart(
-                new SfIssue(this.origin.issue())
-            ).author().login();
-            json = new MkGithub(author).randomRepo()
-                .issues().create("", "")
-                .comments().post("deleted comment").json();
-            Logger.warn(this, "failed to fetch comment: %[exception]s", ex);
-        }
-        return json;
+    public boolean exists() throws IOException {
+        return this.origin.exists();
+    }
+
+    @Override
+    public int compareTo(final Issue issue) {
+        return this.origin.compareTo(issue);
     }
 }
