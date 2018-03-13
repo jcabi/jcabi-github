@@ -51,7 +51,7 @@
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Safe comment.</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor@tpc2.com)</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: 0ee87cd84e5458c97bc05a03832b743ad1671128 $</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: 7829642fb372b4ffc3f2a6e815bace075944ea82 $</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @since 0.34</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  @Immutable
@@ -117,7 +117,7 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>             json = <strong class="jxr_keyword">this</strong>.origin.json();
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> AssertionError ex) {
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>             <strong class="jxr_keyword">final</strong> String author = <strong class="jxr_keyword">new</strong> Issue.Smart(
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>                 <strong class="jxr_keyword">this</strong>.origin.issue()
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                 <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/safe/SfIssue.html">SfIssue</a>(<strong class="jxr_keyword">this</strong>.origin.issue())
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>             ).author().login();
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>             json = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkGithub.html">MkGithub</a>(author).randomRepo()
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>                 .issues().create(<span class="jxr_string">""</span>, <span class="jxr_string">""</span>)
