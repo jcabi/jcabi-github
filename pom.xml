@@ -233,7 +233,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalparam>${javadoc.opts}</additionalparam>
+          <additionalparam>-Xdoclint:none</additionalparam>
         </configuration>
       </plugin>
     </plugins>
