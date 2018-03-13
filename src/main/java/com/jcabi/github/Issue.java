@@ -305,6 +305,21 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             }
         }
         /**
+         * When this issue was closed.
+         * @return Date of creation
+         * @throws IOException If there is any I/O problem
+         * @since 0.34
+         */
+        public Date closedAt() throws IOException {
+            try {
+                return new Github.Time(
+                    this.jsn.text("closed_at")
+                ).date();
+            } catch (final ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        /**
          * When this issue was updated.
          * @return Date of update
          * @throws IOException If there is any I/O problem
