@@ -233,10 +233,10 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <id>cobertura</id>
       <activation>
         <!--
-                This is not enabled by default, because too much of the code
-                is not covered by tests and the build will fail.  It is possible
-                to use cobertura by enabling this profile, though.
-                -->
+        This is not enabled by default, because too much of the code
+        is not covered by tests and the build will fail.  It is possible
+        to use cobertura by enabling this profile, though.
+        -->
         <activeByDefault>false</activeByDefault>
       </activation>
       <build>

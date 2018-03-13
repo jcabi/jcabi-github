@@ -1,3 +1,5 @@
+docker:
+  image: yegor256/java8
 architect:
 - yegor256
 - dmarkov
@@ -31,7 +33,7 @@ deploy:
     pdd --source=$(pwd) --verbose --file=jcabi-github.xml
     s3cmd --no-progress put jcabi-github.xml --config=../s3cfg s3://pdd.teamed.io/jcabi-github.xml
 env:
-  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g
+  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g -Xdoclint:none
 release:
   script: |-
     mvn versions:set "-DnewVersion=${tag}"
