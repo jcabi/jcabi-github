@@ -227,11 +227,22 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
         </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <additionalparam>-Xdoclint:none</additionalparam>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
   <reporting>
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0</version>
         <configuration>
           <additionalparam>-Xdoclint:none</additionalparam>
         </configuration>
