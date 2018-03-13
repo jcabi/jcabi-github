@@ -38,7 +38,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li >
-                            <span>                        <a href="apidocs-0.23/index.html" title="JavaDoc 0.23">JavaDoc 0.23</a>
+                            <span>                        <a href="apidocs-0.34/index.html" title="JavaDoc 0.34">JavaDoc 0.34</a>
         </span>
                                                                                                                                                                 <ul>
                                                                     </ul>
@@ -74,7 +74,69 @@
                                                                                                     <li >
                             <span>                        <a href="project-info.html" title="Project Information">Project Information</a>
         </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <ul>
+                                                                                                    <li >
+                            <span>                        <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="dependencies.html" title="Dependencies">Dependencies</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li  class='active' >
+                            <span>                        <a href="index.html" title="About">About</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="license.html" title="Project License">Project License</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="plugins.html" title="Project Plugins">Project Plugins</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="team-list.html" title="Project Team">Project Team</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="source-repository.html" title="Source Repository">Source Repository</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                                                        <li >
+                            <span>                        <a href="project-summary.html" title="Project Summary">Project Summary</a>
+        </span>
+                                                                                                                                                                <ul>
+                                                                    </ul>
+                                                    </li>
+                                                                                        </ul>
+                                                    </li>
                                                                                                                         <li >
                             <span>                        <a href="project-reports.html" title="Project Reports">Project Reports</a>
         </span>
@@ -105,13 +167,13 @@
                             </div>
                             <ul class="badges">
                                 <li>
-                                    <strong itemprop="version">0.23</strong>
+                                    <strong itemprop="version">0.34</strong>
                                 </li>
                                 <li>
                                     
-                                    <time itemprop="datePublished" datetime="2015-04-24T06:43:09Z">
+                                    <time itemprop="datePublished" datetime="2018-03-13T11:45:04Z">
                                         
-                                        24-Apr-2015
+                                        13-Mar-2018
                                     </time>
                                 </li>
                                 <li class="menu-button">menu</li>
@@ -172,7 +234,7 @@ public class Main {
     issue.comments().post(&quot;My first comment!&quot;);
   }
 }</pre></div>
-<p>Read <a href="./apidocs-0.23/index.html">JavaDoc</a> for more information and examples.</p>
+<p>Read <a href="./apidocs-0.34/index.html">JavaDoc</a> for more information and examples.</p>
 <p>There are <a class="externalLink" href="http://developer.github.com/libraries/">a few other Java adapters</a> of Github API, but our implementation has its advantages, including:</p>
 <ul>
 <li>All classes are private and implement public interfaces</li>
@@ -181,19 +243,19 @@ public class Main {
 <li>Every Github object gives GET/PATCH access to its raw JSON</li>
 <li>HTTP request is accessible for modifications</li>
 <li>Entire Github API is available, at least through a configurable HTTP request</li></ul>
-<p>The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.23/jcabi-github-0.23.jar"><tt>jcabi-github-0.23.jar</tt></a> and add it to the classpath):</p>
+<p>Java 7 or higher is required. The only dependency you need is (you can also download <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.34/jcabi-github-0.34.jar"><tt>jcabi-github-0.34.jar</tt></a> and add it to the classpath):</p>
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.23&lt;/version&gt;
+  &lt;version&gt;0.34&lt;/version&gt;
 &lt;/dependency&gt;</pre></div>
-<p>If you're not a Maven user, you can use a JAR with all dependencies inside (over 4Mb): <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.23/jcabi-github-0.23-jar-with-dependencies.jar"><tt>jcabi-github-0.23-jar-with-dependencies.jar</tt></a>. You can also include it to your Maven `pom.xml`:</p>
+<p>If you're not a Maven user, you can use a JAR with all dependencies inside (over 4Mb): <a class="externalLink" href="http://repo1.maven.org/maven2/com/jcabi/jcabi-github/0.34/jcabi-github-0.34-jar-with-dependencies.jar"><tt>jcabi-github-0.34-jar-with-dependencies.jar</tt></a>. You can also include it to your Maven `pom.xml`:</p>
 <div class="source">
 <pre>&lt;dependency&gt;
   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
-  &lt;version&gt;0.23&lt;/version&gt;
+  &lt;version&gt;0.34&lt;/version&gt;
   &lt;classifier&gt;jar-with-dependencies&lt;/classifier&gt;
 &lt;/dependency&gt;</pre></div>
 <div class="section">
@@ -219,7 +281,7 @@ public class Main {
                 <footer class="legal-notes">
                     <div>
                         Copyright &#169;
-                                                                            2012-2015
+                                                                            2012-2018
                                             </div>
                     <div>jcabi.com, All Rights Reserved.</div>
                     <div><a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a>.</div>

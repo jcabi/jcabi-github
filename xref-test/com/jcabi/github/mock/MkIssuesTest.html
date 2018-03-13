@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../testapidocs/com/jcabi/github/mock/MkIssuesTest.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2015, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2017, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -41,8 +41,8 @@
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Github;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Issue;
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Repo;
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.jcabi.immutable.ArrayMap;
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> javax.json.Json;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Repos;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.jcabi.immutable.ArrayMap;
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.hamcrest.MatcherAssert;
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.hamcrest.Matchers;
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
@@ -50,7 +50,7 @@
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Test case for {@link MkIssues}.</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor@tpc2.com)</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id$</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 91c19da15040ded33641bc4825f04f5b7997a9cb $</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkIssuesTest.html">MkIssuesTest</a> {
@@ -61,7 +61,7 @@
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>      @Test
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iteratesIssues() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">this</strong>.repo();
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">new</strong> MkGithub().randomRepo();
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>          repo.issues().create(<span class="jxr_string">"hey, you"</span>, <span class="jxr_string">"body of issue"</span>);
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>          repo.issues().create(<span class="jxr_string">"hey"</span>, <span class="jxr_string">"body of 2nd issue"</span>);
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>          repo.issues().create(<span class="jxr_string">"hey again"</span>, <span class="jxr_string">"body of 3rd issue"</span>);
@@ -77,7 +77,7 @@
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>      @Test
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> createsNewIssueWithCorrectAuthor() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">this</strong>.repo();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">new</strong> MkGithub().randomRepo();
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>          <strong class="jxr_keyword">final</strong> Issue.Smart issue = <strong class="jxr_keyword">new</strong> Issue.Smart(
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>              repo.issues().create(<span class="jxr_string">"hello"</span>, <span class="jxr_string">"the body"</span>)
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>          );
@@ -95,27 +95,15 @@
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> createsMultipleIssues() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>          <strong class="jxr_keyword">final</strong> Github github = <strong class="jxr_keyword">new</strong> MkGithub(<span class="jxr_string">"jeff"</span>);
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>          <strong class="jxr_keyword">final</strong> Repo repo = github.repos().create(
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>              Json.createObjectBuilder().add(<span class="jxr_string">"name"</span>, <span class="jxr_string">"test-3"</span>).build()
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>              <strong class="jxr_keyword">new</strong> Repos.RepoCreate(<span class="jxr_string">"test-3"</span>, false)
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>          );
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> idx = 1; idx &lt; Tv.TEN; ++idx) {
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>              repo.issues().create(<span class="jxr_string">"title"</span>, <span class="jxr_string">"body"</span>);
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>          }
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      }
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     * Create an repo to work with.</em>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">     * @return Repo</em>
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>     <strong class="jxr_keyword">private</strong> Repo repo() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkGithub().repos().create(
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>             Json.createObjectBuilder().add(<span class="jxr_string">"name"</span>, <span class="jxr_string">"test"</span>).build()
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>         );
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>     }
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> }
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2012&#x2013;2018 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
 </body>
 </html>

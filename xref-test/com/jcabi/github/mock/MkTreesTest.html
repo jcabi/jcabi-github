@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../testapidocs/com/jcabi/github/mock/MkTreesTest.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2015, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2017, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * Testcase for MkTrees.</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @author Alexander Lukashevich (sanai56967@gmail.com)</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id$</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: a319e9ccf54f683215e6b9ca6949e64fb63f82a0 $</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  @SuppressWarnings(<span class="jxr_string">"PMD.AvoidDuplicateLiterals"</span>)
@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>                  )
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>              ).build();
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>              <strong class="jxr_keyword">this</strong>.repo().git().trees().create(tree),
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>              <strong class="jxr_keyword">new</strong> MkGithub().randomRepo().git().trees().create(tree),
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>              Matchers.notNullValue()
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          );
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>      }
@@ -98,28 +98,16 @@
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>                      .build()
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>              ).build()
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>          ).build();
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>          <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">this</strong>.repo();
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>          <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">new</strong> MkGithub().randomRepo();
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>          repo.git().trees().create(json);
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>          MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>              repo.git().trees().getRec(sha).json().getString(<span class="jxr_string">"sha"</span>),
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>              Matchers.containsString(sha)
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>          );
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>      }
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">     * Repo for testing.</em>
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">     * @return Repo</em>
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">     * @throws Exception - if something goes wrong.</em>
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>     <strong class="jxr_keyword">private</strong> Repo repo() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkGithub().repos().create(
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>             Json.createObjectBuilder().add(<span class="jxr_string">"name"</span>, <span class="jxr_string">"test"</span>).build()
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>         );
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>     }
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> }
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2012&#x2013;2015 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2012&#x2013;2018 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
 </body>
 </html>
