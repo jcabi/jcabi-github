@@ -127,11 +127,25 @@ public interface User extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param usr User
          */
-        public Smart(
-            final User usr
-        ) {
+        public Smart(final User usr) {
             this.user = usr;
             this.jsn = new SmartJson(usr);
+        }
+
+        /**
+         * Does it exist in GitHub?
+         * @return TRUE if this user truly exists
+         * @throws IOException If it fails
+         * @since 0.34
+         */
+        public boolean exists() throws IOException {
+            boolean exists = true;
+            try {
+                this.id();
+            } catch (final AssertionError ex) {
+                exists = false;
+            }
+            return exists;
         }
 
         /**
