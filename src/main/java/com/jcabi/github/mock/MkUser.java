@@ -78,16 +78,20 @@ final class MkUser implements User {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkUser(
-        final MkStorage stg,
-        final String login
-    ) throws IOException {
+    MkUser(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
         this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/users[not(user[login='%s'])]", login)
-            ).add("user").add("login").set(login)
+            new Directives()
+                .xpath(
+                    String.format(
+                        "/github/users[not(user[login='%s'])]", login
+                    )
+                )
+                .add("user")
+                .add("login").set(login).up()
+                .add("type").set("User").up()
+                .add("name").set(login).up()
         );
     }
 
