@@ -45,6 +45,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle MethodNameCheck (200 lines)
  */
 public final class MkReleaseAssetsTest {
 
@@ -115,7 +116,7 @@ public final class MkReleaseAssetsTest {
 
     /**
      * Must encode the input bytes into Base64.
-     * 
+     *
      * @throws Exception Unexpected.
      */
     @Test
@@ -128,7 +129,7 @@ public final class MkReleaseAssetsTest {
         MatcherAssert.assertThat(
             IOUtils.toString(asset.raw()),
             Matchers.is(DatatypeConverter.printBase64Binary(test.getBytes()))
-        ); 
+        );
     }
 
     /**
