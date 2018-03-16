@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.base.Charsets;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
@@ -153,11 +154,9 @@ final class MkReleaseAsset implements ReleaseAsset {
     @Override
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
-            DatatypeConverter.parseBase64Binary(
-                this.storage.xml().xpath(
-                    String.format("%s/content/text()", this.xpath())
-                ).get(0)
-            )
+            this.storage.xml().xpath(
+                String.format("%s/content/text()", this.xpath())
+            ).get(0).getBytes(Charsets.UTF_8)
         );
     }
 

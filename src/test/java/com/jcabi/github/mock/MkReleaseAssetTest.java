@@ -181,27 +181,24 @@ public final class MkReleaseAssetTest {
     }
 
     /**
-     * MkReleaseAsset should be able to fetch its raw representation.
-     *
-     * @throws Exception if some problem inside
+     * Should return the Base64-encoded value of the input contents. When
+     * decoded, should be equal to the input.
+     * 
+     * @throws Exception Unexpected.
      */
     @Test
-    public void fetchesRawRepresentation() throws Exception {
-        final String fetch = "fetch";
-        final ReleaseAssets assets = release().assets();
-        final ReleaseAsset asset = assets.upload(
-            fetch.getBytes(), "text/plain", "raw.txt"
-        );
-        final InputStream raw = new ByteArrayInputStream(
-            DatatypeConverter.parseBase64Binary(
-                fetch
-            )
-        );
+    public void canDecodeContentsIntoOriginalValue() throws Exception {
+        final String test = "This is a test asset.";
+        final ReleaseAsset asset = new MkGithub().randomRepo().releases()
+            .create("v1.0")
+            .assets()
+            .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
-            IOUtils.toString(asset.raw(), StandardCharsets.UTF_8),
-            Matchers.is(IOUtils.toString(raw, StandardCharsets.UTF_8))
+            new String(
+              DatatypeConverter.parseBase64Binary(IOUtils.toString(asset.raw()))
+            ),
+            Matchers.is(test)
         );
-        asset.remove();
     }
 
     /**

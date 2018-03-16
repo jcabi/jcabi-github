@@ -32,6 +32,8 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -109,6 +111,24 @@ public final class MkReleaseAssetsTest {
             rel.assets().release(),
             Matchers.is(rel)
         );
+    }
+
+    /**
+     * Must encode the input bytes into Base64.
+     * 
+     * @throws Exception Unexpected.
+     */
+    @Test
+    public void encodesContentsAsBase64() throws Exception {
+        final String test = "This is a test asset.";
+        final ReleaseAsset asset = new MkGithub().randomRepo().releases()
+            .create("v1.0")
+            .assets()
+            .upload(test.getBytes(), "type", "name");
+        MatcherAssert.assertThat(
+            IOUtils.toString(asset.raw()),
+            Matchers.is(DatatypeConverter.printBase64Binary(test.getBytes()))
+        ); 
     }
 
     /**
