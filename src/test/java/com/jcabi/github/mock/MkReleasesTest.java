@@ -40,6 +40,7 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
+ * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 public final class MkReleasesTest {
     /**
@@ -152,7 +153,7 @@ public final class MkReleasesTest {
 
     /**
      * The release's name should be empty upon initial creation.
-     * 
+     *
      * @throws Exception Unexpected.
      */
     @Test
@@ -161,14 +162,15 @@ public final class MkReleasesTest {
         final String tag = "tag";
         releases.create(tag);
         MatcherAssert.assertThat(
-            new Release.Smart(releases.iterate().iterator().next()).name().isEmpty(),
+            new Release.Smart(releases.iterate().iterator().next())
+                .name().isEmpty(),
             Matchers.is(true)
         );
     }
 
     /**
      * The release's body should be empty upon initial creation.
-     * 
+     *
      * @throws Exception Unexpected.
      */
     @Test
@@ -177,7 +179,8 @@ public final class MkReleasesTest {
         final String tag = "tag";
         releases.create(tag);
         MatcherAssert.assertThat(
-            new Release.Smart(releases.iterate().iterator().next()).body().isEmpty(),
+            new Release.Smart(releases.iterate().iterator().next())
+                .body().isEmpty(),
             Matchers.is(true)
         );
     }
