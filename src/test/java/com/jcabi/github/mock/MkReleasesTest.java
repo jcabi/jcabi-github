@@ -149,4 +149,36 @@ public final class MkReleasesTest {
             Matchers.equalTo(tag)
         );
     }
+
+    /**
+     * The release's name should be empty upon initial creation.
+     * 
+     * @throws Exception Unexpected.
+     */
+    @Test
+    public void releaseNameIsEmpty() throws Exception {
+        final Releases releases = new MkGithub().randomRepo().releases();
+        final String tag = "tag";
+        releases.create(tag);
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.iterate().iterator().next()).name().isEmpty(),
+            Matchers.is(true)
+        );
+    }
+
+    /**
+     * The release's body should be empty upon initial creation.
+     * 
+     * @throws Exception Unexpected.
+     */
+    @Test
+    public void releaseBodyIsEmpty() throws Exception {
+        final Releases releases = new MkGithub().randomRepo().releases();
+        final String tag = "tag";
+        releases.create(tag);
+        MatcherAssert.assertThat(
+            new Release.Smart(releases.iterate().iterator().next()).body().isEmpty(),
+            Matchers.is(true)
+        );
+    }
 }
