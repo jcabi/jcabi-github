@@ -116,7 +116,6 @@ public final class MkReleaseAssetsTest {
 
     /**
      * Must encode the input bytes into Base64.
-     *
      * @throws Exception Unexpected.
      */
     @Test

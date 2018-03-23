@@ -181,10 +181,10 @@ public final class MkReleaseAssetTest {
      * Should return the Base64-encoded value of the input contents. When
      * decoded, should be equal to the input.
      *
-     * @throws Exception Unexpected.
+     * @throws Exception if some problem inside
      */
     @Test
-    public void canDecodeContentsIntoOriginalValue() throws Exception {
+    public void fetchesRawRepresentation() throws Exception {
         final String test = "This is a test asset.";
         final ReleaseAsset asset = new MkGithub().randomRepo().releases()
             .create("v1.0")
