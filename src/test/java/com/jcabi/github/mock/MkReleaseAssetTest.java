@@ -32,9 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
@@ -181,27 +178,24 @@ public final class MkReleaseAssetTest {
     }
 
     /**
-     * MkReleaseAsset should be able to fetch its raw representation.
+     * Should return the Base64-encoded value of the input contents. When
+     * decoded, should be equal to the input.
      *
      * @throws Exception if some problem inside
      */
     @Test
     public void fetchesRawRepresentation() throws Exception {
-        final String fetch = "fetch";
-        final ReleaseAssets assets = release().assets();
-        final ReleaseAsset asset = assets.upload(
-            fetch.getBytes(), "text/plain", "raw.txt"
-        );
-        final InputStream raw = new ByteArrayInputStream(
-            DatatypeConverter.parseBase64Binary(
-                fetch
-            )
-        );
+        final String test = "This is a test asset.";
+        final ReleaseAsset asset = new MkGithub().randomRepo().releases()
+            .create("v1.0")
+            .assets()
+            .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
-            IOUtils.toString(asset.raw(), StandardCharsets.UTF_8),
-            Matchers.is(IOUtils.toString(raw, StandardCharsets.UTF_8))
+            new String(
+              DatatypeConverter.parseBase64Binary(IOUtils.toString(asset.raw()))
+            ),
+            Matchers.is(test)
         );
-        asset.remove();
     }
 
     /**
