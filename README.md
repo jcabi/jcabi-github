@@ -1,6 +1,6 @@
 <img src="http://img.jcabi.com/logo-square.png" width="64px" height="64px" />
 
-[![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3RUBL5H9.svg)](https://www.0crat.com/contrib/C3RUBL5H9)
+[![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C9R53K5JA.svg)](https://www.0crat.com/contrib/C9R53K5JA)
 
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
 [![Managed by Zerocracy](https://www.0crat.com/badge/C3RUBL5H9.svg)](https://www.0crat.com/p/C3RUBL5H9)
