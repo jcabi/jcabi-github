@@ -104,7 +104,7 @@ final class MkUserOrganizations implements UserOrganizations {
     public Iterable<Organization> iterate() throws IOException {
         return new MkIterable<Organization>(
             this.storage,
-            "/github/orgs/org/login",
+            "/github/orgs/org",
             new OrganizationMapping(new MkOrganizations(this.storage))
         );
     }
