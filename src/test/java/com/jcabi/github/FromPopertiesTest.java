@@ -29,68 +29,35 @@
  */
 package com.jcabi.github;
 
-import java.io.IOException;
-import java.util.Properties;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 /**
- * User agent data read from the jcabigithub.properties file.
+ * Unit tests for {@link FromProperties}.
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.37
  */
-public final class FromProperties implements UserAgent {
+public final class FromPopertiesTest {
 
     /**
-     * Build timestamp.
+     * FromProperties can format the user agent String.
      */
-    private static final String JCABI_DATE = "JCabi-Date";
-
-    /**
-     * Project version.
-     */
-    private static final String JCABI_VERSION = "JCabi-Version";
-
-    /**
-     * Build number.
-     */
-    private static final String JCABI_BUILD = "JCabi-Build";
-
-    /**
-     * Properties.
-     */
-    private final transient Properties props = new Properties();
-
-    /**
-     * Name of the properties file to load.
-     */
-    private final transient String name;
-
-    /**
-     * Ctor.
-     * @param filename Name of the properties file to look for
-     */
-    public FromProperties(final String filename) {
-        this.name = filename;
-    }
-
-    @Override
-    public String format() {
-        try {
-            this.props.load(
-                Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream(this.name)
-            );
-        } catch (final IOException ex) {
-            throw new IllegalStateException(
-                String.format("IOException when loading %s", this.name),
-                ex
-            );
-        }
-        return String.format(
-            "jcabi-github %s %s %s",
-            this.props.getProperty(FromProperties.JCABI_VERSION),
-            this.props.getProperty(FromProperties.JCABI_BUILD),
-            this.props.getProperty(FromProperties.JCABI_DATE)
+    @Test
+    public void formatsUserAgent() {
+        MatcherAssert.assertThat(
+            new FromProperties("jcabigithub.properties").format(),
+            Matchers.startsWith("jcabi-github 1.0-SNAPSHOT")
         );
     }
+
+    /**
+     * FromProperties throws NullPointerException on missing file.
+     */
+    @Test(expected = NullPointerException.class)
+    public void throwsExceptionOnMissingFile() {
+        new FromProperties("missing.properties").format();
+    }
+
 }
