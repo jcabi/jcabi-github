@@ -38,6 +38,7 @@ import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.json.JsonObject;
@@ -52,7 +53,7 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * @todo #913:30min Implement notifications(), markAsRead(final Date lastread)
+ * @todo #1305:30min Implement markAsRead(final Date lastread)
  *  operations in MkUser. Don't forget about unit tests.
  * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
  */
@@ -134,7 +135,7 @@ final class MkUser implements User {
 
     @Override
     public List<Notification> notifications() {
-        throw new NotImplementedException("MkNotifications#notifications");
+        return new ArrayList<Notification>(0);
     }
 
     @Override
