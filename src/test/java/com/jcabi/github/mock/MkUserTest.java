@@ -60,4 +60,22 @@ public final class MkUserTest {
             Matchers.notNullValue()
         );
     }
+
+    /**
+     * MkUser returns notifications.
+     * <p>
+     * There is no requirement for us to return actual mock data because our
+     * API does not provide a way to create notifications.
+     * @throws IOException If there is an error creating the user.
+     */
+    @Test
+    public void returnsNotifications() throws IOException {
+        MatcherAssert.assertThat(
+            new MkUser(
+                new MkStorage.InFile(),
+                "notifications"
+            ).notifications(),
+            Matchers.notNullValue()
+        );
+    }
 }
