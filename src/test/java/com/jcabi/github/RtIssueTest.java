@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -50,6 +51,13 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtIssueTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtIssue should be able to fetch its comments.
@@ -120,7 +128,7 @@ public final class RtIssueTest {
     public void patchWithJson() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start();
+        ).start(this.resource.port());
         final RtIssue issue = new RtIssue(
             new ApacheRequest(container.home()),
             this.repo(),

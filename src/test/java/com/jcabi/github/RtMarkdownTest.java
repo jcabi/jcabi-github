@@ -40,6 +40,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpHeaders;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -52,6 +53,13 @@ import org.junit.Test;
 public final class RtMarkdownTest {
 
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtMarkdown should be able to return JSON output.
      *
      * @throws Exception If a problem occurs.
@@ -61,7 +69,7 @@ public final class RtMarkdownTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-        ).start();
+        ).start(this.resource.port());
         final RtMarkdown markdown = new RtMarkdown(
             new MkGithub(),
             new ApacheRequest(container.home())
@@ -92,7 +100,7 @@ public final class RtMarkdownTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-        ).start();
+        ).start(this.resource.port());
         final RtMarkdown markdown = new RtMarkdown(
             new MkGithub(),
             new ApacheRequest(container.home())
