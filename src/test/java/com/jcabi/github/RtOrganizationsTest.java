@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,14 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtOrganizationsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtOrganizations should be able to get a single organization.
      *
@@ -59,7 +68,7 @@ public final class RtOrganizationsTest {
     public void fetchesSingleOrganization() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start();
+        ).start(this.resource.port());
         try {
             final Organizations orgs = new RtOrganizations(
                 new MkGithub(),
@@ -93,7 +102,7 @@ public final class RtOrganizationsTest {
                     .add(org(3, "org3"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         try {
             final Organizations orgs = new RtOrganizations(
                 github,

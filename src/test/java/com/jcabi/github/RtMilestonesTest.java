@@ -37,6 +37,7 @@ import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -47,6 +48,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtMilestonesTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtMilestones can remove a milestone.
      * @throws Exception if some problem inside
@@ -55,7 +64,7 @@ public final class RtMilestonesTest {
     public void deleteMilestone() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         try {
             final RtMilestones milestones = new RtMilestones(
                 new ApacheRequest(container.home()),
