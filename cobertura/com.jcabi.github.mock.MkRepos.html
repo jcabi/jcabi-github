@@ -173,11 +173,11 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> MkStorage stg,</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;77</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> String login</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;78</td>  <td class="nbHitsCovered">&nbsp;236</td>  <td class="src"><pre class="src">&nbsp;    ) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;79</td>  <td class="nbHitsCovered">&nbsp;242</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage = stg;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;80</td>  <td class="nbHitsCovered">&nbsp;242</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.self = login;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;81</td>  <td class="nbHitsCovered">&nbsp;242</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage.apply(<span class="keyword">new</span> Directives().xpath(<span class="string">"/github"</span>).addIf(<span class="string">"repos"</span>));</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;82</td>  <td class="nbHitsCovered">&nbsp;238</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;78</td>  <td class="nbHitsCovered">&nbsp;241</td>  <td class="src"><pre class="src">&nbsp;    ) <span class="keyword">throws</span> IOException {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;79</td>  <td class="nbHitsCovered">&nbsp;245</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage = stg;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;80</td>  <td class="nbHitsCovered">&nbsp;245</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.self = login;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;81</td>  <td class="nbHitsCovered">&nbsp;245</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage.apply(<span class="keyword">new</span> Directives().xpath(<span class="string">"/github"</span>).addIf(<span class="string">"repos"</span>));</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;82</td>  <td class="nbHitsCovered">&nbsp;240</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;83</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;84</td>  <td class="nbHits">&nbsp;</td>
@@ -197,30 +197,30 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> RepoCreate settings</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;92</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    ) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;93</td>  <td class="nbHitsCovered">&nbsp;460</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Coordinates coords = <span class="keyword">new</span> Coordinates.Simple(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;93</td>  <td class="nbHitsCovered">&nbsp;469</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Coordinates coords = <span class="keyword">new</span> Coordinates.Simple(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;94</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.self,</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;95</td>  <td class="nbHitsCovered">&nbsp;231</td>  <td class="src"><pre class="src">&nbsp;            settings.name()</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;95</td>  <td class="nbHitsCovered">&nbsp;233</td>  <td class="src"><pre class="src">&nbsp;            settings.name()</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;96</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        );</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;97</td>  <td class="nbHitsCovered">&nbsp;468</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage.apply(</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;98</td>  <td class="nbHitsCovered">&nbsp;232</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> Directives().xpath(<span class="keyword">this</span>.xpath()).add(<span class="string">"repo"</span>)</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;99</td>  <td class="nbHitsCovered">&nbsp;228</td>  <td class="src"><pre class="src">&nbsp;                .attr(<span class="string">"coords"</span>, coords.toString())</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;100</td>  <td class="nbHitsCovered">&nbsp;230</td>  <td class="src"><pre class="src">&nbsp;                .add(<span class="string">"name"</span>).set(settings.name()).up()</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;101</td>  <td class="nbHitsCovered">&nbsp;229</td>  <td class="src"><pre class="src">&nbsp;                .add(<span class="string">"description"</span>).set(<span class="string">"test repository"</span>).up()</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;102</td>  <td class="nbHitsCovered">&nbsp;230</td>  <td class="src"><pre class="src">&nbsp;                .add(<span class="string">"private"</span>).set(<span class="string">"false"</span>).up()</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;97</td>  <td class="nbHitsCovered">&nbsp;474</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">this</span>.storage.apply(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;98</td>  <td class="nbHitsCovered">&nbsp;234</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> Directives().xpath(<span class="keyword">this</span>.xpath()).add(<span class="string">"repo"</span>)</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;99</td>  <td class="nbHitsCovered">&nbsp;234</td>  <td class="src"><pre class="src">&nbsp;                .attr(<span class="string">"coords"</span>, coords.toString())</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;100</td>  <td class="nbHitsCovered">&nbsp;235</td>  <td class="src"><pre class="src">&nbsp;                .add(<span class="string">"name"</span>).set(settings.name()).up()</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;101</td>  <td class="nbHitsCovered">&nbsp;235</td>  <td class="src"><pre class="src">&nbsp;                .add(<span class="string">"description"</span>).set(<span class="string">"test repository"</span>).up()</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;102</td>  <td class="nbHitsCovered">&nbsp;236</td>  <td class="src"><pre class="src">&nbsp;                .add(<span class="string">"private"</span>).set(<span class="string">"false"</span>).up()</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;103</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        );</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;104</td>  <td class="nbHitsCovered">&nbsp;231</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Repo repo = <span class="keyword">this</span>.get(coords);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;105</td>  <td class="nbHitsCovered">&nbsp;232</td>  <td class="src"><pre class="src">&nbsp;        repo.patch(settings.json());</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsCovered">&nbsp;232</td>  <td class="src"><pre class="src">&nbsp;        Logger.info(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;104</td>  <td class="nbHitsCovered">&nbsp;235</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Repo repo = <span class="keyword">this</span>.get(coords);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;105</td>  <td class="nbHitsCovered">&nbsp;238</td>  <td class="src"><pre class="src">&nbsp;        repo.patch(settings.json());</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsCovered">&nbsp;235</td>  <td class="src"><pre class="src">&nbsp;        Logger.info(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;107</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>, <span class="string">"repository %s created by %s"</span>,</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;108</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            coords, <span class="keyword">this</span>.self</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;109</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        );</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;110</td>  <td class="nbHitsCovered">&nbsp;235</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> repo;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;110</td>  <td class="nbHitsCovered">&nbsp;238</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> repo;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;111</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;112</td>  <td class="nbHits">&nbsp;</td>
@@ -235,11 +235,11 @@
   <td class="src"><pre class="src">&nbsp;    ) {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;117</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">try</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;118</td>  <td class="nbHitsCovered">&nbsp;724</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">final</span> String xpath = String.format(</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;119</td>  <td class="nbHitsCovered">&nbsp;241</td>  <td class="src"><pre class="src">&nbsp;                <span class="string">"%s/repo[@coords='%s']"</span>, <span class="keyword">this</span>.xpath(), coords</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;118</td>  <td class="nbHitsCovered">&nbsp;735</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">final</span> String xpath = String.format(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;119</td>  <td class="nbHitsCovered">&nbsp;246</td>  <td class="src"><pre class="src">&nbsp;                <span class="string">"%s/repo[@coords='%s']"</span>, <span class="keyword">this</span>.xpath(), coords</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;120</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            );</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;121</td>  <td class="nbHitsCovered"><a title="Line 121: Conditional coverage 100% (2/2).">&nbsp;241</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 121: Conditional coverage 100% (2/2).">            <span class="keyword">if</span> (<span class="keyword">this</span>.storage.xml().nodes(xpath).isEmpty()) {</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;121</td>  <td class="nbHitsCovered"><a title="Line 121: Conditional coverage 100% (2/2).">&nbsp;244</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 121: Conditional coverage 100% (2/2).">            <span class="keyword">if</span> (<span class="keyword">this</span>.storage.xml().nodes(xpath).isEmpty()) {</a></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;122</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;123</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                    String.format(<span class="string">"repository %s doesn't exist"</span>, coords)</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;124</td>  <td class="nbHits">&nbsp;</td>
@@ -248,8 +248,8 @@
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;126</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        } <span class="keyword">catch</span> (<span class="keyword">final</span> IOException ex) {</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;127</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;128</td>  <td class="nbHitsCovered">&nbsp;243</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;242</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> <span class="keyword">new</span> MkRepo(<span class="keyword">this</span>.storage, <span class="keyword">this</span>.self, coords);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;128</td>  <td class="nbHitsCovered">&nbsp;247</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;247</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> <span class="keyword">new</span> MkRepo(<span class="keyword">this</span>.storage, <span class="keyword">this</span>.self, coords);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;130</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;131</td>  <td class="nbHits">&nbsp;</td>
@@ -325,7 +325,7 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;173</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">private</span> String xpath() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;174</td>  <td class="nbHitsCovered">&nbsp;474</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> <span class="string">"/github/repos"</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;174</td>  <td class="nbHitsCovered">&nbsp;481</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> <span class="string">"/github/repos"</span>;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;175</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;176</td>  <td class="nbHits">&nbsp;</td>
@@ -334,6 +334,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 3/15/18 8:36 AM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 4/7/18 9:47 AM.</div>
 </body>
 </html>

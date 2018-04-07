@@ -37,16 +37,16 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">package</strong> com.jcabi.github.mock;
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.jcabi.aspects.Immutable;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.jcabi.aspects.Loggable;
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Coordinates;
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Release;
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.ReleaseAsset;
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> java.io.ByteArrayInputStream;
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> java.io.InputStream;
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> javax.json.JsonObject;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> javax.xml.bind.DatatypeConverter;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Charsets;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.jcabi.aspects.Immutable;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.jcabi.aspects.Loggable;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Coordinates;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.Release;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.jcabi.github.ReleaseAsset;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> java.io.ByteArrayInputStream;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> java.io.InputStream;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> javax.json.JsonObject;
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> lombok.EqualsAndHashCode;
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> lombok.ToString;
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> org.xembly.Directives;
@@ -54,7 +54,7 @@
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * Mock Github release asset.</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @author Carlos Miranda (miranda.cma@gmail.com)</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @version $Id: 696ccc0165c389125500454a27dffb25ba16173f $</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @version $Id: ad33e92a4ee59769d6dcefdd6d938fdf3b6e6ba9 $</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  @Immutable
@@ -161,26 +161,24 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>     @Override
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>     <strong class="jxr_keyword">public</strong> InputStream raw() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> ByteArrayInputStream(
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>             DatatypeConverter.parseBase64Binary(
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>                 <strong class="jxr_keyword">this</strong>.storage.xml().xpath(
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>                     String.format(<span class="jxr_string">"%s/content/text()"</span>, <strong class="jxr_keyword">this</strong>.xpath())
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>                 ).get(0)
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             )
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>         );
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>     }
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>             <em class="jxr_comment">// @checkstyle LineLength (1 line)</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets/asset[id='%d']"</span>,
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>             <strong class="jxr_keyword">this</strong>.coords, <strong class="jxr_keyword">this</strong>.rel, <strong class="jxr_keyword">this</strong>.num
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>         );
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>     }
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> }
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>             <strong class="jxr_keyword">this</strong>.storage.xml().xpath(
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>                 String.format(<span class="jxr_string">"%s/content/text()"</span>, <strong class="jxr_keyword">this</strong>.xpath())
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>             ).get(0).getBytes(Charsets.UTF_8)
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>         );
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>     }
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>             <em class="jxr_comment">// @checkstyle LineLength (1 line)</em>
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets/asset[id='%d']"</span>,
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>             <strong class="jxr_keyword">this</strong>.coords, <strong class="jxr_keyword">this</strong>.rel, <strong class="jxr_keyword">this</strong>.num
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         );
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>     }
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2018 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

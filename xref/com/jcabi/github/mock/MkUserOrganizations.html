@@ -54,7 +54,7 @@
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * Github user organizations.</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @author Chris Rebert (github@chrisrebert.com)</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @version $Id: 5fc9e0217bc4080519d12d754f2846e92d383bbd $</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @version $Id: ac294756bb096fef948567fadae48a3832012b71 $</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/orgs/" target="alexandria_uri">http://developer.github.com/v3/orgs/</a>"&gt;Organizations API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * @since 0.24</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiteralsCheck (200 lines)</em>
@@ -112,7 +112,7 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Organization&gt; iterate() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;Organization&gt;(
 <a class="jxr_linenumber" name="L106" href="#L106">106</a>             <strong class="jxr_keyword">this</strong>.storage,
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>             <span class="jxr_string">"/github/orgs/org/login"</span>,
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>             <span class="jxr_string">"/github/orgs/org"</span>,
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/RtUserOrganizations.html">OrganizationMapping</a>(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkOrganizations.html">MkOrganizations</a>(<strong class="jxr_keyword">this</strong>.storage))
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>         );
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>     }

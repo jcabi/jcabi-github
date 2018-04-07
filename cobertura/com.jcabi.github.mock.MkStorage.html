@@ -27,7 +27,7 @@
 </table>
 <div class="separator">&nbsp;</div>
 <table cellspacing="0" cellpadding="0" class="src">
-<tr>  <td class="numLineCover">&nbsp;1</td>  <td class="nbHitsCovered">&nbsp;608</td>  <td class="src"><pre class="src">&nbsp;<span class="comment">/**</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;1</td>  <td class="nbHitsCovered">&nbsp;624</td>  <td class="src"><pre class="src">&nbsp;<span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;2</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment"> * Copyright (c) 2013-2017, jcabi.com</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;3</td>  <td class="nbHits">&nbsp;</td>
@@ -257,9 +257,9 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;116</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> InFile() <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;117</td>  <td class="nbHitsCovered">&nbsp;338</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>(File.createTempFile(<span class="string">"jcabi-github"</span>, <span class="string">".xml"</span>));</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;118</td>  <td class="nbHitsCovered">&nbsp;330</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> File(<span class="keyword">this</span>.name).deleteOnExit();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;119</td>  <td class="nbHitsCovered">&nbsp;340</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;117</td>  <td class="nbHitsCovered">&nbsp;344</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>(File.createTempFile(<span class="string">"jcabi-github"</span>, <span class="string">".xml"</span>));</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;118</td>  <td class="nbHitsCovered">&nbsp;337</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> File(<span class="keyword">this</span>.name).deleteOnExit();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;119</td>  <td class="nbHitsCovered">&nbsp;344</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;120</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">/**</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;121</td>  <td class="nbHits">&nbsp;</td>
@@ -274,10 +274,10 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> InFile(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;126</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">final</span> File file</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;127</td>  <td class="nbHitsCovered">&nbsp;340</td>  <td class="src"><pre class="src">&nbsp;        ) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;128</td>  <td class="nbHitsCovered">&nbsp;340</td>  <td class="src"><pre class="src">&nbsp;            FileUtils.write(file, <span class="string">"&lt;github/&gt;"</span>, StandardCharsets.UTF_8);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;330</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.name = file.getAbsolutePath();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;130</td>  <td class="nbHitsCovered">&nbsp;332</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;127</td>  <td class="nbHitsCovered">&nbsp;344</td>  <td class="src"><pre class="src">&nbsp;        ) <span class="keyword">throws</span> IOException {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;128</td>  <td class="nbHitsCovered">&nbsp;344</td>  <td class="src"><pre class="src">&nbsp;            FileUtils.write(file, <span class="string">"&lt;github/&gt;"</span>, StandardCharsets.UTF_8);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;337</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.name = file.getAbsolutePath();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;130</td>  <td class="nbHitsCovered">&nbsp;337</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;131</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;132</td>  <td class="nbHits">&nbsp;</td>
@@ -295,9 +295,9 @@
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;140</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> XML xml() <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;141</td>  <td class="nbHitsCovered">&nbsp;5226</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">synchronized</span> (<span class="keyword">this</span>.name) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;142</td>  <td class="nbHitsCovered">&nbsp;5203</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">return</span> <span class="keyword">new</span> XMLDocument(</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;143</td>  <td class="nbHitsCovered">&nbsp;2606</td>  <td class="src"><pre class="src">&nbsp;                    FileUtils.readFileToString(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;141</td>  <td class="nbHitsCovered">&nbsp;5293</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">synchronized</span> (<span class="keyword">this</span>.name) {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;142</td>  <td class="nbHitsCovered">&nbsp;5299</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">return</span> <span class="keyword">new</span> XMLDocument(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;143</td>  <td class="nbHitsCovered">&nbsp;2644</td>  <td class="src"><pre class="src">&nbsp;                    FileUtils.readFileToString(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;144</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                        <span class="keyword">new</span> File(<span class="keyword">this</span>.name), StandardCharsets.UTF_8</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;145</td>  <td class="nbHits">&nbsp;</td>
@@ -315,20 +315,20 @@
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">final</span> Iterable&lt;Directive&gt; dirs</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;152</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        ) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;153</td>  <td class="nbHitsCovered">&nbsp;3568</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">synchronized</span> (<span class="keyword">this</span>.name) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;154</td>  <td class="nbHitsCovered">&nbsp;3585</td>  <td class="src"><pre class="src">&nbsp;                FileUtils.write(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;153</td>  <td class="nbHitsCovered">&nbsp;3620</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">synchronized</span> (<span class="keyword">this</span>.name) {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;154</td>  <td class="nbHitsCovered">&nbsp;3634</td>  <td class="src"><pre class="src">&nbsp;                FileUtils.write(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;155</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    <span class="keyword">new</span> File(<span class="keyword">this</span>.name),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;156</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    <span class="keyword">new</span> XMLDocument(</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;157</td>  <td class="nbHitsCovered">&nbsp;1789</td>  <td class="src"><pre class="src">&nbsp;                        <span class="keyword">new</span> Xembler(dirs).applyQuietly(<span class="keyword">this</span>.xml().node())</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;158</td>  <td class="nbHitsCovered">&nbsp;1792</td>  <td class="src"><pre class="src">&nbsp;                    ).toString(),</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;157</td>  <td class="nbHitsCovered">&nbsp;1811</td>  <td class="src"><pre class="src">&nbsp;                        <span class="keyword">new</span> Xembler(dirs).applyQuietly(<span class="keyword">this</span>.xml().node())</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;158</td>  <td class="nbHitsCovered">&nbsp;1815</td>  <td class="src"><pre class="src">&nbsp;                    ).toString(),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;159</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    StandardCharsets.UTF_8</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;160</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                );</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;161</td>  <td class="nbHitsCovered">&nbsp;1783</td>  <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;162</td>  <td class="nbHitsCovered">&nbsp;1797</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;161</td>  <td class="nbHitsCovered">&nbsp;1796</td>  <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;162</td>  <td class="nbHitsCovered">&nbsp;1814</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;163</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;164</td>  <td class="nbHits">&nbsp;</td>
@@ -374,7 +374,7 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         * Lock object.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;186</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;187</td>  <td class="nbHitsCovered">&nbsp;279</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">transient</span> ImmutableReentrantLock lock =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;187</td>  <td class="nbHitsCovered">&nbsp;282</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">transient</span> ImmutableReentrantLock lock =</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;188</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">new</span> ImmutableReentrantLock();</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;189</td>  <td class="nbHits">&nbsp;</td>
@@ -385,9 +385,9 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         * @param storage Original</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;192</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;193</td>  <td class="nbHitsCovered">&nbsp;277</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Synced(<span class="keyword">final</span> MkStorage storage) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;194</td>  <td class="nbHitsCovered">&nbsp;278</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.origin = storage;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;195</td>  <td class="nbHitsCovered">&nbsp;278</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;193</td>  <td class="nbHitsCovered">&nbsp;282</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Synced(<span class="keyword">final</span> MkStorage storage) {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;194</td>  <td class="nbHitsCovered">&nbsp;282</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.origin = storage;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;195</td>  <td class="nbHitsCovered">&nbsp;282</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;196</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;197</td>  <td class="nbHits">&nbsp;</td>
@@ -399,27 +399,27 @@
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;201</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> XML xml() <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;202</td>  <td class="nbHitsCovered">&nbsp;1534</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.origin.xml();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;202</td>  <td class="nbHitsCovered">&nbsp;1562</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.origin.xml();</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;203</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;204</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;205</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> <span class="keyword">void</span> apply(<span class="keyword">final</span> Iterable&lt;Directive&gt; dirs) <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;206</td>  <td class="nbHitsCovered">&nbsp;3294</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.origin.apply(dirs);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;207</td>  <td class="nbHitsCovered">&nbsp;1654</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;206</td>  <td class="nbHitsCovered">&nbsp;3343</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.origin.apply(dirs);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;207</td>  <td class="nbHitsCovered">&nbsp;1662</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;208</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;209</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> <span class="keyword">void</span> lock() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;210</td>  <td class="nbHitsCovered">&nbsp;610</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.lock.lock();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;211</td>  <td class="nbHitsCovered">&nbsp;307</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;210</td>  <td class="nbHitsCovered">&nbsp;624</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.lock.lock();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;211</td>  <td class="nbHitsCovered">&nbsp;312</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;212</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;213</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> <span class="keyword">void</span> unlock() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;214</td>  <td class="nbHitsCovered">&nbsp;612</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.lock.unlock();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;215</td>  <td class="nbHitsCovered">&nbsp;306</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;214</td>  <td class="nbHitsCovered">&nbsp;619</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.lock.unlock();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;215</td>  <td class="nbHitsCovered">&nbsp;311</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;216</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;217</td>  <td class="nbHits">&nbsp;</td>
@@ -428,6 +428,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 3/15/18 8:36 AM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 4/7/18 9:47 AM.</div>
 </body>
 </html>

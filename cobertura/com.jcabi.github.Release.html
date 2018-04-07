@@ -252,10 +252,10 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> Smart(</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;105</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">final</span> Release original</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsCovered">&nbsp;24</td>  <td class="src"><pre class="src">&nbsp;        ) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;107</td>  <td class="nbHitsCovered">&nbsp;25</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.release = original;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;108</td>  <td class="nbHitsCovered">&nbsp;25</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.jsn = <span class="keyword">new</span> SmartJson(original);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;109</td>  <td class="nbHitsCovered">&nbsp;25</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsCovered">&nbsp;27</td>  <td class="src"><pre class="src">&nbsp;        ) {</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;107</td>  <td class="nbHitsCovered">&nbsp;27</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.release = original;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;108</td>  <td class="nbHitsCovered">&nbsp;27</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">this</span>.jsn = <span class="keyword">new</span> SmartJson(original);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;109</td>  <td class="nbHitsCovered">&nbsp;27</td>  <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;110</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;111</td>  <td class="nbHits">&nbsp;</td>
@@ -506,7 +506,7 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;245</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String name() <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;246</td>  <td class="nbHitsCovered">&nbsp;4</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.jsn.text(<span class="string">"name"</span>);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;246</td>  <td class="nbHitsCovered">&nbsp;6</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.jsn.text(<span class="string">"name"</span>);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;247</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;248</td>  <td class="nbHits">&nbsp;</td>
@@ -546,7 +546,7 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">         */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;267</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> <span class="keyword">boolean</span> hasBody() <span class="keyword">throws</span> IOException {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;268</td>  <td class="nbHitsCovered">&nbsp;4</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.jsn.hasNotNull(<span class="string">"body"</span>);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;268</td>  <td class="nbHitsCovered">&nbsp;6</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> <span class="keyword">this</span>.jsn.hasNotNull(<span class="string">"body"</span>);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;269</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;270</td>  <td class="nbHits">&nbsp;</td>
@@ -565,14 +565,14 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">public</span> String body() <span class="keyword">throws</span> IOException {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;277</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">final</span> String body;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;278</td>  <td class="nbHitsUncovered"><a title="Line 278: Conditional coverage 50% (1/2).">&nbsp;4</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 278: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (<span class="keyword">this</span>.hasBody()) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;279</td>  <td class="nbHitsCovered">&nbsp;2</td>  <td class="src"><pre class="src">&nbsp;                body = <span class="keyword">this</span>.jsn.text(<span class="string">"body"</span>);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;278</td>  <td class="nbHitsUncovered"><a title="Line 278: Conditional coverage 50% (1/2).">&nbsp;6</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 278: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (<span class="keyword">this</span>.hasBody()) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;279</td>  <td class="nbHitsCovered">&nbsp;3</td>  <td class="src"><pre class="src">&nbsp;                body = <span class="keyword">this</span>.jsn.text(<span class="string">"body"</span>);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;280</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            } <span class="keyword">else</span> {</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;281</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                body = <span class="string">""</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;282</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;283</td>  <td class="nbHitsCovered">&nbsp;2</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> body;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;283</td>  <td class="nbHitsCovered">&nbsp;3</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">return</span> body;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;284</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;285</td>  <td class="nbHits">&nbsp;</td>
@@ -753,6 +753,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 3/15/18 8:36 AM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.1.1 on 4/7/18 9:47 AM.</div>
 </body>
 </html>
