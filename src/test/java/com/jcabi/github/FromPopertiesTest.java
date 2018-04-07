@@ -48,7 +48,7 @@ public final class FromPopertiesTest {
     public void formatsUserAgent() {
         MatcherAssert.assertThat(
             new FromProperties("jcabigithub.properties").format(),
-            Matchers.startsWith("jcabi-github 1.0-SNAPSHOT")
+            Matchers.startsWith("jcabi-github ")
         );
     }
 
