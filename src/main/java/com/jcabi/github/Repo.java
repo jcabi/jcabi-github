@@ -214,6 +214,16 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
             this.repo = rep;
             this.jsn = new SmartJson(rep);
         }
+
+        /**
+         * Does this Repo actually exist in Github?
+         * @return True if it exists, false otherwise.
+         * @throws IOException If there is any I/O problem.
+         */
+        public boolean exists() throws IOException {
+            return new Existence(this.repo).check();
+        }
+
         /**
          * Does it have a description.
          * @return TRUE if description is present

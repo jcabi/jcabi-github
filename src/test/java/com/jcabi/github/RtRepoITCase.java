@@ -129,6 +129,17 @@ public final class RtRepoITCase {
     }
 
     /**
+     * RtRepo can tell if it exists.
+     * @throws Exception If something goes wrong.
+     */
+    @Test
+    public void exists() throws Exception {
+        MatcherAssert.assertThat(
+            new Repo.Smart(repo).exists(), Matchers.is(Boolean.TRUE)
+        );
+    }
+
+    /**
      * RtRepo can fetch its commits.
      * @throws Exception If some problem inside
      */
