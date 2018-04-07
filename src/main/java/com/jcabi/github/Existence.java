@@ -40,6 +40,8 @@ import lombok.EqualsAndHashCode;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.38
+ * @todo #1379:30min Use this class to implement Smart.exists() method for all
+ *  Github entities we have (Repo, Issue, User etc).
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
