@@ -37,7 +37,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -330,7 +329,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean draft() throws IOException {
-            return this.booleanValue("draft");
+            return this.json().getBoolean("draft", Boolean.FALSE);
         }
 
         /**
@@ -350,7 +349,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean prerelease() throws IOException {
-            return this.booleanValue("prerelease");
+            return this.json().getBoolean("prerelease", Boolean.FALSE);
         }
 
         /**
@@ -369,15 +368,6 @@ public interface Release extends JsonReadable, JsonPatchable {
             this.release.delete();
         }
 
-        /**
-         * Get a property as boolean.
-         * @param name Parameter name
-         * @return Returns boolean property value
-         * @throws IOException If there is any I/O problem
-         */
-        private boolean booleanValue(final String name) throws IOException {
-            return JsonValue.TRUE.equals(this.json().get(name));
-        }
     }
 
 }
