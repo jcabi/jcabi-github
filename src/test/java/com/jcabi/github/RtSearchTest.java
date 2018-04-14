@@ -43,6 +43,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -51,9 +52,16 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (300 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtSearchTest {
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtSearch can search for repos.
@@ -155,7 +163,7 @@ public final class RtSearchTest {
             new MkAnswer.Simple(RtSearchTest.search(first, second).toString())
         ).next(new MkAnswer.Simple(first.toString()))
             .next(new MkAnswer.Simple(second.toString()))
-            .start();
+            .start(this.resource.port());
         try {
             final Search search = new RtGithub(
                 new ApacheRequest(container.home())

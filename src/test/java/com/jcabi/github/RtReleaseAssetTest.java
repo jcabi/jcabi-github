@@ -45,6 +45,7 @@ import javax.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -54,8 +55,15 @@ import org.mockito.Mockito;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 public final class RtReleaseAssetTest {
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtReleaseAsset can be described in JSON form.
@@ -100,7 +108,7 @@ public final class RtReleaseAssetTest {
     public void patchesAsset() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start();
+        ).start(this.resource.port());
         final RtReleaseAsset asset = new RtReleaseAsset(
             new ApacheRequest(container.home()),
             release(),
@@ -135,7 +143,7 @@ public final class RtReleaseAssetTest {
     public void removesAsset() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final RtReleaseAsset asset = new RtReleaseAsset(
             new ApacheRequest(container.home()),
             release(),
@@ -161,7 +169,7 @@ public final class RtReleaseAssetTest {
     public void rawAsset() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start();
+        ).start(this.resource.port());
         final RtReleaseAsset asset = new RtReleaseAsset(
             new ApacheRequest(container.home()),
             release(),

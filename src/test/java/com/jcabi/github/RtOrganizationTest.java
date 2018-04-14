@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,12 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class RtOrganizationTest {
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtOrganization should be able to describe itself in JSON format.
@@ -78,7 +85,7 @@ public final class RtOrganizationTest {
     public void patchWithJson() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start();
+        ).start(this.resource.port());
         final RtOrganization org = new RtOrganization(
             new MkGithub(),
             new ApacheRequest(container.home()),
@@ -140,7 +147,7 @@ public final class RtOrganizationTest {
     public void canRepresentAsString() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
-        ).start();
+        ).start(this.resource.port());
         final RtOrganization org = new RtOrganization(
             new MkGithub(),
             new ApacheRequest(container.home()),
