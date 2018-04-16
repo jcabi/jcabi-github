@@ -37,14 +37,15 @@ import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import com.jcabi.github.UserOrganizations;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
@@ -53,8 +54,6 @@ import org.xembly.Directives;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.5
- * @todo #1305:30min Implement markAsRead(final Date lastread)
- *  operations in MkUser. Don't forget about unit tests.
  * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
  */
 @Immutable
@@ -93,6 +92,7 @@ final class MkUser implements User {
                 .add("login").set(login).up()
                 .add("type").set("User").up()
                 .add("name").set(login).up()
+                .add("notifications").up()
         );
     }
 
@@ -139,8 +139,25 @@ final class MkUser implements User {
     }
 
     @Override
-    public void markAsRead(final Date lastread) {
-        throw new NotImplementedException("MkNotifications#markAsRead");
+    public void markAsRead(final Date lastread) throws IOException {
+        final Iterable<XML> ids = this.storage.xml().nodes(
+            this.xpath() + String.format(
+                "/notifications/notification[date <= %s]/id",
+                lastread.getTime()
+            )
+        );
+        final JsonPatch json = new JsonPatch(this.storage);
+        final JsonObject read = Json.createObjectBuilder()
+            .add("read", true).build();
+        for (XML id : ids) {
+            json.patch(
+                String.format(
+                    this.xpath() + "/notifications/notification[id = %s]",
+                    id.xpath("text()").get(0)
+                ),
+                read
+            );
+        }
     }
 
     @Override

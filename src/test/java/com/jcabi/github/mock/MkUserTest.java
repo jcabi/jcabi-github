@@ -31,9 +31,13 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.xembly.Directives;
 
 /**
  * Unit tests for the MkUser class.
@@ -76,6 +80,46 @@ public final class MkUserTest {
                 "notifications"
             ).notifications(),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Must mark notifications as read only if their 'lastread' is equal or
+     * older than the given date.
+     * @throws IOException If any error occurs.
+     */
+    @Test
+    public void marksNotificationsAsReadUpToDate() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        storage.apply(new Directives().xpath("/github").add("users"));
+        final MkUser user = new MkUser(storage, "joe");
+        final Instant upto = Instant.now();
+        storage.apply(
+            new Directives()
+                .xpath("//notifications")
+                .add("notification")
+                    .add("id").set(1).up()
+                    .add("date").set(
+                        upto.minus(30, ChronoUnit.MINUTES).toEpochMilli()
+                    ).up()
+                    .add("read").set(false).up()
+                    .up()
+                .add("notification")
+                    .add("id").set(2).up()
+                    .add("date").set(
+                        upto.plus(30, ChronoUnit.MINUTES).toEpochMilli()
+                    ).up()
+                    .add("read").set(false).up()
+                    .up()
+        );
+        user.markAsRead(Date.from(upto));
+        MatcherAssert.assertThat(
+            storage.xml().xpath("//notification[id = 1]/read/text()").get(0),
+            Matchers.is("true")
+        );
+        MatcherAssert.assertThat(
+            storage.xml().xpath("//notification[id = 2]/read/text()").get(0),
+            Matchers.is("false")
         );
     }
 }

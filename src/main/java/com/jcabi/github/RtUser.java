@@ -157,7 +157,7 @@ final class RtUser implements User {
     }
 
     @Override
-    public void markAsRead(final Date lastread) {
+    public void markAsRead(final Date lastread) throws IOException {
         // Will be implemented later
     }
 
