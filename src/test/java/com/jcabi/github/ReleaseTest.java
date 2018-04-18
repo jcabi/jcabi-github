@@ -309,7 +309,7 @@ public final class ReleaseTest {
     public void isNotPrerelease() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
-            Json.createObjectBuilder().add("prerelease", Boolean.FALSE).build()
+            Json.createObjectBuilder().add("prerelease", "false").build()
         ).when(release).json();
         MatcherAssert.assertThat(
             new Release.Smart(release).prerelease(),

@@ -37,6 +37,7 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -187,6 +188,25 @@ public final class MkReleaseTest {
             Matchers.equalTo(new Github.Time(this.value(release, "created_at"))
                 .date()
             )
+        );
+    }
+
+    /**
+     * Smart decorator returns prerelease.
+     * @throws Exception If some problem inside
+     * @todo #1363:30min Release.Smart().prerelease() was refactored and unit
+     *  tests written. However, this test still fails because the MkStorage
+     *  holds the value as String instead of Boolean. Let's fix this.
+     */
+    @Test
+    @Ignore
+    public void prerelease() throws Exception {
+        final Release release = MkReleaseTest.release();
+        final Release.Smart smart = new Release.Smart(release);
+        smart.prerelease(true);
+        MatcherAssert.assertThat(
+            smart.prerelease(),
+            Matchers.is(true)
         );
     }
 
