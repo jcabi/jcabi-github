@@ -39,6 +39,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Release}.
  * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
+ * @checkstyle MultipleStringLiteralsCheck (400 lines)
  * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
@@ -281,6 +282,102 @@ public final class ReleaseTest {
         MatcherAssert.assertThat(
             smart.publishedAt(),
             Matchers.equalTo(new Github.Time(published).date())
+        );
+    }
+
+    /**
+     * Release.Smart can tell when the release is a prerelease.
+     * @throws Exception If problem inside
+     */
+    @Test
+    public void isPrerelease() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add("prerelease", Boolean.TRUE).build()
+        ).when(release).json();
+        MatcherAssert.assertThat(
+            new Release.Smart(release).prerelease(),
+            Matchers.is(Boolean.TRUE)
+        );
+    }
+
+    /**
+     * Release.Smart can tell when the release is not a prerelease.
+     * @throws Exception If problem inside
+     */
+    @Test
+    public void isNotPrerelease() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add("prerelease", "false").build()
+        ).when(release).json();
+        MatcherAssert.assertThat(
+            new Release.Smart(release).prerelease(),
+            Matchers.is(Boolean.FALSE)
+        );
+    }
+
+    /**
+     * Release.Smart counts prerelease as false if its missing.
+     * @throws Exception If problem inside
+     */
+    @Test
+    public void missingPrerelease() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().build()
+        ).when(release).json();
+        MatcherAssert.assertThat(
+            new Release.Smart(release).prerelease(),
+            Matchers.is(Boolean.FALSE)
+        );
+    }
+
+    /**
+     * Release.Smart can tell when the release is a draft.
+     * @throws Exception If problem inside
+     */
+    @Test
+    public void isDraft() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add("draft", Boolean.TRUE).build()
+        ).when(release).json();
+        MatcherAssert.assertThat(
+            new Release.Smart(release).draft(),
+            Matchers.is(Boolean.TRUE)
+        );
+    }
+
+    /**
+     * Release.Smart can tell when the release is not a draft.
+     * @throws Exception If problem inside
+     */
+    @Test
+    public void isNotDraft() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add("draft", Boolean.FALSE).build()
+        ).when(release).json();
+        MatcherAssert.assertThat(
+            new Release.Smart(release).draft(),
+            Matchers.is(Boolean.FALSE)
+        );
+    }
+
+    /**
+     * Release.Smart counts draft as false if its missing.
+     * @throws Exception If problem inside
+     */
+    @Test
+    public void missingDraft() throws Exception {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().build()
+        ).when(release).json();
+        MatcherAssert.assertThat(
+            new Release.Smart(release).draft(),
+            Matchers.is(Boolean.FALSE)
         );
     }
 }
