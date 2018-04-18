@@ -102,8 +102,10 @@ public interface User extends JsonReadable, JsonPatchable {
      * @param lastread Describes the last point that notifications were
      *  checked.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
+     * @throws IOException Thrown, if an error during sending request and/or
+     *  receiving response occurs.
      */
-    void markAsRead(final Date lastread);
+    void markAsRead(final Date lastread) throws IOException;
 
     /**
      * Smart user with extra features.
@@ -263,7 +265,7 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void markAsRead(final Date lastread) {
+        public void markAsRead(final Date lastread) throws IOException {
             this.user.markAsRead(lastread);
         }
 
