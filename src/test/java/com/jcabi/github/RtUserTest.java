@@ -482,9 +482,10 @@ public final class RtUserTest {
      * markAsRead() should complete successfully if response code is 205.
      * @throws Exception Thrown in case of error.
      * @todo #1304:30min Un-ignore this test and
-     *  'markAsReadErrorIfResponseStatusIsNot205' after making MkGithub's
-     *  'entry()' configurable in order to support tests. Currently it is
-     *  hard-coded to return a FakeRequest with a body and a status code.
+     *  'markAsReadErrorIfResponseStatusIsNot205' after refactoring to
+     *  use an in-memory HTTP server (with MkGrizzly, from jcabi-http).
+     *  You can configure the responses to give to any URI on
+     *  MkGrizzlyContainer and then you can pass a custom Request to RtGithub.
      */
     @Ignore
     @Test

@@ -94,6 +94,8 @@ public interface User extends JsonReadable, JsonPatchable {
      * @return Returns all notifications for this user.
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
+     * @todo #1304:30min Refactor so that this returns a 'Notifications' interface into which
+     *  relevant methods like 'markAsRead' can be put into.
      */
     List<Notification> notifications() throws IOException;
 
