@@ -54,7 +54,7 @@ public class RtGistCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @todo #1377:30min Apply this rule to all other classes that use
+     * @todo #1388:30min Apply this rule to all other classes that use
      *  MkGrizzlyContainer and make MkGrizzlyContainers use port() given by this
      *  resource to avoid tests fail with BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
