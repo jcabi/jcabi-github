@@ -40,9 +40,6 @@ import lombok.EqualsAndHashCode;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @since 0.38
- * @todo #1382:30min Use this class to implement Smart.exists() method for all
- *  Github entities we have (Comment, Issue, User etc). Maybe we can make
- *  JsonReadable abstract and have method exists() there.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

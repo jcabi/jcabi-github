@@ -137,13 +137,7 @@ final class RtIssue implements Issue {
 
     @Override
     public boolean exists() throws IOException {
-        return this.request.fetch().as(RestResponse.class)
-            .assertStatus(
-                Matchers.isOneOf(
-                    HttpURLConnection.HTTP_OK,
-                    HttpURLConnection.HTTP_NOT_FOUND
-            )
-        ).status() == HttpURLConnection.HTTP_OK;
+        return new Existence(this).check();
     }
 
     @Override
