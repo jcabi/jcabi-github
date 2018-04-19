@@ -141,13 +141,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * @since 0.34
          */
         public boolean exists() throws IOException {
-            boolean exists = true;
-            try {
-                this.id();
-            } catch (final AssertionError ex) {
-                exists = false;
-            }
-            return exists;
+            return new Existence(this.user).check();
         }
 
         /**
