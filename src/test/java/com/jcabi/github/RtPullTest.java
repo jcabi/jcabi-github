@@ -42,6 +42,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -62,6 +63,13 @@ public final class RtPullTest {
     private static final String SHA_PROP = "sha";
 
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtPull should be able to retrieve commits.
      *
      * @throws Exception when a problem occurs.
@@ -73,7 +81,7 @@ public final class RtPullTest {
                 HttpURLConnection.HTTP_OK,
                 "[{\"commits\":\"test\"}]"
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPull pull = new RtPull(
             new ApacheRequest(container.home()),
             this.repo(),
@@ -101,7 +109,7 @@ public final class RtPullTest {
                 HttpURLConnection.HTTP_OK,
                 "[{\"file1\":\"testFile\"}]"
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPull pull = new RtPull(
             new ApacheRequest(container.home()),
             this.repo(),
@@ -139,7 +147,7 @@ public final class RtPullTest {
                     .build()
                     .toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPull pull = new RtPull(
             new ApacheRequest(container.home()),
             this.repo(),
@@ -186,7 +194,7 @@ public final class RtPullTest {
                     .build()
                     .toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPull pull = new RtPull(
             new ApacheRequest(container.home()),
             this.repo(),
@@ -220,7 +228,7 @@ public final class RtPullTest {
     public void executeMerge() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
-        ).start();
+        ).start(this.resource.port());
         final RtPull pull = new RtPull(
             new ApacheRequest(container.home()),
             this.repo(),

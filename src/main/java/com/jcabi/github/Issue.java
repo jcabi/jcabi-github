@@ -514,7 +514,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         }
         @Override
         public boolean exists() throws IOException {
-            return this.issue.exists();
+            return new Existence(this.issue).check();
         }
     }
 

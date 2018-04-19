@@ -41,6 +41,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,6 +52,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtPullsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtPulls can create a pull request.
      *
@@ -62,7 +71,8 @@ public final class RtPullsTest {
         final String body = pull(title).toString();
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)).start();
+        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            .start(this.resource.port());
         final RtPulls pulls = new RtPulls(
             new ApacheRequest(container.home()),
             repo()
@@ -91,7 +101,7 @@ public final class RtPullsTest {
                 HttpURLConnection.HTTP_OK,
                 pull(title).toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPulls pulls = new RtPulls(
             new ApacheRequest(container.home()),
             repo()
@@ -118,7 +128,7 @@ public final class RtPullsTest {
                     .add(pull("Amazing new feature"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPulls pulls = new RtPulls(
             new ApacheRequest(container.home()),
             repo()
