@@ -50,6 +50,7 @@ import org.mockito.Mockito;
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class RtPullsTest {
 
