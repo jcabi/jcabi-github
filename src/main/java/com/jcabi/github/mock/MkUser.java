@@ -149,11 +149,11 @@ final class MkUser implements User {
         final JsonPatch json = new JsonPatch(this.storage);
         final JsonObject read = Json.createObjectBuilder()
             .add("read", true).build();
-        for (XML id : ids) {
+        for (final XML nid : ids) {
             json.patch(
                 String.format(
-                    this.xpath() + "/notifications/notification[id = %s]",
-                    id.xpath("text()").get(0)
+                    this.xpath().concat("/notifications/notification[id = %s]"),
+                    nid.xpath("text()").get(0)
                 ),
                 read
             );

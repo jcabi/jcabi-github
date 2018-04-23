@@ -44,6 +44,7 @@ import org.xembly.Directives;
  *
  * @author Ed Hillmann (edhillmann@yahoo.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 public final class MkUserTest {
 
@@ -100,6 +101,7 @@ public final class MkUserTest {
                 .add("notification")
                     .add("id").set(1).up()
                     .add("date").set(
+                        // @checkstyle MagicNumberCheck (1 line)
                         upto.minus(30, ChronoUnit.MINUTES).toEpochMilli()
                     ).up()
                     .add("read").set(false).up()
@@ -107,6 +109,7 @@ public final class MkUserTest {
                 .add("notification")
                     .add("id").set(2).up()
                     .add("date").set(
+                         // @checkstyle MagicNumberCheck (1 line)
                         upto.plus(30, ChronoUnit.MINUTES).toEpochMilli()
                     ).up()
                     .add("read").set(false).up()
