@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -349,7 +350,11 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean prerelease() throws IOException {
-            return this.json().getBoolean("prerelease", Boolean.FALSE);
+            return Boolean.parseBoolean(
+                this.json()
+                    .getOrDefault("prerelease", JsonValue.FALSE)
+                    .toString().replace("\"", "")
+            );
         }
 
         /**
