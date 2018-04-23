@@ -41,6 +41,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -51,6 +52,13 @@ import org.junit.Test;
  */
 public final class RtPaginationTest {
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtPagination can jump to next page of results.
      *
      * @throws Exception if there is any problem
@@ -60,7 +68,8 @@ public final class RtPaginationTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             RtPaginationTest.simple("Hi Jeff")
                 .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"")
-        ).next(RtPaginationTest.simple("Hi Mark")).start();
+        ).next(RtPaginationTest.simple("Hi Mark"))
+            .start(this.resource.port());
         final Request request = new ApacheRequest(container.home());
         final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
             request, new RtValuePagination.Mapping<JsonObject, JsonObject>() {
@@ -90,7 +99,7 @@ public final class RtPaginationTest {
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws Exception {
         final MkContainer container = new MkGrizzlyContainer()
-            .next(simple("Hi there")).start();
+            .next(simple("Hi there")).start(this.resource.port());
         try {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<JsonObject>(

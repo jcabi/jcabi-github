@@ -41,6 +41,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,6 +52,12 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtPublicKeysTest {
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtPublicKeys should be able to iterate its keys.
@@ -67,7 +74,7 @@ public final class RtPublicKeysTest {
                     .add(key(2))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPublicKeys keys = new RtPublicKeys(
             new ApacheRequest(container.home()),
             Mockito.mock(User.class)
@@ -91,7 +98,7 @@ public final class RtPublicKeysTest {
                 HttpURLConnection.HTTP_OK,
                 ""
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPublicKeys keys = new RtPublicKeys(
             new ApacheRequest(container.home()),
             Mockito.mock(User.class)
@@ -118,7 +125,7 @@ public final class RtPublicKeysTest {
                 HttpURLConnection.HTTP_NO_CONTENT,
                 ""
             )
-        ).start();
+        ).start(this.resource.port());
         final RtPublicKeys keys = new RtPublicKeys(
             new ApacheRequest(container.home()),
             Mockito.mock(User.class)
@@ -149,7 +156,7 @@ public final class RtPublicKeysTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED, key(1).toString()
             )
-        ).start();
+        ).start(this.resource.port());
         try {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),

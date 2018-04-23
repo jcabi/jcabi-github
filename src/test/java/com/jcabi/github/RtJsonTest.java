@@ -37,6 +37,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -47,6 +48,13 @@ import org.junit.Test;
  */
 public final class RtJsonTest {
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtJson can fetch HTTP request.
      *
      * @throws Exception if there is any problem
@@ -55,7 +63,7 @@ public final class RtJsonTest {
     public void sendHttpRequest() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hi\"}")
-        ).start();
+        ).start(this.resource.port());
         final RtJson json = new RtJson(new ApacheRequest(container.home()));
         MatcherAssert.assertThat(
             json.fetch().getString("body"),
@@ -73,7 +81,7 @@ public final class RtJsonTest {
     public void executePatchRequest() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hj\"}")
-        ).start();
+        ).start(this.resource.port());
         final RtJson json = new RtJson(new ApacheRequest(container.home()));
         json.patch(
             Json.createObjectBuilder()
