@@ -51,6 +51,7 @@ import org.mockito.Mockito;
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class RtBlobsTest {
     /**
@@ -59,7 +60,6 @@ public final class RtBlobsTest {
      */
     @Rule
     public final transient RandomPort resource = new RandomPort();
-
 
     /**
      * RtBlobs can create a blob.

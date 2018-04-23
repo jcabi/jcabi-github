@@ -55,6 +55,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 public final class RtHooksTest {
