@@ -33,7 +33,10 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +51,6 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @todo #913:30min Implement operations RtUser.markAsRead().
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -158,7 +160,16 @@ final class RtUser implements User {
 
     @Override
     public void markAsRead(final Date lastread) throws IOException {
-        // Will be implemented later
+        this.github().entry().uri()
+            .path("notifications")
+            .queryParam(
+                "last_read_at",
+                DateTimeFormatter.ISO_INSTANT.format(lastread.toInstant())
+            ).back()
+            .method(Request.PUT)
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_RESET);
     }
 
     @Override

@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -37,10 +38,12 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.net.HttpURLConnection;
+import java.util.Date;
 import java.util.List;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -473,6 +476,38 @@ public final class RtUserTest {
             notifications.get(0).number(),
             Matchers.is(55898574L)
         );
+    }
+
+    /**
+     * markAsRead() should complete successfully if response code is 205.
+     * @throws Exception Thrown in case of error.
+     * @todo #1304:30min Un-ignore this test and
+     *  'markAsReadErrorIfResponseStatusIsNot205' after refactoring to
+     *  use an in-memory HTTP server (with MkGrizzly, from jcabi-http).
+     *  You can configure the responses to give to any URI on
+     *  MkGrizzlyContainer and then you can pass a custom Request to RtGithub.
+     */
+    @Ignore
+    @Test
+    public void markAsReadOkIfResponseStatusIs205() throws Exception {
+        new RtUser(
+            new MkGithub(),
+            new FakeRequest().withStatus(HttpURLConnection.HTTP_RESET)
+        ).markAsRead(new Date());
+    }
+
+    /**
+     * markAsRead() should fail if response code is not 205.
+     * @throws Exception Thrown in case of an error other than the
+     *  AssertionError.
+     */
+    @Ignore
+    @Test(expected = AssertionError.class)
+    public void markAsReadErrorIfResponseStatusIsNot205() throws Exception {
+        new RtUser(
+            new MkGithub(),
+            new FakeRequest().withStatus(HttpURLConnection.HTTP_RESET)
+        ).markAsRead(new Date());
     }
 
     /**
