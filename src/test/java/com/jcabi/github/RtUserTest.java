@@ -44,6 +44,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -55,9 +56,18 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle LineLengthCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle MethodNameCheck (500 lines)
  */
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 public final class RtUserTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtUser can understand who am I.
      * @throws Exception If some problem inside
@@ -164,7 +174,7 @@ public final class RtUserTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"login\":\"octocate\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final RtUser json = new RtUser(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
@@ -479,7 +489,7 @@ public final class RtUserTest {
     }
 
     /**
-     * markAsRead() should complete successfully if response code is 205.
+     * RtUser.markAsRead() should complete successfully if response code is 205.
      * @throws Exception Thrown in case of error.
      * @todo #1304:30min Un-ignore this test and
      *  'markAsReadErrorIfResponseStatusIsNot205' after refactoring to
@@ -497,7 +507,7 @@ public final class RtUserTest {
     }
 
     /**
-     * markAsRead() should fail if response code is not 205.
+     * RtUser.markAsRead() should fail if response code is not 205.
      * @throws Exception Thrown in case of an error other than the
      *  AssertionError.
      */

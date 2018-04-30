@@ -38,6 +38,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -48,6 +49,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 public final class RtUsersTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtUsers can iterate users.
      * @throws Exception if there is any error
@@ -63,7 +72,7 @@ public final class RtUsersTest {
                     .add(RtUsersTest.json("dummy", "2"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Users users = new RtUsers(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
@@ -88,7 +97,7 @@ public final class RtUsersTest {
                 HttpURLConnection.HTTP_OK,
                 RtUsersTest.json(login, "3").toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Users users = new RtUsers(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
@@ -113,7 +122,7 @@ public final class RtUsersTest {
                 HttpURLConnection.HTTP_OK,
                 RtUsersTest.json(login, "4").toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Users users = new RtUsers(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())

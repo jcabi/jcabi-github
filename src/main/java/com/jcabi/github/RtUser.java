@@ -146,6 +146,7 @@ final class RtUser implements User {
         final List<Notification> list =
             new LinkedList<Notification>();
         final JsonResponse resp = this.github().entry().uri()
+            // @checkstyle MultipleStringLiteralsCheck (1 line)
             .path("notifications")
             .back()
             .fetch()
@@ -161,6 +162,7 @@ final class RtUser implements User {
     @Override
     public void markAsRead(final Date lastread) throws IOException {
         this.github().entry().uri()
+            // @checkstyle MultipleStringLiteralsCheck (1 line)
             .path("notifications")
             .queryParam(
                 "last_read_at",
