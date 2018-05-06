@@ -30,11 +30,12 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.util.Collections;
+import com.jcabi.http.Request;
+import javax.json.JsonObject;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Github Notifications API.
+ * Github Notifications.
  *
  * @author Giang Le (lthuangiang@gmail.com)
  * @author Paul Polishchuk (ppol@ua.fm)
@@ -46,11 +47,37 @@ import org.apache.commons.lang3.NotImplementedException;
  */
 @Immutable
 final class RtNotifications implements Notifications {
+    /**
+     * RESTful request.
+     */
+    private final transient Request request;
+
+    /**
+     * Ctor.
+     * @param req The request for this notifications.
+     */
+    RtNotifications(final Request req) {
+        this.request = req;
+    }
 
     @Override
     public Iterable<Notification> iterate() {
-        return Collections.emptyList();
+        return new RtPagination<Notification>(
+            this.request.uri()
+                .queryParam("all", "true")
+                .queryParam("since", "1970-01-01T00:00:00Z")
+                .back(),
+            new RtValuePagination.Mapping<Notification, JsonObject>() {
+                @Override
+                public Notification map(final JsonObject json) {
+                    return new RtNotification(
+                        Long.valueOf(json.getString("id"))
+                    );
+                }
+            }
+        );
     }
+
     @Override
     public Notification get(final int number) {
         return new RtNotification(number);

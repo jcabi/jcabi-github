@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -87,17 +86,15 @@ public interface User extends JsonReadable, JsonPatchable {
     UserEmails emails();
 
     /**
-     * Returns all notifications of a user.
+     * Notifications for this user.
      * Wraps the call "List your notifications". See "List your notifications"
      * at https://developer.github.com/v3/activity/notifications/
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
-     * @return Returns all notifications for this user.
+     * @return Notifications for this user.
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
-     * @todo #1304:30min Refactor so that this returns a 'Notifications' interface into which
-     *  relevant methods like 'markAsRead' can be put into.
      */
-    List<Notification> notifications() throws IOException;
+    Notifications notifications() throws IOException;
 
     /**
      * Marks notifications as read.
@@ -256,7 +253,7 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public List<Notification> notifications() throws IOException {
+        public Notifications notifications() throws IOException {
             return this.user.notifications();
         }
 

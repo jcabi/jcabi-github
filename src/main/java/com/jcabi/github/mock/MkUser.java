@@ -32,16 +32,14 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
-import com.jcabi.github.Notification;
+import com.jcabi.github.Notifications;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import com.jcabi.github.UserOrganizations;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -133,9 +131,11 @@ final class MkUser implements User {
         }
     }
 
+    // @todo #1400:30min Properly instantiate this MkNotifications
+    //  with suitable values.
     @Override
-    public List<Notification> notifications() {
-        return new ArrayList<Notification>(0);
+    public Notifications notifications() {
+        return new MkNotifications(0);
     }
 
     @Override
