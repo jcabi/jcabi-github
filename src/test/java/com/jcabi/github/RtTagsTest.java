@@ -41,6 +41,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,13 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtTagsTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtTags can create a tag.
@@ -68,7 +76,7 @@ public final class RtTagsTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"ref\":\"refs/heads/feature-a\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Tags tags = new RtTags(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()

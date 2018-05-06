@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -52,6 +53,13 @@ import org.mockito.Mockito;
 public final class RtTreesTest {
 
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtTrees can create a tree.
      * @throws Exception - If something goes wrong.
      */
@@ -62,7 +70,7 @@ public final class RtTreesTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"sha\":\"0abcd89jcabitest\",\"url\":\"http://localhost/1\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Trees trees = new RtTrees(
             new ApacheRequest(container.home()),
             repo()

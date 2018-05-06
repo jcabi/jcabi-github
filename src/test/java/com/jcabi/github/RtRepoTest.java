@@ -41,6 +41,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -52,6 +53,14 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtRepoTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtRepo can fetch events.
      *
@@ -67,7 +76,7 @@ public final class RtRepoTest {
                     .add(event(Event.MENTIONED))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = RtRepoTest.repo(
             new ApacheRequest(container.home())
         );
@@ -236,7 +245,7 @@ public final class RtRepoTest {
                 HttpURLConnection.HTTP_OK,
                 event(Event.ASSIGNED).toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = RtRepoTest.repo(
             new ApacheRequest(container.home())
         );
@@ -329,7 +338,7 @@ public final class RtRepoTest {
                     .add("Ruby", 1)
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         try {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
@@ -357,7 +366,7 @@ public final class RtRepoTest {
                     .add(other, 2)
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final Repo repo = RtRepoTest.repo(
             new ApacheRequest(container.home())
         );

@@ -173,3 +173,4 @@ final class RtUser implements User {
         new RtJson(this.request).patch(json);
     }
 }
+

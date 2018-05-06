@@ -38,6 +38,7 @@ import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -47,6 +48,13 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtTagTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtTag can fetch its json.
@@ -59,7 +67,7 @@ public final class RtTagTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"sha\":\"abdes00test\",\"tag\":\"v.0.1\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Tag tag = new RtTag(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo(),
