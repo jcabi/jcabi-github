@@ -63,7 +63,7 @@
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * }&lt;/pre&gt;</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor@tpc2.com)</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment"> * @version $Id: 6599a2025444d42f6718b7bca0550b1235f1c1b0 $</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment"> * @version $Id: c7181ce632dbfefb9c41eda83ac5caaf673d6215 $</em>
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/issues/" target="alexandria_uri">http://developer.github.com/v3/issues/</a>"&gt;Issues API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
@@ -522,7 +522,7 @@
 <a class="jxr_linenumber" name="L514" href="#L514">514</a>         }
 <a class="jxr_linenumber" name="L515" href="#L515">515</a>         @Override
 <a class="jxr_linenumber" name="L516" href="#L516">516</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> exists() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L517" href="#L517">517</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.issue.exists();
+<a class="jxr_linenumber" name="L517" href="#L517">517</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/Existence.html">Existence</a>(<strong class="jxr_keyword">this</strong>.issue).check();
 <a class="jxr_linenumber" name="L518" href="#L518">518</a>         }
 <a class="jxr_linenumber" name="L519" href="#L519">519</a>     }
 <a class="jxr_linenumber" name="L520" href="#L520">520</a> 

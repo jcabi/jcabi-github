@@ -53,7 +53,7 @@
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * Github release.</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @version $Id: a7e4def985b4cb4327c3663930f181ce92abf876 $</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @version $Id: ff20c10ffe9c325dcc2604910c990bae6e925c56 $</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/repos/releases/" target="alexandria_uri">http://developer.github.com/v3/repos/releases/</a>"&gt;Releases API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
@@ -338,7 +338,7 @@
 <a class="jxr_linenumber" name="L330" href="#L330">330</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L332" href="#L332">332</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> draft() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.booleanValue(<span class="jxr_string">"draft"</span>);
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.json().getBoolean(<span class="jxr_string">"draft"</span>, Boolean.FALSE);
 <a class="jxr_linenumber" name="L334" href="#L334">334</a>         }
 <a class="jxr_linenumber" name="L335" href="#L335">335</a> 
 <a class="jxr_linenumber" name="L336" href="#L336">336</a>         <em class="jxr_javadoccomment">/**</em>
@@ -358,37 +358,32 @@
 <a class="jxr_linenumber" name="L350" href="#L350">350</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="L351" href="#L351">351</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L352" href="#L352">352</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> prerelease() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L353" href="#L353">353</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.booleanValue(<span class="jxr_string">"prerelease"</span>);
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>         }
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> 
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L357" href="#L357">357</a> <em class="jxr_javadoccomment">         * Change its prerelease.</em>
-<a class="jxr_linenumber" name="L358" href="#L358">358</a> <em class="jxr_javadoccomment">         * @param pre True to identify the release as a prerelease.</em>
-<a class="jxr_linenumber" name="L359" href="#L359">359</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L360" href="#L360">360</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> prerelease(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> pre) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>             <strong class="jxr_keyword">this</strong>.release.patch(
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"prerelease"</span>, pre).build()
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>             );
-<a class="jxr_linenumber" name="L365" href="#L365">365</a>         }
-<a class="jxr_linenumber" name="L366" href="#L366">366</a> 
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>         @Override
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> delete() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>             <strong class="jxr_keyword">this</strong>.release.delete();
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>         }
-<a class="jxr_linenumber" name="L371" href="#L371">371</a> 
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">         * Get a property as boolean.</em>
-<a class="jxr_linenumber" name="L374" href="#L374">374</a> <em class="jxr_javadoccomment">         * @param name Parameter name</em>
-<a class="jxr_linenumber" name="L375" href="#L375">375</a> <em class="jxr_javadoccomment">         * @return Returns boolean property value</em>
-<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> booleanValue(<strong class="jxr_keyword">final</strong> String name) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L379" href="#L379">379</a>             <strong class="jxr_keyword">return</strong> JsonValue.TRUE.equals(<strong class="jxr_keyword">this</strong>.json().get(name));
-<a class="jxr_linenumber" name="L380" href="#L380">380</a>         }
-<a class="jxr_linenumber" name="L381" href="#L381">381</a>     }
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> 
-<a class="jxr_linenumber" name="L383" href="#L383">383</a> }
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>             <strong class="jxr_keyword">return</strong> Boolean.parseBoolean(
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>                 <strong class="jxr_keyword">this</strong>.json()
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>                     .getOrDefault(<span class="jxr_string">"prerelease"</span>, JsonValue.FALSE)
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>                     .toString().replace(<span class="jxr_string">"\&quot;"</span>, <span class="jxr_string">""</span>)
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>             );
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>         }
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L361" href="#L361">361</a> <em class="jxr_javadoccomment">         * Change its prerelease.</em>
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> <em class="jxr_javadoccomment">         * @param pre True to identify the release as a prerelease.</em>
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> <em class="jxr_javadoccomment">         * @throws IOException If there is any I/O problem</em>
+<a class="jxr_linenumber" name="L364" href="#L364">364</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> prerelease(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> pre) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>             <strong class="jxr_keyword">this</strong>.release.patch(
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"prerelease"</span>, pre).build()
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>             );
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         }
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> 
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>         @Override
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> delete() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>             <strong class="jxr_keyword">this</strong>.release.delete();
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>         }
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> 
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>     }
+<a class="jxr_linenumber" name="L377" href="#L377">377</a> 
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2018 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
