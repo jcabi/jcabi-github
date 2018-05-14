@@ -42,7 +42,6 @@ import java.util.Date;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -483,19 +482,24 @@ public final class RtUserTest {
      * Method 'markAsRead()' should complete successfully if response code is
      * 205.
      * @throws Exception Thrown in case of error.
-     * @todo #1304:30min Un-ignore this test and
-     *  'markAsReadErrorIfResponseStatusIsNot205' after refactoring to
-     *  use an in-memory HTTP server (with MkGrizzly, from jcabi-http).
-     *  You can configure the responses to give to any URI on
-     *  MkGrizzlyContainer and then you can pass a custom Request to RtGithub.
      */
-    @Ignore
     @Test
     public void markAsReadOkIfResponseStatusIs205() throws Exception {
-        new RtUser(
-            new MkGithub(),
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_RESET)
-        ).markAsRead(new Date());
+        MkContainer container = null;
+        try {
+            container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_RESET)
+            ).start(this.resource.port());
+            final Request req = new ApacheRequest(container.home());
+            final Github github = Mockito.mock(Github.class);
+            Mockito.when(github.entry()).thenReturn(req);
+            new RtUser(
+                github,
+                req
+            ).markAsRead(new Date());
+        } finally {
+            container.close();
+        }
     }
 
     /**
@@ -503,13 +507,23 @@ public final class RtUserTest {
      * @throws Exception Thrown in case of an error other than the
      *  AssertionError.
      */
-    @Ignore
     @Test(expected = AssertionError.class)
     public void markAsReadErrorIfResponseStatusIsNot205() throws Exception {
-        new RtUser(
-            new MkGithub(),
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_RESET)
-        ).markAsRead(new Date());
+        MkContainer container = null;
+        try {
+            container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            ).start(this.resource.port());
+            final Request req = new ApacheRequest(container.home());
+            final Github github = Mockito.mock(Github.class);
+            Mockito.when(github.entry()).thenReturn(req);
+            new RtUser(
+                github,
+                req
+            ).markAsRead(new Date());
+        } finally {
+            container.close();
+        }
     }
 
     /**
