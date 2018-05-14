@@ -40,6 +40,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -52,6 +53,13 @@ import org.junit.Test;
 public final class RtReferenceTest {
 
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtReference should be able to execute patch.
      * @throws Exception - If something goes wrong.
      */
@@ -62,7 +70,7 @@ public final class RtReferenceTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"ref\":\"refs/heads/featureA\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Reference reference = new RtReference(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo(),
@@ -93,7 +101,7 @@ public final class RtReferenceTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"ref\":\"refs/heads/featureB\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Reference reference = new RtReference(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo(),
@@ -120,7 +128,7 @@ public final class RtReferenceTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"ref\":\"refs/heads/featureC\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Reference reference = new RtReference(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo(),
@@ -148,7 +156,7 @@ public final class RtReferenceTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"ref\":\"refs/heads/featureD\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final Reference reference = new RtReference(
             new ApacheRequest(container.home()), owner, "refs/heads/featureD"
         );

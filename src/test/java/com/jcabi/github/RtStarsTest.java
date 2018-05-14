@@ -39,6 +39,7 @@ import java.net.HttpURLConnection;
 import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -51,6 +52,13 @@ import org.mockito.Mockito;
 public final class RtStarsTest {
 
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
+    /**
      * RtStars can check if repo is starred.
      *
      * @throws Exception If something goes wrong.
@@ -60,7 +68,7 @@ public final class RtStarsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-            .start();
+            .start(this.resource.port());
         try {
             final Stars starred = new RtStars(
                 new ApacheRequest(container.home()),
@@ -90,7 +98,7 @@ public final class RtStarsTest {
     public void starRepository() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-        ).start();
+        ).start(this.resource.port());
         final String user = "staruser";
         final String repo = "starrepo";
         final Stars stars = new RtStars(
@@ -127,7 +135,7 @@ public final class RtStarsTest {
     public void unstarRepository() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-        ).start();
+        ).start(this.resource.port());
         final String user = "unstaruser";
         final String repo = "unstarrepo";
         final Stars stars = new RtStars(

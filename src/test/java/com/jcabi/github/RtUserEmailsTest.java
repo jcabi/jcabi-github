@@ -39,6 +39,7 @@ import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -48,6 +49,12 @@ import org.junit.Test;
  */
 public final class RtUserEmailsTest {
 
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
     /**
      * RtUserEmails can fetch emails.
      * @throws Exception If some problem inside
@@ -80,7 +87,7 @@ public final class RtUserEmailsTest {
                 String.format("[{\"email\":\"%s\"}]", email)
             )
         );
-        container.start();
+        container.start(this.resource.port());
         try {
             final UserEmails emails = new RtUserEmails(
                 new ApacheRequest(container.home())

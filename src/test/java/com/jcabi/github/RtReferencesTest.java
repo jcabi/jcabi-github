@@ -38,6 +38,7 @@ import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -48,6 +49,14 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtReferencesTest {
+
+    /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtReferences should create and return a Reference.
      * @throws Exception - if something goes wrong.
@@ -59,7 +68,7 @@ public final class RtReferencesTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"ref\":\"refs/heads/feature-a\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()
@@ -89,7 +98,7 @@ public final class RtReferencesTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"ref\":\"refs/heads/feature-a\"}"
             )
-        ).start();
+        ).start(this.resource.port());
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()
@@ -112,7 +121,7 @@ public final class RtReferencesTest {
     public void removesReference() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()
@@ -139,7 +148,7 @@ public final class RtReferencesTest {
                 HttpURLConnection.HTTP_OK,
                 "[{\"ref\":\"refs/tags/feature-b\"}]"
             )
-        ).start();
+        ).start(this.resource.port());
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()
@@ -169,7 +178,7 @@ public final class RtReferencesTest {
                 HttpURLConnection.HTTP_OK,
                 "[{\"ref\":\"refs/heads/feature-c\"}]"
             )
-        ).start();
+        ).start(this.resource.port());
         final References refs = new RtReferences(
             new ApacheRequest(container.home()),
             new MkGithub().randomRepo()

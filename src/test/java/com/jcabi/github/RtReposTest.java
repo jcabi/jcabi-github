@@ -54,6 +54,12 @@ import org.mockito.Mockito;
 public final class RtReposTest {
 
     /**
+     * The rule for skipping test if there's BindException.
+     * @checkstyle VisibilityModifierCheck (3 lines)
+     */
+    @Rule
+    public final transient RandomPort resource = new RandomPort();
+    /**
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
@@ -72,7 +78,7 @@ public final class RtReposTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-            .start();
+            .start(this.resource.port());
         final RtRepos repos = new RtRepos(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
@@ -104,7 +110,7 @@ public final class RtReposTest {
                     .add(response("dummy", "2"))
                     .build().toString()
             )
-        ).start();
+        ).start(this.resource.port());
         final RtRepos repos = new RtRepos(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
@@ -124,7 +130,7 @@ public final class RtReposTest {
     public void removeRepo() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start();
+        ).start(this.resource.port());
         final Repos repos = new RtRepos(
             Mockito.mock(Github.class),
             new ApacheRequest(container.home())
