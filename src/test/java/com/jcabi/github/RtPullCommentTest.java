@@ -52,6 +52,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 public final class RtPullCommentTest {
 
