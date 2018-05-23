@@ -63,11 +63,11 @@ final class MkNotifications implements Notifications {
 
     /**
      * Public ctor.
-     * @param storage The mock storage of github data.
+     * @param strge The mock storage of github data.
      * @param entry The xpath to the notifications in the storage.
      */
-    MkNotifications(final MkStorage storage, final String entry) {
-        this.storage = storage;
+    MkNotifications(final MkStorage strge, final String entry) {
+        this.storage = strge;
         this.xpath = entry;
     }
 
@@ -78,7 +78,7 @@ final class MkNotifications implements Notifications {
             this.xpath,
             new MkIterable.Mapping<Notification>() {
                 @Override
-                public Notification map(XML xml) {
+                public Notification map(final XML xml) {
                     return MkNotifications.this.get(
                         Integer.valueOf(xml.xpath("id").get(0))
                     );
@@ -95,7 +95,7 @@ final class MkNotifications implements Notifications {
                     this.xpath.concat(String.format("[%s]", number))
                 ).get(0)
             );
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
     }

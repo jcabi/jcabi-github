@@ -71,7 +71,7 @@ public final class MkNotificationsTest {
         MatcherAssert.assertThat(
             new MkNotifications(
                 new MkStorage.InFile(),
-                "notifications"
+                "test"
             ).iterate(),
             Matchers.<Notification>iterableWithSize(size)
         );
