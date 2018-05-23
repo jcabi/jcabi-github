@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Notification;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -39,6 +40,8 @@ import org.junit.Test;
  *
  * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
+ * @todo #1407:30min Implement more tests for MkNotifications. Also,
+ *  un-ignore and refactor the fetchesNonEmptyListOfNotifications test.
  */
 public final class MkNotificationsTest {
 
@@ -49,7 +52,10 @@ public final class MkNotificationsTest {
     @Test
     public void fetchesEmptyListOfNotifications() throws Exception {
         MatcherAssert.assertThat(
-            new MkNotifications(0).iterate(),
+            new MkNotifications(
+                new MkStorage.InFile(),
+                "notifications"
+            ).iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -58,11 +64,15 @@ public final class MkNotificationsTest {
      * MkNotifications can fetch non empty list of Notifications.
      * @throws Exception If some problem inside
      */
+    @Ignore
     @Test
     public void fetchesNonEmptyListOfNotifications() throws Exception  {
         final int size = 5;
         MatcherAssert.assertThat(
-            new MkNotifications(size).iterate(),
+            new MkNotifications(
+                new MkStorage.InFile(),
+                "notifications"
+            ).iterate(),
             Matchers.<Notification>iterableWithSize(size)
         );
     }

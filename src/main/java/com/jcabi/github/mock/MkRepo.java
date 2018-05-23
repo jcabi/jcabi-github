@@ -281,7 +281,10 @@ final class MkRepo implements Repo {
 
     @Override
     public Notifications notifications() {
-        return new MkNotifications(0);
+        return new MkNotifications(
+            this.storage,
+            this.xpath().concat("/notifications/notification")
+        );
     }
 
     @Override

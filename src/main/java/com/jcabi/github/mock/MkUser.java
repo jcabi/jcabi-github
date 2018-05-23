@@ -131,11 +131,12 @@ final class MkUser implements User {
         }
     }
 
-    // @todo #1400:30min Properly instantiate this MkNotifications
-    //  with suitable values.
     @Override
     public Notifications notifications() {
-        return new MkNotifications(0);
+        return new MkNotifications(
+            this.storage,
+            this.xpath().concat("/notifications/notification")
+        );
     }
 
     @Override

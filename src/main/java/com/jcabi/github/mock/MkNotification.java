@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Notification;
+import com.jcabi.xml.XML;
 
 /**
  * Mock for Github Notification.
@@ -39,25 +40,26 @@ import com.jcabi.github.Notification;
  * @version $Id$
  * @since 0.25
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @todo #1407:30min Implement tests for MkNotification. There aren't any yet.
  */
 @Immutable
 final class MkNotification implements Notification {
 
     /**
-     * Release notifnumber.
+     * XML data for this mock notification.
      */
-    private final transient long notifnumber;
+    private final transient XML data;
 
     /**
      * Public ctor.
-     * @param notifid Notification notifnumber
+     * @param xml XML holding the data for this notification.
      */
-    MkNotification(final long notifid) {
-        this.notifnumber = notifid;
+    MkNotification(final XML xml) {
+        this.data = xml;
     }
 
     @Override
     public long number() {
-        return this.notifnumber;
+        return Long.valueOf(this.data.xpath("id").get(0));
     }
 }

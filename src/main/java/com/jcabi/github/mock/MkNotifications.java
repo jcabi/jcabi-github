@@ -33,8 +33,8 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.GitHubThread;
 import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
-import java.util.ArrayList;
-import java.util.List;
+import com.jcabi.xml.XML;
+import java.io.IOException;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
@@ -53,30 +53,51 @@ import org.apache.commons.lang3.NotImplementedException;
 final class MkNotifications implements Notifications {
 
     /**
-     * Notifications.
+     * Storage with notifications.
      */
-    private final transient List<Notification> notifications;
+    private final transient MkStorage storage;
+    /**
+     * XPath for the notifications in the storage.
+     */
+    private final transient String xpath;
 
     /**
      * Public ctor.
-     * @param quantity Number of notifications.
+     * @param storage The mock storage of github data.
+     * @param entry The xpath to the notifications in the storage.
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    MkNotifications(final int quantity) {
-        this.notifications = new ArrayList<Notification>(quantity);
-        for (int index = 0; index < quantity; ++index) {
-            this.notifications.add(index, new MkNotification(index));
-        }
+    MkNotifications(final MkStorage storage, final String entry) {
+        this.storage = storage;
+        this.xpath = entry;
     }
 
     @Override
     public Iterable<Notification> iterate() {
-        return this.notifications;
+        return new MkIterable<Notification>(
+            this.storage,
+            this.xpath,
+            new MkIterable.Mapping<Notification>() {
+                @Override
+                public Notification map(XML xml) {
+                    return MkNotifications.this.get(
+                        Integer.valueOf(xml.xpath("id").get(0))
+                    );
+                }
+            }
+        );
     }
 
     @Override
     public Notification get(final int number) {
-        return this.notifications.get(number);
+        try {
+            return new MkNotification(
+                this.storage.xml().nodes(
+                    this.xpath.concat(String.format("[%s]", number))
+                ).get(0)
+            );
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     @Override
