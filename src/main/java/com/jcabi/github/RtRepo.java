@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -183,13 +182,11 @@ final class RtRepo implements Repo {
         return new RtStars(this.entry, this);
     }
 
-    // @checkstyle LineLength (3 lines)
-    // @todo #1400:30min Need to instantiate this RtNotifications properly
-    //  for this repo as per
-    //  https://developer.github.com/v3/activity/notifications/#list-your-notifications-in-a-repository
     @Override
     public Notifications notifications() {
-        return new RtNotifications(new FakeRequest());
+        return new RtNotifications(
+            this.request.uri().path("notifications").back()
+        );
     }
 
     @Override
