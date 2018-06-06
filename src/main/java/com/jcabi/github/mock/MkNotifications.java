@@ -80,7 +80,7 @@ final class MkNotifications implements Notifications {
                 @Override
                 public Notification map(final XML xml) {
                     return MkNotifications.this.get(
-                        Integer.valueOf(xml.xpath("id").get(0))
+                        Integer.valueOf(xml.xpath("id/text()").get(0))
                     );
                 }
             }
@@ -92,7 +92,7 @@ final class MkNotifications implements Notifications {
         try {
             return new MkNotification(
                 this.storage.xml().nodes(
-                    this.xpath.concat(String.format("[%s]", number))
+                    this.xpath.concat(String.format("[id = %s]", number))
                 ).get(0)
             );
         } catch (final IOException ex) {
