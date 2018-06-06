@@ -27,38 +27,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Immutable;
-import com.jcabi.github.Notification;
-import com.jcabi.xml.XML;
+import com.jcabi.xml.XMLDocument;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.xembly.Directives;
+import org.xembly.Xembler;
 
 /**
- * Mock for Github Notification.
- *
- * @author Piotr Pradzynski (prondzyn@gmail.com)
+ * Unit tests for {@link MkNotification}.
+ * @author George Aristy (george.aristy@gmail.com)
  * @version $Id$
- * @since 0.25
- * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.40
  */
-@Immutable
-final class MkNotification implements Notification {
-
+public final class MkNotificationTest {
     /**
-     * XML data for this mock notification.
+     * MkNotification can return its number.
      */
-    private final transient XML data;
-
-    /**
-     * Public ctor.
-     * @param xml XML holding the data for this notification.
-     */
-    MkNotification(final XML xml) {
-        this.data = xml;
-    }
-
-    @Override
-    public long number() {
-        return Long.valueOf(this.data.xpath("//id/text()").get(0));
+    @Test
+    public void returnsNumber() {
+        MatcherAssert.assertThat(
+            new MkNotification(
+                new XMLDocument(
+                    new Xembler(
+                        new Directives()
+                            .add("notification")
+                                .add("id").set("123")
+                    ).xmlQuietly()
+                )
+            ).number(),
+            Matchers.is(123L)
+        );
     }
 }
