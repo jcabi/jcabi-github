@@ -59,6 +59,7 @@ public final class MkNotificationTest {
                     ).xmlQuietly()
                 )
             ).number(),
+            // @checkstyle MagicNumberCheck (1 line)
             Matchers.is(123L)
         );
     }
