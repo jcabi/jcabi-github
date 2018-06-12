@@ -42,6 +42,7 @@ import org.xembly.Directives;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkNotificationsTest {
 
     /**
