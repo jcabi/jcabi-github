@@ -40,6 +40,7 @@ import org.xembly.Directives;
  *
  * @author Piotr Pradzynski (prondzyn@gmail.com)
  * @version $Id$
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 public final class MkNotificationsTest {
 
@@ -80,6 +81,7 @@ public final class MkNotificationsTest {
                 storage,
                 "/github/notifications/notification"
             ).iterate(),
+            // @checkstyle MagicNumberCheck (1 line)
             Matchers.<Notification>iterableWithSize(3)
         );
     }
