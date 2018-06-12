@@ -42,6 +42,7 @@ import org.xembly.Xembler;
  * @author George Aristy (george.aristy@gmail.com)
  * @version $Id$
  * @since 0.40
+ * @checkstyle MagicNumberCheck (500 lines)
  */
 public final class MkNotificationTest {
     /**
@@ -59,7 +60,6 @@ public final class MkNotificationTest {
                     ).xmlQuietly()
                 )
             ).number(),
-            // @checkstyle MagicNumberCheck (1 line)
             Matchers.is(123L)
         );
     }
