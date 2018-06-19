@@ -99,7 +99,7 @@ final class MkRepos implements Repos {
                 .attr("coords", coords.toString())
                 .add("name").set(settings.name()).up()
                 .add("description").set("test repository").up()
-                .add("private").set("false").up()
+                .add("private").set(settings.isPrivate()).up()
         );
         final Repo repo = this.get(coords);
         repo.patch(settings.json());

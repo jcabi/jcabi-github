@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -66,12 +67,12 @@ public final class RepoTest {
      */
     @Test
     public void canFetchPrivateStatus() throws Exception {
-        final Repo repo = Mockito.mock(Repo.class);
-        Mockito.doReturn(
+        final Repo repo = new MkGithub().randomRepo();
+        repo.patch(
             Json.createObjectBuilder()
                 .add("private", true)
                 .build()
-        ).when(repo).json();
+        );
         MatcherAssert.assertThat(
             new Repo.Smart(repo).isPrivate(),
             Matchers.is(true)

@@ -115,6 +115,23 @@ public final class MkReposTest {
     }
 
     /**
+     * MkRepos can create a private repo.
+     * @throws Exception If there is any error
+     */
+    @Test
+    public void createsPrivateRepo() throws Exception {
+        final boolean priv = true;
+        MatcherAssert.assertThat(
+            new Repo.Smart(
+                new MkGithub().repos().create(
+                    new Repos.RepoCreate("test", priv)
+                )
+            ).isPrivate(),
+            Matchers.is(priv)
+        );
+    }
+
+    /**
      * Create and return Repo to test.
      * @param repos Repos
      * @param name Repo name

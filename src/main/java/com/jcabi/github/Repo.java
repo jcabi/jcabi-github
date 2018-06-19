@@ -246,7 +246,11 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * @throws IOException If there is any I/O problem
          */
         public boolean isPrivate() throws IOException {
-            return JsonValue.TRUE.equals(this.json().get("private"));
+            return Boolean.parseBoolean(
+                this.json()
+                    .getOrDefault("private", JsonValue.FALSE)
+                    .toString().replace("\"", "")
+            );
         }
         @Override
         public Github github() {
