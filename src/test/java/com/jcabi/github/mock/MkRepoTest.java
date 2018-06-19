@@ -124,7 +124,7 @@ public final class MkRepoTest {
         );
         MatcherAssert.assertThat(
             new Repo.Smart(repo).isPrivate(),
-            Matchers.is(false)
+            Matchers.is(true)
         );
     }
 
