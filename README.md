@@ -28,9 +28,9 @@ public class Main {
   public static void main(String[] args) throws IOException {
     Github github = new RtGithub(".. your OAuth token ..");
     Repo repo = github.repos().get(
-        new Coordinates.Simple("jcabi/jcabi-github")
+        new Coordinates.Simple("octocat/Hello-World")
     );
-    Issue issue = repo.issues().create("How are you?", "Please tell me...");
+    Issue issue = repo.issues().create("Jcabi-github Test Issue", "Test issue description...");
     issue.comments().post("My first comment!");
   }
 }
