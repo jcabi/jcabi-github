@@ -45,6 +45,11 @@ import lombok.ToString;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
+ * @todo #1425:30min Implement MkHook#json() method so it returns a json
+ *  object according to the documentation in
+ *  https://developer.github.com/v3/repos/hooks/#get-single-hook. Then add
+ *  tests for the other fields of json and remove expects exception from
+ *  MkHookTest.create().
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
