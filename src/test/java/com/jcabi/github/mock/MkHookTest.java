@@ -31,14 +31,15 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.Hook;
 import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Tests for {@link MkHook}.
- *
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.42
@@ -46,53 +47,114 @@ import org.junit.Test;
 public final class MkHookTest {
 
     /**
-     * Test if {@link MkHook} is being created properly.
-     *
-     * @throws Exception If something goes wrong
+     * Hook to be tested.
      */
-    @Test(expected = UnsupportedOperationException.class)
-    public void create() throws Exception {
-        final MkStorage storage = new MkStorage.InFile();
+    private transient Hook hook;
+
+    /**
+     * {@link Repo} for testing.
+     */
+    private transient Repo repo;
+
+    /**
+     * Set up variables for tests.
+     * @throws Exception if something goes wrong
+     */
+    @Before
+    public void setUp() throws Exception {
         final String login = "paulodamaso";
         final Coordinates coordinates = new Coordinates.Simple(
             "jcabi",
             "jcabi-github"
         );
-        final int number = Tv.FIVE;
-        final Repo repo = new MkRepo(storage, login, coordinates);
-        final MkHook hook = new MkHook(storage, login, coordinates, number);
+        final MkStorage storage = new MkStorage.InFile();
+        this.hook =  new MkHook(
+            storage,
+            login,
+            coordinates,
+            Tv.FIVE
+        );
+        this.repo = new MkRepo(storage, login, coordinates);
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct number.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void createWithCorrectNumber() throws Exception {
         MatcherAssert.assertThat(
             "Hook returned wrong number",
-            new Integer(hook.number()),
-            new IsEqual<Integer>(number)
+            new Integer(this.hook.number()),
+            new IsEqual<Integer>(Tv.FIVE)
         );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct repository.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void createWithCorrectRepo() throws Exception {
         MatcherAssert.assertThat(
             "Hook returned wrong repository",
-            hook.repo(),
-            new IsEqual<Repo>(repo)
+            this.hook.repo(),
+            new IsEqual<Repo>(this.repo)
         );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct id.
+     * @throws Exception If something goes wrong
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void createWithCorrectId() throws Exception {
         MatcherAssert.assertThat(
             "Hook json returned wrong id",
-            hook.json().getInt("id"),
-            new IsEqual<Integer>(number)
+            this.hook.json().getInt("id"),
+            new IsEqual<Integer>(Tv.FIVE)
         );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct url.
+     * @throws Exception If something goes wrong
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void createWithCorrectUrl() throws Exception {
         MatcherAssert.assertThat(
             "Hook json returned wrong url",
-            hook.json().getString("url"),
+            this.hook.json().getString("url"),
             new IsEqual<String>(
                 "https://api.github.com/repos/jcabi/jcabi-github/hooks/1"
             )
         );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct test url.
+     * @throws Exception If something goes wrong
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void createWithCorrectTestUrl() throws Exception {
         MatcherAssert.assertThat(
             "Hook json returned wrong test_url",
-            hook.json().getString("test_url"),
+            this.hook.json().getString("test_url"),
             new IsEqual<String>(
                 "https://api.github.com/repos/jcabi/jcabi-github/hooks/1/test"
             )
         );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct ping url.
+     * @throws Exception If something goes wrong
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void createWithCorrectPingUrl() throws Exception {
         MatcherAssert.assertThat(
             "Hook json returned wrong ping_url",
-            hook.json().getString("ping_url"),
+            this.hook.json().getString("ping_url"),
             new IsEqual<String>(
                 "https://api.github.com/repos/jcabi/jcabi-github/hooks/1/pings"
             )
