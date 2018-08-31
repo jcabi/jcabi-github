@@ -38,6 +38,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.object.HasToString;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -45,7 +47,7 @@ import org.mockito.Mockito;
  * Test case for {@link MkPull}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
+ * @version $Id $
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
@@ -221,7 +223,13 @@ public final class MkPullTest {
         );
         MatcherAssert.assertThat(
             pull.json().getString("somekey"),
-            Matchers.equalTo(value)
+            new IsEqual<>(value)
+        );
+        final int lines = 20;
+        pull.patch(Json.createObjectBuilder().add("additions", lines).build());
+        MatcherAssert.assertThat(
+            pull.json().getInt("additions", 20),
+            new IsEqual<>(lines)
         );
     }
 
