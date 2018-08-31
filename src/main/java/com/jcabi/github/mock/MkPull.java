@@ -41,9 +41,11 @@ import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -72,6 +74,22 @@ final class MkPull implements Pull {
      * Property name for label in pull request ref JSON object.
      */
     private static final String LABEL_PROP = "label";
+    /**
+     * Property name for number in pull request JSON object.
+     */
+    private static final String NUMBER_PROP = "number";
+    /**
+     * Property name for user in pull request JSON object.
+     */
+    private static final String USER_PROP = "user";
+    /**
+     * Property name for head in pull request JSON object.
+     */
+    private static final String HEAD_PROP = "head";
+    /**
+     * Property name for head in pull request JSON object.
+     */
+    private static final String BASE_PROP = "base";
 
     /**
      * Storage.
@@ -212,47 +230,58 @@ final class MkPull implements Pull {
         final String branch = xml.xpath("base/text()").get(0);
         final String head = xml.xpath("head/text()").get(0);
         final String[] parts = head.split(MkPull.USER_BRANCH_SEP, 2);
-        final List<String> patches = xml.xpath("patch/text()");
-        final String patch;
-        if (patches.isEmpty()) {
-            patch = "";
-        } else {
-            patch = patches.get(0);
+        final JsonObject obj = new JsonNode(xml).json();
+        final JsonObjectBuilder json = Json.createObjectBuilder();
+        for (final Map.Entry<String, JsonValue> val : obj.entrySet()) {
+            switch (val.getKey()) {
+                case MkPull.NUMBER_PROP:
+                    json.add(
+                        MkPull.NUMBER_PROP,
+                        Integer.parseInt(xml.xpath("number/text()").get(0))
+                    );
+                    break;
+                case MkPull.USER_PROP:
+                    json.add(
+                        MkPull.USER_PROP,
+                        Json.createObjectBuilder()
+                        .add("login", xml.xpath("user/login/text()").get(0))
+                        .build()
+                    );
+                    break;
+                case MkPull.HEAD_PROP:
+                    json.add(
+                        MkPull.HEAD_PROP,
+                        Json.createObjectBuilder()
+                            .add(MkPull.REF_PROP, parts[1])
+                            .add(MkPull.LABEL_PROP, head)
+                            .build()
+                    );
+                    break;
+                case MkPull.BASE_PROP:
+                    json.add(
+                        MkPull.BASE_PROP,
+                        Json.createObjectBuilder()
+                            .add(MkPull.REF_PROP, branch)
+                            .add(
+                                MkPull.LABEL_PROP,
+                                String.format(
+                                    "%s:%s",
+                                    this.coords.user(),
+                                    branch
+                                )
+                            ).build()
+                    );
+                    break;
+                default:
+                    json.add(val.getKey(), val.getValue());
+                    break;
+            }
         }
-        return Json.createObjectBuilder()
-            .add(
-                "number",
-                Integer.parseInt(xml.xpath("number/text()").get(0))
-            )
-            .add(
-                "user",
-                Json.createObjectBuilder()
-                    .add("login", xml.xpath("user/login/text()").get(0))
-                    .build()
-            )
-            .add("patch", patch)
-            .add(
-                "head",
-                Json.createObjectBuilder()
-                    .add(MkPull.REF_PROP, parts[1])
-                    .add(MkPull.LABEL_PROP, head)
-                    .build()
-            ).add(
-                "base",
-                Json.createObjectBuilder()
-                    .add(MkPull.REF_PROP, branch)
-                    .add(
-                        MkPull.LABEL_PROP,
-                        String.format(
-                            "%s:%s",
-                            this.coords.user(),
-                            branch
-                        )
-                    ).build()
-            ).add(
-                "comments",
-                this.storage.xml().nodes(this.comment()).size()
-            ).build();
+        json.add(
+            "comments",
+            this.storage.xml().nodes(this.comment()).size()
+        );
+        return json.build();
     }
 
     /**

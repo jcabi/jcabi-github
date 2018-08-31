@@ -217,10 +217,10 @@ public final class MkPullTest {
             .create("Test Patch", "def", "abc");
         final String value = "someValue";
         pull.patch(
-            Json.createObjectBuilder().add("patch", value).build()
+            Json.createObjectBuilder().add("somekey", value).build()
         );
         MatcherAssert.assertThat(
-            pull.json().getString("patch"),
+            pull.json().getString("somekey"),
             Matchers.equalTo(value)
         );
     }
