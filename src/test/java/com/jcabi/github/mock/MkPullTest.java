@@ -39,7 +39,6 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.object.HasToString;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -228,7 +227,7 @@ public final class MkPullTest {
         final int lines = 20;
         pull.patch(Json.createObjectBuilder().add("additions", lines).build());
         MatcherAssert.assertThat(
-            pull.json().getInt("additions", 20),
+            pull.json().getInt("additions", 0),
             new IsEqual<>(lines)
         );
     }
