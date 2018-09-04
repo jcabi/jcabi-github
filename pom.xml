@@ -205,6 +205,13 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <executions>
           <execution>
