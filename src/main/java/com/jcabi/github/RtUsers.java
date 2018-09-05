@@ -97,6 +97,11 @@ final class RtUsers implements Users {
     }
 
     @Override
+    public User add(final String login) {
+        throw new UnsupportedOperationException("#add not implemented");
+    }
+
+    @Override
     public Iterable<User> iterate(
         final String identifier
     ) {

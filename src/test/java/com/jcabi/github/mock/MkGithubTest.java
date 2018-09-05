@@ -192,7 +192,7 @@ public final class MkGithubTest {
             new User.Smart(
                 new MkGithub().users().get("other")
             ).exists(),
-            new IsEqual<>(true)
+            new IsEqual<Boolean>(false)
         );
     }
 }

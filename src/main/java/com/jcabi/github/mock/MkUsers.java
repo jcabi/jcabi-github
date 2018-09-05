@@ -78,6 +78,7 @@ final class MkUsers implements Users {
         this.storage.apply(
             new Directives().xpath("/github").addIf("users")
         );
+        this.add(login);
     }
 
     @Override
@@ -115,6 +116,28 @@ final class MkUsers implements Users {
                 }
             }
         );
+    }
+
+    @Override
+    public User add(final String login) {
+        try {
+            this.storage.apply(
+                new Directives()
+                    .xpath(
+                        String.format(
+                            "/github/users[not(user[login='%s'])]", login
+                        )
+                    )
+                    .add("user")
+                    .add("login").set(login).up()
+                    .add("type").set("User").up()
+                    .add("name").set(login).up()
+                    .add("notifications").up()
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+        return this.get(login);
     }
 
 }

@@ -63,6 +63,13 @@ public interface Users {
     User get(String login);
 
     /**
+     * Add user by login and returns it.
+     * @param login Login of it
+     * @return Added user
+     */
+    User add(String login);
+
+    /**
      * Iterate all users, starting with the one you've seen already.
      * @param identifier The integer ID of the last User that you’ve seen.
      * @return Iterator of gists
