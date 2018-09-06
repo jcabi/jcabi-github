@@ -233,48 +233,42 @@ final class MkPull implements Pull {
         final JsonObject obj = new JsonNode(xml).json();
         final JsonObjectBuilder json = Json.createObjectBuilder();
         for (final Map.Entry<String, JsonValue> val : obj.entrySet()) {
-            switch (val.getKey()) {
-                case MkPull.NUMBER_PROP:
-                    json.add(
-                        MkPull.NUMBER_PROP,
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                    break;
-                case MkPull.USER_PROP:
-                    json.add(
-                        MkPull.USER_PROP,
-                        Json.createObjectBuilder()
-                        .add("login", xml.xpath("user/login/text()").get(0))
+            if (MkPull.NUMBER_PROP.equals(val.getKey())) {
+                json.add(
+                    MkPull.NUMBER_PROP,
+                    Integer.parseInt(xml.xpath("number/text()").get(0))
+                );
+            } else if (MkPull.USER_PROP.equals(val.getKey())) {
+                json.add(
+                    MkPull.USER_PROP,
+                    Json.createObjectBuilder()
+                    .add("login", xml.xpath("user/login/text()").get(0))
+                    .build()
+                );
+            } else if (MkPull.HEAD_PROP.equals(val.getKey())) {
+                json.add(
+                    MkPull.HEAD_PROP,
+                    Json.createObjectBuilder()
+                        .add(MkPull.REF_PROP, parts[1])
+                        .add(MkPull.LABEL_PROP, head)
                         .build()
-                    );
-                    break;
-                case MkPull.HEAD_PROP:
-                    json.add(
-                        MkPull.HEAD_PROP,
-                        Json.createObjectBuilder()
-                            .add(MkPull.REF_PROP, parts[1])
-                            .add(MkPull.LABEL_PROP, head)
-                            .build()
-                    );
-                    break;
-                case MkPull.BASE_PROP:
-                    json.add(
-                        MkPull.BASE_PROP,
-                        Json.createObjectBuilder()
-                            .add(MkPull.REF_PROP, branch)
-                            .add(
-                                MkPull.LABEL_PROP,
-                                String.format(
-                                    "%s:%s",
-                                    this.coords.user(),
-                                    branch
-                                )
-                            ).build()
-                    );
-                    break;
-                default:
-                    json.add(val.getKey(), val.getValue());
-                    break;
+                );
+            } else if (MkPull.BASE_PROP.equals(val.getKey())) {
+                json.add(
+                    MkPull.BASE_PROP,
+                    Json.createObjectBuilder()
+                        .add(MkPull.REF_PROP, branch)
+                        .add(
+                            MkPull.LABEL_PROP,
+                            String.format(
+                                "%s:%s",
+                                this.coords.user(),
+                                branch
+                            )
+                        ).build()
+                );
+            } else {
+                json.add(val.getKey(), val.getValue());
             }
         }
         json.add(

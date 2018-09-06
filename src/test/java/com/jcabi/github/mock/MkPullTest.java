@@ -222,13 +222,13 @@ public final class MkPullTest {
         );
         MatcherAssert.assertThat(
             pull.json().getString("somekey"),
-            new IsEqual<>(value)
+            new IsEqual<String>(value)
         );
         final int lines = 20;
         pull.patch(Json.createObjectBuilder().add("additions", lines).build());
         MatcherAssert.assertThat(
             pull.json().getString("additions"),
-            new IsEqual<>(new Integer(lines).toString())
+            new IsEqual<String>(new Integer(lines).toString())
         );
     }
 
