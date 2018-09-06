@@ -65,7 +65,7 @@ public final class MkPublicKeysTest {
      */
     @Test
     public void canFetchSingleKey() throws Exception {
-        final PublicKeys keys = new MkGithub().users().get("jeff").keys();
+        final PublicKeys keys = new MkGithub().users().add("jeff").keys();
         MatcherAssert.assertThat(
             keys.get(1),
             Matchers.notNullValue()
@@ -79,7 +79,7 @@ public final class MkPublicKeysTest {
      */
     @Test
     public void canCreatePublicKey() throws Exception {
-        final PublicKeys keys = new MkGithub().users().get("john").keys();
+        final PublicKeys keys = new MkGithub().users().add("john").keys();
         final PublicKey key = keys.create("Title1", "PublicKey1");
         MatcherAssert.assertThat(
             keys.get(key.number()),

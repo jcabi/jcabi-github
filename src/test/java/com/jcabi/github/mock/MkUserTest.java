@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.User;
 import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
 import java.time.Instant;
@@ -93,7 +94,7 @@ public final class MkUserTest {
     public void marksNotificationsAsReadUpToDate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(new Directives().xpath("/github").add("users"));
-        final MkUser user = new MkUser(storage, "joe");
+        final User user = new MkUsers(storage, "joe").add("joe");
         final Instant upto = Instant.now();
         storage.apply(
             new Directives()

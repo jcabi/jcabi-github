@@ -44,7 +44,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.xembly.Directives;
 
 /**
  * Github user.
@@ -79,19 +78,6 @@ final class MkUser implements User {
     MkUser(final MkStorage stg, final String login) throws IOException {
         this.storage = stg;
         this.self = login;
-        this.storage.apply(
-            new Directives()
-                .xpath(
-                    String.format(
-                        "/github/users[not(user[login='%s'])]", login
-                    )
-                )
-                .add("user")
-                .add("login").set(login).up()
-                .add("type").set("User").up()
-                .add("name").set(login).up()
-                .add("notifications").up()
-        );
     }
 
     @Override

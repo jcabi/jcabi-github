@@ -46,6 +46,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
@@ -177,6 +178,21 @@ public final class MkGithubTest {
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<String, String>()),
             Matchers.<Issue>iterableWithSize(threads)
+        );
+    }
+
+    /**
+     * Can retrieve users.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void canRetrieveUsers() throws Exception {
+        MatcherAssert.assertThat(
+            "Retrieved inexistent user",
+            new User.Smart(
+                new MkGithub().users().get("other")
+            ).exists(),
+            new IsEqual<Boolean>(false)
         );
     }
 }

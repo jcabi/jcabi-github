@@ -70,6 +70,8 @@ final class Existence {
             this.readable.json();
         } catch (final AssertionError ex) {
             exists = false;
+        } catch (final IndexOutOfBoundsException ex) {
+            exists = false;
         }
         return exists;
     }
