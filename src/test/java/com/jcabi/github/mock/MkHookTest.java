@@ -29,14 +29,10 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Hook;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
-import org.junit.Before;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -47,41 +43,53 @@ import org.xembly.Directives;
  * @since 0.42
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkHookTest {
-
     /**
-     * Hook to be tested.
+     * Test if {@link MkHook} is being created with the correct number.
+     * @throws Exception If something goes wrong
      */
-    private transient Hook hook;
-
-    /**
-     * XML encapsulated by the hook.
-     */
-    private transient XML xml;
-
-    /**
-     * {@link Repo} for testing.
-     */
-    private transient Repo repo;
-
-    /**
-     * Set up variables for tests.
-     * @throws Exception if something goes wrong
-     */
-    @Before
-    public void setUp() throws Exception {
-        final String login = "paulodamaso";
-        final Coordinates coordinates = new Coordinates.Simple(
-            "jcabi",
-            "jcabi-github"
+    @Test
+    public void createWithCorrectNumber() throws Exception {
+        final int number = 5;
+        MatcherAssert.assertThat(
+            "Hook returned wrong number",
+            new MkHook(null, null, null, number).number(),
+            new IsEqual<Integer>(number)
         );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct repository.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void createWithCorrectRepo() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
+        final String login = "login";
+        final Coordinates coords = new Coordinates.Simple("user/repo");
+        MatcherAssert.assertThat(
+            "Hook returned wrong repository",
+            new MkHook(storage, login, coords, 0).repo(),
+            new IsEqual<Repo>(new MkRepo(storage, login, coords))
+        );
+    }
+
+    /**
+     * Test if {@link MkHook} is being created with the correct id.
+     * @throws Exception If something goes wrong
+     */
+    @Test
+    public void createWithCorrectId() throws Exception {
+        final int number = 5;
+        final MkStorage storage = new MkStorage.InFile();
+        final Coordinates coords = new Coordinates.Simple("user/repo");
         storage.apply(
             new Directives().xpath("/github")
-                .add("repos").add("repo").attr("coords", coordinates.toString())
+                .add("repos").add("repo").attr("coords", coords.toString())
                 .add("hooks")
                 .add("hook")
-                .add("id").set(String.valueOf(Tv.FIVE)).up()
+                .add("id").set(String.valueOf(number)).up()
                 .add("url").set("http://github.com/url").up()
                 .add("test_url").set("http://github.com/test_url").up()
                 .add("ping_url").set("http://github.com/ping_url").up()
@@ -98,55 +106,10 @@ public final class MkHookTest {
                 .add("updated_at").set("2011-09-06T20:39:23Z").up()
                 .add("created_at").set("2011-09-06T17:26:27Z").up()
         );
-        this.hook =  new MkHook(
-            storage,
-            login,
-            coordinates,
-            Tv.FIVE
-        );
-        this.xml = storage.xml()
-            .nodes(String.format("//hook[id=%s]", Tv.FIVE)).get(0);
-        this.repo = new MkRepo(storage, login, coordinates);
-    }
-
-    /**
-     * Test if {@link MkHook} is being created with the correct number.
-     * @throws Exception If something goes wrong
-     */
-    @Test
-    public void createWithCorrectNumber() throws Exception {
-        MatcherAssert.assertThat(
-            "Hook returned wrong number",
-            new Integer(this.hook.number()),
-            new IsEqual<Integer>(Tv.FIVE)
-        );
-    }
-
-    /**
-     * Test if {@link MkHook} is being created with the correct repository.
-     * @throws Exception If something goes wrong
-     */
-    @Test
-    public void createWithCorrectRepo() throws Exception {
-        MatcherAssert.assertThat(
-            "Hook returned wrong repository",
-            this.hook.repo(),
-            new IsEqual<Repo>(this.repo)
-        );
-    }
-
-    /**
-     * Test if {@link MkHook} is being created with the correct id.
-     * @throws Exception If something goes wrong
-     */
-    @Test
-    public void createWithCorrectId() throws Exception {
         MatcherAssert.assertThat(
             "Hook json returned wrong id",
-            this.hook.json().getInt("id"),
-            new IsEqual<Integer>(
-                Integer.parseInt(this.xml.xpath("id/text()").get(0))
-            )
+            new MkHook(storage, "login", coords, number).json().getInt("id"),
+            new IsEqual<Integer>(number)
         );
     }
 
@@ -156,12 +119,38 @@ public final class MkHookTest {
      */
     @Test
     public void createWithCorrectUrl() throws Exception {
+        final String url = "https://github.com/user/repo/hooks/hook/5";
+        final int number = 5;
+        final Coordinates coords = new Coordinates.Simple("user/repo");
+        final MkStorage storage = new MkStorage.InFile();
+        storage.apply(
+            new Directives().xpath("/github")
+                .add("repos").add("repo").attr("coords", coords.toString())
+                .add("hooks")
+                .add("hook")
+                .add("id").set(String.valueOf(number)).up()
+                .add("url").set(url).up()
+                .add("test_url").set("http://github.com/test_url").up()
+                .add("ping_url").set("http://github.com/ping_url").up()
+                .add("name").set("testname").up()
+                .add("events")
+                    .add("push").up()
+                    .add("pull_request").up()
+                    .up()
+                .add("active").set("true").up()
+                .add("config")
+                    .add("url").set("http://example.com/webhook").up()
+                    .add("content_type").set("json").up()
+                    .up()
+                .add("updated_at").set("2011-09-06T20:39:23Z").up()
+                .add("created_at").set("2011-09-06T17:26:27Z").up()
+        );
         MatcherAssert.assertThat(
             "Hook json returned wrong url",
-            this.hook.json().getString("url"),
-            new IsEqual<String>(
-                this.xml.xpath("url/text()").get(0)
-            )
+            new MkHook(
+                storage, "login", coords, number
+            ).json().getString("url"),
+            new IsEqual<String>(url)
         );
     }
 
@@ -171,12 +160,38 @@ public final class MkHookTest {
      */
     @Test
     public void createWithCorrectTestUrl() throws Exception {
+        final String test = "https://github.com/user/repo/hooks/hook/5";
+        final int number = 5;
+        final Coordinates coords = new Coordinates.Simple("user/repo");
+        final MkStorage storage = new MkStorage.InFile();
+        storage.apply(
+            new Directives().xpath("/github")
+                .add("repos").add("repo").attr("coords", coords.toString())
+                .add("hooks")
+                .add("hook")
+                .add("id").set(String.valueOf(number)).up()
+                .add("url").set("http://github.com/url").up()
+                .add("test_url").set(test).up()
+                .add("ping_url").set("http://github.com/ping_url").up()
+                .add("name").set("testname").up()
+                .add("events")
+                    .add("push").up()
+                    .add("pull_request").up()
+                    .up()
+                .add("active").set("true").up()
+                .add("config")
+                    .add("url").set("http://example.com/webhook").up()
+                    .add("content_type").set("json").up()
+                    .up()
+                .add("updated_at").set("2011-09-06T20:39:23Z").up()
+                .add("created_at").set("2011-09-06T17:26:27Z").up()
+        );
         MatcherAssert.assertThat(
             "Hook json returned wrong test_url",
-            this.hook.json().getString("test_url"),
-            new IsEqual<String>(
-                this.xml.xpath("test_url/text()").get(0)
-            )
+            new MkHook(
+                storage, "login", coords, number
+            ).json().getString("test_url"),
+            new IsEqual<String>(test)
         );
     }
 
@@ -186,12 +201,38 @@ public final class MkHookTest {
      */
     @Test
     public void createWithCorrectPingUrl() throws Exception {
+        final String ping = "https://github.com/user/repo/hooks/hook/5";
+        final int number = 5;
+        final Coordinates coords = new Coordinates.Simple("user/repo");
+        final MkStorage storage = new MkStorage.InFile();
+        storage.apply(
+            new Directives().xpath("/github")
+                .add("repos").add("repo").attr("coords", coords.toString())
+                .add("hooks")
+                .add("hook")
+                .add("id").set(String.valueOf(number)).up()
+                .add("url").set("http://github.com/url").up()
+                .add("test_url").set("http://github.com/test_url").up()
+                .add("ping_url").set(ping).up()
+                .add("name").set("testname").up()
+                .add("events")
+                    .add("push").up()
+                    .add("pull_request").up()
+                    .up()
+                .add("active").set("true").up()
+                .add("config")
+                    .add("url").set("http://example.com/webhook").up()
+                    .add("content_type").set("json").up()
+                    .up()
+                .add("updated_at").set("2011-09-06T20:39:23Z").up()
+                .add("created_at").set("2011-09-06T17:26:27Z").up()
+        );
         MatcherAssert.assertThat(
             "Hook json returned wrong ping_url",
-            this.hook.json().getString("ping_url"),
-            new IsEqual<String>(
-                this.xml.xpath("ping_url/text()").get(0)
-            )
+            new MkHook(
+                storage, "login", coords, number
+            ).json().getString("ping_url"),
+            new IsEqual<String>(ping)
         );
     }
 }
