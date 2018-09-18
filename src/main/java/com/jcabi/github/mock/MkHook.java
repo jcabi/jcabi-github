@@ -34,12 +34,8 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -105,37 +101,13 @@ final class MkHook implements Hook {
     }
     @Override
     public JsonObject json() throws IOException {
-        final XML hook = this.storage.xml().nodes(
-            String.format(
-                "//repo[@coords='%s']/hooks/hook[id='%s']",
-                this.coords, this.num
-            )
-        ).get(0);
-        final JsonArrayBuilder events = Json.createArrayBuilder();
-        for (final XML event : hook.nodes("events/child::*")) {
-            // @checkstyle MultipleStringLiteralsCheck (1 line)
-            events.add(event.xpath("name()").get(0));
-        }
-        final JsonObjectBuilder configs = Json.createObjectBuilder();
-        for (final XML config : hook.nodes("configs/child::*")) {
-            configs.add(
-                // @checkstyle MultipleStringLiteralsCheck (1 line)
-                config.xpath("name()").get(0), config.xpath("text()").get(0)
-            );
-        }
-        return Json.createObjectBuilder()
-            .add("id", this.number())
-            .add("url", hook.xpath("url/text()").get(0))
-            .add("test_url", hook.xpath("test_url/text()").get(0))
-            .add("ping_url", hook.xpath("ping_url/text()").get(0))
-            .add("name", hook.xpath("name/text()").get(0))
-            .add("events", events)
-            .add(
-                "active",
-                Boolean.parseBoolean(hook.xpath("active/text()").get(0))
-            ).add("config", configs)
-            .add("updated_at", hook.xpath("updated_at/text()").get(0))
-            .add("created_at", hook.xpath("created_at/text()").get(0))
-            .build();
+        return new JsonNode(
+            this.storage.xml().nodes(
+                String.format(
+                    "//repo[@coords='%s']/hooks/hook[id='%s']",
+                    this.repo().coordinates(), this.number()
+                )
+            ).get(0)
+        ).json();
     }
 }

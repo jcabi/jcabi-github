@@ -85,31 +85,12 @@ public final class MkHookTest {
         final MkStorage storage = new MkStorage.InFile();
         final Coordinates coords = new Coordinates.Simple("user/repo");
         storage.apply(
-            new Directives().xpath("/github")
-                .add("repos").add("repo").attr("coords", coords.toString())
-                .add("hooks")
-                .add("hook")
-                .add("id").set(String.valueOf(number)).up()
-                .add("url").set("http://github.com/url").up()
-                .add("test_url").set("http://github.com/test_url").up()
-                .add("ping_url").set("http://github.com/ping_url").up()
-                .add("name").set("testname").up()
-                .add("events")
-                    .add("push").up()
-                    .add("pull_request").up()
-                    .up()
-                .add("active").set("true").up()
-                .add("config")
-                    .add("url").set("http://example.com/webhook").up()
-                    .add("content_type").set("json").up()
-                    .up()
-                .add("updated_at").set("2011-09-06T20:39:23Z").up()
-                .add("created_at").set("2011-09-06T17:26:27Z").up()
+            this.hookDirs(number, coords)
         );
         MatcherAssert.assertThat(
             "Hook json returned wrong id",
-            new MkHook(storage, "login", coords, number).json().getInt("id"),
-            new IsEqual<Integer>(number)
+            new MkHook(storage, "login", coords, number).json().getString("id"),
+            new IsEqual<String>(String.valueOf(number))
         );
     }
 
@@ -124,26 +105,8 @@ public final class MkHookTest {
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            new Directives().xpath("/github")
-                .add("repos").add("repo").attr("coords", coords.toString())
-                .add("hooks")
-                .add("hook")
-                .add("id").set(String.valueOf(number)).up()
+            this.hookDirs(number, coords)
                 .add("url").set(url).up()
-                .add("test_url").set("http://github.com/test_url").up()
-                .add("ping_url").set("http://github.com/ping_url").up()
-                .add("name").set("testname").up()
-                .add("events")
-                    .add("push").up()
-                    .add("pull_request").up()
-                    .up()
-                .add("active").set("true").up()
-                .add("config")
-                    .add("url").set("http://example.com/webhook").up()
-                    .add("content_type").set("json").up()
-                    .up()
-                .add("updated_at").set("2011-09-06T20:39:23Z").up()
-                .add("created_at").set("2011-09-06T17:26:27Z").up()
         );
         MatcherAssert.assertThat(
             "Hook json returned wrong url",
@@ -165,26 +128,8 @@ public final class MkHookTest {
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            new Directives().xpath("/github")
-                .add("repos").add("repo").attr("coords", coords.toString())
-                .add("hooks")
-                .add("hook")
-                .add("id").set(String.valueOf(number)).up()
-                .add("url").set("http://github.com/url").up()
+            this.hookDirs(number, coords)
                 .add("test_url").set(test).up()
-                .add("ping_url").set("http://github.com/ping_url").up()
-                .add("name").set("testname").up()
-                .add("events")
-                    .add("push").up()
-                    .add("pull_request").up()
-                    .up()
-                .add("active").set("true").up()
-                .add("config")
-                    .add("url").set("http://example.com/webhook").up()
-                    .add("content_type").set("json").up()
-                    .up()
-                .add("updated_at").set("2011-09-06T20:39:23Z").up()
-                .add("created_at").set("2011-09-06T17:26:27Z").up()
         );
         MatcherAssert.assertThat(
             "Hook json returned wrong test_url",
@@ -206,26 +151,8 @@ public final class MkHookTest {
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            new Directives().xpath("/github")
-                .add("repos").add("repo").attr("coords", coords.toString())
-                .add("hooks")
-                .add("hook")
-                .add("id").set(String.valueOf(number)).up()
-                .add("url").set("http://github.com/url").up()
-                .add("test_url").set("http://github.com/test_url").up()
+            this.hookDirs(number, coords)
                 .add("ping_url").set(ping).up()
-                .add("name").set("testname").up()
-                .add("events")
-                    .add("push").up()
-                    .add("pull_request").up()
-                    .up()
-                .add("active").set("true").up()
-                .add("config")
-                    .add("url").set("http://example.com/webhook").up()
-                    .add("content_type").set("json").up()
-                    .up()
-                .add("updated_at").set("2011-09-06T20:39:23Z").up()
-                .add("created_at").set("2011-09-06T17:26:27Z").up()
         );
         MatcherAssert.assertThat(
             "Hook json returned wrong ping_url",
@@ -234,5 +161,19 @@ public final class MkHookTest {
             ).json().getString("ping_url"),
             new IsEqual<String>(ping)
         );
+    }
+
+    /**
+     * Directives to build a hook XML that only includes its id.
+     * @param number Hook number
+     * @param coords Repo coords
+     * @return Hook directives
+     */
+    private Directives hookDirs(final int number, final Coordinates coords) {
+        return new Directives().xpath("/github")
+            .add("repos").add("repo").attr("coords", coords.toString())
+            .add("hooks")
+            .add("hook")
+            .add("id").set(String.valueOf(number)).up();
     }
 }
