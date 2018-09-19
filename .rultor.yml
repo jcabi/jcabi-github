@@ -1,8 +1,8 @@
 docker:
   image: yegor256/java8
 architect:
-- yegor256
 - amihaiemil
+- yegor256
 - dmarkov
 install:
 - sudo gem install --no-rdoc --no-ri pdd
