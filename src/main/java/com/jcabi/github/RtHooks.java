@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
@@ -118,20 +119,27 @@ final class RtHooks implements Hooks {
         return new RtHook(this.entry, this.owner, number);
     }
 
+    // @checkstyle ParameterNumberCheck (2 lines)
     @Override
     public Hook create(
         final String name,
         final Map<String, String> config,
+        final Iterable<Event> events,
         final boolean active
     ) throws IOException {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        final JsonObjectBuilder configs = Json.createObjectBuilder();
         for (final Map.Entry<String, String> entr : config.entrySet()) {
-            builder.add(entr.getKey(), entr.getValue());
+            configs.add(entr.getKey(), entr.getValue());
+        }
+        final JsonArrayBuilder evnts = Json.createArrayBuilder();
+        for (final Event event : events) {
+            evnts.add(event.toString());
         }
         final JsonStructure json = Json.createObjectBuilder()
             .add("name", name)
-            .add("config", builder)
+            .add("config", configs)
             .add("active", active)
+            .add("events", evnts)
             .build();
         return this.get(
             this.request.method(Request.POST)

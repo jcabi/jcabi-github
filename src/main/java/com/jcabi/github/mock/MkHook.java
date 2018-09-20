@@ -45,8 +45,6 @@ import lombok.ToString;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @todo #1425:30min Finish adding tests for MkHook#json(). Finish making
- *  MkHooks#create pass the missing attributes to MkHook.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
