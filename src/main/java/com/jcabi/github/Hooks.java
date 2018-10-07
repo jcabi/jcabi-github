@@ -77,16 +77,17 @@ public interface Hooks {
      * Create new hook.
      * @param name Hook name
      * @param config Configuration for the hook
+     * @param events Events that trigger the hook
      * @param active Actually trigger the hook when the events occur?
      * @return Hook
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/hooks/#create-a-hook">Create a hook</a>
-     * @todo #1106:30min Add support for the "events" parameter of the hook
-     *  creation API. It's a list of strings of the names of events which the
-     *  hook will be triggered for.
+     * @todo #1435:30min Support for "events" was added to Hooks.create(). Now add corresponding
+     *  tests for RtHook and MkHook.
+     * @checkstyle ParameterNumberCheck (2 lines)
      */
     Hook create(
         String name, Map<String, String> config,
-        boolean active
+        Iterable<Event> events, boolean active
     ) throws IOException;
 }

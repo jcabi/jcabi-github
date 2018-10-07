@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.github.Event;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
 import java.util.Collections;
@@ -73,6 +74,7 @@ public final class MkHooksTest {
         final Hook hook = hooks.create(
             HOOK_TYPE,
             Collections.<String, String>emptyMap(),
+            Collections.<Event>emptyList(),
             true
         );
         MatcherAssert.assertThat(
@@ -96,6 +98,7 @@ public final class MkHooksTest {
         final Hook hook = hooks.create(
             HOOK_TYPE,
             Collections.<String, String>emptyMap(),
+            Collections.<Event>emptyList(),
             true
         );
         MatcherAssert.assertThat(
@@ -114,11 +117,13 @@ public final class MkHooksTest {
         hooks.create(
             HOOK_TYPE,
             Collections.<String, String>emptyMap(),
+            Collections.<Event>emptyList(),
             true
         );
         hooks.create(
             HOOK_TYPE,
             Collections.<String, String>emptyMap(),
+            Collections.<Event>emptyList(),
             true
         );
         MatcherAssert.assertThat(
@@ -137,6 +142,7 @@ public final class MkHooksTest {
         final Hook hook = hooks.create(
             HOOK_TYPE,
             Collections.<String, String>emptyMap(),
+            Collections.<Event>emptyList(),
             true
         );
         MatcherAssert.assertThat(

@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -163,6 +164,7 @@ public final class RtHooksITCase {
         return repo.hooks().create(
             "web",
             config,
+            Collections.<Event>emptyList(),
             false
         );
     }
