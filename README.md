@@ -18,7 +18,7 @@
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/). Also,
 read this blog post: [Object-Oriented Github API](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html).
-Java 7 or higher is required.
+Java 8 or higher is required.
 
 Set of classes in `com.jcabi.github` package is
 an object oriented API of Github:
