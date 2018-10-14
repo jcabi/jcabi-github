@@ -30,9 +30,13 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Repo;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -55,7 +59,7 @@ public final class MkHookTest {
         MatcherAssert.assertThat(
             "Hook returned wrong number",
             new MkHook(null, null, null, number).number(),
-            new IsEqual<Integer>(number)
+            new IsEqual<>(number)
         );
     }
 
@@ -71,7 +75,7 @@ public final class MkHookTest {
         MatcherAssert.assertThat(
             "Hook returned wrong repository",
             new MkHook(storage, login, coords, 0).repo(),
-            new IsEqual<Repo>(new MkRepo(storage, login, coords))
+            new IsEqual<>(new MkRepo(storage, login, coords))
         );
     }
 
@@ -90,7 +94,7 @@ public final class MkHookTest {
         MatcherAssert.assertThat(
             "Hook json returned wrong id",
             new MkHook(storage, "login", coords, number).json().getString("id"),
-            new IsEqual<String>(String.valueOf(number))
+            new IsEqual<>(String.valueOf(number))
         );
     }
 
@@ -113,7 +117,7 @@ public final class MkHookTest {
             new MkHook(
                 storage, "login", coords, number
             ).json().getString("url"),
-            new IsEqual<String>(url)
+            new IsEqual<>(url)
         );
     }
 
@@ -136,7 +140,7 @@ public final class MkHookTest {
             new MkHook(
                 storage, "login", coords, number
             ).json().getString("test_url"),
-            new IsEqual<String>(test)
+            new IsEqual<>(test)
         );
     }
 
@@ -159,7 +163,35 @@ public final class MkHookTest {
             new MkHook(
                 storage, "login", coords, number
             ).json().getString("ping_url"),
-            new IsEqual<String>(ping)
+            new IsEqual<>(ping)
+        );
+    }
+
+    /**
+     * MkHook.json() should return the "events" json array with the given
+     * event names.
+     * @throws Exception If something goes wrong
+     */
+    @Ignore
+    @Test
+    public void createWithCorrectEvents() throws Exception {
+        final Iterable<String> events = Arrays.asList("event1", "event2");
+        final int number = 123;
+        final Coordinates coords = new Coordinates.Simple("user/repo");
+        final Directives xml = this.hookDirs(number, coords).add("events");
+        events.forEach(e -> xml.add("event").set(e).up());
+        final MkStorage storage = new MkStorage.InFile();
+        storage.apply(xml);
+        MatcherAssert.assertThat(
+            "",
+            new MkHook(
+                storage, "", coords, number
+            ).json().getJsonArray("events")
+                .stream()
+                .map(JsonValue::toString)
+                .map(event -> event.replace("\"", ""))
+                .collect(Collectors.toList()),
+            Matchers.containsInAnyOrder("event1", "event2")
         );
     }
 

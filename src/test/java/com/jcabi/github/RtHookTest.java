@@ -34,6 +34,8 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import java.util.stream.Collectors;
+import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -80,6 +82,37 @@ public final class RtHookTest {
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/repo/hooks/1")
+            );
+        } finally {
+            container.stop();
+        }
+    }
+
+    /**
+     * RtHook.json() should return a json array with the hook's events.
+     *
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    public void returnsEvents() throws Exception {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                "{ \"id\": 1, \"events\": [ \"push\", \"pull_request\" ] }"
+            )
+        ).start(this.resource.port());
+        try {
+            MatcherAssert.assertThat(
+                new RtHook(
+                    new ApacheRequest(container.home()),
+                    repo(),
+                    1
+                ).json().getJsonArray("events")
+                    .stream()
+                    .map(JsonValue::toString)
+                    .map(event -> event.replace("\"", ""))
+                    .collect(Collectors.toList()),
+                Matchers.containsInAnyOrder("push", "pull_request")
             );
         } finally {
             container.stop();

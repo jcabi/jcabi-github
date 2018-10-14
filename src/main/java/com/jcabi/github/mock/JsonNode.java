@@ -60,6 +60,9 @@ final class JsonNode {
     /**
      * Fetch JSON object.
      * @return JSON
+     * @todo #1439:30min JsonNode should be smart enough to know when the
+     *  json's attribute is a JsonObject, or a JsonArray. Once this is
+     *  fixed, un-ignore MkHookTest.createWithCorrectEvents().
      */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public JsonObject json() {
