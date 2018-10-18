@@ -82,8 +82,6 @@ public interface Hooks {
      * @return Hook
      * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/repos/hooks/#create-a-hook">Create a hook</a>
-     * @todo #1435:30min Support for "events" was added to Hooks.create(). Now add corresponding
-     *  tests for RtHook and MkHook.
      * @checkstyle ParameterNumberCheck (2 lines)
      */
     Hook create(
