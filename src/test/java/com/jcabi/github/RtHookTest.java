@@ -34,10 +34,13 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import java.net.HttpURLConnection;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -47,6 +50,7 @@ import org.mockito.Mockito;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (2 lines)
  */
 public final class RtHookTest {
     /**
@@ -112,7 +116,12 @@ public final class RtHookTest {
                     .map(JsonValue::toString)
                     .map(event -> event.replace("\"", ""))
                     .collect(Collectors.toList()),
-                Matchers.containsInAnyOrder("push", "pull_request")
+                new IsIterableContainingInAnyOrder<>(
+                    Arrays.asList(
+                        new IsEqual<>("push"),
+                        new IsEqual<>("pull_request")
+                    )
+                )
             );
         } finally {
             container.stop();

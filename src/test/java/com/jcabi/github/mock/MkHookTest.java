@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -191,7 +191,12 @@ public final class MkHookTest {
                 .map(JsonValue::toString)
                 .map(event -> event.replace("\"", ""))
                 .collect(Collectors.toList()),
-            Matchers.containsInAnyOrder("event1", "event2")
+                new IsIterableContainingInAnyOrder<>(
+                    Arrays.asList(
+                        new IsEqual<>("event1"),
+                        new IsEqual<>("event2")
+                    )
+                )
         );
     }
 
