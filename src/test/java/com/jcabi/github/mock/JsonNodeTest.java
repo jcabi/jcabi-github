@@ -34,6 +34,8 @@ import com.jcabi.xml.XMLDocument;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -61,6 +63,23 @@ public final class JsonNodeTest {
         MatcherAssert.assertThat(
             json.getJsonObject("dept").getString("title"),
             Matchers.equalTo("IT")
+        );
+    }
+
+    /**
+     * JsonNode can text XML to JSON array.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void convertsXmlToJsonArray() throws Exception {
+        final XML xml = new XMLDocument(
+            "<users><user>Jeff</user><user>Bauer</user><user>Iko</user></users>"
+        );
+        final JsonObject json = new JsonNode(xml).json();
+        MatcherAssert.assertThat(
+            json.toString(),
+            new IsEqual<>("{\"users\": [\"Jeff\", \"Bauer\", \"Iko\"]}")
         );
     }
 

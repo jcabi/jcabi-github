@@ -60,9 +60,11 @@ final class JsonNode {
     /**
      * Fetch JSON object.
      * @return JSON
-     * @todo #1439:30min JsonNode should be smart enough to know when the
-     *  json's attribute is a JsonObject, or a JsonArray. Once this is
-     *  fixed, un-ignore MkHookTest.createWithCorrectEvents().
+     * @todo #1442:30min JsonNode should be smart enough to know when the
+     *  json's attribute is a JsonObject, or a JsonArray. Tests for this
+     *  behavior were already been implemented in JsonNodeTest. Once this is
+     *  fixed, un-ignore MkHookTest.createWithCorrectEvents() and
+     *  JsonNode.convertsXmlToJsonArray() tests.
      */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public JsonObject json() {
