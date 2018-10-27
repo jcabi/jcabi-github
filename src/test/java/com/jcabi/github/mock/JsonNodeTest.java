@@ -75,7 +75,7 @@ public final class JsonNodeTest {
     public void convertsXmlToJsonArray() throws Exception {
         final XML xml = new XMLDocument(
             // @checkstyle LineLength (1 line)
-            "<users type=\"array\"><item>Jeff</item><item>Bauer</item><item>Iko</item></users>"
+            "<users array=\"true\"><item>Jeff</item><item>Bauer</item><item>Iko</item></users>"
         );
         final JsonObject json = new JsonNode(xml).json();
         MatcherAssert.assertThat(
