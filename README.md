@@ -14,7 +14,6 @@
 
 [![jpeek report](http://i.jpeek.org/com.jcabi/jcabi-github/badge.svg)](http://i.jpeek.org/com.jcabi/jcabi-github/)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
-[![Dependencies](https://www.versioneye.com/user/projects/561a9e43a193340f2800106e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/561a9e43a193340f2800106e)
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/). Also,
 read this blog post: [Object-Oriented Github API](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html).
