@@ -275,15 +275,6 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         /**
-         * Returns the value of gravatar_id property of User's JSON.
-         * @return The 'gravatar_id' property value.
-         * @throws IOException If any I/O error occurs.
-         */
-        public String gravatar() throws IOException {
-            return this.jsn.text("gravatar_id");
-        }
-
-        /**
          * Returns the value of html_url property of User's JSON.
          * @return The 'html_url' property value.
          * @throws IOException If any I/O error occurs.

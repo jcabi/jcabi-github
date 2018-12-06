@@ -212,17 +212,6 @@ public final class RtUserTest {
     }
 
     /**
-     * Tests if a User.Smart object handles gravatar_id JSON property.
-     * @throws Exception if any problem occurs.
-     */
-    @Test
-    public void hasGravatar() throws Exception {
-        final String value = "some-gravatar-id";
-        final User.Smart smart = this.userWith("gravatar_id", value);
-        MatcherAssert.assertThat(smart.gravatar(), Matchers.is(value));
-    }
-
-    /**
      * Tests if a User.Smart object handles html_url JSON property.
      * @throws Exception if any problem occurs.
      */
