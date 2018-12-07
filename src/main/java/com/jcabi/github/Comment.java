@@ -34,6 +34,7 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -57,6 +58,7 @@ import lombok.ToString;
  * <pre>String login = new Comment.Smart(comment).author().login();</pre>
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
@@ -85,6 +87,18 @@ public interface Comment
      * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;
+
+    /**
+     * Adds the reaction to the comment.
+     * @param reaction Reaction to be added.
+     */
+    void react(Reaction reaction);
+
+    /**
+     * List the reactions of the comment.
+     * @return Comment reactions.
+     */
+    Collection<Reaction> reactions();
 
     /**
      * Smart comment with additional features.
@@ -188,6 +202,19 @@ public interface Comment
         public void remove() throws IOException {
             this.comment.remove();
         }
+
+        @Override
+        public void react(final Reaction reaction) {
+            throw new UnsupportedOperationException("react() not implemented");
+        }
+
+        @Override
+        public Collection<Reaction> reactions() {
+            throw new UnsupportedOperationException(
+                "reactions() not implemented"
+            );
+        }
+
         @Override
         public JsonObject json() throws IOException {
             return this.comment.json();

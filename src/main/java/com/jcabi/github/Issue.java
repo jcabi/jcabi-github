@@ -121,6 +121,18 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     boolean exists() throws IOException;
 
     /**
+     * Adds the reaction to the issue.
+     * @param reaction Reaction to be added.
+     */
+    void react(Reaction reaction);
+
+    /**
+     * List the reactions of the issue.
+     * @return Issue reactions.
+     */
+    Collection<Reaction> reactions();
+
+    /**
      * Smart Issue with extra features.
      */
     @Immutable
@@ -515,6 +527,18 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         @Override
         public boolean exists() throws IOException {
             return new Existence(this.issue).check();
+        }
+
+        @Override
+        public void react(final Reaction reaction) {
+            throw new UnsupportedOperationException("react() not implemented");
+        }
+
+        @Override
+        public Collection<Reaction> reactions() {
+            throw new UnsupportedOperationException(
+                "reactions() not implemented"
+            );
         }
     }
 

@@ -35,10 +35,12 @@ import com.jcabi.github.Comments;
 import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
+import com.jcabi.github.Reaction;
 import com.jcabi.github.Repo;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
+import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -52,6 +54,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "origin")
+@SuppressWarnings("PMD.TooManyMethods")
 public final class SfIssue implements Issue {
 
     /**
@@ -127,5 +130,15 @@ public final class SfIssue implements Issue {
     @Override
     public int compareTo(final Issue issue) {
         return this.origin.compareTo(issue);
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        this.origin.react(reaction);
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        return this.origin.reactions();
     }
 }
