@@ -71,8 +71,6 @@ public final class RtBranch implements Branch {
      * @param repo Repository
      * @param nom Name of branch
      * @param sha Commit SHA hash
-     * @todo #1085:30m Refactor to reduce number of arguments to avoid
-     *  ParameterNumberCheck warning.
      * @checkstyle ParameterNumberCheck (6 lines)
      */
     RtBranch(
