@@ -35,12 +35,12 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Test case for {@link JsonNode}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  */
 public final class JsonNodeTest {
@@ -71,7 +71,6 @@ public final class JsonNodeTest {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void convertsXmlToJsonArray() throws Exception {
         final XML xml = new XMLDocument(
             // @checkstyle LineLength (1 line)
@@ -80,7 +79,7 @@ public final class JsonNodeTest {
         final JsonObject json = new JsonNode(xml).json();
         MatcherAssert.assertThat(
             json.toString(),
-            new IsEqual<>("{\"users\": [\"Jeff\", \"Bauer\", \"Iko\"]}")
+            new IsEqual<>("{\"users\":[\"Jeff\",\"Bauer\",\"Iko\"]}")
         );
     }
 
