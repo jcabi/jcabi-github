@@ -35,6 +35,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -122,5 +123,15 @@ final class RtComment implements Comment {
         final Comment comment
     ) {
         return this.number() - comment.number();
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        throw new UnsupportedOperationException("react() not implemented");
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        throw new UnsupportedOperationException("reactions() not implemented");
     }
 }

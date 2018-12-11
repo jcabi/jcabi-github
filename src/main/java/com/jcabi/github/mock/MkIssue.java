@@ -38,9 +38,11 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
+import com.jcabi.github.Reaction;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -235,6 +237,16 @@ final class MkIssue implements Issue {
             );
         }
         return res.add("pull_request", pull.build()).build();
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        throw new UnsupportedOperationException("react() not implemented");
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        throw new UnsupportedOperationException("reactions() not implemented");
     }
 
     /**

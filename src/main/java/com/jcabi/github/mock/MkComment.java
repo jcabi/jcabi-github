@@ -34,7 +34,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
+import com.jcabi.github.Reaction;
 import java.io.IOException;
+import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -137,6 +139,16 @@ final class MkComment implements Comment {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        throw new UnsupportedOperationException("react() not implemented");
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        throw new UnsupportedOperationException("reactions() not implemented");
     }
 
     /**

@@ -33,9 +33,11 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Issue;
+import com.jcabi.github.Reaction;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
+import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -86,6 +88,16 @@ public final class SfComment implements Comment {
         } catch (final AssertionError ex) {
             Logger.warn(this, "Failed to remove comment: %[exception]s", ex);
         }
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        this.origin.react(reaction);
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        return this.origin.reactions();
     }
 
     @Override
