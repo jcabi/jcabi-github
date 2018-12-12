@@ -1,8 +1,8 @@
 errors:
-  - yegor256@gmail.com
-# alerts:
-#   github:
-#     - yegor256
+  - amihaiemil@gmail.com
+ alerts:
+   github:
+     - amihaiemil
 
 tags:
   - pdd
