@@ -1,9 +1,8 @@
 errors:
   - amihaiemil@gmail.com
- alerts:
-   github:
-     - amihaiemil
-
+alerts:
+  github:
+    - amihaiemil
 tags:
   - pdd
   - bug
