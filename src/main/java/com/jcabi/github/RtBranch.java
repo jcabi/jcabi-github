@@ -35,7 +35,7 @@ import com.jcabi.http.Request;
 import lombok.EqualsAndHashCode;
 
 /**
- * Git branch.
+ * Git branch implementation.
  *
  * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
