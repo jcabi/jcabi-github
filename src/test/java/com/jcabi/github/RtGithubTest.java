@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
@@ -101,18 +102,20 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve meta information in JSON format.
+     * RtGithub can retrieve emoji information in JSON format.
      *
      * @throws Exception if a problem occurs.
      */
     @Test
     public void retrievesEmojisAsJson() throws Exception {
         final RtGithub github = new RtGithub(
-            new FakeRequest().withBody("{\"emojis\":\"test\"}")
+            new FakeRequest().withBody(
+            "{ \"emojikey\": \"urlvalue\" }"
+            )
         );
         MatcherAssert.assertThat(
-            github.meta().getString("emojis"),
-            Matchers.equalTo("test")
+            github.emojis().getString("emojikey"),
+            new IsEqual<>("urlvalue")
         );
     }
 
