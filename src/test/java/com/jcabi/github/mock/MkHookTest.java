@@ -36,7 +36,6 @@ import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xembly.Directives;
 
@@ -172,13 +171,13 @@ public final class MkHookTest {
      * event names.
      * @throws Exception If something goes wrong
      */
-    @Ignore
     @Test
     public void createWithCorrectEvents() throws Exception {
         final Iterable<String> events = Arrays.asList("event1", "event2");
         final int number = 123;
         final Coordinates coords = new Coordinates.Simple("user/repo");
-        final Directives xml = this.hookDirs(number, coords).add("events");
+        final Directives xml = this.hookDirs(number, coords).add("events")
+            .attr("array", "true");
         events.forEach(e -> xml.add("event").set(e).up());
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(xml);

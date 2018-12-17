@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.xml.XML;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.w3c.dom.Node;
@@ -39,8 +40,10 @@ import org.w3c.dom.Node;
  * Json node in XML.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.5
+ *
  */
 final class JsonNode {
 
@@ -60,11 +63,7 @@ final class JsonNode {
     /**
      * Fetch JSON object.
      * @return JSON
-     * @todo #1442:30min JsonNode should be smart enough to know when the
-     *  json's attribute is a JsonObject, or a JsonArray. Tests for this
-     *  behavior were already been implemented in JsonNodeTest. Once this is
-     *  fixed, un-ignore MkHookTest.createWithCorrectEvents() and
-     *  JsonNode.convertsXmlToJsonArray() tests.
+     * @checkstyle MultipleStringLiteralsCheck (30 lines)
      */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public JsonObject json() {
@@ -73,11 +72,19 @@ final class JsonNode {
             final Node node = child.node();
             if (child.nodes("*").isEmpty()) {
                 builder.add(node.getNodeName(), node.getTextContent());
+            } else if (
+                !child.xpath("//@array").isEmpty()
+                    && "true".equals(child.xpath("//@array").get(0))
+            ) {
+                final JsonArrayBuilder bld = Json.createArrayBuilder();
+                for (final XML item : child.nodes("*")) {
+                    bld.add(item.node().getTextContent());
+                }
+                builder.add(node.getNodeName(), bld.build());
             } else {
                 builder.add(node.getNodeName(), new JsonNode(child).json());
             }
         }
         return builder.build();
     }
-
 }
