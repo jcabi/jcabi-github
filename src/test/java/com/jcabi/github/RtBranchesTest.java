@@ -42,6 +42,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -101,6 +103,46 @@ public final class RtBranchesTest {
         MatcherAssert.assertThat(
             second.commit().sha(),
             Matchers.equalTo(secondsha)
+        );
+        container.stop();
+    }
+
+    /**
+     * RtBranches can find one branck by name.
+     * @throws Exception if there is any error
+     * @todo #1086:30min Implement find method in Branches implementations,
+     *  according to github get branches API, as seen in
+     *  https://developer.github.com/v3/repos/branches/#get-branch. Then
+     *  uncomment this test;
+     */
+    @Test
+    @Ignore
+    public void findBranch() throws Exception {
+        final String firstname = "first";
+        final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
+        final String secondname = "second";
+        final String secondsha = "5d8dc2acf9c95d0d4e8881eebe04c2f0cbb249ff";
+        final MkAnswer answer = new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder()
+                .add(branch(firstname, firstsha))
+                .add(branch(secondname, secondsha))
+                .build().toString()
+        );
+        final MkContainer container = new MkGrizzlyContainer()
+            .next(answer)
+            .next(answer)
+            .start(this.resource.port());
+        final RtBranches branches = new RtBranches(
+            new JdkRequest(container.home()),
+            new MkGithub().randomRepo()
+        );
+        MatcherAssert.assertThat(
+            "could not find branch correctly",
+            branches.find("second").commit().sha(),
+            new IsEqual<>(
+                secondsha
+            )
         );
         container.stop();
     }

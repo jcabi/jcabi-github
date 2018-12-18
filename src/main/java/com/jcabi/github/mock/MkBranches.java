@@ -123,6 +123,11 @@ public final class MkBranches implements Branches {
         );
     }
 
+    @Override
+    public Branch find(String name) {
+        throw new UnsupportedOperationException("find(name) not implemented");
+    }
+
     /**
      * Creates a new branch.
      * @param name Name of branch

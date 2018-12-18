@@ -53,4 +53,11 @@ public interface Branches {
      * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
      */
     Iterable<Branch> iterate();
+
+    /**
+     * Find branches by name.
+     * @return Branch found by name
+     * @see <a href="https://developer.github.com/v3/repos/branches/#get-branch">Get Branch API</a>
+     */
+    Branch find(String name);
 }
