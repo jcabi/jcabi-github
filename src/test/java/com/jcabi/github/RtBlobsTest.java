@@ -70,15 +70,15 @@ public final class RtBlobsTest {
     public void canCreateBlob() throws Exception {
         final String content = "Content of the blob";
         final String body = blob().toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port());
-        final RtBlobs blobs = new RtBlobs(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            .start(this.resource.port())) {
+            final RtBlobs blobs = new RtBlobs(
+                new ApacheRequest(container.home()),
+                repo()
+            );
             final Blob blob = blobs.create(content, "utf-8");
             MatcherAssert.assertThat(
                 container.take().method(),
@@ -88,8 +88,6 @@ public final class RtBlobsTest {
                 new Blob.Smart(blob).url(),
                 Matchers.equalTo("http://localhost/1")
             );
-        } finally {
-            container.stop();
         }
     }
 

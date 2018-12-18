@@ -83,7 +83,7 @@ public final class RtDeployKeysTest {
      */
     @Test
     public void canFetchNonEmptyListOfDeployKeys() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -91,9 +91,8 @@ public final class RtDeployKeysTest {
                     .add(key(2))
                     .build().toString()
             )
-        );
-        container.start(this.resource.port());
-        try {
+        )) {
+            container.start(this.resource.port());
             MatcherAssert.assertThat(
                 new RtDeployKeys(
                     new ApacheRequest(container.home()),
@@ -101,8 +100,6 @@ public final class RtDeployKeysTest {
                 ).iterate(),
                 Matchers.<DeployKey>iterableWithSize(2)
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -132,14 +129,13 @@ public final class RtDeployKeysTest {
     @Test
     public void canCreateDeployKey() throws IOException {
         final int number = 2;
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 String.format("{\"id\":%d}", number)
             )
-        );
-        container.start(this.resource.port());
-        try {
+        )) {
+            container.start(this.resource.port());
             final DeployKeys keys = new RtDeployKeys(
                 new ApacheRequest(container.home()), RtDeployKeysTest.repo()
             );
@@ -147,8 +143,6 @@ public final class RtDeployKeysTest {
                 keys.create("Title", "Key").number(),
                 Matchers.equalTo(number)
             );
-        } finally {
-            container.stop();
         }
     }
 

@@ -66,23 +66,23 @@ public class RtCommitsTest {
      */
     @Test
     public final void createsCommit() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"sha\":\"0abcd89jcabitest\"}"
-            )
-        ).start(this.resource.port());
-        final Commits commits = new RtCommits(
-            new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        final JsonObject author = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "scott@gmail.com")
-            .add("date", "2011-06-17T14:53:35-07:00").build();
-        final JsonObject input = Json.createObjectBuilder()
-            .add("message", "initial version")
-            .add("author", author).build();
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"sha\":\"0abcd89jcabitest\"}"
+                )
+            ).start(this.resource.port())) {
+            final Commits commits = new RtCommits(
+                new ApacheRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
+            final JsonObject author = Json.createObjectBuilder()
+                .add("name", "Scott").add("email", "scott@gmail.com")
+                .add("date", "2011-06-17T14:53:35-07:00").build();
+            final JsonObject input = Json.createObjectBuilder()
+                .add("message", "initial version")
+                .add("author", author).build();
             final Commit newCommit = commits.create(input);
             MatcherAssert.assertThat(
                 newCommit,
@@ -96,8 +96,6 @@ public class RtCommitsTest {
                 newCommit.sha(),
                 Matchers.equalTo("0abcd89jcabitest")
             );
-        } finally {
-            container.stop();
         }
     }
 }

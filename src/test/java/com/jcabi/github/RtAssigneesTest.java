@@ -64,24 +64,26 @@ public final class RtAssigneesTest {
      */
     @Test
     public void iteratesAssignees() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(RtAssigneesTest.json("octocat"))
-                    .add(RtAssigneesTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Assignees users = new RtAssignees(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        MatcherAssert.assertThat(
-            users.iterate(),
-            Matchers.<User>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(RtAssigneesTest.json("octocat"))
+                        .add(RtAssigneesTest.json("dummy"))
+                        .build().toString()
+                )
+            ).start(this.resource.port());
+        ) {
+            final Assignees users = new RtAssignees(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
+            MatcherAssert.assertThat(
+                users.iterate(),
+                Matchers.<User>iterableWithSize(2)
+            );
+        }
     }
 
     /**
@@ -90,24 +92,25 @@ public final class RtAssigneesTest {
      */
     @Test
     public void checkUserIsAssigneeForRepo() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                Json.createArrayBuilder()
-                    .add(RtAssigneesTest.json("octocat2"))
-                    .add(RtAssigneesTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Assignees users = new RtAssignees(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        MatcherAssert.assertThat(
-            users.check("octocat2"),
-            Matchers.equalTo(true)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    Json.createArrayBuilder()
+                        .add(RtAssigneesTest.json("octocat2"))
+                        .add(RtAssigneesTest.json("dummy"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())) {
+            final Assignees users = new RtAssignees(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
+            MatcherAssert.assertThat(
+                users.check("octocat2"),
+                Matchers.equalTo(true)
+            );
+        }
     }
 
     /**
@@ -116,24 +119,26 @@ public final class RtAssigneesTest {
      */
     @Test
     public void checkUserIsNotAssigneeForRepo() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NOT_FOUND,
-                Json.createArrayBuilder()
-                    .add(RtAssigneesTest.json("octocat3"))
-                    .add(RtAssigneesTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Assignees users = new RtAssignees(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        MatcherAssert.assertThat(
-            users.check("octocat33"),
-            Matchers.equalTo(false)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NOT_FOUND,
+                    Json.createArrayBuilder()
+                        .add(RtAssigneesTest.json("octocat3"))
+                        .add(RtAssigneesTest.json("dummy"))
+                        .build().toString()
+                )
+            ).start(this.resource.port());
+        ) {
+            final Assignees users = new RtAssignees(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
+            MatcherAssert.assertThat(
+                users.check("octocat33"),
+                Matchers.equalTo(false)
+            );
+        }
     }
 
     /**

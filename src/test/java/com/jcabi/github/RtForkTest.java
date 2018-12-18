@@ -66,34 +66,36 @@ public final class RtForkTest {
     public void patchAndCheckJsonFork() throws IOException {
         final String original = "some organization";
         final String patched = "some patched organization";
-        final MkContainer container =
-            new MkGrizzlyContainer().next(this.answer(original))
-                .next(this.answer(patched)).next(this.answer(original)).start(
-                    this.resource.port()
+        try (
+            final MkContainer container =
+                new MkGrizzlyContainer().next(this.answer(original))
+                    .next(
+                        this.answer(patched)
+                    ).next(this.answer(original)).start(
+                        this.resource.port()
+                    );
+            final MkContainer forksContainer = new MkGrizzlyContainer().start(
+                this.resource.port()
+        )) {
+            final RtRepo repo =
+                new RtRepo(
+                    new MkGithub(),
+                    new ApacheRequest(forksContainer.home()),
+                    new Coordinates.Simple("test_user", "test_repo")
                 );
-        final MkContainer forksContainer = new MkGrizzlyContainer().start(
-            this.resource.port()
-        );
-        final RtRepo repo =
-            new RtRepo(
-                new MkGithub(),
-                new ApacheRequest(forksContainer.home()),
-                new Coordinates.Simple("test_user", "test_repo")
+            final RtFork fork = new RtFork(
+                new ApacheRequest(container.home()), repo, 1
             );
-        final RtFork fork = new RtFork(
-            new ApacheRequest(container.home()), repo, 1
-        );
-        fork.patch(RtForkTest.fork(patched));
-        MatcherAssert.assertThat(
-            new Fork.Smart(fork).organization(),
-            Matchers.equalTo(patched)
-        );
-        MatcherAssert.assertThat(
-            new Fork.Smart(fork).name(),
-            Matchers.notNullValue()
-        );
-        container.stop();
-        forksContainer.stop();
+            fork.patch(RtForkTest.fork(patched));
+            MatcherAssert.assertThat(
+                new Fork.Smart(fork).organization(),
+                Matchers.equalTo(patched)
+            );
+            MatcherAssert.assertThat(
+                new Fork.Smart(fork).name(),
+                Matchers.notNullValue()
+            );
+        }
     }
 
     /**

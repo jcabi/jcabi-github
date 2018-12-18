@@ -64,24 +64,25 @@ public final class RtDeployKeyTest {
      */
     @Test
     public void canDeleteDeployKey() throws Exception {
+        try (
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 ""
             )
-        ).start(this.resource.port());
-        final DeployKey key = new RtDeployKey(
-            new ApacheRequest(container.home()),
-            3,
-            RtDeployKeyTest.repo()
-        );
-        key.remove();
-        final MkQuery query = container.take();
-        MatcherAssert.assertThat(
-            query.method(),
-            Matchers.equalTo(Request.DELETE)
-        );
-        container.stop();
+        ).start(this.resource.port())) {
+            final DeployKey key = new RtDeployKey(
+                new ApacheRequest(container.home()),
+                3,
+                RtDeployKeyTest.repo()
+            );
+            key.remove();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        }
     }
 
     /**
