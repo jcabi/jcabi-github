@@ -52,6 +52,7 @@ import org.junit.Test;
  *
  * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtBranchesTest {
 
@@ -118,15 +119,15 @@ public final class RtBranchesTest {
     @Test
     @Ignore
     public void findBranch() throws Exception {
-        final String firstname = "first";
-        final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
-        final String secondname = "second";
-        final String secondsha = "5d8dc2acf9c95d0d4e8881eebe04c2f0cbb249ff";
+        final String thirdname = "third";
+        final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";
+        final String fourthname = "fourth";
+        final String fourthsha = "d0d4e8881eebe04c5d8dc2acf9c952f0cbb249ff";
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createArrayBuilder()
-                .add(branch(firstname, firstsha))
-                .add(branch(secondname, secondsha))
+                .add(branch(thirdname, thirdsha))
+                .add(branch(fourthname, fourthsha))
                 .build().toString()
         );
         final MkContainer container = new MkGrizzlyContainer()
@@ -139,9 +140,9 @@ public final class RtBranchesTest {
         );
         MatcherAssert.assertThat(
             "could not find branch correctly",
-            branches.find("second").commit().sha(),
+            branches.find(fourthname).commit().sha(),
             new IsEqual<>(
-                secondsha
+                fourthsha
             )
         );
         container.stop();

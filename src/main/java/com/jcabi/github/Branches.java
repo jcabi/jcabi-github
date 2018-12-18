@@ -56,6 +56,7 @@ public interface Branches {
 
     /**
      * Find branches by name.
+     * @param name The name of the branch.
      * @return Branch found by name
      * @see <a href="https://developer.github.com/v3/repos/branches/#get-branch">Get Branch API</a>
      */

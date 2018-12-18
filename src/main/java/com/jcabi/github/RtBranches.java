@@ -102,7 +102,7 @@ final class RtBranches implements Branches {
     }
 
     @Override
-    public Branch find(String name) {
+    public Branch find(final String name) {
         throw new UnsupportedOperationException("find(name) not supported");
     }
 }
