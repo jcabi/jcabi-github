@@ -141,4 +141,19 @@ public final class SfIssue implements Issue {
     public Collection<Reaction> reactions() {
         return this.origin.reactions();
     }
+
+    @Override
+    public void lock(final String reason) {
+        this.origin.lock(reason);
+    }
+
+    @Override
+    public void unlock() {
+        this.origin.unlock();
+    }
+
+    @Override
+    public boolean isLocked() {
+        return this.origin.isLocked();
+    }
 }

@@ -149,6 +149,21 @@ final class RtIssue implements Issue {
     }
 
     @Override
+    public void lock(final String reason) {
+        throw new UnsupportedOperationException("lock not implemented");
+    }
+
+    @Override
+    public void unlock() {
+        throw new UnsupportedOperationException("unlock not implemented");
+    }
+
+    @Override
+    public boolean isLocked() {
+        throw new UnsupportedOperationException("unlock not implemented");
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
