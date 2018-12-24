@@ -58,6 +58,10 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @todo #1204:30min Implement Lock and unlock features to Issue. Lock
+ *  support have already been defined and wired to Issue realizations.
+ *  Now we must implement Lock support on these classes. Do
+ *  not forget to cover these implementations with tests.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
