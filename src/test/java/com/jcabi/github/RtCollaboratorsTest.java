@@ -71,7 +71,7 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void canIterate() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -79,16 +79,16 @@ public final class RtCollaboratorsTest {
                     .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
-        ).start(this.resource.port());
-        final Collaborators users = new RtCollaborators(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        MatcherAssert.assertThat(
-            users.iterate(),
-            Matchers.<User>iterableWithSize(2)
-        );
-        container.stop();
+        ).start(this.resource.port())) {
+            final Collaborators users = new RtCollaborators(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
+            MatcherAssert.assertThat(
+                users.iterate(),
+                Matchers.<User>iterableWithSize(2)
+            );
+        }
     }
 
     /**

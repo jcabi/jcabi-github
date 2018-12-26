@@ -94,31 +94,32 @@ public final class RtForksTest {
             HttpURLConnection.HTTP_OK,
             fork(organization).toString()
         );
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_ACCEPTED,
-                fork(organization).toString()
-            )
-        ).next(answer).start(this.resource.port());
-        final Repo owner = Mockito.mock(Repo.class);
-        final Coordinates coordinates = new Coordinates.Simple(
-            "test_user", "test_repo"
-        );
-        Mockito.doReturn(coordinates).when(owner).coordinates();
-        final RtForks forks = new RtForks(
-            new JdkRequest(container.home()),
-            owner
-        );
-        final Fork fork = forks.create(organization);
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            fork.json().getString(ORGANIZATION),
-            Matchers.equalTo(organization)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_ACCEPTED,
+                    fork(organization).toString()
+                )
+            ).next(answer).start(this.resource.port())) {
+            final Repo owner = Mockito.mock(Repo.class);
+            final Coordinates coordinates = new Coordinates.Simple(
+                "test_user", "test_repo"
+            );
+            Mockito.doReturn(coordinates).when(owner).coordinates();
+            final RtForks forks = new RtForks(
+                new JdkRequest(container.home()),
+                owner
+            );
+            final Fork fork = forks.create(organization);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                fork.json().getString(ORGANIZATION),
+                Matchers.equalTo(organization)
+            );
+        }
     }
 
     /**

@@ -48,6 +48,8 @@ import org.mockito.Mockito;
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
+ * @todo #1110:30min Continue to close grizzle servers open on tests. Use
+ *  try-with-resource statement intead of try-catch whenever is possible..
  */
 public final class RtGistCommentsTest {
 
@@ -65,24 +67,25 @@ public final class RtGistCommentsTest {
     @Test
     public void getComment() throws Exception {
         final String body = "Just commenting";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                comment(body).toString()
-            )
-        ).start(this.resource.port());
-        final Gist gist = Mockito.mock(Gist.class);
-        Mockito.doReturn("1").when(gist).identifier();
-        final RtGistComments comments = new RtGistComments(
-            new JdkRequest(container.home()),
-            gist
-        );
-        final GistComment comment = comments.get(1);
-        MatcherAssert.assertThat(
-            new GistComment.Smart(comment).body(),
-            Matchers.equalTo(body)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    comment(body).toString()
+                )
+            ).start(this.resource.port())) {
+            final Gist gist = Mockito.mock(Gist.class);
+            Mockito.doReturn("1").when(gist).identifier();
+            final RtGistComments comments = new RtGistComments(
+                new JdkRequest(container.home()),
+                gist
+            );
+            final GistComment comment = comments.get(1);
+            MatcherAssert.assertThat(
+                new GistComment.Smart(comment).body(),
+                Matchers.equalTo(body)
+            );
+        }
     }
 
     /**
@@ -91,7 +94,7 @@ public final class RtGistCommentsTest {
      */
     @Test
     public void iterateComments() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -99,18 +102,18 @@ public final class RtGistCommentsTest {
                     .add(comment("comment 2"))
                     .build().toString()
             )
-        ).start(this.resource.port());
-        final Gist gist = Mockito.mock(Gist.class);
-        Mockito.doReturn("2").when(gist).identifier();
-        final RtGistComments comments = new RtGistComments(
-            new JdkRequest(container.home()),
-            gist
-        );
-        MatcherAssert.assertThat(
-            comments.iterate(),
-            Matchers.<GistComment>iterableWithSize(2)
-        );
-        container.stop();
+        ).start(this.resource.port())) {
+            final Gist gist = Mockito.mock(Gist.class);
+            Mockito.doReturn("2").when(gist).identifier();
+            final RtGistComments comments = new RtGistComments(
+                new JdkRequest(container.home()),
+                gist
+            );
+            MatcherAssert.assertThat(
+                comments.iterate(),
+                Matchers.<GistComment>iterableWithSize(2)
+            );
+        }
     }
 
     /**
@@ -124,28 +127,28 @@ public final class RtGistCommentsTest {
             HttpURLConnection.HTTP_OK,
             comment(body).toString()
         );
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 comment(body).toString()
             )
-        ).next(answer).start(this.resource.port());
-        final Gist gist = Mockito.mock(Gist.class);
-        Mockito.doReturn("3").when(gist).identifier();
-        final RtGistComments comments = new RtGistComments(
-            new JdkRequest(container.home()),
-            gist
-        );
-        final GistComment comment = comments.post(body);
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            new GistComment.Smart(comment).body(),
-            Matchers.equalTo(body)
-        );
-        container.stop();
+        ).next(answer).start(this.resource.port())) {
+            final Gist gist = Mockito.mock(Gist.class);
+            Mockito.doReturn("3").when(gist).identifier();
+            final RtGistComments comments = new RtGistComments(
+                new JdkRequest(container.home()),
+                gist
+            );
+            final GistComment comment = comments.post(body);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new GistComment.Smart(comment).body(),
+                Matchers.equalTo(body)
+            );
+        }
     }
 
     /**

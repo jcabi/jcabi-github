@@ -110,23 +110,21 @@ public final class RtCommentTest {
      */
     @Test
     public void removesComment() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final Repo repo = new MkGithub().randomRepo();
-        final Issue issue = repo.issues().create("testing3", "issue3");
-        final RtComment comment = new RtComment(
-            new ApacheRequest(container.home()), issue, 10
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = repo.issues().create("testing3", "issue3");
+            final RtComment comment = new RtComment(
+                new ApacheRequest(container.home()), issue, 10
+            );
             comment.remove();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -137,22 +135,20 @@ public final class RtCommentTest {
     @Test
     public void returnsItsJSon() throws Exception {
         final String body = "{\"body\":\"test5\"}";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-        ).start(this.resource.port());
-        final Repo repo = new MkGithub().randomRepo();
-        final Issue issue = repo.issues().create("testing4", "issue4");
-        final RtComment comment = new RtComment(
-            new ApacheRequest(container.home()), issue, 10
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = repo.issues().create("testing4", "issue4");
+            final RtComment comment = new RtComment(
+                new ApacheRequest(container.home()), issue, 10
+            );
             final JsonObject json = comment.json();
             MatcherAssert.assertThat(
                 json.getString("body"),
                 Matchers.is("test5")
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -162,24 +158,22 @@ public final class RtCommentTest {
      */
     @Test
     public void patchesComment() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start(this.resource.port());
-        final Repo repo = new MkGithub().randomRepo();
-        final Issue issue = repo.issues().create("testing5", "issue5");
-        final RtComment comment = new RtComment(
-            new ApacheRequest(container.home()), issue, 10
-        );
-        final JsonObject jsonPatch = Json.createObjectBuilder()
-            .add("title", "test comment").build();
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = repo.issues().create("testing5", "issue5");
+            final RtComment comment = new RtComment(
+                new ApacheRequest(container.home()), issue, 10
+            );
+            final JsonObject jsonPatch = Json.createObjectBuilder()
+                .add("title", "test comment").build();
             comment.patch(jsonPatch);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(), Matchers.equalTo(Request.PATCH)
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -189,22 +183,20 @@ public final class RtCommentTest {
      */
     @Test
     public void givesToString() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start(this.resource.port());
-        final Repo repo = new MkGithub().randomRepo();
-        final Issue issue = repo.issues().create("testing6", "issue6");
-        final RtComment comment = new RtComment(
-            new ApacheRequest(container.home()), issue, 10
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = repo.issues().create("testing6", "issue6");
+            final RtComment comment = new RtComment(
+                new ApacheRequest(container.home()), issue, 10
+            );
             final String stringComment = comment.toString();
             MatcherAssert.assertThat(
                 stringComment, Matchers.not(Matchers.isEmptyOrNullString())
             );
             MatcherAssert.assertThat(stringComment, Matchers.endsWith("10"));
-        } finally {
-            container.stop();
         }
     }
 }

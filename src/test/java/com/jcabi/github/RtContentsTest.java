@@ -76,14 +76,14 @@ public final class RtContentsTest {
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
             .build();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-        ).start(this.resource.port());
-        final RtContents contents = new RtContents(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
+            ).start(this.resource.port())) {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
             MatcherAssert.assertThat(
                 contents.readme().path(),
                 Matchers.is(path)
@@ -97,8 +97,6 @@ public final class RtContentsTest {
                 query.body().length(),
                 Matchers.is(0)
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -113,14 +111,13 @@ public final class RtContentsTest {
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
             .build();
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-        ).start(this.resource.port());
-        final RtContents contents = new RtContents(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
+        ).start(this.resource.port())) {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
             MatcherAssert.assertThat(
                 contents.readme("test-branch").path(),
                 Matchers.is(path)
@@ -134,8 +131,6 @@ public final class RtContentsTest {
                 query.body(),
                 Matchers.is("{\"ref\":\"test-branch\"}")
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -153,7 +148,7 @@ public final class RtContentsTest {
             .add("path", path)
             .add("name", name)
             .build();
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder()
@@ -162,12 +157,11 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start(this.resource.port());
-        final RtContents contents = new RtContents(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
+            .start(this.resource.port())) {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
             final Content.Smart smart = new Content.Smart(
                 contents.get(path, "branch1")
             );
@@ -196,8 +190,6 @@ public final class RtContentsTest {
                     "/repos/test/contents/contents/test/file?ref=branch1"
                 )
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -213,24 +205,23 @@ public final class RtContentsTest {
             .add("path", path)
             .add("name", name)
             .build();
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 Json.createObjectBuilder().add("content", body)
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start(this.resource.port());
-        final RtContents contents = new RtContents(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        final JsonObject content = Json.createObjectBuilder()
-            .add("path", path)
-            .add("message", "theMessage")
-            .add("content", "blah")
-            .build();
-        try {
+            .start(this.resource.port())) {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            final JsonObject content = Json.createObjectBuilder()
+                .add("path", path)
+                .add("message", "theMessage")
+                .add("content", "blah")
+                .build();
             final Content.Smart smart = new Content.Smart(
                 contents.create(content)
             );
@@ -250,8 +241,6 @@ public final class RtContentsTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/contents/contents/test/thefile")
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -263,7 +252,7 @@ public final class RtContentsTest {
      */
     @Test
     public void canDeleteFilesFromRepository() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder().add(
@@ -273,12 +262,11 @@ public final class RtContentsTest {
                         .build()
                 ).build().toString()
             )
-        ).start(this.resource.port());
-        final RtContents contents = new RtContents(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
+        ).start(this.resource.port())) {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
             final RepoCommit commit = contents.remove(
                 Json.createObjectBuilder()
                     .add("path", "to/remove")
@@ -302,8 +290,6 @@ public final class RtContentsTest {
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/contents/to/remove")
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -317,15 +303,14 @@ public final class RtContentsTest {
         final JsonObject resp = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
             .add("sha", sha).build();
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder().add("commit", resp)
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
-            .start(this.resource.port());
-        try {
+            .start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
                 repo()
@@ -353,8 +338,6 @@ public final class RtContentsTest {
                 query.body(),
                 Matchers.equalTo(json.toString())
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -373,22 +356,19 @@ public final class RtContentsTest {
                 .add("path", ".gitignore")
                 .build()
         ).build();
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
         ).next(new MkAnswer.Simple("{\"path\":\"README.md\"}"))
             .next(new MkAnswer.Simple("{\"path\":\".gitignore\"}"))
-            .start(this.resource.port());
-        final RtContents contents = new RtContents(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        try {
+            .start(this.resource.port())) {
+            final RtContents contents = new RtContents(
+                new ApacheRequest(container.home()),
+                repo()
+            );
             MatcherAssert.assertThat(
                 contents.iterate("dir", "branch2"),
                 Matchers.<Content>iterableWithSize(2)
             );
-        } finally {
-            container.stop();
         }
     }
 

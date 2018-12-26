@@ -90,19 +90,18 @@ public final class RtContentTest {
      */
     @Test
     public void patchWithJson() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start(this.resource.port());
-        final RtContent content = new RtContent(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            "path"
-        );
-        content.patch(
-            Json.createObjectBuilder().add("patch", "test").build()
-        );
-        final MkQuery query = container.take();
-        try {
+        ).start(this.resource.port())) {
+            final RtContent content = new RtContent(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                "path"
+            );
+            content.patch(
+                Json.createObjectBuilder().add("patch", "test").build()
+            );
+            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
@@ -111,8 +110,6 @@ public final class RtContentTest {
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
-        } finally {
-            container.stop();
         }
     }
 
@@ -152,15 +149,14 @@ public final class RtContentTest {
     @Test
     public void fetchesRawContent() throws Exception {
         final String raw = "the raw \u20ac";
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
-        ).start(this.resource.port());
-        final InputStream stream = new RtContent(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            "raw"
-        ).raw();
-        try {
+        ).start(this.resource.port())) {
+            final InputStream stream = new RtContent(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                "raw"
+            ).raw();
             MatcherAssert.assertThat(
                 IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.is(raw)
@@ -169,9 +165,6 @@ public final class RtContentTest {
                 container.take().headers().get(HttpHeaders.ACCEPT).get(0),
                 Matchers.is("application/vnd.github.v3.raw")
             );
-        } finally {
-            stream.close();
-            container.stop();
         }
     }
 

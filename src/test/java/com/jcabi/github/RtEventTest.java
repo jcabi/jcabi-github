@@ -94,24 +94,21 @@ public final class RtEventTest {
      */
     @Test
     public void retrieveEventAsJson() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 "{\"test\":\"events\"}"
             )
-        ).start(this.resource.port());
-        final RtEvent event = new RtEvent(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            3
-        );
-        try {
+        ).start(this.resource.port())) {
+            final RtEvent event = new RtEvent(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                3
+            );
             MatcherAssert.assertThat(
                 event.json().getString("test"),
                 Matchers.equalTo("events")
             );
-        } finally {
-            container.stop();
         }
     }
 

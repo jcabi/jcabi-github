@@ -63,13 +63,13 @@ public class RtCommitTest {
      */
     @Test
     public final void readsMessage() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"sha\":\"a0b1c3\",\"commit\":{\"message\":\"hello\"}}"
-            )
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"sha\":\"a0b1c3\",\"commit\":{\"message\":\"hello\"}}"
+                )
+            ).start(this.resource.port())) {
             final Commit.Smart commit = new Commit.Smart(
                 new RtCommit(
                     new JdkRequest(container.home()),
@@ -81,8 +81,6 @@ public class RtCommitTest {
                 commit.message(),
                 Matchers.equalTo("hello")
             );
-        } finally {
-            container.stop();
         }
     }
 }
