@@ -45,6 +45,9 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @todo #1451:30min Implement react ant reactions methods. Implement react
+ *  and reacts methods according to reactions API
+ *  and then unignore test in RtCommentTest
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -36,10 +36,21 @@ package com.jcabi.github;
  * @version $Id$
  * @since 1.0
  * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
- * @todo #1230:30min Implement Reactions to Comments and Issues. Reaction
- *  interface ahve already been defined and wired to Comment and Issue
- *  realizations. Now we must implement Reaction support on these classes. Do
- *  not forget to cover these implementations with tests.
+ * @todo #1451:30min Check reaction values. At the moment only a few types of
+ *  reactions are allowed (full list at
+ *  https://developer.github.com/v3/reactions/#reaction-types). Reaction API
+ *  implementation should somehow validate these inputs and do not add an
+ *  invalid reaction to a Comment or Issue
+ * @todo #1451:30min Create reaction values constants in Reaction. As reaction
+ *  values are in a few number they must be created as constants in Reaction.
+ *  Then replace all existing code in tests and application to use the new
+ *  created constants.
+ * @todo #1451:30min Add reaction support to other Github elements.
+ *  Reactions API is supported / implemented by other github elements besides
+ *  Issues and Issue Comments. Add reactions support to all these other items as
+ *  well so jcabi-github can provide full reactions API support. See all
+ *  possible reactions API interactions at
+ *  https://developer.github.com/v3/reactions/
  */
 public interface Reaction {
 
