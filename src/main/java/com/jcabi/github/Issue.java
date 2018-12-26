@@ -58,6 +58,10 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @todo #1204:30min Implement Lock and unlock features to Issue. Lock
+ *  support have already been defined and wired to Issue realizations.
+ *  Now we must implement Lock support on these classes. Do
+ *  not forget to cover these implementations with tests.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -131,6 +135,23 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      * @return Issue reactions.
      */
     Collection<Reaction> reactions();
+
+    /**
+     * Locks the issue.
+     * @param reason Lock reason
+     */
+    void lock(String reason);
+
+    /**
+     * Unlocks the issue.
+     */
+    void unlock();
+
+    /**
+     * The issue conversation is locked?
+     * @return If the issue is locked.
+     */
+    boolean isLocked();
 
     /**
      * Smart Issue with extra features.
@@ -539,6 +560,21 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             throw new UnsupportedOperationException(
                 "reactions() not implemented"
             );
+        }
+
+        @Override
+        public void lock(final String reason) {
+            throw new UnsupportedOperationException("lock not implemented");
+        }
+
+        @Override
+        public void unlock() {
+            throw new UnsupportedOperationException("unlock not implemented");
+        }
+
+        @Override
+        public boolean isLocked() {
+            throw new UnsupportedOperationException("isLocked not implemented");
         }
     }
 

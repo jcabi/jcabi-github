@@ -34,6 +34,7 @@ import com.jcabi.log.Logger;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -239,6 +240,37 @@ public final class RtIssueITCase {
     public void issueAlwaysExistsInGithub() throws Exception {
         MatcherAssert.assertThat(
             new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
+        );
+    }
+
+    /**
+     * RtIssue can lock conversation.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void locks() throws Exception {
+        final Issue issue = new Issue.Smart(RtIssueITCase.issue());
+        issue.lock("off-topic");
+        MatcherAssert.assertThat(
+            issue.isLocked(),
+            new IsEqual<>(true)
+        );
+    }
+
+    /**
+     * RtIssue can unlock conversation.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    @Ignore
+    public void unlocks() throws Exception {
+        final Issue issue = new Issue.Smart(RtIssueITCase.issue());
+        issue.lock("too heated");
+        issue.unlock();
+        MatcherAssert.assertThat(
+            issue.isLocked(),
+            new IsEqual<>(false)
         );
     }
 

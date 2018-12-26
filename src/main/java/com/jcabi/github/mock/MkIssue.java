@@ -249,6 +249,21 @@ final class MkIssue implements Issue {
         throw new UnsupportedOperationException("reactions() not implemented");
     }
 
+    @Override
+    public void lock(final String reason) {
+        throw new UnsupportedOperationException("lock not implemented");
+    }
+
+    @Override
+    public void unlock() {
+        throw new UnsupportedOperationException("unlock not implemented");
+    }
+
+    @Override
+    public boolean isLocked() {
+        throw new UnsupportedOperationException("isLocked not implemented");
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
