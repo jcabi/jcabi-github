@@ -165,7 +165,9 @@ final class RtIssue implements Issue {
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-        } catch (IOException error){}
+        } catch (IOException error){
+            throw new IllegalStateException(error);
+        }
     }
 
     @Override
@@ -175,7 +177,9 @@ final class RtIssue implements Issue {
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-        } catch (IOException error){}
+        } catch (IOException error){
+            throw new IllegalStateException(error);
+        }
     }
 
     @Override
