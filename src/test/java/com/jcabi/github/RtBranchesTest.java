@@ -43,7 +43,6 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -111,13 +110,8 @@ public final class RtBranchesTest {
     /**
      * RtBranches can find one branck by name.
      * @throws Exception if there is any error
-     * @todo #1086:30min Implement find method in Branches implementations,
-     *  according to github get branches API, as seen in
-     *  https://developer.github.com/v3/repos/branches/#get-branch. Then
-     *  uncomment this test;
      */
     @Test
-    @Ignore
     public void findBranch() throws Exception {
         final String thirdname = "third";
         final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";

@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import java.util.stream.StreamSupport;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -103,6 +104,8 @@ final class RtBranches implements Branches {
 
     @Override
     public Branch find(final String name) {
-        throw new UnsupportedOperationException("find(name) not supported");
+        return StreamSupport.stream(this.iterate().spliterator(), false).filter(
+            item -> item.name().equals(name)
+        ).findFirst().orElse(null);
     }
 }
