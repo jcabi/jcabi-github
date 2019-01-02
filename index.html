@@ -229,7 +229,9 @@ import com.jcabi.github.Repo;
 public class Main {
   public static void main(String[] args) {
     Github github = new RtGithub(&quot;.. your OAuth token ..&quot;);
-    Repo repo = github.repos().get(new Coordinates.Simple(&quot;jcabi&quot;, &quot;jcabi-github&quot;));
+    Repo repo = github.repos().get(
+        new Coordinates.Simple("octocat/Hello-World")
+    );
     Issue issue = repo.issues().create(&quot;How are you?&quot;, &quot;Please tell me...&quot;);
     issue.comments().post(&quot;My first comment!&quot;);
   }
