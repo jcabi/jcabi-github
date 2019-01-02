@@ -42,6 +42,9 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -51,6 +54,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtCommentTest {
 
@@ -173,6 +177,35 @@ public final class RtCommentTest {
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(), Matchers.equalTo(Request.PATCH)
+            );
+        }
+    }
+
+    /**
+     * RtComment can add a reaction.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
+    @Ignore
+    public void reacts() throws Exception {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = repo.issues().create(
+                "Reaction adding test", "This is a test for adding a reaction"
+            );
+            final RtComment comment = new RtComment(
+                new ApacheRequest(container.home()), issue, 10
+            );
+            comment.react(new Reaction.Simple("heart"));
+            MatcherAssert.assertThat(
+                "Comment was unable to react",
+                comment.reactions(),
+                new IsCollectionWithSize<>(
+                    new IsEqual<>(1)
+                )
             );
         }
     }
