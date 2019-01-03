@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -40,6 +41,9 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -48,7 +52,9 @@ import org.mockito.Mockito;
  * Test case for {@link RtIssue}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtIssueTest {
 
@@ -166,6 +172,27 @@ public final class RtIssueTest {
         );
         MatcherAssert.assertThat(
             greater.compareTo(less), Matchers.greaterThan(0)
+        );
+    }
+
+    /**
+     * RtIssue can add a reaction.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
+    @Ignore
+    public void reacts() throws Exception {
+        final Repo repo = new MkGithub().randomRepo();
+        final Issue issue = repo.issues().create(
+            "Reaction adding test", "This is a test for adding a reaction"
+        );
+        issue.react(new Reaction.Simple("heart"));
+        MatcherAssert.assertThat(
+            "Issue was unable to react",
+            issue.reactions(),
+            new IsCollectionWithSize<>(
+                new IsEqual<>(1)
+            )
         );
     }
 

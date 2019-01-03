@@ -62,9 +62,6 @@ import lombok.ToString;
  *  support have already been defined and wired to Issue realizations.
  *  Now we must implement Lock support on these classes. Do
  *  not forget to cover these implementations with tests.
- * @todo #1451:30min Resume Reaction implementation on Issues. Resume reaction
- *  implementation on issues and its realizations. Create the tests to assure
- *  that the reaction feature is working correctly.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
