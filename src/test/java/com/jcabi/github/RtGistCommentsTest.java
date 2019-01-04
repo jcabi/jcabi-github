@@ -48,8 +48,8 @@ import org.mockito.Mockito;
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @todo #1110:30min Continue to close grizzle servers open on tests. Use
- *  try-with-resource statement intead of try-catch whenever is possible..
+ * @todo #1461:30min Continue to close grizzle servers open on tests. Use
+ *  try-with-resource statement instead of try-catch whenever is possible..
  */
 public final class RtGistCommentsTest {
 

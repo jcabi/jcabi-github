@@ -97,7 +97,7 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeAddedAsCollaborator() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
+        try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
@@ -105,19 +105,17 @@ public final class RtCollaboratorsTest {
                     .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
-        ).start(this.resource.port());
-        final Collaborators users = new RtCollaborators(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        try {
+        ).start(this.resource.port())) {
+            final Collaborators users = new RtCollaborators(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
             users.add("dummy1");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
-        } finally {
             container.stop();
         }
     }
@@ -128,25 +126,25 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeTestForBeingCollaborator() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                Json.createArrayBuilder()
-                    .add(RtCollaboratorsTest.json("octocat2"))
-                    .add(RtCollaboratorsTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Collaborators users = new RtCollaborators(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    Json.createArrayBuilder()
+                        .add(RtCollaboratorsTest.json("octocat2"))
+                        .add(RtCollaboratorsTest.json("dummy"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Collaborators users = new RtCollaborators(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
             MatcherAssert.assertThat(
                 users.isCollaborator("octocat2"),
                 Matchers.equalTo(true)
             );
-        } finally {
             container.stop();
         }
     }
@@ -157,27 +155,27 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeRemoved() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                Json.createArrayBuilder()
-                    .add(RtCollaboratorsTest.json("octocat2"))
-                    .add(RtCollaboratorsTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Collaborators users = new RtCollaborators(
-            new JdkRequest(container.home()),
-            this.repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    Json.createArrayBuilder()
+                        .add(RtCollaboratorsTest.json("octocat2"))
+                        .add(RtCollaboratorsTest.json("dummy"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Collaborators users = new RtCollaborators(
+                new JdkRequest(container.home()),
+                this.repo()
+            );
             users.remove("dummy");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
             container.stop();
         }
     }
