@@ -79,32 +79,38 @@ public final class RtBranchesTest {
                 .add(branch(secondname, secondsha))
                 .build().toString()
         );
-        final MkContainer container = new MkGrizzlyContainer()
-            .next(answer)
-            .next(answer)
-            .start(this.resource.port());
-        final RtBranches branches = new RtBranches(
-            new JdkRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        MatcherAssert.assertThat(
-            branches.iterate(),
-            Matchers.<Branch>iterableWithSize(2)
-        );
-        final Iterator<Branch> iter = branches.iterate().iterator();
-        final Branch first = iter.next();
-        MatcherAssert.assertThat(first.name(), Matchers.equalTo(firstname));
-        MatcherAssert.assertThat(
-            first.commit().sha(),
-            Matchers.equalTo(firstsha)
-        );
-        final Branch second = iter.next();
-        MatcherAssert.assertThat(second.name(), Matchers.equalTo(secondname));
-        MatcherAssert.assertThat(
-            second.commit().sha(),
-            Matchers.equalTo(secondsha)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(answer)
+                .next(answer)
+                .start(this.resource.port())
+        ) {
+            final RtBranches branches = new RtBranches(
+                new JdkRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
+            MatcherAssert.assertThat(
+                branches.iterate(),
+                Matchers.<Branch>iterableWithSize(2)
+            );
+            final Iterator<Branch> iter = branches.iterate().iterator();
+            final Branch first = iter.next();
+            MatcherAssert.assertThat(first.name(), Matchers.equalTo(firstname));
+            MatcherAssert.assertThat(
+                first.commit().sha(),
+                Matchers.equalTo(firstsha)
+            );
+            final Branch second = iter.next();
+            MatcherAssert.assertThat(
+                second.name(),
+                Matchers.equalTo(secondname)
+            );
+            MatcherAssert.assertThat(
+                second.commit().sha(),
+                Matchers.equalTo(secondsha)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -124,22 +130,25 @@ public final class RtBranchesTest {
                 .add(branch(fourthname, fourthsha))
                 .build().toString()
         );
-        final MkContainer container = new MkGrizzlyContainer()
-            .next(answer)
-            .next(answer)
-            .start(this.resource.port());
-        final RtBranches branches = new RtBranches(
-            new JdkRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        MatcherAssert.assertThat(
-            "could not find branch correctly",
-            branches.find(fourthname).commit().sha(),
-            new IsEqual<>(
-                fourthsha
-            )
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(answer)
+                .next(answer)
+                .start(this.resource.port());
+        ) {
+            final RtBranches branches = new RtBranches(
+                new JdkRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
+            MatcherAssert.assertThat(
+                "could not find branch correctly",
+                branches.find(fourthname).commit().sha(),
+                new IsEqual<>(
+                    fourthsha
+                )
+            );
+            container.stop();
+        }
     }
 
     /**
