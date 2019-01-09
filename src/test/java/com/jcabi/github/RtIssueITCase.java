@@ -248,7 +248,6 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void locks() throws Exception {
         final Issue issue = new Issue.Smart(RtIssueITCase.issue());
         issue.lock("off-topic");
@@ -263,7 +262,6 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
     public void unlocks() throws Exception {
         final Issue issue = new Issue.Smart(RtIssueITCase.issue());
         issue.lock("too heated");

@@ -32,9 +32,13 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Collection;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -150,17 +154,46 @@ final class RtIssue implements Issue {
 
     @Override
     public void lock(final String reason) {
-        throw new UnsupportedOperationException("lock not implemented");
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("lock_reason", reason)
+            .build();
+        try {
+            this.request.method(Request.PUT).uri().path("/lock").back()
+                .body().set(json).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+        } catch (final IOException error) {
+            throw new IllegalStateException(error);
+        }
     }
 
     @Override
     public void unlock() {
-        throw new UnsupportedOperationException("unlock not implemented");
+        try {
+            this.request.method(Request.DELETE).uri().path("/lock").back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+        } catch (final IOException error) {
+            throw new IllegalStateException(error);
+        }
     }
 
     @Override
     public boolean isLocked() {
-        throw new UnsupportedOperationException("unlock not implemented");
+        boolean locked = false;
+        try {
+            locked ^=
+                this.request.method(Request.PUT).uri().path("/lock").back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_NO_CONTENT).back().body()
+                .get().isEmpty();
+        } catch (final IOException error) {
+            locked = false;
+        }
+        return locked;
     }
 
     @Override
