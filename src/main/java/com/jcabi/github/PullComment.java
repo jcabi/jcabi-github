@@ -32,6 +32,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.util.Collection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -73,6 +74,18 @@ public interface PullComment extends JsonReadable, JsonPatchable,
      * @return Pull comment number
      */
     int number();
+
+    /**
+     * Adds the reaction to the pull comment.
+     * @param reaction Reaction to be added.
+     */
+    void react(Reaction reaction);
+
+    /**
+     * List the reactions of the pull comment.
+     * @return Comment reactions.
+     */
+    Collection<Reaction> reactions();
 
     /**
      * Smart PullComment with extra features.
@@ -229,6 +242,18 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         @Override
         public int number() {
             return this.cmnt.number();
+        }
+
+        @Override
+        public void react(final Reaction reaction) {
+            throw new UnsupportedOperationException("React not implemented");
+        }
+
+        @Override
+        public Collection<Reaction> reactions() {
+            throw new UnsupportedOperationException(
+                "reactions() not implemented"
+            );
         }
 
         @Override

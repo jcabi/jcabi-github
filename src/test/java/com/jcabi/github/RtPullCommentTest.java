@@ -42,6 +42,9 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -145,6 +148,37 @@ public final class RtPullCommentTest {
             );
         } finally {
             container.stop();
+        }
+    }
+
+    /**
+     * RtPullComment can add a reaction.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
+    @Ignore
+    public void reacts() throws Exception {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Pull pull = repo.pulls().create(
+                "Reaction adding test",
+                "This is a test for adding a reaction",
+                "Base"
+            );
+            final RtPullComment comment = new RtPullComment(
+                new ApacheRequest(container.home()), pull, 2
+            );
+            comment.react(new Reaction.Simple("heart"));
+            MatcherAssert.assertThat(
+                "Pull comment was unable to react",
+                comment.reactions(),
+                new IsCollectionWithSize<>(
+                    new IsEqual<>(1)
+                )
+            );
         }
     }
 

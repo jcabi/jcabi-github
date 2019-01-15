@@ -33,7 +33,9 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
+import com.jcabi.github.Reaction;
 import java.io.IOException;
+import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -110,6 +112,18 @@ final class MkPullComment implements PullComment {
     @Override
     public int number() {
         return this.num;
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        throw new UnsupportedOperationException("React not implemented");
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        throw new UnsupportedOperationException(
+            "reactions() not implemented"
+        );
     }
 
     @Override
