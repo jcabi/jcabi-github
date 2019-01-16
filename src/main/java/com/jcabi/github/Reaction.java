@@ -45,12 +45,10 @@ package com.jcabi.github;
  *  values are in a few number they must be created as constants in Reaction.
  *  Then replace all existing code in tests and application to use the new
  *  created constants.
- * @todo #1451:30min Add reaction support to other Github elements.
- *  Reactions API is supported / implemented by other github elements besides
- *  Issues and Issue Comments. Add reactions support to all these other items as
- *  well so jcabi-github can provide full reactions API support. See all
- *  possible reactions API interactions at
- *  https://developer.github.com/v3/reactions/
+ * @todo #1469:30min Add support to team discussion and team discussion comments
+ *  The API does not supports team discussion and team discussion comments (
+ *  https://developer.github.com/changes/2018-02-07-team-discussions-api/ )
+ *  After this implementation, add reaction support to these elements.
  */
 public interface Reaction {
 

@@ -58,10 +58,11 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
- * @todo #1204:30min Implement Lock and unlock features to Issue. Lock
- *  support have already been defined and wired to Issue realizations.
- *  Now we must implement Lock support on these classes. Do
- *  not forget to cover these implementations with tests.
+ * @todo #1462:30min Implement lock reason validation. According to
+ *  documentation lock reason must belong to a specific value domain. This
+ *  validation must be performed in lock method and tests must be added to
+ *  ensure that the class is accepting the correct values and rejecting the
+ *  wrong ones.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

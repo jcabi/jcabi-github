@@ -33,6 +33,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.io.IOException;
+import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -108,6 +109,18 @@ final class RtPullComment implements PullComment {
     @Override
     public int number() {
         return this.num;
+    }
+
+    @Override
+    public void react(final Reaction reaction) {
+        throw new UnsupportedOperationException("React not implemented");
+    }
+
+    @Override
+    public Collection<Reaction> reactions() {
+        throw new UnsupportedOperationException(
+            "reactions() not implemented"
+        );
     }
 
     @Override
