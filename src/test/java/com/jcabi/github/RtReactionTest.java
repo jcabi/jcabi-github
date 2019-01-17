@@ -29,60 +29,21 @@
  */
 package com.jcabi.github;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
- * Reaction for issue / comment.
+ * Tests for Runtime Reaction.
  *
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 1.0
- * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
- * @todo #1467:30min Check reaction values. At the moment only a few types of
- *  reactions are allowed (full list at
- *  https://developer.github.com/v3/reactions/#reaction-types). Implement
- *  reaction validation in RtReaction.value and then uncomment test in
- *  RtReactionTest
- * @todo #1451:30min Create reaction values constants in Reaction. As reaction
- *  values are in a few number they must be created as constants in Reaction.
- *  Then replace all existing code in tests and application to use the new
- *  created constants.
- * @todo #1469:30min Add support to team discussion and team discussion comments
- *  The API does not supports team discussion and team discussion comments (
- *  https://developer.github.com/changes/2018-02-07-team-discussions-api/ )
- *  After this implementation, add reaction support to these elements.
  */
-public interface Reaction {
+public class RtReactionTest {
 
-    /**
-     * The reaction type.
-     * @return The type of the reaction.
-     */
-    String type();
-
-    /**
-     * Simple reaction.
-     */
-    final class Simple implements Reaction {
-
-        /**
-         * Reaction type.
-         */
-        private final String type;
-
-        /**
-         * Constructor.
-         * @param reaction Reaction type.
-         */
-        Simple(final String reaction) {
-            this.type = reaction;
-        }
-
-        /**
-         * Returns the reaction type.
-         * @return Reaction type.
-         */
-        public String type() {
-            return this.type;
-        }
-
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void returnCorrectValues() {
+        new RtReaction(new Reaction.Simple("invalid")).type();
     }
 }
