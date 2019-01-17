@@ -47,6 +47,9 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
+ * @todo #1466:30min Implement react and reactions methods. Implement react
+ *  and reacts methods according to reactions API
+ *  and then unignore test in RtIssueTest
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
