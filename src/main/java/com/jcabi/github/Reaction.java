@@ -41,16 +41,42 @@ package com.jcabi.github;
  *  https://developer.github.com/v3/reactions/#reaction-types). Reaction API
  *  implementation should somehow validate these inputs and do not add an
  *  invalid reaction to a Comment or Issue
- * @todo #1451:30min Create reaction values constants in Reaction. As reaction
- *  values are in a few number they must be created as constants in Reaction.
- *  Then replace all existing code in tests and application to use the new
- *  created constants.
  * @todo #1469:30min Add support to team discussion and team discussion comments
  *  The API does not supports team discussion and team discussion comments (
  *  https://developer.github.com/changes/2018-02-07-team-discussions-api/ )
  *  After this implementation, add reaction support to these elements.
  */
 public interface Reaction {
+
+    /**
+     * Thumbs up reaction constant.
+     */
+    String THUMBSUP = "+1";
+
+    /**
+     * Thumbs down reaction constant.
+     */
+    String THUMBSDOWN = "-1";
+
+    /**
+     * Laugh reaction constant.
+     */
+    String LAUGH = "laugh";
+
+    /**
+     * Confused reaction constant.
+     */
+    String CONFUSED = "confused";
+
+    /**
+     * Heart reaction constant.
+     */
+    String HEART = "heart";
+
+    /**
+     * Hooray reaction constant.
+     */
+    String HOORAY = "hooray";
 
     /**
      * The reaction type.

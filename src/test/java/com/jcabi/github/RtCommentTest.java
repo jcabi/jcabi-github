@@ -199,7 +199,7 @@ public final class RtCommentTest {
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10
             );
-            comment.react(new Reaction.Simple("heart"));
+            comment.react(new Reaction.Simple(Reaction.HEART));
             MatcherAssert.assertThat(
                 "Comment was unable to react",
                 comment.reactions(),
