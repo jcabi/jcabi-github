@@ -171,7 +171,7 @@ public final class RtPullCommentTest {
             final RtPullComment comment = new RtPullComment(
                 new ApacheRequest(container.home()), pull, 2
             );
-            comment.react(new Reaction.Simple("heart"));
+            comment.react(new Reaction.Simple(Reaction.HEART));
             MatcherAssert.assertThat(
                 "Pull comment was unable to react",
                 comment.reactions(),

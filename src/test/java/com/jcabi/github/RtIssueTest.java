@@ -186,7 +186,7 @@ public final class RtIssueTest {
         final Issue issue = repo.issues().create(
             "Reaction adding test", "This is a test for adding a reaction"
         );
-        issue.react(new Reaction.Simple("heart"));
+        issue.react(new Reaction.Simple(Reaction.HEART));
         MatcherAssert.assertThat(
             "Issue was unable to react",
             issue.reactions(),
