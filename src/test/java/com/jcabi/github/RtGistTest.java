@@ -66,24 +66,23 @@ public final class RtGistTest {
      */
     @Test
     public void readsFileWithContents() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
-            )
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
-            .start(this.resource.port());
-        final RtGist gist = new RtGist(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "test"
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+                )
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
+                .start(this.resource.port())) {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "test"
+            );
             MatcherAssert.assertThat(
                 gist.read("hello"),
                 Matchers.equalTo("success!")
             );
-        } finally {
             container.stop();
         }
     }
@@ -94,23 +93,23 @@ public final class RtGistTest {
      */
     @Test
     public void writesFileContents() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
-        ).start(this.resource.port());
-        final RtGist gist = new RtGist(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "testWrite"
-        );
-        gist.write("testFile", "testContent");
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
+            ).start(this.resource.port())
+        ) {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "testWrite"
+            );
+            gist.write("testFile", "testContent");
             MatcherAssert.assertThat(
                 container.take().body(),
                 Matchers.containsString(
                     "\"testFile\":{\"content\":\"testContent\"}"
                 )
             );
-        } finally {
             container.stop();
         }
     }
@@ -123,45 +122,43 @@ public final class RtGistTest {
     @Test
     public void fork() throws IOException {
         final String fileContent = "success";
-        final MkContainer container = new MkGrizzlyContainer();
-        container.next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
-            )
-        );
-        container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
-        );
-        container.next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"id\": \"forked\"}"
-            )
-        );
-        container.next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
-            )
-        );
-        container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
-        );
-        container.start(this.resource.port());
-        final Gist gist = new RtGist(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "test"
-        );
-        final String content = gist.read("hello");
-        final Gist forkedGist = gist.fork();
-        try {
+        try (final MkContainer container = new MkGrizzlyContainer()) {
+            container.next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+                )
+            );
+            container.next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
+            );
+            container.next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"id\": \"forked\"}"
+                )
+            );
+            container.next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
+                )
+            );
+            container.next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
+            );
+            container.start(this.resource.port());
+            final Gist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "test"
+            );
+            final String content = gist.read("hello");
+            final Gist forkedGist = gist.fork();
             MatcherAssert.assertThat(
                 forkedGist.read("hello"),
                 Matchers.equalTo(content)
             );
-        } finally {
             container.stop();
         }
     }
@@ -173,20 +170,21 @@ public final class RtGistTest {
      */
     @Test
     public void canIterateFiles() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
-            )
-        ).start(this.resource.port());
-        final Gist.Smart smart = new Gist.Smart(
-            new RtGist(
-                new MkGithub(),
-                new ApacheRequest(container.home()),
-                "testGetFiles"
-            )
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final Gist.Smart smart = new Gist.Smart(
+                new RtGist(
+                    new MkGithub(),
+                    new ApacheRequest(container.home()),
+                    "testGetFiles"
+                )
+            );
             MatcherAssert.assertThat(
                 smart.files(),
                 Matchers.notNullValue()
@@ -195,7 +193,6 @@ public final class RtGistTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/gists/testGetFiles")
             );
-        } finally {
             container.stop();
         }
     }
@@ -207,19 +204,19 @@ public final class RtGistTest {
      */
     @Test
     public void canRepresentAsString() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer()
-            .start(this.resource.port());
-        final RtGist gist = new RtGist(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "testToString"
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+            .start(this.resource.port())
+        ) {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "testToString"
+            );
             MatcherAssert.assertThat(
                 gist.toString(),
                 Matchers.endsWith("/gists/testToString")
             );
-        } finally {
             container.stop();
         }
     }
@@ -230,25 +227,28 @@ public final class RtGistTest {
      */
     @Test
     public void canUnstarAGist() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final RtGist gist = new RtGist(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "unstar"
-        );
-        gist.unstar();
-        final MkQuery query = container.take();
-        MatcherAssert.assertThat(
-            query.method(),
-            Matchers.equalTo(Request.DELETE)
-        );
-        MatcherAssert.assertThat(
-            query.body(),
-            Matchers.isEmptyOrNullString()
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())
+        ) {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "unstar"
+            );
+            gist.unstar();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.isEmptyOrNullString()
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -258,10 +258,13 @@ public final class RtGistTest {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}")
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}"
+                )
+            ).start(this.resource.port())
+        ) {
             final RtGist gist = new RtGist(
                 new MkGithub(),
                 new ApacheRequest(container.home()),
@@ -276,7 +279,6 @@ public final class RtGistTest {
                 container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );
-        } finally {
             container.stop();
         }
     }

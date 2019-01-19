@@ -91,30 +91,32 @@ public class RtGistCommentTest {
                 .add(idString, identifier)
                 .build().toString()
         );
-        final MkContainer container =
-            new MkGrizzlyContainer().next(first).next(second).next(third)
-                .start(this.resource.port());
-        final MkContainer gistContainer = new MkGrizzlyContainer()
-            .start(this.resource.port());
-        final RtGist gist =
-            new RtGist(
-                new MkGithub(),
-                new ApacheRequest(gistContainer.home()), "someName"
+        try (
+            final MkContainer container =
+                new MkGrizzlyContainer().next(first).next(second).next(third)
+                    .start(this.resource.port());
+            final MkContainer gistContainer = new MkGrizzlyContainer()
+                .start(this.resource.port())) {
+            final RtGist gist =
+                new RtGist(
+                    new MkGithub(),
+                    new ApacheRequest(gistContainer.home()), "someName"
+                );
+            final RtGistComment comment = new RtGistComment(
+                new ApacheRequest(container.home()), gist, identifier
             );
-        final RtGistComment comment = new RtGistComment(
-            new ApacheRequest(container.home()), gist, identifier
-        );
-        comment.patch(Json.createObjectBuilder()
-            .add(bodyString, patchedBody)
-            .add(idString, identifier)
-            .build()
-        );
-        MatcherAssert.assertThat(
-            comment.json().getString(bodyString),
-            Matchers.equalTo(patchedBody)
-        );
-        container.stop();
-        gistContainer.stop();
+            comment.patch(Json.createObjectBuilder()
+                .add(bodyString, patchedBody)
+                .add(idString, identifier)
+                .build()
+            );
+            MatcherAssert.assertThat(
+                comment.json().getString(bodyString),
+                Matchers.equalTo(patchedBody)
+            );
+            container.stop();
+            gistContainer.stop();
+        }
     }
 
     /**
@@ -124,22 +126,24 @@ public class RtGistCommentTest {
     @Test
     public final void removeGistComment() throws IOException {
         final int identifier = 1;
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final RtGist gist = new RtGist(
-            new MkGithub(),
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
-            "gistName"
-        );
-        final RtGistComment comment = new RtGistComment(
-            new ApacheRequest(container.home()), gist, identifier
-        );
-        comment.remove();
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.DELETE)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())) {
+            final RtGist gist = new RtGist(
+                new MkGithub(),
+                new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
+                "gistName"
+            );
+            final RtGistComment comment = new RtGistComment(
+                new ApacheRequest(container.home()), gist, identifier
+            );
+            comment.remove();
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            container.stop();
+        }
     }
 }

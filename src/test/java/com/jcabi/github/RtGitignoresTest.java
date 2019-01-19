@@ -48,6 +48,8 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
+ * @todo #1473:30min Continue to close grizzle servers open on tests. Use
+ *  try-with-resource statement instead of try-catch whenever is possible..
  */
 @Immutable
 public final class RtGitignoresTest {
