@@ -36,23 +36,25 @@ package com.jcabi.github;
  * @version $Id$
  * @since 1.0
  */
-public class RtReaction implements Reaction {
+@SuppressWarnings("PMD.BeanMembersShouldSerialize")
+public final class RtReaction implements Reaction {
 
     /**
      * Origin Reaction.
      */
-    final Reaction origin;
+    private final Reaction origin;
 
     /**
      * Constructor.
      * @param reaction Decorated reaction.
      */
-    public RtReaction (final Reaction reaction) {
+    public RtReaction(final Reaction reaction) {
         this.origin = reaction;
     }
 
     @Override
     public String type() {
+        this.origin.type();
         throw new UnsupportedOperationException("type() not implemented yet");
     }
 }

@@ -39,11 +39,14 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.0
  */
-public class RtReactionTest {
+public final class RtReactionTest {
 
+    /**
+     * Tests if RtReaction throws exception when reaction is invalid.
+     */
     @Ignore
     @Test(expected = IllegalArgumentException.class)
-    public void returnCorrectValues() {
+    public void throwsExceptionOnInvalidReaction() {
         new RtReaction(new Reaction.Simple("invalid")).type();
     }
 }
