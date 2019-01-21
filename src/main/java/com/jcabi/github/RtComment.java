@@ -32,14 +32,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
-
 import lombok.EqualsAndHashCode;
 
 /**
@@ -54,6 +52,11 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
 final class RtComment implements Comment {
+
+    /**
+     * Content field name.
+     */
+    private static final String CONTENT = "content";
 
     /**
      * RESTful request.
@@ -132,7 +135,7 @@ final class RtComment implements Comment {
     @Override
     public void react(final Reaction reaction) throws IOException {
         final JsonStructure json = Json.createObjectBuilder()
-            .add("content", reaction.type())
+            .add(RtComment.CONTENT, reaction.type())
             .build();
         this.request.method(Request.POST)
             .body().set(json).back()
@@ -144,7 +147,7 @@ final class RtComment implements Comment {
     public Iterable<Reaction> reactions() {
         return new RtPagination<>(
             this.request.uri().path("/reactions").back(),
-            (object) -> new Reaction.Simple(object.getString("content"))
+            (object) -> new Reaction.Simple(object.getString(RtComment.CONTENT))
         );
     }
 }
