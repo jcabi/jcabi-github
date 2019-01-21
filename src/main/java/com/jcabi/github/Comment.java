@@ -91,14 +91,15 @@ public interface Comment
     /**
      * Adds the reaction to the comment.
      * @param reaction Reaction to be added.
+     * @throws IOException In case something goes wrong.
      */
-    void react(Reaction reaction);
+    void react(Reaction reaction) throws IOException;
 
     /**
      * List the reactions of the comment.
      * @return Comment reactions.
      */
-    Collection<Reaction> reactions();
+    Iterable<Reaction> reactions();
 
     /**
      * Smart comment with additional features.

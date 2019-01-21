@@ -37,7 +37,6 @@ import com.jcabi.github.Reaction;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -45,6 +44,7 @@ import lombok.EqualsAndHashCode;
  * Safe comment.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.34
  */
@@ -91,12 +91,12 @@ public final class SfComment implements Comment {
     }
 
     @Override
-    public void react(final Reaction reaction) {
+    public void react(final Reaction reaction) throws IOException {
         this.origin.react(reaction);
     }
 
     @Override
-    public Collection<Reaction> reactions() {
+    public Iterable<Reaction> reactions() {
         return this.origin.reactions();
     }
 

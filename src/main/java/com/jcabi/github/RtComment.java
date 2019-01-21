@@ -32,22 +32,23 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collection;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
+
 import lombok.EqualsAndHashCode;
 
 /**
  * Github comment.
  *
  * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.1
- * @todo #1451:30min Implement react ant reactions methods. Implement react
- *  and reacts methods according to reactions API
- *  and then unignore test in RtCommentTest
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -129,12 +130,21 @@ final class RtComment implements Comment {
     }
 
     @Override
-    public void react(final Reaction reaction) {
-        throw new UnsupportedOperationException("react() not implemented");
+    public void react(final Reaction reaction) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add("content", reaction.type())
+            .build();
+        this.request.method(Request.POST)
+            .body().set(json).back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
-    public Collection<Reaction> reactions() {
-        throw new UnsupportedOperationException("reactions() not implemented");
+    public Iterable<Reaction> reactions() {
+        return new RtPagination<>(
+            this.request.uri().path("/reactions").back(),
+            (object) -> new Reaction.Simple(object.getString("content"))
+        );
     }
 }
