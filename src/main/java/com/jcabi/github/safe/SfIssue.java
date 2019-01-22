@@ -40,7 +40,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.Collection;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -133,12 +132,12 @@ public final class SfIssue implements Issue {
     }
 
     @Override
-    public void react(final Reaction reaction) {
+    public void react(final Reaction reaction) throws IOException {
         this.origin.react(reaction);
     }
 
     @Override
-    public Collection<Reaction> reactions() {
+    public Iterable<Reaction> reactions() {
         return this.origin.reactions();
     }
 

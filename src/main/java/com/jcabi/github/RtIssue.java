@@ -35,7 +35,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
@@ -47,16 +46,19 @@ import lombok.EqualsAndHashCode;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  * @since 0.1
- * @todo #1466:30min Implement react and reactions methods. Implement react
- *  and reacts methods according to reactions API
- *  and then unignore test in RtIssueTest
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
 @SuppressWarnings("PMD.TooManyMethods")
 final class RtIssue implements Issue {
+
+    /**
+     * Content constant.
+     */
+    private static final String CONTENT = "content";
 
     /**
      * API entry point.
@@ -146,13 +148,22 @@ final class RtIssue implements Issue {
     }
 
     @Override
-    public void react(final Reaction reaction) {
-        throw new UnsupportedOperationException("react() not implemented");
+    public void react(final Reaction reaction) throws IOException {
+        final JsonStructure json = Json.createObjectBuilder()
+            .add(RtIssue.CONTENT, reaction.type())
+            .build();
+        this.request.method(Request.POST)
+            .body().set(json).back()
+            .fetch().as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
-    public Collection<Reaction> reactions() {
-        throw new UnsupportedOperationException("reactions() not implemented");
+    public Iterable<Reaction> reactions() {
+        return new RtPagination<>(
+            this.request.uri().path("/reactions").back(),
+            (object) -> new Reaction.Simple(object.getString(RtIssue.CONTENT))
+        );
     }
 
     @Override
