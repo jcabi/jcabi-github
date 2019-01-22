@@ -132,19 +132,20 @@ public final class RtIssueTest {
      */
     @Test
     public void patchWithJson() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start(this.resource.port());
-        final RtIssue issue = new RtIssue(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            1
-        );
-        issue.patch(
-            Json.createObjectBuilder().add("patch", "test").build()
-        );
-        final MkQuery query = container.take();
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
+            ).start(this.resource.port())
+        ) {
+            final RtIssue issue = new RtIssue(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                1
+            );
+            issue.patch(
+                Json.createObjectBuilder().add("patch", "test").build()
+            );
+            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
@@ -153,7 +154,6 @@ public final class RtIssueTest {
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
-        } finally {
             container.stop();
         }
     }

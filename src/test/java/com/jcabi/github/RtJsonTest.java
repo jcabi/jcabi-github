@@ -61,15 +61,21 @@ public final class RtJsonTest {
      */
     @Test
     public void sendHttpRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hi\"}")
-        ).start(this.resource.port());
-        final RtJson json = new RtJson(new ApacheRequest(container.home()));
-        MatcherAssert.assertThat(
-            json.fetch().getString("body"),
-            Matchers.equalTo("hi")
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"body\":\"hi\"}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtJson json = new RtJson(new ApacheRequest(container.home()));
+            MatcherAssert.assertThat(
+                json.fetch().getString("body"),
+                Matchers.equalTo("hi")
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -79,19 +85,25 @@ public final class RtJsonTest {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"hj\"}")
-        ).start(this.resource.port());
-        final RtJson json = new RtJson(new ApacheRequest(container.home()));
-        json.patch(
-            Json.createObjectBuilder()
-                .add("content", "hi you!")
-                .build()
-        );
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo("PATCH")
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"body\":\"hj\"}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtJson json = new RtJson(new ApacheRequest(container.home()));
+            json.patch(
+                Json.createObjectBuilder()
+                    .add("content", "hi you!")
+                    .build()
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo("PATCH")
+            );
+            container.stop();
+        }
     }
 }

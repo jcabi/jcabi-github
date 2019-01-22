@@ -62,10 +62,11 @@ public final class RtMilestonesTest {
      */
     @Test
     public void deleteMilestone() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())
+        ) {
             final RtMilestones milestones = new RtMilestones(
                 new ApacheRequest(container.home()),
                 repo()
@@ -75,7 +76,6 @@ public final class RtMilestonesTest {
                 container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
             container.stop();
         }
     }

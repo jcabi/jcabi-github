@@ -48,8 +48,6 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
- * @todo #1473:30min Continue to close grizzle servers open on tests. Use
- *  try-with-resource statement instead of try-catch whenever is possible..
  */
 @Immutable
 public final class RtGitignoresTest {
@@ -66,24 +64,27 @@ public final class RtGitignoresTest {
      */
     @Test
     public void iterateTemplateNames() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add("C")
-                    .add("Java")
-                    .build()
-                    .toString()
-            )
-        ).start(this.resource.port());
-        final RtGitignores gitignores = new RtGitignores(
-            new RtGithub(new JdkRequest(container.home()))
-        );
-        MatcherAssert.assertThat(
-            gitignores.iterate(),
-            Matchers.<String>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add("C")
+                        .add("Java")
+                        .build()
+                        .toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtGitignores gitignores = new RtGitignores(
+                    new RtGithub(new JdkRequest(container.home()))
+            );
+            MatcherAssert.assertThat(
+                    gitignores.iterate(),
+                    Matchers.<String>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**

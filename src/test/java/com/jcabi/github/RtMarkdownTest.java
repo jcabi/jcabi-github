@@ -66,15 +66,16 @@ public final class RtMarkdownTest {
      */
     @Test
     public void returnsJsonOutput() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
-                .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-        ).start(this.resource.port());
-        final RtMarkdown markdown = new RtMarkdown(
-            new MkGithub(),
-            new ApacheRequest(container.home())
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
+                    .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
+            ).start(this.resource.port())
+        ) {
+            final RtMarkdown markdown = new RtMarkdown(
+                new MkGithub(),
+                new ApacheRequest(container.home())
+            );
             MatcherAssert.assertThat(
                 markdown.render(
                     Json.createObjectBuilder().add("hello", "world").build()
@@ -85,7 +86,6 @@ public final class RtMarkdownTest {
                 container.take().body(),
                 Matchers.equalTo("{\"hello\":\"world\"}")
             );
-        } finally {
             container.stop();
         }
     }
@@ -97,15 +97,16 @@ public final class RtMarkdownTest {
      */
     @Test
     public void returnsRawOutput() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
-                .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-        ).start(this.resource.port());
-        final RtMarkdown markdown = new RtMarkdown(
-            new MkGithub(),
-            new ApacheRequest(container.home())
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
+                    .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
+            ).start(this.resource.port())
+        ) {
+            final RtMarkdown markdown = new RtMarkdown(
+                new MkGithub(),
+                new ApacheRequest(container.home())
+            );
             MatcherAssert.assertThat(
                 markdown.raw("Hello World!"),
                 Matchers.equalTo("Test Output")
@@ -114,7 +115,6 @@ public final class RtMarkdownTest {
                 container.take().body(),
                 Matchers.equalTo("Hello World!")
             );
-        } finally {
             container.stop();
         }
     }

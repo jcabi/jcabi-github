@@ -67,13 +67,14 @@ public final class RtHookTest {
      */
     @Test
     public void performsValidRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"test\":\"hook\"}"
-            )
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"test\":\"hook\"}"
+                )
+            ).start(this.resource.port())
+        ) {
             final Hook hook = new RtHook(
                 new ApacheRequest(container.home()),
                 repo(),
@@ -87,7 +88,6 @@ public final class RtHookTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/repo/hooks/1")
             );
-        } finally {
             container.stop();
         }
     }
@@ -99,13 +99,14 @@ public final class RtHookTest {
      */
     @Test
     public void returnsEvents() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{ \"id\": 1, \"events\": [ \"push\", \"pull_request\" ] }"
-            )
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{ \"id\": 1, \"events\": [ \"push\", \"pull_request\" ] }"
+                )
+            ).start(this.resource.port())
+        ) {
             MatcherAssert.assertThat(
                 new RtHook(
                     new ApacheRequest(container.home()),
@@ -123,7 +124,6 @@ public final class RtHookTest {
                     )
                 )
             );
-        } finally {
             container.stop();
         }
     }

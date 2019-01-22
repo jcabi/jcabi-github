@@ -49,6 +49,8 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
+ * @todo #1482:30min Continue to close grizzle servers open on tests. Use
+ *  try-with-resource statement instead of try-catch whenever is possible..
  */
 public final class RtOrganizationsTest {
 

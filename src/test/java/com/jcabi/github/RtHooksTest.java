@@ -73,19 +73,19 @@ public final class RtHooksTest {
      */
     @Test
     public void canFetchEmptyListOfHooks() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
-        ).start(this.resource.port());
-        final Hooks hooks = new RtHooks(
-            new JdkRequest(container.home()),
-            RtHooksTest.repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
+            ).start(this.resource.port())
+        ) {
+            final Hooks hooks = new RtHooks(
+                new JdkRequest(container.home()),
+                RtHooksTest.repo()
+            );
             MatcherAssert.assertThat(
                 hooks.iterate(),
                 Matchers.emptyIterable()
             );
-        } finally {
             container.stop();
         }
     }
@@ -96,24 +96,37 @@ public final class RtHooksTest {
      */
     @Test
     public void canFetchNonEmptyListOfHooks() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(hook("hook 1", Collections.<String, String>emptyMap()))
-                    .add(hook("hook 2", Collections.<String, String>emptyMap()))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtHooks hooks = new RtHooks(
-            new JdkRequest(container.home()),
-            RtHooksTest.repo()
-        );
-        MatcherAssert.assertThat(
-            hooks.iterate(),
-            Matchers.<Hook>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(
+                            hook(
+                                "hook 1",
+                                Collections.<String, String>emptyMap()
+                            )
+                        )
+                        .add(
+                            hook(
+                                "hook 2",
+                                Collections.<String, String>emptyMap()
+                            )
+                        )
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtHooks hooks = new RtHooks(
+                new JdkRequest(container.home()),
+                RtHooksTest.repo()
+            );
+            MatcherAssert.assertThat(
+                hooks.iterate(),
+                Matchers.<Hook>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -123,25 +136,28 @@ public final class RtHooksTest {
     @Test
     public void canFetchSingleHook() throws Exception {
         final String name = "hook name";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                RtHooksTest.hook(
-                    name,
-                    Collections.<String, String>emptyMap()
-                ).toString()
-            )
-        ).start(this.resource.port());
-        final Hooks hooks = new RtHooks(
-            new JdkRequest(container.home()),
-            RtHooksTest.repo()
-        );
-        final Hook hook = hooks.get(1);
-        MatcherAssert.assertThat(
-            new Hook.Smart(hook).name(),
-            Matchers.equalTo(name)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtHooksTest.hook(
+                        name,
+                        Collections.<String, String>emptyMap()
+                    ).toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Hooks hooks = new RtHooks(
+                new JdkRequest(container.home()),
+                RtHooksTest.repo()
+            );
+            final Hook hook = hooks.get(1);
+            MatcherAssert.assertThat(
+                new Hook.Smart(hook).name(),
+                Matchers.equalTo(name)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -157,15 +173,16 @@ public final class RtHooksTest {
         config.put("url", "http://example.com");
         config.put("content_type", "json");
         final String body = RtHooksTest.hook(name, config).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port());
-        final Hooks hooks = new RtHooks(
-            new JdkRequest(container.home()),
-            RtHooksTest.repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+                .start(this.resource.port())
+        ) {
+            final Hooks hooks = new RtHooks(
+                new JdkRequest(container.home()),
+                RtHooksTest.repo()
+            );
             final Hook hook = hooks.create(
                 name, config, Collections.<Event>emptyList(), true
             );
@@ -177,7 +194,6 @@ public final class RtHooksTest {
                 new Hook.Smart(hook).name(),
                 Matchers.equalTo(name)
             );
-        } finally {
             container.stop();
         }
     }
@@ -189,15 +205,16 @@ public final class RtHooksTest {
      */
     @Test
     public void canDeleteHook() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final Hooks hooks = new RtHooks(
-            new JdkRequest(container.home()),
-            RtHooksTest.repo()
-        );
-        hooks.remove(1);
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())
+        ) {
+            final Hooks hooks = new RtHooks(
+                new JdkRequest(container.home()),
+                RtHooksTest.repo()
+            );
+            hooks.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -207,7 +224,6 @@ public final class RtHooksTest {
                 query.body(),
                 Matchers.isEmptyString()
             );
-        } finally {
             container.stop();
         }
     }

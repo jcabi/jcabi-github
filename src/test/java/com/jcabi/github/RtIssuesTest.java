@@ -70,24 +70,29 @@ public final class RtIssuesTest {
     public void createIssue() throws Exception {
         final String title = "Found a bug";
         final String body = issue(title).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port());
-        final RtIssues issues = new RtIssues(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        final Issue issue = issues.create(title, "having a problem with it.");
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            new Issue.Smart(issue).title(),
-            Matchers.equalTo(title)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+                .start(this.resource.port())
+        ) {
+            final RtIssues issues = new RtIssues(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            final Issue issue = issues.create(
+                title, "having a problem with it."
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new Issue.Smart(issue).title(),
+                Matchers.equalTo(title)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -97,22 +102,25 @@ public final class RtIssuesTest {
     @Test
     public void getSingleIssue() throws Exception {
         final String title = "Unit test";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                issue(title).toString()
-            )
-        ).start(this.resource.port());
-        final RtIssues issues = new RtIssues(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        final Issue issue = issues.get(1);
-        MatcherAssert.assertThat(
-            new Issue.Smart(issue).title(),
-            Matchers.equalTo(title)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    issue(title).toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtIssues issues = new RtIssues(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            final Issue issue = issues.get(1);
+            MatcherAssert.assertThat(
+                new Issue.Smart(issue).title(),
+                Matchers.equalTo(title)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -121,24 +129,27 @@ public final class RtIssuesTest {
      */
     @Test
     public void iterateIssues() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(issue("new issue"))
-                    .add(issue("code issue"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtIssues issues = new RtIssues(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        MatcherAssert.assertThat(
-            issues.iterate(new ArrayMap<String, String>()),
-            Matchers.<Issue>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(issue("new issue"))
+                        .add(issue("code issue"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtIssues issues = new RtIssues(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            MatcherAssert.assertThat(
+                issues.iterate(new ArrayMap<String, String>()),
+                Matchers.<Issue>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -147,30 +158,33 @@ public final class RtIssuesTest {
      */
     @Test
     public void searchIssues() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(issue("some issue"))
-                    .add(issue("some other issue"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtIssues issues = new RtIssues(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        MatcherAssert.assertThat(
-            issues.search(
-                Issues.Sort.UPDATED,
-                Search.Order.ASC,
-                new EnumMap<Issues.Qualifier, String>(
-                    Issues.Qualifier.class
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(issue("some issue"))
+                        .add(issue("some other issue"))
+                        .build().toString()
                 )
-            ),
-            Matchers.<Issue>iterableWithSize(2)
-        );
-        container.stop();
+            ).start(this.resource.port())
+        ) {
+            final RtIssues issues = new RtIssues(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            MatcherAssert.assertThat(
+                issues.search(
+                    Issues.Sort.UPDATED,
+                    Search.Order.ASC,
+                    new EnumMap<Issues.Qualifier, String>(
+                        Issues.Qualifier.class
+                    )
+                ),
+                Matchers.<Issue>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**
