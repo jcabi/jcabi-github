@@ -42,9 +42,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.collection.IsIterableWithSize;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -186,7 +185,6 @@ public final class RtCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    @Ignore
     public void reacts() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -200,12 +198,43 @@ public final class RtCommentTest {
                 new ApacheRequest(container.home()), issue, 10
             );
             comment.react(new Reaction.Simple(Reaction.HEART));
+            final MkQuery query = container.take();
             MatcherAssert.assertThat(
-                "Comment was unable to react",
-                comment.reactions(),
-                new IsCollectionWithSize<>(
-                    new IsEqual<>(1)
+                query.method(),
+                new IsEqual<>(Request.POST)
+            );
+        }
+    }
+
+    /**
+     * RtComment can list its reactions.
+     * @throws Exception - if anything goes wrong.
+     */
+    @Test
+    public void reactions() throws Exception {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                     Json.createArrayBuilder()
+                    .add(
+                        Json.createObjectBuilder()
+                        .add("id", "1")
+                        .add("content", "heart")
+                        .build()
+                    ).build().toString()
                 )
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = repo.issues().create(
+                "Reaction Listing test", "This is a test for listing reactions"
+            );
+            final RtComment comment = new RtComment(
+                new ApacheRequest(container.home()), issue, 10
+            );
+            MatcherAssert.assertThat(
+                comment.reactions(),
+                new IsIterableWithSize<>(new IsEqual<>(1))
             );
         }
     }
