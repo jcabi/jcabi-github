@@ -41,9 +41,7 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -180,20 +178,25 @@ public final class RtIssueTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    @Ignore
     public void reacts() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
-        final Issue issue = repo.issues().create(
-            "Reaction adding test", "This is a test for adding a reaction"
-        );
-        issue.react(new Reaction.Simple(Reaction.HEART));
-        MatcherAssert.assertThat(
-            "Issue was unable to react",
-            issue.reactions(),
-            new IsCollectionWithSize<>(
-                new IsEqual<>(1)
-            )
-        );
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())) {
+            final Repo repo = new MkGithub().randomRepo();
+            final Issue issue = new RtIssue(
+                new ApacheRequest(container.home()),
+                repo,
+                10
+            );
+            issue.react(new Reaction.Simple(Reaction.HEART));
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                "Issue was unable to react",
+                query.method(),
+                new IsEqual<>(Request.POST)
+            );
+        }
     }
 
     /**

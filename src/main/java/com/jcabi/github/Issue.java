@@ -128,14 +128,15 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     /**
      * Adds the reaction to the issue.
      * @param reaction Reaction to be added.
+     * @throws IOException If there is any I/O problem
      */
-    void react(Reaction reaction);
+    void react(Reaction reaction) throws IOException;
 
     /**
      * List the reactions of the issue.
      * @return Issue reactions.
      */
-    Collection<Reaction> reactions();
+    Iterable<Reaction> reactions();
 
     /**
      * Locks the issue.
