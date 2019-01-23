@@ -49,8 +49,6 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
- * @todo #1482:30min Continue to close grizzle servers open on tests. Use
- *  try-with-resource statement instead of try-catch whenever is possible..
  */
 public final class RtOrganizationsTest {
 
@@ -68,10 +66,11 @@ public final class RtOrganizationsTest {
      */
     @Test
     public void fetchesSingleOrganization() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())
+        ) {
             final Organizations orgs = new RtOrganizations(
                 new MkGithub(),
                 new ApacheRequest(container.home())
@@ -80,7 +79,6 @@ public final class RtOrganizationsTest {
                 orgs.get("org"),
                 Matchers.notNullValue()
             );
-        } finally {
             container.stop();
         }
     }
@@ -95,17 +93,18 @@ public final class RtOrganizationsTest {
     @Test
     public void retrievesOrganizations() throws Exception {
         final Github github = new MkGithub();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(org(1, "org1"))
-                    .add(org(2, "org2"))
-                    .add(org(3, "org3"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(org(1, "org1"))
+                        .add(org(2, "org2"))
+                        .add(org(3, "org3"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
             final Organizations orgs = new RtOrganizations(
                 github,
                 new ApacheRequest(container.home())
@@ -118,7 +117,6 @@ public final class RtOrganizationsTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/user/orgs")
             );
-        } finally {
             container.stop();
         }
     }

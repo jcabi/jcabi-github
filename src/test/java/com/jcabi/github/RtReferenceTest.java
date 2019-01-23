@@ -49,6 +49,8 @@ import org.junit.Test;
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @todo #1487:30min Continue to close grizzle servers open on tests. Use
+ *  try-with-resource statement instead of try-catch whenever is possible.
  */
 public final class RtReferenceTest {
 

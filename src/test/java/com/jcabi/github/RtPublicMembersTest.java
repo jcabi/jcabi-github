@@ -115,11 +115,12 @@ public final class RtPublicMembersTest {
      */
     @Test
     public void concealsMembers() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer()
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port());
-        try {
+            .start(this.resource.port())
+        ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
                 organization()
@@ -140,7 +141,6 @@ public final class RtPublicMembersTest {
             );
             this.thrown.expect(AssertionError.class);
             members.conceal(user());
-        } finally {
             container.stop();
         }
     }
@@ -152,11 +152,11 @@ public final class RtPublicMembersTest {
      */
     @Test
     public void publicizesMembers() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port());
-        try {
+            .start(this.resource.port())
+        ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
                 organization()
@@ -173,7 +173,6 @@ public final class RtPublicMembersTest {
             );
             this.thrown.expect(AssertionError.class);
             members.publicize(user());
-        } finally {
             container.stop();
         }
     }
@@ -185,13 +184,16 @@ public final class RtPublicMembersTest {
      */
     @Test
     public void checkPublicMembership() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer()
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .next(
+                    new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+                )
+                .start(this.resource.port())
+        ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
                 organization()
@@ -216,7 +218,6 @@ public final class RtPublicMembersTest {
             );
             this.thrown.expect(AssertionError.class);
             members.contains(user());
-        } finally {
             container.stop();
         }
     }
@@ -227,16 +228,17 @@ public final class RtPublicMembersTest {
      */
     @Test
     public void iteratesPublicMembers() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer()
-            .next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_OK,
-                    "[{\"login\":\"octobat\"}]"
-                )
-        )
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(
+                    new MkAnswer.Simple(
+                        HttpURLConnection.HTTP_OK,
+                        "[{\"login\":\"octobat\"}]"
+                    )
+            )
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port());
-        try {
+            .start(this.resource.port())
+        ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
                 organization()
@@ -253,7 +255,6 @@ public final class RtPublicMembersTest {
             );
             this.thrown.expect(AssertionError.class);
             members.iterate().iterator().next();
-        } finally {
             container.stop();
         }
     }

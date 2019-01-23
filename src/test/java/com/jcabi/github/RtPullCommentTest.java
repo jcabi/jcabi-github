@@ -95,14 +95,15 @@ public final class RtPullCommentTest {
     @Test
     public void canDescribeAsJson() throws Exception {
         final String body = "{\"body\":\"test\"}";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-        ).start(this.resource.port());
-        final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
-        final RtPullComment comment =
-            new RtPullComment(new ApacheRequest(container.home()), pull, 1);
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
+            ).start(this.resource.port())
+        ) {
+            final Pull pull = Mockito.mock(Pull.class);
+            Mockito.doReturn(repo()).when(pull).repo();
+            final RtPullComment comment =
+                new RtPullComment(new ApacheRequest(container.home()), pull, 1);
             final JsonObject json = comment.json();
             MatcherAssert.assertThat(
                 json.getString("body"),
@@ -112,7 +113,6 @@ public final class RtPullCommentTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/joe/blueharvest/pulls/comments/1")
             );
-        } finally {
             container.stop();
         }
     }
@@ -123,14 +123,15 @@ public final class RtPullCommentTest {
      */
     @Test
     public void patchesComment() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start(this.resource.port());
-        final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
-        final RtPullComment comment =
-            new RtPullComment(new ApacheRequest(container.home()), pull, 2);
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())
+        ) {
+            final Pull pull = Mockito.mock(Pull.class);
+            Mockito.doReturn(repo()).when(pull).repo();
+            final RtPullComment comment =
+                new RtPullComment(new ApacheRequest(container.home()), pull, 2);
             final JsonObject json = Json.createObjectBuilder()
                 .add("body", "test comment").build();
             comment.patch(json);
@@ -146,7 +147,6 @@ public final class RtPullCommentTest {
                 query.uri().toString(),
                 Matchers.endsWith("/repos/joe/blueharvest/pulls/comments/2")
             );
-        } finally {
             container.stop();
         }
     }

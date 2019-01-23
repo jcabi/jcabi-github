@@ -70,24 +70,27 @@ public final class RtPullsTest {
     public void createPull() throws Exception {
         final String title = "new feature";
         final String body = pull(title).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port());
-        final RtPulls pulls = new RtPulls(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        final Pull pull = pulls.create(title, "octocat", "master");
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            new Pull.Smart(pull).title(),
-            Matchers.equalTo(title)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+                .start(this.resource.port())
+        ) {
+            final RtPulls pulls = new RtPulls(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            final Pull pull = pulls.create(title, "octocat", "master");
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new Pull.Smart(pull).title(),
+                Matchers.equalTo(title)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -97,22 +100,25 @@ public final class RtPullsTest {
     @Test
     public void getSinglePull() throws Exception {
         final String title = "new-feature";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                pull(title).toString()
-            )
-        ).start(this.resource.port());
-        final RtPulls pulls = new RtPulls(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        final Pull pull = pulls.get(Tv.BILLION);
-        MatcherAssert.assertThat(
-            new Pull.Smart(pull).title(),
-            Matchers.equalTo(title)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    pull(title).toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPulls pulls = new RtPulls(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            final Pull pull = pulls.get(Tv.BILLION);
+            MatcherAssert.assertThat(
+                new Pull.Smart(pull).title(),
+                Matchers.equalTo(title)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -121,24 +127,27 @@ public final class RtPullsTest {
      */
     @Test
     public void iteratePulls() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(pull("new-topic"))
-                    .add(pull("Amazing new feature"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtPulls pulls = new RtPulls(
-            new ApacheRequest(container.home()),
-            repo()
-        );
-        MatcherAssert.assertThat(
-            pulls.iterate(new ArrayMap<String, String>()),
-            Matchers.<Pull>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(pull("new-topic"))
+                        .add(pull("Amazing new feature"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPulls pulls = new RtPulls(
+                new ApacheRequest(container.home()),
+                repo()
+            );
+            MatcherAssert.assertThat(
+                pulls.iterate(new ArrayMap<String, String>()),
+                Matchers.<Pull>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**

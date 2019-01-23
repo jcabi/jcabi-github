@@ -63,17 +63,18 @@ public final class RtReferencesTest {
      */
     @Test
     public void createsReference() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"ref\":\"refs/heads/feature-a\"}"
-            )
-        ).start(this.resource.port());
-        final References refs = new RtReferences(
-            new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"ref\":\"refs/heads/feature-a\"}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final References refs = new RtReferences(
+                new ApacheRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
             MatcherAssert.assertThat(
                 refs.create("abceefgh3456", "refs/heads/feature-a"),
                 Matchers.instanceOf(Reference.class)
@@ -82,7 +83,6 @@ public final class RtReferencesTest {
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-        } finally {
             container.stop();
         }
     }
@@ -93,22 +93,22 @@ public final class RtReferencesTest {
      */
     @Test
     public void iteratesReferences() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"ref\":\"refs/heads/feature-a\"}"
-            )
-        ).start(this.resource.port());
-        final References refs = new RtReferences(
-            new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"ref\":\"refs/heads/feature-a\"}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final References refs = new RtReferences(
+                new ApacheRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
             MatcherAssert.assertThat(
                 refs.iterate(),
                 Matchers.notNullValue()
             );
-        } finally {
             container.stop();
         }
     }
@@ -119,20 +119,20 @@ public final class RtReferencesTest {
      */
     @Test
     public void removesReference() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final References refs = new RtReferences(
-            new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        refs.remove("heads/feature-a");
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())
+        ) {
+            final References refs = new RtReferences(
+                new ApacheRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
+            refs.remove("heads/feature-a");
             MatcherAssert.assertThat(
                 container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
             container.stop();
         }
     }
@@ -143,17 +143,18 @@ public final class RtReferencesTest {
      */
     @Test
     public void iteratesTags() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "[{\"ref\":\"refs/tags/feature-b\"}]"
-            )
-        ).start(this.resource.port());
-        final References refs = new RtReferences(
-            new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "[{\"ref\":\"refs/tags/feature-b\"}]"
+                )
+            ).start(this.resource.port())
+        ) {
+            final References refs = new RtReferences(
+                new ApacheRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
             MatcherAssert.assertThat(
                 refs.tags(),
                 Matchers.<Reference>iterableWithSize(1)
@@ -162,7 +163,6 @@ public final class RtReferencesTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/git/refs/tags")
             );
-        } finally {
             container.stop();
         }
     }
@@ -173,17 +173,18 @@ public final class RtReferencesTest {
      */
     @Test
     public void iteratesHeads() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "[{\"ref\":\"refs/heads/feature-c\"}]"
-            )
-        ).start(this.resource.port());
-        final References refs = new RtReferences(
-            new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "[{\"ref\":\"refs/heads/feature-c\"}]"
+                )
+            ).start(this.resource.port())
+        ) {
+            final References refs = new RtReferences(
+                new ApacheRequest(container.home()),
+                new MkGithub().randomRepo()
+            );
             MatcherAssert.assertThat(
                 refs.heads(),
                 Matchers.<Reference>iterableWithSize(1)
@@ -192,7 +193,6 @@ public final class RtReferencesTest {
                 container.take().uri().toString(),
                 Matchers.endsWith("/git/refs/heads")
             );
-        } finally {
             container.stop();
         }
     }

@@ -65,30 +65,37 @@ public final class RtPaginationTest {
      */
     @Test
     public void jumpNextPage() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            RtPaginationTest.simple("Hi Jeff")
-                .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"")
-        ).next(RtPaginationTest.simple("Hi Mark"))
-            .start(this.resource.port());
-        final Request request = new ApacheRequest(container.home());
-        final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-            request, new RtValuePagination.Mapping<JsonObject, JsonObject>() {
-                @Override
-                public JsonObject map(final JsonObject object) {
-                    return object;
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                RtPaginationTest.simple("Hi Jeff")
+                    .withHeader(
+                        "Link",
+                        "</s?page=3&per_page=100>; rel=\"next\""
+                    )
+            ).next(RtPaginationTest.simple("Hi Mark"))
+            .start(this.resource.port())
+        ) {
+            final Request request = new ApacheRequest(container.home());
+            final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
+                request,
+                new RtValuePagination.Mapping<JsonObject, JsonObject>() {
+                    @Override
+                    public JsonObject map(final JsonObject object) {
+                        return object;
+                    }
                 }
-            }
-        );
-        final Iterator<JsonObject> iterator = page.iterator();
-        MatcherAssert.assertThat(
-            iterator.next().toString(),
-            Matchers.containsString("Jeff")
-        );
-        MatcherAssert.assertThat(
-            iterator.next().toString(),
-            Matchers.containsString("Mark")
-        );
-        container.stop();
+            );
+            final Iterator<JsonObject> iterator = page.iterator();
+            MatcherAssert.assertThat(
+                iterator.next().toString(),
+                Matchers.containsString("Jeff")
+            );
+            MatcherAssert.assertThat(
+                iterator.next().toString(),
+                Matchers.containsString("Mark")
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -98,9 +105,10 @@ public final class RtPaginationTest {
      */
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer()
-            .next(simple("Hi there")).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(simple("Hi there")).start(this.resource.port())
+        ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
                 request,
@@ -117,7 +125,6 @@ public final class RtPaginationTest {
                 iterator.next(),
                 Matchers.notNullValue()
             );
-        } finally {
             container.stop();
         }
     }

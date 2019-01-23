@@ -83,19 +83,20 @@ public final class RtOrganizationTest {
      */
     @Test
     public void patchWithJson() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start(this.resource.port());
-        final RtOrganization org = new RtOrganization(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "testPatch"
-        );
-        org.patch(
-            Json.createObjectBuilder().add("patch", "test").build()
-        );
-        final MkQuery query = container.take();
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
+            ).start(this.resource.port())
+        ) {
+            final RtOrganization org = new RtOrganization(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "testPatch"
+            );
+            org.patch(
+                Json.createObjectBuilder().add("patch", "test").build()
+            );
+            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
@@ -104,7 +105,6 @@ public final class RtOrganizationTest {
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
-        } finally {
             container.stop();
         }
     }
@@ -145,20 +145,20 @@ public final class RtOrganizationTest {
      */
     @Test
     public void canRepresentAsString() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
-        ).start(this.resource.port());
-        final RtOrganization org = new RtOrganization(
-            new MkGithub(),
-            new ApacheRequest(container.home()),
-            "testToString"
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
+            ).start(this.resource.port())
+        ) {
+            final RtOrganization org = new RtOrganization(
+                new MkGithub(),
+                new ApacheRequest(container.home()),
+                "testToString"
+            );
             MatcherAssert.assertThat(
                 org.toString(),
                 Matchers.endsWith("/orgs/testToString")
             );
-        } finally {
             container.stop();
         }
     }

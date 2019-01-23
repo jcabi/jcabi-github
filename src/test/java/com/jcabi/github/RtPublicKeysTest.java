@@ -66,24 +66,27 @@ public final class RtPublicKeysTest {
      */
     @Test
     public void retrievesKeys() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(key(1))
-                    .add(key(2))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtPublicKeys keys = new RtPublicKeys(
-            new ApacheRequest(container.home()),
-            Mockito.mock(User.class)
-        );
-        MatcherAssert.assertThat(
-            keys.iterate(),
-            Matchers.<PublicKey>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(key(1))
+                        .add(key(2))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPublicKeys keys = new RtPublicKeys(
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
+            MatcherAssert.assertThat(
+                keys.iterate(),
+                Matchers.<PublicKey>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -93,22 +96,22 @@ public final class RtPublicKeysTest {
      */
     @Test
     public void canFetchSingleKey() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                ""
-            )
-        ).start(this.resource.port());
-        final RtPublicKeys keys = new RtPublicKeys(
-            new ApacheRequest(container.home()),
-            Mockito.mock(User.class)
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    ""
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPublicKeys keys = new RtPublicKeys(
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
             MatcherAssert.assertThat(
                 keys.get(1),
                 Matchers.notNullValue()
             );
-        } finally {
             container.stop();
         }
     }
@@ -120,17 +123,18 @@ public final class RtPublicKeysTest {
      */
     @Test
     public void canRemoveKey() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                ""
-            )
-        ).start(this.resource.port());
-        final RtPublicKeys keys = new RtPublicKeys(
-            new ApacheRequest(container.home()),
-            Mockito.mock(User.class)
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    ""
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPublicKeys keys = new RtPublicKeys(
+                new ApacheRequest(container.home()),
+                Mockito.mock(User.class)
+            );
             keys.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
@@ -141,7 +145,6 @@ public final class RtPublicKeysTest {
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
             container.stop();
         }
     }
@@ -152,12 +155,13 @@ public final class RtPublicKeysTest {
      */
     @Test
     public void canCreatePublicKey() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED, key(1).toString()
-            )
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED, key(1).toString()
+                )
+            ).start(this.resource.port())
+        ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
@@ -177,7 +181,6 @@ public final class RtPublicKeysTest {
                     "{\"title\":\"theTitle\",\"key\":\"theKey\"}"
                 )
             );
-        } finally {
             container.stop();
         }
     }

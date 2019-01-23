@@ -76,23 +76,23 @@ public final class RtPullTest {
      */
     @Test
     public void fetchesCommits() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "[{\"commits\":\"test\"}]"
-            )
-        ).start(this.resource.port());
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            1
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "[{\"commits\":\"test\"}]"
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPull pull = new RtPull(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                1
+            );
             MatcherAssert.assertThat(
                 pull.commits(),
                 Matchers.notNullValue()
             );
-        } finally {
             container.stop();
         }
     }
@@ -104,23 +104,23 @@ public final class RtPullTest {
      */
     @Test
     public void fetchesFiles() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "[{\"file1\":\"testFile\"}]"
-            )
-        ).start(this.resource.port());
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            2
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "[{\"file1\":\"testFile\"}]"
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPull pull = new RtPull(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                2
+            );
             MatcherAssert.assertThat(
                 pull.files().iterator().next().getString("file1"),
                 Matchers.equalTo("testFile")
             );
-        } finally {
             container.stop();
         }
     }
@@ -133,27 +133,28 @@ public final class RtPullTest {
     public void fetchesBase() throws IOException {
         final String ref = "sweet-feature-branch";
         final String sha = "e93c6a2216c69daa574abc16e7c14767fce44ad6";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createObjectBuilder()
-                    .add(
-                        "base",
-                        Json.createObjectBuilder()
-                            .add(RtPullTest.REF_PROP, ref)
-                            .add(RtPullTest.SHA_PROP, sha)
-                            .build()
-                    )
-                    .build()
-                    .toString()
-            )
-        ).start(this.resource.port());
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            1
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add(
+                            "base",
+                            Json.createObjectBuilder()
+                                .add(RtPullTest.REF_PROP, ref)
+                                .add(RtPullTest.SHA_PROP, sha)
+                                .build()
+                        )
+                        .build()
+                        .toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPull pull = new RtPull(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                1
+            );
             final PullRef base = pull.base();
             MatcherAssert.assertThat(
                 base,
@@ -167,7 +168,6 @@ public final class RtPullTest {
                 base.sha(),
                 Matchers.equalTo(sha)
             );
-        } finally {
             container.stop();
         }
     }
@@ -180,27 +180,28 @@ public final class RtPullTest {
     public void fetchesHead() throws IOException {
         final String ref = "neat-other-branch";
         final String sha = "9c717b4716e4fc4d917f546e8e6b562e810e3922";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createObjectBuilder()
-                    .add(
-                        "head",
-                        Json.createObjectBuilder()
-                            .add(RtPullTest.REF_PROP, ref)
-                            .add(RtPullTest.SHA_PROP, sha)
-                            .build()
-                    )
-                    .build()
-                    .toString()
-            )
-        ).start(this.resource.port());
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            1
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add(
+                            "head",
+                            Json.createObjectBuilder()
+                                .add(RtPullTest.REF_PROP, ref)
+                                .add(RtPullTest.SHA_PROP, sha)
+                                .build()
+                        )
+                        .build()
+                        .toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtPull pull = new RtPull(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                1
+            );
             final PullRef head = pull.head();
             MatcherAssert.assertThat(
                 head,
@@ -214,7 +215,6 @@ public final class RtPullTest {
                 head.sha(),
                 Matchers.equalTo(sha)
             );
-        } finally {
             container.stop();
         }
     }
@@ -226,16 +226,17 @@ public final class RtPullTest {
      */
     @Test
     public void executeMerge() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
-        ).start(this.resource.port());
-        final RtPull pull = new RtPull(
-            new ApacheRequest(container.home()),
-            this.repo(),
-            3
-        );
-        pull.merge("Test commit.");
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
+            ).start(this.resource.port())
+        ) {
+            final RtPull pull = new RtPull(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                3
+            );
+            pull.merge("Test commit.");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -245,7 +246,6 @@ public final class RtPullTest {
                 query.body(),
                 Matchers.equalTo("{\"commit_message\":\"Test commit.\"}")
             );
-        } finally {
             container.stop();
         }
     }
