@@ -67,28 +67,31 @@ public final class RtLabelsTest {
         final String name = "API";
         final String color = "FFFFFF";
         final String body = label(name, color).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port());
-        final RtLabels labels = new RtLabels(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        final Label label = labels.create(name, color);
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            new Label.Smart(label).name(),
-            Matchers.equalTo(name)
-        );
-        MatcherAssert.assertThat(
-            new Label.Smart(label).color(),
-            Matchers.equalTo(color)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+                .start(this.resource.port())
+        ) {
+            final RtLabels labels = new RtLabels(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            final Label label = labels.create(name, color);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                new Label.Smart(label).name(),
+                Matchers.equalTo(name)
+            );
+            MatcherAssert.assertThat(
+                new Label.Smart(label).color(),
+                Matchers.equalTo(color)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -100,22 +103,25 @@ public final class RtLabelsTest {
     public void getSingleLabel() throws Exception {
         final String name = "bug";
         final String color = "f29513";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                label(name, color).toString()
-            )
-        ).start(this.resource.port());
-        final RtLabels issues = new RtLabels(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        final Label label = issues.get(name);
-        MatcherAssert.assertThat(
-            new Label.Smart(label).color(),
-            Matchers.equalTo(color)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    label(name, color).toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtLabels issues = new RtLabels(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            final Label label = issues.get(name);
+            MatcherAssert.assertThat(
+                new Label.Smart(label).color(),
+                Matchers.equalTo(color)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -124,24 +130,27 @@ public final class RtLabelsTest {
      */
     @Test
     public void deleteLabel() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final RtLabels issues = new RtLabels(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        issues.delete("issue");
-        final MkQuery query = container.take();
-        MatcherAssert.assertThat(
-            query.method(),
-            Matchers.equalTo(Request.DELETE)
-        );
-        MatcherAssert.assertThat(
-            query.body(),
-            Matchers.isEmptyOrNullString()
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())
+        ) {
+            final RtLabels issues = new RtLabels(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            issues.delete("issue");
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                query.method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+            MatcherAssert.assertThat(
+                query.body(),
+                Matchers.isEmptyOrNullString()
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -150,24 +159,27 @@ public final class RtLabelsTest {
      */
     @Test
     public void iterateLabels() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(label("new issue", "f29512"))
-                    .add(label("new bug", "f29522"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtLabels labels = new RtLabels(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        MatcherAssert.assertThat(
-            labels.iterate(),
-            Matchers.<Label>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(label("new issue", "f29512"))
+                        .add(label("new bug", "f29522"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtLabels labels = new RtLabels(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            MatcherAssert.assertThat(
+                labels.iterate(),
+                Matchers.<Label>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**

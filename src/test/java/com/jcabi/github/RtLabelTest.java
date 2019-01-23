@@ -64,19 +64,25 @@ public final class RtLabelTest {
      */
     @Test
     public void sendHttpRequestAndWriteResponseAsJson() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\": \"hi\"}")
-        ).start(this.resource.port());
-        final RtLabel label = new RtLabel(
-            new ApacheRequest(container.home()),
-            RtLabelTest.repo(),
-            "bug"
-        );
-        MatcherAssert.assertThat(
-            label.json().getString("msg"),
-            Matchers.equalTo("hi")
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"msg\": \"hi\"}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtLabel label = new RtLabel(
+                new ApacheRequest(container.home()),
+                RtLabelTest.repo(),
+                "bug"
+            );
+            MatcherAssert.assertThat(
+                label.json().getString("msg"),
+                Matchers.equalTo("hi")
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -86,24 +92,30 @@ public final class RtLabelTest {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}")
-        ).start(this.resource.port());
-        final RtLabel label = new RtLabel(
-            new ApacheRequest(container.home()),
-            RtLabelTest.repo(),
-            "enhance"
-        );
-        label.patch(
-            Json.createObjectBuilder()
-                .add("content", "hi you!")
-                .build()
-        );
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.PATCH)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"msg\":\"hi\"}"
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtLabel label = new RtLabel(
+                new ApacheRequest(container.home()),
+                RtLabelTest.repo(),
+                "enhance"
+            );
+            label.patch(
+                Json.createObjectBuilder()
+                    .add("content", "hi you!")
+                    .build()
+            );
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+            container.stop();
+        }
     }
 
     /**
