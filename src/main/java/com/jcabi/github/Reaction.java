@@ -36,11 +36,6 @@ package com.jcabi.github;
  * @version $Id$
  * @since 1.0
  * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
- * @todo #1467:30min Check reaction values. At the moment only a few types of
- *  reactions are allowed (full list at
- *  https://developer.github.com/v3/reactions/#reaction-types). Reaction API
- *  implementation should somehow validate these inputs and do not add an
- *  invalid reaction to a Comment or Issue
  * @todo #1469:30min Add support to team discussion and team discussion comments
  *  The API does not supports team discussion and team discussion comments (
  *  https://developer.github.com/changes/2018-02-07-team-discussions-api/ )
