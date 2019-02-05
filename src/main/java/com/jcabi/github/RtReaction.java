@@ -29,6 +29,8 @@
  */
 package com.jcabi.github;
 
+import java.util.Arrays;
+
 /**
  * Runtime Reaction.
  *
@@ -54,7 +56,18 @@ public final class RtReaction implements Reaction {
 
     @Override
     public String type() {
-        this.origin.type();
-        throw new UnsupportedOperationException("type() not implemented yet");
+        if (Arrays.asList(
+                Reaction.CONFUSED, Reaction.HEART, Reaction.HOORAY,
+                Reaction.LAUGH, Reaction.THUMBSDOWN, Reaction.THUMBSUP
+            ).contains(this.origin.type())
+        ) {
+            return this.origin.type();
+        }
+        throw new IllegalArgumentException(
+            String.format(
+                "Invalid reaction: \"%s\"",
+                this.origin.type()
+            )
+        );
     }
 }

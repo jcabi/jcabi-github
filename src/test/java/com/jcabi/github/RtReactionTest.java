@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,7 +43,6 @@ public final class RtReactionTest {
     /**
      * Tests if RtReaction throws exception when reaction is invalid.
      */
-    @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void throwsExceptionOnInvalidReaction() {
         new RtReaction(new Reaction.Simple("invalid")).type();
