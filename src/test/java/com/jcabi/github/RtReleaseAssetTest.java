@@ -52,6 +52,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtReleaseAsset}.
  * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
@@ -106,15 +107,16 @@ public final class RtReleaseAssetTest {
      */
     @Test
     public void patchesAsset() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start(this.resource.port());
-        final RtReleaseAsset asset = new RtReleaseAsset(
-            new ApacheRequest(container.home()),
-            release(),
-            2
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port())
+        ) {
+            final RtReleaseAsset asset = new RtReleaseAsset(
+                new ApacheRequest(container.home()),
+                release(),
+                2
+            );
             final JsonObject json = Json.createObjectBuilder()
                 .add("name", "hello").build();
             asset.patch(json);
@@ -130,7 +132,6 @@ public final class RtReleaseAssetTest {
                 query.uri().toString(),
                 Matchers.endsWith("/repos/john/blueharvest/releases/assets/2")
             );
-        } finally {
             container.stop();
         }
     }
@@ -141,22 +142,22 @@ public final class RtReleaseAssetTest {
      */
     @Test
     public void removesAsset() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final RtReleaseAsset asset = new RtReleaseAsset(
-            new ApacheRequest(container.home()),
-            release(),
-            3
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port());
+        ) {
+            final RtReleaseAsset asset = new RtReleaseAsset(
+                new ApacheRequest(container.home()),
+                release(),
+                3
+            );
             asset.remove();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
             container.stop();
         }
     }
@@ -167,15 +168,16 @@ public final class RtReleaseAssetTest {
      */
     @Test
     public void rawAsset() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-        ).start(this.resource.port());
-        final RtReleaseAsset asset = new RtReleaseAsset(
-            new ApacheRequest(container.home()),
-            release(),
-            4
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(this.resource.port());
+        ) {
+            final RtReleaseAsset asset = new RtReleaseAsset(
+                new ApacheRequest(container.home()),
+                release(),
+                4
+            );
             final InputStream stream = asset.raw();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
@@ -185,7 +187,6 @@ public final class RtReleaseAssetTest {
                 IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.notNullValue()
             );
-        } finally {
             container.stop();
         }
     }

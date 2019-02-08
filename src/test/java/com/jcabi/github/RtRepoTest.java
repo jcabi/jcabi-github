@@ -49,6 +49,7 @@ import org.mockito.Mockito;
  * Test case for {@link RtRepo}.
  *
  * @author Giang Le (giang@vn-smartsolutions.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
@@ -68,23 +69,26 @@ public final class RtRepoTest {
      */
     @Test
     public void iteratesEvents() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(event(Event.ASSIGNED))
-                    .add(event(Event.MENTIONED))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Repo repo = RtRepoTest.repo(
-            new ApacheRequest(container.home())
-        );
-        MatcherAssert.assertThat(
-            repo.issueEvents().iterate(),
-            Matchers.<Event>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(event(Event.ASSIGNED))
+                        .add(event(Event.MENTIONED))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Repo repo = RtRepoTest.repo(
+                new ApacheRequest(container.home())
+            );
+            MatcherAssert.assertThat(
+                repo.issueEvents().iterate(),
+                Matchers.<Event>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -240,21 +244,24 @@ public final class RtRepoTest {
      */
     @Test
     public void executePatchRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                event(Event.ASSIGNED).toString()
-            )
-        ).start(this.resource.port());
-        final Repo repo = RtRepoTest.repo(
-            new ApacheRequest(container.home())
-        );
-        repo.patch(RtRepoTest.event(Event.ASSIGNED));
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.PATCH)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    event(Event.ASSIGNED).toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Repo repo = RtRepoTest.repo(
+                new ApacheRequest(container.home())
+            );
+            repo.patch(RtRepoTest.event(Event.ASSIGNED));
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -331,20 +338,20 @@ public final class RtRepoTest {
      */
     @Test
     public void fetchLanguages() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createObjectBuilder()
-                    .add("Ruby", 1)
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add("Ruby", 1)
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
-        } finally {
             container.stop();
         }
     }
@@ -358,19 +365,20 @@ public final class RtRepoTest {
     public void iteratesLanguages() throws Exception {
         final String lang = "C";
         final String other = "Java";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createObjectBuilder()
-                    .add(lang, 1)
-                    .add(other, 2)
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final Repo repo = RtRepoTest.repo(
-            new ApacheRequest(container.home())
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add(lang, 1)
+                        .add(other, 2)
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Repo repo = RtRepoTest.repo(
+                new ApacheRequest(container.home())
+            );
             final Iterator<Language> iter = repo.languages().iterator();
             MatcherAssert.assertThat(
                 iter.hasNext(),
@@ -392,7 +400,6 @@ public final class RtRepoTest {
                 iter.hasNext(),
                 Matchers.is(false)
             );
-        } finally {
             container.stop();
         }
     }

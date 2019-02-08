@@ -47,6 +47,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link com.jcabi.github.Repos}.
  * @author Gena Svarovski (g.svarovski@gmail.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
@@ -75,24 +76,27 @@ public final class RtReposTest {
         final String owner = "test-owner";
         final String name = "test-repo";
         final String response = response(owner, name).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-            .start(this.resource.port());
-        final RtRepos repos = new RtRepos(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home())
-        );
-        final Repo repo = this.rule.repo(repos);
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            repo.coordinates(),
-            Matchers.equalTo((Coordinates) new Coordinates.Simple(owner, name))
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
+                .start(this.resource.port())
+        ) {
+            final RtRepos repos = new RtRepos(
+                Mockito.mock(Github.class),
+                new ApacheRequest(container.home())
+            );
+            final Repo repo = this.rule.repo(repos);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                repo.coordinates(),
+                Matchers.equalTo((Coordinates) new Coordinates.Simple(owner, name))
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -102,24 +106,27 @@ public final class RtReposTest {
     @Test
     public void iterateRepos() throws Exception {
         final String identifier = "1";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(response("octocat", identifier))
-                    .add(response("dummy", "2"))
-                    .build().toString()
-            )
-        ).start(this.resource.port());
-        final RtRepos repos = new RtRepos(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home())
-        );
-        MatcherAssert.assertThat(
-            repos.iterate(identifier),
-            Matchers.<Repo>iterableWithSize(2)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(response("octocat", identifier))
+                        .add(response("dummy", "2"))
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final RtRepos repos = new RtRepos(
+                Mockito.mock(Github.class),
+                new ApacheRequest(container.home())
+            );
+            MatcherAssert.assertThat(
+                repos.iterate(identifier),
+                Matchers.<Repo>iterableWithSize(2)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -128,15 +135,16 @@ public final class RtReposTest {
      */
     @Test
     public void removeRepo() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-        ).start(this.resource.port());
-        final Repos repos = new RtRepos(
-            Mockito.mock(Github.class),
-            new ApacheRequest(container.home())
-        );
-        repos.remove(new Coordinates.Simple("", ""));
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(this.resource.port())
+        ) {
+            final Repos repos = new RtRepos(
+                Mockito.mock(Github.class),
+                new ApacheRequest(container.home())
+            );
+            repos.remove(new Coordinates.Simple("", ""));
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 query.method(),
@@ -146,7 +154,6 @@ public final class RtReposTest {
                 query.body(),
                 Matchers.isEmptyString()
             );
-        } finally {
             container.stop();
         }
     }

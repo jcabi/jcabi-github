@@ -50,6 +50,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtReleases}.
  * @author Paul Polishchuk (ppol@ua.fm)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.8
@@ -124,24 +125,27 @@ public final class RtReleasesTest {
     public void canCreateRelease() throws Exception {
         final String tag = "v1.0.0";
         final String rel = release(tag).toString();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
-        ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
-            .start(this.resource.port());
-        final RtReleases releases = new RtReleases(
-            new JdkRequest(container.home()),
-            repo()
-        );
-        final Release release = releases.create(tag);
-        MatcherAssert.assertThat(
-            container.take().method(),
-            Matchers.equalTo(Request.POST)
-        );
-        MatcherAssert.assertThat(
-            release.json().getString("tag_name"),
-            Matchers.equalTo(tag)
-        );
-        container.stop();
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
+                .start(this.resource.port())
+        ) {
+            final RtReleases releases = new RtReleases(
+                new JdkRequest(container.home()),
+                repo()
+            );
+            final Release release = releases.create(tag);
+            MatcherAssert.assertThat(
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+            MatcherAssert.assertThat(
+                release.json().getString("tag_name"),
+                Matchers.equalTo(tag)
+            );
+            container.stop();
+        }
     }
 
     /**
@@ -150,17 +154,18 @@ public final class RtReleasesTest {
      */
     @Test
     public void canDeleteRelease() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                ""
-            )
-        ).start(this.resource.port());
-        final Releases releases = new RtReleases(
-            new ApacheRequest(container.home()),
-            RtReleasesTest.repo()
-        );
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    ""
+                )
+            ).start(this.resource.port());
+        ) {
+            final Releases releases = new RtReleases(
+                new ApacheRequest(container.home()),
+                RtReleasesTest.repo()
+            );
             releases.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
@@ -171,7 +176,6 @@ public final class RtReleasesTest {
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
-        } finally {
             container.stop();
         }
     }

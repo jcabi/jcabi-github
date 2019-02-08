@@ -50,6 +50,7 @@ import org.junit.Test;
  * Test case for {@link RtSearch}.
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
+ * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (300 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
@@ -159,12 +160,13 @@ public final class RtSearchTest {
             // @checkstyle LineLength (1 line)
             "https://api.github.com/repos/user/repo/contents/src/attributes/classes.js?ref=f3b89ba0820882bd4ce4404b7e7c819e7b506de5"
         ).build();
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(RtSearchTest.search(first, second).toString())
-        ).next(new MkAnswer.Simple(first.toString()))
-            .next(new MkAnswer.Simple(second.toString()))
-            .start(this.resource.port());
-        try {
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(RtSearchTest.search(first, second).toString())
+            ).next(new MkAnswer.Simple(first.toString()))
+                .next(new MkAnswer.Simple(second.toString()))
+                .start(this.resource.port())
+        ) {
             final Search search = new RtGithub(
                 new ApacheRequest(container.home())
             ).search();
@@ -172,7 +174,6 @@ public final class RtSearchTest {
                 search.codes("test4", "joined", Search.Order.DESC),
                 Matchers.<Content>iterableWithSize(2)
             );
-        } finally {
             container.stop();
         }
     }
