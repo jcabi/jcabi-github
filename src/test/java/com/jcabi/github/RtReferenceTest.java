@@ -73,7 +73,7 @@ public final class RtReferenceTest {
                     "{\"ref\":\"refs/heads/featureA\"}"
                 )
             ).start(this.resource.port())
-        ){
+        ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
                 new MkGithub().randomRepo(),
@@ -104,7 +104,7 @@ public final class RtReferenceTest {
                     "{\"ref\":\"refs/heads/featureB\"}"
                 )
             ).start(this.resource.port())
-        ){
+        ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
                 new MkGithub().randomRepo(),
@@ -161,7 +161,9 @@ public final class RtReferenceTest {
             ).start(this.resource.port());
         ) {
             final Reference reference = new RtReference(
-                new ApacheRequest(container.home()), owner, "refs/heads/featureD"
+                new ApacheRequest(container.home()),
+                owner,
+                "refs/heads/featureD"
             );
             MatcherAssert.assertThat(
                 reference.repo(),

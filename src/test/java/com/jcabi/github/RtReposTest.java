@@ -40,6 +40,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -93,7 +94,7 @@ public final class RtReposTest {
             );
             MatcherAssert.assertThat(
                 repo.coordinates(),
-                Matchers.equalTo((Coordinates) new Coordinates.Simple(owner, name))
+                new IsEqual<>(new Coordinates.Simple(owner, name))
             );
             container.stop();
         }

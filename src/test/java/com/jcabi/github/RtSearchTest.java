@@ -162,7 +162,9 @@ public final class RtSearchTest {
         ).build();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(RtSearchTest.search(first, second).toString())
+                new MkAnswer.Simple(
+                    RtSearchTest.search(first, second).toString()
+                )
             ).next(new MkAnswer.Simple(first.toString()))
                 .next(new MkAnswer.Simple(second.toString()))
                 .start(this.resource.port())
