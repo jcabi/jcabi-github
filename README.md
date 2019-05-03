@@ -30,6 +30,8 @@ Java 8 or higher is required.
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/).
 
+You may also get help in this [Telegram chat](https://t.me/elegantobjects).
+
 The set of classes in the
 [`com.jcabi.github`](https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/package-frame.html)
 package is the object-oriented API. Use it like this:
