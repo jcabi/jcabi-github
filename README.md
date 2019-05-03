@@ -48,10 +48,12 @@ public class Main {
 }
 ```
 
-We also provide `MkGithub`, a mock version of Github server, which
-you can use in unit tests, for example:
+We also provide [`MkGithub`](https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/mock/MkGithub.html),
+a mock version of the GitHub server, which
+you can use in your unit tests, for example:
 
 ```java
+import com.jcabi.github.*;
 public class FooTest {
   public void submitsCommentToGithubIssue() {
     final Repo repo = new MkGithub().repos().create(
