@@ -22,8 +22,9 @@ focus on object-oriented principles of programming. On top of that,
 we have a unique implemenation of GitHub server-side functionality,
 which you can use in your unit tests, eliminating the necessity to connect
 to GitHub during unit/integration testing.
-Please, read this blog post, it explains in details:
-[_Object-Oriented Github API_](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html).
+Please, read the blog post
+[_Object-Oriented Github API_](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html)
+by [Yegor Bugayenko](https://www.yegor256.com), the creator of this library.
 
 Java 8 or higher is required.
 
