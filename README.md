@@ -30,8 +30,9 @@ Java 8 or higher is required.
 
 More details are here: [github.jcabi.com](http://github.jcabi.com/).
 
-Set of classes in `com.jcabi.github` package is
-an object oriented API of Github:
+The set of classes in the
+[`com.jcabi.github`](https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/package-frame.html)
+package is the object-oriented API. Use it like this:
 
 ```java
 import com.jcabi.github.*;
@@ -41,7 +42,7 @@ public class Main {
     Repo repo = github.repos().get(
         new Coordinates.Simple("octocat/Hello-World")
     );
-    Issue issue = repo.issues().create("Jcabi-github Test Issue", "Test issue description...");
+    Issue issue = repo.issues().create("Test title", "Test description");
     issue.comments().post("My first comment!");
   }
 }
