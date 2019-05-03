@@ -16,14 +16,24 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
 [![Hits-of-Code](https://hitsofcode.com/github/jcabi/jcabi-github)](https://hitsofcode.com/view/github/jcabi/jcabi-github)
 
-More details are here: [github.jcabi.com](http://github.jcabi.com/). Also,
-read this blog post: [Object-Oriented Github API](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html).
+This is a Java adapter to the GitHub API. There are a few other
+implementations of Java GitHub APIs, but this one has a very strong
+focus on object-oriented principles of programming. On top of that,
+we have a unique implemenation of GitHub server-side functionality,
+which you can use in your unit tests, eliminating the necessity to connect
+to GitHub during unit/integration testing.
+Please, read this blog post, it explains in details:
+[_Object-Oriented Github API_](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html).
+
 Java 8 or higher is required.
+
+More details are here: [github.jcabi.com](http://github.jcabi.com/).
 
 Set of classes in `com.jcabi.github` package is
 an object oriented API of Github:
 
 ```java
+import com.jcabi.github.*;
 public class Main {
   public static void main(String[] args) throws IOException {
     Github github = new RtGithub(".. your OAuth token ..");
@@ -55,11 +65,6 @@ public class FooTest {
 }
 ```
 
-## Questions?
-
-If you have any questions about the framework, or something doesn't work as expected,
-please [submit an issue here](https://github.com/jcabi/jcabi-github/issues/new).
-
 ## How to contribute?
 
 Fork the repository, make changes, submit a pull request.
@@ -90,16 +95,17 @@ respective repos to all scopes needed by the integration test suite you want to 
 (including `delete_repo`, which is not set by default!).
 
 Please note that different integration tests may need keys with permissions to different
-[scopes](https://developer.github.com/v3/oauth/#scopes).
-To run all integration tests, the key should have the following OAuth scopes:
-- read:org
-- repo
-- delete_repo
-- admin:public_key
-- gist
-- admin:repo_hook
-- user
-- user:email
+[scopes](https://developer.github.com/v3/oauth/#scopes). To run all integration tests, the key should
+have the following OAuth scopes:
+
+  - `read:org`
+  - `repo`
+  - `delete_repo`
+  - `admin:public_key`
+  - `gist`
+  - `admin:repo_hook`
+  - `user`
+  - `user:email`
 
 `RtForksITCase` requires additional parameter `-Dfailsafe.github.organization=<organization>`
 where `<organization>` is an organization name to fork test github repository.
