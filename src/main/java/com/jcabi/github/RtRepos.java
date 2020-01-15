@@ -84,9 +84,13 @@ final class RtRepos implements Repos {
 
     @Override
     public Repo create(final RepoCreate settings) throws IOException {
-        return this.get(
+        String uriPath = "user/repos";
+        if (settings.organization() != null) {
+        	uriPath = "/orgs/"+ settings.organization() + "/repos";
+        }
+    	return this.get(
             new Coordinates.Simple(
-                this.entry.uri().path("user/repos")
+                this.entry.uri().path(uriPath)
                     .back().method(Request.POST)
                     .body().set(settings.json()).back()
                     .fetch().as(RestResponse.class)
