@@ -135,6 +135,10 @@ public interface Repos {
          * Auto-init the new repo?
          */
         private final transient Optional<Boolean> init;
+        /**
+         * Organization Repo should belong to
+         */
+        private final transient String organization;
 
         /**
          * Public ctor.
@@ -143,7 +147,7 @@ public interface Repos {
          *  If not, then it will be public.
          */
         public RepoCreate(final String nme, final boolean prvt) {
-            this(nme, prvt, "", "", Optional.<Boolean>absent());
+            this(nme, prvt, "", "", Optional.<Boolean>absent(), null);
         }
 
         /**
@@ -161,7 +165,8 @@ public interface Repos {
             final boolean prvt,
             final String desc,
             final String page,
-            final Optional<Boolean> auto) {
+            final Optional<Boolean> auto, 
+            final String organization) {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");
             }
@@ -170,6 +175,7 @@ public interface Repos {
             this.descr = desc;
             this.home = page;
             this.init = auto;
+            this.organization = organization;
         }
 
         /**
@@ -179,6 +185,7 @@ public interface Repos {
         public String name() {
             return this.nam;
         }
+        
 
         /**
          * Will the new repo be private? If not, then it will be public.
@@ -214,6 +221,14 @@ public interface Repos {
         public Optional<Boolean> autoInit() {
             return this.init;
         }
+        
+        /**
+         * Name of the organization
+         * @return organization
+         */
+        public String organization() {
+        	return this.organization;
+        }
 
         /**
          * Returns a RepoCreate with the given name.
@@ -229,7 +244,8 @@ public interface Repos {
                 this.priv,
                 this.descr,
                 this.home,
-                this.init
+                this.init,
+                this.organization
             );
         }
 
@@ -244,7 +260,8 @@ public interface Repos {
                 privacy,
                 this.descr,
                 this.home,
-                this.init
+                this.init,
+                this.organization
             );
         }
 
@@ -261,7 +278,8 @@ public interface Repos {
                 this.priv,
                 desc,
                 this.home,
-                this.init
+                this.init,
+                this.organization
             );
         }
 
@@ -278,7 +296,8 @@ public interface Repos {
                 this.priv,
                 this.descr,
                 page,
-                this.init
+                this.init,
+                this.organization
             );
         }
 
@@ -293,7 +312,8 @@ public interface Repos {
                 this.priv,
                 this.descr,
                 this.home,
-                auto
+                auto,
+                this.organization
             );
         }
 
@@ -308,7 +328,24 @@ public interface Repos {
                 this.priv,
                 this.descr,
                 this.home,
-                Optional.of(auto)
+                Optional.of(auto),
+                this.organization
+            );
+        }
+        
+        /**
+         * Returns a RepoCreate with the given organization.
+         * @param add organization to the repo?
+         * @return RepoCreate
+         */
+        public RepoCreate withOrganization(final String organization) {
+            return new RepoCreate(
+                this.nam,
+                this.priv,
+                this.descr,
+                this.home,
+                this.init,
+                organization
             );
         }
 
