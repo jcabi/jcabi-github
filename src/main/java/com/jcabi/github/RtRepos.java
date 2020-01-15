@@ -46,6 +46,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -85,10 +86,11 @@ final class RtRepos implements Repos {
     @Override
     public Repo create(final RepoCreate settings) throws IOException {
         String uriPath = "user/repos";
-        if (settings.organization() != null) {
-        	uriPath = "/orgs/"+ settings.organization() + "/repos";
+        final String org = settings.organization();
+        if (org != null && !org.isEmpty()) {
+            uriPath = "/orgs/".concat(org).concat("/repos");
         }
-    	return this.get(
+        return this.get(
             new Coordinates.Simple(
                 this.entry.uri().path(uriPath)
                     .back().method(Request.POST)
