@@ -100,6 +100,14 @@ public interface Repos {
     );
 
     /**
+     * Check if a repository exists on Github.
+     * @param coords Coordinates of the repo.
+     * @return True if it exists, false otherwise.
+     * @throws IOException If something goes wrong.
+     */
+    boolean exists(final Coordinates coords) throws IOException;
+
+    /**
      * Settings to use when creating a new GitHub repository.
      *
      * @author Chris Rebert (github@rebertia.com)
