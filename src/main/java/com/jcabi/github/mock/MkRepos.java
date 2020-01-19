@@ -166,6 +166,11 @@ final class MkRepos implements Repos {
         );
     }
 
+    @Override
+    public boolean exists(final Coordinates coords) throws IOException {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath

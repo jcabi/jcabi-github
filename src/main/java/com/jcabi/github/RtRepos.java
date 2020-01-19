@@ -36,8 +36,6 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-
-import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -138,16 +136,12 @@ final class RtRepos implements Repos {
         );
     }
 
-	public boolean contains(Coordinates coords) throws IOException {
-		String repoPath = "/" + coords.user() +"/"+ coords.repo();
-		RestResponse response = this.entry.uri().path("/repos" + repoPath)
-		.back().method(Request.GET)
-		.body().set(Json.createObjectBuilder().build()).back()
-		.fetch().as(RestResponse.class);
-		if (response.status() == HttpURLConnection.HTTP_OK) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public boolean exists(final Coordinates coords) throws IOException {
+        final String repo = coords.user().concat("/").concat(coords.repo());
+        final RestResponse response = this.entry.uri()
+            .path("/repos/".concat(repo)).back()
+            .method(Request.GET).fetch().as(RestResponse.class);
+        return response.status() == HttpURLConnection.HTTP_OK;
+    }
 }
