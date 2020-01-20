@@ -32,6 +32,8 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.util.Set;
+
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
@@ -187,6 +189,13 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
      * @since 0.15
      */
     Iterable<Language> languages() throws IOException;
+    
+    /**
+     * Get all invitees to this repository
+     * @return an iterable instance of all invitees to this repository in string form
+     * @throws IOException If there is any I/O problem
+     */
+    public Iterable<String> invitees() throws IOException;
 
     /**
      * Smart Repo with extra features.
