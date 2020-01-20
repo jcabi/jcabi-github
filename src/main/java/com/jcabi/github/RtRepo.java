@@ -108,7 +108,7 @@ final class RtRepo implements Repo {
     
     public Iterable<String> invitees() throws IOException {
     	Iterator<JsonValue> iter = this.request.uri().path("/invitations").back().method(Request.GET)
-		.body().set(Json.createArrayBuilder().build()).back()
+		.body().back()
 		.fetch().as(RestResponse.class)
         .assertStatus(HttpURLConnection.HTTP_OK)
         .as(JsonResponse.class)
