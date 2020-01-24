@@ -36,6 +36,10 @@ The set of classes in the
 [`com.jcabi.github`](https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/package-frame.html)
 package is the object-oriented API. Use it like this:
 
+## Work with Github's API
+
+By default, the library works with Github's API (https://api.github.com)
+
 ```java
 import com.jcabi.github.*;
 public class Main {
@@ -49,6 +53,14 @@ public class Main {
   }
 }
 ```
+
+## Work with Github Enterprise or other
+
+If you want to work with Github's API through another domain, you can instantiate ``RtGithub`` with your own custom ``Request``, by using the [RtGithub(Request)](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L147) constructor. 
+
+Be sure to configure the ``Request`` properly. See how the [default Request](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L82) is created -- you basically have to do the same thing, only with your custom domain.
+
+## Mock Implementation Of The API
 
 We also provide [`MkGithub`](https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/mock/MkGithub.html),
 a mock version of the GitHub server, which
