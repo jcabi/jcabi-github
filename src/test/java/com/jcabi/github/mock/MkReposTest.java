@@ -92,10 +92,6 @@ public final class MkReposTest {
             repos.get(repo.coordinates()),
             Matchers.notNullValue()
         );
-        repos.remove(repo.coordinates());
-        this.thrown.expect(IllegalArgumentException.class);
-        this.thrown.expectMessage("repository jeff/remove-me doesn't exist");
-        repos.get(repo.coordinates());
     }
 
     /**
@@ -128,6 +124,20 @@ public final class MkReposTest {
                 )
             ).isPrivate(),
             Matchers.is(priv)
+        );
+    }
+
+    /**
+     * MkRepos can check for existing repos.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void existsRepo() throws Exception {
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "john");
+        final Repo repo = MkReposTest.repo(repos, "exist", "existing repo");
+        MatcherAssert.assertThat(
+            repos.exists(repo.coordinates()),
+            Matchers.is(true)
         );
     }
 

@@ -168,7 +168,10 @@ final class MkRepos implements Repos {
 
     @Override
     public boolean exists(final Coordinates coords) throws IOException {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        final String xpath = String.format(
+            "%s/repo[@coords='%s']", this.xpath(), coords
+        );
+        return !this.storage.xml().nodes(xpath).isEmpty();
     }
 
     /**
