@@ -56,9 +56,34 @@ public class Main {
 
 ## Work with Github Enterprise or other
 
-If you want to work with Github's API through another domain, you can instantiate ``RtGithub`` with your own custom ``Request``, by using the [RtGithub(Request)](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L147) constructor. 
+If you want to work with Github's API through another domain, you can use the URI-constructors
+of class ``RtGithub``. For instance, if you have your own instance of Github deployed under the
+domain ``https://github.mydomain.com``, do the following:
 
-Be sure to configure the ``Request`` properly. See how the [default Request](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L82) is created -- you basically have to do the same thing, only with your custom domain.
+```java
+final Github github = new RtGithub(URI.create("https://github.mydomain.com"));
+
+//OR
+
+final Github github = new RtGithub(
+    "<<oauth2_token>>",
+    URI.create("https://github.mydomain.com")
+);
+
+//OR
+
+final Github github = new RtGithub(
+    "username", "password",
+    URI.create("https://github.mydomain.com")
+);
+```
+
+**DO NOT** change or mask your URIs! Using Github under a different domain is fine but do not
+change the URI **paths**. Changing the requests' paths is not possible since the whole architecture
+of this library relies on Github's URI paths.
+
+For more complex configurations, you can instantiate ``RtGithub`` with your own custom ``Request``, by using the [RtGithub(Request)](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L147) constructor. 
+Be sure to configure the ``Request`` properly. See how the [default Request](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L82) is created -- you basically have to do the same thing.
 
 ## Mock Implementation Of The API
 
