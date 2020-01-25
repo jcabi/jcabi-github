@@ -36,6 +36,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.wire.AutoRedirectingWire;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
@@ -68,6 +69,7 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -103,14 +105,32 @@ public final class RtGithub implements Github {
     }
 
     /**
+     * Public ctor, for anonymous access to Github.<br><br>
+     *
+     * Use this ctor when you want to access Github's API over a
+     * custom domain, other than https//api.github.com.<br><br>
+     *
+     * For instance, if you have your own instance of Github deployed
+     * somewhere.
+     *
+     * <pre>
+     *     final Github myGithub = new RtGithub(
+     *         URI.create("https://github.mydomain.com")
+     *     );
+     * </pre>
+     * @param domain Your domain.
+     */
+    public RtGithub(final URI domain) {
+        this(RtGithub.REQUEST.uri().set(domain).back());
+    }
+
+    /**
      * Public ctor, for HTTP Basic Authentication.
      * @param user User name
      * @param pwd Password
      * @since 0.4
      */
-    public RtGithub(
-        final String user,
-        final String pwd) {
+    public RtGithub(final String user, final String pwd) {
         this(
             RtGithub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
@@ -126,11 +146,74 @@ public final class RtGithub implements Github {
     }
 
     /**
+     * Public ctor, for HTTP Basic Authentication.
+     *
+     * Use this ctor when you want to access Github's API over a
+     * custom domain, other than https//api.github.com.<br><br>
+     *
+     * For instance, if you have your own instance of Github deployed
+     * somewhere.
+     *
+     * <pre>
+     *     final Github myGithub = new RtGithub(
+     *         "john_doe", "johnspassword",
+     *         URI.create("https://github.mydomain.com")
+     *     );
+     * </pre>
+     * @param user User's username.
+     * @param pwd User's password.
+     * @param domain Your custom domain.
+     */
+    public RtGithub(final String user, final String pwd, final URI domain) {
+        this(
+            RtGithub.REQUEST.uri().set(domain).back()
+                .header(
+                    HttpHeaders.AUTHORIZATION,
+                    String.format(
+                        "Basic %s",
+                        DatatypeConverter.printBase64Binary(
+                            String.format("%s:%s", user, pwd)
+                                .getBytes(StandardCharsets.UTF_8)
+                        )
+                    )
+                )
+        );
+    }
+
+    /**
+     * Public ctor, for authentication with OAuth2 token.
+     *
+     * Use this ctor when you want to access Github's API over a
+     * custom domain, other than https//api.github.com.<br><br>
+     *
+     * For instance, if you have your own instance of Github deployed
+     * somewhere.
+     *
+     * <pre>
+     *     final Github myGithub = new RtGithub(
+     *         "john_doe", "johnspassword",
+     *         URI.create("https://github.mydomain.com")
+     *     );
+     * </pre>
+     *
+     * @param token OAuth token
+     * @param domain Your custom domain.
+     */
+    public RtGithub(final String token, final URI domain) {
+        this(
+            RtGithub.REQUEST.uri().set(domain).back()
+                .header(
+                    HttpHeaders.AUTHORIZATION,
+                    String.format("token %s", token)
+                )
+        );
+    }
+
+    /**
      * Public ctor, for authentication with OAuth2 token.
      * @param token OAuth token
      */
-    public RtGithub(
-        final String token) {
+    public RtGithub(final String token) {
         this(
             RtGithub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
@@ -144,8 +227,7 @@ public final class RtGithub implements Github {
      * @param req Request to start from
      * @since 0.4
      */
-    public RtGithub(
-        final Request req) {
+    public RtGithub(final Request req) {
         this.request = req;
     }
 
