@@ -90,8 +90,13 @@ final class MkRepos implements Repos {
     public Repo create(
         final RepoCreate settings
     ) throws IOException {
+        String user = this.self;
+        final String org = settings.organization();
+        if (org != null && !org.isEmpty()) {
+            user = "/orgs/".concat(org).concat("/repos");
+        }
         final Coordinates coords = new Coordinates.Simple(
-            this.self,
+            user,
             settings.name()
         );
         this.storage.apply(
@@ -105,7 +110,7 @@ final class MkRepos implements Repos {
         repo.patch(settings.json());
         Logger.info(
             this, "repository %s created by %s",
-            coords, this.self
+            coords, user
         );
         return repo;
     }
