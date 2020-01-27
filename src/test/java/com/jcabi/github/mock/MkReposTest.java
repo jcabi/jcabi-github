@@ -67,6 +67,20 @@ public final class MkReposTest {
     }
 
     /**
+     * MkRepos can create a repo with organization.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void createsRepositoryWithOrganization() throws Exception {
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "john");
+        final Repo repo = MkReposTest.repoWithOrg(repos, "test", "myorg");
+        MatcherAssert.assertThat(
+            repo.coordinates(),
+            Matchers.hasToString("/orgs/myorg/repos/test")
+        );
+    }
+
+    /**
      * MkRepos can create a repo with details.
      * @throws Exception If some problem inside
      */
@@ -153,6 +167,21 @@ public final class MkReposTest {
         final String desc) throws Exception {
         return repos.create(
             new Repos.RepoCreate(name, false).withDescription(desc)
+        );
+    }
+
+    /**
+     * Create and return Repo to test.
+     * @param repos Repos
+     * @param name Repo name
+     * @param org Repo organization
+     * @return Repo
+     * @throws Exception if there is any error
+     */
+    private static Repo repoWithOrg(final Repos repos, final String name,
+        final String org) throws Exception {
+        return repos.create(
+            new Repos.RepoCreate(name, false).withOrganization(org)
         );
     }
 }
