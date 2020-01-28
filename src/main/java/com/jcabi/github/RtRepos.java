@@ -88,7 +88,7 @@ final class RtRepos implements Repos {
         String uriPath = "user/repos";
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
-            uriPath = "/orgs/".concat(org).concat("/repos");
+            uriPath = "/orgs/".concat(org).concat(github().rootRepoPath());
         }
         return this.get(
             new Coordinates.Simple(
@@ -112,7 +112,7 @@ final class RtRepos implements Repos {
     @Override
     public void remove(
         final Coordinates coords) throws IOException {
-        this.entry.uri().path("/repos")
+        this.entry.uri().path(this.github().rootRepoPath())
             .back().method(Request.DELETE)
             .uri().path(coords.toString()).back()
             .fetch()
@@ -140,7 +140,7 @@ final class RtRepos implements Repos {
     public boolean exists(final Coordinates coords) throws IOException {
         final String repo = coords.user().concat("/").concat(coords.repo());
         final RestResponse response = this.entry.uri()
-            .path("/repos/".concat(repo)).back()
+            .path(this.github().rootRepoPath()).back()
             .method(Request.GET).fetch().as(RestResponse.class);
         return response.status() == HttpURLConnection.HTTP_OK;
     }

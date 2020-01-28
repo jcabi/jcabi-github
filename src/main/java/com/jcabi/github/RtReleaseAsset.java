@@ -80,7 +80,7 @@ final class RtReleaseAsset implements ReleaseAsset {
     ) {
         final Coordinates coords = release.repo().coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(release.repo().github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/releases")

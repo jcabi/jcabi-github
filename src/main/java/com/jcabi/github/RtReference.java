@@ -71,7 +71,7 @@ final class RtReference implements Reference {
      */
     RtReference(final Request req, final Repo repo, final String ref) {
         this.request = req.uri()
-            .path("/repos").path(repo.coordinates().user())
+            .path(repo.github().rootRepoPath()).path(repo.coordinates().user())
             .path(repo.coordinates().repo()).path("/git").path(ref).back();
         this.owner = repo;
         this.name = ref;

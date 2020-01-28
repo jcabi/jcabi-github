@@ -75,7 +75,7 @@ final class RtForks implements Forks {
      */
     public RtForks(final Request req, final Repo repo) {
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
             .path("forks")

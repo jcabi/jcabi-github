@@ -79,6 +79,11 @@ import lombok.ToString;
 public final class RtGithub implements Github {
 
     /**
+     * Root repository path
+     */
+    private final transient String rootRepoPath = "/repos";
+
+    /**
      * Default request to start with.
      */
     private static final Request REQUEST =
@@ -229,6 +234,11 @@ public final class RtGithub implements Github {
      */
     public RtGithub(final Request req) {
         this.request = req;
+    }
+
+    @Override
+    public String rootRepoPath() {
+        return this.rootRepoPath;
     }
 
     @Override

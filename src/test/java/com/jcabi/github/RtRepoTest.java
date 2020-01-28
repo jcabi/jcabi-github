@@ -101,6 +101,7 @@ public final class RtRepoTest {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
+
         MatcherAssert.assertThat(
             repo.labels(),
             Matchers.notNullValue()
@@ -227,10 +228,11 @@ public final class RtRepoTest {
     public void identifiesItself() throws Exception {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
+            github(),
             new FakeRequest(),
             coords
         );
+
         MatcherAssert.assertThat(
             repo.coordinates(),
             Matchers.sameInstance(coords)
@@ -423,10 +425,19 @@ public final class RtRepoTest {
      * @return Repo
      */
     private static Repo repo(final Request request) {
+
+        final Github github = Mockito.mock(Github.class);
+        Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
+
         return new RtRepo(
-            Mockito.mock(Github.class),
-            request,
-            new Coordinates.Simple("testuser", "testrepo")
-        );
+                github,
+                request,
+                new Coordinates.Simple("testuser", "testrepo"));
+    }
+
+    private Github github() {
+        final Github github = Mockito.mock(Github.class);
+        Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
+        return github;
     }
 }

@@ -79,7 +79,7 @@ final class RtIssueLabels implements IssueLabels {
         final Coordinates coords = issue.repo().coordinates();
         this.entry = req;
         this.request = req.uri()
-            .path("/repos")
+            .path(issue.repo().github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/issues")

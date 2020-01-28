@@ -91,7 +91,7 @@ final class RtRepo implements Repo {
         this.entry = req;
         this.coords = crd;
         this.request = this.entry.uri()
-            .path("/repos")
+            .path(github().rootRepoPath())
             .path(this.coords.user())
             .path(this.coords.repo())
             .back();

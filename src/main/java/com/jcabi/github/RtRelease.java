@@ -79,7 +79,7 @@ final class RtRelease implements Release {
         this.release = nmbr;
         this.owner = repo;
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
             .path("/releases")

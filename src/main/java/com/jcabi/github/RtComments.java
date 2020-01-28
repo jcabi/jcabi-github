@@ -78,7 +78,7 @@ final class RtComments implements Comments {
         this.entry = req;
         final Coordinates coords = issue.repo().coordinates();
         this.request = this.entry.uri()
-            .path("/repos")
+            .path(issue.repo().github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/issues")

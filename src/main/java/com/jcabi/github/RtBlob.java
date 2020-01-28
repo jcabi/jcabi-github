@@ -69,7 +69,7 @@ final class RtBlob implements Blob {
         final String sha) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/git")

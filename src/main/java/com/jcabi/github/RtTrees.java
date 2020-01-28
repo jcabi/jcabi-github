@@ -73,7 +73,7 @@ final class RtTrees implements Trees {
         this.entry = req;
         this.owner = repo;
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
             .path("/git")

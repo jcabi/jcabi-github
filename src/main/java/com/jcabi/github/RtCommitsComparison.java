@@ -72,7 +72,7 @@ final class RtCommitsComparison implements CommitsComparison {
         final String base, final String head) {
         this.owner = repo;
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().toString())
             .path("/compare")
             .path(String.format("%s...%s", base, head))

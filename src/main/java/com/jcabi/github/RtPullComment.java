@@ -73,7 +73,7 @@ final class RtPullComment implements PullComment {
     RtPullComment(final Request req, final Pull pull, final int number) {
         final Coordinates coords = pull.repo().coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(pull.repo().github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/pulls")

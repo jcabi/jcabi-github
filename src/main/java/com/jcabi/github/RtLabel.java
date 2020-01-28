@@ -73,7 +73,7 @@ final class RtLabel implements Label {
     RtLabel(final Request req, final Repo repo, final String name) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/labels")

@@ -76,7 +76,7 @@ final class RtAssignees implements Assignees {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/assignees")

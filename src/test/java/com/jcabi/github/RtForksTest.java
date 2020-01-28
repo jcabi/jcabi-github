@@ -106,6 +106,11 @@ public final class RtForksTest {
                 "test_user", "test_repo"
             );
             Mockito.doReturn(coordinates).when(owner).coordinates();
+
+            final Github github = Mockito.mock(Github.class);
+            Mockito.doReturn(github).when(owner).github();
+            Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
+
             final RtForks forks = new RtForks(
                 new JdkRequest(container.home()),
                 owner
@@ -131,6 +136,11 @@ public final class RtForksTest {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "forks"))
             .when(repo).coordinates();
+
+        final Github github = Mockito.mock(Github.class);
+        Mockito.doReturn(github).when(repo).github();
+        Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
+
         return repo;
     }
 

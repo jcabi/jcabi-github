@@ -75,7 +75,7 @@ final class RtDeployKeys implements DeployKeys {
         this.owner = repo;
         this.entry = req;
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
             .path("/keys")

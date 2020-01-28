@@ -81,7 +81,7 @@ final class RtRepoCommits implements RepoCommits {
         this.entry = req;
         this.owner = repo;
         final RequestURI rep = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo());
         this.request = rep

@@ -78,7 +78,7 @@ final class RtLabels implements Labels {
         final Coordinates coords = repo.coordinates();
         this.entry = req;
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/labels")

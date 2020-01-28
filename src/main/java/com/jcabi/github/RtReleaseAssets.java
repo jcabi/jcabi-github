@@ -81,7 +81,7 @@ final class RtReleaseAssets implements ReleaseAssets {
         final Coordinates coords = release.repo().coordinates();
         // @checkstyle MultipleStringLiteralsCheck (7 lines)
         this.request = this.entry.uri()
-            .path("/repos")
+            .path(release.repo().github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/releases")
@@ -122,7 +122,7 @@ final class RtReleaseAssets implements ReleaseAssets {
         return this.get(
             this.request.uri()
                 .set(URI.create("https://uploads.github.com"))
-                .path("/repos")
+                .path(this.owner.repo().github().rootRepoPath())
                 .path(this.owner.repo().coordinates().user())
                 .path(this.owner.repo().coordinates().repo())
                 .path("/releases")

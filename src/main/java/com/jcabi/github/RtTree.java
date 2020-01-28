@@ -74,7 +74,7 @@ final class RtTree implements Tree {
     ) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/git")

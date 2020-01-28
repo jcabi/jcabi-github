@@ -77,6 +77,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 public final class MkGithub implements Github {
 
     /**
+     * Root repository path
+     */
+    private final transient String rootRepoPath = "/repos";
+
+   /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -121,6 +126,11 @@ public final class MkGithub implements Github {
     @Override
     public String toString() {
         return this.storage.toString();
+    }
+
+    @Override
+    public String rootRepoPath() {
+        return this.rootRepoPath;
     }
 
     @Override

@@ -78,7 +78,7 @@ final class RtPullComments implements PullComments {
         this.owner = pull;
         this.request = this.entry.uri()
             // @checkstyle MultipleStringLiterals (8 lines)
-            .path("/repos")
+            .path(this.owner.repo().github().rootRepoPath())
             .path(pull.repo().coordinates().user())
             .path(pull.repo().coordinates().repo())
             .path("/pulls")
@@ -120,7 +120,7 @@ final class RtPullComments implements PullComments {
         final int number,
         final Map<String, String> params) {
         final Request newreq = this.entry.uri()
-            .path("/repos")
+            .path(owner.repo().github().rootRepoPath())
             .path(this.owner.repo().coordinates().user())
             .path(this.owner.repo().coordinates().repo())
             .path("/pulls")

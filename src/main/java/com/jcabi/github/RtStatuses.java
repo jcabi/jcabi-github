@@ -63,7 +63,7 @@ public class RtStatuses implements Statuses {
     RtStatuses(final Request req, final Commit commit) {
         final Coordinates coords = commit.repo().coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(commit.repo().github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/statuses")

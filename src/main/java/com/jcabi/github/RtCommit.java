@@ -72,7 +72,7 @@ final class RtCommit implements Commit {
     RtCommit(final Request req, final Repo repo, final String sha) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/git")

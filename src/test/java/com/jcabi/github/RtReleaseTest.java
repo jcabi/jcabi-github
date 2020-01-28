@@ -155,6 +155,9 @@ public class RtReleaseTest {
     private static RtRelease release(final URI uri) {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
+        final Github github = Mockito.mock(Github.class);
+        Mockito.doReturn(github).when(repo).github();
+        Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
         Mockito.doReturn(coords).when(repo).coordinates();
         Mockito.doReturn("tstuser").when(coords).user();
         Mockito.doReturn("tstbranch").when(coords).repo();

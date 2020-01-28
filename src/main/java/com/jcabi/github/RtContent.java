@@ -76,7 +76,7 @@ final class RtContent implements Content {
     RtContent(final Request req, final Repo repo, final String path) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/contents")

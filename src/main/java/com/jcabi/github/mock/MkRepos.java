@@ -93,7 +93,7 @@ final class MkRepos implements Repos {
         String owner = this.self;
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
-            owner = "/orgs/".concat(org).concat("/repos");
+            owner = "/orgs/".concat(org).concat(this.github().rootRepoPath());
         }
         final Coordinates coords = new Coordinates.Simple(
             owner,

@@ -72,7 +72,7 @@ final class RtBranches implements Branches {
         this.owner = repo;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(coords.user())
             .path(coords.repo())
             .path("/branches")

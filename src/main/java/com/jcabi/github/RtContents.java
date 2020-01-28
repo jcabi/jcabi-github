@@ -79,7 +79,7 @@ final class RtContents implements Contents {
         this.entry = req;
         this.owner = repo;
         this.request = req.uri()
-            .path("/repos")
+            .path(repo.github().rootRepoPath())
             .path(repo.coordinates().user())
             .path(repo.coordinates().repo())
             .path("/contents")
@@ -96,7 +96,7 @@ final class RtContents implements Contents {
         return new RtContent(
             this.entry, this.owner,
             this.entry.uri()
-                .path("/repos")
+                .path(this.owner.github().rootRepoPath())
                 .path(this.owner.coordinates().user())
                 .path(this.owner.coordinates().repo())
                 .path("/readme")
@@ -120,7 +120,7 @@ final class RtContents implements Contents {
         return new RtContent(
             this.entry, this.owner,
             this.entry.uri()
-                .path("/repos")
+                .path(this.owner.github().rootRepoPath())
                 .path(this.owner.coordinates().user())
                 .path(this.owner.coordinates().repo())
                 .path("/readme")
