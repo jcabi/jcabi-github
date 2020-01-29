@@ -188,11 +188,9 @@ public final class RtReleasesTest {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "releases"))
             .when(repo).coordinates();
-
         final Github github = Mockito.mock(Github.class);
         Mockito.doReturn(github).when(repo).github();
         Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
-
         return repo;
     }
 

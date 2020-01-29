@@ -425,16 +425,18 @@ public final class RtRepoTest {
      * @return Repo
      */
     private static Repo repo(final Request request) {
-
         final Github github = Mockito.mock(Github.class);
         Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
-
         return new RtRepo(
                 github,
                 request,
                 new Coordinates.Simple("testuser", "testrepo"));
     }
 
+    /**
+     * Mocks Github
+     * @return github
+     */
     private Github github() {
         final Github github = Mockito.mock(Github.class);
         Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();

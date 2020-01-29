@@ -75,7 +75,9 @@ final class RtTag implements Tag {
     ) {
         this.sha = key;
         this.owner = repo;
-        this.request = req.uri().path(repo().github().rootRepoPath()).path(repo.coordinates().user())
+        this.request = req.uri()
+            .path(repo().github().rootRepoPath())
+            .path(repo.coordinates().user())
             .path(repo.coordinates().repo()).path("/git").path("/tags")
             .path(this.sha).back();
     }

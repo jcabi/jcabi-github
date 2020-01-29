@@ -88,7 +88,8 @@ final class RtRepos implements Repos {
         String uriPath = "user/repos";
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
-            uriPath = "/orgs/".concat(org).concat(github().rootRepoPath());
+            uriPath = "/orgs/".concat(org)
+                .concat(this.github().rootRepoPath());
         }
         return this.get(
             new Coordinates.Simple(

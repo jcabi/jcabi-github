@@ -178,11 +178,9 @@ public final class RtContentTest {
         Mockito.doReturn(coords).when(repo).coordinates();
         Mockito.doReturn("user").when(coords).user();
         Mockito.doReturn("repo").when(coords).repo();
-
         final Github github = Mockito.mock(Github.class);
         Mockito.doReturn(github).when(repo).github();
         Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
-
         return repo;
     }
 }
