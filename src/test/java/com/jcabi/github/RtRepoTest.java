@@ -101,7 +101,6 @@ public final class RtRepoTest {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-
         MatcherAssert.assertThat(
             repo.labels(),
             Matchers.notNullValue()
@@ -228,11 +227,10 @@ public final class RtRepoTest {
     public void identifiesItself() throws Exception {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
-            github(),
+            this.github(),
             new FakeRequest(),
             coords
         );
-
         MatcherAssert.assertThat(
             repo.coordinates(),
             Matchers.sameInstance(coords)

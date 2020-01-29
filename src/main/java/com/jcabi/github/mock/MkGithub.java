@@ -77,7 +77,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 public final class MkGithub implements Github {
 
     /**
-     * Root repository path
+     * Root repository path.
      */
     private final transient String rootRepoPath = "/repos";
 

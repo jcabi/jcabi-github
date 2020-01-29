@@ -120,7 +120,7 @@ final class RtPullComments implements PullComments {
         final int number,
         final Map<String, String> params) {
         final Request newreq = this.entry.uri()
-            .path(owner.repo().github().rootRepoPath())
+            .path(this.owner.repo().github().rootRepoPath())
             .path(this.owner.repo().coordinates().user())
             .path(this.owner.repo().coordinates().repo())
             .path("/pulls")
