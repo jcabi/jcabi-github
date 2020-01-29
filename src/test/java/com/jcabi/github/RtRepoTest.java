@@ -434,8 +434,8 @@ public final class RtRepoTest {
     }
 
     /**
-     * Mocks Github
-     * @return github
+     * Mocks Github.
+     * @return Github
      */
     private Github github() {
         final Github github = Mockito.mock(Github.class);

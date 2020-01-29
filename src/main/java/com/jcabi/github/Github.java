@@ -90,8 +90,8 @@ import lombok.EqualsAndHashCode;
 public interface Github {
 
     /**
-     * Root Github Repository path
-     * @return rootRepoPath
+     * Root Github Repository path.
+     * @return Root repo path
      */
     String rootRepoPath();
 

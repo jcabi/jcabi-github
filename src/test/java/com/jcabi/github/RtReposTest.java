@@ -128,7 +128,6 @@ public final class RtReposTest {
             Mockito.doReturn(github).when(repo).github();
             Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
             Mockito.doReturn(github).when(repo).github();
-
             final RtRepos repos = new RtRepos(
                 github,
                 new ApacheRequest(container.home())
@@ -154,8 +153,10 @@ public final class RtReposTest {
         ) {
             final Github github = Mockito.mock(Github.class);
             Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
-            final Repos repos = new RtRepos(github,
-                new ApacheRequest(container.home()));
+            final Repos repos = new RtRepos(
+                github,
+                new ApacheRequest(container.home())
+            );
             repos.remove(new Coordinates.Simple("", ""));
             final MkQuery query = container.take();
             MatcherAssert.assertThat(

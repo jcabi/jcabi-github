@@ -109,7 +109,6 @@ public final class RtForksTest {
             final Github github = Mockito.mock(Github.class);
             Mockito.doReturn(github).when(owner).github();
             Mockito.doReturn(Constants.ROOT_REPO).when(github).rootRepoPath();
-
             final RtForks forks = new RtForks(
                 new JdkRequest(container.home()),
                 owner
