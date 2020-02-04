@@ -86,6 +86,25 @@ public class RtReposITCase {
     }
 
     /**
+     * RtRepos exists repository test.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void exists() throws Exception {
+        final Repos repos = RtReposITCase.github().repos();
+        final Repo repo = this.rule.repo(repos);
+        try {
+            MatcherAssert.assertThat(
+                repos.exists(repo.coordinates()),
+                Matchers.equalTo(true)
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * Create and return repo to test.
      *
      * @return Repo
