@@ -105,6 +105,27 @@ public class RtReposITCase {
     }
 
     /**
+     * RtRepos create repository test.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public final void createWithOrganization() throws Exception {
+        final Repos repos = RtReposITCase.github().repos();
+        final Repo repo = repos.create(
+            new Repos.RepoCreate("test", false).withOrganization("myorg")
+        );
+        try {
+            MatcherAssert.assertThat(
+                repo.coordinates(),
+                Matchers.hasToString("/orgs/myorg/repos/test")
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    /**
      * Create and return repo to test.
      *
      * @return Repo
