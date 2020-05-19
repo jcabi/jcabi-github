@@ -109,6 +109,16 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
+        /**
+         * Returns TRUE if the commit is verified.
+         * @return TRUE if verified
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean isVerified() throws IOException {
+            return this.jsn.json()
+                .getJsonObject("verification")
+                .getBoolean("verified");
+        }
         @Override
         public Repo repo() {
             return this.commit.repo();

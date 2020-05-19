@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import java.net.URL;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -80,6 +81,25 @@ public class RepoCommitTest {
         MatcherAssert.assertThat(
             new RepoCommit.Smart(commit).message(),
             Matchers.startsWith("hello, ")
+        );
+    }
+
+    /**
+     * RtRepoCommit can verify status.
+     * @throws IOException If fails
+     */
+    @Test
+    public final void verifiesStatus() throws IOException {
+        final RepoCommit commit = Mockito.mock(RepoCommit.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add(
+                "verification",
+                Json.createObjectBuilder().add("verified", true)
+            ).build()
+        ).when(commit).json();
+        MatcherAssert.assertThat(
+            new RepoCommit.Smart(commit).isVerified(),
+            Matchers.is(true)
         );
     }
 }
