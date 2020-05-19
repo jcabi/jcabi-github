@@ -115,6 +115,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * Returns the login of the author.
          * @return The login
          * @throws IOException If there is any I/O problem
+         * @since 1.1
          */
         public String author() throws IOException {
             return this.jsn.json()
@@ -125,6 +126,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * Returns TRUE if the commit is verified.
          * @return TRUE if verified
          * @throws IOException If there is any I/O problem
+         * @since 1.1
          */
         public boolean isVerified() throws IOException {
             return this.jsn.json()
