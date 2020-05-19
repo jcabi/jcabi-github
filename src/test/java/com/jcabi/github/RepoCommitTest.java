@@ -102,4 +102,24 @@ public class RepoCommitTest {
             Matchers.is(true)
         );
     }
+
+    /**
+     * RtRepoCommit can read author's login.
+     * @throws IOException If fails
+     */
+    @Test
+    public final void readsAuthorLogin() throws IOException {
+        final RepoCommit commit = Mockito.mock(RepoCommit.class);
+        final String login = "jeff";
+        Mockito.doReturn(
+            Json.createObjectBuilder().add(
+                "author",
+                Json.createObjectBuilder().add("name", login)
+            ).build()
+        ).when(commit).json();
+        MatcherAssert.assertThat(
+            new RepoCommit.Smart(commit).author(),
+            Matchers.equalTo(login)
+        );
+    }
 }

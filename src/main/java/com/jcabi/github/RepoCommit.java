@@ -99,7 +99,9 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public String message() throws IOException {
-            return this.jsn.json().getJsonObject("commit").getString("message");
+            return this.jsn.json()
+                .getJsonObject("commit")
+                .getString("message");
         }
         /**
          * Get its URL.
@@ -108,6 +110,16 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          */
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
+        }
+        /**
+         * Returns the login of the author.
+         * @return The login
+         * @throws IOException If there is any I/O problem
+         */
+        public String author() throws IOException {
+            return this.jsn.json()
+                .getJsonObject("author")
+                .getString("name");
         }
         /**
          * Returns TRUE if the commit is verified.
