@@ -51,8 +51,10 @@ import lombok.ToString;
  * @version $Id$
  * @since 0.8
  * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
     /**
@@ -119,6 +121,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          */
         public String author() throws IOException {
             return this.jsn.json()
+                .getJsonObject("commit")
                 .getJsonObject("author")
                 .getString("name");
         }
@@ -130,6 +133,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          */
         public boolean isVerified() throws IOException {
             return this.jsn.json()
+                .getJsonObject("commit")
                 .getJsonObject("verification")
                 .getBoolean("verified");
         }

@@ -93,8 +93,11 @@ public class RepoCommitTest {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
-                "verification",
-                Json.createObjectBuilder().add("verified", true)
+                "commit",
+                Json.createObjectBuilder().add(
+                    "verification",
+                    Json.createObjectBuilder().add("verified", true)
+                ).build()
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
@@ -113,8 +116,11 @@ public class RepoCommitTest {
         final String login = "jeff";
         Mockito.doReturn(
             Json.createObjectBuilder().add(
-                "author",
-                Json.createObjectBuilder().add("name", login)
+                "commit",
+                Json.createObjectBuilder().add(
+                    "author",
+                    Json.createObjectBuilder().add("name", login)
+                ).build()
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
