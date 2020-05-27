@@ -36,6 +36,8 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
@@ -116,6 +118,18 @@ final class RtCollaborators implements Collaborators {
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
+    
+    @Override
+	public void addWithPermission(
+			String user, Permission permission)
+    		throws IOException {
+		JsonObject obj = Json.createObjectBuilder().add("permission", permission.toString().toLowerCase()).build();
+    	this.request.method(Request.PUT)
+			.body().set(obj).back()
+			.fetch()
+			.as(RestResponse.class)
+			.assertStatus(HttpURLConnection.HTTP_CREATED);
+	}
 
     @Override
     public void remove(
@@ -142,4 +156,6 @@ final class RtCollaborators implements Collaborators {
             }
         );
     }
+
+	
 }
