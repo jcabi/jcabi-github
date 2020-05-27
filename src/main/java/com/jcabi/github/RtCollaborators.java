@@ -114,7 +114,12 @@ final class RtCollaborators implements Collaborators {
             .uri().path(user).back()
             .fetch()
             .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+            .assertStatus(
+                Matchers.isOneOf(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    HttpURLConnection.HTTP_CREATED
+                )
+            );
     }
 
     @Override
