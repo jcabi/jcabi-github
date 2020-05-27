@@ -69,20 +69,21 @@ public interface Collaborators {
 
     /**
      * Permission levels a user can be granted in an organization repository.
-     * 
+     *
      * @see <a href="https://developer.github.com/v3/repos/collaborators/#parameters-1">Add user with permissions</a>
      */
     static enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE };
 
     /**
-     * Add user with specific permissions. Only works on an organization repository
-     * 
-     * @param User User to add
-     * @param permission permission level to grant
+     * Add user with permissions. Only works on an organization repository
+     *
+     * @param User user to add
+     * @param Permission permission level to grant
      * @throws IOException if there is an I/O problem
      * @see <a href=https://developer.github.com/v3/repos/collaborators/#add-user-as-a-collaborator">Add user as a collaborator</a>
      */
-    void addWithPermission(String user, Permission permission) throws IOException;
+    void addWithPermission(
+            String user, Permission permission) throws IOException;
 
     /**
      * Remove user as a collaborator.

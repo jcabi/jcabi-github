@@ -147,6 +147,13 @@ final class MkCollaborators implements Collaborators {
         );
     }
 
+    @Override
+    public void addWithPermission(
+        final String user, final Permission permission
+    ) throws IOException {
+        throw new NotImplementedException("");
+    }
+
     /**
      * Gets a mocked User.
      * @param login User login
@@ -168,12 +175,5 @@ final class MkCollaborators implements Collaborators {
             "/github/repos/repo[@coords='%s']/collaborators",
             this.coords
         );
-    }
-
-    @Override
-    public void addWithPermission(
-        final String user, final Permission permission
-    ) throws IOException {
-        throw new NotImplementedException("");
     }
 }

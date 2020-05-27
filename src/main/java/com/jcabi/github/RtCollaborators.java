@@ -122,9 +122,9 @@ final class RtCollaborators implements Collaborators {
     public void addWithPermission(
         final String user, final Permission permission
     ) throws IOException {
-        JsonObject obj = Json.createObjectBuilder()
-        		.add("permission", permission.toString().toLowerCase())
-        		.build();
+        final JsonObject obj = Json.createObjectBuilder()
+                .add("permission", permission.toString().toLowerCase())
+                .build();
         this.request.method(Request.PUT)
             .body().set(obj).back()
             .fetch()
@@ -157,6 +157,4 @@ final class RtCollaborators implements Collaborators {
             }
         );
     }
-
-	
 }
