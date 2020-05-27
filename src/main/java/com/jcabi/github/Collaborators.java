@@ -77,8 +77,8 @@ public interface Collaborators {
     /**
      * Add user with permissions. Only works on an organization repository
      *
-     * @param User user to add
-     * @param Permission permission level to grant
+     * @param user User to add
+     * @param permission Permission level to grant
      * @throws IOException if there is an I/O problem
      * @see <a href=https://developer.github.com/v3/repos/collaborators/#add-user-as-a-collaborator">Add user as a collaborator</a>
      */
