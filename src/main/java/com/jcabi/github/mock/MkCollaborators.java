@@ -36,6 +36,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
 import java.io.IOException;
+import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
@@ -144,6 +145,13 @@ final class MkCollaborators implements Collaborators {
                 }
             }
         );
+    }
+
+    @Override
+    public void addWithPermission(
+        final String user, final Permission permission
+    ) throws IOException {
+        throw new NotImplementedException("");
     }
 
     /**

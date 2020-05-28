@@ -36,6 +36,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
@@ -120,6 +121,20 @@ final class RtCollaborators implements Collaborators {
                     HttpURLConnection.HTTP_CREATED
                 )
             );
+    }
+
+    @Override
+    public void addWithPermission(
+        final String user, final Permission permission
+    ) throws IOException {
+        final JsonObject obj = Json.createObjectBuilder()
+                .add("permission", permission.toString().toLowerCase())
+                .build();
+        this.request.method(Request.PUT)
+            .body().set(obj).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_CREATED);
     }
 
     @Override
