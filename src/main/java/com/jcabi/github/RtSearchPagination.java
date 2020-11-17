@@ -123,6 +123,12 @@ final class RtSearchPagination<T> implements Iterable<T> {
         public RequestBody body() {
             return this.request.body();
         }
+
+        @Override
+        public RequestBody multipartBody() {
+            throw new UnsupportedOperationException("#multipart");
+        }
+
         @Override
         public Request header(final String name, final Object value) {
             return new SearchRequest(this.request.header(name, value));
@@ -157,6 +163,11 @@ final class RtSearchPagination<T> implements Iterable<T> {
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
             return new SearchRequest(this.request.through(type, args));
+        }
+
+        @Override
+        public Request through(final Wire wire) {
+            throw new UnsupportedOperationException("#through");
         }
     }
 
