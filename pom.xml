@@ -205,7 +205,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>com.sun.grizzly</groupId>
       <artifactId>grizzly-servlet-webserver</artifactId>
-      <version>1.9.64</version>
+      <version>1.9.65</version>
       <scope>test</scope>
     </dependency>
     <dependency>
