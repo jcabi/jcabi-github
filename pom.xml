@@ -207,6 +207,12 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <artifactId>grizzly-http-servlet-server</artifactId>
       <version>2.4.4</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.jcraft</groupId>
