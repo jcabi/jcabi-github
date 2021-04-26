@@ -306,8 +306,9 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
             <version>0.13</version>
             <configuration>
               <excludes combine.children="append">
-                <exclude>xml:/src/it/settings.xml</exclude>
+                <exclude>xml:.*</exclude>
                 <exclude>findbugs:.*</exclude>
+                <exclude>pmd:.*</exclude>
               </excludes>
               <license>file:${basedir}/LICENSE.txt</license>
             </configuration>
