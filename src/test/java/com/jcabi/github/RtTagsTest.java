@@ -42,7 +42,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for RtTags.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtTagsTest {
+final class RtTagsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public final class RtTagsTest {
      * @checkstyle IndentationCheck (20 lines)
      */
     @Test
-    public void createsTag() throws Exception {
+    void createsTag() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,

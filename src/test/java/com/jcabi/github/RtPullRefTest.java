@@ -35,7 +35,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPullRef}.
@@ -44,7 +44,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class RtPullRefTest {
+final class RtPullRefTest {
     /**
      * Test commit SHA.
      */
@@ -60,7 +60,7 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
             RtPullRefTest.pullRef(repo).repo().coordinates(),
@@ -73,7 +73,7 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             RtPullRefTest.pullRef().ref(),
             Matchers.equalTo(REF)
@@ -85,7 +85,7 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             RtPullRefTest.pullRef().sha(),
             Matchers.equalTo(SHA)

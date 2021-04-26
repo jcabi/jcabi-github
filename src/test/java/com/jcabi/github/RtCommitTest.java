@@ -38,7 +38,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for RtCommit.
@@ -48,7 +48,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.18.2
  */
-public class RtCommitTest {
+final class RtCommitTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -62,7 +62,7 @@ public class RtCommitTest {
      * @throws Exception when an error occurs
      */
     @Test
-    public final void readsMessage() throws Exception {
+    void readsMessage() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

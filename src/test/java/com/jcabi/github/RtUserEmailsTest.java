@@ -40,14 +40,14 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public final class RtUserEmailsTest {
+final class RtUserEmailsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -60,7 +60,7 @@ public final class RtUserEmailsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmails() throws Exception {
+    void fetchesEmails() throws Exception {
         final String email = "test@email.com";
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withBody(
@@ -79,7 +79,7 @@ public final class RtUserEmailsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void addsEmails() throws Exception {
+    void addsEmails() throws Exception {
         final String email = "test1@email.com";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -106,7 +106,7 @@ public final class RtUserEmailsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void removesEmails() throws Exception {
+    void removesEmails() throws Exception {
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT)
         );

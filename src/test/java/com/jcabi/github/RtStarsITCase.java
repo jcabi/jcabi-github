@@ -36,7 +36,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test case for {@link RtStars}.
@@ -45,7 +45,7 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope({ Scope.REPO, Scope.USER })
-public final class RtStarsITCase {
+final class RtStarsITCase {
     /**
      * Test repos.
      */
@@ -86,7 +86,7 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @Test
-    public void starsUnstarsChecksStar() throws IOException {
+    void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
             repo.stars().starred(),
             Matchers.equalTo(false)

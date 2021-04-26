@@ -37,7 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtTrees}.
@@ -46,7 +46,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtTreesITCase {
+final class RtTreesITCase {
 
     /**
      * Test repos.
@@ -93,7 +93,7 @@ public final class RtTreesITCase {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsAndObtainsTree() throws Exception {
+    void createsAndObtainsTree() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Trees trees = repo.git().trees();

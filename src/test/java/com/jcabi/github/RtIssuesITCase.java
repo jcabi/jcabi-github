@@ -40,7 +40,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Github}.
@@ -48,7 +48,7 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.REPO)
-public final class RtIssuesITCase {
+final class RtIssuesITCase {
     /**
      * Test repos.
      */
@@ -88,7 +88,7 @@ public final class RtIssuesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssues() throws Exception {
+    void iteratesIssues() throws Exception {
         final Iterable<Issue.Smart> issues = new Smarts<Issue.Smart>(
             new Bulk<Issue>(
                 repo.issues().iterate(
@@ -109,7 +109,7 @@ public final class RtIssuesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void searchesIssues() throws Exception {
+    void searchesIssues() throws Exception {
         final String targetLabel = "bug";
         final EnumMap<Issues.Qualifier, String> qualifiers =
             new EnumMap<Issues.Qualifier, String>(Issues.Qualifier.class);

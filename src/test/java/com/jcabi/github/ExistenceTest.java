@@ -33,7 +33,8 @@ import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -43,14 +44,14 @@ import org.mockito.Mockito;
  * @version $Id$
  * @since 0.38
  */
-public final class ExistenceTest {
+final class ExistenceTest {
 
     /**
      * Existence can tell when the given JsonReadable exists.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void jsonExists() throws Exception {
+    void jsonExists() throws Exception {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.when(object.json()).thenReturn(
             Json.createObjectBuilder().build()
@@ -65,7 +66,7 @@ public final class ExistenceTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void jsonDoesNotExist() throws Exception {
+    void jsonDoesNotExist() throws Exception {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new AssertionError()).when(object).json();
         MatcherAssert.assertThat(
@@ -77,11 +78,16 @@ public final class ExistenceTest {
      * Existends throws the possible IOException resulted from the server call.
      * @throws Exception If something goes wrong.
      */
-    @Test(expected = IOException.class)
-    public void rethrowsIOException() throws Exception {
+    @Test
+    void rethrowsIOException() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new IOException()).when(object).json();
-        new Existence(object).check();
+        Assertions.assertThrows(
+            IOException.class,
+            () -> {
+                new Existence(object).check();
+            }
+        );
     }
 
 }

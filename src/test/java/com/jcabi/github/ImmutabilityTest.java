@@ -38,7 +38,7 @@ import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for immutability.
@@ -48,7 +48,7 @@ import org.junit.Test;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
-public final class ImmutabilityTest {
+final class ImmutabilityTest {
 
     /**
      * ClasspathRule.
@@ -65,7 +65,7 @@ public final class ImmutabilityTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void checkImmutability() throws Exception {
+    void checkImmutability() throws Exception {
         MatcherAssert.assertThat(
             Iterables.filter(
                 this.classpath.allTypes(),

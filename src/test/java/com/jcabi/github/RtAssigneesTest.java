@@ -39,7 +39,7 @@ import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -49,7 +49,7 @@ import org.mockito.Mockito;
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtAssigneesTest {
+final class RtAssigneesTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -63,7 +63,7 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -91,7 +91,7 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkUserIsAssigneeForRepo() throws Exception {
+    void checkUserIsAssigneeForRepo() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -118,7 +118,7 @@ public final class RtAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws Exception {
+    void checkUserIsNotAssigneeForRepo() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

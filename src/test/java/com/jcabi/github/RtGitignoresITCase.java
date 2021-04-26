@@ -34,7 +34,7 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtGitignores}.
@@ -46,14 +46,14 @@ import org.junit.Test;
  */
 @Immutable
 @OAuthScope(Scope.REPO)
-public final class RtGitignoresITCase {
+final class RtGitignoresITCase {
 
     /**
      * RtGitignores can iterate template names.
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateTemplateNames() throws Exception {
+    void iterateTemplateNames() throws Exception {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             gitignores.iterate(),
@@ -66,7 +66,7 @@ public final class RtGitignoresITCase {
      * @throws Exception if there is any error
      */
     @Test
-    public void getRawTemplateByName() throws Exception {
+    void getRawTemplateByName() throws Exception {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             gitignores.template("C"),

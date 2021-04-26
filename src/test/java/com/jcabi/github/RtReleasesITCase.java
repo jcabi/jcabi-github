@@ -37,7 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtReleases}.
@@ -46,7 +46,7 @@ import org.junit.Test;
  * @since 0.8
  */
 @OAuthScope(Scope.REPO)
-public final class RtReleasesITCase {
+final class RtReleasesITCase {
 
     /**
      * Test repos.
@@ -93,7 +93,7 @@ public final class RtReleasesITCase {
      * @throws Exception if something goes wrong
      */
     @Test
-    public void canFetchAllReleases() throws Exception {
+    void canFetchAllReleases() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -113,7 +113,7 @@ public final class RtReleasesITCase {
      * @throws Exception if any error inside
      */
     @Test
-    public void canFetchRelease() throws Exception {
+    void canFetchRelease() throws Exception {
         final Releases releases = repo.releases();
         final String tag = "v1.0";
         final Release release = releases.create(tag);
@@ -133,7 +133,7 @@ public final class RtReleasesITCase {
      * @throws Exception if any error inside
      */
     @Test
-    public void canCreateRelease() throws Exception {
+    void canCreateRelease() throws Exception {
         final Releases releases = repo.releases();
         final Release created = releases.create("0.1");
         final int number = created.number();
@@ -157,7 +157,7 @@ public final class RtReleasesITCase {
      * @throws Exception if any problem inside
      */
     @Test
-    public void canRemoveRelease() throws Exception {
+    void canRemoveRelease() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -178,7 +178,7 @@ public final class RtReleasesITCase {
      * @throws Exception if any problem inside.
      */
     @Test
-    public void canEditTag() throws Exception {
+    void canEditTag() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -197,7 +197,7 @@ public final class RtReleasesITCase {
      * @throws Exception if any problem inside.
      */
     @Test
-    public void canEditBody() throws Exception {
+    void canEditBody() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)

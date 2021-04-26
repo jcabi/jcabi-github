@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPublicMembers}.
@@ -45,13 +45,13 @@ import org.junit.Test;
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  */
-public final class MkPublicMembersTest {
+final class MkPublicMembersTest {
     /**
      * MkPublicMembers can fetch its organization.
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesOrg() throws Exception {
+    void fetchesOrg() throws Exception {
         final Organization org = organization();
         MatcherAssert.assertThat(
             org.publicMembers().org().login(),
@@ -64,7 +64,7 @@ public final class MkPublicMembersTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesPublicityOfMembershipOfUsers() throws Exception {
+    void changesPublicityOfMembershipOfUsers() throws Exception {
         final MkOrganization org = organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("johnny5");
@@ -95,7 +95,7 @@ public final class MkPublicMembersTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void checkPublicMembership() throws Exception {
+    void checkPublicMembership() throws Exception {
         final MkOrganization org = organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("agent99");
@@ -126,7 +126,7 @@ public final class MkPublicMembersTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesPublicMembers() throws Exception {
+    void iteratesPublicMembers() throws Exception {
         final MkOrganization org = organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("jasmine");

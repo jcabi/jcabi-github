@@ -39,7 +39,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for RtTag.
@@ -47,7 +47,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtTagTest {
+final class RtTagTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -61,7 +61,7 @@ public final class RtTagTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void fetchesContent() throws Exception {
+    void fetchesContent() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,

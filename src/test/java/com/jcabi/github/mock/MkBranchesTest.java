@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkBranches}.
@@ -44,13 +44,13 @@ import org.junit.Test;
  * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
  */
-public final class MkBranchesTest {
+final class MkBranchesTest {
     /**
      * MkBranches can create a new branch.
      * @throws IOException if there is any I/O problem
      */
     @Test
-    public void createsBranch() throws IOException {
+    void createsBranch() throws IOException {
         final String name = "my-new-feature";
         final String sha = "590e188e3d52a8da38cf51d3f9bf598bb46911af";
         final Repo repo = new MkGithub().randomRepo();
@@ -77,7 +77,7 @@ public final class MkBranchesTest {
      * @throws IOException if there is any I/O problem
      */
     @Test
-    public void iteratesOverBranches() throws IOException {
+    void iteratesOverBranches() throws IOException {
         final MkBranches branches = (MkBranches) (new MkGithub().randomRepo()
             .branches());
         final String onename = "narf";

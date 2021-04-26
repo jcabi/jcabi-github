@@ -33,7 +33,7 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtLimits}.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtLimitsITCase {
+final class RtLimitsITCase {
 
     /**
      * RtLimits can check remaining requests.
      * @throws Exception If some problem inside
      */
     @Test
-    public void checksRemainingRequests() throws Exception {
+    void checksRemainingRequests() throws Exception {
         final Github github = RtLimitsITCase.github();
         MatcherAssert.assertThat(
             new Limit.Smart(github.limits().get("core")).remaining(),

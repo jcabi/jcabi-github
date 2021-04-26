@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Github organizations.
@@ -44,13 +44,13 @@ import org.junit.Test;
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
-public final class MkOrganizationsTest {
+final class MkOrganizationsTest {
     /**
      * MkOrganizations can get specific organization.
      * @throws Exception If some problem inside
      */
     @Test
-    public void getSingleOrganization() throws Exception {
+    void getSingleOrganization() throws Exception {
         final String login = "orgTestGet";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile()
@@ -70,7 +70,7 @@ public final class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void testCreatedAt() throws Exception {
+    void testCreatedAt() throws Exception {
         final String name = "testCreatedAt";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile()
@@ -95,7 +95,7 @@ public final class MkOrganizationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesCurrentUserOrganizations() throws Exception {
+    void iteratesCurrentUserOrganizations() throws Exception {
         final Organizations orgs = new MkGithub().organizations();
         orgs.get("orgTestIterate");
         MatcherAssert.assertThat(

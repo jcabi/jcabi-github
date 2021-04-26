@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -44,13 +44,13 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class ContentTest {
+final class ContentTest {
     /**
      * Content.Smart can fetch type property from Content.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesType() throws Exception {
+    void fetchesType() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some type";
         Mockito.doReturn(
@@ -69,7 +69,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSize() throws Exception {
+    void fetchesSize() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final int prop = 5555;
         Mockito.doReturn(
@@ -90,7 +90,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesName() throws Exception {
+    void fetchesName() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some name";
         Mockito.doReturn(
@@ -109,7 +109,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesPath() throws Exception {
+    void fetchesPath() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final String path = "this is some path";
         Mockito.doReturn(path).when(content).path();
@@ -124,7 +124,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSha() throws Exception {
+    void fetchesSha() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some sha";
         Mockito.doReturn(
@@ -143,7 +143,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final Content content = Mockito.mock(Content.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -163,7 +163,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesGitUrl() throws Exception {
+    void fetchesGitUrl() throws Exception {
         final Content content = Mockito.mock(Content.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1";
@@ -183,7 +183,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesHtmlUrl() throws Exception {
+    void fetchesHtmlUrl() throws Exception {
         final Content content = Mockito.mock(Content.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://github.com/pengwynn/octokit/blob/master/README.md";
@@ -203,7 +203,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesContent() throws Exception {
+    void fetchesContent() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGU=";
         Mockito.doReturn(
@@ -222,7 +222,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDecoded() throws Exception {
+    void fetchesDecoded() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGXigqw=";
         Mockito.doReturn(
@@ -243,7 +243,7 @@ public class ContentTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void smartCanGetUnderlyingRepo() throws Exception {
+    void smartCanGetUnderlyingRepo() throws Exception {
         final Content content = Mockito.mock(Content.class);
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(repo).when(content).repo();

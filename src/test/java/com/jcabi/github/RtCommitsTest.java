@@ -41,7 +41,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for RtCommits.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RtCommitsTest {
+final class RtCommitsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public class RtCommitsTest {
      * @throws Exception when an error occurs
      */
     @Test
-    public final void createsCommit() throws Exception {
+    void createsCommit() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

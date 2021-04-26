@@ -36,20 +36,20 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkEvent}.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public final class MkEventTest {
+final class MkEventTest {
     /**
      * Can get created_at value from json object.
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetCreatedAt() throws Exception {
+    void canGetCreatedAt() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGithub(storage, user).randomRepo();
@@ -77,7 +77,7 @@ public final class MkEventTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetPresentLabel() throws Exception {
+    void canGetPresentLabel() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "ken";
         final Repo repo = new MkGithub(storage, user).repos().create(
@@ -109,7 +109,7 @@ public final class MkEventTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetAbsentLabel() throws Exception {
+    void canGetAbsentLabel() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "barbie";
         final Repo repo = new MkGithub(storage, user).repos().create(

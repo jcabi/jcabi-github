@@ -34,7 +34,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtMarkdown}.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.REPO)
-public final class RtMarkdownITCase {
+final class RtMarkdownITCase {
 
     /**
      * RtMarkdown can render markdown.
      * @throws Exception If some problem inside
      */
     @Test
-    public void rendersMarkdown() throws Exception {
+    void rendersMarkdown() throws Exception {
         final Github github = RtMarkdownITCase.github();
         MatcherAssert.assertThat(
             github.markdown().render(
@@ -66,7 +66,7 @@ public final class RtMarkdownITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void rendersRawMarkdown() throws Exception {
+    void rendersRawMarkdown() throws Exception {
         final Github github = RtMarkdownITCase.github();
         MatcherAssert.assertThat(
             github.markdown().raw(

@@ -33,7 +33,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkAssignees}.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkAssigneesTest {
+final class MkAssigneesTest {
 
     /**
      * MkAssignees can iterate over assignees.
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws Exception {
         MatcherAssert.assertThat(
             repo().assignees().iterate(),
             Matchers.not(Matchers.emptyIterableOf(User.class))
@@ -61,7 +61,7 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkCollaboratorIsAssigneeForRepo() throws Exception {
+    void checkCollaboratorIsAssigneeForRepo() throws Exception {
         final Repo repo = repo();
         repo.collaborators().add("Vladimir");
         MatcherAssert.assertThat(
@@ -75,7 +75,7 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkOwnerIsAssigneeForRepo() throws Exception {
+    void checkOwnerIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
             repo().assignees().check("Jonathan"),
             Matchers.is(true)

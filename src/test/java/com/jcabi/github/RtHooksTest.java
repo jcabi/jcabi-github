@@ -46,7 +46,7 @@ import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -58,7 +58,7 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
-public final class RtHooksTest {
+final class RtHooksTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -72,7 +72,7 @@ public final class RtHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
+    void canFetchEmptyListOfHooks() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
@@ -95,7 +95,7 @@ public final class RtHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchNonEmptyListOfHooks() throws Exception {
+    void canFetchNonEmptyListOfHooks() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -134,7 +134,7 @@ public final class RtHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    void canFetchSingleHook() throws Exception {
         final String name = "hook name";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -166,7 +166,7 @@ public final class RtHooksTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canCreateHook() throws Exception {
+    void canCreateHook() throws Exception {
         final String name = "hook name";
         final ConcurrentHashMap<String, String> config =
             new ConcurrentHashMap<String, String>(2);
@@ -204,7 +204,7 @@ public final class RtHooksTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canDeleteHook() throws Exception {
+    void canDeleteHook() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

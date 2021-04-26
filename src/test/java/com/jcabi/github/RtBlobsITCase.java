@@ -35,7 +35,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtBlobs}.
@@ -44,7 +44,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtBlobsITCase {
+final class RtBlobsITCase {
 
     /**
      * Test repos.
@@ -91,7 +91,7 @@ public final class RtBlobsITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createsBlob() throws Exception {
+    void createsBlob() throws Exception {
         final Blobs blobs = repo.git().blobs();
         final Blob blob = blobs.create(
             "Test Content", "utf-8"
@@ -107,7 +107,7 @@ public final class RtBlobsITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void getsBlob() throws Exception {
+    void getsBlob() throws Exception {
         final Blobs blobs = repo.git().blobs();
         final String content = "Content of the blob";
         final String encoding = "base64";

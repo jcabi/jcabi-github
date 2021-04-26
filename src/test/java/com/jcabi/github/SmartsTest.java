@@ -33,7 +33,7 @@ import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,14 +41,14 @@ import org.mockito.Mockito;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class SmartsTest {
+final class SmartsTest {
 
     /**
      * Smarts can make instances of Comment.Smart.
      * @throws Exception If some problem inside
      */
     @Test
-    public void decoratesObjectsOnFly() throws Exception {
+    void decoratesObjectsOnFly() throws Exception {
         final Comment origin = Mockito.mock(Comment.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("body", "hello, world!").build()

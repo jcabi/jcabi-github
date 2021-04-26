@@ -37,7 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtReferences}.
@@ -47,7 +47,7 @@ import org.junit.Test;
  */
 @OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
-public final class RtReferencesITCase {
+final class RtReferencesITCase {
 
     /**
      * RepoRule.
@@ -94,7 +94,7 @@ public final class RtReferencesITCase {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void createsReference() throws Exception {
+    void createsReference() throws Exception {
         final References refs = repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder("refs/tags/")
@@ -118,7 +118,7 @@ public final class RtReferencesITCase {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferences() throws Exception {
+    void iteratesReferences() throws Exception {
         final References refs = repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder("refs/heads/")
@@ -142,7 +142,7 @@ public final class RtReferencesITCase {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferencesInSubNamespace() throws Exception {
+    void iteratesReferencesInSubNamespace() throws Exception {
         final References refs = repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder("refs/heads/")

@@ -43,14 +43,15 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtValuePagination}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  */
-public final class RtValuePaginationTest {
+final class RtValuePaginationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -63,7 +64,7 @@ public final class RtValuePaginationTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void jumpNextPage() throws Exception {
+    void jumpNextPage() throws Exception {
         final String jeff = "Jeff";
         final String mark = "Mark";
         final String judy = "Judy";
@@ -107,39 +108,43 @@ public final class RtValuePaginationTest {
 
     /**
      * RtValuePagination can throw if there is no more elements in pagination.
-     * @throws Exception if there is any problem
      */
-    @Test(expected = NoSuchElementException.class)
-    public void throwsIfNoMoreElement() throws Exception {
-        final String jeff = "other Jeff";
-        final String mark = "other Mark";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            RtValuePaginationTest.simple(jeff, mark)
-        ).start(this.resource.port());
-        try {
-            final Request request = new ApacheRequest(container.home());
-            final RtValuePagination<JsonObject, JsonArray> page =
-                new RtValuePagination<JsonObject, JsonArray>(
-                    request,
-                    new RtValuePagination.Mapping<JsonObject, JsonArray>() {
-                        @Override
-                        public JsonObject map(final JsonArray object) {
-                            return Json.createObjectBuilder()
-                                .add("id3", object.getString(0))
-                                .add("id4", object.getString(1))
-                                .build();
-                        }
-                    }
-                );
-            final Iterator<JsonObject> iterator = page.iterator();
-            iterator.next();
-            MatcherAssert.assertThat(
-                iterator.next(),
-                Matchers.notNullValue()
-            );
-        } finally {
-            container.stop();
-        }
+    @Test
+    void throwsIfNoMoreElement() {
+        Assertions.assertThrows(
+            NoSuchElementException.class,
+            () -> {
+        
+                final String jeff = "other Jeff";
+                final String mark = "other Mark";
+                final MkContainer container = new MkGrizzlyContainer().next(
+                    RtValuePaginationTest.simple(jeff, mark)
+                ).start(this.resource.port());
+                try {
+                    final Request request = new ApacheRequest(container.home());
+                    final RtValuePagination<JsonObject, JsonArray> page =
+                        new RtValuePagination<JsonObject, JsonArray>(
+                            request,
+                            new RtValuePagination.Mapping<JsonObject, JsonArray>() {
+                                @Override
+                                public JsonObject map(final JsonArray object) {
+                                    return Json.createObjectBuilder()
+                                        .add("id3", object.getString(0))
+                                        .add("id4", object.getString(1))
+                                        .build();
+                                }
+                            }
+                        );
+                    final Iterator<JsonObject> iterator = page.iterator();
+                    iterator.next();
+                    MatcherAssert.assertThat(
+                        iterator.next(),
+                        Matchers.notNullValue()
+                    );
+                } finally {
+                    container.stop();
+                }            }
+        );
     }
 
     /**

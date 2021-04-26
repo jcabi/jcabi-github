@@ -38,7 +38,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtDeployKeys}.
@@ -47,7 +47,7 @@ import org.junit.Test;
  * @since 0.8
  */
 @OAuthScope(Scope.ADMIN_PUBLIC_KEY)
-public final class RtDeployKeysITCase {
+final class RtDeployKeysITCase {
 
     /**
      * Test repos.
@@ -87,7 +87,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchAllDeployKeys() throws Exception {
+    void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = repo.keys();
         final String title = "Test Iterate Key";
         final DeployKey key = keys.create(title, key());
@@ -106,7 +106,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createsDeployKey() throws Exception {
+    void createsDeployKey() throws Exception {
         final DeployKeys keys = repo.keys();
         final String title = "Test Create Key";
         final DeployKey key = keys.create(title, key());
@@ -125,7 +125,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void getsDeployKey() throws Exception {
+    void getsDeployKey() throws Exception {
         final DeployKeys keys = repo.keys();
         final String title = "Test Get Key";
         final DeployKey key = keys.create(title, key());
@@ -144,7 +144,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void removesDeployKey() throws Exception {
+    void removesDeployKey() throws Exception {
         final DeployKeys keys = repo.keys();
         final String title = "Test Remove Key";
         final DeployKey key = keys.create(title, key());

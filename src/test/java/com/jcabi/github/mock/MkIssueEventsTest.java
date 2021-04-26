@@ -35,7 +35,7 @@ import com.jcabi.github.Event;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkIssueEvents}.
@@ -43,7 +43,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.23
  */
-public final class MkIssueEventsTest {
+final class MkIssueEventsTest {
     /**
      * Absent optional string.
      */
@@ -54,7 +54,7 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsIssueEvent() throws Exception {
+    void createsIssueEvent() throws Exception {
         final MkIssueEvents events = this.issueEvents();
         final String login = "jack";
         final String type = "locked";
@@ -101,7 +101,7 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsIssueEventWithLabel() throws Exception {
+    void createsIssueEventWithLabel() throws Exception {
         final MkIssueEvents events = this.issueEvents();
         final String label = "my label";
         final Event.Smart event = new Event.Smart(
@@ -123,7 +123,7 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void getsIssueEvent() throws Exception {
+    void getsIssueEvent() throws Exception {
         final MkIssueEvents events = this.issueEvents();
         final String type = "unlocked";
         final String login = "jill";
@@ -153,7 +153,7 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssueEvents() throws Exception {
+    void iteratesIssueEvents() throws Exception {
         final MkIssueEvents events = this.issueEvents();
         final Event first = events.create(
             "closed",

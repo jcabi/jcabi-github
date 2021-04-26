@@ -35,21 +35,21 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkRepoCommits).
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public final class MkRepoCommitsTest {
+final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can return commits' iterator.
      * @throws IOException If some problem inside
      */
     @Test
-    public void returnIterator() throws IOException {
+    void returnIterator() throws IOException {
         final String user =  "testuser1";
         MatcherAssert.assertThat(
             new MkRepoCommits(
@@ -66,7 +66,7 @@ public final class MkRepoCommitsTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void getCommit() throws IOException {
+    void getCommit() throws IOException {
         final String user =  "testuser2";
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
         MatcherAssert.assertThat(
@@ -84,7 +84,7 @@ public final class MkRepoCommitsTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void canCompare() throws IOException {
+    void canCompare() throws IOException {
         final String user =  "testuser3";
         MatcherAssert.assertThat(
             new MkRepoCommits(
@@ -101,7 +101,7 @@ public final class MkRepoCommitsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCompareAsDiffFormat() throws Exception {
+    void canCompareAsDiffFormat() throws Exception {
         final String user =  "testuser4";
         final String base =  "c034abc";
         final String head =  "a0ed832";
@@ -120,7 +120,7 @@ public final class MkRepoCommitsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCompareAsPatch() throws Exception {
+    void canCompareAsPatch() throws Exception {
         final String user =  "testuser5";
         final String head = "9b2e6e7de9";
         MatcherAssert.assertThat(

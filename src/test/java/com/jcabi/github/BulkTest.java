@@ -34,7 +34,7 @@ import com.jcabi.http.request.FakeRequest;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -42,14 +42,14 @@ import org.mockito.Mockito;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class BulkTest {
+final class BulkTest {
 
     /**
      * Bulk can cache JSON data.
      * @throws Exception If some problem inside
      */
     @Test
-    public void cachesJsonData() throws Exception {
+    void cachesJsonData() throws Exception {
         final Comment origin = Mockito.mock(Comment.class);
         final Request request = new FakeRequest()
             .withBody("[{\"body\": \"hey you\"}]");

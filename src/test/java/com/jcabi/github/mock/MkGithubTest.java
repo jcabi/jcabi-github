@@ -47,7 +47,7 @@ import java.util.concurrent.Executors;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkGithub}.
@@ -55,7 +55,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class MkGithubTest {
+final class MkGithubTest {
     /**
      * Settings to use when creating temporary repos.
      */
@@ -70,7 +70,7 @@ public final class MkGithubTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedData() throws Exception {
+    void worksWithMockedData() throws Exception {
         final Repo repo = new MkGithub().repos().create(NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
@@ -96,7 +96,7 @@ public final class MkGithubTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canRelogin() throws Exception {
+    void canRelogin() throws Exception {
         final String login = "mark";
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(NEW_REPO_SETTINGS);
@@ -129,7 +129,7 @@ public final class MkGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesMarkdown() throws Exception {
+    void retrievesMarkdown() throws Exception {
         final Github github = new MkGithub();
         MatcherAssert.assertThat(
             github.markdown(),
@@ -142,7 +142,7 @@ public final class MkGithubTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateRandomRepo() throws Exception {
+    void canCreateRandomRepo() throws Exception {
         final MkGithub github = new MkGithub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
@@ -156,7 +156,7 @@ public final class MkGithubTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canHandleMultipleThreads() throws Exception {
+    void canHandleMultipleThreads() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final int threads = Tv.HUNDRED;
         final ExecutorService svc = Executors.newFixedThreadPool(threads);
@@ -186,7 +186,7 @@ public final class MkGithubTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void canRetrieveUsers() throws Exception {
+    void canRetrieveUsers() throws Exception {
         MatcherAssert.assertThat(
             "Retrieved inexistent user",
             new User.Smart(

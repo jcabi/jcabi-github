@@ -43,7 +43,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -54,7 +54,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtIssueTest {
+final class RtIssueTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -69,7 +69,7 @@ public final class RtIssueTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesComments() throws Exception {
+    void fetchesComments() throws Exception {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
             issue.comments(),
@@ -83,7 +83,7 @@ public final class RtIssueTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesLabels() throws Exception {
+    void fetchesLabels() throws Exception {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
             issue.labels(),
@@ -97,7 +97,7 @@ public final class RtIssueTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesEvents() throws Exception {
+    void fetchesEvents() throws Exception {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
             issue.events(),
@@ -111,7 +111,7 @@ public final class RtIssueTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchIssueAsJson() throws Exception {
+    void fetchIssueAsJson() throws Exception {
         final RtIssue issue = new RtIssue(
             new FakeRequest().withBody("{\"issue\":\"json\"}"),
             this.repo(),
@@ -129,7 +129,7 @@ public final class RtIssueTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void patchWithJson() throws Exception {
+    void patchWithJson() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
@@ -162,7 +162,7 @@ public final class RtIssueTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
         final RtIssue greater = new RtIssue(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(
@@ -178,7 +178,7 @@ public final class RtIssueTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void reacts() throws Exception {
+    void reacts() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

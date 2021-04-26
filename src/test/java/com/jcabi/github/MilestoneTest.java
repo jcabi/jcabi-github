@@ -32,7 +32,7 @@ package com.jcabi.github;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,13 +41,13 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MilestoneTest {
+final class MilestoneTest {
     /**
      * Milestone.Smart can fetch title property from Milestone.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesTitle() throws Exception {
+    void fetchesTitle() throws Exception {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -65,7 +65,7 @@ public class MilestoneTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDescription() throws Exception {
+    void fetchesDescription() throws Exception {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -83,7 +83,7 @@ public class MilestoneTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesState() throws Exception {
+    void fetchesState() throws Exception {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -101,7 +101,7 @@ public class MilestoneTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDueOn() throws Exception {
+    void fetchesDueOn() throws Exception {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

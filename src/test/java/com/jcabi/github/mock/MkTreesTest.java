@@ -35,7 +35,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTrees.
@@ -44,14 +44,14 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkTreesTest {
+final class MkTreesTest {
 
     /**
      * MkTrees can create trees.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsMkTree() throws Exception {
+    void createsMkTree() throws Exception {
         final JsonObject tree = Json.createObjectBuilder()
             .add("base_tree", "base_tree_sha")
             .add(
@@ -76,7 +76,7 @@ public final class MkTreesTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getTreeRec() throws Exception {
+    void getTreeRec() throws Exception {
         final String sha = "0abcd89jcabitest";
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",

@@ -35,7 +35,7 @@ import com.jcabi.github.Search;
 import java.util.EnumMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkSearch}.
@@ -45,7 +45,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkSearchTest {
+final class MkSearchTest {
 
     /**
      * MkSearch can search for repos.
@@ -53,7 +53,7 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForRepos() throws Exception {
+    void canSearchForRepos() throws Exception {
         final MkGithub github = new MkGithub();
         github.repos().create(
             new Repos.RepoCreate("TestRepo", false)
@@ -70,7 +70,7 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForIssues() throws Exception {
+    void canSearchForIssues() throws Exception {
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("TestIssues", false)
@@ -93,7 +93,7 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForUsers() throws Exception {
+    void canSearchForUsers() throws Exception {
         final MkGithub github = new MkGithub("jeff");
         github.users().self();
         MatcherAssert.assertThat(
@@ -108,7 +108,7 @@ public final class MkSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForCodes() throws Exception {
+    void canSearchForCodes() throws Exception {
         final MkGithub github = new MkGithub("jeff");
         github.repos().create(
             new Repos.RepoCreate("TestCode", false)

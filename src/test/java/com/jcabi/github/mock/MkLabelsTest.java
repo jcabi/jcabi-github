@@ -36,21 +36,21 @@ import com.jcabi.github.Repo;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkLabels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class MkLabelsTest {
+final class MkLabelsTest {
 
     /**
      * MkLabels can list labels.
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesLabels() throws Exception {
+    void iteratesLabels() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         repo.labels().create("bug", "e0e0e0");
         MatcherAssert.assertThat(
@@ -64,7 +64,7 @@ public final class MkLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void deletesLabels() throws Exception {
+    void deletesLabels() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Labels labels = repo.labels();
         final String name = "label-0";
@@ -87,7 +87,7 @@ public final class MkLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void setsLabelColor() throws Exception {
+    void setsLabelColor() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final String color = "f0f0f0";
         final String name = "task";

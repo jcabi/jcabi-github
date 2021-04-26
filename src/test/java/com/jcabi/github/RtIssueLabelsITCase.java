@@ -35,7 +35,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link IssueLabels}.
@@ -45,7 +45,7 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtIssueLabelsITCase {
+final class RtIssueLabelsITCase {
     /**
      * Test repos.
      */
@@ -85,7 +85,7 @@ public final class RtIssueLabelsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void listsLabels() throws Exception {
+    void listsLabels() throws Exception {
         final IssueLabels.Smart labels = new IssueLabels.Smart(
             RtIssueLabelsITCase.issue().labels()
         );

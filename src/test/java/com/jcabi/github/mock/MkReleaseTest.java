@@ -38,7 +38,7 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkRelease}.
@@ -47,13 +47,13 @@ import org.junit.Test;
  * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class MkReleaseTest {
+final class MkReleaseTest {
     /**
      * Check if a release can be deleted.
      * @throws Exception If any problems occur.
      */
     @Test
-    public void canDeleteRelease() throws Exception {
+    void canDeleteRelease() throws Exception {
         final Releases releases = MkReleaseTest.releases();
         final Release release = releases.create("v1.0");
         release.delete();
@@ -68,7 +68,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetUrl() throws Exception {
+    void canGetUrl() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -82,7 +82,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetAssetsUrl() throws Exception {
+    void canGetAssetsUrl() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -96,7 +96,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetHtmlUrl() throws Exception {
+    void canGetHtmlUrl() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -110,7 +110,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetUploadUrl() throws Exception {
+    void canGetUploadUrl() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -124,7 +124,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetTag() throws Exception {
+    void canGetTag() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -138,7 +138,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetCommitish() throws Exception {
+    void canGetCommitish() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -152,7 +152,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetName() throws Exception {
+    void canGetName() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -166,7 +166,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetBody() throws Exception {
+    void canGetBody() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -180,7 +180,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetCreatedAt() throws Exception {
+    void canGetCreatedAt() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
@@ -196,7 +196,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void prerelease() throws Exception {
+    void prerelease() throws Exception {
         final Release release = MkReleaseTest.release();
         release.patch(
             Json.createObjectBuilder().add("prerelease", true).build()
@@ -212,7 +212,7 @@ public final class MkReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canGetPublishedAt() throws Exception {
+    void canGetPublishedAt() throws Exception {
         final Release release = MkReleaseTest.release();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(

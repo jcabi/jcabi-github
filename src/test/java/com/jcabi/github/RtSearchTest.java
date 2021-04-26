@@ -44,7 +44,7 @@ import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearch}.
@@ -56,7 +56,7 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtSearchTest {
+final class RtSearchTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -70,7 +70,7 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForRepos() throws Exception {
+    void canSearchForRepos() throws Exception {
         final String coords = "test-user1/test-repo1";
         final Search search = new RtGithub(
             new FakeRequest().withBody(
@@ -92,7 +92,7 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForIssues() throws Exception {
+    void canSearchForIssues() throws Exception {
         final int number = 1;
         final Search search = new RtGithub(
             new FakeRequest().withBody(
@@ -124,7 +124,7 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForUsers() throws Exception {
+    void canSearchForUsers() throws Exception {
         final String login = "test-user";
         final Search search = new RtGithub(
             new FakeRequest().withBody(
@@ -147,7 +147,7 @@ public final class RtSearchTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForContents() throws Exception {
+    void canSearchForContents() throws Exception {
         final JsonObject first = RtSearchTest.content(
             "test/unit/attributes.js",
             "attributes.js",
@@ -185,7 +185,7 @@ public final class RtSearchTest {
      * @throws Exception if any problem inside
      */
     @Test
-    public void readNonUnicode() throws Exception {
+    void readNonUnicode() throws Exception {
         final Response resp = new FakeRequest()
             .withBody("{\"help\": \"\u001Fblah\u0001cwhoa\u0000!\"}").fetch();
         final JsonResponse response = new JsonResponse(resp);

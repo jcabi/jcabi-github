@@ -44,7 +44,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -54,7 +54,7 @@ import org.junit.rules.ExpectedException;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtPublicMembersTest {
+final class RtPublicMembersTest {
     /**
      * Test organization.
      */
@@ -101,7 +101,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesOrg() throws IOException {
+    void fetchesOrg() throws IOException {
         final Organization org = organization();
         MatcherAssert.assertThat(
             new RtPublicMembers(new FakeRequest(), org).org(),
@@ -114,7 +114,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void concealsMembers() throws IOException {
+    void concealsMembers() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
@@ -151,7 +151,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void publicizesMembers() throws IOException {
+    void publicizesMembers() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
@@ -183,7 +183,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void checkPublicMembership() throws IOException {
+    void checkPublicMembership() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
@@ -227,7 +227,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void iteratesPublicMembers() throws IOException {
+    void iteratesPublicMembers() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer()
                 .next(

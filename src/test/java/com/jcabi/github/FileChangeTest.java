@@ -35,7 +35,7 @@ import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link FileChange}.
@@ -43,13 +43,13 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class FileChangeTest {
+final class FileChangeTest {
     /**
      * FileChange.Smart can get the status of the file.
      * @throws IOException If an I/O problem occurs
      */
     @Test
-    public void getsStatus() throws IOException {
+    void getsStatus() throws IOException {
         final String status = "status";
         MatcherAssert.assertThat(
             FileChangeTest.stringFileChange(status, "added").status(),
@@ -74,7 +74,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsFilename() throws IOException {
+    void getsFilename() throws IOException {
         final String filename = "foo/bar.txt";
         MatcherAssert.assertThat(
             FileChangeTest.stringFileChange("filename", filename).filename(),
@@ -87,7 +87,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsSha() throws IOException {
+    void getsSha() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
         MatcherAssert.assertThat(
             FileChangeTest.stringFileChange("sha", sha).sha(),
@@ -100,7 +100,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsAdditions() throws IOException {
+    void getsAdditions() throws IOException {
         // @checkstyle MagicNumberCheck (1 line)
         final int adds = 42;
         MatcherAssert.assertThat(
@@ -114,7 +114,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsDeletions() throws IOException {
+    void getsDeletions() throws IOException {
         // @checkstyle MagicNumberCheck (1 line)
         final int deletions = 97;
         MatcherAssert.assertThat(
@@ -128,7 +128,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsChanges() throws IOException {
+    void getsChanges() throws IOException {
         // @checkstyle MagicNumberCheck (1 line)
         final int changes = 11;
         MatcherAssert.assertThat(
@@ -143,7 +143,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsAbsentPatch() throws IOException {
+    void getsAbsentPatch() throws IOException {
         MatcherAssert.assertThat(
             new FileChange.Smart(
                 new MkFileChange(
@@ -160,7 +160,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsPresentPatch() throws IOException {
+    void getsPresentPatch() throws IOException {
         // @checkstyle LineLength (1 line)
         final String patch = "@@ -120,7 +120,7 @@ class Test1 @@ -1000,7 +1000,7 @@ class Test1";
         MatcherAssert.assertThat(
@@ -177,7 +177,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsRawUrl() throws IOException {
+    void getsRawUrl() throws IOException {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
         MatcherAssert.assertThat(
@@ -194,7 +194,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsBlobUrl() throws IOException {
+    void getsBlobUrl() throws IOException {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
         MatcherAssert.assertThat(
@@ -211,7 +211,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsContentsUrl() throws IOException {
+    void getsContentsUrl() throws IOException {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/repos/octocat/Hello-World/contents/foo/bar.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db51";
         MatcherAssert.assertThat(

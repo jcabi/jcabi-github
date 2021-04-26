@@ -46,7 +46,7 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -58,7 +58,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
-public final class RtReleaseAssetTest {
+final class RtReleaseAssetTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -71,7 +71,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest().withBody("{\"asset\":\"release\"}"),
             release(),
@@ -88,7 +88,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainOwnRelease() throws Exception {
+    void canObtainOwnRelease() throws Exception {
         final Release release = release();
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest(),
@@ -106,7 +106,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void patchesAsset() throws Exception {
+    void patchesAsset() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -141,7 +141,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesAsset() throws Exception {
+    void removesAsset() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -167,7 +167,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void rawAsset() throws Exception {
+    void rawAsset() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

@@ -35,7 +35,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link JsonNode}.
@@ -43,14 +43,14 @@ import org.junit.Test;
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  */
-public final class JsonNodeTest {
+final class JsonNodeTest {
 
     /**
      * JsonNode can text XML to JSON.
      * @throws Exception If some problem inside
      */
     @Test
-    public void convertsXmlToJson() throws Exception {
+    void convertsXmlToJson() throws Exception {
         final XML xml = new XMLDocument(
             "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
         );
@@ -71,7 +71,7 @@ public final class JsonNodeTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void convertsXmlToJsonArray() throws Exception {
+    void convertsXmlToJsonArray() throws Exception {
         final XML xml = new XMLDocument(
             // @checkstyle LineLength (1 line)
             "<users array=\"true\"><item>Jeff</item><item>Bauer</item><item>Iko</item></users>"

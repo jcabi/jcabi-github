@@ -41,7 +41,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserOrganizations}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  */
-public final class RtUserOrganizationsTest {
+final class RtUserOrganizationsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -65,7 +65,7 @@ public final class RtUserOrganizationsTest {
      * @throws Exception If a problem occurs
      */
     @Test
-    public void canIterateOrganizationsForUnauthUser() throws Exception {
+    void canIterateOrganizationsForUnauthUser() throws Exception {
         final String username = "octopus";
         final Github github = new MkGithub();
         final User user = github.users().get(username);

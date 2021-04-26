@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RetryCarefulWire}.
@@ -52,7 +52,7 @@ import org.junit.Test;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  */
-public final class RetryCarefulWireTest {
+final class RetryCarefulWireTest {
     /**
      * HTTP 200 status reason.
      */
@@ -74,7 +74,7 @@ public final class RetryCarefulWireTest {
      * @throws Exception If something goes wrong inside
      */
     @Test
-    public void makesMultipleRequestsAndWaitUntilReset() throws Exception {
+    void makesMultipleRequestsAndWaitUntilReset() throws Exception {
         final int threshold = 10;
         // @checkstyle MagicNumber (2 lines)
         final long reset = TimeUnit.MILLISECONDS
@@ -103,7 +103,7 @@ public final class RetryCarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitRemainingHeader() throws IOException {
+    void tolerateMissingRateLimitRemainingHeader() throws IOException {
         final int threshold = 11;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
@@ -122,7 +122,7 @@ public final class RetryCarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitResetHeader() throws IOException {
+    void tolerateMissingRateLimitResetHeader() throws IOException {
         final int threshold = 8;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()

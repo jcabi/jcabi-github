@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkUserEmails}.
@@ -43,7 +43,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
-public final class MkUserEmailsTest {
+final class MkUserEmailsTest {
 
     /**
      * MkUserEmails should be able to add emails to a user.
@@ -51,7 +51,7 @@ public final class MkUserEmailsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canAddEmails() throws Exception {
+    void canAddEmails() throws Exception {
         final UserEmails emails = new MkGithub().users().add("john").emails();
         final String email = "john@nowhere.com";
         final Iterable<String> added = emails.add(
@@ -72,7 +72,7 @@ public final class MkUserEmailsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRemoveEmails() throws Exception {
+    void canRemoveEmails() throws Exception {
         final UserEmails emails = new MkGithub().users().add("joe").emails();
         final String removed = "joe@nowhere.com";
         final String retained = "joseph@somewhere.net";
@@ -98,7 +98,7 @@ public final class MkUserEmailsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canIterateEmails() throws Exception {
+    void canIterateEmails() throws Exception {
         final UserEmails emails = new MkGithub().users().add("matt").emails();
         final String[] added = new String[]{
             "matt@none.org",
@@ -120,7 +120,7 @@ public final class MkUserEmailsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final UserEmails emails = new MkGithub().users().add("jeff").emails();
         final String email = "jeff@something.net";
         emails.add(Collections.singleton(email));

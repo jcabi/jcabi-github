@@ -32,7 +32,7 @@ package com.jcabi.github;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,7 +41,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtPublicKeyTest {
+final class RtPublicKeyTest {
 
     /**
      * RtPublicKey can be described as a JSON object.
@@ -49,7 +49,7 @@ public final class RtPublicKeyTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final RtPublicKey key = new RtPublicKey(
             new FakeRequest().withBody("{}"),
             Mockito.mock(User.class),
@@ -67,7 +67,7 @@ public final class RtPublicKeyTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainUser() throws Exception {
+    void canObtainUser() throws Exception {
         final User user = Mockito.mock(User.class);
         final RtPublicKey key = new RtPublicKey(new FakeRequest(), user, 2);
         MatcherAssert.assertThat(
@@ -82,7 +82,7 @@ public final class RtPublicKeyTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainNumber() throws Exception {
+    void canObtainNumber() throws Exception {
         final int number = 39;
         final RtPublicKey key = new RtPublicKey(
             new FakeRequest(),

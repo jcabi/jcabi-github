@@ -33,7 +33,7 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserOrganizations}.
@@ -44,13 +44,13 @@ import org.junit.Test;
  * @since 0.24
  */
 @OAuthScope(Scope.READ_ORG)
-public final class RtUserOrganizationsITCase {
+final class RtUserOrganizationsITCase {
     /**
      * RtUserOrganizations can iterate all organizations of a user.
      * @throws Exception if any problem inside
      */
     @Test
-    public void iterateOrganizations() throws Exception {
+    void iterateOrganizations() throws Exception {
         final UserOrganizations orgs = github().users().get("yegor256")
             .organizations();
         MatcherAssert.assertThat(

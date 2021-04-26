@@ -37,7 +37,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
 /**
@@ -47,7 +47,7 @@ import org.xembly.Directives;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-public final class MkUserTest {
+final class MkUserTest {
 
     /**
      * Tests that MkUser.organizations() returns a value.
@@ -55,7 +55,7 @@ public final class MkUserTest {
      * @throws IOException when there is an error creating the MkUser begin tested
      */
     @Test
-    public void testGetOrganizations() throws IOException {
+    void testGetOrganizations() throws IOException {
         final MkUser user = new MkUser(
             new MkStorage.InFile(),
             "orgTestIterate"
@@ -75,7 +75,7 @@ public final class MkUserTest {
      * @throws IOException If there is an error creating the user.
      */
     @Test
-    public void returnsNotifications() throws IOException {
+    void returnsNotifications() throws IOException {
         MatcherAssert.assertThat(
             new MkUser(
                 new MkStorage.InFile(),
@@ -91,7 +91,7 @@ public final class MkUserTest {
      * @throws IOException If any error occurs.
      */
     @Test
-    public void marksNotificationsAsReadUpToDate() throws IOException {
+    void marksNotificationsAsReadUpToDate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(new Directives().xpath("/github").add("users"));
         final User user = new MkUsers(storage, "joe").add("joe");

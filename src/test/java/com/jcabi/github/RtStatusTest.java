@@ -34,7 +34,7 @@ import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtStatus}.
@@ -42,13 +42,13 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class RtStatusTest {
+final class RtStatusTest {
     /**
      * RtStatus can fetch its ID number.
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesId() throws IOException {
+    void fetchesId() throws IOException {
         final int ident = 666;
         MatcherAssert.assertThat(
             new RtStatus(
@@ -64,7 +64,7 @@ public final class RtStatusTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesUrl() throws IOException {
+    void fetchesUrl() throws IOException {
         final String url = "http://api.jcabi-github.invalid/whatever";
         MatcherAssert.assertThat(
             new RtStatus(
@@ -80,7 +80,7 @@ public final class RtStatusTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final Commit cmmt = RtStatusTest.commit();
         MatcherAssert.assertThat(
             new RtStatus(cmmt, Json.createObjectBuilder().build()).commit(),

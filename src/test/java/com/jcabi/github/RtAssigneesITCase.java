@@ -37,7 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtAssignees}.
@@ -46,7 +46,7 @@ import org.junit.Test;
  * @since 0.7
  */
 @OAuthScope(Scope.READ_ORG)
-public final class RtAssigneesITCase {
+final class RtAssigneesITCase {
     /**
      * Test repos.
      */
@@ -86,7 +86,7 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws Exception {
         final Iterable<User> users = new Smarts<User>(
             new Bulk<User>(
                 repo.assignees().iterate()
@@ -105,7 +105,7 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkUserIsAssigneeForRepo() throws Exception {
+    void checkUserIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
             repo.assignees().check(repo.coordinates().user()),
             Matchers.is(true)
@@ -117,7 +117,7 @@ public final class RtAssigneesITCase {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws Exception {
+    void checkUserIsNotAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
             repo.assignees()
                 .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),

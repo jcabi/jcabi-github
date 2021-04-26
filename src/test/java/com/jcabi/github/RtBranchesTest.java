@@ -44,7 +44,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtBranches}.
@@ -53,7 +53,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtBranchesTest {
+final class RtBranchesTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -67,7 +67,7 @@ public final class RtBranchesTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iteratesOverBranches() throws Exception {
+    void iteratesOverBranches() throws Exception {
         final String firstname = "first";
         final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
         final String secondname = "second";
@@ -118,7 +118,7 @@ public final class RtBranchesTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void findBranch() throws Exception {
+    void findBranch() throws Exception {
         final String thirdname = "third";
         final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";
         final String fourthname = "fourth";
@@ -156,7 +156,7 @@ public final class RtBranchesTest {
      * @throws IOException If there is any I/O problem
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final RtBranches branch = new RtBranches(new FakeRequest(), repo);
         final Coordinates coords = branch.repo().coordinates();

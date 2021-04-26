@@ -34,7 +34,7 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
 /**
@@ -42,7 +42,7 @@ import org.xembly.Directives;
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public final class MkRepoCommitTest {
+final class MkRepoCommitTest {
 
     /**
      * The fist test key.
@@ -60,7 +60,7 @@ public final class MkRepoCommitTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getRepo() throws IOException {
+    void getRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = this.repo(storage);
         MatcherAssert.assertThat(
@@ -75,7 +75,7 @@ public final class MkRepoCommitTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getSha() throws IOException {
+    void getSha() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
             new MkRepoCommit(storage, this.repo(storage), SHA2).sha(),
@@ -89,7 +89,7 @@ public final class MkRepoCommitTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repoa = new MkRepo(
             storage, "login1",
@@ -119,7 +119,7 @@ public final class MkRepoCommitTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canGetJson() throws Exception {
+    void canGetJson() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github").add("repos")
@@ -139,7 +139,7 @@ public final class MkRepoCommitTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void compareEqual() throws Exception {
+    void compareEqual() throws Exception {
         final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = this.repo(storage);
@@ -158,7 +158,7 @@ public final class MkRepoCommitTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void compareDifferent() throws Exception {
+    void compareDifferent() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = this.repo(storage);
         final MkRepoCommit commit = new MkRepoCommit(

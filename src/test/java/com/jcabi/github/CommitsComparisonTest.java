@@ -33,7 +33,7 @@ import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link CommitsComparison}.
@@ -41,14 +41,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (75 lines)
  */
-public final class CommitsComparisonTest {
+final class CommitsComparisonTest {
 
     /**
      * CommitsComparison.Smart can fetch commits.
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCommits() throws Exception {
+    void fetchesCommits() throws Exception {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db50";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(
@@ -78,7 +78,7 @@ public final class CommitsComparisonTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFiles() throws Exception {
+    void fetchesFiles() throws Exception {
         final String filename = "file.txt";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(

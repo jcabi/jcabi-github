@@ -33,21 +33,21 @@ import com.jcabi.github.Collaborators;
 import com.jcabi.github.User;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkCollaborators}.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public final class MkCollaboratorsTest {
+final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can add, remove and iterate collaborators.
      * @throws Exception If some problem inside
      */
     @Test
-    public void addAndRemove() throws Exception {
+    void addAndRemove() throws Exception {
         final Collaborators collaborators = this.collaborators();
         final String login = "some_user";
         collaborators.add(login);
@@ -71,7 +71,7 @@ public final class MkCollaboratorsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void isCollaborator() throws Exception {
+    void isCollaborator() throws Exception {
         final Collaborators collaborators = this.collaborators();
         final String collaborator = "collaborator";
         final String stranger = "stranger";

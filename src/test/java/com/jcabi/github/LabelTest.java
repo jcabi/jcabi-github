@@ -31,7 +31,7 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -40,14 +40,14 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class LabelTest {
+final class LabelTest {
 
     /**
      * Label.Unmodified can be compared properly.
      * @throws Exception If some problem inside
      */
     @Test
-    public void canBeComparedProperly() throws Exception {
+    void canBeComparedProperly() throws Exception {
         final Label.Unmodified one = new Label.Unmodified(
             LabelTest.repo("jef", "jef_repo"),
             "{\"name\":\"paul\"}"

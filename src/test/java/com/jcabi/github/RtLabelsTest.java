@@ -41,7 +41,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -50,7 +50,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtLabelsTest {
+final class RtLabelsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -63,7 +63,7 @@ public final class RtLabelsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void createLabel() throws Exception {
+    void createLabel() throws Exception {
         final String name = "API";
         final String color = "FFFFFF";
         final String body = label(name, color).toString();
@@ -100,7 +100,7 @@ public final class RtLabelsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getSingleLabel() throws Exception {
+    void getSingleLabel() throws Exception {
         final String name = "bug";
         final String color = "f29513";
         try (
@@ -129,7 +129,7 @@ public final class RtLabelsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void deleteLabel() throws Exception {
+    void deleteLabel() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -158,7 +158,7 @@ public final class RtLabelsTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateLabels() throws Exception {
+    void iterateLabels() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

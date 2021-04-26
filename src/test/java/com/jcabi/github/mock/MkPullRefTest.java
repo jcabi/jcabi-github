@@ -34,7 +34,7 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullRef}.
@@ -43,7 +43,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class MkPullRefTest {
+final class MkPullRefTest {
     /**
      * Test ref.
      */
@@ -63,7 +63,7 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = new MkGithub(storage, MkPullRefTest.USERNAME)
             .randomRepo();
@@ -78,7 +78,7 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             pullRef().ref(),
             Matchers.equalTo(MkPullRefTest.REF)
@@ -90,7 +90,7 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             pullRef().sha(),
             Matchers.equalTo(MkPullRefTest.SHA)

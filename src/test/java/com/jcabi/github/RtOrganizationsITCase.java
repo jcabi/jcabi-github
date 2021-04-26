@@ -32,7 +32,7 @@ package com.jcabi.github;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtOrganizations}.
@@ -41,13 +41,13 @@ import org.junit.Test;
  * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
-public final class RtOrganizationsITCase {
+final class RtOrganizationsITCase {
     /**
      * RtOrganizations can get an organization.
      * @throws Exception if any problem inside
      */
     @Test
-    public void getOrganization() throws Exception {
+    void getOrganization() throws Exception {
         final String login = "github";
         final Organization org = github()
             .organizations().get(login);

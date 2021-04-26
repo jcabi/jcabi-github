@@ -33,7 +33,7 @@ import javax.json.Json;
 import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -43,14 +43,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class ReleaseTest {
+final class ReleaseTest {
 
     /**
      * Release.Smart can fetch url properties of an Release.
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUrls() throws Exception {
+    void fetchesUrls() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String url = "http://url";
         Mockito.doReturn(
@@ -70,7 +70,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesHtmlUrls() throws Exception {
+    void fetchesHtmlUrls() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String htmlurl = "http://html_url";
         Mockito.doReturn(
@@ -90,7 +90,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAssetsHtmlUrls() throws Exception {
+    void fetchesAssetsHtmlUrls() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String assetsurl = "http://assets_url";
         Mockito.doReturn(
@@ -110,7 +110,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUploadHtmlUrls() throws Exception {
+    void fetchesUploadHtmlUrls() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String uploadurl = "http://upload_url";
         Mockito.doReturn(
@@ -130,7 +130,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void testId() throws Exception {
+    void testId() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(1).when(release).number();
         final Release.Smart smart = new Release.Smart(release);
@@ -145,7 +145,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchTag() throws Exception {
+    void fetchTag() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String tag = "v1.0.0";
         Mockito.doReturn(
@@ -165,7 +165,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchProperties() throws Exception {
+    void fetchProperties() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String master = "master";
         Mockito.doReturn(
@@ -185,7 +185,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchName() throws Exception {
+    void fetchName() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String name = "v1";
         // @checkstyle MultipleStringLiterals (3 lines)
@@ -211,7 +211,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void incidatesNoName() throws Exception {
+    void incidatesNoName() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -230,7 +230,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchBody() throws Exception {
+    void fetchBody() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String description = "Description of the release";
         Mockito.doReturn(
@@ -250,7 +250,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchDescription() throws Exception {
+    void fetchDescription() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String created = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -270,7 +270,7 @@ public final class ReleaseTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchPublished() throws Exception {
+    void fetchPublished() throws Exception {
         final Release release = Mockito.mock(Release.class);
         final String published = "2013-01-27T19:35:32Z";
         Mockito.doReturn(
@@ -290,7 +290,7 @@ public final class ReleaseTest {
      * @throws Exception If problem inside
      */
     @Test
-    public void isPrerelease() throws Exception {
+    void isPrerelease() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("prerelease", Boolean.TRUE).build()
@@ -306,7 +306,7 @@ public final class ReleaseTest {
      * @throws Exception If problem inside
      */
     @Test
-    public void isNotPrerelease() throws Exception {
+    void isNotPrerelease() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("prerelease", "false").build()
@@ -322,7 +322,7 @@ public final class ReleaseTest {
      * @throws Exception If problem inside
      */
     @Test
-    public void missingPrerelease() throws Exception {
+    void missingPrerelease() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()
@@ -338,7 +338,7 @@ public final class ReleaseTest {
      * @throws Exception If problem inside
      */
     @Test
-    public void isDraft() throws Exception {
+    void isDraft() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("draft", Boolean.TRUE).build()
@@ -354,7 +354,7 @@ public final class ReleaseTest {
      * @throws Exception If problem inside
      */
     @Test
-    public void isNotDraft() throws Exception {
+    void isNotDraft() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("draft", Boolean.FALSE).build()
@@ -370,7 +370,7 @@ public final class ReleaseTest {
      * @throws Exception If problem inside
      */
     @Test
-    public void missingDraft() throws Exception {
+    void missingDraft() throws Exception {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()

@@ -40,7 +40,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Milestones}.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtMilestonesITCase {
+final class RtMilestonesITCase {
     /**
      * Test repos.
      */
@@ -91,7 +91,7 @@ public final class RtMilestonesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssues() throws Exception {
+    void iteratesIssues() throws Exception {
         final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create(
             RandomStringUtils.randomAlphabetic(Tv.TEN)
@@ -111,7 +111,7 @@ public final class RtMilestonesITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsNewMilestone() throws Exception {
+    void createsNewMilestone() throws Exception {
         final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create(
             RandomStringUtils.randomAlphabetic(Tv.TEN)
@@ -131,7 +131,7 @@ public final class RtMilestonesITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void deleteMilestone() throws Exception {
+    void deleteMilestone() throws Exception {
         final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create("a milestones");
         MatcherAssert.assertThat(

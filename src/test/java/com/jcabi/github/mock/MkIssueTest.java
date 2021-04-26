@@ -40,7 +40,7 @@ import java.util.Iterator;
 import org.hamcrest.CustomMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -51,14 +51,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class MkIssueTest {
+final class MkIssueTest {
 
     /**
      * MkIssue can open and close.
      * @throws Exception If some problem inside
      */
     @Test
-    public void opensAndCloses() throws Exception {
+    void opensAndCloses() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isOpen(),
@@ -76,7 +76,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void pointsToAnEmptyPullRequest() throws Exception {
+    void pointsToAnEmptyPullRequest() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
@@ -89,7 +89,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void showsIssueAuthor() throws Exception {
+    void showsIssueAuthor() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
             new Issue.Smart(issue).author().login(),
@@ -102,7 +102,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesTitle() throws Exception {
+    void changesTitle() throws Exception {
         final Issue issue = this.issue();
         new Issue.Smart(issue).title("hey, works?");
         MatcherAssert.assertThat(
@@ -116,7 +116,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesBody() throws Exception {
+    void changesBody() throws Exception {
         final Issue issue = this.issue();
         new Issue.Smart(issue).body("hey, body works?");
         MatcherAssert.assertThat(
@@ -130,7 +130,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void exponsesProperties() throws Exception {
+    void exponsesProperties() throws Exception {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         MatcherAssert.assertThat(issue.createdAt(), Matchers.notNullValue());
         MatcherAssert.assertThat(issue.updatedAt(), Matchers.notNullValue());
@@ -142,7 +142,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void listsReadOnlyLabels() throws Exception {
+    void listsReadOnlyLabels() throws Exception {
         final Issue issue = this.issue();
         final String tag = "test-tag";
         issue.repo().labels().create(tag, "c0c0c0");
@@ -165,7 +165,7 @@ public final class MkIssueTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final MkIssue less = new MkIssue(
             new MkStorage.InFile(),
             "login-less",
@@ -193,7 +193,7 @@ public final class MkIssueTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canRememberItsAuthor() throws Exception {
+    void canRememberItsAuthor() throws Exception {
         final MkGithub first = new MkGithub("first");
         final Github second = first.relogin("second");
         final Repo repo = first.randomRepo();
@@ -217,7 +217,7 @@ public final class MkIssueTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void canCheckIfIssueExists() throws Exception {
+    void canCheckIfIssueExists() throws Exception {
         MatcherAssert.assertThat(this.issue().exists(), Matchers.is(true));
     }
 
@@ -226,7 +226,7 @@ public final class MkIssueTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void canCheckNonExistentIssue() throws Exception {
+    void canCheckNonExistentIssue() throws Exception {
         MatcherAssert.assertThat(
             new MkIssue(
                 new MkStorage.InFile(),
@@ -243,7 +243,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void assignsUser() throws Exception {
+    void assignsUser() throws Exception {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         issue.assign("walter");
         MatcherAssert.assertThat(
@@ -257,7 +257,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsClosedEvent() throws Exception {
+    void createsClosedEvent() throws Exception {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         issue.close();
         MatcherAssert.assertThat(
@@ -278,7 +278,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsReopenedEvent() throws Exception {
+    void createsReopenedEvent() throws Exception {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         issue.close();
         issue.open();

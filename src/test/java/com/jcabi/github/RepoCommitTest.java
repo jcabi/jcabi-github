@@ -34,7 +34,7 @@ import java.net.URL;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -43,14 +43,14 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RepoCommitTest {
+final class RepoCommitTest {
 
     /**
      * RepoCommit.Smart can fetch url property from RepoCommit.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -70,7 +70,7 @@ public class RepoCommitTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesMessage() throws Exception {
+    void fetchesMessage() throws Exception {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -89,7 +89,7 @@ public class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public final void verifiesStatus() throws IOException {
+    void verifiesStatus() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -111,7 +111,7 @@ public class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public final void readsAuthorLogin() throws IOException {
+    void readsAuthorLogin() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         final String login = "jeff";
         Mockito.doReturn(

@@ -40,7 +40,8 @@ import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtContents}.
@@ -51,7 +52,7 @@ import org.junit.Test;
  */
 @OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtContentsITCase {
+final class RtContentsITCase {
 
     /**
      * RepoRule.
@@ -65,7 +66,7 @@ public final class RtContentsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchReadmeFiles() throws Exception {
+    void canFetchReadmeFiles() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -83,7 +84,7 @@ public final class RtContentsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canUpdateFileContent() throws Exception {
+    void canUpdateFileContent() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -127,7 +128,7 @@ public final class RtContentsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canUpdateFileContentInSpecificBranch() throws Exception {
+    void canUpdateFileContentInSpecificBranch() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -169,34 +170,38 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can remove and throw an exception when get an absent content.
-     * @throws Exception If some problem inside
      */
-    @Test(expected = AssertionError.class)
-    public void throwsWhenTryingToGetAnAbsentContent() throws Exception {
-        final Repos repos = github().repos();
-        final Repo repo = this.rule.repo(repos);
-        final Contents contents = repos.get(repo.coordinates()).contents();
-        final String message = "commit message";
-        try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-            final Content content = contents.create(
-                this.jsonObject(
-                    path, new String(
-                        Base64.encodeBase64("first content".getBytes())
-                    ),
-                    message
-                )
-            );
-            contents.remove(
-                Json.createObjectBuilder()
-                    .add("path", path)
-                    .add("message", message)
-                    .add("sha", new Content.Smart(content).sha()).build()
-            );
-            contents.get(path, "master");
-        } finally {
-            repos.remove(repo.coordinates());
-        }
+    @Test
+    void throwsWhenTryingToGetAnAbsentContent() {
+        Assertions.assertThrows(
+            AssertionError.class,
+            () -> {
+                final Repos repos = github().repos();
+                final Repo repo = this.rule.repo(repos);
+                final Contents contents = repos.get(repo.coordinates()).contents();
+                final String message = "commit message";
+                try {
+                    final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+                    final Content content = contents.create(
+                        this.jsonObject(
+                            path, new String(
+                                Base64.encodeBase64("first content".getBytes())
+                            ),
+                            message
+                        )
+                    );
+                    contents.remove(
+                        Json.createObjectBuilder()
+                            .add("path", path)
+                            .add("message", message)
+                            .add("sha", new Content.Smart(content).sha()).build()
+                    );
+                    contents.get(path, "master");
+                } finally {
+                    repos.remove(repo.coordinates());
+                }
+            }
+        );
     }
 
     /**
@@ -204,7 +209,7 @@ public final class RtContentsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateFileContent() throws Exception {
+    void canCreateFileContent() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -229,7 +234,7 @@ public final class RtContentsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void getContent() throws Exception {
+    void getContent() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -326,7 +331,7 @@ public final class RtContentsITCase {
      * @throws Exception if any problem inside.
      */
     @Test
-    public void checkExists() throws Exception {
+    void checkExists() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         final String branch = "master";

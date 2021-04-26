@@ -35,7 +35,7 @@ import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -44,7 +44,7 @@ import org.mockito.Mockito;
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public final class PullCommentTest {
+final class PullCommentTest {
 
     /**
      * Id field's name in JSON.
@@ -71,7 +71,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesId() throws Exception {
+    void fetchesId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -88,7 +88,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesId() throws Exception {
+    void updatesId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).identifier(value);
@@ -102,7 +102,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesCommitId() throws Exception {
+    void fetchesCommitId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -119,7 +119,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesCommitId() throws Exception {
+    void updatesCommitId() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).commitId(value);
@@ -133,7 +133,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -150,7 +150,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesUrl() throws Exception {
+    void updatesUrl() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).url(value);
@@ -164,7 +164,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesBody() throws Exception {
+    void fetchesBody() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -181,7 +181,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesBody() throws Exception {
+    void updatesBody() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).body(value);
@@ -195,7 +195,7 @@ public final class PullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrievesAuthor() throws Exception {
+    void retrievesAuthor() throws Exception {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final JsonObject user = Json.createObjectBuilder()

@@ -35,7 +35,7 @@ import com.jcabi.github.References;
 import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link MkReferences}.
@@ -43,14 +43,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReferencesTest {
+final class MkReferencesTest {
 
     /**
      * MkReferences can create a MkReference.
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void createsMkReference() throws Exception {
+    void createsMkReference() throws Exception {
         final References refs = new MkGithub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
@@ -64,7 +64,7 @@ public final class MkReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsRepo() throws Exception {
+    void returnsRepo() throws Exception {
         final References refs = new MkGithub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
@@ -78,7 +78,7 @@ public final class MkReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferences() throws Exception {
+    void iteratesReferences() throws Exception {
         final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
@@ -94,7 +94,7 @@ public final class MkReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferencesInSubNamespace() throws Exception {
+    void iteratesReferencesInSubNamespace() throws Exception {
         final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
@@ -114,7 +114,7 @@ public final class MkReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesTags() throws Exception {
+    void iteratesTags() throws Exception {
         final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/tags/t2", "2322f34");
@@ -129,7 +129,7 @@ public final class MkReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesHeads() throws Exception {
+    void iteratesHeads() throws Exception {
         final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/branch2", "blahblah");
@@ -144,7 +144,7 @@ public final class MkReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void removesReference() throws Exception {
+    void removesReference() throws Exception {
         final Repo owner = new MkGithub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/testbr", "qweqwe22");

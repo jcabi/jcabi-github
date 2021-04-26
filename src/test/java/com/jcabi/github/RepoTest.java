@@ -33,7 +33,7 @@ import com.jcabi.github.mock.MkGithub;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,14 +41,14 @@ import org.mockito.Mockito;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class RepoTest {
+final class RepoTest {
 
     /**
      * Repo.Smart can fetch description from Repo.
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchDescription() throws Exception {
+    void canFetchDescription() throws Exception {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -66,7 +66,7 @@ public final class RepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchPrivateStatus() throws Exception {
+    void canFetchPrivateStatus() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         repo.patch(
             Json.createObjectBuilder()

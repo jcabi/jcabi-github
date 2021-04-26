@@ -42,7 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -53,7 +53,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class RtBlobsTest {
+final class RtBlobsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -67,7 +67,7 @@ public final class RtBlobsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateBlob() throws Exception {
+    void canCreateBlob() throws Exception {
         final String content = "Content of the blob";
         final String body = blob().toString();
         try (
@@ -97,7 +97,7 @@ public final class RtBlobsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getBlob() throws Exception {
+    void getBlob() throws Exception {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
         final Blobs blobs = new RtBlobs(
             new FakeRequest().withBody(

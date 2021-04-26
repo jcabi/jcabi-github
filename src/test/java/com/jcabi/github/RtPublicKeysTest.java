@@ -42,7 +42,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -51,7 +51,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtPublicKeysTest {
+final class RtPublicKeysTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -65,7 +65,7 @@ public final class RtPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesKeys() throws Exception {
+    void retrievesKeys() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -95,7 +95,7 @@ public final class RtPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchSingleKey() throws Exception {
+    void canFetchSingleKey() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -122,7 +122,7 @@ public final class RtPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRemoveKey() throws Exception {
+    void canRemoveKey() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -154,7 +154,7 @@ public final class RtPublicKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canCreatePublicKey() throws IOException {
+    void canCreatePublicKey() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

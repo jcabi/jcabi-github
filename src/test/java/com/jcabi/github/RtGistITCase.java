@@ -34,7 +34,7 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Gist}.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.GIST)
-public final class RtGistITCase {
+final class RtGistITCase {
 
     /**
      * RtGist can text and write files.
      * @throws Exception If some problem inside
      */
     @Test
-    public void readsAndWritesGists() throws Exception {
+    void readsAndWritesGists() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistITCase.github().gists();
@@ -79,7 +79,7 @@ public final class RtGistITCase {
      * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test
-    public void forksGist() throws Exception {
+    void forksGist() throws Exception {
         final String filename = "filename1.txt";
         final String content = "content of file1";
         final Gists gists1 = RtGistITCase.github("failsafe.github.key").gists();

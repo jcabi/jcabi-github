@@ -42,7 +42,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -52,7 +52,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class RtPullsTest {
+final class RtPullsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -67,7 +67,7 @@ public final class RtPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void createPull() throws Exception {
+    void createPull() throws Exception {
         final String title = "new feature";
         final String body = pull(title).toString();
         try (
@@ -98,7 +98,7 @@ public final class RtPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getSinglePull() throws Exception {
+    void getSinglePull() throws Exception {
         final String title = "new-feature";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -126,7 +126,7 @@ public final class RtPullsTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iteratePulls() throws Exception {
+    void iteratePulls() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

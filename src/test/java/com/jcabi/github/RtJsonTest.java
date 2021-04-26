@@ -38,7 +38,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtJson}.
@@ -46,7 +46,7 @@ import org.junit.Test;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtJsonTest {
+final class RtJsonTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -60,7 +60,7 @@ public final class RtJsonTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void sendHttpRequest() throws Exception {
+    void sendHttpRequest() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -84,7 +84,7 @@ public final class RtJsonTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

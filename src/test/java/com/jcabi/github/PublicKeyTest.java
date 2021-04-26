@@ -32,7 +32,7 @@ package com.jcabi.github;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -42,14 +42,14 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (150 lines)
  */
-public final class PublicKeyTest {
+final class PublicKeyTest {
 
     /**
      * PublicKey.Smart can fetch the key value from PublicKey.
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesKey() throws Exception {
+    void fetchesKey() throws Exception {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String value = "sha-rsa AAA...";
         Mockito.doReturn(
@@ -66,7 +66,7 @@ public final class PublicKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesKey() throws Exception {
+    void updatesKey() throws Exception {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String value = "sha-rsa BBB...";
         new PublicKey.Smart(key).key(value);
@@ -80,7 +80,7 @@ public final class PublicKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "https://api.github.com/user/keys/1";
         Mockito.doReturn(
@@ -97,7 +97,7 @@ public final class PublicKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesTitle() throws Exception {
+    void fetchesTitle() throws Exception {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "octocat@octomac";
         Mockito.doReturn(
@@ -114,7 +114,7 @@ public final class PublicKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesTitle() throws Exception {
+    void updatesTitle() throws Exception {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "octocat@octomac";
         new PublicKey.Smart(key).title(prop);

@@ -41,7 +41,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtReference}.
@@ -51,7 +51,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtReferenceTest {
+final class RtReferenceTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public final class RtReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void patchesContent() throws Exception {
+    void patchesContent() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -96,7 +96,7 @@ public final class RtReferenceTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void fetchesContent() throws Exception {
+    void fetchesContent() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -123,7 +123,7 @@ public final class RtReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsRef() throws Exception {
+    void returnsRef() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -150,7 +150,7 @@ public final class RtReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsOwner() throws Exception {
+    void returnsOwner() throws Exception {
         final Repo owner = new MkGithub().randomRepo();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(

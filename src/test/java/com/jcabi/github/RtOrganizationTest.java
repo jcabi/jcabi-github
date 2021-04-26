@@ -42,7 +42,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtOrganization}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtOrganizationTest {
+final class RtOrganizationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -64,7 +64,7 @@ public final class RtOrganizationTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchIssueAsJson() throws Exception {
+    void canFetchIssueAsJson() throws Exception {
         final RtOrganization org = new RtOrganization(
             new MkGithub(),
             new FakeRequest().withBody("{\"organization\":\"json\"}"),
@@ -82,7 +82,7 @@ public final class RtOrganizationTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void patchWithJson() throws Exception {
+    void patchWithJson() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
@@ -115,7 +115,7 @@ public final class RtOrganizationTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final RtOrganization less = new RtOrganization(
             new MkGithub(),
             new FakeRequest(),
@@ -144,7 +144,7 @@ public final class RtOrganizationTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canRepresentAsString() throws Exception {
+    void canRepresentAsString() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")

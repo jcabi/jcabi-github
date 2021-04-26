@@ -33,7 +33,7 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtUser}.
@@ -41,14 +41,14 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.USER)
-public final class RtUserITCase {
+final class RtUserITCase {
 
     /**
      * RtUser can understand who am I.
      * @throws Exception If some problem inside
      */
     @Test
-    public void checksWhoAmI() throws Exception {
+    void checksWhoAmI() throws Exception {
         final Github github = RtUserITCase.github();
         final User self = github.users().self();
         MatcherAssert.assertThat(
@@ -62,7 +62,7 @@ public final class RtUserITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void readKeys() throws Exception {
+    void readKeys() throws Exception {
         MatcherAssert.assertThat(
             github().users().self().keys().toString(),
             Matchers.equalTo("https://api.github.com/user/keys")

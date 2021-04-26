@@ -38,7 +38,7 @@ import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for visibility.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @author Carlos Crespo (carlos.a.crespo@gmail.com)
  * @version $Id$
  */
-public final class VisibilityTest {
+final class VisibilityTest {
 
     /**
      * Set of classes/interfaces that can be public.
@@ -77,7 +77,7 @@ public final class VisibilityTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void checkVisibility() throws Exception {
+    void checkVisibility() throws Exception {
         MatcherAssert.assertThat(
             Iterables.filter(
                 this.classpath.allTypes(),

@@ -35,7 +35,7 @@ import com.jcabi.github.Repo;
 import com.jcabi.immutable.ArrayMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for MkMilestones.
@@ -43,14 +43,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkMilestonesTest {
+final class MkMilestonesTest {
 
     /**
      * This tests that MkMilestones can return its owner repo.
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void returnsRepo() throws Exception {
+    void returnsRepo() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(repo, Matchers.is(owner));
@@ -61,7 +61,7 @@ public final class MkMilestonesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void createsMilestone() throws Exception {
+    void createsMilestone() throws Exception {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
@@ -77,7 +77,7 @@ public final class MkMilestonesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void getsMilestone() throws Exception {
+    void getsMilestone() throws Exception {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("test");
@@ -91,7 +91,7 @@ public final class MkMilestonesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void removesMilestone() throws Exception {
+    void removesMilestone() throws Exception {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("testTitle");
@@ -111,7 +111,7 @@ public final class MkMilestonesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void iteratesMilestones() throws Exception {
+    void iteratesMilestones() throws Exception {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         milestones.create("testMilestone");

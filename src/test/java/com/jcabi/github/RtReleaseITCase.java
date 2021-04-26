@@ -39,7 +39,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtRelease}.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtReleaseITCase {
+final class RtReleaseITCase {
 
     /**
      * Test repos.
@@ -96,7 +96,7 @@ public final class RtReleaseITCase {
      * @throws Exception If any problems during test execution occur.
      */
     @Test
-    public void canEditRelease() throws Exception {
+    void canEditRelease() throws Exception {
         final Release release = repo.releases().create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );

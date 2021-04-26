@@ -46,7 +46,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link RtStatuses}.
@@ -60,7 +60,7 @@ import org.junit.Test;
  * @todo #1490:30min Continue to close grizzle servers open on tests. Use
  *  try-with-resource statement instead of try-catch whenever is possible.
  */
-public final class RtStatusesTest {
+final class RtStatusesTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -73,7 +73,7 @@ public final class RtStatusesTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final Commit original = new MkGithub().randomRepo().git()
             .commits().get("5e8d65e0dbfab0716db16493e03a0baba480625a");
         MatcherAssert.assertThat(
@@ -88,7 +88,7 @@ public final class RtStatusesTest {
      * @throws Exception when an Error occurs
      */
     @Test
-    public void createsStatus() throws Exception {
+    void createsStatus() throws Exception {
         final String stateprop = "state";
         final String urlprop = "target_url";
         final String descriptionprop = "description";

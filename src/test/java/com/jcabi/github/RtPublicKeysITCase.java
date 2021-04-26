@@ -36,7 +36,7 @@ import java.io.ByteArrayOutputStream;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicKeys}.
@@ -45,7 +45,7 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.ADMIN_PUBLIC_KEY)
-public class RtPublicKeysITCase {
+final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve its keys.
@@ -53,7 +53,7 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void retrievesKeys() throws Exception {
+    void retrievesKeys() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("key", this.key());
         MatcherAssert.assertThat(
@@ -69,7 +69,7 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void retrievesSingleKey() throws Exception {
+    void retrievesSingleKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("Title", this.key());
         MatcherAssert.assertThat(
@@ -85,7 +85,7 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void removesKey() throws Exception {
+    void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("", this.key());
         MatcherAssert.assertThat(
@@ -105,7 +105,7 @@ public class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void createsKey() throws Exception {
+    void createsKey() throws Exception {
         final PublicKeys keys = this.keys();
         // @checkstyle LineLength (1 line)
         final PublicKey key = keys.create("rsa", this.key());

@@ -40,7 +40,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -49,7 +49,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtGistCommentsTest {
+final class RtGistCommentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -63,7 +63,7 @@ public final class RtGistCommentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getComment() throws Exception {
+    void getComment() throws Exception {
         final String body = "Just commenting";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -91,7 +91,7 @@ public final class RtGistCommentsTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateComments() throws Exception {
+    void iterateComments() throws Exception {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -119,7 +119,7 @@ public final class RtGistCommentsTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void postComment() throws Exception {
+    void postComment() throws Exception {
         final String body = "new commenting";
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

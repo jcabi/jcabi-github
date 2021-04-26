@@ -41,7 +41,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtFork}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtForkTest {
+final class RtForkTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -63,7 +63,7 @@ public final class RtForkTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public void patchAndCheckJsonFork() throws IOException {
+    void patchAndCheckJsonFork() throws IOException {
         final String original = "some organization";
         final String patched = "some patched organization";
         try (

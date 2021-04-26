@@ -41,7 +41,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtOrganizations}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  */
-public final class RtOrganizationsTest {
+final class RtOrganizationsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public final class RtOrganizationsTest {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void fetchesSingleOrganization() throws Exception {
+    void fetchesSingleOrganization() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -91,7 +91,7 @@ public final class RtOrganizationsTest {
      * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
-    public void retrievesOrganizations() throws Exception {
+    void retrievesOrganizations() throws Exception {
         final Github github = new MkGithub();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(

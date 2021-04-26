@@ -33,14 +33,14 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicMembers}.
  * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
  */
-public final class RtPublicMembersITCase {
+final class RtPublicMembersITCase {
     /**
      * Test organization name.
      */
@@ -82,7 +82,7 @@ public final class RtPublicMembersITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void checksPublicMembership() throws Exception {
+    void checksPublicMembership() throws Exception {
         MatcherAssert.assertThat(
             "Check true positive of public membership in an organization",
             org.publicMembers().contains(member)
@@ -97,7 +97,7 @@ public final class RtPublicMembersITCase {
      * RtPublicMembers can list the public members of an organization.
      */
     @Test
-    public void listsPublicMembers() {
+    void listsPublicMembers() {
         MatcherAssert.assertThat(
             org.publicMembers().iterate(),
             Matchers.<User>iterableWithSize(Matchers.greaterThanOrEqualTo(1))

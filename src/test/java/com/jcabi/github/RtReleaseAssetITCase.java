@@ -38,7 +38,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtReleaseAsset}.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (300 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtReleaseAssetITCase {
+final class RtReleaseAssetITCase {
 
     /**
      * Test repos.
@@ -99,7 +99,7 @@ public final class RtReleaseAssetITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchAsJSON() throws Exception {
+    void fetchAsJSON() throws Exception {
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = repo.releases().create(name);
         try {
@@ -117,7 +117,7 @@ public final class RtReleaseAssetITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         final Release release = repo.releases().create(
             String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
         );
@@ -138,7 +138,7 @@ public final class RtReleaseAssetITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void removesReleaseAsset() throws Exception {
+    void removesReleaseAsset() throws Exception {
         final Releases releases = repo.releases();
         final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases.create(rname);

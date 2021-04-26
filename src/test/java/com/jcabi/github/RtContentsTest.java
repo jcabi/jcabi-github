@@ -43,7 +43,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -56,7 +56,7 @@ import org.mockito.Mockito;
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtContentsTest {
+final class RtContentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -71,7 +71,7 @@ public final class RtContentsTest {
      * @throws Exception if some problem inside.
      */
     @Test
-    public void canFetchReadmeFile() throws Exception {
+    void canFetchReadmeFile() throws Exception {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
@@ -106,7 +106,7 @@ public final class RtContentsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchReadmeFileFromSpecifiedBranch() throws Exception {
+    void canFetchReadmeFileFromSpecifiedBranch() throws Exception {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
@@ -141,7 +141,7 @@ public final class RtContentsTest {
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canFetchFilesFromRepository() throws Exception {
+    void canFetchFilesFromRepository() throws Exception {
         final String path = "test/file";
         final String name = "file";
         final JsonObject body = Json.createObjectBuilder()
@@ -198,7 +198,7 @@ public final class RtContentsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canCreateFileInRepository() throws Exception {
+    void canCreateFileInRepository() throws Exception {
         final String path = "test/thefile";
         final String name = "thefile";
         final JsonObject body = Json.createObjectBuilder()
@@ -251,7 +251,7 @@ public final class RtContentsTest {
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canDeleteFilesFromRepository() throws Exception {
+    void canDeleteFilesFromRepository() throws Exception {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -298,7 +298,7 @@ public final class RtContentsTest {
      * @throws Exception If any problems during test execution occurs.
      */
     @Test
-    public void canUpdateFilesInRepository() throws Exception {
+    void canUpdateFilesInRepository() throws Exception {
         final String sha = "2f97253a513bbe26658881c29e27910082fef900";
         final JsonObject resp = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
@@ -346,7 +346,7 @@ public final class RtContentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void canIterateDirectoryContents() throws Exception {
+    void canIterateDirectoryContents() throws Exception {
         final JsonArray body = Json.createArrayBuilder().add(
             Json.createObjectBuilder()
                 .add("path", "README.md")

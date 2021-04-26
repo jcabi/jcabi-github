@@ -35,14 +35,14 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCommitsComparison}.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public final class RtCommitsComparisonTest {
+final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch JSON.
@@ -51,7 +51,7 @@ public final class RtCommitsComparisonTest {
      * @checkstyle ExecutableStatementCountCheck (75 lines)
      */
     @Test
-    public void fetchesJson() throws Exception {
+    void fetchesJson() throws Exception {
         final String sha = "fffffffffffffffffffffffffffffffffffffffe";
         final String filename = "bar/quux.txt";
         // @checkstyle MagicNumberCheck (3 lines)

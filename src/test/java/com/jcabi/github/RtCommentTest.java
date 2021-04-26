@@ -45,7 +45,7 @@ import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableWithSize;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtComment}.
@@ -55,7 +55,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtCommentTest {
+final class RtCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -69,7 +69,7 @@ public final class RtCommentTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("title", "body");
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
@@ -87,7 +87,7 @@ public final class RtCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void returnsItsIssue() throws Exception {
+    void returnsItsIssue() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
@@ -99,7 +99,7 @@ public final class RtCommentTest {
      * @throws Exception - in case something goes wrong.
      */
     @Test
-    public void returnsItsNumber() throws Exception {
+    void returnsItsNumber() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing2", "issue2");
         final int num = 10;
@@ -112,7 +112,7 @@ public final class RtCommentTest {
      * @throws Exception - in case something goes wrong.
      */
     @Test
-    public void removesComment() throws Exception {
+    void removesComment() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -136,7 +136,7 @@ public final class RtCommentTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void returnsItsJSon() throws Exception {
+    void returnsItsJSon() throws Exception {
         final String body = "{\"body\":\"test5\"}";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -160,7 +160,7 @@ public final class RtCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void patchesComment() throws Exception {
+    void patchesComment() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -185,7 +185,7 @@ public final class RtCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void reacts() throws Exception {
+    void reacts() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -211,7 +211,7 @@ public final class RtCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void reactions() throws Exception {
+    void reactions() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -244,7 +244,7 @@ public final class RtCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void givesToString() throws Exception {
+    void givesToString() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

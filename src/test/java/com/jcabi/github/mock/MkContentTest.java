@@ -41,7 +41,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.CharEncoding;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkContent}.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
-public final class MkContentTest {
+final class MkContentTest {
 
     /**
      * MkContent should be able to fetch its own repo.
@@ -57,7 +57,7 @@ public final class MkContentTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canGetOwnRepo() throws Exception {
+    void canGetOwnRepo() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Contents contents = repo.contents();
         final Content content = contents.create(
@@ -75,7 +75,7 @@ public final class MkContentTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canGetOwnPath() throws Exception {
+    void canGetOwnPath() throws Exception {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String path = "dummy.txt";
         final Content content = contents.create(
@@ -93,7 +93,7 @@ public final class MkContentTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesJsonRepresentation() throws Exception {
+    void fetchesJsonRepresentation() throws Exception {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String path = "fake.txt";
         final Content content = contents.create(
@@ -112,7 +112,7 @@ public final class MkContentTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesRawRepresentation() throws Exception {
+    void fetchesRawRepresentation() throws Exception {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String raw = "raw test \u20ac\u0000";
         final InputStream stream = contents.create(

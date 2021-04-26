@@ -38,7 +38,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
@@ -48,7 +48,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class IssueTest {
+final class IssueTest {
 
     /**
      * Rule for checking thrown exception.
@@ -62,7 +62,7 @@ public final class IssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesProperties() throws Exception {
+    void fetchesProperties() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -86,7 +86,7 @@ public final class IssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void detectsPullRequest() throws Exception {
+    void detectsPullRequest() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -115,7 +115,7 @@ public final class IssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void detectsPullRequestAbsence() throws Exception {
+    void detectsPullRequestAbsence() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -134,7 +134,7 @@ public final class IssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void detectsFullPullRequestAbsence() throws Exception {
+    void detectsFullPullRequestAbsence() throws Exception {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()
@@ -150,7 +150,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void fetchLabelsRO() throws IOException {
+    void fetchLabelsRO() throws IOException {
         final String name = "bug";
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",

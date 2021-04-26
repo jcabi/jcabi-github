@@ -37,7 +37,7 @@ import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RepoCommits}.
@@ -51,14 +51,14 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.REPO)
-public class RtRepoCommitsITCase {
+final class RtRepoCommitsITCase {
 
     /**
      * RtRepoCommits can fetch repo commits.
      * @throws Exception if there is no github key provided
      */
     @Test
-    public final void fetchCommits() throws Exception {
+    void fetchCommits() throws Exception {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
                 new ArrayMap<String, String>()
@@ -88,7 +88,7 @@ public class RtRepoCommitsITCase {
      * @throws Exception if there is no github key provided
      */
     @Test
-    public final void compareCommitsPatch() throws Exception {
+    void compareCommitsPatch() throws Exception {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
             "5339b8e35b",
             "9b2e6efde9"
@@ -112,7 +112,7 @@ public class RtRepoCommitsITCase {
      * @throws Exception if there is no github key provided
      */
     @Test
-    public final void compareCommitsDiff() throws Exception {
+    void compareCommitsDiff() throws Exception {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
             "2b3814e",
             "b828dfa"
@@ -128,7 +128,7 @@ public class RtRepoCommitsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void getCommit() throws Exception {
+    void getCommit() throws Exception {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
             RtRepoCommitsITCase.repo().commits().get(sha).sha(),

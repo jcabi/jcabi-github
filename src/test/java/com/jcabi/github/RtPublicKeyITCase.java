@@ -33,7 +33,7 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicKey}.
@@ -42,13 +42,13 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.READ_PUBLIC_KEY)
-public final class RtPublicKeyITCase {
+final class RtPublicKeyITCase {
     /**
      * RtPublicKey can retrieve correctly URI.
      * @throws Exception if any error inside
      */
     @Test
-    public void retrievesURI() throws Exception {
+    void retrievesURI() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         MatcherAssert.assertThat(

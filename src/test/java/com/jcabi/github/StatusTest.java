@@ -34,7 +34,7 @@ import com.jcabi.github.mock.MkGithub;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Status}.
@@ -43,7 +43,7 @@ import org.junit.Test;
  * @since 0.24
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class StatusTest {
+final class StatusTest {
     /**
      * Name of state property in Status JSON object.
      */
@@ -62,7 +62,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCommit() throws Exception {
+    void fetchesCommit() throws Exception {
         final Commit cmmt = StatusTest.commit();
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -77,7 +77,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesId() throws Exception {
+    void fetchesId() throws Exception {
         final int ident = 777;
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -95,7 +95,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/wherever";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -113,7 +113,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesErrorState() throws Exception {
+    void fetchesErrorState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -131,7 +131,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFailureState() throws Exception {
+    void fetchesFailureState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -149,7 +149,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPendingState() throws Exception {
+    void fetchesPendingState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -167,7 +167,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesSuccessState() throws Exception {
+    void fetchesSuccessState() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -185,7 +185,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPresentTargetUrl() throws Exception {
+    void fetchesPresentTargetUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/good-luck";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -204,7 +204,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAbsentTargetUrl() throws Exception {
+    void fetchesAbsentTargetUrl() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -221,7 +221,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNullTargetUrl() throws Exception {
+    void fetchesNullTargetUrl() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -239,7 +239,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPresentDescription() throws Exception {
+    void fetchesPresentDescription() throws Exception {
         final String description = "Mostly harmless";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -258,7 +258,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAbsentDescription() throws Exception {
+    void fetchesAbsentDescription() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -275,7 +275,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNullDescription() throws Exception {
+    void fetchesNullDescription() throws Exception {
         MatcherAssert.assertThat(
             new Status.Smart(
                 new RtStatus(
@@ -293,7 +293,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesContext() throws Exception {
+    void fetchesContext() throws Exception {
         final String context = "jcabi/github/tester";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -311,7 +311,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreatedAt() throws Exception {
+    void fetchesCreatedAt() throws Exception {
         final String when = "2015-02-27T19:35:32Z";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -329,7 +329,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUpdatedAt() throws Exception {
+    void fetchesUpdatedAt() throws Exception {
         final String when = "2013-02-27T19:35:32Z";
         MatcherAssert.assertThat(
             new Status.Smart(
@@ -347,7 +347,7 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreator() throws Exception {
+    void fetchesCreator() throws Exception {
         final String login = "bob";
         MatcherAssert.assertThat(
             new Status.Smart(

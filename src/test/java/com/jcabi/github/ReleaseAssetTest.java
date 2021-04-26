@@ -33,7 +33,7 @@ import java.net.URL;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -43,14 +43,14 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class ReleaseAssetTest {
+final class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch url property from ReleaseAsset.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/octo/Hello/releases/assets/1";
@@ -70,7 +70,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesName() throws Exception {
+    void fetchesName() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "assetname.ext";
         Mockito.doReturn(
@@ -89,7 +89,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesLabel() throws Exception {
+    void fetchesLabel() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "short description";
         Mockito.doReturn(
@@ -108,7 +108,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesState() throws Exception {
+    void fetchesState() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "uploaded";
         Mockito.doReturn(
@@ -127,7 +127,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesContentType() throws Exception {
+    void fetchesContentType() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "application/zip";
         Mockito.doReturn(
@@ -146,7 +146,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSize() throws Exception {
+    void fetchesSize() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final int prop = 1024;
         Mockito.doReturn(
@@ -165,7 +165,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDownloadCount() throws Exception {
+    void fetchesDownloadCount() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final int prop = 42;
         Mockito.doReturn(
@@ -184,7 +184,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesCreatedAt() throws Exception {
+    void fetchesCreatedAt() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -203,7 +203,7 @@ public class ReleaseAssetTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUpdatedAt() throws Exception {
+    void fetchesUpdatedAt() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -222,7 +222,7 @@ public class ReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void updatesName() throws Exception {
+    void updatesName() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_name";
         new ReleaseAsset.Smart(releaseAsset).name(prop);
@@ -236,7 +236,7 @@ public class ReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void updatesLabel() throws Exception {
+    void updatesLabel() throws Exception {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_label";
         new ReleaseAsset.Smart(releaseAsset).label(prop);

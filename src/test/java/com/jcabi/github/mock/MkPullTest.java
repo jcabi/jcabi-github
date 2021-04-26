@@ -39,7 +39,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -50,7 +50,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class MkPullTest {
+final class MkPullTest {
     /**
      * Login of test user.
      */
@@ -70,7 +70,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final MkPull less = new MkPull(
             new MkStorage.InFile(),
             "login-less",
@@ -99,7 +99,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canGetCommentsNumberIfZero() throws Exception {
+    void canGetCommentsNumberIfZero() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             pull.json().getInt("comments"),
@@ -113,7 +113,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canGetCommentsNumberIfNonZero() throws Exception {
+    void canGetCommentsNumberIfNonZero() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         pull.comments().post("comment1", "path1", "how are you?", 1);
         pull.comments().post("comment2", "path2", "how are you2?", 2);
@@ -129,7 +129,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canGetComments() throws Exception {
+    void canGetComments() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             pull.comments(),
@@ -142,7 +142,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canGetBase() throws Exception {
+    void canGetBase() throws Exception {
         final PullRef base = MkPullTest.pullRequest().base();
         MatcherAssert.assertThat(base, Matchers.notNullValue());
         MatcherAssert.assertThat(
@@ -156,7 +156,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canGetHead() throws Exception {
+    void canGetHead() throws Exception {
         final PullRef head = MkPullTest.pullRequest().head();
         MatcherAssert.assertThat(head, Matchers.notNullValue());
         MatcherAssert.assertThat(
@@ -171,7 +171,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canRetrieveAsJson() throws Exception {
+    void canRetrieveAsJson() throws Exception {
         final String head = "blah";
         final String base = "aaa";
         final Pull pull = MkPullTest.repo().pulls()
@@ -213,7 +213,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canPatchJson() throws Exception {
+    void canPatchJson() throws Exception {
         final Pull pull = MkPullTest.repo().pulls()
             .create("Test Patch", "def", "abc");
         final String value = "someValue";

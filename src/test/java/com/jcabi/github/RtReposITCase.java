@@ -34,7 +34,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtRepos}.
@@ -42,8 +43,8 @@ import org.junit.Test;
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-@OAuthScope({ Scope.REPO, Scope.DELETE_REPO })
-public class RtReposITCase {
+@OAuthScope({Scope.REPO, Scope.DELETE_REPO})
+final class RtReposITCase {
 
     /**
      * RepoRule.
@@ -58,7 +59,7 @@ public class RtReposITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void create() throws Exception {
+    void create() throws Exception {
         final Repos repos = RtReposITCase.github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -72,17 +73,22 @@ public class RtReposITCase {
      * RtRepos should fail on creation of two repos with the same name.
      * @throws Exception If some problem inside
      */
-    @Test(expected = AssertionError.class)
-    public final void failsOnCreationOfTwoRepos() throws Exception {
+    @Test
+    void failsOnCreationOfTwoRepos() throws Exception {
         final Repos repos = RtReposITCase.github().repos();
         final Repo repo = this.rule.repo(repos);
-        try {
-            repos.create(
-                new Repos.RepoCreate(repo.coordinates().repo(), false)
-            );
-        } finally {
-            repos.remove(repo.coordinates());
-        }
+        Assertions.assertThrows(
+            AssertionError.class,
+            () -> {
+                try {
+                    repos.create(
+                        new Repos.RepoCreate(repo.coordinates().repo(), false)
+                    );
+                } finally {
+                    repos.remove(repo.coordinates());
+                }
+            }
+        );
     }
 
     /**
@@ -91,7 +97,7 @@ public class RtReposITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void exists() throws Exception {
+    void exists() throws Exception {
         final Repos repos = RtReposITCase.github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -110,7 +116,7 @@ public class RtReposITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void createWithOrganization() throws Exception {
+    void createWithOrganization() throws Exception {
         final Repos repos = RtReposITCase.github().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")

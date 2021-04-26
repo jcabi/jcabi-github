@@ -34,7 +34,7 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Gists}.
@@ -42,13 +42,13 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.GIST)
-public final class RtGistsITCase {
+final class RtGistsITCase {
     /**
      * RtGists can create a gist.
      * @throws Exception If some problem inside
      */
     @Test
-    public void createGist() throws Exception {
+    void createGist() throws Exception {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistsITCase.gists();
@@ -68,7 +68,7 @@ public final class RtGistsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iterateGists() throws Exception {
+    void iterateGists() throws Exception {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test.txt", "content"), false
@@ -84,7 +84,7 @@ public final class RtGistsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void singleGist() throws Exception {
+    void singleGist() throws Exception {
         final String filename = "single-name.txt";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
@@ -101,7 +101,7 @@ public final class RtGistsITCase {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void removesGistByName() throws Exception {
+    void removesGistByName() throws Exception {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content of test file"),

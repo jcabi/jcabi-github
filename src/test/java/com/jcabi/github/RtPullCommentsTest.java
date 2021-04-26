@@ -46,7 +46,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -57,7 +57,7 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class RtPullCommentsTest {
+final class RtPullCommentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -72,7 +72,7 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesPullComment() throws Exception {
+    void fetchesPullComment() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo()).when(pull).repo();
         final RtPullComments comments =
@@ -89,7 +89,7 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesRepoPullComments() throws Exception {
+    void iteratesRepoPullComments() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo()).when(pull).repo();
         try (
@@ -120,7 +120,7 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesPullRequestComments() throws Exception {
+    void iteratesPullRequestComments() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo()).when(pull).repo();
         try (
@@ -151,7 +151,7 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsPullComment() throws Exception {
+    void createsPullComment() throws Exception {
         // @checkstyle MultipleStringLiterals (3 line)
         final String body = "test-body";
         final String commit = "test-commit-id";
@@ -191,7 +191,7 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsPullCommentReply() throws Exception {
+    void createsPullCommentReply() throws Exception {
         final String body = "test-body";
         final int number = 4;
         final String response = Json.createObjectBuilder()
@@ -234,7 +234,7 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void removesPullComment() throws Exception {
+    void removesPullComment() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

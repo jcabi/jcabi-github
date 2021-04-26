@@ -33,7 +33,7 @@ import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkReleases}.
@@ -42,13 +42,13 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
-public final class MkReleasesTest {
+final class MkReleasesTest {
     /**
      * MkReleases can fetch empty list of releases.
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfReleases() throws Exception {
+    void canFetchEmptyListOfReleases() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         MatcherAssert.assertThat(
             releases.iterate(),
@@ -61,7 +61,7 @@ public final class MkReleasesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchNonEmptyListOfReleases() throws Exception {
+    void canFetchNonEmptyListOfReleases() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v1.0";
         releases.create(tag);
@@ -77,7 +77,7 @@ public final class MkReleasesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchSingleRelease() throws Exception {
+    void canFetchSingleRelease() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
     }
@@ -87,7 +87,7 @@ public final class MkReleasesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateRelease() throws Exception {
+    void canCreateRelease() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v1.0.0";
         final Release release = releases.create(tag);
@@ -102,7 +102,7 @@ public final class MkReleasesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void iteratesReleases() throws Exception {
+    void iteratesReleases() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         releases.create("v1.0.1");
         releases.create("v1.0.2");
@@ -117,7 +117,7 @@ public final class MkReleasesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void canRemoveRelease() throws Exception {
+    void canRemoveRelease() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         releases.create("v1.1.1");
         releases.create("v1.1.2");
@@ -137,7 +137,7 @@ public final class MkReleasesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void findsReleaseByTag() throws Exception {
+    void findsReleaseByTag() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v5.0";
         releases.create(tag);
@@ -157,7 +157,7 @@ public final class MkReleasesTest {
      * @throws Exception Unexpected.
      */
     @Test
-    public void releaseNameIsEmpty() throws Exception {
+    void releaseNameIsEmpty() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);
@@ -174,7 +174,7 @@ public final class MkReleasesTest {
      * @throws Exception Unexpected.
      */
     @Test
-    public void releaseBodyIsEmpty() throws Exception {
+    void releaseBodyIsEmpty() throws Exception {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);

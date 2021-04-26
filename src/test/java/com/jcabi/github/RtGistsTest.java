@@ -41,7 +41,7 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtGists}.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtGistsTest {
+final class RtGistsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -64,7 +64,7 @@ public final class RtGistsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCreateFiles() throws Exception {
+    void canCreateFiles() throws Exception {
         try (
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -94,7 +94,7 @@ public final class RtGistsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRetrieveSpecificGist() throws Exception {
+    void canRetrieveSpecificGist() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
@@ -118,7 +118,7 @@ public final class RtGistsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canIterateThrouRtGists() throws Exception {
+    void canIterateThrouRtGists() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -143,7 +143,7 @@ public final class RtGistsTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void removesGistByName() throws Exception {
+    void removesGistByName() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

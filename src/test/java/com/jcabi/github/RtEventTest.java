@@ -38,7 +38,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -48,7 +48,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtEventTest {
+final class RtEventTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -63,7 +63,7 @@ public final class RtEventTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRetrieveOwnRepo() throws Exception {
+    void canRetrieveOwnRepo() throws Exception {
         final Repo repo = this.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
         MatcherAssert.assertThat(
@@ -78,7 +78,7 @@ public final class RtEventTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRetrieveOwnNumber() throws Exception {
+    void canRetrieveOwnNumber() throws Exception {
         final Repo repo = this.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
@@ -93,7 +93,7 @@ public final class RtEventTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrieveEventAsJson() throws Exception {
+    void retrieveEventAsJson() throws Exception {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -118,7 +118,7 @@ public final class RtEventTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final RtEvent less = new RtEvent(new FakeRequest(), this.repo(), 1);
         final RtEvent greater = new RtEvent(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(

@@ -42,7 +42,8 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPagination}.
@@ -50,7 +51,7 @@ import org.junit.Test;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtPaginationTest {
+final class RtPaginationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -64,7 +65,7 @@ public final class RtPaginationTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void jumpNextPage() throws Exception {
+    void jumpNextPage() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 RtPaginationTest.simple("Hi Jeff")
@@ -73,7 +74,7 @@ public final class RtPaginationTest {
                         "</s?page=3&per_page=100>; rel=\"next\""
                     )
             ).next(RtPaginationTest.simple("Hi Mark"))
-            .start(this.resource.port())
+                .start(this.resource.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
@@ -101,32 +102,36 @@ public final class RtPaginationTest {
     /**
      * RtPagination can throw if there is no more elements in pagination.
      *
-     * @throws Exception if there is any problem
      */
-    @Test(expected = NoSuchElementException.class)
-    public void throwsIfNoMoreElement() throws Exception {
-        try (
-            final MkContainer container = new MkGrizzlyContainer()
-                .next(simple("Hi there")).start(this.resource.port())
-        ) {
-            final Request request = new ApacheRequest(container.home());
-            final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
-                request,
-                new RtValuePagination.Mapping<JsonObject, JsonObject>() {
-                    @Override
-                    public JsonObject map(final JsonObject object) {
-                        return object;
-                    }
+    @Test
+    void throwsIfNoMoreElement() {
+        Assertions.assertThrows(
+            NoSuchElementException.class,
+            () -> {
+                try (
+                    final MkContainer container = new MkGrizzlyContainer()
+                        .next(simple("Hi there")).start(this.resource.port())
+                ) {
+                    final Request request = new ApacheRequest(container.home());
+                    final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
+                        request,
+                        new RtValuePagination.Mapping<JsonObject, JsonObject>() {
+                            @Override
+                            public JsonObject map(final JsonObject object) {
+                                return object;
+                            }
+                        }
+                    );
+                    final Iterator<JsonObject> iterator = page.iterator();
+                    iterator.next();
+                    MatcherAssert.assertThat(
+                        iterator.next(),
+                        Matchers.notNullValue()
+                    );
+                    container.stop();
                 }
-            );
-            final Iterator<JsonObject> iterator = page.iterator();
-            iterator.next();
-            MatcherAssert.assertThat(
-                iterator.next(),
-                Matchers.notNullValue()
-            );
-            container.stop();
-        }
+            }
+        );
     }
 
     /**
@@ -135,7 +140,7 @@ public final class RtPaginationTest {
      * @return MkAnswer.Simple
      * @throws Exception If some problem inside
      */
-    private static  MkAnswer.Simple simple(final String msg) throws Exception {
+    private static MkAnswer.Simple simple(final String msg) throws Exception {
         final String message = Json.createArrayBuilder()
             .add(Json.createObjectBuilder().add("msg", msg))
             .build().toString();

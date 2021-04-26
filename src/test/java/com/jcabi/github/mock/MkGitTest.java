@@ -32,7 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkGit}.
@@ -41,7 +41,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
-public final class MkGitTest {
+final class MkGitTest {
 
     /**
      * MkGit can fetch its own repo.
@@ -49,7 +49,7 @@ public final class MkGitTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canFetchOwnRepo() throws Exception {
+    void canFetchOwnRepo() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
             repo.git().repo(),
@@ -62,7 +62,7 @@ public final class MkGitTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void givesReferences() throws Exception {
+    void givesReferences() throws Exception {
         MatcherAssert.assertThat(
             new MkGithub().randomRepo().git().references(),
             Matchers.notNullValue()

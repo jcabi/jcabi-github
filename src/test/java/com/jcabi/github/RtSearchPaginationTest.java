@@ -34,7 +34,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearchPagination}.
@@ -42,13 +42,13 @@ import org.junit.Test;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public final class RtSearchPaginationTest {
+final class RtSearchPaginationTest {
 
     /**
      * RtSearchPagination can iterate through items.
      */
     @Test
-    public void iteratesItems() {
+    void iteratesItems() {
         final String key = "key";
         final String value = "value";
         final Iterable<String> pagination = new RtSearchPagination<String>(

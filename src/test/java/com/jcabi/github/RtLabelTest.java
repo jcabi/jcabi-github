@@ -39,7 +39,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -48,7 +48,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtLabelTest {
+final class RtLabelTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -63,7 +63,7 @@ public final class RtLabelTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void sendHttpRequestAndWriteResponseAsJson() throws Exception {
+    void sendHttpRequestAndWriteResponseAsJson() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -91,7 +91,7 @@ public final class RtLabelTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

@@ -42,7 +42,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -53,7 +53,7 @@ import org.mockito.Mockito;
  * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-public final class RtReposTest {
+final class RtReposTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -73,7 +73,7 @@ public final class RtReposTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void createRepo() throws Exception {
+    void createRepo() throws Exception {
         final String owner = "test-owner";
         final String name = "test-repo";
         final String response = response(owner, name).toString();
@@ -105,7 +105,7 @@ public final class RtReposTest {
      * @throws Exception if there is any Error
      */
     @Test
-    public void iterateRepos() throws Exception {
+    void iterateRepos() throws Exception {
         final String identifier = "1";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -135,7 +135,7 @@ public final class RtReposTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void removeRepo() throws Exception {
+    void removeRepo() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

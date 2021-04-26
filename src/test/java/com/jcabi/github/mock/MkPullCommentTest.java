@@ -33,7 +33,7 @@ import com.jcabi.github.PullComment;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullComment}.
@@ -41,14 +41,14 @@ import org.junit.Test;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class MkPullCommentTest {
+final class MkPullCommentTest {
     /**
      * MkPullComment can be represented as JSON.
      *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrieveAsJson() throws Exception {
+    void retrieveAsJson() throws Exception {
         final PullComment comment = MkPullCommentTest.comment();
         MatcherAssert.assertThat(
             comment.json().getString("url"),
@@ -62,7 +62,7 @@ public final class MkPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         final String path = "/path/to/file.txt";
         final PullComment comment = MkPullCommentTest.comment();
         comment.patch(Json.createObjectBuilder().add("path", path).build());

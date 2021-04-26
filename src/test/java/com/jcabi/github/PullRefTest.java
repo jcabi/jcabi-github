@@ -35,7 +35,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link PullRef}.
@@ -44,7 +44,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class PullRefTest {
+final class PullRefTest {
     /**
      * Test ref.
      */
@@ -64,7 +64,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
             PullRefTest.pullRef(repo).repo().coordinates(),
@@ -77,7 +77,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             PullRefTest.pullRef().ref(),
             Matchers.equalTo(PullRefTest.REF)
@@ -89,7 +89,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             PullRefTest.pullRef().sha(),
             Matchers.equalTo(PullRefTest.SHA)
@@ -101,7 +101,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesLabel() throws IOException {
+    void fetchesLabel() throws IOException {
         MatcherAssert.assertThat(
             PullRefTest.pullRef().label(),
             Matchers.equalTo(PullRefTest.LABEL)
@@ -113,7 +113,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Commit commit = PullRefTest.pullRef(repo).commit();
         MatcherAssert.assertThat(
@@ -131,7 +131,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesUser() throws IOException {
+    void fetchesUser() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
             PullRefTest.pullRef(repo).user().login(),

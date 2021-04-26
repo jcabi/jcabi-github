@@ -46,7 +46,7 @@ import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.IsEqual;
 import org.junit.Ignore;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -57,7 +57,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
-public final class RtPullCommentTest {
+final class RtPullCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -70,7 +70,7 @@ public final class RtPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(new MkGithub().randomRepo()).when(pull).repo();
         final RtPullComment less =
@@ -93,7 +93,7 @@ public final class RtPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canDescribeAsJson() throws Exception {
+    void canDescribeAsJson() throws Exception {
         final String body = "{\"body\":\"test\"}";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -122,7 +122,7 @@ public final class RtPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void patchesComment() throws Exception {
+    void patchesComment() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

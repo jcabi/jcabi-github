@@ -34,7 +34,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTags.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkTagsTest {
+final class MkTagsTest {
 
     /**
      * MkTags can create tags.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsMkTag() throws Exception {
+    void createsMkTag() throws Exception {
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com").build();
         MatcherAssert.assertThat(

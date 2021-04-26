@@ -32,7 +32,7 @@ package com.jcabi.github;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,14 +41,14 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class OrganizationTest {
+final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch url from an Organization.
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -66,7 +66,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAvatarUrl() throws Exception {
+    void fetchesAvatarUrl() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -84,7 +84,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesName() throws Exception {
+    void fetchesName() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -102,7 +102,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCompany() throws Exception {
+    void fetchesCompany() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -120,7 +120,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesBlog() throws Exception {
+    void fetchesBlog() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -138,7 +138,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesLocation() throws Exception {
+    void fetchesLocation() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -156,7 +156,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmail() throws Exception {
+    void fetchesEmail() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -174,7 +174,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesBillingEmail() throws Exception {
+    void fetchesBillingEmail() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -192,7 +192,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPublicRepos() throws Exception {
+    void fetchesPublicRepos() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -210,7 +210,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPublicGists() throws Exception {
+    void fetchesPublicGists() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -228,7 +228,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFollowers() throws Exception {
+    void fetchesFollowers() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -246,7 +246,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFollowing() throws Exception {
+    void fetchesFollowing() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -264,7 +264,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesHtmlUrl() throws Exception {
+    void fetchesHtmlUrl() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -282,7 +282,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreatedAt() throws Exception {
+    void fetchesCreatedAt() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -300,7 +300,7 @@ public final class OrganizationTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesType() throws Exception {
+    void fetchesType() throws Exception {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

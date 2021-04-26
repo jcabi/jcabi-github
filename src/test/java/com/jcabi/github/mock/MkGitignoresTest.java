@@ -32,7 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Gitignores;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link com.jcabi.github.mock.MkGitignores}.
@@ -40,13 +40,13 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.8
  */
-public final class MkGitignoresTest {
+final class MkGitignoresTest {
     /**
      * MkGitignores can fetch single gitignore template.
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchSingleRawTemplate() throws Exception {
+    void canFetchSingleRawTemplate() throws Exception {
         final Gitignores gitignores = new MkGithub().gitignores();
         MatcherAssert.assertThat(
             gitignores.template("Java"),
@@ -59,7 +59,7 @@ public final class MkGitignoresTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canIterateOverTemplates() throws Exception {
+    void canIterateOverTemplates() throws Exception {
         final Gitignores gitignores = new MkGithub().gitignores();
         MatcherAssert.assertThat(
             gitignores.iterate(),

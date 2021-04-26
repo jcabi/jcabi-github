@@ -33,7 +33,7 @@ import com.jcabi.aspects.Tv;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,13 +41,13 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public class ForkTest {
+final class ForkTest {
     /**
      * Fork.Smart can fetch name property from Fork.
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesName() throws Exception {
+    void fetchesName() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final String name = "this is some name";
         Mockito.doReturn(
@@ -66,7 +66,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesFullName() throws Exception {
+    void fetchesFullName() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final String name = "test full name";
         Mockito.doReturn(
@@ -85,7 +85,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDescription() throws Exception {
+    void fetchesDescription() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final String description = "test description";
         Mockito.doReturn(
@@ -103,7 +103,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSize() throws Exception {
+    void fetchesSize() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final int prop = Tv.HUNDRED;
         Mockito.doReturn(
@@ -122,7 +122,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrls() throws Exception {
+    void fetchesUrls() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final String url = "https://api.github.com/repos/octocat/Hello-World";
         final String html = "https://github.com/octocat/Hello-World";
@@ -184,7 +184,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesCounts() throws Exception {
+    void fetchesCounts() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final int forks = Tv.TEN;
         final int stargazers = Tv.TWENTY;
@@ -216,7 +216,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void openIssues() throws Exception {
+    void openIssues() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final int openIssues = Tv.TEN;
         Mockito.doReturn(
@@ -236,7 +236,7 @@ public class ForkTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDefaultBranches() throws Exception {
+    void fetchesDefaultBranches() throws Exception {
         final Fork fork = Mockito.mock(Fork.class);
         final String master = "master";
         Mockito.doReturn(

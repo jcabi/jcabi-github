@@ -33,7 +33,7 @@ import com.google.common.base.Optional;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Statuses}.
@@ -41,7 +41,7 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class StatusesTest {
+final class StatusesTest {
     /**
      * Name of state property in Status JSON object.
      */
@@ -71,7 +71,7 @@ public final class StatusesTest {
      * StatusCreate can convert itself to JSON.
      */
     @Test
-    public void convertsToJsonWhenAllPresent() {
+    void convertsToJsonWhenAllPresent() {
         final String success = "Everything is not so awesome";
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.ERROR)
@@ -94,7 +94,7 @@ public final class StatusesTest {
      * StatusCreate can convert itself to JSON when it has no URL.
      */
     @Test
-    public void convertsToJsonWhenUrlAbsent() {
+    void convertsToJsonWhenUrlAbsent() {
         final String success = "Living the dream!";
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.SUCCESS)
@@ -115,7 +115,7 @@ public final class StatusesTest {
      * StatusCreate can convert itself to JSON when it has no description.
      */
     @Test
-    public void convertsToJsonWhenDescriptionAbsent() {
+    void convertsToJsonWhenDescriptionAbsent() {
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.FAILURE)
                 .withTargetUrl(Optional.of(StatusesTest.URL))
@@ -136,7 +136,7 @@ public final class StatusesTest {
      * StatusCreate can convert itself to JSON when it has no context.
      */
     @Test
-    public void convertsToJsonWhenContextAbsent() {
+    void convertsToJsonWhenContextAbsent() {
         final String pending = "Kragle is drying...";
         MatcherAssert.assertThat(
             new Statuses.StatusCreate(Status.State.PENDING)

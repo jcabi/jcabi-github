@@ -40,7 +40,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -50,7 +50,7 @@ import org.mockito.Mockito;
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  */
-public final class RtStarsTest {
+final class RtStarsTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public final class RtStarsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void checkIfRepoStarred() throws Exception {
+    void checkIfRepoStarred() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
@@ -96,7 +96,7 @@ public final class RtStarsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void starRepository() throws Exception {
+    void starRepository() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
@@ -133,7 +133,7 @@ public final class RtStarsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void unstarRepository() throws Exception {
+    void unstarRepository() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)

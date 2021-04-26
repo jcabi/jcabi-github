@@ -44,7 +44,7 @@ import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -52,7 +52,7 @@ import org.mockito.Mockito;
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
  */
-public class RtReleaseTest {
+final class RtReleaseTest {
     /**
      * An empty JSON string.
      */
@@ -91,7 +91,7 @@ public class RtReleaseTest {
      * @throws Exception If any problem during test execution occurs.
      */
     @Test
-    public final void editRelease() throws Exception {
+    void editRelease() throws Exception {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
         ).start(this.resource.port());
@@ -116,7 +116,7 @@ public class RtReleaseTest {
      * @throws Exception If any problems in the test occur.
      */
     @Test
-    public final void deleteRelease() throws Exception {
+    void deleteRelease() throws Exception {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, EMPTY_JSON)
         ).start(this.resource.port());
@@ -133,7 +133,7 @@ public class RtReleaseTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public final void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
         ).start(this.resource.port());

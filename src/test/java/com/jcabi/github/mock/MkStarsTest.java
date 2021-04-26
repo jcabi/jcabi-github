@@ -33,21 +33,21 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Stars;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkStars.
  * @author Yuriy Alevohin (alevohin@mail.ru)
  * @version $Id$
  */
-public class MkStarsTest {
+final class MkStarsTest {
 
     /**
      * MkStars can star repository.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public final void starsRepository() throws Exception {
+    void starsRepository() throws Exception {
         final Stars stars = new MkGithub().randomRepo().stars();
         stars.star();
         MatcherAssert.assertThat(
@@ -61,7 +61,7 @@ public class MkStarsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public final void unstarsRepository() throws Exception {
+    void unstarsRepository() throws Exception {
         final Stars stars = new MkGithub().randomRepo().stars();
         stars.star();
         stars.unstar();

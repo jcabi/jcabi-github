@@ -34,7 +34,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPublicKey}.
@@ -42,7 +42,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class MkPublicKeyTest {
+final class MkPublicKeyTest {
 
     /**
      * Json name of key.
@@ -55,7 +55,7 @@ public final class MkPublicKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canRetrieveAsJson() throws Exception {
+    void canRetrieveAsJson() throws Exception {
         final String title = "Title1";
         final String key = "PublicKey1";
         final JsonObject json = new MkGithub().users().add("john").keys()
@@ -80,7 +80,7 @@ public final class MkPublicKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canBePatched() throws Exception {
+    void canBePatched() throws Exception {
         final String original = "PublicKey2";
         final PublicKey key = new MkGithub().users().add("jeff")
             .keys().create("Title2", original);

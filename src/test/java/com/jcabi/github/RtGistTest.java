@@ -42,7 +42,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtGist}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtGistTest {
+final class RtGistTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -65,7 +65,7 @@ public final class RtGistTest {
      * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
-    public void readsFileWithContents() throws Exception {
+    void readsFileWithContents() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -92,7 +92,7 @@ public final class RtGistTest {
      * @throws Exception if there is a problem.
      */
     @Test
-    public void writesFileContents() throws Exception {
+    void writesFileContents() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
@@ -120,7 +120,7 @@ public final class RtGistTest {
      * @throws IOException If there is a problem.
      */
     @Test
-    public void fork() throws IOException {
+    void fork() throws IOException {
         final String fileContent = "success";
         try (final MkContainer container = new MkGrizzlyContainer()) {
             container.next(
@@ -169,7 +169,7 @@ public final class RtGistTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canIterateFiles() throws Exception {
+    void canIterateFiles() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -203,7 +203,7 @@ public final class RtGistTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void canRepresentAsString() throws Exception {
+    void canRepresentAsString() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer()
             .start(this.resource.port())
@@ -226,7 +226,7 @@ public final class RtGistTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void canUnstarAGist() throws Exception {
+    void canUnstarAGist() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -257,7 +257,7 @@ public final class RtGistTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

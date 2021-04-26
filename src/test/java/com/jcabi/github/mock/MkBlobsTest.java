@@ -33,14 +33,14 @@ import com.jcabi.github.Blob;
 import com.jcabi.github.Blobs;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkBlobs).
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  */
-public final class MkBlobsTest {
+final class MkBlobsTest {
 
     /**
      * MkBlobs should be able to create a blob.
@@ -48,7 +48,7 @@ public final class MkBlobsTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCreateBlob() throws Exception {
+    void canCreateBlob() throws Exception {
         final Blobs blobs = new MkGithub().randomRepo().git().blobs();
         final Blob blob = blobs.create("content1", "encoding1");
         MatcherAssert.assertThat(
@@ -62,7 +62,7 @@ public final class MkBlobsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getBlob() throws Exception {
+    void getBlob() throws Exception {
         final Blobs blobs = new MkGithub().randomRepo().git().blobs();
         final Blob created =  blobs.create("content", "base64");
         MatcherAssert.assertThat(

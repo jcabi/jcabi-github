@@ -35,21 +35,21 @@ import com.jcabi.github.RepoCommit;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkCommitsComparison).
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public final class MkCommitsComparisonTest {
+final class MkCommitsComparisonTest {
 
     /**
      * MkCommitsComparison can get a repo.
      * @throws IOException if some problem inside
      */
     @Test
-    public void getRepo() throws IOException {
+    void getRepo() throws IOException {
         final String user = "test_user";
         MatcherAssert.assertThat(
             new MkCommitsComparison(
@@ -63,7 +63,7 @@ public final class MkCommitsComparisonTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canGetJson() throws Exception {
+    void canGetJson() throws Exception {
         MatcherAssert.assertThat(
             new MkCommitsComparison(
                 new MkStorage.InFile(), "test1", new Coordinates.Simple(
@@ -87,7 +87,7 @@ public final class MkCommitsComparisonTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canGetJsonWithCommits() throws Exception {
+    void canGetJsonWithCommits() throws Exception {
         final CommitsComparison cmp = new MkCommitsComparison(
             new MkStorage.InFile(), "test-9",
             new Coordinates.Simple("test_user_A", "test_repo_B")

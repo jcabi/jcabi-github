@@ -35,7 +35,7 @@ import com.jcabi.github.Hooks;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkHooks}.
@@ -44,7 +44,7 @@ import org.junit.Test;
  * @since 0.8
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkHooksTest {
+final class MkHooksTest {
     /**
      * Type of hook to create and use for tests.
      */
@@ -55,7 +55,7 @@ public final class MkHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
+    void canFetchEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         MatcherAssert.assertThat(
             hooks.iterate(),
@@ -69,7 +69,7 @@ public final class MkHooksTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canDeleteSingleHook() throws Exception {
+    void canDeleteSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
             HOOK_TYPE,
@@ -93,7 +93,7 @@ public final class MkHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    void canFetchSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
             HOOK_TYPE,
@@ -112,7 +112,7 @@ public final class MkHooksTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchNonEmptyListOfHooks() throws Exception {
+    void canFetchNonEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         hooks.create(
             HOOK_TYPE,
@@ -137,7 +137,7 @@ public final class MkHooksTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateHook() throws Exception {
+    void canCreateHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
             HOOK_TYPE,

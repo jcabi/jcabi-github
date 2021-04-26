@@ -32,14 +32,14 @@ package com.jcabi.github.mock;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkMarkdown}.
  * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
  * @version $Id$
  */
-public class MkMarkdownTest {
+final class MkMarkdownTest {
 
     /**
      * MkMarkdown can be rendered.
@@ -47,7 +47,7 @@ public class MkMarkdownTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public final void canBeRendered() throws Exception {
+    void canBeRendered() throws Exception {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
             new MkGithub().markdown().render(

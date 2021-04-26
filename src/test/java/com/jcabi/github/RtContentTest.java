@@ -46,7 +46,7 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -56,7 +56,7 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @Immutable
-public final class RtContentTest {
+final class RtContentTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -71,7 +71,7 @@ public final class RtContentTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchContentAsJson() throws Exception {
+    void fetchContentAsJson() throws Exception {
         final RtContent content = new RtContent(
             new FakeRequest().withBody("{\"content\":\"json\"}"),
             this.repo(),
@@ -89,7 +89,7 @@ public final class RtContentTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void patchWithJson() throws Exception {
+    void patchWithJson() throws Exception {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
         ).start(this.resource.port())) {
@@ -119,7 +119,7 @@ public final class RtContentTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final RtContent less = new RtContent(
             new FakeRequest(),
             this.repo(),
@@ -147,7 +147,7 @@ public final class RtContentTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesRawContent() throws Exception {
+    void fetchesRawContent() throws Exception {
         final String raw = "the raw \u20ac";
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)

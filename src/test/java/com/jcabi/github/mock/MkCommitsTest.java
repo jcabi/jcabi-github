@@ -36,7 +36,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTags.
@@ -44,14 +44,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MkCommitsTest {
+final class MkCommitsTest {
 
     /**
      * MkCommits can create commits.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public final void createsMkCommit() throws Exception {
+    void createsMkCommit() throws Exception {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();

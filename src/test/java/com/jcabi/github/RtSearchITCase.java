@@ -36,7 +36,7 @@ import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearch}.
@@ -47,7 +47,7 @@ import org.junit.Test;
  */
 @OAuthScope({ Scope.REPO, Scope.USER })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtSearchITCase {
+final class RtSearchITCase {
 
     /**
      * RtSearch can search for repos.
@@ -55,7 +55,7 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForRepos() throws Exception {
+    void canSearchForRepos() throws Exception {
         MatcherAssert.assertThat(
             RtSearchITCase.github()
                 .search().repos("repo", "stars", Search.Order.DESC),
@@ -69,7 +69,7 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canFetchMultiplePages() throws Exception {
+    void canFetchMultiplePages() throws Exception {
         final Iterator<Repo> iter = RtSearchITCase.github().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
@@ -90,7 +90,7 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForIssues() throws Exception {
+    void canSearchForIssues() throws Exception {
         final EnumMap<Search.Qualifier, String> qualifiers =
             new EnumMap<Search.Qualifier, String>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
@@ -111,7 +111,7 @@ public final class RtSearchITCase {
      * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForUsers() throws Exception {
+    void canSearchForUsers() throws Exception {
         MatcherAssert.assertThat(
             RtSearchITCase.github()
                 .search().users("jcabi", "joined", Search.Order.DESC),
@@ -126,7 +126,7 @@ public final class RtSearchITCase {
      * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
     @Test
-    public void canSearchForContents() throws Exception {
+    void canSearchForContents() throws Exception {
         MatcherAssert.assertThat(
             RtSearchITCase.github().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC

@@ -39,7 +39,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -48,7 +48,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtUsersTest {
+final class RtUsersTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -62,7 +62,7 @@ public final class RtUsersTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateUsers() throws Exception {
+    void iterateUsers() throws Exception {
         final String identifier = "1";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -90,7 +90,7 @@ public final class RtUsersTest {
      * @throws Exception  if there is any error
      */
     @Test
-    public void getSingleUser() throws Exception {
+    void getSingleUser() throws Exception {
         final String login = "mark";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -115,7 +115,7 @@ public final class RtUsersTest {
      * @throws Exception  if there is any error
      */
     @Test
-    public void getCurrentUser() throws Exception {
+    void getCurrentUser() throws Exception {
         final String login = "kendy";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

@@ -33,7 +33,7 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Github}.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtGithubITCase {
+final class RtGithubITCase {
 
     /**
      * RtGithub can authenticate itself.
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
+    void authenticatesItself() throws Exception {
         final Github github = RtGithubITCase.github();
         MatcherAssert.assertThat(
             github.users().self(),
@@ -62,7 +62,7 @@ public final class RtGithubITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void connectsAnonymously() throws Exception {
+    void connectsAnonymously() throws Exception {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
             new Issue.Smart(
@@ -79,7 +79,7 @@ public final class RtGithubITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesMeta() throws Exception {
+    void fetchesMeta() throws Exception {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
             github.meta().getJsonArray("hooks"),
@@ -92,7 +92,7 @@ public final class RtGithubITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmojis() throws Exception {
+    void fetchesEmojis() throws Exception {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
             github.emojis().getString("+1"),
@@ -105,7 +105,7 @@ public final class RtGithubITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesWithUsernameAndPassword() throws Exception {
+    void authenticatesWithUsernameAndPassword() throws Exception {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
         Assume.assumeThat(user, Matchers.notNullValue());
@@ -122,7 +122,7 @@ public final class RtGithubITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUsers() throws Exception {
+    void fetchesUsers() throws Exception {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
                 "Iterating over github.users() should return something",

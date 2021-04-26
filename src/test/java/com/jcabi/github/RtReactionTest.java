@@ -29,7 +29,8 @@
  */
 package com.jcabi.github;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Runtime Reaction.
@@ -38,13 +39,17 @@ import org.junit.Test;
  * @version $Id$
  * @since 1.0
  */
-public final class RtReactionTest {
+final class RtReactionTest {
 
     /**
      * Tests if RtReaction throws exception when reaction is invalid.
      */
-    @Test(expected = IllegalArgumentException.class)
-    public void throwsExceptionOnInvalidReaction() {
-        new RtReaction(new Reaction.Simple("invalid")).type();
+    @Test
+    void throwsExceptionOnInvalidReaction() {
+        final RtReaction reaction = new RtReaction(new Reaction.Simple("invalid"));
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            reaction::type
+        );
     }
 }

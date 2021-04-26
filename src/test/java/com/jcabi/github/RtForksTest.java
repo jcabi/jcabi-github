@@ -42,7 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -51,7 +51,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtForksTest {
+final class RtForksTest {
 
     /**
      * Fork's organization name in JSON object.
@@ -71,7 +71,7 @@ public final class RtForksTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesForks() throws Exception {
+    void retrievesForks() throws Exception {
         final RtForks forks = new RtForks(
             new FakeRequest()
                 .withBody("[]"), this.repo()
@@ -88,7 +88,7 @@ public final class RtForksTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void createsFork() throws Exception {
+    void createsFork() throws Exception {
         final String organization = RandomStringUtils.randomAlphanumeric(10);
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

@@ -39,7 +39,7 @@ import com.jcabi.github.Repos;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Repo}.
@@ -47,14 +47,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkRepoTest {
+final class MkRepoTest {
 
     /**
      * Repo can work.
      * @throws Exception If some problem inside
      */
     @Test
-    public void works() throws Exception {
+    void works() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
             new Repos.RepoCreate("test5", false)
@@ -70,7 +70,7 @@ public final class MkRepoTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void returnsMkMilestones() throws Exception {
+    void returnsMkMilestones() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
             new Repos.RepoCreate("test1", false)
@@ -85,7 +85,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchCommits() throws IOException {
+    void fetchCommits() throws IOException {
         final String user = "testuser";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -101,7 +101,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchBranches() throws IOException {
+    void fetchBranches() throws IOException {
         final String user = "testuser";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -116,7 +116,7 @@ public final class MkRepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void exposesAttributes() throws Exception {
+    void exposesAttributes() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
             new Repo.Smart(repo).description(),
@@ -133,7 +133,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchStars() throws IOException {
+    void fetchStars() throws IOException {
         final String user = "testuser2";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -148,7 +148,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchNotifications() throws IOException {
+    void fetchNotifications() throws IOException {
         final String user = "testuser3";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -163,7 +163,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchLanguages() throws IOException {
+    void fetchLanguages() throws IOException {
         final String user = "testuser4";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),

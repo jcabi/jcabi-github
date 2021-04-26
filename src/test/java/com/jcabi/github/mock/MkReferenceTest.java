@@ -35,7 +35,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link MkReference}.
@@ -43,14 +43,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReferenceTest {
+final class MkReferenceTest {
 
     /**
      * MkReference can return its name.
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsName() throws Exception {
+    void returnsName() throws Exception {
         MatcherAssert.assertThat(
             this.reference().ref(),
             Matchers.is("refs/tags/hello")
@@ -62,7 +62,7 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsRepo() throws Exception {
+    void returnsRepo() throws Exception {
         MatcherAssert.assertThat(
             this.reference().repo(),
             Matchers.notNullValue()
@@ -74,7 +74,7 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void fetchesJson() throws Exception {
+    void fetchesJson() throws Exception {
         final Reference ref = this.reference();
         final JsonObject json = ref.json();
         MatcherAssert.assertThat(
@@ -92,7 +92,7 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void patchesRef() throws Exception {
+    void patchesRef() throws Exception {
         final Reference ref = this.reference();
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "testshaPATCH")

@@ -33,19 +33,19 @@ import com.jcabi.http.request.FakeRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtRepoCommit}.
  * @author Aleksey Popov (alopen@yandex.ru)
  * @version $Id$
  */
-public class RtRepoCommitTest {
+final class RtRepoCommitTest {
     /**
      * RtRepoCommit has proper request URL.
      */
     @Test
-    public final void hasProperRequestUrl() {
+    void hasProperRequestUrl() {
         final String sha = RandomStringUtils.randomAlphanumeric(50);
         final RtRepoCommit commit = new RtRepoCommit(
             new FakeRequest(), repo(), sha

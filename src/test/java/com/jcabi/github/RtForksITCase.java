@@ -34,7 +34,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtForks}.
@@ -43,7 +43,7 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.REPO)
-public class RtForksITCase {
+final class RtForksITCase {
 
     /**
      * RepoRule.
@@ -58,7 +58,7 @@ public class RtForksITCase {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public final void retrievesForks() throws Exception {
+    void retrievesForks() throws Exception {
         final String organization = System.getProperty(
             "failsafe.github.organization"
         );

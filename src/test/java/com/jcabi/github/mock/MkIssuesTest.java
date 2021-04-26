@@ -37,7 +37,7 @@ import com.jcabi.github.Repos;
 import com.jcabi.immutable.ArrayMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkIssues}.
@@ -45,14 +45,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkIssuesTest {
+final class MkIssuesTest {
 
     /**
      * MkIssues can list issues.
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssues() throws Exception {
+    void iteratesIssues() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         repo.issues().create("hey, you", "body of issue");
         repo.issues().create("hey", "body of 2nd issue");
@@ -68,7 +68,7 @@ public final class MkIssuesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsNewIssueWithCorrectAuthor() throws Exception {
+    void createsNewIssueWithCorrectAuthor() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Issue.Smart issue = new Issue.Smart(
             repo.issues().create("hello", "the body")
@@ -84,7 +84,7 @@ public final class MkIssuesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsMultipleIssues() throws Exception {
+    void createsMultipleIssues() throws Exception {
         final Github github = new MkGithub("jeff");
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("test-3", false)

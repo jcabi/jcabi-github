@@ -40,7 +40,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkContents}.
@@ -50,13 +50,13 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
-public final class MkContentsTest {
+final class MkContentsTest {
     /**
      * MkContents can fetch the default branch readme file.
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchReadmeFile() throws Exception {
+    void canFetchReadmeFile() throws Exception {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String body = "Readme On Master";
         // @checkstyle MultipleStringLiterals (6 lines)
@@ -75,7 +75,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchReadmeFromBranch() throws Exception {
+    void canFetchReadmeFromBranch() throws Exception {
         final String branch = "branch-1";
         final Contents contents = new MkGithub().randomRepo().contents();
         final String body = "Readme On Branch";
@@ -96,7 +96,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateFile() throws Exception {
+    void canCreateFile() throws Exception {
         final String path = "file.txt";
         final Content.Smart content = new Content.Smart(
             this.createFile(new MkGithub().randomRepo(), path)
@@ -121,7 +121,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateFileInSomeBranch() throws Exception {
+    void canCreateFileInSomeBranch() throws Exception {
         final String path = "file-in-branch.txt";
         final String branch = "branch-2";
         final String body = "some file";
@@ -156,7 +156,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canRemoveFile() throws Exception {
+    void canRemoveFile() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final String path = "removeme.txt";
         this.createFile(repo, path);
@@ -178,7 +178,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canRemoveFileFromBranch() throws Exception {
+    void canRemoveFileFromBranch() throws Exception {
         final String branch = "branch-1";
         final Repo repo = new MkGithub().randomRepo();
         final String path = "removeme.txt";
@@ -201,7 +201,7 @@ public final class MkContentsTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void updatesFile() throws Exception {
+    void updatesFile() throws Exception {
         final String path = "file.txt";
         final String message = "content message";
         final String initial = "initial text";
@@ -229,7 +229,7 @@ public final class MkContentsTest {
      * @throws Exception Exception if some problem inside
      */
     @Test
-    public void updatesFileCreateCommit() throws Exception {
+    void updatesFileCreateCommit() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final Contents contents = MkContentsTest.repo(storage).contents();
         final String path = "file.txt";
@@ -265,7 +265,7 @@ public final class MkContentsTest {
      * @throws Exception if any problem inside
      */
     @Test
-    public void updateContent() throws Exception {
+    void updateContent() throws Exception {
         final String path = "content-to-update.txt";
         final String message = "commit message";
         final String initial = "Hello World!";
@@ -295,7 +295,7 @@ public final class MkContentsTest {
      * @throws Exception if any problem inside.
      */
     @Test
-    public void checkExists() throws Exception {
+    void checkExists() throws Exception {
         final String path = "content-exist.txt";
         final String branch = "rel.08";
         final Contents contents = new MkGithub().randomRepo().contents();
@@ -319,7 +319,7 @@ public final class MkContentsTest {
      * @throws Exception if any problem inside
      */
     @Test
-    public void getContentFromDefaultBranch() throws Exception {
+    void getContentFromDefaultBranch() throws Exception {
         final String path = "content-default-branch.txt";
         final String message = "content default branch created";
         final String text = "I'm content of default branch";
@@ -342,7 +342,7 @@ public final class MkContentsTest {
      * @throws IOException if any error occurs.
      */
     @Test
-    public void canIterate() throws IOException {
+    void canIterate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = repo(storage);
         final Content[] correct = this.addContent(

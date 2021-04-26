@@ -42,7 +42,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -52,7 +52,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtIssuesTest {
+final class RtIssuesTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -67,7 +67,7 @@ public final class RtIssuesTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void createIssue() throws Exception {
+    void createIssue() throws Exception {
         final String title = "Found a bug";
         final String body = issue(title).toString();
         try (
@@ -100,7 +100,7 @@ public final class RtIssuesTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getSingleIssue() throws Exception {
+    void getSingleIssue() throws Exception {
         final String title = "Unit test";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -128,7 +128,7 @@ public final class RtIssuesTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateIssues() throws Exception {
+    void iterateIssues() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -157,7 +157,7 @@ public final class RtIssuesTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void searchIssues() throws Exception {
+    void searchIssues() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

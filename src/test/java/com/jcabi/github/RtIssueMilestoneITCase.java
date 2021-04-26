@@ -34,7 +34,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Milestones}.
@@ -45,7 +45,7 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtIssueMilestoneITCase {
+final class RtIssueMilestoneITCase {
     /**
      * Test repos.
      */

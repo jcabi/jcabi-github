@@ -39,7 +39,7 @@ import java.util.List;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullComments}.
@@ -47,7 +47,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class MkPullCommentsTest {
+final class MkPullCommentsTest {
 
     /**
      * MkPullComments can fetch a single comment.
@@ -55,7 +55,7 @@ public final class MkPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesPullComment() throws Exception {
+    void fetchesPullComment() throws Exception {
         final PullComments comments = this.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
@@ -70,7 +70,7 @@ public final class MkPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesRepoPullComments() throws Exception {
+    void iteratesRepoPullComments() throws Exception {
         final PullComments comments = comments();
         comments.pull()
             .repo()
@@ -100,7 +100,7 @@ public final class MkPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesPullRequestComments() throws Exception {
+    void iteratesPullRequestComments() throws Exception {
         final PullComments comments = comments();
         comments.post("comment 1", "commit 1", "/commit1", 1);
         comments.post("comment 2", "commit 2", "/commit2", 2);
@@ -119,7 +119,7 @@ public final class MkPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void postsPullComment() throws Exception {
+    void postsPullComment() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final String commit = "commit_id";
         final String path = "path";
@@ -164,7 +164,7 @@ public final class MkPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsPullCommentReply() throws Exception {
+    void createsPullCommentReply() throws Exception {
         final PullComments comments = this.comments();
         final int orig = comments.post(
             "Orig Comment",
@@ -190,7 +190,7 @@ public final class MkPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void removesPullComment() throws Exception {
+    void removesPullComment() throws Exception {
         final PullComments comments = this.comments();
         final int orig = comments.post(
             "Origg Comment",

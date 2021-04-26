@@ -40,7 +40,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration testcase for RtTags.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtTagsITCase {
+final class RtTagsITCase {
 
     /**
      * Test repos.
@@ -96,7 +96,7 @@ public final class RtTagsITCase {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsTag() throws Exception {
+    void createsTag() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final References refs = repo.git().references();

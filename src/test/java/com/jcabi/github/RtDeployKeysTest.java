@@ -42,7 +42,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -52,7 +52,7 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @Immutable
-public final class RtDeployKeysTest {
+final class RtDeployKeysTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public final class RtDeployKeysTest {
      * RtDeployKeys can fetch empty list of deploy keys.
      */
     @Test
-    public void canFetchEmptyListOfDeployKeys() {
+    void canFetchEmptyListOfDeployKeys() {
         final DeployKeys deployKeys = new RtDeployKeys(
             new FakeRequest().withBody("[]"),
             RtDeployKeysTest.repo()
@@ -82,7 +82,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canFetchNonEmptyListOfDeployKeys() throws IOException {
+    void canFetchNonEmptyListOfDeployKeys() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -108,7 +108,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void canFetchSingleDeployKey() throws IOException {
+    void canFetchSingleDeployKey() throws IOException {
         final int number = 1;
         final DeployKeys keys = new RtDeployKeys(
             // @checkstyle MultipleStringLiterals (1 line)
@@ -127,7 +127,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canCreateDeployKey() throws IOException {
+    void canCreateDeployKey() throws IOException {
         final int number = 2;
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

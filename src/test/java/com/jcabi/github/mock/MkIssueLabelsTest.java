@@ -38,14 +38,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkIssueLabels}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class MkIssueLabelsTest {
+final class MkIssueLabelsTest {
     /**
      * Username of actor.
      */
@@ -56,7 +56,7 @@ public final class MkIssueLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssues() throws Exception {
+    void iteratesIssues() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final String name = "bug";
         repo.labels().create(name, "c0c0c0");
@@ -73,7 +73,7 @@ public final class MkIssueLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsLabelsThroughDecorator() throws Exception {
+    void createsLabelsThroughDecorator() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("how are you?", "");
         final String name = "task";
@@ -89,7 +89,7 @@ public final class MkIssueLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void addingLabelGeneratesEvent() throws Exception {
+    void addingLabelGeneratesEvent() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final String name = "confirmed";
         repo.labels().create(name, "663399");
@@ -125,7 +125,7 @@ public final class MkIssueLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void removingLabelGeneratesEvent() throws Exception {
+    void removingLabelGeneratesEvent() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final String name = "invalid";
         repo.labels().create(name, "ee82ee");

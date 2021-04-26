@@ -31,7 +31,8 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link FromProperties}.
@@ -39,13 +40,13 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.37
  */
-public final class FromPopertiesTest {
+final class FromPopertiesTest {
 
     /**
      * FromProperties can format the user agent String.
      */
     @Test
-    public void formatsUserAgent() {
+    void formatsUserAgent() {
         MatcherAssert.assertThat(
             new FromProperties("jcabigithub.properties").format(),
             Matchers.startsWith("jcabi-github ")
@@ -55,9 +56,13 @@ public final class FromPopertiesTest {
     /**
      * FromProperties throws NullPointerException on missing file.
      */
-    @Test(expected = NullPointerException.class)
-    public void throwsExceptionOnMissingFile() {
-        new FromProperties("missing.properties").format();
+    @Test
+    void throwsExceptionOnMissingFile() {
+        final FromProperties properties = new FromProperties("missing.properties");
+        Assertions.assertThrows(
+            NullPointerException.class,
+            properties::format
+        );
     }
 
 }

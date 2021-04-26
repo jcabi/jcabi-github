@@ -34,7 +34,7 @@ import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
@@ -42,14 +42,14 @@ import org.junit.Test;
  * @version $Id$
  */
 @OAuthScope(Scope.USER_EMAIL)
-public final class RtUserEmailsITCase {
+final class RtUserEmailsITCase {
 
     /**
      * RtUserEmails can fetch emails.
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmails() throws Exception {
+    void fetchesEmails() throws Exception {
         MatcherAssert.assertThat(
             RtUserEmailsITCase.userEmails().iterate(),
             Matchers.not(Matchers.emptyIterableOf(String.class))
@@ -62,7 +62,7 @@ public final class RtUserEmailsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void addsEmails() throws Exception {
+    void addsEmails() throws Exception {
         final String email = "test@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         try {
@@ -82,7 +82,7 @@ public final class RtUserEmailsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void removesEmails() throws Exception {
+    void removesEmails() throws Exception {
         final String email = "test1@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         emails.add(Collections.singletonList(email));

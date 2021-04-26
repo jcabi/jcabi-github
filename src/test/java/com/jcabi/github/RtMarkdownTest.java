@@ -41,7 +41,7 @@ import org.apache.http.HttpHeaders;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtMarkdown}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtMarkdownTest {
+final class RtMarkdownTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -65,7 +65,7 @@ public final class RtMarkdownTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void returnsJsonOutput() throws Exception {
+    void returnsJsonOutput() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
@@ -96,7 +96,7 @@ public final class RtMarkdownTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void returnsRawOutput() throws Exception {
+    void returnsRawOutput() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")

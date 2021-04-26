@@ -44,7 +44,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -56,7 +56,7 @@ import org.mockito.Mockito;
  * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtReleasesTest {
+final class RtReleasesTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -70,7 +70,7 @@ public final class RtReleasesTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfReleases() throws Exception {
+    void canFetchEmptyListOfReleases() throws Exception {
         final Releases releases = new RtReleases(
             new FakeRequest().withBody("[]"),
             RtReleasesTest.repo()
@@ -85,7 +85,7 @@ public final class RtReleasesTest {
      * RtReleases can fetch non empty list of releases.
      */
     @Test
-    public void canFetchNonEmptyListOfReleases() {
+    void canFetchNonEmptyListOfReleases() {
         final int number = 1;
         final Releases releases = new RtReleases(
             new FakeRequest().withBody(
@@ -110,7 +110,7 @@ public final class RtReleasesTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void canFetchSingleRelease() throws IOException {
+    void canFetchSingleRelease() throws IOException {
         final Releases releases = new RtReleases(
             new FakeRequest(), RtReleasesTest.repo()
         );
@@ -122,7 +122,7 @@ public final class RtReleasesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateRelease() throws Exception {
+    void canCreateRelease() throws Exception {
         final String tag = "v1.0.0";
         final String rel = release(tag).toString();
         try (
@@ -153,7 +153,7 @@ public final class RtReleasesTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canDeleteRelease() throws Exception {
+    void canDeleteRelease() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

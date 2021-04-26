@@ -33,21 +33,21 @@ import com.jcabi.github.Limit;
 import com.jcabi.github.Limits;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkLimits}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class MkLimitsTest {
+final class MkLimitsTest {
 
     /**
      * MkLimits can work.
      * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedData() throws Exception {
+    void worksWithMockedData() throws Exception {
         final Limits limits = new MkGithub().limits();
         MatcherAssert.assertThat(
             new Limit.Smart(limits.get(Limits.CORE)).limit(),

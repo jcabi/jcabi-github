@@ -34,7 +34,7 @@ import com.jcabi.github.Repos;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -43,7 +43,7 @@ import org.junit.rules.ExpectedException;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReposTest {
+final class MkReposTest {
 
     /**
      * Rule for checking thrown exception.
@@ -57,7 +57,7 @@ public final class MkReposTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsRepository() throws Exception {
+    void createsRepository() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = MkReposTest.repo(repos, "test", "test repo");
         MatcherAssert.assertThat(
@@ -71,7 +71,7 @@ public final class MkReposTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsRepositoryWithOrganization() throws Exception {
+    void createsRepositoryWithOrganization() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "john");
         final Repo repo = MkReposTest.repoWithOrg(repos, "test", "myorg");
         MatcherAssert.assertThat(
@@ -85,7 +85,7 @@ public final class MkReposTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsRepositoryWithDetails() throws Exception {
+    void createsRepositoryWithDetails() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = MkReposTest.repo(repos, "hello", "my test repo");
         MatcherAssert.assertThat(
@@ -99,7 +99,7 @@ public final class MkReposTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void removesRepo() throws Exception {
+    void removesRepo() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = MkReposTest.repo(repos, "remove-me", "remove repo");
         MatcherAssert.assertThat(
@@ -113,7 +113,7 @@ public final class MkReposTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateRepos() throws Exception {
+    void iterateRepos() throws Exception {
         final String since = "1";
         final Repos repos = new MkRepos(new MkStorage.InFile(), "tom");
         MkReposTest.repo(repos, since, "repo 1");
@@ -129,7 +129,7 @@ public final class MkReposTest {
      * @throws Exception If there is any error
      */
     @Test
-    public void createsPrivateRepo() throws Exception {
+    void createsPrivateRepo() throws Exception {
         final boolean priv = true;
         MatcherAssert.assertThat(
             new Repo.Smart(
@@ -146,7 +146,7 @@ public final class MkReposTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void existsRepo() throws Exception {
+    void existsRepo() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "john");
         final Repo repo = MkReposTest.repo(repos, "exist", "existing repo");
         MatcherAssert.assertThat(

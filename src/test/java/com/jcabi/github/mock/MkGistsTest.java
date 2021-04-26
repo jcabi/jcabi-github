@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkGists}.
@@ -43,14 +43,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkGistsTest {
+final class MkGistsTest {
 
     /**
      * MkGists can work with gists.
      * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedGists() throws Exception {
+    void worksWithMockedGists() throws Exception {
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap("test-file-name.txt", "none"), false
         );
@@ -67,7 +67,7 @@ public final class MkGistsTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void removesGistByIdentifier() throws Exception {
+    void removesGistByIdentifier() throws Exception {
         final Gists gists = new MkGithub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content"), false
@@ -88,7 +88,7 @@ public final class MkGistsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithSeveralGists() throws Exception {
+    void worksWithSeveralGists() throws Exception {
         final Gists gists = new MkGithub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test-file-name.txt", "none"), false
@@ -114,7 +114,7 @@ public final class MkGistsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void testStar() throws Exception {
+    void testStar() throws Exception {
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
@@ -134,7 +134,7 @@ public final class MkGistsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void testUnstar() throws Exception {
+    void testUnstar() throws Exception {
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
@@ -159,7 +159,7 @@ public final class MkGistsTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void createGistWithEmptyFile() throws IOException {
+    void createGistWithEmptyFile() throws IOException {
         final String filename = "file.txt";
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap(filename, ""), false

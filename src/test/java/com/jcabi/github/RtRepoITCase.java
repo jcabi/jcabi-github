@@ -40,7 +40,7 @@ import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Github}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
 @OAuthScope(Scope.REPO)
-public final class RtRepoITCase {
+final class RtRepoITCase {
     /**
      * Test repos.
      */
@@ -107,7 +107,7 @@ public final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
+    void identifiesItself() throws Exception {
         MatcherAssert.assertThat(
             repo.coordinates(),
             Matchers.notNullValue()
@@ -119,7 +119,7 @@ public final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesEvents() throws Exception {
+    void iteratesEvents() throws Exception {
         final Issue issue = repo.issues().create("Test", "This is a bug");
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
@@ -133,7 +133,7 @@ public final class RtRepoITCase {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void exists() throws Exception {
+    void exists() throws Exception {
         MatcherAssert.assertThat(
             new Repo.Smart(repo).exists(), Matchers.is(Boolean.TRUE)
         );
@@ -144,7 +144,7 @@ public final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchCommits() throws Exception {
+    void fetchCommits() throws Exception {
         MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
     }
 
@@ -153,7 +153,7 @@ public final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws Exception {
         MatcherAssert.assertThat(
             repo.assignees().iterate(),
             Matchers.not(Matchers.emptyIterable())
@@ -165,7 +165,7 @@ public final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchLanguages() throws Exception {
+    void fetchLanguages() throws Exception {
         MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
     }
 

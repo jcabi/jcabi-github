@@ -39,7 +39,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtReferences}.
@@ -48,7 +48,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtReferencesTest {
+final class RtReferencesTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -62,7 +62,7 @@ public final class RtReferencesTest {
      * @throws Exception - if something goes wrong.
      */
     @Test
-    public void createsReference() throws Exception {
+    void createsReference() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -92,7 +92,7 @@ public final class RtReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferences() throws Exception {
+    void iteratesReferences() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -118,7 +118,7 @@ public final class RtReferencesTest {
      * @throws Exception - If somethins goes wrong.
      */
     @Test
-    public void removesReference() throws Exception {
+    void removesReference() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -142,7 +142,7 @@ public final class RtReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesTags() throws Exception {
+    void iteratesTags() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -172,7 +172,7 @@ public final class RtReferencesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesHeads() throws Exception {
+    void iteratesHeads() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

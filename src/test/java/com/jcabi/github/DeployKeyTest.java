@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import javax.json.Json;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -40,14 +40,14 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (150 lines)
  */
-public final class DeployKeyTest {
+final class DeployKeyTest {
 
     /**
      * DeployKey.Smart can update the key value of DeployKey.
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesKey() throws Exception {
+    void updatesKey() throws Exception {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String value = "sha-rsa BBB...";
         new DeployKey.Smart(key).key(value);
@@ -61,7 +61,7 @@ public final class DeployKeyTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesTitle() throws Exception {
+    void updatesTitle() throws Exception {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String prop = "octocat@octomac";
         new DeployKey.Smart(key).title(prop);

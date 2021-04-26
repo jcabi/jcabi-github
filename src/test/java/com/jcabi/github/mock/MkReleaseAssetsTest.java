@@ -36,7 +36,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkReleaseAssets}.
@@ -47,7 +47,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle MethodNameCheck (200 lines)
  */
-public final class MkReleaseAssetsTest {
+final class MkReleaseAssetsTest {
 
     /**
      * MkReleaseAssets can upload a new Release Asset.
@@ -55,7 +55,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void uploadsNewAsset() throws Exception {
+    void uploadsNewAsset() throws Exception {
         final ReleaseAssets assets = release().assets();
         final ReleaseAsset asset = assets.upload(
             "testUpload".getBytes(), "text/plain", "upload.txt"
@@ -72,7 +72,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesSingleAsset() throws Exception {
+    void fetchesSingleAsset() throws Exception {
         final ReleaseAssets assets = release().assets();
         final ReleaseAsset asset = assets.upload(
             "testGet".getBytes(), "text/plain", "get.txt"
@@ -89,7 +89,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void iteratesAssets() throws Exception {
+    void iteratesAssets() throws Exception {
         final ReleaseAssets assets = release().assets();
         assets.upload(
             "testIterate".getBytes(), "text/plain", "iterate.txt"
@@ -106,7 +106,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesRelease() throws Exception {
+    void fetchesRelease() throws Exception {
         final Release rel = release();
         MatcherAssert.assertThat(
             rel.assets().release(),
@@ -119,7 +119,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception Unexpected.
      */
     @Test
-    public void encodesContentsAsBase64() throws Exception {
+    void encodesContentsAsBase64() throws Exception {
         final String test = "This is a test asset.";
         final ReleaseAsset asset = new MkGithub().randomRepo().releases()
             .create("v1.0")

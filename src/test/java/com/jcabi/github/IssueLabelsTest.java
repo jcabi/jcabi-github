@@ -34,7 +34,8 @@ import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -43,14 +44,14 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class IssueLabelsTest {
+final class IssueLabelsTest {
 
     /**
      * IssueLabels.Smart can fetch labels by color.
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesLabelsByColor() throws Exception {
+    void fetchesLabelsByColor() throws Exception {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("color", "c0c0c0").build()
@@ -75,7 +76,7 @@ public final class IssueLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void checksLabelExistenceByName() throws Exception {
+    void checksLabelExistenceByName() throws Exception {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("first").when(first).name();
         final Label second = Mockito.mock(Label.class);
@@ -97,7 +98,7 @@ public final class IssueLabelsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void getsLabelByName() throws Exception {
+    void getsLabelByName() throws Exception {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("a").when(first).name();
         final Label second = Mockito.mock(Label.class);
@@ -112,13 +113,17 @@ public final class IssueLabelsTest {
 
     /**
      * IssueLabels.Smart can throw when label is absent.
-     * @throws Exception If some problem inside
      */
-    @Test(expected = IllegalArgumentException.class)
-    public void throwsWhenLabelIsAbsent() throws Exception {
-        final IssueLabels labels = Mockito.mock(IssueLabels.class);
-        Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
-        new IssueLabels.Smart(labels).get("something");
+    @Test
+    void throwsWhenLabelIsAbsent() {
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+        
+                final IssueLabels labels = Mockito.mock(IssueLabels.class);
+                Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
+                new IssueLabels.Smart(labels).get("something");            }
+        );
     }
 
 }

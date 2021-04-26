@@ -35,7 +35,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTree.
@@ -43,14 +43,14 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkTreeTest {
+final class MkTreeTest {
 
     /**
      * MkTree should return its json.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesContent() throws Exception {
+    void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
             this.tree().json().getString("message"),
             Matchers.is("\"test tree\"")

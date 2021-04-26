@@ -32,7 +32,7 @@ package com.jcabi.github;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -41,7 +41,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @since 0.8
  */
-public final class RtGitTest {
+final class RtGitTest {
 
     /**
      * RtGit can fetch its own repo.
@@ -49,7 +49,7 @@ public final class RtGitTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void canFetchOwnRepo() throws Exception {
+    void canFetchOwnRepo() throws Exception {
         final Repo repo = repo();
         MatcherAssert.assertThat(
             new RtGit(new FakeRequest(), repo).repo(),

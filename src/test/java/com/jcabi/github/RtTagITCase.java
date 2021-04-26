@@ -40,7 +40,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration testcase for RtTag.
@@ -49,7 +49,7 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(Scope.REPO)
-public final class RtTagITCase {
+final class RtTagITCase {
 
     /**
      * Test repos.
@@ -96,7 +96,7 @@ public final class RtTagITCase {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesJson() throws Exception {
+    void fetchesJson() throws Exception {
         final String object = "object";
         final String message = "message";
         final String content = "initial version";

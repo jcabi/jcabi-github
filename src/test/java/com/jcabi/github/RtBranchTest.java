@@ -34,7 +34,7 @@ import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtBranch}.
@@ -42,7 +42,7 @@ import org.junit.Test;
  * @author Chris Rebert (github@rebertia.com)
  * @version $Id$
  */
-public final class RtBranchTest {
+final class RtBranchTest {
     /**
      * Test branch name.
      */
@@ -58,7 +58,7 @@ public final class RtBranchTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesCommit() throws Exception {
+    void fetchesCommit() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
         MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(SHA));
@@ -78,7 +78,7 @@ public final class RtBranchTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesName() throws Exception {
+    void fetchesName() throws Exception {
         MatcherAssert.assertThat(
             RtBranchTest.newBranch(new MkGithub().randomRepo()).name(),
             Matchers.equalTo(BRANCH_NAME)
@@ -90,7 +90,7 @@ public final class RtBranchTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesRepo() throws Exception {
+    void fetchesRepo() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();

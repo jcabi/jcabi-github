@@ -33,7 +33,8 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -42,7 +43,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtLimitTest {
+final class RtLimitTest {
 
     /**
      * RtLimit can describe as a JSON object.
@@ -50,7 +51,7 @@ public final class RtLimitTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void describeAsJson() throws Exception {
+    void describeAsJson() throws Exception {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(Github.class),
             new FakeRequest().withBody(this.body()),
@@ -67,18 +68,17 @@ public final class RtLimitTest {
     /**
      * RtLimit can throw exception when resource is absent.
      *
-     * @throws Exception if some problem inside
      */
-    @Test(expected = IllegalStateException.class)
-    public void throwsWhenResourceIsAbsent() throws Exception {
+    @Test
+    void throwsWhenResourceIsAbsent() {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(Github.class),
             new FakeRequest().withBody(this.body()),
             "absent"
         );
-        MatcherAssert.assertThat(
-            limit.json().toString(),
-            Matchers.equalTo("{}")
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> limit.json().toString()
         );
     }
 

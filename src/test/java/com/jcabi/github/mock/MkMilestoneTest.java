@@ -33,7 +33,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the MkUser class.
@@ -41,14 +41,14 @@ import org.junit.Test;
  * @author Roman Kisilenko (roman.kisilenko@gmail.com)
  * @version $Id$
  */
-public class MkMilestoneTest {
+final class MkMilestoneTest {
 
     /**
      * MkMilestone returns a repo with same coordinates.
      * @throws Exception if test fails
      */
     @Test
-    public final void returnsSameCoordinatesRepo() throws Exception {
+    void returnsSameCoordinatesRepo() throws Exception {
         final Coordinates coordinates = new Coordinates.Simple(
             "user",
             "repo"

@@ -42,7 +42,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -53,7 +53,7 @@ import org.mockito.Mockito;
  * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class RtRepoTest {
+final class RtRepoTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -68,7 +68,7 @@ public final class RtRepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesEvents() throws Exception {
+    void iteratesEvents() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -97,7 +97,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesLabels() throws Exception {
+    void fetchesLabels() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -113,7 +113,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesIssues() throws Exception {
+    void fetchesIssues() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -129,7 +129,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesBranches() throws Exception {
+    void fetchesBranches() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -145,7 +145,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesPulls() throws Exception {
+    void fetchesPulls() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -161,7 +161,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchHooks() throws Exception {
+    void fetchHooks() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -177,7 +177,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchKeys() throws Exception {
+    void fetchKeys() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -193,7 +193,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchReleases() throws Exception {
+    void fetchReleases() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -209,7 +209,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchContents() throws Exception {
+    void fetchContents() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -224,7 +224,7 @@ public final class RtRepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
+    void identifiesItself() throws Exception {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
@@ -243,7 +243,7 @@ public final class RtRepoTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -270,7 +270,7 @@ public final class RtRepoTest {
      * @throws Exception if there is any problem
      */
     @Test
-    public void describeAsJson() throws Exception {
+    void describeAsJson() throws Exception {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
@@ -292,7 +292,7 @@ public final class RtRepoTest {
      * RtRepo can fetch commits.
      */
     @Test
-    public void fetchCommits() {
+    void fetchCommits() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -303,7 +303,7 @@ public final class RtRepoTest {
      * RtRepo can fetch Git.
      */
     @Test
-    public void fetchesGit() {
+    void fetchesGit() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -314,7 +314,7 @@ public final class RtRepoTest {
      * RtRepo can fetch stars.
      */
     @Test
-    public void fetchStars() {
+    void fetchStars() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -325,7 +325,7 @@ public final class RtRepoTest {
      * RtRepo can fetch notifications.
      */
     @Test
-    public void fetchNotifications() {
+    void fetchNotifications() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -337,7 +337,7 @@ public final class RtRepoTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchLanguages() throws Exception {
+    void fetchLanguages() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -362,7 +362,7 @@ public final class RtRepoTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesLanguages() throws Exception {
+    void iteratesLanguages() throws Exception {
         final String lang = "C";
         final String other = "Java";
         try (

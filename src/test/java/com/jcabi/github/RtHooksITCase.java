@@ -39,7 +39,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtHooks}.
@@ -48,7 +48,7 @@ import org.junit.Test;
  * @since 0.8
  */
 @OAuthScope(Scope.ADMIN_REPO_HOOK)
-public final class RtHooksITCase {
+final class RtHooksITCase {
 
     /**
      * RepoRule.
@@ -62,7 +62,7 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchAllHooks() throws Exception {
+    void canFetchAllHooks() throws Exception {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -80,7 +80,7 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateAHook() throws Exception {
+    void canCreateAHook() throws Exception {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -98,7 +98,7 @@ public final class RtHooksITCase {
      * @throws Exception If some problem inside.
      */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    void canFetchSingleHook() throws Exception {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -118,7 +118,7 @@ public final class RtHooksITCase {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void canRemoveHook() throws Exception {
+    void canRemoveHook() throws Exception {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {

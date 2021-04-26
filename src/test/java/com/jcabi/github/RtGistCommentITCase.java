@@ -35,7 +35,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtGistComment}.
@@ -45,14 +45,14 @@ import org.junit.Test;
  * @since 0.8
  */
 @OAuthScope(Scope.GIST)
-public final class RtGistCommentITCase {
+final class RtGistCommentITCase {
 
     /**
      * RtGistComment can remove itself.
      * @throws Exception if some problem inside
      */
     @Test
-    public void removeItself() throws Exception {
+    void removeItself() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final String body = "comment body";
         final GistComments comments = gist.comments();
@@ -74,7 +74,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchAsJSON() throws Exception {
+    void fetchAsJSON() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
@@ -91,7 +91,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
@@ -113,7 +113,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void changeCommentBody() throws Exception {
+    void changeCommentBody() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("hi there");

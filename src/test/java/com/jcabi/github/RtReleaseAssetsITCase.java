@@ -37,7 +37,7 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtReleaseAssets}.
@@ -48,7 +48,7 @@ import org.junit.Test;
  */
 @OAuthScope(Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtReleaseAssetsITCase {
+final class RtReleaseAssetsITCase {
 
     /**
      * Test repos.
@@ -98,7 +98,7 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    public void uploadsAssets() throws Exception {
+    void uploadsAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -124,7 +124,7 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    public void uploadsTwoAssets() throws Exception {
+    void uploadsTwoAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -160,7 +160,7 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    public void uploadsSameAssetInTwoReleases() throws Exception {
+    void uploadsSameAssetInTwoReleases() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -201,7 +201,7 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    public void fetchesAssets() throws Exception {
+    void fetchesAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -226,7 +226,7 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    public void iteratesAssets() throws Exception {
+    void iteratesAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -256,7 +256,7 @@ public final class RtReleaseAssetsITCase {
      * @throws Exception If an exception occurs.
      */
     @Test
-    public void returnsNoAssets() throws Exception {
+    void returnsNoAssets() throws Exception {
         final Releases releases = repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));

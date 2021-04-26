@@ -42,7 +42,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtGistComment}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
-public class RtGistCommentTest {
+final class RtGistCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -64,7 +64,7 @@ public class RtGistCommentTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public final void patchAndCheckJsonGistComment() throws IOException {
+    void patchAndCheckJsonGistComment() throws IOException {
         final int identifier = 1;
         final String idString = "id";
         final String bodyString = "body";
@@ -124,7 +124,7 @@ public class RtGistCommentTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public final void removeGistComment() throws IOException {
+    void removeGistComment() throws IOException {
         final int identifier = 1;
         try (
             final MkContainer container = new MkGrizzlyContainer().next(

@@ -42,7 +42,7 @@ import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -52,7 +52,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (2 lines)
  */
-public final class RtHookTest {
+final class RtHookTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -66,7 +66,7 @@ public final class RtHookTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void performsValidRequest() throws Exception {
+    void performsValidRequest() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -98,7 +98,7 @@ public final class RtHookTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void returnsEvents() throws Exception {
+    void returnsEvents() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

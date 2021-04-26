@@ -33,7 +33,7 @@ import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPublicKeys}.
@@ -41,7 +41,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class MkPublicKeysTest {
+final class MkPublicKeysTest {
 
     /**
      * MkPublicKeys should be able to iterate its keys.
@@ -49,7 +49,7 @@ public final class MkPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesKeys() throws Exception {
+    void retrievesKeys() throws Exception {
         final PublicKeys keys = new MkGithub().users().self().keys();
         final PublicKey key = keys.create("key", "ssh 1AA");
         MatcherAssert.assertThat(
@@ -64,7 +64,7 @@ public final class MkPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchSingleKey() throws Exception {
+    void canFetchSingleKey() throws Exception {
         final PublicKeys keys = new MkGithub().users().add("jeff").keys();
         MatcherAssert.assertThat(
             keys.get(1),
@@ -78,7 +78,7 @@ public final class MkPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCreatePublicKey() throws Exception {
+    void canCreatePublicKey() throws Exception {
         final PublicKeys keys = new MkGithub().users().add("john").keys();
         final PublicKey key = keys.create("Title1", "PublicKey1");
         MatcherAssert.assertThat(
@@ -93,7 +93,7 @@ public final class MkPublicKeysTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRemoveKey() throws Exception {
+    void canRemoveKey() throws Exception {
         final PublicKeys keys = new MkGithub().users().self().keys();
         final PublicKey key = keys.create("rsa", "rsa sh");
         MatcherAssert.assertThat(

@@ -35,7 +35,7 @@ import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkForks}.
@@ -43,7 +43,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class MkForksTest {
+final class MkForksTest {
 
     /**
      * RtForks should be able to create a new fork.
@@ -68,7 +68,7 @@ public final class MkForksTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesForks() throws Exception {
+    void iteratesForks() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Fork fork = repo.forks().create("Organization");
         final Iterable<Fork> iterate = repo.forks().iterate("Order");

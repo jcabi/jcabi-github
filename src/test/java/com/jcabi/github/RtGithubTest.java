@@ -33,7 +33,7 @@ import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtGithub}.
@@ -41,7 +41,7 @@ import org.junit.Test;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtGithubTest {
+final class RtGithubTest {
 
     /**
      * RtGithub can retrieve its repos.
@@ -49,7 +49,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesRepos() throws Exception {
+    void retrievesRepos() throws Exception {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.repos(),
@@ -63,7 +63,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesGists() throws Exception {
+    void retrievesGists() throws Exception {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.gists(),
@@ -77,7 +77,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesUsers() throws Exception {
+    void retrievesUsers() throws Exception {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.users(),
@@ -91,7 +91,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesMetaAsJson() throws Exception {
+    void retrievesMetaAsJson() throws Exception {
         final RtGithub github = new RtGithub(
             new FakeRequest().withBody("{\"meta\":\"blah\"}")
         );
@@ -107,7 +107,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesEmojisAsJson() throws Exception {
+    void retrievesEmojisAsJson() throws Exception {
         final RtGithub github = new RtGithub(
             new FakeRequest().withBody(
             "{ \"emojikey\": \"urlvalue\" }"
@@ -125,7 +125,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesMarkdown() throws Exception {
+    void retrievesMarkdown() throws Exception {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.markdown(),
@@ -138,7 +138,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesGitignores() throws Exception {
+    void retrievesGitignores() throws Exception {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.gitignores(),
@@ -150,7 +150,7 @@ public final class RtGithubTest {
      * Github.Time can compare two same Times successfully.
      */
     @Test
-    public void testSameTimesAreEqual() {
+    void testSameTimesAreEqual() {
         final long time = System.currentTimeMillis();
         final Github.Time first = new Github.Time(time);
         final Github.Time second = new Github.Time(time);
@@ -164,7 +164,7 @@ public final class RtGithubTest {
      * Github.Time can compare two different Times successfully.
      */
     @Test
-    public void testDifferentTimesAreNotEqual() {
+    void testDifferentTimesAreNotEqual() {
         final Github.Time first = new Github.Time(System.currentTimeMillis());
         final Github.Time second = new Github.Time(
             System.currentTimeMillis() + 1
@@ -180,7 +180,7 @@ public final class RtGithubTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void equalsToAnotherGithub() throws Exception {
+    void equalsToAnotherGithub() throws Exception {
         MatcherAssert.assertThat(
             new RtGithub(new FakeRequest().header("abc", "cde")),
             Matchers.not(

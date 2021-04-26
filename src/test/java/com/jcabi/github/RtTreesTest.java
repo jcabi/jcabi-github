@@ -41,7 +41,7 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -50,7 +50,7 @@ import org.mockito.Mockito;
  * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtTreesTest {
+final class RtTreesTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -64,7 +64,7 @@ public final class RtTreesTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void createsTree() throws Exception {
+    void createsTree() throws Exception {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
@@ -107,7 +107,7 @@ public final class RtTreesTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getTree() throws Exception {
+    void getTree() throws Exception {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(
@@ -129,7 +129,7 @@ public final class RtTreesTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getTreeRec() throws Exception {
+    void getTreeRec() throws Exception {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(

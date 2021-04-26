@@ -33,21 +33,21 @@ import com.jcabi.xml.XML;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link JsonPatch}.
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class JsonPatchTest {
+final class JsonPatchTest {
 
     /**
      * JsonPatch can patch an XML.
      * @throws Exception If some problem inside
      */
     @Test
-    public void patchesXml() throws Exception {
+    void patchesXml() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         new JsonPatch(storage).patch(
             "/github",

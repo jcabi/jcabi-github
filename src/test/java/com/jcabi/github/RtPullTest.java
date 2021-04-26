@@ -43,7 +43,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -52,7 +52,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
-public final class RtPullTest {
+final class RtPullTest {
     /**
      * Property name for ref name in pull request ref JSON object.
      */
@@ -75,7 +75,7 @@ public final class RtPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void fetchesCommits() throws Exception {
+    void fetchesCommits() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -103,7 +103,7 @@ public final class RtPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void fetchesFiles() throws Exception {
+    void fetchesFiles() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -130,7 +130,7 @@ public final class RtPullTest {
      * @throws IOException If some I/O problem occurs
      */
     @Test
-    public void fetchesBase() throws IOException {
+    void fetchesBase() throws IOException {
         final String ref = "sweet-feature-branch";
         final String sha = "e93c6a2216c69daa574abc16e7c14767fce44ad6";
         try (
@@ -177,7 +177,7 @@ public final class RtPullTest {
      * @throws IOException If some I/O problem occurs
      */
     @Test
-    public void fetchesHead() throws IOException {
+    void fetchesHead() throws IOException {
         final String ref = "neat-other-branch";
         final String sha = "9c717b4716e4fc4d917f546e8e6b562e810e3922";
         try (
@@ -225,7 +225,7 @@ public final class RtPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void executeMerge() throws Exception {
+    void executeMerge() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
@@ -256,7 +256,7 @@ public final class RtPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
         final RtPull greater = new RtPull(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(

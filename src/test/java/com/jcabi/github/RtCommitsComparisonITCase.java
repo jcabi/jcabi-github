@@ -33,7 +33,7 @@ import com.google.common.base.Optional;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCommitsComparison}.
@@ -41,14 +41,14 @@ import org.junit.Test;
  * @version $Id$
  * @since 0.24
  */
-public final class RtCommitsComparisonITCase {
+final class RtCommitsComparisonITCase {
     /**
      * RtCommitsComparison can read the file changes in the comparison.
      * @throws Exception If some problem inside
      * @see <a href="https://api.github.com/repos/jcabi/jcabi-github/compare/fec537c74da115b01a5c27b225d22a3976545acf...3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4">The relevant commit comparison</a>
      */
     @Test
-    public void readsFiles() throws Exception {
+    void readsFiles() throws Exception {
         final String headsha = "3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4";
         final Iterable<FileChange> files = RtCommitsComparisonITCase.github()
             .repos()

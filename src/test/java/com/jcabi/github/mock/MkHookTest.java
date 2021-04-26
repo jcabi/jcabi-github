@@ -36,7 +36,7 @@ import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
 /**
@@ -47,13 +47,13 @@ import org.xembly.Directives;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkHookTest {
+final class MkHookTest {
     /**
      * Test if {@link MkHook} is being created with the correct number.
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectNumber() throws Exception {
+    void createWithCorrectNumber() throws Exception {
         final int number = 5;
         MatcherAssert.assertThat(
             "Hook returned wrong number",
@@ -67,7 +67,7 @@ public final class MkHookTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectRepo() throws Exception {
+    void createWithCorrectRepo() throws Exception {
         final MkStorage storage = new MkStorage.InFile();
         final String login = "login";
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -83,7 +83,7 @@ public final class MkHookTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectId() throws Exception {
+    void createWithCorrectId() throws Exception {
         final int number = 5;
         final MkStorage storage = new MkStorage.InFile();
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -102,7 +102,7 @@ public final class MkHookTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectUrl() throws Exception {
+    void createWithCorrectUrl() throws Exception {
         final String url = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -125,7 +125,7 @@ public final class MkHookTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectTestUrl() throws Exception {
+    void createWithCorrectTestUrl() throws Exception {
         final String test = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -148,7 +148,7 @@ public final class MkHookTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectPingUrl() throws Exception {
+    void createWithCorrectPingUrl() throws Exception {
         final String ping = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -172,7 +172,7 @@ public final class MkHookTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectEvents() throws Exception {
+    void createWithCorrectEvents() throws Exception {
         final Iterable<String> events = Arrays.asList("event1", "event2");
         final int number = 123;
         final Coordinates coords = new Coordinates.Simple("user/repo");

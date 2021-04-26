@@ -35,7 +35,7 @@ import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPulls}.
@@ -44,7 +44,7 @@ import org.junit.Test;
  * @since 1.0
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkPullsTest {
+final class MkPullsTest {
 
     /**
      * MkPulls can create a pull.
@@ -52,7 +52,7 @@ public final class MkPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateAPull() throws Exception {
+    void canCreateAPull() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Pull pull = repo.pulls().create(
             "hello",

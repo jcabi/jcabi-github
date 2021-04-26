@@ -37,7 +37,7 @@ import java.net.URL;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -45,13 +45,13 @@ import org.mockito.Mockito;
  * @author Yegor Bugayenko (yegor@tpc2.com)
  * @version $Id$
  */
-public final class MkCommentTest {
+final class MkCommentTest {
     /**
      * MkComment can change body.
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesBody() throws Exception {
+    void changesBody() throws Exception {
         final Comment comment = this.comment("hey buddy");
         new Comment.Smart(comment).body("hello, this is a new body");
         MatcherAssert.assertThat(
@@ -66,7 +66,7 @@ public final class MkCommentTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    void canCompareInstances() throws Exception {
         final MkComment less = new MkComment(
             new MkStorage.InFile(),
             "login-less",
@@ -97,7 +97,7 @@ public final class MkCommentTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void dataStoredProperly() throws Exception {
+    void dataStoredProperly() throws Exception {
         final String cmt = "what's up?";
         final long before = MkCommentTest.now();
         final Comment comment = this.comment(cmt);

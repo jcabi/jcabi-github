@@ -33,7 +33,7 @@ import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtNotifications}.
@@ -48,7 +48,7 @@ import org.junit.Test;
  *  mark() operation in RtNotifications.
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-public final class RtNotificationsTest {
+final class RtNotificationsTest {
 
     /**
      * Method 'iterate()' returns empty iterable if the service responds with
@@ -56,7 +56,7 @@ public final class RtNotificationsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void iterateEmpty() throws Exception {
+    void iterateEmpty() throws Exception {
         MatcherAssert.assertThat(
             new RtNotifications(
                 new FakeRequest()
@@ -71,7 +71,7 @@ public final class RtNotificationsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iterateNotifications() throws Exception {
+    void iterateNotifications() throws Exception {
         MatcherAssert.assertThat(
             new RtNotifications(
                 new FakeRequest().withBody(

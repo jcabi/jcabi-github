@@ -40,7 +40,7 @@ import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link RtGitignores}.
@@ -50,7 +50,7 @@ import org.junit.Test;
  * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
 @Immutable
-public final class RtGitignoresTest {
+final class RtGitignoresTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -63,7 +63,7 @@ public final class RtGitignoresTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void iterateTemplateNames() throws Exception {
+    void iterateTemplateNames() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -92,7 +92,7 @@ public final class RtGitignoresTest {
      * @throws Exception if there is any error
      */
     @Test
-    public void getRawTemplateByName() throws Exception {
+    void getRawTemplateByName() throws Exception {
         final RtGitignores gitignores = new RtGitignores(
             new RtGithub(new FakeRequest().withBody("# Object files"))
         );

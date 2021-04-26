@@ -39,7 +39,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
@@ -48,7 +48,7 @@ import org.mockito.Mockito;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  */
-public final class RtDeployKeyTest {
+final class RtDeployKeyTest {
 
     /**
      * The rule for skipping test if there's BindException.
@@ -63,7 +63,7 @@ public final class RtDeployKeyTest {
      * @throws Exception If some problem inside.
      */
     @Test
-    public void canDeleteDeployKey() throws Exception {
+    void canDeleteDeployKey() throws Exception {
         try (
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
