@@ -34,7 +34,7 @@ import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -73,8 +73,8 @@ final class MkPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchEmptyListOfPulls() throws Exception {
+    @Disabled
+    void canFetchEmptyListOfPulls() throws Exception {
         // to be implemented
     }
 
@@ -83,8 +83,8 @@ final class MkPullsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    @Ignore
-    public void canFetchSinglePull() throws Exception {
+    @Disabled
+    void canFetchSinglePull() throws Exception {
         // to be implemented
     }
 }

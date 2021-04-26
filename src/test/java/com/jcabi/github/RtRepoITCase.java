@@ -36,10 +36,10 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
 import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -65,8 +65,8 @@ final class RtRepoITCase {
      * Set up test fixtures.
      * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
+    @BeforeAll
+    static void setUp() throws Exception {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(key, Matchers.notNullValue());
         final Github github = new RtGithub(key);
@@ -95,8 +95,8 @@ final class RtRepoITCase {
      * Tear down test fixtures.
      * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
+    @AfterAll
+    static void tearDown() throws Exception {
         if (repos != null && repo != null) {
             repos.remove(repo.coordinates());
         }
@@ -175,8 +175,8 @@ final class RtRepoITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void iteratesLanguages() throws Exception {
+    @Disabled
+    void iteratesLanguages() throws Exception {
         MatcherAssert.assertThat(
             repo.languages(),
             Matchers.not(Matchers.emptyIterable())

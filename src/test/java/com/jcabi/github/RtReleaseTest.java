@@ -41,9 +41,9 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -73,16 +73,16 @@ final class RtReleaseTest {
     /**
      * Setting up the test fixture.
      */
-    @Before
-    public final void setUp() {
+    @BeforeEach
+    void setUp() {
         this.container = new MkGrizzlyContainer();
     }
 
     /**
      * Tear down the test fixture to return to the original state.
      */
-    @After
-    public final void tearDown() {
+    @AfterEach
+    void tearDown() {
         this.container.stop();
     }
 

@@ -76,7 +76,7 @@ final class ExistenceTest {
 
     /**
      * Existends throws the possible IOException resulted from the server call.
-     * @throws Exception If something goes wrong.
+     * @throws IOException If something goes wrong.
      */
     @Test
     void rethrowsIOException() throws IOException {

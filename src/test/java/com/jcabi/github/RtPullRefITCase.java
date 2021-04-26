@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-
 /**
  * Test case for {@link RtPullRef}.
  * @author Chris Rebert (github@chrisrebert.com)

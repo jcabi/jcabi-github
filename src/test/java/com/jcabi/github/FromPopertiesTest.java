@@ -58,7 +58,9 @@ final class FromPopertiesTest {
      */
     @Test
     void throwsExceptionOnMissingFile() {
-        final FromProperties properties = new FromProperties("missing.properties");
+        final UserAgent properties = new FromProperties(
+            "missing.properties"
+        );
         Assertions.assertThrows(
             NullPointerException.class,
             properties::format

@@ -108,32 +108,27 @@ final class RtValuePaginationTest {
 
     /**
      * RtValuePagination can throw if there is no more elements in pagination.
+     * @throws Exception If some problem inside
      */
     @Test
-    void throwsIfNoMoreElement() {
+    void throwsIfNoMoreElement() throws Exception {
+        final String jeff = "other Jeff";
+        final String mark = "other Mark";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            RtValuePaginationTest.simple(jeff, mark)
+        ).start(this.resource.port());
         Assertions.assertThrows(
             NoSuchElementException.class,
             () -> {
-        
-                final String jeff = "other Jeff";
-                final String mark = "other Mark";
-                final MkContainer container = new MkGrizzlyContainer().next(
-                    RtValuePaginationTest.simple(jeff, mark)
-                ).start(this.resource.port());
                 try {
                     final Request request = new ApacheRequest(container.home());
                     final RtValuePagination<JsonObject, JsonArray> page =
-                        new RtValuePagination<JsonObject, JsonArray>(
+                        new RtValuePagination<>(
                             request,
-                            new RtValuePagination.Mapping<JsonObject, JsonArray>() {
-                                @Override
-                                public JsonObject map(final JsonArray object) {
-                                    return Json.createObjectBuilder()
-                                        .add("id3", object.getString(0))
-                                        .add("id4", object.getString(1))
-                                        .build();
-                                }
-                            }
+                            object -> Json.createObjectBuilder()
+                                .add("id3", object.getString(0))
+                                .add("id4", object.getString(1))
+                                .build()
                         );
                     final Iterator<JsonObject> iterator = page.iterator();
                     iterator.next();
@@ -143,7 +138,8 @@ final class RtValuePaginationTest {
                     );
                 } finally {
                     container.stop();
-                }            }
+                }
+            }
         );
     }
 
@@ -155,7 +151,7 @@ final class RtValuePaginationTest {
      * @throws Exception If some problem inside
      */
     private static MkAnswer.Simple simple(final String one,
-        final String another
+                                          final String another
     ) throws Exception {
         final String message = Json.createArrayBuilder()
             .add(Json.createArrayBuilder().add(one).add(another))

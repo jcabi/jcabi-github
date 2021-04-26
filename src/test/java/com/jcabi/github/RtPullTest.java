@@ -41,8 +41,8 @@ import java.net.HttpURLConnection;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.Rule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -273,8 +273,8 @@ final class RtPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    @Ignore
-    public void canFetchComments() throws Exception {
+    @Disabled
+    void canFetchComments() throws Exception {
         //to be implemented
     }
 

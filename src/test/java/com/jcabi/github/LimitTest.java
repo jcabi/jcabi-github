@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.github.Limit.Throttled;
 import com.jcabi.http.request.FakeRequest;
-import java.io.IOException;
 import java.util.Date;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;

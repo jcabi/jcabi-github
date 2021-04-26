@@ -46,7 +46,9 @@ final class RtReactionTest {
      */
     @Test
     void throwsExceptionOnInvalidReaction() {
-        final RtReaction reaction = new RtReaction(new Reaction.Simple("invalid"));
+        final RtReaction reaction = new RtReaction(
+            new Reaction.Simple("invalid")
+        );
         Assertions.assertThrows(
             IllegalArgumentException.class,
             reaction::type

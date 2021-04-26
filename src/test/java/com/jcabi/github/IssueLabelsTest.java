@@ -116,13 +116,12 @@ final class IssueLabelsTest {
      */
     @Test
     void throwsWhenLabelIsAbsent() {
+        final IssueLabels labels = Mockito.mock(IssueLabels.class);
+        Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
+        final IssueLabels.Smart smart = new IssueLabels.Smart(labels);
         Assertions.assertThrows(
             IllegalArgumentException.class,
-            () -> {
-        
-                final IssueLabels labels = Mockito.mock(IssueLabels.class);
-                Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
-                new IssueLabels.Smart(labels).get("something");            }
+            () -> smart.get("something")
         );
     }
 

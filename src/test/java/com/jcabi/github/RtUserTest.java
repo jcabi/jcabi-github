@@ -37,6 +37,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Date;
 import javax.json.Json;
@@ -57,7 +58,7 @@ import org.mockito.Mockito;
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle MethodNameCheck (500 lines)
  */
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class RtUserTest {
 
     /**
@@ -495,28 +496,23 @@ final class RtUserTest {
     /**
      * Method 'markAsRead()' should fail if response code is not 205.
      *  AssertionError.
+     * @throws IOException If something goes wrong
      */
     @Test
-    void markAsReadErrorIfResponseStatusIsNot205() {
+    void markAsReadErrorIfResponseStatusIsNot205() throws IOException {
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+        ).start(this.resource.port());
+        final Request req = new ApacheRequest(container.home());
+        final Github github = Mockito.mock(Github.class);
+        Mockito.when(github.entry()).thenReturn(req);
+        final RtUser user = new RtUser(
+            github,
+            req
+        );
         Assertions.assertThrows(
             AssertionError.class,
-            () -> {
-        
-                MkContainer container = null;
-                try {
-                    container = new MkGrizzlyContainer().next(
-                        new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
-                    ).start(this.resource.port());
-                    final Request req = new ApacheRequest(container.home());
-                    final Github github = Mockito.mock(Github.class);
-                    Mockito.when(github.entry()).thenReturn(req);
-                    new RtUser(
-                        github,
-                        req
-                    ).markAsRead(new Date());
-                } finally {
-                    container.close();
-                }            }
+            () -> user.markAsRead(new Date())
         );
     }
 

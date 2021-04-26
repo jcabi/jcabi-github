@@ -44,8 +44,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
 import org.junit.Rule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -65,6 +65,7 @@ final class RtPullCommentTest {
      */
     @Rule
     public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtPullComment should be able to compare different instances.
      * @throws Exception If a problem occurs.
@@ -156,8 +157,8 @@ final class RtPullCommentTest {
      * @throws Exception - if anything goes wrong.
      */
     @Test
-    @Ignore
-    public void reacts() throws Exception {
+    @Disabled
+    void reacts() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

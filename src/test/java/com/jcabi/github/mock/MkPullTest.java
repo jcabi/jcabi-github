@@ -233,7 +233,7 @@ final class MkPullTest {
     }
 
     @Test
-    public void issueIsPull() throws Exception {
+    void issueIsPull() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             "Issue is not a pull request",

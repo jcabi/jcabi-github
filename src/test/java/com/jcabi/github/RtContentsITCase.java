@@ -38,9 +38,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -170,36 +170,34 @@ final class RtContentsITCase {
 
     /**
      * RtContents can remove and throw an exception when get an absent content.
+     * @throws Exception If some problem inside
      */
     @Test
-    void throwsWhenTryingToGetAnAbsentContent() {
+    void throwsWhenTryingToGetAnAbsentContent() throws Exception {
+        final Repos repos = github().repos();
+        final Repo repo = this.rule.repo(repos);
+        final Contents contents = repos.get(repo.coordinates()).contents();
         Assertions.assertThrows(
             AssertionError.class,
             () -> {
-                final Repos repos = github().repos();
-                final Repo repo = this.rule.repo(repos);
-                final Contents contents = repos.get(repo.coordinates()).contents();
                 final String message = "commit message";
-                try {
-                    final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-                    final Content content = contents.create(
-                        this.jsonObject(
-                            path, new String(
-                                Base64.encodeBase64("first content".getBytes())
-                            ),
-                            message
-                        )
-                    );
-                    contents.remove(
-                        Json.createObjectBuilder()
-                            .add("path", path)
-                            .add("message", message)
-                            .add("sha", new Content.Smart(content).sha()).build()
-                    );
-                    contents.get(path, "master");
-                } finally {
-                    repos.remove(repo.coordinates());
-                }
+                final String path =
+                    RandomStringUtils.randomAlphanumeric(Tv.TEN);
+                final Content content = contents.create(
+                    this.jsonObject(
+                        path, new String(
+                            Base64.encodeBase64("first content".getBytes())
+                        ),
+                        message
+                    )
+                );
+                contents.remove(
+                    Json.createObjectBuilder()
+                        .add("path", path)
+                        .add("message", message)
+                        .add("sha", new Content.Smart(content).sha()).build()
+                );
+                contents.get(path, "master");
             }
         );
     }
@@ -271,8 +269,8 @@ final class RtContentsITCase {
      *  directories (#968 and #903)
      */
     @Test
-    @Ignore
-    public void iteratesContent() throws Exception {
+    @Disabled
+    void iteratesContent() throws Exception {
         final Repos repos = github().repos();
         final Repo repo = this.rule.repo(repos);
         try {
