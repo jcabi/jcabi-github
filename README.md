@@ -7,7 +7,6 @@
 
 [![mvn](https://github.com/jcabi/jcabi-github/actions/workflows/mvn.yml/badge.svg)](https://github.com/jcabi/jcabi-github/actions/workflows/mvn.yml)
 [![PDD status](http://www.0pdd.com/svg?name=jcabi/jcabi-github)](http://www.0pdd.com/p?name=jcabi/jcabi-github)
-[![jpeek report](https://i.jpeek.org/com.jcabi/jcabi-github/badge.svg)](https://i.jpeek.org/com.jcabi/jcabi-github/)
 [![Hits-of-Code](https://hitsofcode.com/github/jcabi/jcabi-github)](https://hitsofcode.com/view/github/jcabi/jcabi-github)
 [![codecov](https://codecov.io/gh/jcabi/jcabi-github/branch/master/graph/badge.svg)](https://codecov.io/gh/jcabi/jcabi-github)
 
