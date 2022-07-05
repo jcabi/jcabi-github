@@ -33,7 +33,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
   <parent>
     <groupId>com.jcabi</groupId>
     <artifactId>jcabi</artifactId>
-    <version>1.25</version>
+    <version>1.31.0</version>
   </parent>
   <artifactId>jcabi-github</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -46,7 +46,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
   </issueManagement>
   <ciManagement>
     <system>rultor</system>
-    <url>http://www.rultor.com/s/jcabi</url>
+    <url>https://www.rultor.com/s/jcabi</url>
   </ciManagement>
   <scm>
     <connection>scm:git:github.com:jcabi/jcabi-github.git</connection>
@@ -56,7 +56,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
   <distributionManagement>
     <site>
       <id>github.jcabi.com</id>
-      <url>http://github.jcabi.com/</url>
+      <url>https://github.jcabi.com/</url>
     </site>
   </distributionManagement>
   <properties>
@@ -71,6 +71,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>com.jcabi</groupId>
       <artifactId>jcabi-immutable</artifactId>
+      <version>1.4</version>
     </dependency>
     <dependency>
       <groupId>com.jcabi</groupId>
@@ -129,11 +130,13 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
+      <version>1.10</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+      <version>20.0</version>
     </dependency>
     <dependency>
       <groupId>org.reflections</groupId>
@@ -144,28 +147,34 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
     </dependency>
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
+      <version>2.0.0.Final</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
+      <version>1.8.11</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>jsr311-api</artifactId>
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>javax.json</groupId>
       <artifactId>javax.json-api</artifactId>
+      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.json</artifactId>
+      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
@@ -194,6 +203,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
+      <version>1.4.01</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -211,12 +221,30 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+      <version>2.12.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
+      <version>2.12.1</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-core</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.3.0</version>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
   <dependencyManagement>
@@ -234,7 +262,6 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.0</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
@@ -245,7 +272,6 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.22.0</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
@@ -288,7 +314,6 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
         <configuration>
           <additionalparam>-Xdoclint:none</additionalparam>
         </configuration>

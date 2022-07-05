@@ -79,20 +79,20 @@ public final class LimitTest {
                     "rate", Json.createObjectBuilder()
                         .add("limit", 5000)
                         .add("remaining", 4999)
-                        .add("reset", new Integer(1372700873))
+                        .add("reset", 1372700873)
                         .build()
                 ).add(
                     "resources", Json.createObjectBuilder().add(
                         "core", Json.createObjectBuilder()
                             .add("limit", 5000)
                             .add("remaining", 4999)
-                            .add("reset", new Integer(1372700873))
+                            .add("reset", 1372700873)
                             .build()
                     ).add(
                         "search", Json.createObjectBuilder()
                             .add("limit", 5000)
                             .add("remaining", 4999)
-                            .add("reset", new Integer(1372700873))
+                            .add("reset", 1372700873)
                             .build()
                     ).build()
                 ).build().toString()
@@ -103,7 +103,7 @@ public final class LimitTest {
         // @checkstyle MagicNumberCheck (3 lines)
         MatcherAssert.assertThat(
             smart.reset(),
-            Matchers.equalTo(new Date(new Long(1372700873000L)))
+            Matchers.equalTo(new Date(1372700873000L))
         );
     }
 
