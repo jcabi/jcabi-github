@@ -33,7 +33,6 @@ import com.jcabi.github.OAuthScope.Scope;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -101,9 +100,7 @@ public final class RtUserEmailsITCase {
      * @return UserEmails
      */
     private static UserEmails userEmails() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).users().self().emails();
+        return new GithubIT().connect().users().self().emails();
     }
 
 }

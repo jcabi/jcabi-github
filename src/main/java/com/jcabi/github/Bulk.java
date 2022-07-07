@@ -68,7 +68,7 @@ import lombok.EqualsAndHashCode;
  *
  * <p>Now, there will be just two HTTP requests.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.4
  * @param <T> Type of iterable objects

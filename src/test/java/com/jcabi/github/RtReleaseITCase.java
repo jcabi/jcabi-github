@@ -37,7 +37,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -73,9 +72,7 @@ public final class RtReleaseITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
+        final Github github = new GithubIT().connect();
         repos = github.repos();
         repo = rule.repo(repos);
     }

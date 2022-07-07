@@ -43,7 +43,7 @@ import org.junit.Test;
 /**
  * Test case for RtCommit.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.18.2

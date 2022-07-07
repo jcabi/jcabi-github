@@ -43,7 +43,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Issue}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
@@ -65,9 +65,7 @@ public final class RtIssueITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
+        final Github github = new GithubIT().connect();
         repos = github.repos();
         repo = new RepoRule().repo(repos);
     }

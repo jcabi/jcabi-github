@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -51,7 +50,7 @@ public final class RtUserOrganizationsITCase {
      */
     @Test
     public void iterateOrganizations() throws Exception {
-        final UserOrganizations orgs = github().users().get("yegor256")
+        final UserOrganizations orgs = new GithubIT().connect().users().get("yegor256")
             .organizations();
         MatcherAssert.assertThat(
             orgs.iterate().iterator().next(),
@@ -59,14 +58,4 @@ public final class RtUserOrganizationsITCase {
         );
     }
 
-    /**
-     * Create and return github to test.
-     * @return Github
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
-    }
 }

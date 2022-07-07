@@ -33,7 +33,6 @@ import com.jcabi.github.OAuthScope.Scope;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -102,9 +101,8 @@ public final class RtGistCommentsITCase {
      * @throws Exception If some problem inside
      */
     private static Gist gist() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key)
+        return new GithubIT()
+            .connect()
             .gists()
             .create(
                 Collections.singletonMap("file.txt",  "file content"), false

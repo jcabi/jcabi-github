@@ -67,19 +67,29 @@ public final class RepoRule implements TestRule {
             "foo",
             false
         ).withAutoInit(true);
+        int attempts = 0;
         Repo repo = null;
         while (repo == null) {
+            final Repos.RepoCreate request = settings.withName(
+                RandomStringUtils.randomAlphanumeric(Tv.TWENTY)
+            );
             try {
-                repo = repos.create(
-                    settings.withName(
-                        RandomStringUtils.randomAlphanumeric(Tv.TWENTY)
-                    )
-                );
-            } catch (final AssertionError exception) {
+                repo = repos.create(request);
+            } catch (final AssertionError ex) {
                 Logger.warn(
                     this, "Create repository failed. Message: %s",
-                    exception.getMessage()
+                    ex.getMessage()
                 );
+                ++attempts;
+                if (attempts > Tv.FIVE) {
+                    throw new IllegalStateException(
+                        String.format(
+                            "Failed to created repository %s",
+                            request.name()
+                        ),
+                        ex
+                    );
+                }
             }
         }
         return repo;

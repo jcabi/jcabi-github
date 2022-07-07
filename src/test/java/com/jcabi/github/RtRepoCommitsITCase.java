@@ -36,7 +36,6 @@ import java.util.Iterator;
 import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -139,12 +138,9 @@ public class RtRepoCommitsITCase {
     /**
      * Create and return repo to test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos().get(
+    private static Repo repo() {
+        return new GithubIT().connect().repos().get(
             new Coordinates.Simple("jcabi", "jcabi-github")
         );
     }

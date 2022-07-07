@@ -57,7 +57,7 @@ import lombok.ToString;
  *
  * <pre>String login = new Comment.Smart(comment).author().login();</pre>
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.1

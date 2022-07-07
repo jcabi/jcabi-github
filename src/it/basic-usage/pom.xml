@@ -33,7 +33,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
   <parent>
     <groupId>com.jcabi</groupId>
     <artifactId>parent</artifactId>
-    <version>0.19.1</version>
+    <version>0.58.0</version>
   </parent>
   <groupId>com.jcabi</groupId>
   <artifactId>jcabi-github-test</artifactId>
@@ -48,6 +48,12 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <groupId>com.jcabi</groupId>
       <artifactId>jcabi-http</artifactId>
       <version>1.10.2</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

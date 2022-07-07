@@ -38,7 +38,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <plugin>
         <groupId>org.codehaus.gmaven</groupId>
         <artifactId>groovy-maven-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.1.1</version>
         <executions>
           <execution>
             <phase>test</phase>
@@ -48,20 +48,20 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
             <configuration>
               <!-- <classpathScope>compile</classpathScope> -->
               <source><![CDATA[
-                                import com.jcabi.github.Coordinates
-                                import com.jcabi.github.Github
-                                import com.jcabi.github.Label
-                                import com.jcabi.github.Repo
-                                import com.jcabi.github.RtGithub
-                                import java.io.IOException
-                                final Github github = new RtGithub()
-                                final Repo repo = github.repos().get(
-                                    new Coordinates.Simple("jcabi/jcabi-github")
-                                );
-                                for (final Label label : repo.labels().iterate()) {
-                                    println "label found: " + label.name()
-                                }
-                            ]]></source>
+                import com.jcabi.github.Coordinates
+                import com.jcabi.github.Github
+                import com.jcabi.github.Label
+                import com.jcabi.github.Repo
+                import com.jcabi.github.RtGithub
+                import java.io.IOException
+                final Github github = new RtGithub()
+                final Repo repo = github.repos().get(
+                    new Coordinates.Simple("jcabi/jcabi-github")
+                );
+                for (final Label label : repo.labels().iterate()) {
+                    println "label found: " + label.name()
+                }
+              ]]></source>
             </configuration>
           </execution>
         </executions>

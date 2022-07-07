@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -59,7 +58,7 @@ public class RtReposITCase {
      */
     @Test
     public final void create() throws Exception {
-        final Repos repos = RtReposITCase.github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(repo, Matchers.notNullValue());
@@ -74,7 +73,7 @@ public class RtReposITCase {
      */
     @Test(expected = AssertionError.class)
     public final void failsOnCreationOfTwoRepos() throws Exception {
-        final Repos repos = RtReposITCase.github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             repos.create(
@@ -92,7 +91,7 @@ public class RtReposITCase {
      */
     @Test
     public final void exists() throws Exception {
-        final Repos repos = RtReposITCase.github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -111,7 +110,7 @@ public class RtReposITCase {
      */
     @Test
     public final void createWithOrganization() throws Exception {
-        final Repos repos = RtReposITCase.github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")
         );
@@ -125,15 +124,4 @@ public class RtReposITCase {
         }
     }
 
-    /**
-     * Create and return repo to test.
-     *
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
-    }
 }

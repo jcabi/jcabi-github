@@ -43,7 +43,7 @@ import lombok.EqualsAndHashCode;
 /**
  * Safe comment.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.34

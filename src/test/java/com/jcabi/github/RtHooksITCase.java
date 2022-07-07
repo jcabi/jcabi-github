@@ -37,7 +37,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -137,9 +136,7 @@ public final class RtHooksITCase {
      * @return Repos
      */
     private static Repos repos() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).repos();
+        return new GithubIT().connect().repos();
     }
 
     /**
@@ -150,7 +147,7 @@ public final class RtHooksITCase {
      */
     private static Hook createHook(final Repo repo) throws IOException {
         final ConcurrentHashMap<String, String> config =
-            new ConcurrentHashMap<String, String>();
+            new ConcurrentHashMap<>();
         config.put(
             "url",
             String.format(

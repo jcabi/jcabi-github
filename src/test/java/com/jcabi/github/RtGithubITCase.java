@@ -37,7 +37,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
@@ -50,7 +50,7 @@ public final class RtGithubITCase {
      */
     @Test
     public void authenticatesItself() throws Exception {
-        final Github github = RtGithubITCase.github();
+        final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
             github.users().self(),
             Matchers.notNullValue()
@@ -123,23 +123,12 @@ public final class RtGithubITCase {
      */
     @Test
     public void fetchesUsers() throws Exception {
-        final Github github = new RtGithub();
+        final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
-                "Iterating over github.users() should return something",
-                github.users().iterate("").iterator().next(),
-                Matchers.anything()
+            "Iterating over github.users() should return something",
+            github.users().iterate("").iterator().next(),
+            Matchers.anything()
         );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
     }
 
 }

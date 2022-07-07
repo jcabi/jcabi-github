@@ -38,7 +38,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Gist}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  */
 @OAuthScope(Scope.GIST)
@@ -119,7 +119,7 @@ public final class RtGistITCase {
      */
     private static Github github(final String property) throws Exception {
         final String key = System.getProperty(property);
-        Assume.assumeThat(key, Matchers.notNullValue());
+        Assume.assumeThat(key, Matchers.not(Matchers.isEmptyOrNullString()));
         return new RtGithub(key);
     }
 

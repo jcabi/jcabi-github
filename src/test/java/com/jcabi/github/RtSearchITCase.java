@@ -35,7 +35,6 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -57,7 +56,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForRepos() throws Exception {
         MatcherAssert.assertThat(
-            RtSearchITCase.github()
+            new GithubIT().connect()
                 .search().repos("repo", "stars", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
         );
@@ -70,7 +69,7 @@ public final class RtSearchITCase {
      */
     @Test
     public void canFetchMultiplePages() throws Exception {
-        final Iterator<Repo> iter = RtSearchITCase.github().search().repos(
+        final Iterator<Repo> iter = new GithubIT().connect().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
         int count = 0;
@@ -92,10 +91,10 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForIssues() throws Exception {
         final EnumMap<Search.Qualifier, String> qualifiers =
-            new EnumMap<Search.Qualifier, String>(Search.Qualifier.class);
+            new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search().issues(
+            new GithubIT().connect().search().issues(
                 "qualifiers",
                 "updated",
                 Search.Order.DESC,
@@ -113,7 +112,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForUsers() throws Exception {
         MatcherAssert.assertThat(
-            RtSearchITCase.github()
+            new GithubIT().connect()
                 .search().users("jcabi", "joined", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
@@ -128,21 +127,11 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForContents() throws Exception {
         MatcherAssert.assertThat(
-            RtSearchITCase.github().search().codes(
+            new GithubIT().connect().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC
             ),
             Matchers.not(Matchers.emptyIterableOf(Content.class))
         );
-    }
-
-    /**
-     * Return github for test.
-     * @return Github
-     */
-    private static Github github() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
     }
 
 }

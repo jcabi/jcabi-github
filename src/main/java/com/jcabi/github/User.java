@@ -41,7 +41,7 @@ import lombok.ToString;
 
 /**
  * Github user.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="http://developer.github.com/v3/users/">User API</a>

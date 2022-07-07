@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -49,19 +48,9 @@ public final class RtOrganizationsITCase {
     @Test
     public void getOrganization() throws Exception {
         final String login = "github";
-        final Organization org = github()
+        final Organization org = new GithubIT().connect()
             .organizations().get(login);
         MatcherAssert.assertThat(org.login(), Matchers.equalTo(login));
     }
 
-    /**
-     * Create and return github to test.
-     * @return Github
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
-    }
 }

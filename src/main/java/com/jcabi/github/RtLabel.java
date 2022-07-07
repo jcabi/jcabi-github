@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
 /**
  * Github label.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)

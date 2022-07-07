@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -45,14 +44,11 @@ import org.junit.Test;
 public final class RtPublicKeyITCase {
     /**
      * RtPublicKey can retrieve correctly URI.
-     * @throws Exception if any error inside
      */
     @Test
-    public void retrievesURI() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
+    public void retrievesURI() {
         MatcherAssert.assertThat(
-            new RtGithub(key).users().self().keys().get(1).toString(),
+            new GithubIT().connect().users().self().keys().get(1).toString(),
             Matchers.endsWith("/keys/1")
         );
     }

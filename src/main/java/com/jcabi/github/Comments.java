@@ -42,7 +42,7 @@ import java.util.Date;
  * Comments comments = issue.comments();
  * Comment comment = comments.post("Hi, how are you?");</pre>
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
  * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>

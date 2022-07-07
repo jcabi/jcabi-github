@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * Github pull requests.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.3
  * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>

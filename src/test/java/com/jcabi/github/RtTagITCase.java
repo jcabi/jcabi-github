@@ -38,7 +38,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -73,9 +72,7 @@ public final class RtTagITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
+        final Github github = new GithubIT().connect();
         repos = github.repos();
         repo = rule.repo(repos);
     }
@@ -101,8 +98,6 @@ public final class RtTagITCase {
         final String message = "message";
         final String content = "initial version";
         final String tag = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
         final References refs = repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject(object).getString("sha");

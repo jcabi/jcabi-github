@@ -59,7 +59,7 @@
  * and some of them are optional, and there are more than two of them.
  * In all other situations we're using plain Java types.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
  * @see <a href="http://github.jcabi.com/">project website</a>

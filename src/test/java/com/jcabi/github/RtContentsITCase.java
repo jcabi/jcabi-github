@@ -37,7 +37,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,7 +65,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void canFetchReadmeFiles() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -84,7 +83,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void canUpdateFileContent() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "commit message";
@@ -128,7 +127,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void canUpdateFileContentInSpecificBranch() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "Commit message";
@@ -173,7 +172,7 @@ public final class RtContentsITCase {
      */
     @Test(expected = AssertionError.class)
     public void throwsWhenTryingToGetAnAbsentContent() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         final String message = "commit message";
@@ -205,7 +204,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void canCreateFileContent() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -230,7 +229,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void getContent() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -268,7 +267,7 @@ public final class RtContentsITCase {
     @Test
     @Ignore
     public void iteratesContent() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -327,7 +326,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void checkExists() throws Exception {
-        final Repos repos = github().repos();
+        final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final String branch = "master";
         try {
@@ -371,15 +370,4 @@ public final class RtContentsITCase {
             .build();
     }
 
-    /**
-     * Create and return github to test.
-     *
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
-    }
 }

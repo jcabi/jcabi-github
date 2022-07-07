@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Github issues.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  * @since 0.1

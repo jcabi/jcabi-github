@@ -39,7 +39,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkGists}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */

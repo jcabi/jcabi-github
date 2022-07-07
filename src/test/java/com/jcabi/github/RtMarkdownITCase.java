@@ -33,12 +33,11 @@ import com.jcabi.github.OAuthScope.Scope;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
  * Integration case for {@link RtMarkdown}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  */
 @OAuthScope(Scope.REPO)
@@ -50,7 +49,7 @@ public final class RtMarkdownITCase {
      */
     @Test
     public void rendersMarkdown() throws Exception {
-        final Github github = RtMarkdownITCase.github();
+        final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
             github.markdown().render(
                 Json.createObjectBuilder()
@@ -67,24 +66,13 @@ public final class RtMarkdownITCase {
      */
     @Test
     public void rendersRawMarkdown() throws Exception {
-        final Github github = RtMarkdownITCase.github();
+        final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
             github.markdown().raw(
                 "Hey, **world**!"
             ),
             Matchers.equalTo("<p>Hey, <strong>world</strong>!</p>\n")
         );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
     }
 
 }

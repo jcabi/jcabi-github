@@ -33,13 +33,12 @@ import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Integration case for {@link IssueLabels}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.6
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
@@ -62,9 +61,7 @@ public final class RtIssueLabelsITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
+        final Github github = new GithubIT().connect();
         repos = github.repos();
         repo = new RepoRule().repo(repos);
     }

@@ -79,8 +79,6 @@ public final class RtGitignoresITCase {
      * @return Gitignores
      */
     private static Gitignores gitignores() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGitignores(new RtGithub(key));
+        return new RtGitignores(new GithubIT().connect());
     }
 }

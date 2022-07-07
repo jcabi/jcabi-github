@@ -32,12 +32,11 @@ package com.jcabi.github;
 import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
  * Integration case for {@link RtLimits}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
@@ -50,22 +49,11 @@ public final class RtLimitsITCase {
      */
     @Test
     public void checksRemainingRequests() throws Exception {
-        final Github github = RtLimitsITCase.github();
+        final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
             new Limit.Smart(github.limits().get("core")).remaining(),
             Matchers.notNullValue()
         );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
     }
 
 }

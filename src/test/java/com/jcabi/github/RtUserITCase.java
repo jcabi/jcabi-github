@@ -32,12 +32,11 @@ package com.jcabi.github;
 import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
  * Integration case for {@link RtUser}.
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  */
 @OAuthScope(Scope.USER)
@@ -49,7 +48,7 @@ public final class RtUserITCase {
      */
     @Test
     public void checksWhoAmI() throws Exception {
-        final Github github = RtUserITCase.github();
+        final Github github = new GithubIT().connect();
         final User self = github.users().self();
         MatcherAssert.assertThat(
             self.login(),
@@ -59,25 +58,13 @@ public final class RtUserITCase {
 
     /**
      * RtUser can read verified public keys.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void readKeys() throws Exception {
+    public void readKeys() {
         MatcherAssert.assertThat(
-            github().users().self().keys().toString(),
+            new GithubIT().connect().users().self().keys().toString(),
             Matchers.equalTo("https://api.github.com/user/keys")
         );
-    }
-
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
     }
 
 }

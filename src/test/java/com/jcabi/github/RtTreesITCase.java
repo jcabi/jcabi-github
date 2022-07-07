@@ -35,7 +35,6 @@ import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -70,9 +69,7 @@ public final class RtTreesITCase {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        final Github github = new RtGithub(key);
+        final Github github = new GithubIT().connect();
         repos = github.repos();
         repo = rule.repo(repos);
     }
@@ -94,8 +91,6 @@ public final class RtTreesITCase {
      */
     @Test
     public void createsAndObtainsTree() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
         final Trees trees = repo.git().trees();
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",

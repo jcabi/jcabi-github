@@ -27,32 +27,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github.mock;
+package com.jcabi.github;
 
-import com.jcabi.github.Limit;
-import com.jcabi.github.Limits;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.Assume;
 
 /**
- * Test case for {@link MkLimits}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
+ * GitHub for IT testing.
+ *
+ * @since 1.0
  */
-public final class MkLimitsTest {
+public final class GithubIT {
 
     /**
-     * MkLimits can work.
-     * @throws Exception If some problem inside
+     * Return Github connected to live server.
+     * @return The obj
      */
-    @Test
-    public void worksWithMockedData() throws Exception {
-        final Limits limits = new MkGithub().limits();
-        MatcherAssert.assertThat(
-            new Limit.Smart(limits.get(Limits.CORE)).limit(),
-            Matchers.greaterThan(0)
-        );
+    public Github connect() {
+        final String key = System.getProperty("failsafe.github.key");
+        Assume.assumeThat(key, Matchers.not(Matchers.isEmptyOrNullString()));
+        return new RtGithub(key);
     }
-
 }

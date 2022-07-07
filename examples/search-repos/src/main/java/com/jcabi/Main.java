@@ -38,7 +38,7 @@ import javax.json.JsonObject;
 /**
  * Search repositories.
  *
- * @author Yegor Bugayenko (yegor@tpc2.com)
+ * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.8
  */

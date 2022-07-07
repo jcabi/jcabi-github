@@ -35,7 +35,6 @@ import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -151,9 +150,7 @@ public class RtPublicKeysITCase {
      * @return PublicKeys
      */
     private PublicKeys keys() {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key).users().self().keys();
+        return new GithubIT().connect().users().self().keys();
     }
 
 }

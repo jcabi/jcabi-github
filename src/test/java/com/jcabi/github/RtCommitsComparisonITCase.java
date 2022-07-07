@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -50,7 +49,7 @@ public final class RtCommitsComparisonITCase {
     @Test
     public void readsFiles() throws Exception {
         final String headsha = "3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4";
-        final Iterable<FileChange> files = RtCommitsComparisonITCase.github()
+        final Iterable<FileChange> files = new GithubIT().connect()
             .repos()
             .get(new Coordinates.Simple("jcabi/jcabi-github"))
             .commits()
@@ -120,15 +119,4 @@ public final class RtCommitsComparisonITCase {
         );
     }
 
-    /**
-     * Create and return github to test.
-     *
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
-    private static Github github() throws Exception {
-        final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.notNullValue());
-        return new RtGithub(key);
-    }
 }
