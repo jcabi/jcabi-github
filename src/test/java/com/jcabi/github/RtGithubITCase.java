@@ -108,8 +108,8 @@ public final class RtGithubITCase {
     public void authenticatesWithUsernameAndPassword() throws Exception {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
-        Assume.assumeThat(user, Matchers.notNullValue());
-        Assume.assumeThat(password, Matchers.notNullValue());
+        Assume.assumeThat(user, Matchers.not(Matchers.isEmptyOrNullString()));
+        Assume.assumeThat(password, Matchers.not(Matchers.isEmptyOrNullString()));
         final Github github = new RtGithub(user, password);
         MatcherAssert.assertThat(
             new User.Smart(github.users().self()).login(),
@@ -119,10 +119,9 @@ public final class RtGithubITCase {
 
     /**
      * RtGithub can fetch users.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUsers() throws Exception {
+    public void fetchesUsers() {
         final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
             "Iterating over github.users() should return something",
