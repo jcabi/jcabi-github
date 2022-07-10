@@ -36,6 +36,8 @@ import org.junit.Assume;
  * GitHub for IT testing.
  *
  * @since 1.0
+ * @author Yegor Bugayenko (yegor256@gmail.com)
+ * @version $Id$
  */
 public final class GithubIT {
 

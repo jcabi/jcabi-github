@@ -50,7 +50,8 @@ public final class RtUserOrganizationsITCase {
      */
     @Test
     public void iterateOrganizations() throws Exception {
-        final UserOrganizations orgs = new GithubIT().connect().users().get("yegor256")
+        final UserOrganizations orgs = new GithubIT().connect()
+            .users().get("yegor256")
             .organizations();
         MatcherAssert.assertThat(
             orgs.iterate().iterator().next(),

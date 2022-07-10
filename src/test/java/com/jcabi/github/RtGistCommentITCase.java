@@ -34,7 +34,6 @@ import java.util.Collections;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
 import org.junit.Test;
 
 /**
