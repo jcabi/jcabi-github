@@ -109,7 +109,10 @@ public final class RtGithubITCase {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
         Assume.assumeThat(user, Matchers.not(Matchers.isEmptyOrNullString()));
-        Assume.assumeThat(password, Matchers.not(Matchers.isEmptyOrNullString()));
+        Assume.assumeThat(
+            password,
+            Matchers.not(Matchers.isEmptyOrNullString())
+        );
         final Github github = new RtGithub(user, password);
         MatcherAssert.assertThat(
             new User.Smart(github.users().self()).login(),
