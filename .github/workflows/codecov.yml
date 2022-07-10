@@ -20,7 +20,7 @@ jobs:
           restore-keys: |
             maven-
       - name: Run tests
-        run: mvn install -Pjacoco
+        run: mvn install -Pjacoco -DskipITs -Dinvoker.skip
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
