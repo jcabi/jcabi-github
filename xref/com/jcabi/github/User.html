@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/User.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2017, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2022, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -49,8 +49,8 @@
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Github user.</em>
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor@tpc2.com)</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 73655046e068b217d1443bc61c4a1c1f0ac52c3c $</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 78697e2119c548bd0b5e8a4a7f24c3ff13d9e96e $</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/users/" target="alexandria_uri">http://developer.github.com/v3/users/</a>"&gt;User API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
@@ -122,7 +122,7 @@
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>     @ToString
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>     @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     @EqualsAndHashCode(of = { <span class="jxr_string">"user"</span>, <span class="jxr_string">"jsn"</span> })
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/Releases.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/User.html">User</a> {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/User.html">User</a> {
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> <em class="jxr_javadoccomment">         * Encapsulated user.</em>
 <a class="jxr_linenumber" name="L120" href="#L120">120</a> <em class="jxr_javadoccomment">         */</em>
@@ -136,7 +136,7 @@
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> <em class="jxr_javadoccomment">         * Public ctor.</em>
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> <em class="jxr_javadoccomment">         * @param usr User</em>
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Releases.html">Smart</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/User.html">User</a> usr) {
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/User.html">User</a> usr) {
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>             <strong class="jxr_keyword">this</strong>.user = usr;
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>             <strong class="jxr_keyword">this</strong>.jsn = <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(usr);
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>         }
@@ -283,220 +283,211 @@
 <a class="jxr_linenumber" name="L275" href="#L275">275</a>         }
 <a class="jxr_linenumber" name="L276" href="#L276">276</a> 
 <a class="jxr_linenumber" name="L277" href="#L277">277</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">         * Returns the value of gravatar_id property of User's JSON.</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">         * @return The 'gravatar_id' property value.</em>
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">         * Returns the value of html_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">         * @return The 'html_url' property value.</em>
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>         <strong class="jxr_keyword">public</strong> String gravatar() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"gravatar_id"</span>);
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>         <strong class="jxr_keyword">public</strong> String htmlUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"html_url"</span>);
 <a class="jxr_linenumber" name="L284" href="#L284">284</a>         }
 <a class="jxr_linenumber" name="L285" href="#L285">285</a> 
 <a class="jxr_linenumber" name="L286" href="#L286">286</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">         * Returns the value of html_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">         * @return The 'html_url' property value.</em>
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">         * Returns the value of followers_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">         * @return The 'followers_url' property value.</em>
 <a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>         <strong class="jxr_keyword">public</strong> String htmlUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"html_url"</span>);
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>         <strong class="jxr_keyword">public</strong> String followersUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"followers_url"</span>);
 <a class="jxr_linenumber" name="L293" href="#L293">293</a>         }
 <a class="jxr_linenumber" name="L294" href="#L294">294</a> 
 <a class="jxr_linenumber" name="L295" href="#L295">295</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">         * Returns the value of followers_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">         * @return The 'followers_url' property value.</em>
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">         * Returns the value of following_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">         * @return The 'following_url' property value.</em>
 <a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>         <strong class="jxr_keyword">public</strong> String followersUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"followers_url"</span>);
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>         <strong class="jxr_keyword">public</strong> String followingUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"following_url"</span>);
 <a class="jxr_linenumber" name="L302" href="#L302">302</a>         }
 <a class="jxr_linenumber" name="L303" href="#L303">303</a> 
 <a class="jxr_linenumber" name="L304" href="#L304">304</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> <em class="jxr_javadoccomment">         * Returns the value of following_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">         * @return The 'following_url' property value.</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> <em class="jxr_javadoccomment">         * Returns the value of gists_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">         * @return The 'gists_url' property value.</em>
 <a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>         <strong class="jxr_keyword">public</strong> String followingUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"following_url"</span>);
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>         <strong class="jxr_keyword">public</strong> String gistsUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"gists_url"</span>);
 <a class="jxr_linenumber" name="L311" href="#L311">311</a>         }
 <a class="jxr_linenumber" name="L312" href="#L312">312</a> 
 <a class="jxr_linenumber" name="L313" href="#L313">313</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> <em class="jxr_javadoccomment">         * Returns the value of gists_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L315" href="#L315">315</a> <em class="jxr_javadoccomment">         * @return The 'gists_url' property value.</em>
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> <em class="jxr_javadoccomment">         * Returns the value of starred_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> <em class="jxr_javadoccomment">         * @return The 'starred_url' property value.</em>
 <a class="jxr_linenumber" name="L316" href="#L316">316</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L317" href="#L317">317</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">public</strong> String gistsUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"gists_url"</span>);
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">public</strong> String starredUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"starred_url"</span>);
 <a class="jxr_linenumber" name="L320" href="#L320">320</a>         }
 <a class="jxr_linenumber" name="L321" href="#L321">321</a> 
 <a class="jxr_linenumber" name="L322" href="#L322">322</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">         * Returns the value of starred_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">         * @return The 'starred_url' property value.</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">         * Returns the value of subscriptions_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">         * @return The 'subscriptions_url' property value.</em>
 <a class="jxr_linenumber" name="L325" href="#L325">325</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L326" href="#L326">326</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>         <strong class="jxr_keyword">public</strong> String starredUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"starred_url"</span>);
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>         <strong class="jxr_keyword">public</strong> String subscriptionsUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"subscriptions_url"</span>);
 <a class="jxr_linenumber" name="L329" href="#L329">329</a>         }
 <a class="jxr_linenumber" name="L330" href="#L330">330</a> 
 <a class="jxr_linenumber" name="L331" href="#L331">331</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> <em class="jxr_javadoccomment">         * Returns the value of subscriptions_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L333" href="#L333">333</a> <em class="jxr_javadoccomment">         * @return The 'subscriptions_url' property value.</em>
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> <em class="jxr_javadoccomment">         * Returns the value of organizations_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> <em class="jxr_javadoccomment">         * @return The 'organizations_url' property value.</em>
 <a class="jxr_linenumber" name="L334" href="#L334">334</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L335" href="#L335">335</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L336" href="#L336">336</a>         <strong class="jxr_keyword">public</strong> String subscriptionsUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L337" href="#L337">337</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"subscriptions_url"</span>);
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>         <strong class="jxr_keyword">public</strong> String organizationsUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"organizations_url"</span>);
 <a class="jxr_linenumber" name="L338" href="#L338">338</a>         }
 <a class="jxr_linenumber" name="L339" href="#L339">339</a> 
 <a class="jxr_linenumber" name="L340" href="#L340">340</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">         * Returns the value of organizations_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">         * @return The 'organizations_url' property value.</em>
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">         * Returns the value of repos_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">         * @return The 'repos_url' property value.</em>
 <a class="jxr_linenumber" name="L343" href="#L343">343</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L344" href="#L344">344</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L345" href="#L345">345</a>         <strong class="jxr_keyword">public</strong> String organizationsUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L346" href="#L346">346</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"organizations_url"</span>);
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>         <strong class="jxr_keyword">public</strong> String reposUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"repos_url"</span>);
 <a class="jxr_linenumber" name="L347" href="#L347">347</a>         }
 <a class="jxr_linenumber" name="L348" href="#L348">348</a> 
 <a class="jxr_linenumber" name="L349" href="#L349">349</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L350" href="#L350">350</a> <em class="jxr_javadoccomment">         * Returns the value of repos_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L351" href="#L351">351</a> <em class="jxr_javadoccomment">         * @return The 'repos_url' property value.</em>
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> <em class="jxr_javadoccomment">         * Returns the value of events_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> <em class="jxr_javadoccomment">         * @return The 'events_url' property value.</em>
 <a class="jxr_linenumber" name="L352" href="#L352">352</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L353" href="#L353">353</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>         <strong class="jxr_keyword">public</strong> String reposUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L355" href="#L355">355</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"repos_url"</span>);
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>         <strong class="jxr_keyword">public</strong> String eventsUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"events_url"</span>);
 <a class="jxr_linenumber" name="L356" href="#L356">356</a>         }
 <a class="jxr_linenumber" name="L357" href="#L357">357</a> 
 <a class="jxr_linenumber" name="L358" href="#L358">358</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L359" href="#L359">359</a> <em class="jxr_javadoccomment">         * Returns the value of events_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L360" href="#L360">360</a> <em class="jxr_javadoccomment">         * @return The 'events_url' property value.</em>
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> <em class="jxr_javadoccomment">         * Returns the value of received_events_url property of User's JSON.</em>
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> <em class="jxr_javadoccomment">         * @return The 'received_events_url' property value.</em>
 <a class="jxr_linenumber" name="L361" href="#L361">361</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L362" href="#L362">362</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>         <strong class="jxr_keyword">public</strong> String eventsUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"events_url"</span>);
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>         <strong class="jxr_keyword">public</strong> String receivedEventsUrl() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"received_events_url"</span>);
 <a class="jxr_linenumber" name="L365" href="#L365">365</a>         }
 <a class="jxr_linenumber" name="L366" href="#L366">366</a> 
 <a class="jxr_linenumber" name="L367" href="#L367">367</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">         * Returns the value of received_events_url property of User's JSON.</em>
-<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">         * @return The 'received_events_url' property value.</em>
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">         * Returns the value of type property of User's JSON.</em>
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">         * @return The 'type' property value.</em>
 <a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L371" href="#L371">371</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>         <strong class="jxr_keyword">public</strong> String receivedEventsUrl() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L373" href="#L373">373</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"received_events_url"</span>);
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>         <strong class="jxr_keyword">public</strong> String type() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"type"</span>);
 <a class="jxr_linenumber" name="L374" href="#L374">374</a>         }
 <a class="jxr_linenumber" name="L375" href="#L375">375</a> 
 <a class="jxr_linenumber" name="L376" href="#L376">376</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">         * Returns the value of type property of User's JSON.</em>
-<a class="jxr_linenumber" name="L378" href="#L378">378</a> <em class="jxr_javadoccomment">         * @return The 'type' property value.</em>
+<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">         * Returns the value of site_admin property of User's JSON.</em>
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> <em class="jxr_javadoccomment">         * @return The 'site_admin' property value.</em>
 <a class="jxr_linenumber" name="L379" href="#L379">379</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L380" href="#L380">380</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L381" href="#L381">381</a>         <strong class="jxr_keyword">public</strong> String type() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L382" href="#L382">382</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"type"</span>);
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> siteAdmin() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>             <strong class="jxr_keyword">return</strong> <span class="jxr_string">"true"</span>.equals(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"site_admin"</span>));
 <a class="jxr_linenumber" name="L383" href="#L383">383</a>         }
 <a class="jxr_linenumber" name="L384" href="#L384">384</a> 
 <a class="jxr_linenumber" name="L385" href="#L385">385</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L386" href="#L386">386</a> <em class="jxr_javadoccomment">         * Returns the value of site_admin property of User's JSON.</em>
-<a class="jxr_linenumber" name="L387" href="#L387">387</a> <em class="jxr_javadoccomment">         * @return The 'site_admin' property value.</em>
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> <em class="jxr_javadoccomment">         * Returns the value of blog property of User's JSON.</em>
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> <em class="jxr_javadoccomment">         * @return The 'blog' property value.</em>
 <a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L389" href="#L389">389</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> siteAdmin() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>             <strong class="jxr_keyword">return</strong> <span class="jxr_string">"true"</span>.equals(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"site_admin"</span>));
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>         <strong class="jxr_keyword">public</strong> String blog() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"blog"</span>);
 <a class="jxr_linenumber" name="L392" href="#L392">392</a>         }
 <a class="jxr_linenumber" name="L393" href="#L393">393</a> 
 <a class="jxr_linenumber" name="L394" href="#L394">394</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">         * Returns the value of blog property of User's JSON.</em>
-<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">         * @return The 'blog' property value.</em>
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">         * Returns the value of hireable property of User's JSON.</em>
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">         * @return The 'hireable' property value.</em>
 <a class="jxr_linenumber" name="L397" href="#L397">397</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L398" href="#L398">398</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L399" href="#L399">399</a>         <strong class="jxr_keyword">public</strong> String blog() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L400" href="#L400">400</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"blog"</span>);
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hireable() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>             <strong class="jxr_keyword">return</strong> <span class="jxr_string">"true"</span>.equals(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"hireable"</span>));
 <a class="jxr_linenumber" name="L401" href="#L401">401</a>         }
 <a class="jxr_linenumber" name="L402" href="#L402">402</a> 
 <a class="jxr_linenumber" name="L403" href="#L403">403</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_javadoccomment">         * Returns the value of hireable property of User's JSON.</em>
-<a class="jxr_linenumber" name="L405" href="#L405">405</a> <em class="jxr_javadoccomment">         * @return The 'hireable' property value.</em>
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_javadoccomment">         * Returns the value of bio property of User's JSON.</em>
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> <em class="jxr_javadoccomment">         * @return The 'bio' property value.</em>
 <a class="jxr_linenumber" name="L406" href="#L406">406</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L407" href="#L407">407</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hireable() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>             <strong class="jxr_keyword">return</strong> <span class="jxr_string">"true"</span>.equals(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"hireable"</span>));
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>         <strong class="jxr_keyword">public</strong> String bio() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"bio"</span>);
 <a class="jxr_linenumber" name="L410" href="#L410">410</a>         }
 <a class="jxr_linenumber" name="L411" href="#L411">411</a> 
 <a class="jxr_linenumber" name="L412" href="#L412">412</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">         * Returns the value of bio property of User's JSON.</em>
-<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">         * @return The 'bio' property value.</em>
+<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">         * Returns the value of public_repos property of User's JSON.</em>
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">         * @return The 'public_repos' property value.</em>
 <a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L417" href="#L417">417</a>         <strong class="jxr_keyword">public</strong> String bio() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"bio"</span>);
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> publicRepos() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"public_repos"</span>));
 <a class="jxr_linenumber" name="L419" href="#L419">419</a>         }
 <a class="jxr_linenumber" name="L420" href="#L420">420</a> 
 <a class="jxr_linenumber" name="L421" href="#L421">421</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L422" href="#L422">422</a> <em class="jxr_javadoccomment">         * Returns the value of public_repos property of User's JSON.</em>
-<a class="jxr_linenumber" name="L423" href="#L423">423</a> <em class="jxr_javadoccomment">         * @return The 'public_repos' property value.</em>
+<a class="jxr_linenumber" name="L422" href="#L422">422</a> <em class="jxr_javadoccomment">         * Returns the value of public_gists property of User's JSON.</em>
+<a class="jxr_linenumber" name="L423" href="#L423">423</a> <em class="jxr_javadoccomment">         * @return The 'public_gists' property value.</em>
 <a class="jxr_linenumber" name="L424" href="#L424">424</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L425" href="#L425">425</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> publicRepos() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L427" href="#L427">427</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"public_repos"</span>));
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> publicGists() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"public_gists"</span>));
 <a class="jxr_linenumber" name="L428" href="#L428">428</a>         }
 <a class="jxr_linenumber" name="L429" href="#L429">429</a> 
 <a class="jxr_linenumber" name="L430" href="#L430">430</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L431" href="#L431">431</a> <em class="jxr_javadoccomment">         * Returns the value of public_gists property of User's JSON.</em>
-<a class="jxr_linenumber" name="L432" href="#L432">432</a> <em class="jxr_javadoccomment">         * @return The 'public_gists' property value.</em>
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> <em class="jxr_javadoccomment">         * Returns the value of followers property of User's JSON.</em>
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> <em class="jxr_javadoccomment">         * @return The 'followers' property value.</em>
 <a class="jxr_linenumber" name="L433" href="#L433">433</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> publicGists() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"public_gists"</span>));
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> followersCount() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"followers"</span>));
 <a class="jxr_linenumber" name="L437" href="#L437">437</a>         }
 <a class="jxr_linenumber" name="L438" href="#L438">438</a> 
 <a class="jxr_linenumber" name="L439" href="#L439">439</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L440" href="#L440">440</a> <em class="jxr_javadoccomment">         * Returns the value of followers property of User's JSON.</em>
-<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">         * @return The 'followers' property value.</em>
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> <em class="jxr_javadoccomment">         * Returns the value of following property of User's JSON.</em>
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">         * @return The 'following' property value.</em>
 <a class="jxr_linenumber" name="L442" href="#L442">442</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L443" href="#L443">443</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L444" href="#L444">444</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> followersCount() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"followers"</span>));
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> followingCount() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"following"</span>));
 <a class="jxr_linenumber" name="L446" href="#L446">446</a>         }
 <a class="jxr_linenumber" name="L447" href="#L447">447</a> 
 <a class="jxr_linenumber" name="L448" href="#L448">448</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L449" href="#L449">449</a> <em class="jxr_javadoccomment">         * Returns the value of following property of User's JSON.</em>
-<a class="jxr_linenumber" name="L450" href="#L450">450</a> <em class="jxr_javadoccomment">         * @return The 'following' property value.</em>
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> <em class="jxr_javadoccomment">         * Returns the value of created_at property of User's JSON.</em>
+<a class="jxr_linenumber" name="L450" href="#L450">450</a> <em class="jxr_javadoccomment">         * @return The 'created_at' property value.</em>
 <a class="jxr_linenumber" name="L451" href="#L451">451</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
 <a class="jxr_linenumber" name="L452" href="#L452">452</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L453" href="#L453">453</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> followingCount() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L454" href="#L454">454</a>             <strong class="jxr_keyword">return</strong> Integer.parseInt(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"following"</span>));
-<a class="jxr_linenumber" name="L455" href="#L455">455</a>         }
-<a class="jxr_linenumber" name="L456" href="#L456">456</a> 
-<a class="jxr_linenumber" name="L457" href="#L457">457</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L458" href="#L458">458</a> <em class="jxr_javadoccomment">         * Returns the value of created_at property of User's JSON.</em>
-<a class="jxr_linenumber" name="L459" href="#L459">459</a> <em class="jxr_javadoccomment">         * @return The 'created_at' property value.</em>
-<a class="jxr_linenumber" name="L460" href="#L460">460</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
-<a class="jxr_linenumber" name="L461" href="#L461">461</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L462" href="#L462">462</a>         <strong class="jxr_keyword">public</strong> Github.Time created() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L463" href="#L463">463</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L464" href="#L464">464</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"created_at"</span>));
-<a class="jxr_linenumber" name="L465" href="#L465">465</a>             } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> ParseException ex) {
-<a class="jxr_linenumber" name="L466" href="#L466">466</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(
-<a class="jxr_linenumber" name="L467" href="#L467">467</a>                     <span class="jxr_string">"Cannot parse value of 'created_at' property"</span>,
-<a class="jxr_linenumber" name="L468" href="#L468">468</a>                     ex
-<a class="jxr_linenumber" name="L469" href="#L469">469</a>                 );
-<a class="jxr_linenumber" name="L470" href="#L470">470</a>             }
-<a class="jxr_linenumber" name="L471" href="#L471">471</a>         }
-<a class="jxr_linenumber" name="L472" href="#L472">472</a> 
-<a class="jxr_linenumber" name="L473" href="#L473">473</a>         <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L474" href="#L474">474</a> <em class="jxr_javadoccomment">         * Returns the value of updated_at property of User's JSON.</em>
-<a class="jxr_linenumber" name="L475" href="#L475">475</a> <em class="jxr_javadoccomment">         * @return The 'updated_at' property value.</em>
-<a class="jxr_linenumber" name="L476" href="#L476">476</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
-<a class="jxr_linenumber" name="L477" href="#L477">477</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L478" href="#L478">478</a>         <strong class="jxr_keyword">public</strong> Github.Time updated() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L479" href="#L479">479</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L480" href="#L480">480</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"updated_at"</span>));
-<a class="jxr_linenumber" name="L481" href="#L481">481</a>             } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> ParseException ex) {
-<a class="jxr_linenumber" name="L482" href="#L482">482</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(
-<a class="jxr_linenumber" name="L483" href="#L483">483</a>                     <span class="jxr_string">"Cannot parse value of 'updated_at' property"</span>,
-<a class="jxr_linenumber" name="L484" href="#L484">484</a>                     ex
-<a class="jxr_linenumber" name="L485" href="#L485">485</a>                 );
-<a class="jxr_linenumber" name="L486" href="#L486">486</a>             }
-<a class="jxr_linenumber" name="L487" href="#L487">487</a>         }
-<a class="jxr_linenumber" name="L488" href="#L488">488</a>     }
-<a class="jxr_linenumber" name="L489" href="#L489">489</a> }
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>         <strong class="jxr_keyword">public</strong> Github.Time created() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"created_at"</span>));
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>             } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> ParseException ex) {
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>                     <span class="jxr_string">"Cannot parse value of 'created_at' property"</span>,
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>                     ex
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>                 );
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>             }
+<a class="jxr_linenumber" name="L462" href="#L462">462</a>         }
+<a class="jxr_linenumber" name="L463" href="#L463">463</a> 
+<a class="jxr_linenumber" name="L464" href="#L464">464</a>         <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L465" href="#L465">465</a> <em class="jxr_javadoccomment">         * Returns the value of updated_at property of User's JSON.</em>
+<a class="jxr_linenumber" name="L466" href="#L466">466</a> <em class="jxr_javadoccomment">         * @return The 'updated_at' property value.</em>
+<a class="jxr_linenumber" name="L467" href="#L467">467</a> <em class="jxr_javadoccomment">         * @throws IOException If any I/O error occurs.</em>
+<a class="jxr_linenumber" name="L468" href="#L468">468</a> <em class="jxr_javadoccomment">         */</em>
+<a class="jxr_linenumber" name="L469" href="#L469">469</a>         <strong class="jxr_keyword">public</strong> Github.Time updated() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L470" href="#L470">470</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L471" href="#L471">471</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Github.Time(<strong class="jxr_keyword">this</strong>.jsn.text(<span class="jxr_string">"updated_at"</span>));
+<a class="jxr_linenumber" name="L472" href="#L472">472</a>             } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> ParseException ex) {
+<a class="jxr_linenumber" name="L473" href="#L473">473</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>                     <span class="jxr_string">"Cannot parse value of 'updated_at' property"</span>,
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>                     ex
+<a class="jxr_linenumber" name="L476" href="#L476">476</a>                 );
+<a class="jxr_linenumber" name="L477" href="#L477">477</a>             }
+<a class="jxr_linenumber" name="L478" href="#L478">478</a>         }
+<a class="jxr_linenumber" name="L479" href="#L479">479</a>     }
+<a class="jxr_linenumber" name="L480" href="#L480">480</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2012&#x2013;2018 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
 </body>
 </html>

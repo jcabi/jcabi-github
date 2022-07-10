@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/DeployKey.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2017, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2022, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -50,7 +50,7 @@
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * Github deploy key.</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Andres Candal (andres.candal@rollasolution.com)</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: e1ec09de67c62fb63658390956bf2ff64321759e $</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 27050286bb062dc5c68f9ee37f3a2cf685ac7720 $</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/repos/keys/" target="alexandria_uri">http://developer.github.com/v3/repos/keys/</a>"&gt;Deploy Keys API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> */</em>
@@ -79,7 +79,7 @@
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>      @ToString
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>      @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>      @EqualsAndHashCode(of = { <span class="jxr_string">"key"</span>, <span class="jxr_string">"jsn"</span> })
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/Releases.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/DeployKey.html">DeployKey</a> {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/DeployKey.html">DeployKey</a> {
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>          <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">         * Encapsulated deploy key.</em>
@@ -95,7 +95,7 @@
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment">         * Public ctor.</em>
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  <em class="jxr_javadoccomment">         * @param dkey Deploy key</em>
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>  <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Releases.html">Smart</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/DeployKey.html">DeployKey</a> dkey) {
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/DeployKey.html">DeployKey</a> dkey) {
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>              <strong class="jxr_keyword">this</strong>.key = dkey;
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>              <strong class="jxr_keyword">this</strong>.jsn = <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/SmartJson.html">SmartJson</a>(dkey);
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>          }
@@ -173,6 +173,6 @@
 <a class="jxr_linenumber" name="L165" href="#L165">165</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2012&#x2013;2018 <a href="http://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
 </body>
 </html>
