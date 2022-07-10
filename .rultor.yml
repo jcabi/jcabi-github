@@ -8,10 +8,10 @@ install: |-
   pdd --file=/dev/null
 merge:
   script: |-
-    mvn clean install -Pjcabi-github -DskipITs -Pqulice --errors --settings ../settings.xml
+    mvn clean install -Pjcabi-github -Pqulice --errors --settings ../settings.xml
 release:
   script: |-
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Pqulice -Psonatype -Dinvoker.skip -DskipITs -Pjcabi --errors --settings ../settings.xml
+    mvn clean deploy -Pqulice -Psonatype -Pjcabi --errors --settings ../settings.xml
     mvn clean site-deploy -Psite -DskipITs -Dinvoker.skip --errors --settings ../settings.xml
