@@ -33,12 +33,11 @@ import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.CharEncoding;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -120,7 +119,7 @@ public final class MkContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
-                IOUtils.toString(stream, CharEncoding.UTF_8),
+                IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.is(raw)
             );
         } finally {
@@ -133,22 +132,20 @@ public final class MkContentTest {
      * @param path The path of the file
      * @param message Commit message
      * @param content File content
-     * @throws java.io.UnsupportedEncodingException
-     *  if UTF-8 encoding is not supported.
      * @return JSON representation of content attributes
      */
     private static JsonObject jsonContent(
         final String path,
         final String message,
         final String content
-    ) throws UnsupportedEncodingException {
+    ) {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("message", message)
             .add(
                 "content",
                 DatatypeConverter.printBase64Binary(
-                    content.getBytes(CharEncoding.UTF_8)
+                    content.getBytes(StandardCharsets.UTF_8)
                 )
             ).build();
     }

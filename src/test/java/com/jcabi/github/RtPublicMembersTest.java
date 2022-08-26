@@ -87,6 +87,7 @@ public final class RtPublicMembersTest {
      * @checkstyle VisibilityModifier (3 lines)
      */
     @Rule
+    @SuppressWarnings("deprecation")
     public transient ExpectedException thrown = ExpectedException.none();
 
     /**

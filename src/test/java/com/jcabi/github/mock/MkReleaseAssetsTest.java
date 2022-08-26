@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
@@ -126,7 +127,7 @@ public final class MkReleaseAssetsTest {
             .assets()
             .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
-            IOUtils.toString(asset.raw()),
+            IOUtils.toString(asset.raw(), StandardCharsets.UTF_8),
             Matchers.is(DatatypeConverter.printBase64Binary(test.getBytes()))
         );
     }

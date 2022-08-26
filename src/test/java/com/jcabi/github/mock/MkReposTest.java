@@ -50,6 +50,7 @@ public final class MkReposTest {
      * @checkstyle VisibilityModifier (3 lines)
      */
     @Rule
+    @SuppressWarnings("deprecation")
     public transient ExpectedException thrown = ExpectedException.none();
 
     /**
