@@ -6,11 +6,10 @@ name: codecov
       - master
 jobs:
   codecov:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - uses: actions/setup-java@v1
         with:
           java-version: 11
       - uses: actions/cache@v1
@@ -19,10 +18,8 @@ jobs:
           key: maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-
-      - name: Run tests
-        run: mvn install -Pjacoco -DskipITs -Dinvoker.skip
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+      - run: mvn install -Pjacoco
+      - uses: codecov/codecov-action@v1
         with:
           file: ./target/site/jacoco/jacoco.xml
           fail_ci_if_error: true
