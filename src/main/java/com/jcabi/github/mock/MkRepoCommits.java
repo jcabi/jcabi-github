@@ -35,7 +35,6 @@ import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import javax.json.JsonObject;
@@ -96,16 +95,11 @@ final class MkRepoCommits implements RepoCommits {
     public Iterable<RepoCommit> iterate(
         final Map<String, String> params
     ) {
-        return new MkIterable<RepoCommit>(
+        return new MkIterable<>(
             this.storage, String.format("%s/commit", this.xpath()),
-            new MkIterable.Mapping<RepoCommit>() {
-                @Override
-                public RepoCommit map(final XML xml) {
-                    return MkRepoCommits.this.get(
-                        xml.xpath("sha/text()").get(0)
-                    );
-                }
-            }
+            xml -> this.get(
+                xml.xpath("sha/text()").get(0)
+            )
         );
     }
 

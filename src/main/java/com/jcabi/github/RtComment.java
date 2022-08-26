@@ -147,7 +147,7 @@ final class RtComment implements Comment {
     public Iterable<Reaction> reactions() {
         return new RtPagination<>(
             this.request.uri().path("/reactions").back(),
-            (object) -> new Reaction.Simple(object.getString(RtComment.CONTENT))
+            object -> new Reaction.Simple(object.getString(RtComment.CONTENT))
         );
     }
 }

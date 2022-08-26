@@ -406,7 +406,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public Event latestEvent(final String type) throws IOException {
-            final Iterable<Event.Smart> events = new Smarts<Event.Smart>(
+            final Iterable<Event.Smart> events = new Smarts<>(
                 this.issue.events()
             );
             Event found = null;
@@ -436,11 +436,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             final Collection<JsonObject> array =
                 this.jsn.value("labels", JsonArray.class)
                     .getValuesAs(JsonObject.class);
-            final Collection<Label> labels = new ArrayList<Label>(array.size());
+            final Collection<Label> labels = new ArrayList<>(array.size());
             for (final JsonObject obj : array) {
                 labels.add(
                     new Label.Unmodified(
-                        Issue.Smart.this.repo(),
+                        this.repo(),
                         obj.toString()
                     )
                 );

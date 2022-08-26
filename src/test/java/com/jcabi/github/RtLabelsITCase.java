@@ -85,7 +85,7 @@ public final class RtLabelsITCase {
     public void listsLabels() throws Exception {
         final Labels labels = repo.labels();
         final Iterable<Label.Smart> list =
-            new Smarts<Label.Smart>(labels.iterate());
+            new Smarts<>(labels.iterate());
         for (final Label.Smart label : list) {
             MatcherAssert.assertThat(
                 label.color(),

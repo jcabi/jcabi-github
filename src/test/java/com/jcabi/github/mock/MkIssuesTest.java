@@ -58,7 +58,7 @@ public final class MkIssuesTest {
         repo.issues().create("hey", "body of 2nd issue");
         repo.issues().create("hey again", "body of 3rd issue");
         MatcherAssert.assertThat(
-            repo.issues().iterate(new ArrayMap<String, String>()),
+            repo.issues().iterate(new ArrayMap<>()),
             Matchers.<Issue>iterableWithSize(Tv.THREE)
         );
     }

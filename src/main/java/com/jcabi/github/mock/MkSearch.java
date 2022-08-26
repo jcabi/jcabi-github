@@ -38,7 +38,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
 import com.jcabi.github.User;
-import com.jcabi.xml.XML;
 import java.util.EnumMap;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -91,18 +90,13 @@ final class MkSearch implements Search {
         final String sort,
         final Order order
     ) {
-        return new MkIterable<Repo>(
+        return new MkIterable<>(
             this.storage,
             "/github/repos/repo",
-            new MkIterable.Mapping<Repo>() {
-                @Override
-                public Repo map(final XML xml) {
-                    return new MkRepo(
-                        MkSearch.this.storage, MkSearch.this.self,
-                        new Coordinates.Simple(xml.xpath("@coords").get(0))
-                    );
-                }
-            }
+            xml -> new MkRepo(
+                this.storage, this.self,
+                new Coordinates.Simple(xml.xpath("@coords").get(0))
+            )
         );
     }
 
@@ -111,21 +105,16 @@ final class MkSearch implements Search {
     public Iterable<Issue> issues(final String keywords, final String sort,
         final Order order, final EnumMap<Qualifier, String> qualifiers
     ) {
-        return new MkIterable<Issue>(
+        return new MkIterable<>(
             this.storage,
             "/github/repos/repo/issues/issue",
-            new MkIterable.Mapping<Issue>() {
-                @Override
-                public Issue map(final XML xml) {
-                    return new MkIssue(
-                        MkSearch.this.storage, MkSearch.this.self,
-                        new Coordinates.Simple(
-                            xml.xpath("../../@coords").get(0)
-                        ),
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                }
-            }
+            xml -> new MkIssue(
+                this.storage, this.self,
+                new Coordinates.Simple(
+                    xml.xpath("../../@coords").get(0)
+                ),
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
         );
     }
 
@@ -135,18 +124,13 @@ final class MkSearch implements Search {
         final String sort,
         final Order order
     ) {
-        return new MkIterable<User>(
+        return new MkIterable<>(
             this.storage,
             "/github/users/user",
-            new MkIterable.Mapping<User>() {
-                @Override
-                public User map(final XML xml) {
-                    return new MkUser(
-                        MkSearch.this.storage,
-                        xml.xpath("login/text()").get(0)
-                    );
-                }
-            }
+            xml -> new MkUser(
+                this.storage,
+                xml.xpath("login/text()").get(0)
+            )
         );
     }
 
@@ -156,21 +140,16 @@ final class MkSearch implements Search {
         final String sort,
         final Order order
     ) {
-        return new MkIterable<Content>(
+        return new MkIterable<>(
             this.storage,
             "/github/repos/repo/name",
-            new MkIterable.Mapping<Content>() {
-                @Override
-                public Content map(final XML xml) {
-                    return new MkContent(
-                        MkSearch.this.storage,
-                        MkSearch.this.self,
-                        new Coordinates.Simple(MkSearch.this.self, "repo"),
-                        "/path/to/search",
-                        "master"
-                    );
-                }
-            }
+            xml -> new MkContent(
+                this.storage,
+                this.self,
+                new Coordinates.Simple(this.self, "repo"),
+                "/path/to/search",
+                "master"
+            )
         );
     }
 

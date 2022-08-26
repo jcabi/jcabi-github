@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -118,14 +117,9 @@ final class RtGistComments implements GistComments {
 
     @Override
     public Iterable<GistComment> iterate() {
-        return new RtPagination<GistComment>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<GistComment, JsonObject>() {
-                @Override
-                public GistComment map(final JsonObject object) {
-                    return RtGistComments.this.get(object.getInt("id"));
-                }
-            }
+            object -> this.get(object.getInt("id"))
         );
     }
 }

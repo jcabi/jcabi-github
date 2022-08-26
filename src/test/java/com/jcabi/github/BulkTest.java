@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -53,15 +52,10 @@ public final class BulkTest {
         final Comment origin = Mockito.mock(Comment.class);
         final Request request = new FakeRequest()
             .withBody("[{\"body\": \"hey you\"}]");
-        final Iterable<Comment> comments = new Bulk<Comment>(
-            new RtPagination<Comment>(
+        final Iterable<Comment> comments = new Bulk<>(
+            new RtPagination<>(
                 request,
-                new RtValuePagination.Mapping<Comment, JsonObject>() {
-                    @Override
-                    public Comment map(final JsonObject object) {
-                        return origin;
-                    }
-                }
+                object -> origin
             )
         );
         final Comment comment = comments.iterator().next();

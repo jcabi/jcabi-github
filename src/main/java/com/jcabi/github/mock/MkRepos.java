@@ -36,7 +36,6 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -156,18 +155,13 @@ final class MkRepos implements Repos {
     @Override
     public Iterable<Repo> iterate(
         final String identifier) {
-        return new MkIterable<Repo>(
+        return new MkIterable<>(
             this.storage,
             "/github/repos/repo",
-            new MkIterable.Mapping<Repo>() {
-                @Override
-                public Repo map(final XML xml) {
-                    return new MkRepo(
-                        MkRepos.this.storage, MkRepos.this.self,
-                        new Coordinates.Simple(xml.xpath("@coords").get(0))
-                    );
-                }
-            }
+            xml -> new MkRepo(
+                this.storage, this.self,
+                new Coordinates.Simple(xml.xpath("@coords").get(0))
+            )
         );
     }
 

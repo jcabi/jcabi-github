@@ -29,9 +29,7 @@
  */
 package com.jcabi.github;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
 import javax.json.JsonObject;
@@ -93,41 +91,33 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
             final RtPagination<T> page = RtPagination.class.cast(items);
             final RtValuePagination.Mapping<T, JsonObject> mapping =
                 page.mapping();
-            this.origin = new RtPagination<T>(
+            this.origin = new RtPagination<>(
                 page.request(),
-                new RtValuePagination.Mapping<T, JsonObject>() {
-                    @Override
-                    public T map(final JsonObject object) {
-                        final T item = mapping.map(object);
-                        return (T) Proxy.newProxyInstance(
-                            Thread.currentThread().getContextClassLoader(),
-                            item.getClass().getInterfaces(),
-                            new InvocationHandler() {
-                                @Override
-                                @SuppressWarnings("PMD.UseVarargs")
-                                public Object invoke(final Object proxy,
-                                    final Method method, final Object[] args) {
-                                    final Object result;
-                                    if ("json".equals(method.getName())) {
-                                        result = object;
-                                    } else {
-                                        try {
-                                            result = method.invoke(item, args);
-                                        } catch (
-                                            final IllegalAccessException ex
-                                        ) {
-                                            throw new IllegalStateException(ex);
-                                        } catch (
-                                            final InvocationTargetException ex
-                                        ) {
-                                            throw new IllegalStateException(ex);
-                                        }
-                                    }
-                                    return result;
+                object -> {
+                    final T item = mapping.map(object);
+                    return (T) Proxy.newProxyInstance(
+                        Thread.currentThread().getContextClassLoader(),
+                        item.getClass().getInterfaces(),
+                        (proxy, method, args) -> {
+                            final Object result;
+                            if ("json".equals(method.getName())) {
+                                result = object;
+                            } else {
+                                try {
+                                    result = method.invoke(item, args);
+                                } catch (
+                                    final IllegalAccessException ex
+                                ) {
+                                    throw new IllegalStateException(ex);
+                                } catch (
+                                    final InvocationTargetException ex
+                                ) {
+                                    throw new IllegalStateException(ex);
                                 }
                             }
-                        );
-                    }
+                            return result;
+                        }
+                    );
                 }
             );
         } else {

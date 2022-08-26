@@ -94,7 +94,7 @@ public interface CommitsComparison extends JsonReadable {
             final JsonArray array = this.comparison.json()
                 .getJsonArray("commits");
             final Collection<RepoCommit> commits =
-                new ArrayList<RepoCommit>(array.size());
+                new ArrayList<>(array.size());
             final RepoCommits repo = this.comparison.repo().commits();
             for (final JsonValue value : array) {
                 commits.add(

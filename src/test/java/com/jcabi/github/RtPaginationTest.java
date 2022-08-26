@@ -76,14 +76,9 @@ public final class RtPaginationTest {
             .start(this.resource.port())
         ) {
             final Request request = new ApacheRequest(container.home());
-            final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
+            final RtPagination<JsonObject> page = new RtPagination<>(
                 request,
-                new RtValuePagination.Mapping<JsonObject, JsonObject>() {
-                    @Override
-                    public JsonObject map(final JsonObject object) {
-                        return object;
-                    }
-                }
+                object -> object
             );
             final Iterator<JsonObject> iterator = page.iterator();
             MatcherAssert.assertThat(
@@ -110,14 +105,9 @@ public final class RtPaginationTest {
                 .next(simple("Hi there")).start(this.resource.port())
         ) {
             final Request request = new ApacheRequest(container.home());
-            final RtPagination<JsonObject> page = new RtPagination<JsonObject>(
+            final RtPagination<JsonObject> page = new RtPagination<>(
                 request,
-                new RtValuePagination.Mapping<JsonObject, JsonObject>() {
-                    @Override
-                    public JsonObject map(final JsonObject object) {
-                        return object;
-                    }
-                }
+                object -> object
             );
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();

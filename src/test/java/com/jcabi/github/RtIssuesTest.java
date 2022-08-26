@@ -145,7 +145,7 @@ public final class RtIssuesTest {
                 repo()
             );
             MatcherAssert.assertThat(
-                issues.iterate(new ArrayMap<String, String>()),
+                issues.iterate(new ArrayMap<>()),
                 Matchers.<Issue>iterableWithSize(2)
             );
             container.stop();
@@ -177,7 +177,7 @@ public final class RtIssuesTest {
                 issues.search(
                     Issues.Sort.UPDATED,
                     Search.Order.ASC,
-                    new EnumMap<Issues.Qualifier, String>(
+                    new EnumMap<>(
                         Issues.Qualifier.class
                     )
                 ),

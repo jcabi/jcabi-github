@@ -36,7 +36,6 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -123,16 +122,11 @@ final class RtRepos implements Repos {
     @Override
     public Iterable<Repo> iterate(
         final String identifier) {
-        return new RtPagination<Repo>(
+        return new RtPagination<>(
             this.entry.uri().queryParam("since", identifier).back(),
-            new RtValuePagination.Mapping<Repo, JsonObject>() {
-                @Override
-                public Repo map(final JsonObject object) {
-                    return RtRepos.this.get(
-                        new Coordinates.Simple(object.getString("full_name"))
-                    );
-                }
-            }
+            object -> this.get(
+                new Coordinates.Simple(object.getString("full_name"))
+            )
         );
     }
 

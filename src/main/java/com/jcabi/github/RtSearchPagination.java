@@ -93,7 +93,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new RtPagination<T>(
+        return new RtPagination<>(
             new RtSearchPagination.SearchRequest(this.request),
             this.mapping
         ).iterator();

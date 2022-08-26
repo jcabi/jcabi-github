@@ -35,7 +35,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Label;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -126,17 +125,12 @@ final class MkLabels implements Labels {
 
     @Override
     public Iterable<Label> iterate() {
-        return new MkIterable<Label>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/label", this.xpath()),
-            new MkIterable.Mapping<Label>() {
-                @Override
-                public Label map(final XML xml) {
-                    return MkLabels.this.get(
-                        xml.xpath("name/text()").get(0)
-                    );
-                }
-            }
+            xml -> this.get(
+                xml.xpath("name/text()").get(0)
+            )
         );
     }
 

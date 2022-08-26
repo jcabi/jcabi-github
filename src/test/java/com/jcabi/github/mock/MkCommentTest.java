@@ -164,6 +164,6 @@ public final class MkCommentTest {
      */
     private static long now() {
         final long sinceepoch = new Date().getTime();
-        return sinceepoch - (sinceepoch % Tv.THOUSAND);
+        return sinceepoch - sinceepoch % Tv.THOUSAND;
     }
 }

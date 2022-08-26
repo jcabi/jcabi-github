@@ -110,7 +110,7 @@ public final class RtSearchTest {
                 "test2",
                 "created",
                 Search.Order.DESC,
-                new EnumMap<Search.Qualifier, String>(Search.Qualifier.class)
+                new EnumMap<>(Search.Qualifier.class)
             ).iterator().next().number(),
             Matchers.equalTo(number)
         );

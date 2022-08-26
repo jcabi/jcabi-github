@@ -35,7 +35,6 @@ import com.jcabi.github.Branch;
 import com.jcabi.github.Branches;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -105,21 +104,16 @@ public final class MkBranches implements Branches {
 
     @Override
     public Iterable<Branch> iterate() {
-        return new MkIterable<Branch>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/branch", this.xpath()),
-            new MkIterable.Mapping<Branch>() {
-                @Override
-                public Branch map(final XML xml) {
-                    return new MkBranch(
-                        MkBranches.this.storage,
-                        MkBranches.this.self,
-                        MkBranches.this.coords,
-                        xml.xpath("@name").get(0),
-                        xml.xpath(MkBranches.XPATH_TO_SHA).get(0)
-                    );
-                }
-            }
+            xml -> new MkBranch(
+                this.storage,
+                this.self,
+                this.coords,
+                xml.xpath("@name").get(0),
+                xml.xpath(MkBranches.XPATH_TO_SHA).get(0)
+            )
         );
     }
 

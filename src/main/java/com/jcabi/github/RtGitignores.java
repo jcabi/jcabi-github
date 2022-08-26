@@ -86,7 +86,7 @@ final class RtGitignores implements Gitignores {
             .assertStatus(HttpURLConnection.HTTP_OK);
         final List<JsonString> list = response.as(JsonResponse.class)
             .json().readArray().getValuesAs(JsonString.class);
-        final List<String> templates = new ArrayList<String>(list.size());
+        final List<String> templates = new ArrayList<>(list.size());
         for (final JsonString value : list) {
             templates.add(value.getString());
         }

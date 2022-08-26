@@ -39,7 +39,6 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
@@ -93,14 +92,11 @@ final class RtHooks implements Hooks {
 
     @Override
     public Iterable<Hook> iterate() {
-        return new RtPagination<Hook>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Hook, JsonObject>() {
-                @Override
-                public Hook map(final JsonObject object) {
-                    // @checkstyle MultipleStringLiterals (1 line)
-                    return RtHooks.this.get(object.getInt("id"));
-                }
+            object -> {
+                // @checkstyle MultipleStringLiterals (1 line)
+                return this.get(object.getInt("id"));
             }
         );
     }

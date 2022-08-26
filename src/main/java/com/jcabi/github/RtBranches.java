@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import java.util.stream.StreamSupport;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -86,19 +85,14 @@ final class RtBranches implements Branches {
 
     @Override
     public Iterable<Branch> iterate() {
-        return new RtPagination<Branch>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Branch, JsonObject>() {
-                @Override
-                public Branch map(final JsonObject object) {
-                    return new RtBranch(
-                        RtBranches.this.entry,
-                        RtBranches.this.owner,
-                        object.getString("name"),
-                        object.getJsonObject("commit").getString("sha")
-                    );
-                }
-            }
+            object -> new RtBranch(
+                this.entry,
+                this.owner,
+                object.getString("name"),
+                object.getJsonObject("commit").getString("sha")
+            )
         );
     }
 

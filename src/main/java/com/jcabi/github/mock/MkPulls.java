@@ -36,7 +36,6 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -157,17 +156,12 @@ final class MkPulls implements Pulls {
 
     @Override
     public Iterable<Pull> iterate(final Map<String, String> params) {
-        return new MkIterable<Pull>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/pull", this.xpath()),
-            new MkIterable.Mapping<Pull>() {
-                @Override
-                public Pull map(final XML xml) {
-                    return MkPulls.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
         );
     }
 

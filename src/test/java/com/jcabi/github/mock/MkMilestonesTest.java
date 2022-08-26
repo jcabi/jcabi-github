@@ -96,12 +96,12 @@ public final class MkMilestonesTest {
             .milestones();
         final Milestone created = milestones.create("testTitle");
         MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
+            milestones.iterate(new ArrayMap<>()),
             Matchers.<Milestone>iterableWithSize(1)
         );
         milestones.remove(created.number());
         MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
+            milestones.iterate(new ArrayMap<>()),
             Matchers.<Milestone>iterableWithSize(0)
         );
     }
@@ -116,7 +116,7 @@ public final class MkMilestonesTest {
             .milestones();
         milestones.create("testMilestone");
         MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
+            milestones.iterate(new ArrayMap<>()),
             Matchers.<Milestone>iterableWithSize(1)
         );
     }

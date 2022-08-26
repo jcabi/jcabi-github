@@ -34,7 +34,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import org.xembly.Directives;
@@ -115,17 +114,12 @@ final class MkMilestones implements Milestones {
     public Iterable<Milestone> iterate(
         final Map<String, String> params
     ) {
-        return new MkIterable<Milestone>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/milestone", this.xpath()),
-            new MkIterable.Mapping<Milestone>() {
-                @Override
-                public Milestone map(final XML xml) {
-                    return MkMilestones.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
         );
     }
 

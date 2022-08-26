@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.jcabi.aspects.Immutable;
@@ -68,14 +67,9 @@ public final class ImmutabilityTest {
         MatcherAssert.assertThat(
             Iterables.filter(
                 this.classpath.allTypes(),
-                new Predicate<Class<?>>() {
-                    @Override
-                    public boolean apply(final Class<?> input) {
-                        return !ImmutabilityTest.skip().contains(
-                            input.getName()
-                        );
-                    }
-                }
+                input -> !ImmutabilityTest.skip().contains(
+                    input.getName()
+                )
             ),
             Matchers.everyItem(
                 new CustomTypeSafeMatcher<Class<?>>("annotated type") {

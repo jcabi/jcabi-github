@@ -89,7 +89,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
     @Override
     public Iterator<T> iterator() {
-        return new RtValuePagination.Items<T, P>(this.entry, this.map);
+        return new RtValuePagination.Items<>(this.entry, this.map);
     }
 
     /**
@@ -153,7 +153,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
         Items(final Request entry, final RtValuePagination.Mapping<X, P> mpp) {
             this.request = entry;
             this.mapping = mpp;
-            this.objects = new LinkedList<P>();
+            this.objects = new LinkedList<>();
         }
         @Override
         public X next() {
@@ -204,7 +204,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
             }
             final JsonArray arr = response.as(JsonResponse.class).json()
                 .readArray();
-            final Queue<P> list = new LinkedList<P>();
+            final Queue<P> list = new LinkedList<>();
             for (final JsonValue value : arr) {
                 list.add((P) value);
             }

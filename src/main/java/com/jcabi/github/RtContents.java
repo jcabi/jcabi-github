@@ -179,18 +179,13 @@ final class RtContents implements Contents {
         final String path,
         final String ref
     ) {
-        return new RtPagination<Content>(
+        return new RtPagination<>(
             this.request.method(Request.GET)
                 .uri().path(path).queryParam("ref", ref).back(),
-            new RtValuePagination.Mapping<Content, JsonObject>() {
-                @Override
-                public Content map(final JsonObject object) {
-                    return new RtContent(
-                        RtContents.this.entry, RtContents.this.owner,
-                        object.getString("path")
-                    );
-                };
-            }
+            object -> new RtContent(
+                this.entry, this.owner,
+                object.getString("path")
+            )
         );
     }
 

@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -91,19 +90,14 @@ final class RtReleases implements Releases {
 
     @Override
     public Iterable<Release> iterate() {
-        return new RtPagination<Release>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Release, JsonObject>() {
-                @Override
-                public Release map(final JsonObject object) {
-                    return new RtRelease(
-                        RtReleases.this.entry,
-                        RtReleases.this.owner,
-                        // @checkstyle MultipleStringLiterals (1 line)
-                        object.getInt("id")
-                    );
-                }
-            }
+            object -> new RtRelease(
+                this.entry,
+                this.owner,
+                // @checkstyle MultipleStringLiterals (1 line)
+                object.getInt("id")
+            )
         );
     }
 

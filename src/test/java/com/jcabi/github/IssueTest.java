@@ -166,9 +166,9 @@ public final class IssueTest {
         );
         final IssueLabels labels = new Issue.Smart(issue).roLabels();
         this.thrown.expect(UnsupportedOperationException.class);
-        labels.add(new ArrayList<String>(0));
+        labels.add(new ArrayList<>(0));
         this.thrown.expect(UnsupportedOperationException.class);
-        labels.replace(new ArrayList<String>(0));
+        labels.replace(new ArrayList<>(0));
         this.thrown.expect(UnsupportedOperationException.class);
         labels.remove(name);
         this.thrown.expect(UnsupportedOperationException.class);

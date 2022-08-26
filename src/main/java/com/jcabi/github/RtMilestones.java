@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -129,14 +128,9 @@ final class RtMilestones implements Milestones {
     @Override
     public Iterable<Milestone> iterate(
         final Map<String, String> params) {
-        return new RtPagination<Milestone>(
+        return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
-            new RtValuePagination.Mapping<Milestone, JsonObject>() {
-                @Override
-                public Milestone map(final JsonObject object) {
-                    return RtMilestones.this.get(object.getInt("number"));
-                }
-            }
+            object -> this.get(object.getInt("number"))
         );
     }
 }

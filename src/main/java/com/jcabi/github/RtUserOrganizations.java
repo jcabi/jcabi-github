@@ -94,7 +94,7 @@ final class RtUserOrganizations implements UserOrganizations {
     @Override
     public Iterable<Organization> iterate() throws IOException {
         final String login = this.owner.login();
-        return new RtPagination<Organization>(
+        return new RtPagination<>(
             this.entry.uri().path("/users").path(login).path("/orgs").back(),
             new OrganizationMapping(this.ghub.organizations())
         );

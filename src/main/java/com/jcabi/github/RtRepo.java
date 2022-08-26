@@ -199,7 +199,7 @@ final class RtRepo implements Repo {
         );
         final JsonObject object = json.fetch();
         final List<Language> languages =
-            new ArrayList<Language>(object.size());
+            new ArrayList<>(object.size());
         for (final Map.Entry<String, JsonValue> value : object.entrySet()) {
             final String name = value.getKey();
             languages.add(

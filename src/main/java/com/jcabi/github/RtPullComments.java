@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -101,17 +100,12 @@ final class RtPullComments implements PullComments {
     public Iterable<PullComment> iterate(
         final Map<String, String> params
     ) {
-        return new RtPagination<PullComment>(
+        return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
-            new RtValuePagination.Mapping<PullComment, JsonObject>() {
-                @Override
-                public PullComment map(final JsonObject value) {
-                    return RtPullComments.this.get(
-                        // @checkstyle MultipleStringLiterals (3 lines)
-                        value.getInt("id")
-                    );
-                }
-            }
+            value -> this.get(
+                // @checkstyle MultipleStringLiterals (3 lines)
+                value.getInt("id")
+            )
         );
     }
 
@@ -127,16 +121,11 @@ final class RtPullComments implements PullComments {
             .path(String.valueOf(number))
             .path("/comments")
             .back();
-        return new RtPagination<PullComment>(
+        return new RtPagination<>(
             newreq.uri().queryParams(params).back(),
-            new RtValuePagination.Mapping<PullComment, JsonObject>() {
-                @Override
-                public PullComment map(final JsonObject value) {
-                    return RtPullComments.this.get(
-                        value.getInt("id")
-                    );
-                }
-            }
+            value -> this.get(
+                value.getInt("id")
+            )
         );
     }
 

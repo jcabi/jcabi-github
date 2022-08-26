@@ -36,7 +36,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Reference;
 import com.jcabi.github.References;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
@@ -121,17 +120,12 @@ final class MkReferences implements References {
 
     @Override
     public Iterable<Reference> iterate() {
-        return new MkIterable<Reference>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/reference", this.xpath()),
-            new MkIterable.Mapping<Reference>() {
-                @Override
-                public Reference map(final XML xml) {
-                    return MkReferences.this.get(
-                        xml.xpath("ref/text()").get(0)
-                    );
-                }
-            }
+            xml -> this.get(
+                xml.xpath("ref/text()").get(0)
+            )
         );
     }
 
@@ -139,20 +133,15 @@ final class MkReferences implements References {
     public Iterable<Reference> iterate(
         final String subnamespace
     ) {
-        return new MkIterable<Reference>(
+        return new MkIterable<>(
             this.storage,
             String.format(
                 "%s/reference/ref[starts-with(., 'refs/%s')]", this.xpath(),
                 subnamespace
             ),
-            new MkIterable.Mapping<Reference>() {
-                @Override
-                public Reference map(final XML xml) {
-                    return MkReferences.this.get(
-                        xml.xpath("text()").get(0)
-                    );
-                }
-            }
+            xml -> this.get(
+                xml.xpath("text()").get(0)
+            )
         );
     }
 

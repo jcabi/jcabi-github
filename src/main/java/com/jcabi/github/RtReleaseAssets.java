@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
@@ -98,18 +97,13 @@ final class RtReleaseAssets implements ReleaseAssets {
 
     @Override
     public Iterable<ReleaseAsset> iterate() {
-        return new RtPagination<ReleaseAsset>(
+        return new RtPagination<>(
             this.request.uri().back()
                 .method(Request.GET),
-            new RtValuePagination.Mapping<ReleaseAsset, JsonObject>() {
-                @Override
-                public ReleaseAsset map(final JsonObject value) {
-                    return RtReleaseAssets.this.get(
-                    //@checkstyle MultipleStringLiteralsCheck (1 line)
-                        value.getInt("id")
-                    );
-                }
-            }
+            value -> this.get(
+                //@checkstyle MultipleStringLiteralsCheck (1 line)
+                value.getInt("id")
+            )
         );
     }
 

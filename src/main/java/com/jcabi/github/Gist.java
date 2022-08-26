@@ -152,7 +152,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
         public Iterable<String> files() throws IOException {
             final JsonObject array = this.gist.json().getJsonObject("files");
             final Collection<String> files =
-                new ArrayList<String>(array.size());
+                new ArrayList<>(array.size());
             for (final JsonValue value : array.values()) {
                 files.add(JsonObject.class.cast(value).getString("filename"));
             }

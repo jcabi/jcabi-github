@@ -35,7 +35,6 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import javax.json.Json;
@@ -118,20 +117,15 @@ final class MkPullComments implements PullComments {
     public Iterable<PullComment> iterate(
         final Map<String, String> params
     ) {
-        return new MkIterable<PullComment>(
+        return new MkIterable<>(
             this.storage,
             String.format(
                 "/github/repos/repo[@coords='%s']/pulls/pull/comments",
                 this.repo
             ),
-            new MkIterable.Mapping<PullComment>() {
-                @Override
-                public PullComment map(final XML xml) {
-                    return MkPullComments.this.get(
-                        Integer.parseInt(xml.xpath("comment/id/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("comment/id/text()").get(0))
+            )
         );
     }
 
@@ -140,16 +134,11 @@ final class MkPullComments implements PullComments {
         final int number,
         final Map<String, String> params
     ) {
-        return new MkIterable<PullComment>(
+        return new MkIterable<>(
             this.storage, String.format("%s/comment", this.xpath()),
-            new MkIterable.Mapping<PullComment>() {
-                @Override
-                public PullComment map(final XML xml) {
-                    return MkPullComments.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("id/text()").get(0))
+            )
         );
     }
 

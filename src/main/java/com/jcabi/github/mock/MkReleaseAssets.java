@@ -36,7 +36,6 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
@@ -117,17 +116,12 @@ final class MkReleaseAssets implements ReleaseAssets {
 
     @Override
     public Iterable<ReleaseAsset> iterate() {
-        return new MkIterable<ReleaseAsset>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/asset", this.xpath()),
-            new MkIterable.Mapping<ReleaseAsset>() {
-                @Override
-                public ReleaseAsset map(final XML xml) {
-                    return MkReleaseAssets.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("id/text()").get(0))
+            )
         );
     }
 

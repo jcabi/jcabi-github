@@ -98,6 +98,6 @@ public final class MkBranchTest {
      * @return MkBranches
      */
     private static MkBranches branches(final Repo repo) {
-        return (MkBranches) (repo.branches());
+        return (MkBranches) repo.branches();
     }
 }

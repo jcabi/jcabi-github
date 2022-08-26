@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
 import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -51,7 +50,7 @@ public final class RtSearchPaginationTest {
     public void iteratesItems() {
         final String key = "key";
         final String value = "value";
-        final Iterable<String> pagination = new RtSearchPagination<String>(
+        final Iterable<String> pagination = new RtSearchPagination<>(
             new FakeRequest().withBody(
                 Json.createObjectBuilder().add(
                     "items", Json.createArrayBuilder().add(
@@ -60,12 +59,7 @@ public final class RtSearchPaginationTest {
                 ).build().toString()
             ),
             "/search/path", "keywords", "sort", "order",
-            new RtValuePagination.Mapping<String, JsonObject>() {
-                @Override
-                public String map(final JsonObject object) {
-                    return object.getString(key);
-                }
-            }
+            object -> object.getString(key)
         );
         MatcherAssert.assertThat(
             pagination.iterator().next(), Matchers.equalTo(value)

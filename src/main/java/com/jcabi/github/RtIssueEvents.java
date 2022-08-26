@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -96,18 +95,13 @@ final class RtIssueEvents implements IssueEvents {
 
     @Override
     public Iterable<Event> iterate() {
-        return new RtPagination<Event>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Event, JsonObject>() {
-                @Override
-                public Event map(final JsonObject object) {
-                    return new RtEvent(
-                        RtIssueEvents.this.entry,
-                        RtIssueEvents.this.owner,
-                        object.getInt("id")
-                    );
-                }
-            }
+            object -> new RtEvent(
+                this.entry,
+                this.owner,
+                object.getInt("id")
+            )
         );
     }
 }

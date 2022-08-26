@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Assignees;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.User;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -83,20 +82,15 @@ final class MkAssignees implements Assignees {
 
     @Override
     public Iterable<User> iterate() {
-        final Set<User> assignees = new HashSet<User>();
+        final Set<User> assignees = new HashSet<>();
         assignees.add(new MkUser(this.storage, this.self));
-        final Iterable<User> collaborators = new MkIterable<User>(
+        final Iterable<User> collaborators = new MkIterable<>(
             this.storage,
             String.format("%s/user", this.xpath()),
-            new MkIterable.Mapping<User>() {
-                @Override
-                public User map(final XML xml) {
-                    return new MkUser(
-                            MkAssignees.this.storage,
-                            xml.xpath("login/text()").get(0)
-                        );
-                }
-            }
+            xml -> new MkUser(
+                this.storage,
+                xml.xpath("login/text()").get(0)
+            )
         );
         for (final User collab : collaborators) {
             assignees.add(collab);
@@ -112,10 +106,8 @@ final class MkAssignees implements Assignees {
             final List<String> xpath = this.storage.xml().xpath(
                 String.format("%s/user/login/text()", this.xpath())
             );
-            return this.self.equalsIgnoreCase(login) || (
-                !xpath.isEmpty()
-                    && StringUtils.equalsIgnoreCase(login, xpath.get(0))
-                );
+            return this.self.equalsIgnoreCase(login) || !xpath.isEmpty()
+                && StringUtils.equalsIgnoreCase(login, xpath.get(0));
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

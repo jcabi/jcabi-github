@@ -75,17 +75,12 @@ public final class RtValuePaginationTest {
             .start(this.resource.port());
         final Request request = new ApacheRequest(container.home());
         final RtValuePagination<JsonObject, JsonArray> page =
-            new RtValuePagination<JsonObject, JsonArray>(
+            new RtValuePagination<>(
                 request,
-                new RtValuePagination.Mapping<JsonObject, JsonArray>() {
-                    @Override
-                    public JsonObject map(final JsonArray object) {
-                        return Json.createObjectBuilder()
-                            .add("id1", object.getString(0))
-                            .add("id2", object.getString(1))
-                            .build();
-                    }
-                }
+                object -> Json.createObjectBuilder()
+                    .add("id1", object.getString(0))
+                    .add("id2", object.getString(1))
+                    .build()
             );
         final Iterator<JsonObject> iterator = page.iterator();
         MatcherAssert.assertThat(
@@ -119,17 +114,12 @@ public final class RtValuePaginationTest {
         try {
             final Request request = new ApacheRequest(container.home());
             final RtValuePagination<JsonObject, JsonArray> page =
-                new RtValuePagination<JsonObject, JsonArray>(
+                new RtValuePagination<>(
                     request,
-                    new RtValuePagination.Mapping<JsonObject, JsonArray>() {
-                        @Override
-                        public JsonObject map(final JsonArray object) {
-                            return Json.createObjectBuilder()
-                                .add("id3", object.getString(0))
-                                .add("id4", object.getString(1))
-                                .build();
-                        }
-                    }
+                    object -> Json.createObjectBuilder()
+                        .add("id3", object.getString(0))
+                        .add("id4", object.getString(1))
+                        .build()
                 );
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();

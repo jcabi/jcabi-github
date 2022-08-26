@@ -34,7 +34,6 @@ import com.jcabi.github.Collaborators;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
@@ -129,17 +128,12 @@ final class MkCollaborators implements Collaborators {
 
     @Override
     public Iterable<User> iterate() {
-        return new MkIterable<User>(
+        return new MkIterable<>(
             this.storage, String.format("%s/user", this.xpath()),
-            new MkIterable.Mapping<User>() {
-                @Override
-                public User map(final XML xml) {
-                    return new MkUser(
-                        MkCollaborators.this.storage,
-                        xml.xpath("login/text()").get(0)
-                    );
-                }
-            }
+            xml -> new MkUser(
+                this.storage,
+                xml.xpath("login/text()").get(0)
+            )
         );
     }
 

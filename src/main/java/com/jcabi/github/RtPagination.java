@@ -62,12 +62,7 @@ public final class RtPagination<T> implements Iterable<T> {
      * @checkstyle LineLength (3 lines)
      */
     public static final RtValuePagination.Mapping<JsonObject, JsonObject> COPYING =
-        new RtValuePagination.Mapping<JsonObject, JsonObject>() {
-            @Override
-            public JsonObject map(final JsonObject value) {
-                return value;
-            }
-        };
+        value -> value;
 
     /**
      * Encapsulated paging.
@@ -83,7 +78,7 @@ public final class RtPagination<T> implements Iterable<T> {
         final Request req,
         final RtValuePagination.Mapping<T, JsonObject> mpp
     ) {
-        this.pages = new RtValuePagination<T, JsonObject>(req, mpp);
+        this.pages = new RtValuePagination<>(req, mpp);
     }
 
     @Override

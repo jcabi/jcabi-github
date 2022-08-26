@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.User;
 import com.jcabi.github.Users;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -102,15 +101,10 @@ final class MkUsers implements Users {
     public Iterable<User> iterate(
         final String identifier
     ) {
-        return new MkIterable<User>(
+        return new MkIterable<>(
             this.storage,
             "/github/users/user",
-            new MkIterable.Mapping<User>() {
-                @Override
-                public User map(final XML xml) {
-                    return MkUsers.this.get(xml.xpath("login/text()").get(0));
-                }
-            }
+            xml -> this.get(xml.xpath("login/text()").get(0))
         );
     }
 

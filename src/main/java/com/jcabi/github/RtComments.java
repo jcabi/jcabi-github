@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Date;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -122,16 +121,11 @@ final class RtComments implements Comments {
 
     @Override
     public Iterable<Comment> iterate(final Date since) {
-        return new RtPagination<Comment>(
+        return new RtPagination<>(
             this.request.uri()
                 .queryParam("since", new Github.Time(since))
                 .back(),
-            new RtValuePagination.Mapping<Comment, JsonObject>() {
-                @Override
-                public Comment map(final JsonObject object) {
-                    return RtComments.this.get(object.getInt("id"));
-                }
-            }
+            object -> this.get(object.getInt("id"))
         );
     }
 

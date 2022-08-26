@@ -127,18 +127,13 @@ final class RtIssue implements Issue {
 
     @Override
     public Iterable<Event> events() {
-        return new RtPagination<Event>(
+        return new RtPagination<>(
             this.request.uri().path("/events").back(),
-            new RtValuePagination.Mapping<Event, JsonObject>() {
-                @Override
-                public Event map(final JsonObject object) {
-                    return new RtEvent(
-                        RtIssue.this.entry,
-                        RtIssue.this.owner,
-                        object.getInt("id")
-                    );
-                }
-            }
+            object -> new RtEvent(
+                this.entry,
+                this.owner,
+                object.getInt("id")
+            )
         );
     }
 
@@ -162,7 +157,7 @@ final class RtIssue implements Issue {
     public Iterable<Reaction> reactions() {
         return new RtPagination<>(
             this.request.uri().path("/reactions").back(),
-            (object) -> new Reaction.Simple(object.getString(RtIssue.CONTENT))
+            object -> new Reaction.Simple(object.getString(RtIssue.CONTENT))
         );
     }
 

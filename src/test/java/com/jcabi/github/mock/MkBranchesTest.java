@@ -54,7 +54,7 @@ public final class MkBranchesTest {
         final String name = "my-new-feature";
         final String sha = "590e188e3d52a8da38cf51d3f9bf598bb46911af";
         final Repo repo = new MkGithub().randomRepo();
-        final Branch branch = ((MkBranches) (repo.branches()))
+        final Branch branch = ((MkBranches) repo.branches())
             .create(name, sha);
         MatcherAssert.assertThat(branch.name(), Matchers.equalTo(name));
         MatcherAssert.assertThat(
@@ -78,8 +78,8 @@ public final class MkBranchesTest {
      */
     @Test
     public void iteratesOverBranches() throws IOException {
-        final MkBranches branches = (MkBranches) (new MkGithub().randomRepo()
-            .branches());
+        final MkBranches branches = (MkBranches) new MkGithub().randomRepo()
+            .branches();
         final String onename = "narf";
         final String onesha = "a86da33b875e8ecbaf75cefcf6d8957cbecb654e";
         branches.create(onename, onesha);

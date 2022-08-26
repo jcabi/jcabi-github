@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -125,14 +124,9 @@ final class RtPulls implements Pulls {
 
     @Override
     public Iterable<Pull> iterate(final Map<String, String> params) {
-        return new RtPagination<Pull>(
+        return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
-            new RtValuePagination.Mapping<Pull, JsonObject>() {
-                @Override
-                public Pull map(final JsonObject object) {
-                    return RtPulls.this.get(object.getInt("number"));
-                }
-            }
+            object -> this.get(object.getInt("number"))
         );
     }
 

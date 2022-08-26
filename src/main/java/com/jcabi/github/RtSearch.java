@@ -37,7 +37,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.EnumMap;
 import java.util.regex.Pattern;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -94,16 +93,11 @@ final class RtSearch implements Search {
         final String keywords,
         final String sort,
         final Order order) {
-        return new RtSearchPagination<Repo>(
+        return new RtSearchPagination<>(
             this.request, "repositories", keywords, sort, order.identifier(),
-            new RtValuePagination.Mapping<Repo, JsonObject>() {
-                @Override
-                public Repo map(final JsonObject object) {
-                    return RtSearch.this.github().repos().get(
-                        new Coordinates.Simple(object.getString("full_name"))
-                    );
-                }
-            }
+            object -> this.github().repos().get(
+                new Coordinates.Simple(object.getString("full_name"))
+            )
         );
     }
 
@@ -117,27 +111,24 @@ final class RtSearch implements Search {
             keyword.append('+').append(entry.getKey().identifier())
                 .append(':').append(entry.getValue());
         }
-        return new RtSearchPagination<Issue>(
+        return new RtSearchPagination<>(
             this.request,
             "issues",
             keyword.toString(),
             sort,
             order.identifier(),
-            new RtValuePagination.Mapping<Issue, JsonObject>() {
-                @Override
-                public Issue map(final JsonObject object) {
-                    try {
-                        final String[] parts = RtSearch.SLASH.split(
-                            // @checkstyle MultipleStringLiteralsCheck (1 line)
-                            new URI(object.getString("url")).getPath()
-                        );
-                        return RtSearch.this.ghub.repos().get(
-                            // @checkstyle MagicNumber (1 line)
-                            new Coordinates.Simple(parts[2], parts[3])
-                        ).issues().get(object.getInt("number"));
-                    } catch (final URISyntaxException ex) {
-                        throw new IllegalStateException(ex);
-                    }
+            object -> {
+                try {
+                    final String[] parts = RtSearch.SLASH.split(
+                        // @checkstyle MultipleStringLiteralsCheck (1 line)
+                        new URI(object.getString("url")).getPath()
+                    );
+                    return this.ghub.repos().get(
+                        // @checkstyle MagicNumber (1 line)
+                        new Coordinates.Simple(parts[2], parts[3])
+                    ).issues().get(object.getInt("number"));
+                } catch (final URISyntaxException ex) {
+                    throw new IllegalStateException(ex);
                 }
             }
         );
@@ -148,16 +139,11 @@ final class RtSearch implements Search {
         final String keywords,
         final String sort,
         final Order order) {
-        return new RtSearchPagination<User>(
+        return new RtSearchPagination<>(
             this.request, "users", keywords, sort, order.identifier(),
-            new RtValuePagination.Mapping<User, JsonObject>() {
-                @Override
-                public User map(final JsonObject object) {
-                    return RtSearch.this.ghub.users().get(
-                        object.getString("login")
-                    );
-                }
-            }
+            object -> this.ghub.users().get(
+                object.getString("login")
+            )
         );
     }
 
@@ -166,30 +152,27 @@ final class RtSearch implements Search {
         final String keywords,
         final String sort,
         final Order order) {
-        return new RtSearchPagination<Content>(
+        return new RtSearchPagination<>(
             this.request, "code", keywords, sort, order.identifier(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
-            new RtValuePagination.Mapping<Content, JsonObject>() {
-                @Override
-                public Content map(final JsonObject object) {
-                    try {
-                        // @checkstyle MultipleStringLiteralsCheck (1 line)
-                        final URI uri = new URI(object.getString("url"));
-                        final String[] parts = RtSearch.SLASH.split(
-                            uri.getPath()
-                        );
-                        final String ref = RtSearch.QUERY.split(
-                            uri.getQuery()
-                        )[1];
-                        return RtSearch.this.ghub.repos().get(
-                            // @checkstyle MagicNumber (1 line)
-                            new Coordinates.Simple(parts[2], parts[3])
-                        ).contents().get(object.getString("path"), ref);
-                    } catch (final URISyntaxException ex) {
-                        throw new IllegalStateException(ex);
-                    } catch (final IOException ex) {
-                        throw new IllegalStateException(ex);
-                    }
+            object -> {
+                try {
+                    // @checkstyle MultipleStringLiteralsCheck (1 line)
+                    final URI uri = new URI(object.getString("url"));
+                    final String[] parts = RtSearch.SLASH.split(
+                        uri.getPath()
+                    );
+                    final String ref = RtSearch.QUERY.split(
+                        uri.getQuery()
+                    )[1];
+                    return this.ghub.repos().get(
+                        // @checkstyle MagicNumber (1 line)
+                        new Coordinates.Simple(parts[2], parts[3])
+                    ).contents().get(object.getString("path"), ref);
+                } catch (final URISyntaxException ex) {
+                    throw new IllegalStateException(ex);
+                } catch (final IOException ex) {
+                    throw new IllegalStateException(ex);
                 }
             }
         );

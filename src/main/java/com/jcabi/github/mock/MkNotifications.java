@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.GitHubThread;
 import com.jcabi.github.Notification;
 import com.jcabi.github.Notifications;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -73,17 +72,12 @@ final class MkNotifications implements Notifications {
 
     @Override
     public Iterable<Notification> iterate() {
-        return new MkIterable<Notification>(
+        return new MkIterable<>(
             this.storage,
             this.xpath,
-            new MkIterable.Mapping<Notification>() {
-                @Override
-                public Notification map(final XML xml) {
-                    return MkNotifications.this.get(
-                        Integer.valueOf(xml.xpath("id/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.valueOf(xml.xpath("id/text()").get(0))
+            )
         );
     }
 

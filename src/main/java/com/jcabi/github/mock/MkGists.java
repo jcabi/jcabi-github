@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
 import com.jcabi.github.Github;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -123,15 +122,10 @@ final class MkGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() {
-        return new MkIterable<Gist>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/gist", this.xpath()),
-            new MkIterable.Mapping<Gist>() {
-                @Override
-                public Gist map(final XML xml) {
-                    return MkGists.this.get(xml.xpath("id/text()").get(0));
-                }
-            }
+            xml -> this.get(xml.xpath("id/text()").get(0))
         );
     }
 

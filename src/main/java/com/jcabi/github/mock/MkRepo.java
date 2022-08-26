@@ -285,7 +285,7 @@ final class MkRepo implements Repo {
 
     @Override
     public Iterable<Language> languages() {
-        final List<Language> languages = new ArrayList<Language>(0);
+        final List<Language> languages = new ArrayList<>(0);
         final int java = 999;
         languages.add(new RtLanguage("Java", java));
         final int php = 888;

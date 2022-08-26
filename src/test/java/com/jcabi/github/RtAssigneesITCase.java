@@ -84,8 +84,8 @@ public final class RtAssigneesITCase {
      */
     @Test
     public void iteratesAssignees() throws Exception {
-        final Iterable<User> users = new Smarts<User>(
-            new Bulk<User>(
+        final Iterable<User> users = new Smarts<>(
+            new Bulk<>(
                 repo.assignees().iterate()
             )
         );

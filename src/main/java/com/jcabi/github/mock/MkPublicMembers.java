@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Organization;
 import com.jcabi.github.PublicMembers;
 import com.jcabi.github.User;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import org.xembly.Directives;
 
@@ -97,18 +96,13 @@ public final class MkPublicMembers implements PublicMembers {
 
     @Override
     public Iterable<User> iterate() {
-        return new MkIterable<User>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/member[public='true']/login", this.xpath()),
-            new MkIterable.Mapping<User>() {
-                @Override
-                public User map(final XML xml) {
-                    return new MkUser(
-                        MkPublicMembers.this.storage,
-                        xml.xpath("text()").get(0)
-                    );
-                }
-            }
+            xml -> new MkUser(
+                this.storage,
+                xml.xpath("text()").get(0)
+            )
         );
     }
 

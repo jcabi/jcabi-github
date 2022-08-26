@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
-import javax.json.JsonObject;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
@@ -62,19 +61,14 @@ final class RtNotifications implements Notifications {
 
     @Override
     public Iterable<Notification> iterate() {
-        return new RtPagination<Notification>(
+        return new RtPagination<>(
             this.request.uri()
                 .queryParam("all", "true")
                 .queryParam("since", "1970-01-01T00:00:00Z")
                 .back(),
-            new RtValuePagination.Mapping<Notification, JsonObject>() {
-                @Override
-                public Notification map(final JsonObject json) {
-                    return new RtNotification(
-                        Long.valueOf(json.getString("id"))
-                    );
-                }
-            }
+            json -> new RtNotification(
+                Long.valueOf(json.getString("id"))
+            )
         );
     }
 

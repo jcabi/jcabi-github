@@ -35,7 +35,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -86,18 +85,13 @@ final class RtAssignees implements Assignees {
 
     @Override
     public Iterable<User> iterate() {
-        return new RtPagination<User>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<User, JsonObject>() {
-                @Override
-                public User map(final JsonObject object) {
-                    return new RtUser(
-                        RtAssignees.this.owner.github(),
-                        RtAssignees.this.entry,
-                        object.getString("login")
-                    );
-                }
-            }
+            object -> new RtUser(
+                this.owner.github(),
+                this.entry,
+                object.getString("login")
+            )
         );
     }
 

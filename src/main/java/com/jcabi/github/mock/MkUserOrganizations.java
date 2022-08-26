@@ -98,7 +98,7 @@ final class MkUserOrganizations implements UserOrganizations {
 
     @Override
     public Iterable<Organization> iterate() throws IOException {
-        return new MkIterable<Organization>(
+        return new MkIterable<>(
             this.storage,
             "/github/orgs/org",
             new OrganizationMapping(new MkOrganizations(this.storage))

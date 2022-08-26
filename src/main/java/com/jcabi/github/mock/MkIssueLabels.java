@@ -37,7 +37,6 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Label;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -118,7 +117,7 @@ final class MkIssueLabels implements IssueLabels {
     public void add(final Iterable<String> labels
     ) throws IOException {
         final Collection<String> existing = this.labels();
-        final Set<String> added = new HashSet<String>();
+        final Set<String> added = new HashSet<>();
         final Directives dirs = new Directives().xpath(this.xpath());
         for (final String label : labels) {
             dirs.add("label").set(label).up();
@@ -153,20 +152,15 @@ final class MkIssueLabels implements IssueLabels {
 
     @Override
     public Iterable<Label> iterate() {
-        return new MkIterable<Label>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/*", this.xpath()),
-            new MkIterable.Mapping<Label>() {
-                @Override
-                public Label map(final XML xml) {
-                    return new MkLabel(
-                        MkIssueLabels.this.storage,
-                        MkIssueLabels.this.self,
-                        MkIssueLabels.this.repo,
-                        xml.xpath("./text()").get(0)
-                    );
-                }
-            }
+            xml -> new MkLabel(
+                this.storage,
+                this.self,
+                this.repo,
+                xml.xpath("./text()").get(0)
+            )
         );
     }
 
@@ -215,7 +209,7 @@ final class MkIssueLabels implements IssueLabels {
      * @return Set of label names
      */
     private Collection<String> labels() {
-        final Set<String> labels = new HashSet<String>();
+        final Set<String> labels = new HashSet<>();
         for (final Label label : this.iterate()) {
             labels.add(label.name());
         }

@@ -106,10 +106,9 @@ public final class MkPullRefTest {
         final MkStorage storage = new MkStorage.InFile();
         return new MkPullRef(
             storage,
-            ((MkBranches) (new MkGithub(storage, MkPullRefTest.USERNAME)
+            ((MkBranches) new MkGithub(storage, MkPullRefTest.USERNAME)
                 .randomRepo()
-                .branches()
-            )).create(MkPullRefTest.REF, MkPullRefTest.SHA)
+                .branches()).create(MkPullRefTest.REF, MkPullRefTest.SHA)
         );
     }
 
@@ -126,7 +125,7 @@ public final class MkPullRefTest {
     ) throws IOException {
         return new MkPullRef(
             storage,
-            ((MkBranches) (repo.branches()))
+            ((MkBranches) repo.branches())
                 .create(MkPullRefTest.REF, MkPullRefTest.SHA)
         );
     }

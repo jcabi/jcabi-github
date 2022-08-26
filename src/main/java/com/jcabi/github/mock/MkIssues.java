@@ -38,7 +38,6 @@ import com.jcabi.github.Issues;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
 import com.jcabi.log.Logger;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -146,17 +145,12 @@ final class MkIssues implements Issues {
     @Override
     public Iterable<Issue> iterate(final Map<String, String> params
     ) {
-        return new MkIterable<Issue>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/issue", this.xpath()),
-            new MkIterable.Mapping<Issue>() {
-                @Override
-                public Issue map(final XML xml) {
-                    return MkIssues.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
         );
     }
 
@@ -166,7 +160,7 @@ final class MkIssues implements Issues {
         final Sort sort,
         final Search.Order direction,
         final EnumMap<Qualifier, String> qualifiers) {
-        final Map<String, String> params = new HashMap<String, String>();
+        final Map<String, String> params = new HashMap<>();
         for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
             .entrySet()) {
             params.put(entry.getKey().identifier(), entry.getValue());

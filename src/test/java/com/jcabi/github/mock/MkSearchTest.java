@@ -81,7 +81,7 @@ public final class MkSearchTest {
                 "TheTest",
                 "updated",
                 Search.Order.DESC,
-                new EnumMap<Search.Qualifier, String>(Search.Qualifier.class)
+                new EnumMap<>(Search.Qualifier.class)
             ),
             Matchers.not(Matchers.emptyIterable())
         );

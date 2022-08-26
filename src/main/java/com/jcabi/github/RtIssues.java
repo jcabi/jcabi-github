@@ -40,7 +40,6 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -126,14 +125,9 @@ final class RtIssues implements Issues {
     @Override
     public Iterable<Issue> iterate(
         final Map<String, String> params) {
-        return new RtPagination<Issue>(
+        return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
-            new RtValuePagination.Mapping<Issue, JsonObject>() {
-                @Override
-                public Issue map(final JsonObject object) {
-                    return RtIssues.this.get(object.getInt("number"));
-                }
-            }
+            object -> this.get(object.getInt("number"))
         );
     }
 
@@ -143,7 +137,7 @@ final class RtIssues implements Issues {
         final Sort sort,
         final Search.Order direction,
         final EnumMap<Qualifier, String> qualifiers) {
-        final Map<String, String> params = new HashMap<String, String>();
+        final Map<String, String> params = new HashMap<>();
         for (final EnumMap.Entry<Qualifier, String> pair : qualifiers
             .entrySet()) {
             params.put(pair.getKey().identifier(), pair.getValue());

@@ -53,7 +53,7 @@ public final class SmartsTest {
         Mockito.doReturn(
             Json.createObjectBuilder().add("body", "hello, world!").build()
         ).when(origin).json();
-        final Iterable<Comment.Smart> comments = new Smarts<Comment.Smart>(
+        final Iterable<Comment.Smart> comments = new Smarts<>(
             Collections.singletonList(origin)
         );
         MatcherAssert.assertThat(

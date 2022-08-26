@@ -63,7 +63,7 @@ public class RtRepoCommitsITCase {
                     .with("since", "2014-01-26T00:00:00Z")
                     .with("until", "2014-01-27T00:00:00Z")
             ).iterator();
-        final List<String> shas = new ArrayList<String>(5);
+        final List<String> shas = new ArrayList<>(5);
         shas.add("1aa4af45aa2c56421c3d911a0a06da513a7316a0");
         shas.add("940dd5081fada0ead07762933036bf68a005cc40");
         shas.add("05940dbeaa6124e4a87d9829fb2fce80b713dcbe");

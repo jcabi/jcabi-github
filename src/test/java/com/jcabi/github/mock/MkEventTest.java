@@ -53,7 +53,7 @@ public final class MkEventTest {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGithub(storage, user).randomRepo();
-        final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
+        final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
         final int eventnum = events.create(
             "test_type",
             1,
@@ -83,7 +83,7 @@ public final class MkEventTest {
         final Repo repo = new MkGithub(storage, user).repos().create(
             new Repos.RepoCreate("foo", false)
         );
-        final MkIssueEvents events = (MkIssueEvents) (repo.issueEvents());
+        final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
         final String label = "problem";
         final int num = events.create(
             Event.LABELED,
@@ -115,7 +115,7 @@ public final class MkEventTest {
         final Repo repo = new MkGithub(storage, user).repos().create(
             new Repos.RepoCreate("bar", false)
         );
-        final int num = ((MkIssueEvents) (repo.issueEvents())).create(
+        final int num = ((MkIssueEvents) repo.issueEvents()).create(
             Event.LABELED,
             1,
             user,

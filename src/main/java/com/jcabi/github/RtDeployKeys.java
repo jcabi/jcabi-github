@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -89,14 +88,11 @@ final class RtDeployKeys implements DeployKeys {
 
     @Override
     public Iterable<DeployKey> iterate() {
-        return new RtPagination<DeployKey>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<DeployKey, JsonObject>() {
-                @Override
-                public DeployKey map(final JsonObject object) {
-                    //@checkstyle MultipleStringLiteralsCheck (1 line)
-                    return RtDeployKeys.this.get(object.getInt("id"));
-                }
+            object -> {
+                //@checkstyle MultipleStringLiteralsCheck (1 line)
+                return this.get(object.getInt("id"));
             }
         );
     }

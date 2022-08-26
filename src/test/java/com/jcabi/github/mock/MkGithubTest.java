@@ -158,25 +158,22 @@ public final class MkGithubTest {
     @Test
     public void canHandleMultipleThreads() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
-        final int threads = Tv.HUNDRED;
-        final ExecutorService svc = Executors.newFixedThreadPool(threads);
-        final Callable<Void> task = new VerboseCallable<Void>(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    repo.issues().create("", "");
-                    return null;
-                }
+        final Callable<Void> task = new VerboseCallable<>(
+            () -> {
+                repo.issues().create("", "");
+                return null;
             }
         );
+        final int threads = Tv.HUNDRED;
         final Collection<Callable<Void>> tasks =
-            new ArrayList<Callable<Void>>(threads);
+            new ArrayList<>(threads);
         for (int idx = 0; idx < threads; ++idx) {
             tasks.add(task);
         }
+        final ExecutorService svc = Executors.newFixedThreadPool(threads);
         svc.invokeAll(tasks);
         MatcherAssert.assertThat(
-            repo.issues().iterate(new ArrayMap<String, String>()),
+            repo.issues().iterate(new ArrayMap<>()),
             Matchers.<Issue>iterableWithSize(threads)
         );
     }
@@ -192,7 +189,7 @@ public final class MkGithubTest {
             new User.Smart(
                 new MkGithub().users().get("other")
             ).exists(),
-            new IsEqual<Boolean>(false)
+            new IsEqual<>(false)
         );
     }
 }

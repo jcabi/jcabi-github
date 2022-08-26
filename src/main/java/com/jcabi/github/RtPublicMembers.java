@@ -35,7 +35,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -113,18 +112,13 @@ public final class RtPublicMembers implements PublicMembers {
 
     @Override
     public Iterable<User> iterate() {
-        return new RtPagination<User>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<User, JsonObject>() {
-                @Override
-                public User map(final JsonObject object) {
-                    return new RtUser(
-                        RtPublicMembers.this.organization.github(),
-                        RtPublicMembers.this.entry,
-                        object.getString("login")
-                    );
-                }
-            }
+            object -> new RtUser(
+                this.organization.github(),
+                this.entry,
+                object.getString("login")
+            )
         );
     }
 

@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -149,18 +148,13 @@ final class RtIssueLabels implements IssueLabels {
 
     @Override
     public Iterable<Label> iterate() {
-        return new RtPagination<Label>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Label, JsonObject>() {
-                @Override
-                public Label map(final JsonObject object) {
-                    return new RtLabel(
-                        RtIssueLabels.this.entry,
-                        RtIssueLabels.this.owner.repo(),
-                        object.getString("name")
-                    );
-                }
-            }
+            object -> new RtLabel(
+                this.entry,
+                this.owner.repo(),
+                object.getString("name")
+            )
         );
     }
 

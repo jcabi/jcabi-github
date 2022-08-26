@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -81,14 +80,9 @@ final class RtOrganizations implements Organizations {
 
     @Override
     public Iterable<Organization> iterate() {
-        return new RtPagination<Organization>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Organization, JsonObject>() {
-                @Override
-                public Organization map(final JsonObject object) {
-                    return RtOrganizations.this.get(object.getString("login"));
-                }
-            }
+            object -> this.get(object.getString("login"))
         );
     }
 }

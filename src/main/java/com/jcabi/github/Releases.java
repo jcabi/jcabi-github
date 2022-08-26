@@ -136,7 +136,7 @@ public interface Releases {
          */
         public boolean exists(final String tag) throws IOException {
             boolean exists = false;
-            final Iterable<Release.Smart> rels = new Smarts<Release.Smart>(
+            final Iterable<Release.Smart> rels = new Smarts<>(
                 this.iterate()
             );
             for (final Release.Smart rel : rels) {
@@ -155,7 +155,7 @@ public interface Releases {
          */
         public Release find(final String tag) throws IOException {
             Release found = null;
-            final Iterable<Release.Smart> rels = new Smarts<Release.Smart>(
+            final Iterable<Release.Smart> rels = new Smarts<>(
                 this.iterate()
             );
             for (final Release.Smart rel : rels) {

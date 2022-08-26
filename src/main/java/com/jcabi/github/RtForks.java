@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
@@ -91,14 +90,9 @@ final class RtForks implements Forks {
     @Override
     public Iterable<Fork> iterate(
         final String sort) {
-        return new RtPagination<Fork>(
+        return new RtPagination<>(
             this.request.uri().queryParam("sort", sort).back(),
-            new RtValuePagination.Mapping<Fork, JsonObject>() {
-                @Override
-                public Fork map(final JsonObject object) {
-                    return RtForks.this.get(object.getInt(ID));
-                }
-            }
+            object -> this.get(object.getInt(ID))
         );
     }
 

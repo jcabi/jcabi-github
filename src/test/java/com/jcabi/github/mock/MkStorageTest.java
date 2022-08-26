@@ -78,12 +78,7 @@ public final class MkStorageTest {
     public void locksAndUnlocks() throws Exception {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Runnable second = new Runnable() {
-            @Override
-            public void run() {
-                storage.lock();
-            }
-        };
+        final Runnable second = () -> storage.lock();
         storage.lock();
         Future<?> future = executor.submit(second);
         try {

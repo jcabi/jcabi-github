@@ -86,8 +86,8 @@ public final class RtIssuesITCase {
      */
     @Test
     public void iteratesIssues() throws Exception {
-        final Iterable<Issue.Smart> issues = new Smarts<Issue.Smart>(
-            new Bulk<Issue>(
+        final Iterable<Issue.Smart> issues = new Smarts<>(
+            new Bulk<>(
                 repo.issues().iterate(
                     new ArrayMap<String, String>().with("sort", "comments")
                 )
@@ -109,10 +109,10 @@ public final class RtIssuesITCase {
     public void searchesIssues() throws Exception {
         final String targetLabel = "bug";
         final EnumMap<Issues.Qualifier, String> qualifiers =
-            new EnumMap<Issues.Qualifier, String>(Issues.Qualifier.class);
+            new EnumMap<>(Issues.Qualifier.class);
         qualifiers.put(Issues.Qualifier.LABELS, targetLabel);
-        final Iterable<Issue.Smart> issues = new Smarts<Issue.Smart>(
-            new Bulk<Issue>(
+        final Iterable<Issue.Smart> issues = new Smarts<>(
+            new Bulk<>(
                 repo.issues().search(
                     Issues.Sort.UPDATED,
                     Search.Order.ASC,
@@ -121,7 +121,7 @@ public final class RtIssuesITCase {
             )
         );
         Date prevUpdated = null;
-        final Set<String> labelNames = new HashSet<String>();
+        final Set<String> labelNames = new HashSet<>();
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
                 issue.title(),

@@ -150,14 +150,9 @@ public final class SmartJsonTest {
      * @return Readable
      */
     private static JsonReadable json(final String txt) {
-        return new JsonReadable() {
-            @Override
-            public JsonObject json() {
-                return Json.createReader(
-                    IOUtils.toInputStream(txt, StandardCharsets.UTF_8)
-                ).readObject();
-            }
-        };
+        return () -> Json.createReader(
+            IOUtils.toInputStream(txt, StandardCharsets.UTF_8)
+        ).readObject();
     }
 
 }

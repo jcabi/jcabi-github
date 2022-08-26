@@ -201,6 +201,6 @@ public final class MkIssueEventsTest {
      */
     private static long now() {
         final long sinceepoch = System.currentTimeMillis();
-        return sinceepoch - (sinceepoch % Tv.THOUSAND);
+        return sinceepoch - sinceepoch % Tv.THOUSAND;
     }
 }

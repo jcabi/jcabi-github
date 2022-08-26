@@ -113,26 +113,21 @@ final class RtPull implements Pull {
 
     @Override
     public Iterable<Commit> commits() {
-        return new RtPagination<Commit>(
+        return new RtPagination<>(
             this.request.uri().path("/commits").back(),
-            new RtValuePagination.Mapping<Commit, JsonObject>() {
-                @Override
-                public Commit map(final JsonObject object) {
-                    return new RtCommit(
-                        RtPull.this.entry,
-                        RtPull.this.owner,
-                        object.getString("sha")
-                    );
-                }
-            }
+            object -> new RtCommit(
+                this.entry,
+                this.owner,
+                object.getString("sha")
+            )
         );
     }
 
     @Override
     public Iterable<JsonObject> files() {
-        return new RtPagination<JsonObject>(
-                this.request.uri().path("/files").back(),
-                RtPagination.COPYING
+        return new RtPagination<>(
+            this.request.uri().path("/files").back(),
+            RtPagination.COPYING
         );
     }
 

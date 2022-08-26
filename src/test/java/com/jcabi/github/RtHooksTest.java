@@ -169,7 +169,7 @@ public final class RtHooksTest {
     public void canCreateHook() throws Exception {
         final String name = "hook name";
         final ConcurrentHashMap<String, String> config =
-            new ConcurrentHashMap<String, String>(2);
+            new ConcurrentHashMap<>(2);
         config.put("url", "http://example.com");
         config.put("content_type", "json");
         final String body = RtHooksTest.hook(name, config).toString();

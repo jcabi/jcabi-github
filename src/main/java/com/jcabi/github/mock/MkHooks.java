@@ -36,7 +36,6 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.Repo;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -102,17 +101,12 @@ final class MkHooks implements Hooks {
 
     @Override
     public Iterable<Hook> iterate() {
-        return new MkIterable<Hook>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/hook", this.xpath()),
-            new MkIterable.Mapping<Hook>() {
-                @Override
-                public Hook map(final XML xml) {
-                    return MkHooks.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("id/text()").get(0))
+            )
         );
     }
 

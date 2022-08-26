@@ -222,13 +222,13 @@ public final class MkPullTest {
         );
         MatcherAssert.assertThat(
             pull.json().getString("somekey"),
-            new IsEqual<String>(value)
+            new IsEqual<>(value)
         );
         final int lines = 20;
         pull.patch(Json.createObjectBuilder().add("additions", lines).build());
         MatcherAssert.assertThat(
             pull.json().getString("additions"),
-            new IsEqual<String>(Integer.toString(lines))
+            new IsEqual<>(Integer.toString(lines))
         );
     }
 
@@ -258,7 +258,7 @@ public final class MkPullTest {
      */
     private static Pull pullRequest() throws Exception {
         final Repo rpo = MkPullTest.repo();
-        final MkBranches branches = (MkBranches) (rpo.branches());
+        final MkBranches branches = (MkBranches) rpo.branches();
         branches.create(
             MkPullTest.BASE,
             "e11f7ffa797f8422f016576cb7c2f5bb6f66aa51"

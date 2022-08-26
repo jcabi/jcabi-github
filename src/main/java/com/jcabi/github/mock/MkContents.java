@@ -177,7 +177,7 @@ final class MkContents implements Contents {
         final Collection<XML> nodes = this.storage.xml().nodes(
             String.format("%s/content[@ref='%s']", this.xpath(), ref)
         );
-        final Collection<Content> result = new ArrayList<Content>(nodes.size());
+        final Collection<Content> result = new ArrayList<>(nodes.size());
         for (final XML node : nodes) {
             final String path = node.xpath("path/text()").get(0);
             if (path.startsWith(pattern)) {

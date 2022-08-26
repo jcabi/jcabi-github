@@ -29,8 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -76,18 +74,15 @@ public final class ClasspathRule implements TestRule {
                     )
                     )
             ).getSubTypesOf(Object.class),
-            new Predicate<Class<?>>() {
-                @Override
-                public boolean apply(final Class<?> input) {
-                    final String name = input.getName();
-                    // @checkstyle BooleanExpressionComplexityCheck (6 lines)
-                    return !name.endsWith("Test")
-                        && !name.endsWith("ITCase")
-                        && !name.endsWith("ClasspathRule")
-                        && !name.endsWith("RepoRule")
-                        && (input.getEnclosingClass() == null
-                        || name.endsWith("Smart"));
-                }
+            input -> {
+                final String name = input.getName();
+                // @checkstyle BooleanExpressionComplexityCheck (6 lines)
+                return !name.endsWith("Test")
+                    && !name.endsWith("ITCase")
+                    && !name.endsWith("ClasspathRule")
+                    && !name.endsWith("RepoRule")
+                    && (input.getEnclosingClass() == null
+                    || name.endsWith("Smart"));
             }
         );
     }
@@ -112,22 +107,12 @@ public final class ClasspathRule implements TestRule {
         return Iterables.concat(
             Iterables.transform(
                 this.allTypes(),
-                new Function<Class<?>, Iterable<Method>>() {
-                    @Override
-                    public Iterable<Method> apply(final Class<?> input) {
-                        return Iterables.filter(
-                            Arrays.asList(input.getDeclaredMethods()),
-                            new Predicate<Method>() {
-                                @Override
-                                public boolean apply(final Method method) {
-                                    return Modifier.isPublic(
-                                        method.getModifiers()
-                                    );
-                                }
-                            }
-                        );
-                    }
-                }
+                input -> Iterables.filter(
+                    Arrays.asList(input.getDeclaredMethods()),
+                    method -> Modifier.isPublic(
+                        method.getModifiers()
+                    )
+                )
             )
         );
     }

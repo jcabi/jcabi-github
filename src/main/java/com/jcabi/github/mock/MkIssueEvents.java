@@ -38,7 +38,6 @@ import com.jcabi.github.Github;
 import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Repo;
 import com.jcabi.log.Logger;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -108,17 +107,12 @@ final class MkIssueEvents implements IssueEvents {
 
     @Override
     public Iterable<Event> iterate() {
-        return new MkIterable<Event>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/issue-event", this.xpath()),
-            new MkIterable.Mapping<Event>() {
-                @Override
-                public Event map(final XML xml) {
-                    return MkIssueEvents.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
         );
     }
 

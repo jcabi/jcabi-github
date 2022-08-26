@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.safe;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
@@ -86,12 +85,7 @@ public final class SfComments implements Comments {
     public Iterable<Comment> iterate(final Date since) {
         return Iterables.transform(
             this.origin.iterate(since),
-            new Function<Comment, Comment>() {
-                @Override
-                public Comment apply(final Comment input) {
-                    return new SfComment(input);
-                }
-            }
+            input -> new SfComment(input)
         );
     }
 

@@ -37,7 +37,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.Date;
 import lombok.EqualsAndHashCode;
@@ -121,17 +120,12 @@ final class MkComments implements Comments {
 
     @Override
     public Iterable<Comment> iterate(final Date since) {
-        return new MkIterable<Comment>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/comment", this.xpath()),
-            new MkIterable.Mapping<Comment>() {
-                @Override
-                public Comment map(final XML xml) {
-                    return MkComments.this.get(
-                        Integer.parseInt(xml.xpath("number/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
         );
     }
 

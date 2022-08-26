@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -105,16 +104,11 @@ final class RtUsers implements Users {
     public Iterable<User> iterate(
         final String identifier
     ) {
-        return new RtPagination<User>(
+        return new RtPagination<>(
             this.request.uri().queryParam("since", identifier).back(),
-            new RtValuePagination.Mapping<User, JsonObject>() {
-                @Override
-                public User map(final JsonObject object) {
-                    return RtUsers.this.get(
-                            String.valueOf(object.getInt("id"))
-                    );
-                }
-            }
+            object -> this.get(
+                String.valueOf(object.getInt("id"))
+            )
         );
     }
 

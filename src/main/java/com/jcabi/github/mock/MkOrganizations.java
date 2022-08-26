@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -96,17 +95,12 @@ final class MkOrganizations implements Organizations {
 
     @Override
     public Iterable<Organization> iterate() {
-        return new MkIterable<Organization>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/org", this.xpath()),
-            new MkIterable.Mapping<Organization>() {
-                @Override
-                public Organization map(final XML xml) {
-                    return MkOrganizations.this.get(
-                        xml.xpath("login/text()").get(0)
-                    );
-                }
-            }
+            xml -> this.get(
+                xml.xpath("login/text()").get(0)
+            )
         );
     }
 

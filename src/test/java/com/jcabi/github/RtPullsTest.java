@@ -143,7 +143,7 @@ public final class RtPullsTest {
                 repo()
             );
             MatcherAssert.assertThat(
-                pulls.iterate(new ArrayMap<String, String>()),
+                pulls.iterate(new ArrayMap<>()),
                 Matchers.<Pull>iterableWithSize(2)
             );
             container.stop();

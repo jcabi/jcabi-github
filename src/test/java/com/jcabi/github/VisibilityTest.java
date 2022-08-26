@@ -29,7 +29,6 @@
  */
 package com.jcabi.github;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import java.lang.reflect.Modifier;
@@ -80,17 +79,12 @@ public final class VisibilityTest {
         MatcherAssert.assertThat(
             Iterables.filter(
                 this.classpath.allTypes(),
-                new Predicate<Class<?>>() {
-                    @Override
-                    public boolean apply(final Class<?> input) {
-                        return !(
-                            input.isInterface()
-                                || SKIP.contains(input.getName())
-                                || (input.getEnclosingClass() != null
-                                    && input.getName().endsWith("Smart"))
-                            );
-                    }
-                }
+                input -> !(
+                    input.isInterface()
+                        || SKIP.contains(input.getName())
+                        || input.getEnclosingClass() != null
+                            && input.getName().endsWith("Smart")
+                    )
             ),
             Matchers.everyItem(
                 new CustomTypeSafeMatcher<Class<?>>("not public type") {

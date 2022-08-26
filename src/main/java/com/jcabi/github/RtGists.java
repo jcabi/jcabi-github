@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
@@ -123,14 +122,9 @@ final class RtGists implements Gists {
 
     @Override
     public Iterable<Gist> iterate() {
-        return new RtPagination<Gist>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<Gist, JsonObject>() {
-                @Override
-                public Gist map(final JsonObject object) {
-                    return RtGists.this.get(object.getString("id"));
-                }
-            }
+            object -> this.get(object.getString("id"))
         );
     }
 

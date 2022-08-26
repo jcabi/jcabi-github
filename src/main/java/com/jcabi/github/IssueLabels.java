@@ -185,7 +185,7 @@ public interface IssueLabels {
             final String name, final String color
         ) throws IOException {
             Label label = null;
-            for (final Label opt : new Bulk<Label>(this.labels.iterate())) {
+            for (final Label opt : new Bulk<>(this.labels.iterate())) {
                 if (opt.name().equals(name)) {
                     label = opt;
                     break;
@@ -213,7 +213,7 @@ public interface IssueLabels {
          */
         public Collection<Label> findByColor(final String color)
             throws IOException {
-            final Collection<Label> found = new LinkedList<Label>();
+            final Collection<Label> found = new LinkedList<>();
             for (final Label label : this.labels.iterate()) {
                 if (new Label.Smart(label).color().equals(color)) {
                     found.add(label);

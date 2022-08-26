@@ -144,7 +144,7 @@ final class MkIssue implements Issue {
 
     @Override
     public Iterable<Event> events() throws IOException {
-        return new MkIterable<Event>(
+        return new MkIterable<>(
             this.storage,
             String.format(
                 // @checkstyle LineLength (1 line)

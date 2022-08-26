@@ -35,7 +35,6 @@ import com.jcabi.github.Fork;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Repo;
 import com.jcabi.log.Logger;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
@@ -105,17 +104,12 @@ final class MkForks implements Forks {
     public Iterable<Fork> iterate(
         final String sort
     ) {
-        return new MkIterable<Fork>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/fork", this.xpath()),
-            new MkIterable.Mapping<Fork>() {
-                @Override
-                public Fork map(final XML xml) {
-                    return MkForks.this.get(
-                        Integer.parseInt(xml.xpath("id/text()").get(0))
-                    );
-                }
-            }
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("id/text()").get(0))
+            )
         );
     }
     @Override

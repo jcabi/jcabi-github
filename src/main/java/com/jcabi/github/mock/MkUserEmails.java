@@ -32,7 +32,6 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.UserEmails;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -56,12 +55,7 @@ final class MkUserEmails implements UserEmails {
      * Mapping.
      */
     private static final MkIterable.Mapping<String> MAPPING =
-        new MkIterable.Mapping<String>() {
-            @Override
-            public String map(final XML xml) {
-                return xml.xpath("./text()").get(0);
-            }
-        };
+        xml -> xml.xpath("./text()").get(0);
 
     /**
      * Storage.
@@ -99,7 +93,7 @@ final class MkUserEmails implements UserEmails {
 
     @Override
     public Iterable<String> iterate() {
-        return new MkIterable<String>(
+        return new MkIterable<>(
             this.storage,
             String.format("%s/email", this.xpath()),
             MkUserEmails.MAPPING

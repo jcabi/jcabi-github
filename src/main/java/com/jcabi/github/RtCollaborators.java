@@ -169,15 +169,10 @@ final class RtCollaborators implements Collaborators {
 
     @Override
     public Iterable<User> iterate() {
-        return new RtPagination<User>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<User, JsonObject>() {
-                @Override
-                public User map(final JsonObject object) {
-                    return RtCollaborators.this.owner.github().users()
-                        .get(object.getString("login"));
-                }
-            }
+            object -> this.owner.github().users()
+                .get(object.getString("login"))
         );
     }
 }

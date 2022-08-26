@@ -76,7 +76,7 @@ final class RtUserEmails implements UserEmails {
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
             .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<String> emails = new ArrayList<String>(array.size());
+        final Collection<String> emails = new ArrayList<>(array.size());
         for (final JsonObject obj : array) {
             // @checkstyle MultipleStringLiterals (1 line)
             emails.add(obj.getString("email"));
@@ -98,7 +98,7 @@ final class RtUserEmails implements UserEmails {
             .assertStatus(HttpURLConnection.HTTP_CREATED)
             .as(JsonResponse.class)
             .json().readArray().getValuesAs(JsonObject.class);
-        final Collection<String> result = new ArrayList<String>(array.size());
+        final Collection<String> result = new ArrayList<>(array.size());
         for (final JsonObject obj : array) {
             result.add(obj.getString("email"));
         }

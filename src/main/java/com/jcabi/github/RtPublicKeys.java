@@ -37,7 +37,6 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -87,14 +86,9 @@ final class RtPublicKeys implements PublicKeys {
 
     @Override
     public Iterable<PublicKey> iterate() {
-        return new RtPagination<PublicKey>(
+        return new RtPagination<>(
             this.request,
-            new RtValuePagination.Mapping<PublicKey, JsonObject>() {
-                @Override
-                public PublicKey map(final JsonObject object) {
-                    return RtPublicKeys.this.get(object.getInt("id"));
-                }
-            }
+            object -> this.get(object.getInt("id"))
         );
     }
 

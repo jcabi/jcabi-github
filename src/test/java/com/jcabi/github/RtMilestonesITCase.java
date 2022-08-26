@@ -132,12 +132,12 @@ public final class RtMilestonesITCase {
         final Milestones milestones = repo.milestones();
         final Milestone milestone = milestones.create("a milestones");
         MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
+            milestones.iterate(new ArrayMap<>()),
             Matchers.hasItem(milestone)
         );
         milestones.remove(milestone.number());
         MatcherAssert.assertThat(
-            milestones.iterate(new ArrayMap<String, String>()),
+            milestones.iterate(new ArrayMap<>()),
             Matchers.not(Matchers.hasItem(milestone))
         );
     }
