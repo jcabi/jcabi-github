@@ -108,10 +108,13 @@ public final class RtGithubITCase {
     public void authenticatesWithUsernameAndPassword() throws Exception {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
-        Assume.assumeThat(user, Matchers.not(Matchers.isEmptyOrNullString()));
+        Assume.assumeThat(
+            user,
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        );
         Assume.assumeThat(
             password,
-            Matchers.not(Matchers.isEmptyOrNullString())
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
         final Github github = new RtGithub(user, password);
         MatcherAssert.assertThat(

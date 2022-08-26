@@ -111,7 +111,7 @@ public final class MkContentsTest {
         );
         MatcherAssert.assertThat(
             content.sha(),
-            Matchers.not(Matchers.isEmptyOrNullString())
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
     }
 
@@ -142,7 +142,7 @@ public final class MkContentsTest {
         );
         MatcherAssert.assertThat(
             content.sha(),
-            Matchers.not(Matchers.isEmptyOrNullString())
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
         MatcherAssert.assertThat(
             content.content(),
@@ -248,7 +248,7 @@ public final class MkContentsTest {
             .build();
         MatcherAssert.assertThat(
             new RepoCommit.Smart(contents.update(path, update)).sha(),
-            Matchers.not(Matchers.isEmptyOrNullString())
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
         MatcherAssert.assertThat(
             new Content.Smart(contents.get(path, "master")).path(),

@@ -86,9 +86,11 @@ final class RtStars implements Stars {
         return this.request
             .fetch().as(RestResponse.class)
             .assertStatus(
-                Matchers.isOneOf(
-                    HttpURLConnection.HTTP_NO_CONTENT,
-                    HttpURLConnection.HTTP_NOT_FOUND
+                Matchers.is(
+                    Matchers.oneOf(
+                        HttpURLConnection.HTTP_NO_CONTENT,
+                        HttpURLConnection.HTTP_NOT_FOUND
+                    )
             )
         ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }

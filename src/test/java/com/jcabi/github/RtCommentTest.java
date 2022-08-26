@@ -256,7 +256,8 @@ public final class RtCommentTest {
             );
             final String stringComment = comment.toString();
             MatcherAssert.assertThat(
-                stringComment, Matchers.not(Matchers.isEmptyOrNullString())
+                stringComment,
+                Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
             );
             MatcherAssert.assertThat(stringComment, Matchers.endsWith("10"));
         }

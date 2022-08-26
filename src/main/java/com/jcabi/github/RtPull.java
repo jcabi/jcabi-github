@@ -155,10 +155,12 @@ final class RtPull implements Pull {
             .add("commit_message", msg).add("sha", sha);
         final RestResponse response = this.merge(builder.build())
             .assertStatus(
-                Matchers.isOneOf(
-                    HttpURLConnection.HTTP_OK,
-                    HttpURLConnection.HTTP_BAD_METHOD,
-                    HttpURLConnection.HTTP_CONFLICT
+                Matchers.is(
+                    Matchers.oneOf(
+                        HttpURLConnection.HTTP_OK,
+                        HttpURLConnection.HTTP_BAD_METHOD,
+                        HttpURLConnection.HTTP_CONFLICT
+                    )
                 )
             );
         final MergeState mergeState;

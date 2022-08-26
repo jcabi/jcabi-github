@@ -147,7 +147,7 @@ public final class RtLabelsTest {
             );
             MatcherAssert.assertThat(
                 query.body(),
-                Matchers.isEmptyOrNullString()
+                Matchers.is(Matchers.emptyOrNullString())
             );
             container.stop();
         }

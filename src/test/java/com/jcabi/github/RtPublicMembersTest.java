@@ -134,7 +134,7 @@ public final class RtPublicMembersTest {
             );
             MatcherAssert.assertThat(
                 req.body(),
-                Matchers.isEmptyOrNullString()
+                Matchers.is(Matchers.emptyOrNullString())
             );
             MatcherAssert.assertThat(
                 req.uri().toString(),

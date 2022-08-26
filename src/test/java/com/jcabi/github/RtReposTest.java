@@ -153,7 +153,7 @@ public final class RtReposTest {
             );
             MatcherAssert.assertThat(
                 query.body(),
-                Matchers.isEmptyString()
+                Matchers.is(Matchers.emptyString())
             );
             container.stop();
         }

@@ -222,7 +222,7 @@ public final class RtHooksTest {
             );
             MatcherAssert.assertThat(
                 query.body(),
-                Matchers.isEmptyString()
+                Matchers.is(Matchers.emptyString())
             );
             container.stop();
         }

@@ -41,6 +41,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import lombok.EqualsAndHashCode;
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 /**
@@ -86,6 +87,7 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public String render(
         final JsonObject json)
         throws IOException {
@@ -100,7 +102,7 @@ final class RtMarkdown implements Markdown {
             .assertStatus(HttpURLConnection.HTTP_OK)
             .assertHeader(
                 HttpHeaders.CONTENT_TYPE,
-                Matchers.everyItem(
+                (Matcher) Matchers.everyItem(
                     Matchers.startsWith(MediaType.TEXT_HTML)
                 )
             )
@@ -108,6 +110,7 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public String raw(
         final String text)
         throws IOException {
@@ -123,7 +126,7 @@ final class RtMarkdown implements Markdown {
             .assertStatus(HttpURLConnection.HTTP_OK)
             .assertHeader(
                 HttpHeaders.CONTENT_TYPE,
-                Matchers.everyItem(
+                (Matcher) Matchers.everyItem(
                     Matchers.startsWith(MediaType.TEXT_HTML)
                 )
             )

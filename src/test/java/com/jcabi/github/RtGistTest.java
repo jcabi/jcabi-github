@@ -245,7 +245,7 @@ public final class RtGistTest {
             );
             MatcherAssert.assertThat(
                 query.body(),
-                Matchers.isEmptyOrNullString()
+                Matchers.is(Matchers.emptyOrNullString())
             );
             container.stop();
         }

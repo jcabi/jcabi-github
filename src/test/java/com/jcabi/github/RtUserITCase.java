@@ -52,7 +52,7 @@ public final class RtUserITCase {
         final User self = github.users().self();
         MatcherAssert.assertThat(
             self.login(),
-            Matchers.not(Matchers.isEmptyString())
+            Matchers.not(Matchers.is(Matchers.emptyString()))
         );
     }
 

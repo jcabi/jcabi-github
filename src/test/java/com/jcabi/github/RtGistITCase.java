@@ -119,7 +119,10 @@ public final class RtGistITCase {
      */
     private static Github github(final String property) throws Exception {
         final String key = System.getProperty(property);
-        Assume.assumeThat(key, Matchers.not(Matchers.isEmptyOrNullString()));
+        Assume.assumeThat(
+            key,
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        );
         return new RtGithub(key);
     }
 

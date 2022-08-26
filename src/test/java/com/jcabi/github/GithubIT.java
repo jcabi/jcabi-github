@@ -47,7 +47,10 @@ public final class GithubIT {
      */
     public Github connect() {
         final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(key, Matchers.not(Matchers.isEmptyOrNullString()));
+        Assume.assumeThat(
+            key,
+            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        );
         return new RtGithub(key);
     }
 }

@@ -89,7 +89,7 @@ public final class RtLabelsITCase {
         for (final Label.Smart label : list) {
             MatcherAssert.assertThat(
                 label.color(),
-                Matchers.not(Matchers.isEmptyString())
+                Matchers.not(Matchers.is(Matchers.emptyString()))
             );
         }
     }

@@ -156,12 +156,16 @@ final class RtGist implements Gist {
     public boolean starred() throws IOException {
         return this.request.uri().path("star").back()
             .method("GET").fetch()
-            .as(RestResponse.class).assertStatus(
-                Matchers.isOneOf(
-                    HttpURLConnection.HTTP_NO_CONTENT,
-                    HttpURLConnection.HTTP_NOT_FOUND
+            .as(RestResponse.class)
+            .assertStatus(
+                Matchers.is(
+                    Matchers.oneOf(
+                        HttpURLConnection.HTTP_NO_CONTENT,
+                        HttpURLConnection.HTTP_NOT_FOUND
+                    )
+                )
             )
-        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+            .status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override

@@ -55,7 +55,7 @@ public final class MkGistTest {
         );
         MatcherAssert.assertThat(
             gist.read(filename),
-            Matchers.isEmptyString()
+            Matchers.is(Matchers.emptyString())
         );
     }
 
