@@ -57,7 +57,7 @@
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * Test case for {@link com.jcabi.github.Repos}.</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @author Gena Svarovski (g.svarovski@gmail.com)</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * @author Paulo Lobo (pauloeduardolobo@gmail.com)</em>
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> * @version $Id: 7850f2579d608f1a9a565f15fcfd15b074b8a646 $</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> * @version $Id: 67a5114871d7815a242927b9bf11affff26f8b11 $</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCoupling (500 lines)</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> */</em>
@@ -161,7 +161,7 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>             );
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>             MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>                 query.body(),
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>                 Matchers.isEmptyString()
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>                 Matchers.is(Matchers.emptyString())
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>             );
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>             container.stop();
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>         }
@@ -173,22 +173,20 @@
 <a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">     * @param owner Owner name</em>
 <a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">     * @param name Repo name</em>
 <a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject response(
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">final</strong> String owner, <strong class="jxr_keyword">final</strong> String name)
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>         <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>             .add(<span class="jxr_string">"name"</span>, name)
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>             .add(<span class="jxr_string">"full_name"</span>, String.format(<span class="jxr_string">"%s/%s"</span>, owner, name))
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>             .add(
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>                 <span class="jxr_string">"owner"</span>,
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"login"</span>, owner).build()
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>             )
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>             .build();
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>     }
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> 
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> }
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject response(
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>         <strong class="jxr_keyword">final</strong> String owner, <strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>             .add(<span class="jxr_string">"name"</span>, name)
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>             .add(<span class="jxr_string">"full_name"</span>, String.format(<span class="jxr_string">"%s/%s"</span>, owner, name))
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>             .add(
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>                 <span class="jxr_string">"owner"</span>,
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>                 Json.createObjectBuilder().add(<span class="jxr_string">"login"</span>, owner).build()
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>             )
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>             .build();
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * Test case for {@link IssueLabels}.</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: 501438c74ca06d469d846c0bec67d175c34206ec $</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: 6e90b52e4ea985d44a00a516a1622a12f14f86a8 $</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/IssueLabelsTest.html">IssueLabelsTest</a> {
@@ -80,56 +80,53 @@
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">     * IssueLabels.Smart can check label's existence by name.</em>
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      @Test
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checksLabelExistenceByName() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">final</strong> Label first = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>          Mockito.doReturn(<span class="jxr_string">"first"</span>).when(first).name();
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">final</strong> Label second = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>          Mockito.doReturn(<span class="jxr_string">"second"</span>).when(second).name();
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">final</strong> IssueLabels labels = Mockito.mock(IssueLabels.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>          Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>              <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).contains(<span class="jxr_string">"first"</span>),
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>              Matchers.is(<strong class="jxr_keyword">true</strong>)
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>          );
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>              <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).contains(<span class="jxr_string">"third"</span>),
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>              Matchers.is(false)
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>          );
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>      }
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  <em class="jxr_javadoccomment">     * IssueLabels.Smart can find label by name.</em>
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>      @Test
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getsLabelByName() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <strong class="jxr_keyword">final</strong> Label first = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>         Mockito.doReturn(<span class="jxr_string">"a"</span>).when(first).name();
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>         <strong class="jxr_keyword">final</strong> Label second = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>         Mockito.doReturn(<span class="jxr_string">"b"</span>).when(second).name();
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>         <strong class="jxr_keyword">final</strong> IssueLabels labels = Mockito.mock(IssueLabels.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>         Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>             <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).get(<span class="jxr_string">"a"</span>).name(),
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>             Matchers.equalTo(<span class="jxr_string">"a"</span>)
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>         );
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>     }
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     * IssueLabels.Smart can throw when label is absent.</em>
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>     @Test(expected = IllegalArgumentException.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> throwsWhenLabelIsAbsent() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>         <strong class="jxr_keyword">final</strong> IssueLabels labels = Mockito.mock(IssueLabels.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>         Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>         <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).get(<span class="jxr_string">"something"</span>);
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>     }
-<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      @Test
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checksLabelExistenceByName() {
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>          <strong class="jxr_keyword">final</strong> Label first = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          Mockito.doReturn(<span class="jxr_string">"first"</span>).when(first).name();
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          <strong class="jxr_keyword">final</strong> Label second = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          Mockito.doReturn(<span class="jxr_string">"second"</span>).when(second).name();
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          <strong class="jxr_keyword">final</strong> IssueLabels labels = Mockito.mock(IssueLabels.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>              <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).contains(<span class="jxr_string">"first"</span>),
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>              Matchers.is(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          );
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>              <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).contains(<span class="jxr_string">"third"</span>),
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>              Matchers.is(false)
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>          );
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      }
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">     * IssueLabels.Smart can find label by name.</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      @Test
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getsLabelByName() {
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>          <strong class="jxr_keyword">final</strong> Label first = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         Mockito.doReturn(<span class="jxr_string">"a"</span>).when(first).name();
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <strong class="jxr_keyword">final</strong> Label second = Mockito.mock(Label.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>         Mockito.doReturn(<span class="jxr_string">"b"</span>).when(second).name();
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>         <strong class="jxr_keyword">final</strong> IssueLabels labels = Mockito.mock(IssueLabels.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>             <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).get(<span class="jxr_string">"a"</span>).name(),
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>             Matchers.equalTo(<span class="jxr_string">"a"</span>)
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         );
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     }
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">     * IssueLabels.Smart can throw when label is absent.</em>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>     @Test(expected = IllegalArgumentException.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> throwsWhenLabelIsAbsent() {
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>         <strong class="jxr_keyword">final</strong> IssueLabels labels = Mockito.mock(IssueLabels.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>         Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         <strong class="jxr_keyword">new</strong> IssueLabels.Smart(labels).get(<span class="jxr_string">"something"</span>);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     }
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

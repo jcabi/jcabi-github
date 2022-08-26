@@ -50,7 +50,7 @@
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * Github labels of an issue.</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 918106ac9a3f6cb7f97da51698b63ce3c98d1381 $</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 5f8f194ab96f24355da324f84a730eff2991bfc7 $</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/issues/labels/" target="alexandria_uri">http://developer.github.com/v3/issues/labels/</a>"&gt;Labels API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> */</em>
@@ -109,7 +109,7 @@
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>     @ToString
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>     @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>     @EqualsAndHashCode(of = <span class="jxr_string">"labels"</span>)
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/IssueLabels.html">IssueLabels</a> {
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/PullComment.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/IssueLabels.html">IssueLabels</a> {
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>         <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">         * Encapsulated labels.</em>
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">         */</em>
@@ -118,7 +118,7 @@
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">         * Public ctor.</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">         * @param lbl Labels</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/IssueLabels.html">IssueLabels</a> lbl) {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/PullComment.html">Smart</a>(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/IssueLabels.html">IssueLabels</a> lbl) {
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>             <strong class="jxr_keyword">this</strong>.labels = lbl;
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>         }
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>         <em class="jxr_javadoccomment">/**</em>
@@ -193,7 +193,7 @@
 <a class="jxr_linenumber" name="L185" href="#L185">185</a>             <strong class="jxr_keyword">final</strong> String name, <strong class="jxr_keyword">final</strong> String color
 <a class="jxr_linenumber" name="L186" href="#L186">186</a>         ) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L187" href="#L187">187</a>             <a href="../../../com/jcabi/github/Label.html">Label</a> label = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Label opt : <strong class="jxr_keyword">new</strong> Bulk&lt;Label&gt;(<strong class="jxr_keyword">this</strong>.labels.iterate())) {
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Label opt : <strong class="jxr_keyword">new</strong> Bulk&lt;&gt;(<strong class="jxr_keyword">this</strong>.labels.iterate())) {
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>                 <strong class="jxr_keyword">if</strong> (opt.name().equals(name)) {
 <a class="jxr_linenumber" name="L190" href="#L190">190</a>                     label = opt;
 <a class="jxr_linenumber" name="L191" href="#L191">191</a>                     <strong class="jxr_keyword">break</strong>;
@@ -221,7 +221,7 @@
 <a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L214" href="#L214">214</a>         <strong class="jxr_keyword">public</strong> Collection&lt;Label&gt; findByColor(<strong class="jxr_keyword">final</strong> String color)
 <a class="jxr_linenumber" name="L215" href="#L215">215</a>             <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L216" href="#L216">216</a>             <strong class="jxr_keyword">final</strong> Collection&lt;Label&gt; found = <strong class="jxr_keyword">new</strong> LinkedList&lt;Label&gt;();
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>             <strong class="jxr_keyword">final</strong> Collection&lt;Label&gt; found = <strong class="jxr_keyword">new</strong> LinkedList&lt;&gt;();
 <a class="jxr_linenumber" name="L217" href="#L217">217</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Label label : <strong class="jxr_keyword">this</strong>.labels.iterate()) {
 <a class="jxr_linenumber" name="L218" href="#L218">218</a>                 <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">new</strong> Label.Smart(label).color().equals(color)) {
 <a class="jxr_linenumber" name="L219" href="#L219">219</a>                     found.add(label);

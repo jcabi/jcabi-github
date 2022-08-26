@@ -50,7 +50,7 @@
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * Github starring API.</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: c3c52f92109c7d147b02f83f6606a48735bfec21 $</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: d1a396e0850cccbaf0c18fbdb9da9ace2d3b771e $</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @since 0.15</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="https://developer.github.com/v3/activity/starring/"&gt;Starring API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> */</em>
@@ -94,29 +94,31 @@
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.request
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>              .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>              .assertStatus(
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  Matchers.isOneOf(
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>                      HttpURLConnection.HTTP_NO_CONTENT,
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>                      HttpURLConnection.HTTP_NOT_FOUND
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>              )
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>          ).status() == HttpURLConnection.HTTP_NO_CONTENT;
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>      }
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      @Override
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> star() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>          <strong class="jxr_keyword">this</strong>.request
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>              .method(Request.PUT)
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>             .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>     }
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>     @Override
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> unstar() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">this</strong>.request
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>             .method(Request.DELETE)
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>             .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>     }
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  Matchers.is(
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>                      Matchers.oneOf(
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>                          HttpURLConnection.HTTP_NO_CONTENT,
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>                          HttpURLConnection.HTTP_NOT_FOUND
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>                      )
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>              )
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>          ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      }
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>      @Override
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> star() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>         <strong class="jxr_keyword">this</strong>.request
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>             .method(Request.PUT)
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>             .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>     }
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     @Override
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> unstar() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>         <strong class="jxr_keyword">this</strong>.request
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>             .method(Request.DELETE)
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>             .fetch().as(RestResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     }
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

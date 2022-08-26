@@ -55,7 +55,7 @@
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * Test case for {@link RtGistComments}.</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @author Giang Le (giang@vn-smartsolutions.com)</em>
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @version $Id: 499bf7a537f46ce6f012badcf9d87b6255bbc304 $</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @version $Id: b42e4e652b25b7b5a9866d4f6e1e7b845bc82a76 $</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/RtGistCommentsTest.html">RtGistCommentsTest</a> {
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  
@@ -161,15 +161,14 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> <em class="jxr_javadoccomment">     * Create and return JsonObject to test.</em>
 <a class="jxr_linenumber" name="L154" href="#L154">154</a> <em class="jxr_javadoccomment">     * @param body The body of the comment</em>
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject comment(<strong class="jxr_keyword">final</strong> String body) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             .add(<span class="jxr_string">"id"</span>, 1)
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>             .add(<span class="jxr_string">"body"</span>, body)
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>             .build();
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>     }
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> }
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject comment(<strong class="jxr_keyword">final</strong> String body) {
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>             .add(<span class="jxr_string">"id"</span>, 1)
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>             .add(<span class="jxr_string">"body"</span>, body)
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>             .build();
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>     }
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

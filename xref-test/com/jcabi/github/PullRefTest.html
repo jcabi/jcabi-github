@@ -49,7 +49,7 @@
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * Test case for {@link PullRef}.</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @author Chris Rebert (github@rebertia.com)</em>
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @version $Id: 1bcd3f4cd2c2457950b32efedbc88fc73d534595 $</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @version $Id: 1f54ccf76a2f5e8c6dc1e43e21e5643ec5ed1f18 $</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @since 0.24</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/PullRefTest.html">PullRefTest</a> {
@@ -151,42 +151,41 @@
 <a class="jxr_linenumber" name="L143" href="#L143">143</a> <em class="jxr_javadoccomment">     * Returns a smart pull request ref in the given repo for testing.</em>
 <a class="jxr_linenumber" name="L144" href="#L144">144</a> <em class="jxr_javadoccomment">     * @param repo Repo to create the pull request ref in</em>
 <a class="jxr_linenumber" name="L145" href="#L145">145</a> <em class="jxr_javadoccomment">     * @return PullRef.Smart</em>
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> <em class="jxr_javadoccomment">     * @throws IOException If there is an I/O problem.</em>
-<a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> PullRef.Smart pullRef(<strong class="jxr_keyword">final</strong> Repo repo) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>         <strong class="jxr_keyword">final</strong> Coordinates coords = repo.coordinates();
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>         <strong class="jxr_keyword">final</strong> JsonObject user = Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>             .add(<span class="jxr_string">"login"</span>, coords.user())
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>             .build();
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> PullRef.Smart(
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>             <strong class="jxr_keyword">new</strong> RtPullRef(
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>                 repo.github(),
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>                 Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>                     .add(<span class="jxr_string">"label"</span>, PullRefTest.LABEL)
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>                     .add(<span class="jxr_string">"ref"</span>, PullRefTest.REF)
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>                     .add(<span class="jxr_string">"sha"</span>, PullRefTest.SHA)
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>                     .add(<span class="jxr_string">"user"</span>, user)
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>                     .add(
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>                         <span class="jxr_string">"repo"</span>,
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>                         Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>                             .add(<span class="jxr_string">"name"</span>, coords.repo())
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>                             .add(<span class="jxr_string">"full_name"</span>, coords.toString())
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>                             .add(<span class="jxr_string">"owner"</span>, user)
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>                             .build()
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>                     ).build()
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>             )
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>         );
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>     }
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">     * Returns a smart pull request ref for testing.</em>
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">     * @return PullRef.Smart</em>
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">     * @throws IOException If there is an I/O problem.</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> PullRef.Smart pullRef() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>         <strong class="jxr_keyword">return</strong> PullRefTest.pullRef(<strong class="jxr_keyword">new</strong> MkGithub().randomRepo());
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>     }
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> }
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> PullRef.Smart pullRef(<strong class="jxr_keyword">final</strong> Repo repo) {
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>         <strong class="jxr_keyword">final</strong> Coordinates coords = repo.coordinates();
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         <strong class="jxr_keyword">final</strong> JsonObject user = Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>             .add(<span class="jxr_string">"login"</span>, coords.user())
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>             .build();
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> PullRef.Smart(
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>             <strong class="jxr_keyword">new</strong> RtPullRef(
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>                 repo.github(),
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>                 Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>                     .add(<span class="jxr_string">"label"</span>, PullRefTest.LABEL)
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>                     .add(<span class="jxr_string">"ref"</span>, PullRefTest.REF)
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>                     .add(<span class="jxr_string">"sha"</span>, PullRefTest.SHA)
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>                     .add(<span class="jxr_string">"user"</span>, user)
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>                     .add(
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>                         <span class="jxr_string">"repo"</span>,
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>                         Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>                             .add(<span class="jxr_string">"name"</span>, coords.repo())
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                             .add(<span class="jxr_string">"full_name"</span>, coords.toString())
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>                             .add(<span class="jxr_string">"owner"</span>, user)
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>                             .build()
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                     ).build()
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>             )
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>         );
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     }
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">     * Returns a smart pull request ref for testing.</em>
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">     * @return PullRef.Smart</em>
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">     * @throws IOException If there is an I/O problem.</em>
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> PullRef.Smart pullRef() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">return</strong> PullRefTest.pullRef(<strong class="jxr_keyword">new</strong> MkGithub().randomRepo());
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

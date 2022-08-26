@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * Github user organizations.</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @author Chris Rebert (github@chrisrebert.com)</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: 28e6e36b40df1216dd282256fcbb27af09fe7a10 $</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: a36bfe527d4a87a6d9dc2b8bd6ae525a3accfc48 $</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/orgs/" target="alexandria_uri">http://developer.github.com/v3/orgs/</a>"&gt;Organizations API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @since 0.24</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
@@ -102,7 +102,7 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      @Override
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">public</strong> Iterable&lt;Organization&gt; iterate() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>          <strong class="jxr_keyword">final</strong> String login = <strong class="jxr_keyword">this</strong>.owner.login();
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Organization&gt;(
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;&gt;(
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>              <strong class="jxr_keyword">this</strong>.entry.uri().path(<span class="jxr_string">"/users"</span>).path(login).path(<span class="jxr_string">"/orgs"</span>).back(),
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>              <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtUserOrganizations.html">OrganizationMapping</a>(<strong class="jxr_keyword">this</strong>.ghub.organizations())
 <a class="jxr_linenumber" name="L100" href="#L100">100</a>         );

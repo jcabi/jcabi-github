@@ -58,7 +58,7 @@
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * Test case for {@link RtPull}.</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> * @author Carlos Miranda (miranda.cma@gmail.com)</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * @version $Id: 52244a6a34ba43038c04bb9deca025aa8e0b1011 $</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * @version $Id: 7ec5b5c0d2d25b5467b8992a473ec26afca35deb $</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/RtPullTest.html">RtPullTest</a> {
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>      <em class="jxr_javadoccomment">/**</em>
@@ -261,45 +261,43 @@
 <a class="jxr_linenumber" name="L253" href="#L253">253</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">     * RtPull should be able to compare different instances.</em>
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     * @throws Exception when a problem occurs.</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a>     @Test
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canCompareInstances() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">final</strong> RtPull less = <strong class="jxr_keyword">new</strong> RtPull(<strong class="jxr_keyword">new</strong> FakeRequest(), <strong class="jxr_keyword">this</strong>.repo(), 1);
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>         <strong class="jxr_keyword">final</strong> RtPull greater = <strong class="jxr_keyword">new</strong> RtPull(<strong class="jxr_keyword">new</strong> FakeRequest(), <strong class="jxr_keyword">this</strong>.repo(), 2);
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>             less.compareTo(greater), Matchers.lessThan(0)
-<a class="jxr_linenumber" name="L264" href="#L264">264</a>         );
-<a class="jxr_linenumber" name="L265" href="#L265">265</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>             greater.compareTo(less), Matchers.greaterThan(0)
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>         );
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>     }
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> <em class="jxr_javadoccomment">     * RtPull should be able to fetch pull comments.</em>
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> <em class="jxr_javadoccomment">     * @throws Exception when a problem occurs.</em>
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>     @Test
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>     @Ignore
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canFetchComments() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>         <em class="jxr_comment">//to be implemented</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>     }
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     * Mock repository for testing purposes.</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">     * @return Repo the mock repository.</em>
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>     <strong class="jxr_keyword">private</strong> Repo repo() {
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>         <strong class="jxr_keyword">final</strong> Repo repo = Mockito.mock(Repo.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>         <strong class="jxr_keyword">final</strong> Coordinates coords = Mockito.mock(Coordinates.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>         Mockito.doReturn(coords).when(repo).coordinates();
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>         Mockito.doReturn(<span class="jxr_string">"/user"</span>).when(coords).user();
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>         Mockito.doReturn(<span class="jxr_string">"/repo"</span>).when(coords).repo();
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>         <strong class="jxr_keyword">return</strong> repo;
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>     }
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> }
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>     @Test
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canCompareInstances() {
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>         <strong class="jxr_keyword">final</strong> RtPull less = <strong class="jxr_keyword">new</strong> RtPull(<strong class="jxr_keyword">new</strong> FakeRequest(), <strong class="jxr_keyword">this</strong>.repo(), 1);
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">final</strong> RtPull greater = <strong class="jxr_keyword">new</strong> RtPull(<strong class="jxr_keyword">new</strong> FakeRequest(), <strong class="jxr_keyword">this</strong>.repo(), 2);
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>             less.compareTo(greater), Matchers.lessThan(0)
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         );
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>             greater.compareTo(less), Matchers.greaterThan(0)
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         );
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>     }
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> <em class="jxr_javadoccomment">     * RtPull should be able to fetch pull comments.</em>
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>     @Test
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>     @Ignore
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canFetchComments() {
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>         <em class="jxr_comment">//to be implemented</em>
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>     }
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">     * Mock repository for testing purposes.</em>
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">     * @return Repo the mock repository.</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>     <strong class="jxr_keyword">private</strong> Repo repo() {
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         <strong class="jxr_keyword">final</strong> Repo repo = Mockito.mock(Repo.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         <strong class="jxr_keyword">final</strong> Coordinates coords = Mockito.mock(Coordinates.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         Mockito.doReturn(coords).when(repo).coordinates();
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>         Mockito.doReturn(<span class="jxr_string">"/user"</span>).when(coords).user();
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         Mockito.doReturn(<span class="jxr_string">"/repo"</span>).when(coords).repo();
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>         <strong class="jxr_keyword">return</strong> repo;
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>     }
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

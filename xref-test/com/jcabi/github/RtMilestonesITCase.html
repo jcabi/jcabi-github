@@ -52,7 +52,7 @@
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * Integration case for {@link Milestones}.</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @version $Id: 2e3255599e42fd4d735a3fb6e3491245b2fca342 $</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @version $Id: e8f2904b7745405c43bba54ec357be045b224280 $</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiteralsCheck (500 lines)</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  @OAuthScope(Scope.REPO)
@@ -140,12 +140,12 @@
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>         <strong class="jxr_keyword">final</strong> Milestones milestones = repo.milestones();
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>         <strong class="jxr_keyword">final</strong> Milestone milestone = milestones.create(<span class="jxr_string">"a milestones"</span>);
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>             milestones.iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;String, String&gt;()),
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>             milestones.iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;&gt;()),
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>             Matchers.hasItem(milestone)
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>         );
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>         milestones.remove(milestone.number());
 <a class="jxr_linenumber" name="L139" href="#L139">139</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>             milestones.iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;String, String&gt;()),
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>             milestones.iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;&gt;()),
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>             Matchers.not(Matchers.hasItem(milestone))
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>         );
 <a class="jxr_linenumber" name="L143" href="#L143">143</a>     }

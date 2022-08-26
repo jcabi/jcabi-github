@@ -47,7 +47,7 @@
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * Github Releases.</em>
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @version $Id: 1192877174ec10c6f55699e012450d402e8e8d76 $</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @version $Id: 74c6fe9dbe1fe3e55477e42e620f8ad57e6df4b2 $</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  @Immutable
@@ -101,7 +101,7 @@
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>      @ToString
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      @Loggable(Loggable.DEBUG)
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      @EqualsAndHashCode(of = <span class="jxr_string">"releases"</span>)
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/Releases.html">Releases</a> {
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/PullComment.html">Smart</a> <strong class="jxr_keyword">implements</strong> <a href="../../../com/jcabi/github/Releases.html">Releases</a> {
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>          <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">         * Encapsulated releases.</em>
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">         */</em>
@@ -111,7 +111,7 @@
 <a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">         * Public CTOR.</em>
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">         * @param original Original releases</em>
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">         */</em>
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/CommitsComparison.html">Smart</a>(
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/PullComment.html">Smart</a>(
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>             <strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Releases.html">Releases</a> original
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         ) {
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>             <strong class="jxr_keyword">this</strong>.releases = original;
@@ -144,7 +144,7 @@
 <a class="jxr_linenumber" name="L136" href="#L136">136</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> exists(<strong class="jxr_keyword">final</strong> String tag) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>             <strong class="jxr_keyword">boolean</strong> exists = false;
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>             <strong class="jxr_keyword">final</strong> Iterable&lt;Release.Smart&gt; rels = <strong class="jxr_keyword">new</strong> Smarts&lt;Release.Smart&gt;(
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>             <strong class="jxr_keyword">final</strong> Iterable&lt;Release.Smart&gt; rels = <strong class="jxr_keyword">new</strong> Smarts&lt;&gt;(
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>                 <strong class="jxr_keyword">this</strong>.iterate()
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>             );
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Release.Smart rel : rels) {
@@ -163,7 +163,7 @@
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">         */</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Release.html">Release</a> find(<strong class="jxr_keyword">final</strong> String tag) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>             <a href="../../../com/jcabi/github/Release.html">Release</a> found = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>             <strong class="jxr_keyword">final</strong> Iterable&lt;Release.Smart&gt; rels = <strong class="jxr_keyword">new</strong> Smarts&lt;Release.Smart&gt;(
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>             <strong class="jxr_keyword">final</strong> Iterable&lt;Release.Smart&gt; rels = <strong class="jxr_keyword">new</strong> Smarts&lt;&gt;(
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>                 <strong class="jxr_keyword">this</strong>.iterate()
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>             );
 <a class="jxr_linenumber" name="L161" href="#L161">161</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Release.Smart rel : rels) {

@@ -47,7 +47,7 @@
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * Test case for {@link RtNotifications}.</em>
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @version $Id: 0a8a8c2aa84d16dff24067443a81dfaf7c35b5a5 $</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @version $Id: e2fb4e617edcbc09a371cf155edb2fc89a93959e $</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @todo #920 Create a test fetchSingleNotification and implement</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> *  get() operation in RtNotifications.</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @todo #920 Create a test fetchNonEmptyListOfNotifications and implement</em>
@@ -61,91 +61,88 @@
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     * Method 'iterate()' returns empty iterable if the service responds with</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * no notifications.</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     * @throws Exception if some problem inside</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>      @Test
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iterateEmpty() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>              <strong class="jxr_keyword">new</strong> RtNotifications(
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>                  <strong class="jxr_keyword">new</strong> FakeRequest()
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>                      .withBody(<span class="jxr_string">"[]"</span>)
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>              ).iterate(),
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>              Matchers.emptyIterable()
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>          );
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>      }
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     * Method 'iterate()' will iterate over notifications sent by the service.</em>
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      @Test
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iterateNotifications() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>              <strong class="jxr_keyword">new</strong> RtNotifications(
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>                  <strong class="jxr_keyword">new</strong> FakeRequest().withBody(
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>                      <em class="jxr_comment">// @checkstyle StringLiteralsConcatenationCheck (50 lines)</em>
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>                      <em class="jxr_comment">// @checkstyle LineLength (50 lines)</em>
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>                      <span class="jxr_string">"[\n"</span>
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>                      + <span class="jxr_string">"  {\n"</span>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>                      + <span class="jxr_string">"    \&quot;id\&quot;: \&quot;1\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>                      + <span class="jxr_string">"    \&quot;repository\&quot;: {\n"</span>
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>                      + <span class="jxr_string">"      \&quot;id\&quot;: 1296269,\n"</span>
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>                      + <span class="jxr_string">"      \&quot;owner\&quot;: {\n"</span>
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>                      + <span class="jxr_string">"        \&quot;login\&quot;: \&quot;octocat\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>                      + <span class="jxr_string">"        \&quot;id\&quot;: 1,\n"</span>
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>                      + <span class="jxr_string">"        \&quot;avatar_url\&quot;: \&quot;https://github.com/images/error/octocat_happy.gif\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>                      + <span class="jxr_string">"        \&quot;gravatar_id\&quot;: \&quot;\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>                      + <span class="jxr_string">"        \&quot;url\&quot;: \&quot;https://api.github.com/users/octocat\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>                      + <span class="jxr_string">"        \&quot;html_url\&quot;: \&quot;https://github.com/octocat\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>                      + <span class="jxr_string">"        \&quot;followers_url\&quot;: \&quot;https://api.github.com/users/octocat/followers\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>                      + <span class="jxr_string">"        \&quot;following_url\&quot;: \&quot;https://api.github.com/users/octocat/following{/other_user}\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>                      + <span class="jxr_string">"        \&quot;gists_url\&quot;: \&quot;https://api.github.com/users/octocat/gists{/gist_id}\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>                      + <span class="jxr_string">"        \&quot;starred_url\&quot;: \&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>                      + <span class="jxr_string">"        \&quot;subscriptions_url\&quot;: \&quot;https://api.github.com/users/octocat/subscriptions\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>                      + <span class="jxr_string">"        \&quot;organizations_url\&quot;: \&quot;https://api.github.com/users/octocat/orgs\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>                      + <span class="jxr_string">"        \&quot;repos_url\&quot;: \&quot;https://api.github.com/users/octocat/repos\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>                      + <span class="jxr_string">"        \&quot;events_url\&quot;: \&quot;https://api.github.com/users/octocat/events{/privacy}\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>                     + <span class="jxr_string">"        \&quot;received_events_url\&quot;: \&quot;https://api.github.com/users/octocat/received_events\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>                     + <span class="jxr_string">"        \&quot;type\&quot;: \&quot;User\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>                     + <span class="jxr_string">"        \&quot;site_admin\&quot;: false\n"</span>
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>                     + <span class="jxr_string">"      },\n"</span>
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>                     + <span class="jxr_string">"      \&quot;name\&quot;: \&quot;Hello-World\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>                     + <span class="jxr_string">"      \&quot;full_name\&quot;: \&quot;octocat/Hello-World\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>                     + <span class="jxr_string">"      \&quot;description\&quot;: \&quot;This your first repo!\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>                     + <span class="jxr_string">"      \&quot;private\&quot;: false,\n"</span>
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>                     + <span class="jxr_string">"      \&quot;fork\&quot;: false,\n"</span>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>                     + <span class="jxr_string">"      \&quot;url\&quot;: \&quot;https://api.github.com/repos/octocat/Hello-World\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>                     + <span class="jxr_string">"      \&quot;html_url\&quot;: \&quot;https://github.com/octocat/Hello-World\&quot;\n"</span>
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>                     + <span class="jxr_string">"    },\n"</span>
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>                     + <span class="jxr_string">"    \&quot;subject\&quot;: {\n"</span>
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>                     + <span class="jxr_string">"      \&quot;title\&quot;: \&quot;Greetings\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>                     + <span class="jxr_string">"      \&quot;url\&quot;: \&quot;https://api.github.com/repos/octokit/octokit.rb/issues/123\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>                     + <span class="jxr_string">"      \&quot;latest_comment_url\&quot;: \&quot;https://api.github.com/repos/octokit/octokit.rb/issues/comments/123\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>                     + <span class="jxr_string">"      \&quot;type\&quot;: \&quot;Issue\&quot;\n"</span>
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>                     + <span class="jxr_string">"    },\n"</span>
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>                     + <span class="jxr_string">"    \&quot;reason\&quot;: \&quot;subscribed\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>                     + <span class="jxr_string">"    \&quot;unread\&quot;: true,\n"</span>
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>                     + <span class="jxr_string">"    \&quot;updated_at\&quot;: \&quot;2014-11-07T22:01:45Z\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>                     + <span class="jxr_string">"    \&quot;last_read_at\&quot;: \&quot;2014-11-07T22:01:45Z\&quot;,\n"</span>
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>                     + <span class="jxr_string">"    \&quot;url\&quot;: \&quot;https://api.github.com/notifications/threads/1\&quot;\n"</span>
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>                     + <span class="jxr_string">"  }\n"</span>
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>                     + <span class="jxr_string">"]"</span>
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>                 )
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>             ).iterate(),
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>             Matchers.not(Matchers.emptyIterable())
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>         );
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>     }
-<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">     * RtNotifications can mark Notification as read.</em>
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>     @Test
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>     @Ignore
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> markNotificationAsRead() <strong class="jxr_keyword">throws</strong> Exception  {
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>         <em class="jxr_comment">// Not implemented</em>
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>     }
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> }
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      @Test
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iterateEmpty() {
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>              <strong class="jxr_keyword">new</strong> RtNotifications(
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>                  <strong class="jxr_keyword">new</strong> FakeRequest()
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>                      .withBody(<span class="jxr_string">"[]"</span>)
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>              ).iterate(),
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>              Matchers.emptyIterable()
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>          );
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      }
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     * Method 'iterate()' will iterate over notifications sent by the service.</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @Test
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> iterateNotifications() {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>              <strong class="jxr_keyword">new</strong> RtNotifications(
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>                  <strong class="jxr_keyword">new</strong> FakeRequest().withBody(
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>                      <em class="jxr_comment">// @checkstyle StringLiteralsConcatenationCheck (50 lines)</em>
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>                      <em class="jxr_comment">// @checkstyle LineLength (50 lines)</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>                      <span class="jxr_string">"[\n"</span>
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                      + <span class="jxr_string">"  {\n"</span>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>                      + <span class="jxr_string">"    \&quot;id\&quot;: \&quot;1\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>                      + <span class="jxr_string">"    \&quot;repository\&quot;: {\n"</span>
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>                      + <span class="jxr_string">"      \&quot;id\&quot;: 1296269,\n"</span>
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>                      + <span class="jxr_string">"      \&quot;owner\&quot;: {\n"</span>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>                      + <span class="jxr_string">"        \&quot;login\&quot;: \&quot;octocat\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>                      + <span class="jxr_string">"        \&quot;id\&quot;: 1,\n"</span>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>                      + <span class="jxr_string">"        \&quot;avatar_url\&quot;: \&quot;https://github.com/images/error/octocat_happy.gif\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>                      + <span class="jxr_string">"        \&quot;gravatar_id\&quot;: \&quot;\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>                      + <span class="jxr_string">"        \&quot;url\&quot;: \&quot;https://api.github.com/users/octocat\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                      + <span class="jxr_string">"        \&quot;html_url\&quot;: \&quot;https://github.com/octocat\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>                      + <span class="jxr_string">"        \&quot;followers_url\&quot;: \&quot;https://api.github.com/users/octocat/followers\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>                      + <span class="jxr_string">"        \&quot;following_url\&quot;: \&quot;https://api.github.com/users/octocat/following{/other_user}\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>                      + <span class="jxr_string">"        \&quot;gists_url\&quot;: \&quot;https://api.github.com/users/octocat/gists{/gist_id}\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>                      + <span class="jxr_string">"        \&quot;starred_url\&quot;: \&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>                      + <span class="jxr_string">"        \&quot;subscriptions_url\&quot;: \&quot;https://api.github.com/users/octocat/subscriptions\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>                      + <span class="jxr_string">"        \&quot;organizations_url\&quot;: \&quot;https://api.github.com/users/octocat/orgs\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>                      + <span class="jxr_string">"        \&quot;repos_url\&quot;: \&quot;https://api.github.com/users/octocat/repos\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>                      + <span class="jxr_string">"        \&quot;events_url\&quot;: \&quot;https://api.github.com/users/octocat/events{/privacy}\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>                      + <span class="jxr_string">"        \&quot;received_events_url\&quot;: \&quot;https://api.github.com/users/octocat/received_events\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>                      + <span class="jxr_string">"        \&quot;type\&quot;: \&quot;User\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>                     + <span class="jxr_string">"        \&quot;site_admin\&quot;: false\n"</span>
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>                     + <span class="jxr_string">"      },\n"</span>
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>                     + <span class="jxr_string">"      \&quot;name\&quot;: \&quot;Hello-World\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>                     + <span class="jxr_string">"      \&quot;full_name\&quot;: \&quot;octocat/Hello-World\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>                     + <span class="jxr_string">"      \&quot;description\&quot;: \&quot;This your first repo!\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>                     + <span class="jxr_string">"      \&quot;private\&quot;: false,\n"</span>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>                     + <span class="jxr_string">"      \&quot;fork\&quot;: false,\n"</span>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>                     + <span class="jxr_string">"      \&quot;url\&quot;: \&quot;https://api.github.com/repos/octocat/Hello-World\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>                     + <span class="jxr_string">"      \&quot;html_url\&quot;: \&quot;https://github.com/octocat/Hello-World\&quot;\n"</span>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>                     + <span class="jxr_string">"    },\n"</span>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>                     + <span class="jxr_string">"    \&quot;subject\&quot;: {\n"</span>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>                     + <span class="jxr_string">"      \&quot;title\&quot;: \&quot;Greetings\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                     + <span class="jxr_string">"      \&quot;url\&quot;: \&quot;https://api.github.com/repos/octokit/octokit.rb/issues/123\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>                     + <span class="jxr_string">"      \&quot;latest_comment_url\&quot;: \&quot;https://api.github.com/repos/octokit/octokit.rb/issues/comments/123\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>                     + <span class="jxr_string">"      \&quot;type\&quot;: \&quot;Issue\&quot;\n"</span>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>                     + <span class="jxr_string">"    },\n"</span>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>                     + <span class="jxr_string">"    \&quot;reason\&quot;: \&quot;subscribed\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>                     + <span class="jxr_string">"    \&quot;unread\&quot;: true,\n"</span>
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>                     + <span class="jxr_string">"    \&quot;updated_at\&quot;: \&quot;2014-11-07T22:01:45Z\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>                     + <span class="jxr_string">"    \&quot;last_read_at\&quot;: \&quot;2014-11-07T22:01:45Z\&quot;,\n"</span>
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                     + <span class="jxr_string">"    \&quot;url\&quot;: \&quot;https://api.github.com/notifications/threads/1\&quot;\n"</span>
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                     + <span class="jxr_string">"  }\n"</span>
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>                     + <span class="jxr_string">"]"</span>
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>                 )
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>             ).iterate(),
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>             Matchers.not(Matchers.emptyIterable())
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>         );
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     }
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> <em class="jxr_javadoccomment">     * RtNotifications can mark Notification as read.</em>
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>     @Test
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>     @Ignore
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> markNotificationAsRead() {
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>         <em class="jxr_comment">// Not implemented</em>
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>     }
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

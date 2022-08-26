@@ -60,7 +60,7 @@
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * Test case for {@link MkGithub}.</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * @version $Id: 4b46a479458a8873501f8572281ce12e84ed00bc $</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * @version $Id: 1583de2c5f0d9201b733aab2e4c34177faa2ae35 $</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkGithubTest.html">MkGithubTest</a> {
@@ -166,44 +166,41 @@
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>     @Test
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canHandleMultipleThreads() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>         <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">new</strong> MkGithub().randomRepo();
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> threads = Tv.HUNDRED;
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <strong class="jxr_keyword">final</strong> ExecutorService svc = Executors.newFixedThreadPool(threads);
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>         <strong class="jxr_keyword">final</strong> Callable&lt;Void&gt; task = <strong class="jxr_keyword">new</strong> VerboseCallable&lt;Void&gt;(
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>             <strong class="jxr_keyword">new</strong> Callable&lt;Void&gt;() {
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>                 @Override
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>                 <strong class="jxr_keyword">public</strong> Void call() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>                     repo.issues().create(<span class="jxr_string">""</span>, <span class="jxr_string">""</span>);
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>                 }
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>             }
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         );
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>         <strong class="jxr_keyword">final</strong> Collection&lt;Callable&lt;Void&gt;&gt; tasks =
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>             <strong class="jxr_keyword">new</strong> ArrayList&lt;Callable&lt;Void&gt;&gt;(threads);
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> idx = 0; idx &lt; threads; ++idx) {
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>             tasks.add(task);
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>         }
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>         svc.invokeAll(tasks);
-<a class="jxr_linenumber" name="L178" href="#L178">178</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>             repo.issues().iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;String, String&gt;()),
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>             Matchers.&lt;Issue&gt;iterableWithSize(threads)
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>         );
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>     }
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> 
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">     * Can retrieve users.</em>
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">     * @throws Exception If something goes wrong</em>
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>     @Test
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canRetrieveUsers() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L190" href="#L190">190</a>         MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>             <span class="jxr_string">"Retrieved inexistent user"</span>,
-<a class="jxr_linenumber" name="L192" href="#L192">192</a>             <strong class="jxr_keyword">new</strong> User.Smart(
-<a class="jxr_linenumber" name="L193" href="#L193">193</a>                 <strong class="jxr_keyword">new</strong> MkGithub().users().get(<span class="jxr_string">"other"</span>)
-<a class="jxr_linenumber" name="L194" href="#L194">194</a>             ).exists(),
-<a class="jxr_linenumber" name="L195" href="#L195">195</a>             <strong class="jxr_keyword">new</strong> IsEqual&lt;Boolean&gt;(false)
-<a class="jxr_linenumber" name="L196" href="#L196">196</a>         );
-<a class="jxr_linenumber" name="L197" href="#L197">197</a>     }
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> }
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>         <strong class="jxr_keyword">final</strong> Callable&lt;Void&gt; task = <strong class="jxr_keyword">new</strong> VerboseCallable&lt;&gt;(
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>             () -&gt; {
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>                 repo.issues().create(<span class="jxr_string">""</span>, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>             }
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         );
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> threads = Tv.HUNDRED;
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>         <strong class="jxr_keyword">final</strong> Collection&lt;Callable&lt;Void&gt;&gt; tasks =
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>             <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(threads);
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> idx = 0; idx &lt; threads; ++idx) {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>             tasks.add(task);
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>         }
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>         <strong class="jxr_keyword">final</strong> ExecutorService svc = Executors.newFixedThreadPool(threads);
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         svc.invokeAll(tasks);
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>             repo.issues().iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;&gt;()),
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>             Matchers.&lt;Issue&gt;iterableWithSize(threads)
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         );
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">     * Can retrieve users.</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">     * @throws Exception If something goes wrong</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>     @Test
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> canRetrieveUsers() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>             <span class="jxr_string">"Retrieved inexistent user"</span>,
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>             <strong class="jxr_keyword">new</strong> User.Smart(
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>                 <strong class="jxr_keyword">new</strong> MkGithub().users().get(<span class="jxr_string">"other"</span>)
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>             ).exists(),
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>             <strong class="jxr_keyword">new</strong> IsEqual&lt;&gt;(false)
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         );
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>     }
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

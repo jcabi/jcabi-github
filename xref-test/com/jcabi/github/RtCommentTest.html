@@ -59,7 +59,7 @@
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * Test case for {@link RtComment}.</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * @author Carlos Miranda (miranda.cma@gmail.com)</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * @version $Id: 6a6e3403d4d8a4380529e6babc6a750701c4b1ad $</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * @version $Id: 3c7f9a1a68a74b4276bd6b1ea8518bbf5fad33ef $</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> */</em>
@@ -264,12 +264,13 @@
 <a class="jxr_linenumber" name="L256" href="#L256">256</a>             );
 <a class="jxr_linenumber" name="L257" href="#L257">257</a>             <strong class="jxr_keyword">final</strong> String stringComment = comment.toString();
 <a class="jxr_linenumber" name="L258" href="#L258">258</a>             MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>                 stringComment, Matchers.not(Matchers.isEmptyOrNullString())
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>             );
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>             MatcherAssert.assertThat(stringComment, Matchers.endsWith(<span class="jxr_string">"10"</span>));
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>         }
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>     }
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> }
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>                 stringComment,
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>                 Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>             );
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>             MatcherAssert.assertThat(stringComment, Matchers.endsWith(<span class="jxr_string">"10"</span>));
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         }
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>     }
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

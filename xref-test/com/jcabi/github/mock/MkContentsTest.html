@@ -53,7 +53,7 @@
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * Test case for {@link MkContents}.</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @author Andres Candal (andres.candal@rollasolution.com)</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @version $Id: 79ed8f309294de403eb6354c30e61f49de55d61e $</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @version $Id: 8445c6a40a5c8f6df1bdc72bf615247f3e8a944e $</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> */</em>
@@ -119,7 +119,7 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>         );
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>         MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>             content.sha(),
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>             Matchers.not(Matchers.isEmptyOrNullString())
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>         );
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     }
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 
@@ -150,7 +150,7 @@
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>         );
 <a class="jxr_linenumber" name="L143" href="#L143">143</a>         MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>             content.sha(),
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>             Matchers.not(Matchers.isEmptyOrNullString())
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>         );
 <a class="jxr_linenumber" name="L147" href="#L147">147</a>         MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>             content.content(),
@@ -256,7 +256,7 @@
 <a class="jxr_linenumber" name="L248" href="#L248">248</a>             .build();
 <a class="jxr_linenumber" name="L249" href="#L249">249</a>         MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L250" href="#L250">250</a>             <strong class="jxr_keyword">new</strong> RepoCommit.Smart(contents.update(path, update)).sha(),
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>             Matchers.not(Matchers.isEmptyOrNullString())
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
 <a class="jxr_linenumber" name="L252" href="#L252">252</a>         );
 <a class="jxr_linenumber" name="L253" href="#L253">253</a>         MatcherAssert.assertThat(
 <a class="jxr_linenumber" name="L254" href="#L254">254</a>             <strong class="jxr_keyword">new</strong> Content.Smart(contents.get(path, <span class="jxr_string">"master"</span>)).path(),
@@ -407,56 +407,52 @@
 <a class="jxr_linenumber" name="L399" href="#L399">399</a> <em class="jxr_javadoccomment">     * @param path Content path</em>
 <a class="jxr_linenumber" name="L400" href="#L400">400</a> <em class="jxr_javadoccomment">     * @param message Commit message</em>
 <a class="jxr_linenumber" name="L401" href="#L401">401</a> <em class="jxr_javadoccomment">     * @return JsonObjectBuilder</em>
-<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObjectBuilder content(
-<a class="jxr_linenumber" name="L405" href="#L405">405</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> String message)
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>         <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L407" href="#L407">407</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>             .add(<span class="jxr_string">"path"</span>, path)
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>             .add(<span class="jxr_string">"message"</span>, message);
-<a class="jxr_linenumber" name="L410" href="#L410">410</a>     }
-<a class="jxr_linenumber" name="L411" href="#L411">411</a> 
-<a class="jxr_linenumber" name="L412" href="#L412">412</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">     * Create content JsonObjectBuilder.</em>
-<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">     * @param path Content path</em>
-<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">     * @param message Commit message</em>
-<a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">     * @param content Base64 encoded content</em>
-<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">     * @return JsonObjectBuilder</em>
-<a class="jxr_linenumber" name="L418" href="#L418">418</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L419" href="#L419">419</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L420" href="#L420">420</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObjectBuilder content(
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> String message, <strong class="jxr_keyword">final</strong> String content)
-<a class="jxr_linenumber" name="L422" href="#L422">422</a>         <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L423" href="#L423">423</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L424" href="#L424">424</a>             .add(<span class="jxr_string">"path"</span>, path)
-<a class="jxr_linenumber" name="L425" href="#L425">425</a>             .add(<span class="jxr_string">"message"</span>, message)
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>             .add(<span class="jxr_string">"content"</span>, content);
-<a class="jxr_linenumber" name="L427" href="#L427">427</a>     }
-<a class="jxr_linenumber" name="L428" href="#L428">428</a> 
-<a class="jxr_linenumber" name="L429" href="#L429">429</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L430" href="#L430">430</a> <em class="jxr_javadoccomment">     * Creates default committer.</em>
-<a class="jxr_linenumber" name="L431" href="#L431">431</a> <em class="jxr_javadoccomment">     * @return JsonObjectBuilder</em>
-<a class="jxr_linenumber" name="L432" href="#L432">432</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObjectBuilder committer() {
-<a class="jxr_linenumber" name="L434" href="#L434">434</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>             .add(<span class="jxr_string">"name"</span>, <span class="jxr_string">"joe"</span>)
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>             .add(<span class="jxr_string">"email"</span>, <span class="jxr_string">"joe@contents.com"</span>);
-<a class="jxr_linenumber" name="L437" href="#L437">437</a>     }
-<a class="jxr_linenumber" name="L438" href="#L438">438</a> 
-<a class="jxr_linenumber" name="L439" href="#L439">439</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L440" href="#L440">440</a> <em class="jxr_javadoccomment">     * Create a test repo with custom {@code MkStorage}.</em>
-<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">     * @param storage The storage</em>
-<a class="jxr_linenumber" name="L442" href="#L442">442</a> <em class="jxr_javadoccomment">     * @return Test repo</em>
-<a class="jxr_linenumber" name="L443" href="#L443">443</a> <em class="jxr_javadoccomment">     * @throws IOException If any I/O error occurs.</em>
-<a class="jxr_linenumber" name="L444" href="#L444">444</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Repo repo(
-<a class="jxr_linenumber" name="L446" href="#L446">446</a>         <strong class="jxr_keyword">final</strong> MkStorage storage) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L447" href="#L447">447</a>         <strong class="jxr_keyword">final</strong> String login = <span class="jxr_string">"test"</span>;
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkGithub(storage, login).randomRepo();
-<a class="jxr_linenumber" name="L449" href="#L449">449</a>     }
-<a class="jxr_linenumber" name="L450" href="#L450">450</a> 
-<a class="jxr_linenumber" name="L451" href="#L451">451</a> }
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObjectBuilder content(
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> String message) {
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>             .add(<span class="jxr_string">"path"</span>, path)
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>             .add(<span class="jxr_string">"message"</span>, message);
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>     }
+<a class="jxr_linenumber" name="L409" href="#L409">409</a> 
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L411" href="#L411">411</a> <em class="jxr_javadoccomment">     * Create content JsonObjectBuilder.</em>
+<a class="jxr_linenumber" name="L412" href="#L412">412</a> <em class="jxr_javadoccomment">     * @param path Content path</em>
+<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">     * @param message Commit message</em>
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">     * @param content Base64 encoded content</em>
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">     * @return JsonObjectBuilder</em>
+<a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObjectBuilder content(
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> String message, <strong class="jxr_keyword">final</strong> String content) {
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>             .add(<span class="jxr_string">"path"</span>, path)
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>             .add(<span class="jxr_string">"message"</span>, message)
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>             .add(<span class="jxr_string">"content"</span>, content);
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>     }
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> 
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L426" href="#L426">426</a> <em class="jxr_javadoccomment">     * Creates default committer.</em>
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> <em class="jxr_javadoccomment">     * @return JsonObjectBuilder</em>
+<a class="jxr_linenumber" name="L428" href="#L428">428</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObjectBuilder committer() {
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>             .add(<span class="jxr_string">"name"</span>, <span class="jxr_string">"joe"</span>)
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>             .add(<span class="jxr_string">"email"</span>, <span class="jxr_string">"joe@contents.com"</span>);
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>     }
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> 
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L436" href="#L436">436</a> <em class="jxr_javadoccomment">     * Create a test repo with custom {@code MkStorage}.</em>
+<a class="jxr_linenumber" name="L437" href="#L437">437</a> <em class="jxr_javadoccomment">     * @param storage The storage</em>
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> <em class="jxr_javadoccomment">     * @return Test repo</em>
+<a class="jxr_linenumber" name="L439" href="#L439">439</a> <em class="jxr_javadoccomment">     * @throws IOException If any I/O error occurs.</em>
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Repo repo(
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>         <strong class="jxr_keyword">final</strong> MkStorage storage) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>         <strong class="jxr_keyword">final</strong> String login = <span class="jxr_string">"test"</span>;
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkGithub(storage, login).randomRepo();
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>     }
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> 
+<a class="jxr_linenumber" name="L447" href="#L447">447</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

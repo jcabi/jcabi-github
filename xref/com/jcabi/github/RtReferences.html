@@ -52,7 +52,7 @@
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * Github references.</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @author Mihai Andronache (amihaiemil@gmail.com)</em>
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @version $Id: 55849b911c9d49c88235d025ddaade4f45a5c423 $</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @version $Id: f17a6a52ef9f0bead5d54f390cabddaa34e8bcbf $</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  @Immutable
@@ -123,57 +123,47 @@
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     @Override
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; iterate() {
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Reference&gt;(
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;&gt;(
 <a class="jxr_linenumber" name="L119" href="#L119">119</a>             <strong class="jxr_keyword">this</strong>.request,
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Reference, JsonObject&gt;() {
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>                 @Override
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Reference.html">Reference</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>                     <strong class="jxr_keyword">return</strong> RtReferences.<strong class="jxr_keyword">this</strong>.get(
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>                         object.getString(RtReferences.REF)
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>                     );
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>                 }
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>             }
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>         );
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>     }
-<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>     @Override
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; iterate(
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>         <strong class="jxr_keyword">final</strong> String subnamespace
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>     ) {
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;Reference&gt;(
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>             <strong class="jxr_keyword">this</strong>.request.uri().path(subnamespace).back(),
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>             <strong class="jxr_keyword">new</strong> RtValuePagination.Mapping&lt;Reference, JsonObject&gt;() {
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>                 @Override
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>                 <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Reference.html">Reference</a> map(<strong class="jxr_keyword">final</strong> JsonObject object) {
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>                     <strong class="jxr_keyword">return</strong> RtReferences.<strong class="jxr_keyword">this</strong>.get(
-<a class="jxr_linenumber" name="L141" href="#L141">141</a>                         object.getString(RtReferences.REF)
-<a class="jxr_linenumber" name="L142" href="#L142">142</a>                     );
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>                 }
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>             }
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>         );
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>             object -&gt; <strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                 object.getString(RtReferences.REF)
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>             )
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         );
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     }
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>     @Override
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; iterate(
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>         <strong class="jxr_keyword">final</strong> String subnamespace
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>     ) {
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> RtPagination&lt;&gt;(
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>             <strong class="jxr_keyword">this</strong>.request.uri().path(subnamespace).back(),
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>             object -&gt; <strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>                 object.getString(RtReferences.REF)
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>             )
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>         );
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>     }
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>     @Override
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; tags() {
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"tags"</span>);
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     }
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>     @Override
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; heads() {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"heads"</span>);
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>     }
 <a class="jxr_linenumber" name="L147" href="#L147">147</a> 
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>     @Override
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; tags() {
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"tags"</span>);
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>     }
-<a class="jxr_linenumber" name="L152" href="#L152">152</a> 
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>     @Override
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Reference&gt; heads() {
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.iterate(<span class="jxr_string">"heads"</span>);
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove(
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>         <strong class="jxr_keyword">final</strong> String identifier
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         <strong class="jxr_keyword">this</strong>.request.method(Request.DELETE)
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>             .uri().path(identifier).back().fetch()
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>             .as(RestResponse.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
 <a class="jxr_linenumber" name="L156" href="#L156">156</a>     }
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>     @Override
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove(
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>         <strong class="jxr_keyword">final</strong> String identifier
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>     ) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         <strong class="jxr_keyword">this</strong>.request.method(Request.DELETE)
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>             .uri().path(identifier).back().fetch()
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>             .as(RestResponse.<strong class="jxr_keyword">class</strong>)
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>     }
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> 
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> }
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

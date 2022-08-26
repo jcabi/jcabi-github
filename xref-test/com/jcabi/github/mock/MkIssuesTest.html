@@ -50,7 +50,7 @@
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Test case for {@link MkIssues}.</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 8873fd0a36c4c023ba3e83b824d87a25ac3b6eb0 $</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @version $Id: 5a4f75589648753a75896325a84a4485d2a0ed60 $</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkIssuesTest.html">MkIssuesTest</a> {
@@ -66,7 +66,7 @@
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>          repo.issues().create(<span class="jxr_string">"hey"</span>, <span class="jxr_string">"body of 2nd issue"</span>);
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>          repo.issues().create(<span class="jxr_string">"hey again"</span>, <span class="jxr_string">"body of 3rd issue"</span>);
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>          MatcherAssert.assertThat(
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>              repo.issues().iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;String, String&gt;()),
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              repo.issues().iterate(<strong class="jxr_keyword">new</strong> ArrayMap&lt;&gt;()),
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>              Matchers.&lt;Issue&gt;iterableWithSize(Tv.THREE)
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>          );
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>      }

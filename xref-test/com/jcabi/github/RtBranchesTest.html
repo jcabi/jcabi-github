@@ -58,7 +58,7 @@
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * Test case for {@link RtBranches}.</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> * @author Chris Rebert (github@rebertia.com)</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * @version $Id: 020e866056e500a5a52053c01cfa0230d3063330 $</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * @version $Id: 27701740c219b50ac1410b01baa9c479647f937d $</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/RtBranchesTest.html">RtBranchesTest</a> {
@@ -183,22 +183,20 @@
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">     * @param name Name of the branch</em>
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">     * @param sha Commit SHA of the branch</em>
 <a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">     * @throws Exception If some problem inside</em>
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject branch(<strong class="jxr_keyword">final</strong> String name, <strong class="jxr_keyword">final</strong> String sha)
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>         <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L183" href="#L183">183</a>             .add(<span class="jxr_string">"name"</span>, name)
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>             .add(
-<a class="jxr_linenumber" name="L185" href="#L185">185</a>                 <span class="jxr_string">"commit"</span>,
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>                 Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>                     .add(<span class="jxr_string">"sha"</span>, sha)
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>                     <em class="jxr_comment">// @checkstyle LineLengthCheck (1 line)</em>
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>                     .add(<span class="jxr_string">"url"</span>, String.format(<span class="jxr_string">"https://api.jcabi-github.invalid/repos/user/repo/commits/%s"</span>, sha))
-<a class="jxr_linenumber" name="L190" href="#L190">190</a>             )
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>             .build();
-<a class="jxr_linenumber" name="L192" href="#L192">192</a>     }
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> }
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject branch(<strong class="jxr_keyword">final</strong> String name, <strong class="jxr_keyword">final</strong> String sha) {
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>             .add(<span class="jxr_string">"name"</span>, name)
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>             .add(
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>                 <span class="jxr_string">"commit"</span>,
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>                 Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>                     .add(<span class="jxr_string">"sha"</span>, sha)
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>                     <em class="jxr_comment">// @checkstyle LineLengthCheck (1 line)</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>                     .add(<span class="jxr_string">"url"</span>, String.format(<span class="jxr_string">"https://api.jcabi-github.invalid/repos/user/repo/commits/%s"</span>, sha))
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>             )
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>             .build();
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     }
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

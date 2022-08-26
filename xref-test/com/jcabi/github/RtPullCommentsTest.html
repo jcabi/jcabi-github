@@ -61,7 +61,7 @@
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment"> * Test case for {@link RtPullComments}.</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * @author Carlos Miranda (miranda.cma@gmail.com)</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @version $Id: bd03010e1d7000c5e1ba424758be9dad21d36893 $</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @version $Id: bf519acd3c24b1b4e53a33252f50fd4a4ced0b8d $</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCoupling (500 lines)</em>
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  @SuppressWarnings(<span class="jxr_string">"PMD.TooManyMethods"</span>)
@@ -287,37 +287,34 @@
 <a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">     * @param path Path</em>
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">     * @param position Position</em>
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     * @throws Exception - if anything goes wrong</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">     * @checkstyle ParameterNumberCheck (10 lines)</em>
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject pulls(<strong class="jxr_keyword">final</strong> String body, <strong class="jxr_keyword">final</strong> String commit,
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> position) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (2 line)</em>
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>             .add(<span class="jxr_string">"id"</span>, Tv.BILLION)
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>             .add(<span class="jxr_string">"body"</span>, body)
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>             .add(<span class="jxr_string">"commit_id"</span>, commit)
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>             .add(<span class="jxr_string">"path"</span>, path)
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>             .add(<span class="jxr_string">"position"</span>, position)
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>             .build();
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>     }
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">     * Create and return JsonObject to test.</em>
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">     * @param bodytext Body of the comment</em>
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> <em class="jxr_javadoccomment">     * @throws Exception If something goes wrong.</em>
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject comment(<strong class="jxr_keyword">final</strong> String bodytext)
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>         <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (2 line)</em>
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>             .add(<span class="jxr_string">"id"</span>, 1)
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>             .add(<span class="jxr_string">"body"</span>, bodytext)
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>             .build();
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>     }
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> }
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">     * @checkstyle ParameterNumberCheck (10 lines)</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject pulls(<strong class="jxr_keyword">final</strong> String body, <strong class="jxr_keyword">final</strong> String commit,
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         <strong class="jxr_keyword">final</strong> String path, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> position) {
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (2 line)</em>
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>             .add(<span class="jxr_string">"id"</span>, Tv.BILLION)
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>             .add(<span class="jxr_string">"body"</span>, body)
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>             .add(<span class="jxr_string">"commit_id"</span>, commit)
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>             .add(<span class="jxr_string">"path"</span>, path)
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>             .add(<span class="jxr_string">"position"</span>, position)
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>             .build();
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>     }
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">     * Create and return JsonObject to test.</em>
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">     * @param bodytext Body of the comment</em>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> <em class="jxr_javadoccomment">     * @return JsonObject</em>
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> JsonObject comment(<strong class="jxr_keyword">final</strong> String bodytext) {
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>         <strong class="jxr_keyword">return</strong> Json.createObjectBuilder()
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>             <em class="jxr_comment">// @checkstyle MultipleStringLiterals (2 line)</em>
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>             .add(<span class="jxr_string">"id"</span>, 1)
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>             .add(<span class="jxr_string">"body"</span>, bodytext)
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>             .build();
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>     }
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2022 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
