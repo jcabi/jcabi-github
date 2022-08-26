@@ -149,9 +149,14 @@ final class MkCollaborators implements Collaborators {
 
     @Override
     public void addWithPermission(
-        final String user, final Permission permission
-    ) throws IOException {
+        final String user, final Collaborators.Permission permission
+    ) {
         throw new NotImplementedException("");
+    }
+
+    @Override
+    public String permission(final String user) throws IOException {
+        return "write";
     }
 
     /**

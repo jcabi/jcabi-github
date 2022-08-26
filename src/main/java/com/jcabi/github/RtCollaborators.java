@@ -33,6 +33,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -125,16 +126,29 @@ final class RtCollaborators implements Collaborators {
 
     @Override
     public void addWithPermission(
-        final String user, final Permission permission
+        final String user, final Collaborators.Permission permission
     ) throws IOException {
         final JsonObject obj = Json.createObjectBuilder()
-                .add("permission", permission.toString().toLowerCase())
-                .build();
+            // @checkstyle MultipleStringLiterals (1 line)
+            .add("permission", permission.toString().toLowerCase())
+            .build();
         this.request.method(Request.PUT)
             .body().set(obj).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED);
+    }
+
+    @Override
+    public String permission(final String user) throws IOException {
+        return this.request
+            .method(Request.GET)
+            .uri().path(user).path("permission").back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().readObject().getString("permission");
     }
 
     @Override

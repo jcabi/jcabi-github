@@ -42,6 +42,13 @@ import java.io.IOException;
 @Immutable
 public interface Collaborators {
     /**
+     * Permission levels a user can be granted in an organization repository.
+     *
+     * @see <a href="https://developer.github.com/v3/repos/collaborators/#parameters-1">Add user with permissions</a>
+     */
+    enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE };
+
+    /**
      * Owner of them.
      * @return Repo
      */
@@ -68,13 +75,6 @@ public interface Collaborators {
     void add(String user) throws IOException;
 
     /**
-     * Permission levels a user can be granted in an organization repository.
-     *
-     * @see <a href="https://developer.github.com/v3/repos/collaborators/#parameters-1">Add user with permissions</a>
-     */
-    static enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE };
-
-    /**
      * Add user with permissions. Only works on an organization repository
      *
      * @param user User to add
@@ -82,8 +82,19 @@ public interface Collaborators {
      * @throws IOException if there is an I/O problem
      * @see <a href=https://developer.github.com/v3/repos/collaborators/#add-user-as-a-collaborator">Add user as a collaborator</a>
      */
-    void addWithPermission(
-            String user, Permission permission) throws IOException;
+    void addWithPermission(String user,
+        Collaborators.Permission permission) throws IOException;
+
+    /**
+     * Get user permission in this repo.
+     *
+     * @param user User to check
+     * @return Permission level granted, incl. "admin", "write",
+     *  "read", or "none"
+     * @throws IOException if there is an I/O problem
+     * @see <a href=https://docs.github.com/en/rest/collaborators/collaborators#get-repository-permissions-for-a-user">Get repository permissions for a user</a>
+     */
+    String permission(String user) throws IOException;
 
     /**
      * Remove user as a collaborator.
