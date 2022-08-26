@@ -51,10 +51,9 @@ public final class RtSearchITCase {
     /**
      * RtSearch can search for repos.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForRepos() throws Exception {
+    public void canSearchForRepos() {
         MatcherAssert.assertThat(
             new GithubIT().connect()
                 .search().repos("repo", "stars", Search.Order.DESC),
@@ -65,10 +64,9 @@ public final class RtSearchITCase {
     /**
      * RtSearch can fetch multiple pages of a large result (more than 25 items).
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canFetchMultiplePages() throws Exception {
+    public void canFetchMultiplePages() {
         final Iterator<Repo> iter = new GithubIT().connect().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
@@ -86,10 +84,9 @@ public final class RtSearchITCase {
     /**
      * RtSearch can search for issues.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForIssues() throws Exception {
+    public void canSearchForIssues() {
         final EnumMap<Search.Qualifier, String> qualifiers =
             new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
@@ -107,10 +104,9 @@ public final class RtSearchITCase {
     /**
      * RtSearch can search for users.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForUsers() throws Exception {
+    public void canSearchForUsers() {
         MatcherAssert.assertThat(
             new GithubIT().connect()
                 .search().users("jcabi", "joined", Search.Order.DESC),
@@ -121,11 +117,10 @@ public final class RtSearchITCase {
     /**
      * RtSearch can search for contents.
      *
-     * @throws Exception if a problem occurs
      * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
     @Test
-    public void canSearchForContents() throws Exception {
+    public void canSearchForContents() {
         MatcherAssert.assertThat(
             new GithubIT().connect().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC

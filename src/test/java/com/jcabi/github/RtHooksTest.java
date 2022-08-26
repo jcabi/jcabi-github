@@ -233,11 +233,9 @@ public final class RtHooksTest {
      * @param name Name of the hook
      * @param config Config of hook
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
     private static JsonObject hook(final String name,
-        final Map<String, String> config)
-        throws Exception {
+        final Map<String, String> config) {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final Map.Entry<String, String> entry : config.entrySet()) {
             builder.add(entry.getKey(), entry.getValue());

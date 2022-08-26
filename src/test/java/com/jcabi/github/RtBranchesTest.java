@@ -175,10 +175,8 @@ public final class RtBranchesTest {
      * @param name Name of the branch
      * @param sha Commit SHA of the branch
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
-    private static JsonObject branch(final String name, final String sha)
-        throws Exception {
+    private static JsonObject branch(final String name, final String sha) {
         return Json.createObjectBuilder()
             .add("name", name)
             .add(

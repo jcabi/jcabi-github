@@ -179,9 +179,8 @@ public final class MkRepoCommitTest {
      * Create repository for test.
      * @param storage The storage
      * @return Repo
-     * @throws IOException If some problem inside
      */
-    private Repo repo(final MkStorage storage) throws IOException {
+    private Repo repo(final MkStorage storage) {
         final String login = "test_login";
         return new MkRepo(
             storage,

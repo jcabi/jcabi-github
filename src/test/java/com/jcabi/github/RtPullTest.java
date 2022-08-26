@@ -253,10 +253,9 @@ public final class RtPullTest {
     /**
      * RtPull should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() {
         final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
         final RtPull greater = new RtPull(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(
@@ -270,11 +269,10 @@ public final class RtPullTest {
     /**
      * RtPull should be able to fetch pull comments.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
     @Ignore
-    public void canFetchComments() throws Exception {
+    public void canFetchComments() {
         //to be implemented
     }
 

@@ -39,7 +39,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
 import com.jcabi.github.User;
 import com.jcabi.xml.XML;
-import java.io.IOException;
 import java.util.EnumMap;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -91,7 +90,7 @@ final class MkSearch implements Search {
         final String keywords,
         final String sort,
         final Order order
-    ) throws IOException {
+    ) {
         return new MkIterable<Repo>(
             this.storage,
             "/github/repos/repo",
@@ -111,7 +110,7 @@ final class MkSearch implements Search {
     @Override
     public Iterable<Issue> issues(final String keywords, final String sort,
         final Order order, final EnumMap<Qualifier, String> qualifiers
-    ) throws IOException {
+    ) {
         return new MkIterable<Issue>(
             this.storage,
             "/github/repos/repo/issues/issue",
@@ -135,21 +134,17 @@ final class MkSearch implements Search {
         final String keywords,
         final String sort,
         final Order order
-    ) throws IOException {
+    ) {
         return new MkIterable<User>(
             this.storage,
             "/github/users/user",
             new MkIterable.Mapping<User>() {
                 @Override
                 public User map(final XML xml) {
-                    try {
-                        return new MkUser(
-                            MkSearch.this.storage,
-                            xml.xpath("login/text()").get(0)
-                        );
-                    } catch (final IOException ex) {
-                        throw new IllegalStateException(ex);
-                    }
+                    return new MkUser(
+                        MkSearch.this.storage,
+                        xml.xpath("login/text()").get(0)
+                    );
                 }
             }
         );
@@ -160,24 +155,20 @@ final class MkSearch implements Search {
         final String keywords,
         final String sort,
         final Order order
-    ) throws IOException {
+    ) {
         return new MkIterable<Content>(
             this.storage,
             "/github/repos/repo/name",
             new MkIterable.Mapping<Content>() {
                 @Override
                 public Content map(final XML xml) {
-                    try {
-                        return new MkContent(
-                            MkSearch.this.storage,
-                            MkSearch.this.self,
-                            new Coordinates.Simple(MkSearch.this.self, "repo"),
-                            "/path/to/search",
-                            "master"
-                        );
-                    } catch (final IOException exception) {
-                        throw new IllegalStateException(exception);
-                    }
+                    return new MkContent(
+                        MkSearch.this.storage,
+                        MkSearch.this.self,
+                        new Coordinates.Simple(MkSearch.this.self, "repo"),
+                        "/path/to/search",
+                        "master"
+                    );
                 }
             }
         );

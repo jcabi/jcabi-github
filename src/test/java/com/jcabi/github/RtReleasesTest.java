@@ -37,7 +37,6 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -67,10 +66,9 @@ public final class RtReleasesTest {
 
     /**
      * RtReleases can fetch empty list of releases.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfReleases() throws Exception {
+    public void canFetchEmptyListOfReleases() {
         final Releases releases = new RtReleases(
             new FakeRequest().withBody("[]"),
             RtReleasesTest.repo()
@@ -107,10 +105,9 @@ public final class RtReleasesTest {
 
     /**
      * RtReleases can fetch a single release.
-     * @throws IOException If some problem inside
      */
     @Test
-    public void canFetchSingleRelease() throws IOException {
+    public void canFetchSingleRelease() {
         final Releases releases = new RtReleases(
             new FakeRequest(), RtReleasesTest.repo()
         );
@@ -195,9 +192,8 @@ public final class RtReleasesTest {
      * Create and return JsonObject to test.
      * @param tag The tag name of the release
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
-    private static JsonObject release(final String tag) throws Exception {
+    private static JsonObject release(final String tag) {
         return Json.createObjectBuilder()
             .add("id", 1)
             .add("tag_name", tag)

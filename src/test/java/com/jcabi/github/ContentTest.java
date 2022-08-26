@@ -106,10 +106,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch path property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesPath() throws Exception {
+    public final void fetchesPath() {
         final Content content = Mockito.mock(Content.class);
         final String path = "this is some path";
         Mockito.doReturn(path).when(content).path();
@@ -240,10 +239,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can get underlying repo.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void smartCanGetUnderlyingRepo() throws Exception {
+    public final void smartCanGetUnderlyingRepo() {
         final Content content = Mockito.mock(Content.class);
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(repo).when(content).repo();

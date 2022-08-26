@@ -185,7 +185,7 @@ public final class MkGithub implements Github {
     }
 
     @Override
-    public Gitignores gitignores() throws IOException {
+    public Gitignores gitignores() {
         return new MkGitignores(this);
     }
 
@@ -206,10 +206,9 @@ public final class MkGithub implements Github {
      * Relogin.
      * @param login User to login
      * @return Github
-     * @throws IOException If there is any I/O problem
      */
     public Github relogin(final String login
-    ) throws IOException {
+    ) {
         return new MkGithub(this.storage, login);
     }
 

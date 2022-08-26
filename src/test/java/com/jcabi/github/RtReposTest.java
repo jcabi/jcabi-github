@@ -165,11 +165,9 @@ public final class RtReposTest {
      * @param owner Owner name
      * @param name Repo name
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
     private static JsonObject response(
-        final String owner, final String name)
-        throws Exception {
+        final String owner, final String name) {
         return Json.createObjectBuilder()
             .add("name", name)
             .add("full_name", String.format("%s/%s", owner, name))

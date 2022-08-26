@@ -85,14 +85,12 @@ public interface Issues {
      * @param direction The sort direction
      * @param qualifiers The search qualifier
      * @return Issues
-     * @throws java.io.IOException If there is any I/O problem
      * @since 0.22.0
      * @see <a href="https://developer.github.com/v3/issues/#list-issues-for-a-repository">List issues for a repository</a>
      */
     Iterable<Issue> search(
         Sort sort, Search.Order direction,
-        EnumMap<Qualifier, String> qualifiers)
-        throws IOException;
+        EnumMap<Qualifier, String> qualifiers);
 
     enum Qualifier implements StringEnum {
         /**

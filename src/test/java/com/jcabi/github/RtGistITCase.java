@@ -105,9 +105,8 @@ public final class RtGistITCase {
      * Return github to test. Property "failsafe.github.key" is used
      * for authentication.
      * @return Github
-     * @throws Exception If some problem inside
      */
-    private static Github github() throws Exception {
+    private static Github github() {
         return RtGistITCase.github("failsafe.github.key");
     }
 
@@ -115,9 +114,8 @@ public final class RtGistITCase {
      * Return github to test.
      * @param property Name of a property with github key
      * @return Github
-     * @throws Exception If some problem inside
      */
-    private static Github github(final String property) throws Exception {
+    private static Github github(final String property) {
         final String key = System.getProperty(property);
         Assume.assumeThat(
             key,

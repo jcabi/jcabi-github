@@ -47,10 +47,9 @@ public final class JsonNodeTest {
 
     /**
      * JsonNode can text XML to JSON.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void convertsXmlToJson() throws Exception {
+    public void convertsXmlToJson() {
         final XML xml = new XMLDocument(
             "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
         );
@@ -68,10 +67,9 @@ public final class JsonNodeTest {
 
     /**
      * JsonNode can text XML to JSON array.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void convertsXmlToJsonArray() throws Exception {
+    public void convertsXmlToJsonArray() {
         final XML xml = new XMLDocument(
             // @checkstyle LineLength (1 line)
             "<users array=\"true\"><item>Jeff</item><item>Bauer</item><item>Iko</item></users>"

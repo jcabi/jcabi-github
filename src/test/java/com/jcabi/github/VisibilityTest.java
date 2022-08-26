@@ -74,10 +74,9 @@ public final class VisibilityTest {
      * Checks that there are not public classes in package
      * {@code com.jcabi.github}.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checkVisibility() throws Exception {
+    public void checkVisibility() {
         MatcherAssert.assertThat(
             Iterables.filter(
                 this.classpath.allTypes(),

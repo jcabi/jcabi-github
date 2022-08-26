@@ -33,7 +33,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github Assignees.
+ * GitHub Assignees.
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
@@ -50,7 +50,7 @@ public interface Assignees {
     Iterable<User> iterate();
 
     /**
-     * Check check if a particular user is an assignee for a repository.
+     * Check if a particular user is an assignee for a repository.
      * @param login Login of user to be checked
      * @return True if given assignee login belongs to an assignee for the repository
      * @throws IOException If there is any I/O problem

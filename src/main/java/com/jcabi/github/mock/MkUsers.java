@@ -95,11 +95,7 @@ final class MkUsers implements Users {
     public User get(
         final String login
     ) {
-        try {
-            return new MkUser(this.storage, login);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+        return new MkUser(this.storage, login);
     }
 
     @Override

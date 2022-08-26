@@ -44,10 +44,9 @@ public final class LabelTest {
 
     /**
      * Label.Unmodified can be compared properly.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canBeComparedProperly() throws Exception {
+    public void canBeComparedProperly() {
         final Label.Unmodified one = new Label.Unmodified(
             LabelTest.repo("jef", "jef_repo"),
             "{\"name\":\"paul\"}"

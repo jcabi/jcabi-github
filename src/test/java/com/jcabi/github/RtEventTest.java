@@ -60,10 +60,9 @@ public final class RtEventTest {
     /**
      * RtEvent can retrieve its own repo.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRetrieveOwnRepo() throws Exception {
+    public void canRetrieveOwnRepo() {
         final Repo repo = this.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
         MatcherAssert.assertThat(
@@ -75,10 +74,9 @@ public final class RtEventTest {
     /**
      * RtEvent can retrieve its own number.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRetrieveOwnNumber() throws Exception {
+    public void canRetrieveOwnNumber() {
         final Repo repo = this.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
@@ -115,10 +113,9 @@ public final class RtEventTest {
     /**
      * RtEvent should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() {
         final RtEvent less = new RtEvent(new FakeRequest(), this.repo(), 1);
         final RtEvent greater = new RtEvent(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(

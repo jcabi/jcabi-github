@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 import java.util.EnumMap;
 
 /**
@@ -59,14 +58,13 @@ public interface Search {
      * @param sort The sort field
      * @param order The sort order
      * @return Repos
-     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-repositories">Search repositories</a>
      */
     Iterable<Repo> repos(
         String keywords,
         String sort,
         Order order
-    ) throws IOException;
+    );
 
     /**
      * Search issues.
@@ -76,7 +74,6 @@ public interface Search {
      * @param order The sort order
      * @param qualifiers The search qualifier
      * @return Issues
-     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-issues">Search issues</a>
      * @checkstyle ParameterNumberCheck (7 lines)
      */
@@ -84,8 +81,7 @@ public interface Search {
         String keywords,
         String sort,
         Order order,
-        EnumMap<Qualifier, String> qualifiers)
-        throws IOException;
+        EnumMap<Qualifier, String> qualifiers);
 
     /**
      * Search users.
@@ -94,14 +90,12 @@ public interface Search {
      * @param sort The sort field
      * @param order The sort order
      * @return Users
-     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-users">Search users</a>
      */
     Iterable<User> users(
         String keywords,
         String sort,
-        Order order)
-        throws IOException;
+        Order order);
 
     /**
      * Search code.
@@ -110,14 +104,12 @@ public interface Search {
      * @param sort The sort field
      * @param order The sort order
      * @return Contents
-     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/search/#search-code">Search code</a>
      */
     Iterable<Content> codes(
         String keywords,
         String sort,
-        Order order)
-        throws IOException;
+        Order order);
 
     enum Qualifier implements StringEnum {
         /**

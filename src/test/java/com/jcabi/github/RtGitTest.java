@@ -46,10 +46,9 @@ public final class RtGitTest {
     /**
      * RtGit can fetch its own repo.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void canFetchOwnRepo() throws Exception {
+    public void canFetchOwnRepo() {
         final Repo repo = repo();
         MatcherAssert.assertThat(
             new RtGit(new FakeRequest(), repo).repo(),

@@ -121,9 +121,8 @@ public final class RtLabelTest {
     /**
      * Create and return repo to test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
             .when(repo).coordinates();

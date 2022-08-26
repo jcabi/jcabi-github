@@ -145,11 +145,10 @@ public interface Github {
     /**
      * Get gitignores.
      * @return Gitignotes API
-     * @throws IOException If there is any I/O problem
      * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
      * @since 0.8
      */
-    Gitignores gitignores() throws IOException;
+    Gitignores gitignores();
 
     /**
      * Get meta information.

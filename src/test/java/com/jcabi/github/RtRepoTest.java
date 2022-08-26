@@ -94,10 +94,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its labels.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesLabels() throws Exception {
+    public void fetchesLabels() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -110,10 +109,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its issues.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesIssues() throws Exception {
+    public void fetchesIssues() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -126,10 +124,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its branches.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesBranches() throws Exception {
+    public void fetchesBranches() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -142,10 +139,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its pulls.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesPulls() throws Exception {
+    public void fetchesPulls() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -158,10 +154,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its hooks.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchHooks() throws Exception {
+    public void fetchHooks() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -174,10 +169,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its keys.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchKeys() throws Exception {
+    public void fetchKeys() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -190,10 +184,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its releases.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchReleases() throws Exception {
+    public void fetchReleases() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -206,10 +199,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch its contents.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchContents() throws Exception {
+    public void fetchContents() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -221,10 +213,9 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can identify itself.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
+    public void identifiesItself() {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
             Mockito.mock(Github.class),
@@ -408,9 +399,8 @@ public final class RtRepoTest {
      * Create and return JsonObject to test.
      * @param event Event type
      * @return JsonObject
-     * @throws Exception if some problem inside
      */
-    private static JsonObject event(final String event) throws Exception {
+    private static JsonObject event(final String event) {
         return Json.createObjectBuilder()
             .add("id", 1)
             .add("event", event)

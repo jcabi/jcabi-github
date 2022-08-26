@@ -43,10 +43,9 @@ import org.junit.Test;
 public final class RtOrganizationsITCase {
     /**
      * RtOrganizations can get an organization.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void getOrganization() throws Exception {
+    public void getOrganization() {
         final String login = "github";
         final Organization org = new GithubIT().connect()
             .organizations().get(login);

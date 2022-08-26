@@ -46,10 +46,9 @@ public final class RtGithubTest {
     /**
      * RtGithub can retrieve its repos.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesRepos() throws Exception {
+    public void retrievesRepos() {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.repos(),
@@ -60,10 +59,9 @@ public final class RtGithubTest {
     /**
      * RtGithub can retrieve its gists.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesGists() throws Exception {
+    public void retrievesGists() {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.gists(),
@@ -74,10 +72,9 @@ public final class RtGithubTest {
     /**
      * RtGithub can retrieve users.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesUsers() throws Exception {
+    public void retrievesUsers() {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.users(),
@@ -122,10 +119,9 @@ public final class RtGithubTest {
     /**
      * RtGithub can retrieve the markdown.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesMarkdown() throws Exception {
+    public void retrievesMarkdown() {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.markdown(),
@@ -135,10 +131,9 @@ public final class RtGithubTest {
 
     /**
      * RtGithub can retrieve the gitignores.
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesGitignores() throws Exception {
+    public void retrievesGitignores() {
         final RtGithub github = new RtGithub(new FakeRequest());
         MatcherAssert.assertThat(
             github.gitignores(),
@@ -177,10 +172,9 @@ public final class RtGithubTest {
 
     /**
      * RtGithub can compare itself with another object.
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void equalsToAnotherGithub() throws Exception {
+    public void equalsToAnotherGithub() {
         MatcherAssert.assertThat(
             new RtGithub(new FakeRequest().header("abc", "cde")),
             Matchers.not(

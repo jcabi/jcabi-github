@@ -54,10 +54,9 @@ public class RtRepoCommitsITCase {
 
     /**
      * RtRepoCommits can fetch repo commits.
-     * @throws Exception if there is no github key provided
      */
     @Test
-    public final void fetchCommits() throws Exception {
+    public final void fetchCommits() {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
                 new ArrayMap<String, String>()
@@ -124,10 +123,9 @@ public class RtRepoCommitsITCase {
 
     /**
      * Check that commit actually got.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void getCommit() throws Exception {
+    public final void getCommit() {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
             RtRepoCommitsITCase.repo().commits().get(sha).sha(),

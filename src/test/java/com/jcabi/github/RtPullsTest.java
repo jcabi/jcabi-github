@@ -154,9 +154,8 @@ public final class RtPullsTest {
      * Create and return JsonObject to test.
      * @param title The title of the pull request
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
-    private static JsonObject pull(final String title) throws Exception {
+    private static JsonObject pull(final String title) {
         return Json.createObjectBuilder()
             .add("number", Tv.BILLION)
             .add("state", Issue.OPEN_STATE)
@@ -167,9 +166,8 @@ public final class RtPullsTest {
     /**
      * Create and return repo to test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
             .when(repo).coordinates();

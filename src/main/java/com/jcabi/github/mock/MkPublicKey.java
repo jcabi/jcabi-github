@@ -95,11 +95,7 @@ final class MkPublicKey implements PublicKey {
 
     @Override
     public User user() {
-        try {
-            return new MkUser(this.storage, this.self);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+        return new MkUser(this.storage, this.self);
     }
 
     @Override

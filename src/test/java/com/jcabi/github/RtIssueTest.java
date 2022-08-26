@@ -66,10 +66,9 @@ public final class RtIssueTest {
     /**
      * RtIssue should be able to fetch its comments.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesComments() throws Exception {
+    public void fetchesComments() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
             issue.comments(),
@@ -80,10 +79,9 @@ public final class RtIssueTest {
     /**
      * RtIssue should be able to fetch its labels.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesLabels() throws Exception {
+    public void fetchesLabels() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
             issue.labels(),
@@ -94,10 +92,9 @@ public final class RtIssueTest {
     /**
      * RtIssue should be able to fetch its events.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesEvents() throws Exception {
+    public void fetchesEvents() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
             issue.events(),
@@ -159,10 +156,9 @@ public final class RtIssueTest {
     /**
      * RtIssue should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() {
         final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
         final RtIssue greater = new RtIssue(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(

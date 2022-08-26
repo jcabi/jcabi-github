@@ -220,7 +220,7 @@ final class MkGist implements Gist {
     }
 
     @Override
-    public GistComments comments() throws IOException {
+    public GistComments comments() {
         throw new UnsupportedOperationException();
     }
 

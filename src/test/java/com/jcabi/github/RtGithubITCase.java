@@ -46,10 +46,9 @@ public final class RtGithubITCase {
 
     /**
      * RtGithub can authenticate itself.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesItself() throws Exception {
+    public void authenticatesItself() {
         final Github github = new GithubIT().connect();
         MatcherAssert.assertThat(
             github.users().self(),

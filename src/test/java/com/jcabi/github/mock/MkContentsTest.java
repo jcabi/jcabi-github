@@ -399,11 +399,9 @@ public final class MkContentsTest {
      * @param path Content path
      * @param message Commit message
      * @return JsonObjectBuilder
-     * @throws Exception If some problem inside
      */
     private static JsonObjectBuilder content(
-        final String path, final String message)
-        throws Exception {
+        final String path, final String message) {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("message", message);
@@ -415,11 +413,9 @@ public final class MkContentsTest {
      * @param message Commit message
      * @param content Base64 encoded content
      * @return JsonObjectBuilder
-     * @throws Exception If some problem inside
      */
     private static JsonObjectBuilder content(
-        final String path, final String message, final String content)
-        throws Exception {
+        final String path, final String message, final String content) {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("message", message)

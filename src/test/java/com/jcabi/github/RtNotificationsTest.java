@@ -53,10 +53,9 @@ public final class RtNotificationsTest {
     /**
      * Method 'iterate()' returns empty iterable if the service responds with
      * no notifications.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void iterateEmpty() throws Exception {
+    public void iterateEmpty() {
         MatcherAssert.assertThat(
             new RtNotifications(
                 new FakeRequest()
@@ -68,10 +67,9 @@ public final class RtNotificationsTest {
 
     /**
      * Method 'iterate()' will iterate over notifications sent by the service.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iterateNotifications() throws Exception {
+    public void iterateNotifications() {
         MatcherAssert.assertThat(
             new RtNotifications(
                 new FakeRequest().withBody(
@@ -130,11 +128,10 @@ public final class RtNotificationsTest {
 
     /**
      * RtNotifications can mark Notification as read.
-     * @throws Exception If some problem inside
      */
     @Test
     @Ignore
-    public void markNotificationAsRead() throws Exception  {
+    public void markNotificationAsRead() {
         // Not implemented
     }
 }

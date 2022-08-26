@@ -141,7 +141,7 @@ final class RtUser implements User {
     }
 
     @Override
-    public Notifications notifications() throws IOException {
+    public Notifications notifications() {
         return new RtNotifications(
             this.github().entry().uri().path(RtUser.NOTIF_PATH).back()
         );

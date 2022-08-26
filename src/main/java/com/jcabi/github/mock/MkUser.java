@@ -73,9 +73,8 @@ final class MkUser implements User {
      * Public ctor.
      * @param stg Storage
      * @param login User to login
-     * @throws IOException If there is any I/O problem
      */
-    MkUser(final MkStorage stg, final String login) throws IOException {
+    MkUser(final MkStorage stg, final String login) {
         this.storage = stg;
         this.self = login;
     }

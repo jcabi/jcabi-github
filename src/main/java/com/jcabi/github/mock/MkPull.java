@@ -181,27 +181,26 @@ final class MkPull implements Pull {
     }
 
     @Override
-    public Iterable<Commit> commits() throws IOException {
+    public Iterable<Commit> commits() {
         return Collections.emptyList();
     }
 
     @Override
-    public Iterable<JsonObject> files() throws IOException {
+    public Iterable<JsonObject> files() {
         return Collections.emptyList();
     }
 
     @Override
     public void merge(
         final String msg
-    ) throws IOException {
+    ) {
         // nothing to do here
     }
 
     @Override
     public MergeState merge(
         final String msg,
-        final String sha)
-        throws IOException {
+        final String sha) {
         throw new UnsupportedOperationException("Merge not supported");
     }
 

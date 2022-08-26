@@ -96,9 +96,8 @@ public final class MkBranchTest {
      * MkBranches for MkBranch creation.
      * @param repo Repository to get MkBranches of
      * @return MkBranches
-     * @throws IOException If there is any I/O problem
      */
-    private static MkBranches branches(final Repo repo) throws IOException {
+    private static MkBranches branches(final Repo repo) {
         return (MkBranches) (repo.branches());
     }
 }

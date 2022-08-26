@@ -103,14 +103,10 @@ public final class MkPublicMembers implements PublicMembers {
             new MkIterable.Mapping<User>() {
                 @Override
                 public User map(final XML xml) {
-                    try {
-                        return new MkUser(
-                            MkPublicMembers.this.storage,
-                            xml.xpath("text()").get(0)
-                        );
-                    } catch (final IOException exc) {
-                        throw new IllegalStateException(exc);
-                    }
+                    return new MkUser(
+                        MkPublicMembers.this.storage,
+                        xml.xpath("text()").get(0)
+                    );
                 }
             }
         );
@@ -119,7 +115,7 @@ public final class MkPublicMembers implements PublicMembers {
     @Override
     public boolean contains(
         final User user
-    ) throws IOException {
+    ) {
         boolean result = false;
         for (final User member : this.iterate()) {
             if (member.equals(user)) {

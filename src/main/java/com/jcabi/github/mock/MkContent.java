@@ -88,7 +88,6 @@ final class MkContent implements Content {
      * @param rep Repo
      * @param path Path of this file
      * @param ref Branch of this file
-     * @throws IOException If there is any I/O problem
      * @checkstyle ParameterNumberCheck (6 lines)
      */
     public MkContent(
@@ -97,7 +96,7 @@ final class MkContent implements Content {
         final Coordinates rep,
         final String path,
         final String ref
-    ) throws IOException {
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;

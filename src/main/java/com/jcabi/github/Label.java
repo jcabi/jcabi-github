@@ -184,7 +184,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(final JsonObject json) throws IOException {
+        public void patch(final JsonObject json) {
             throw new UnsupportedOperationException("#patch()");
         }
 

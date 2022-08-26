@@ -142,8 +142,7 @@ final class RtIssues implements Issues {
     public Iterable<Issue> search(
         final Sort sort,
         final Search.Order direction,
-        final EnumMap<Qualifier, String> qualifiers)
-        throws IOException {
+        final EnumMap<Qualifier, String> qualifiers) {
         final Map<String, String> params = new HashMap<String, String>();
         for (final EnumMap.Entry<Qualifier, String> pair : qualifiers
             .entrySet()) {

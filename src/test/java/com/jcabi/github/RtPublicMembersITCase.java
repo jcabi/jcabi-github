@@ -62,10 +62,9 @@ public final class RtPublicMembersITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         final Github github = new GithubIT().connect();
         final Users users = github.users();
         org = github.organizations().get(ORG_NAME);

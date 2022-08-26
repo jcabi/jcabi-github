@@ -70,13 +70,12 @@ final class MkAssignees implements Assignees {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws IOException If there is any I/O problem
      */
     MkAssignees(
         final MkStorage stg,
         final String login,
         final Coordinates rep
-    ) throws IOException {
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -84,33 +83,25 @@ final class MkAssignees implements Assignees {
 
     @Override
     public Iterable<User> iterate() {
-        try {
-            final Set<User> assignees = new HashSet<User>();
-            assignees.add(new MkUser(this.storage, this.self));
-            final Iterable<User> collaborators = new MkIterable<User>(
-                this.storage,
-                String.format("%s/user", this.xpath()),
-                new MkIterable.Mapping<User>() {
-                    @Override
-                    public User map(final XML xml) {
-                        try {
-                            return new MkUser(
-                                MkAssignees.this.storage,
-                                xml.xpath("login/text()").get(0)
-                            );
-                        } catch (final IOException ex) {
-                            throw new IllegalStateException(ex);
-                        }
-                    }
+        final Set<User> assignees = new HashSet<User>();
+        assignees.add(new MkUser(this.storage, this.self));
+        final Iterable<User> collaborators = new MkIterable<User>(
+            this.storage,
+            String.format("%s/user", this.xpath()),
+            new MkIterable.Mapping<User>() {
+                @Override
+                public User map(final XML xml) {
+                    return new MkUser(
+                            MkAssignees.this.storage,
+                            xml.xpath("login/text()").get(0)
+                        );
                 }
-            );
-            for (final User collab : collaborators) {
-                assignees.add(collab);
             }
-            return assignees;
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
+        );
+        for (final User collab : collaborators) {
+            assignees.add(collab);
         }
+        return assignees;
     }
 
     @Override

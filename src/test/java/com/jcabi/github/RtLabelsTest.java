@@ -187,10 +187,9 @@ public final class RtLabelsTest {
      * @param name The name of the label
      * @param color A 6 character hex code, identifying the color
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
     private static JsonObject label(
-        final String name, final String color) throws Exception {
+        final String name, final String color) {
         return Json.createObjectBuilder()
             .add("name", name)
             .add("color", color)
@@ -200,9 +199,8 @@ public final class RtLabelsTest {
     /**
      * Create and return repo to test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
             .when(repo).coordinates();

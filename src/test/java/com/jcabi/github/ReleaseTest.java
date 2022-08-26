@@ -127,10 +127,9 @@ public final class ReleaseTest {
 
     /**
      * Release.Smart returns correct number of Release.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void testId() throws Exception {
+    public void testId() {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(1).when(release).number();
         final Release.Smart smart = new Release.Smart(release);

@@ -134,14 +134,10 @@ final class MkCollaborators implements Collaborators {
             new MkIterable.Mapping<User>() {
                 @Override
                 public User map(final XML xml) {
-                    try {
-                        return new MkUser(
-                            MkCollaborators.this.storage,
-                            xml.xpath("login/text()").get(0)
-                        );
-                    } catch (final IOException ex) {
-                        throw new IllegalStateException(ex);
-                    }
+                    return new MkUser(
+                        MkCollaborators.this.storage,
+                        xml.xpath("login/text()").get(0)
+                    );
                 }
             }
         );
@@ -155,7 +151,7 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
-    public String permission(final String user) throws IOException {
+    public String permission(final String user) {
         return "write";
     }
 
@@ -163,11 +159,10 @@ final class MkCollaborators implements Collaborators {
      * Gets a mocked User.
      * @param login User login
      * @return Mocked User
-     * @throws IOException If there is any I/O problem
      */
     public User get(
         final String login
-    ) throws IOException {
+    ) {
         return new MkUser(this.storage, login);
     }
 

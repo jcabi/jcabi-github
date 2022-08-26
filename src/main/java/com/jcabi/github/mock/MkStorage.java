@@ -81,9 +81,8 @@ public interface MkStorage {
      *
      * <p>Locking behavior is reentrant, which means a thread can invoke
      * {@link #lock()} multiple times, where a hold count is maintained.
-     * @throws IOException If there is any I/O problem
      */
-    void lock() throws IOException;
+    void lock();
 
     /**
      * Unlock storage.
@@ -94,9 +93,8 @@ public interface MkStorage {
      *
      * <p>If the current thread does not hold the lock, an
      * {@link IllegalMonitorStateException} will be thrown.
-     * @throws IOException If there is any I/O problem
      */
-    void unlock() throws IOException;
+    void unlock();
 
     /**
      * In file.

@@ -64,10 +64,9 @@ public final class RtPublicKeyTest {
     /**
      * RtPublicKey can obtain its own user.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainUser() throws Exception {
+    public void canObtainUser() {
         final User user = Mockito.mock(User.class);
         final RtPublicKey key = new RtPublicKey(new FakeRequest(), user, 2);
         MatcherAssert.assertThat(
@@ -79,10 +78,9 @@ public final class RtPublicKeyTest {
     /**
      * RtPublicKey can obtain its own number.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainNumber() throws Exception {
+    public void canObtainNumber() {
         final int number = 39;
         final RtPublicKey key = new RtPublicKey(
             new FakeRequest(),

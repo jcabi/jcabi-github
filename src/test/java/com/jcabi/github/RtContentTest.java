@@ -116,10 +116,9 @@ public final class RtContentTest {
     /**
      * RtContent should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() {
         final RtContent less = new RtContent(
             new FakeRequest(),
             this.repo(),

@@ -147,11 +147,10 @@ public final class RtValuePaginationTest {
      * @param one First array element
      * @param another Second array element
      * @return MkAnswer.Simple
-     * @throws Exception If some problem inside
      */
     private static MkAnswer.Simple simple(final String one,
         final String another
-    ) throws Exception {
+    ) {
         final String message = Json.createArrayBuilder()
             .add(Json.createArrayBuilder().add(one).add(another))
             .build().toString();

@@ -119,9 +119,8 @@ public final class RtGistsITCase {
     /**
      * Return gists to test.
      * @return Gists
-     * @throws Exception If some problem inside
      */
-    private static Gists gists() throws Exception {
+    private static Gists gists() {
         return new GithubIT().connect().gists();
     }
 }

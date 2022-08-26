@@ -50,10 +50,9 @@ import org.xembly.Directives;
 public final class MkHookTest {
     /**
      * Test if {@link MkHook} is being created with the correct number.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectNumber() throws Exception {
+    public void createWithCorrectNumber() {
         final int number = 5;
         MatcherAssert.assertThat(
             "Hook returned wrong number",

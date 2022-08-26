@@ -111,7 +111,7 @@ final class MkContents implements Contents {
     @Override
     public Content readme(
         final String branch
-    ) throws IOException {
+    ) {
         return new MkContent(
             this.storage, this.self, this.coords, "README.md", branch
         );
@@ -156,14 +156,14 @@ final class MkContents implements Contents {
     public Content get(
         final String path,
         final String ref
-    ) throws IOException {
+    ) {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
     @Override
     public Content get(
         final String path
-    ) throws IOException {
+    ) {
         return new MkContent(
             this.storage, this.self, this.coords, path, "master"
         );
@@ -262,10 +262,8 @@ final class MkContents implements Contents {
      * @param ref Branch name.
      * @param path Path to MkContent.
      * @return MkContent instance.
-     * @throws IOException if any I/O error occurs.
      */
-    private MkContent mkContent(final String ref, final String path)
-        throws IOException {
+    private MkContent mkContent(final String ref, final String path) {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 

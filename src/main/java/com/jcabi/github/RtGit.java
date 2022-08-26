@@ -32,7 +32,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -73,7 +72,7 @@ final class RtGit implements Git {
     }
 
     @Override
-    public Blobs blobs() throws IOException {
+    public Blobs blobs() {
         return new RtBlobs(this.entry, this.repo());
     }
 

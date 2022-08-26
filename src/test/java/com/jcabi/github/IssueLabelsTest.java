@@ -72,10 +72,9 @@ public final class IssueLabelsTest {
 
     /**
      * IssueLabels.Smart can check label's existence by name.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksLabelExistenceByName() throws Exception {
+    public void checksLabelExistenceByName() {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("first").when(first).name();
         final Label second = Mockito.mock(Label.class);
@@ -94,10 +93,9 @@ public final class IssueLabelsTest {
 
     /**
      * IssueLabels.Smart can find label by name.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void getsLabelByName() throws Exception {
+    public void getsLabelByName() {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("a").when(first).name();
         final Label second = Mockito.mock(Label.class);
@@ -112,10 +110,9 @@ public final class IssueLabelsTest {
 
     /**
      * IssueLabels.Smart can throw when label is absent.
-     * @throws Exception If some problem inside
      */
     @Test(expected = IllegalArgumentException.class)
-    public void throwsWhenLabelIsAbsent() throws Exception {
+    public void throwsWhenLabelIsAbsent() {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);
         Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
         new IssueLabels.Smart(labels).get("something");

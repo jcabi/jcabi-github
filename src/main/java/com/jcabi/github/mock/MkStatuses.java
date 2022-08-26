@@ -34,7 +34,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Status;
 import com.jcabi.github.Statuses;
-import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
@@ -73,7 +72,7 @@ final class MkStatuses implements Statuses {
     @Override
     public Status create(
         final StatusCreate status
-    ) throws IOException {
+    ) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

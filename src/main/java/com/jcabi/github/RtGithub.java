@@ -281,7 +281,7 @@ public final class RtGithub implements Github {
     }
 
     @Override
-    public Gitignores gitignores() throws IOException {
+    public Gitignores gitignores() {
         return new RtGitignores(this);
     }
 

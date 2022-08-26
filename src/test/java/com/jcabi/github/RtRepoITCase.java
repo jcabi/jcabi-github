@@ -101,10 +101,9 @@ public final class RtRepoITCase {
 
     /**
      * RtRepo can identify itself.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void identifiesItself() throws Exception {
+    public void identifiesItself() {
         MatcherAssert.assertThat(
             repo.coordinates(),
             Matchers.notNullValue()
@@ -138,19 +137,17 @@ public final class RtRepoITCase {
 
     /**
      * RtRepo can fetch its commits.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchCommits() throws Exception {
+    public void fetchCommits() {
         MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
     }
 
     /**
      * RtRepo can fetch assignees.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    public void iteratesAssignees() {
         MatcherAssert.assertThat(
             repo.assignees().iterate(),
             Matchers.not(Matchers.emptyIterable())

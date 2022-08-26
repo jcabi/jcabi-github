@@ -104,10 +104,9 @@ public final class RtTreesTest {
     /**
      * RtTrees can get tree.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getTree() throws Exception {
+    public void getTree() {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(
@@ -126,10 +125,9 @@ public final class RtTreesTest {
     /**
      * RtTrees can get tree recursively.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getTreeRec() throws Exception {
+    public void getTreeRec() {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(
@@ -148,9 +146,8 @@ public final class RtTreesTest {
     /**
      * Create and return repo to test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
             .when(repo).coordinates();

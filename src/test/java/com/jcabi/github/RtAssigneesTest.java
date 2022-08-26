@@ -145,9 +145,8 @@ public final class RtAssigneesTest {
      * Create and return JsonObject to test.
      * @param login Username to login
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
-    private static JsonValue json(final String login) throws Exception {
+    private static JsonValue json(final String login) {
         return Json.createObjectBuilder()
             .add("login", login)
             .build();

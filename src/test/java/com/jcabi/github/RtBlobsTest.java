@@ -94,10 +94,9 @@ public final class RtBlobsTest {
     /**
      * RtBlobs can get blob.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getBlob() throws Exception {
+    public void getBlob() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
         final Blobs blobs = new RtBlobs(
             new FakeRequest().withBody(
@@ -114,9 +113,8 @@ public final class RtBlobsTest {
     /**
      * Create and return repo to test.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
             .when(repo).coordinates();
@@ -126,10 +124,9 @@ public final class RtBlobsTest {
     /**
      * Create and return JsonObject to test.
      * @return JsonObject
-     * @throws Exception If some problem inside
      * @checkstyle MagicNumberCheck (10 lines)
      */
-    private static JsonObject blob() throws Exception {
+    private static JsonObject blob() {
         return Json.createObjectBuilder()
             .add("url", "http://localhost/1")
             .add("sha", RandomStringUtils.random(40, "0123456789abcdef"))

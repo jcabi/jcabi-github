@@ -36,7 +36,6 @@ import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.FileChange;
 import com.jcabi.github.Repo;
-import java.io.IOException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import lombok.ToString;
@@ -97,7 +96,7 @@ final class MkCommitsComparison implements CommitsComparison {
     }
 
     @Override
-    public JsonObject json() throws IOException {
+    public JsonObject json() {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (3 lines)
             .add("status", "test-status")

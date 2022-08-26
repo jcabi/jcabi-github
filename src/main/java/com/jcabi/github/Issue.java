@@ -453,14 +453,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 }
                 @Override
                 public void add(
-                    final Iterable<String> labels) throws IOException {
+                    final Iterable<String> labels) {
                     throw new UnsupportedOperationException(
                         "The issue is read-only."
                     );
                 }
                 @Override
                 public void replace(
-                    final Iterable<String> labels) throws IOException {
+                    final Iterable<String> labels) {
                     throw new UnsupportedOperationException(
                         "The issue is read-only."
                     );
@@ -471,13 +471,13 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 }
                 @Override
                 public void remove(
-                    final String name) throws IOException {
+                    final String name) {
                     throw new UnsupportedOperationException(
                         "This issue is read-only."
                     );
                 }
                 @Override
-                public void clear() throws IOException {
+                public void clear() {
                     throw new UnsupportedOperationException(
                         "This issue is read-only."
                     );

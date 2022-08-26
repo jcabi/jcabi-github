@@ -187,7 +187,7 @@ final class RtGist implements Gist {
     }
 
     @Override
-    public GistComments comments() throws IOException {
+    public GistComments comments() {
         return new RtGistComments(this.entry, this);
     }
 

@@ -139,11 +139,10 @@ public final class RtUsersTest {
      * @param login Username to login
      * @param identifier User Id
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
     private static JsonObject json(
         final String login, final String identifier
-    ) throws Exception {
+    ) {
         return Json.createObjectBuilder()
             .add("id", Integer.valueOf(identifier))
             .add("login", login)

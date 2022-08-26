@@ -30,7 +30,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Loggable;
-import java.io.IOException;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -61,7 +60,7 @@ final class RtFileChange implements FileChange {
     }
 
     @Override
-    public JsonObject json() throws IOException {
+    public JsonObject json() {
         return this.jsn;
     }
 }

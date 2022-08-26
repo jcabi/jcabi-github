@@ -68,10 +68,9 @@ public final class RtForksTest {
     /**
      * RtForks should be able to iterate its forks.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesForks() throws Exception {
+    public void retrievesForks() {
         final RtForks forks = new RtForks(
             new FakeRequest()
                 .withBody("[]"), this.repo()

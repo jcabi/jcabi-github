@@ -153,9 +153,8 @@ public final class RtGistCommentsTest {
      * Create and return JsonObject to test.
      * @param body The body of the comment
      * @return JsonObject
-     * @throws Exception If some problem inside
      */
-    private static JsonObject comment(final String body) throws Exception {
+    private static JsonObject comment(final String body) {
         return Json.createObjectBuilder()
             .add("id", 1)
             .add("body", body)

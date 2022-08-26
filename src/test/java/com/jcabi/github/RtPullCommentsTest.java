@@ -279,11 +279,10 @@ public final class RtPullCommentsTest {
      * @param path Path
      * @param position Position
      * @return JsonObject
-     * @throws Exception - if anything goes wrong
      * @checkstyle ParameterNumberCheck (10 lines)
      */
     private static JsonObject pulls(final String body, final String commit,
-        final String path, final int position) throws Exception {
+        final String path, final int position) {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
             .add("id", Tv.BILLION)
@@ -298,10 +297,8 @@ public final class RtPullCommentsTest {
      * Create and return JsonObject to test.
      * @param bodytext Body of the comment
      * @return JsonObject
-     * @throws Exception If something goes wrong.
      */
-    private static JsonObject comment(final String bodytext)
-        throws Exception {
+    private static JsonObject comment(final String bodytext) {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
             .add("id", 1)

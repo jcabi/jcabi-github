@@ -143,9 +143,8 @@ public final class PullRefTest {
      * Returns a smart pull request ref in the given repo for testing.
      * @param repo Repo to create the pull request ref in
      * @return PullRef.Smart
-     * @throws IOException If there is an I/O problem.
      */
-    private static PullRef.Smart pullRef(final Repo repo) throws IOException {
+    private static PullRef.Smart pullRef(final Repo repo) {
         final Coordinates coords = repo.coordinates();
         final JsonObject user = Json.createObjectBuilder()
             .add("login", coords.user())

@@ -70,21 +70,19 @@ public final class MkPullsTest {
 
     /**
      * MkPulls can fetch empty list of pulls.
-     * @throws Exception if some problem inside
      */
     @Test
     @Ignore
-    public void canFetchEmptyListOfPulls() throws Exception {
+    public void canFetchEmptyListOfPulls() {
         // to be implemented
     }
 
     /**
      * MkPulls can fetch single pull.
-     * @throws Exception if some problem inside
      */
     @Test
     @Ignore
-    public void canFetchSinglePull() throws Exception {
+    public void canFetchSinglePull() {
         // to be implemented
     }
 }

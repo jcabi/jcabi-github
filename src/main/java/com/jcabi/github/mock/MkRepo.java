@@ -180,11 +180,7 @@ final class MkRepo implements Repo {
 
     @Override
     public Assignees assignees() {
-        try {
-            return new MkAssignees(this.storage, this.self, this.coords);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
-        }
+        return new MkAssignees(this.storage, this.self, this.coords);
     }
 
     @Override

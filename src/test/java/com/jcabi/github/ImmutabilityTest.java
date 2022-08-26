@@ -62,10 +62,9 @@ public final class ImmutabilityTest {
      * Checks that all classes in package {@code com.jcabi.github }
      * have {@code @Immutable} annotation.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checkImmutability() throws Exception {
+    public void checkImmutability() {
         MatcherAssert.assertThat(
             Iterables.filter(
                 this.classpath.allTypes(),

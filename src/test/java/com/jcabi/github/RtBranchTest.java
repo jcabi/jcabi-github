@@ -31,7 +31,6 @@ package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.request.FakeRequest;
-import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -108,9 +107,8 @@ public final class RtBranchTest {
      * RtBranch for testing.
      * @param repo Repository to create the branch in
      * @return The RtBranch.
-     * @throws IOException If there is any I/O problem
      */
-    private static Branch newBranch(final Repo repo) throws IOException {
+    private static Branch newBranch(final Repo repo) {
         return new RtBranch(
             new FakeRequest(),
             repo,

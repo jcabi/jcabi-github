@@ -133,9 +133,8 @@ public final class RtPaginationTest {
      * Create and return MkAnswer.Simple to test.
      * @param msg Message to build MkAnswer.Simple
      * @return MkAnswer.Simple
-     * @throws Exception If some problem inside
      */
-    private static  MkAnswer.Simple simple(final String msg) throws Exception {
+    private static  MkAnswer.Simple simple(final String msg) {
         final String message = Json.createArrayBuilder()
             .add(Json.createObjectBuilder().add("msg", msg))
             .build().toString();

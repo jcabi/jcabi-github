@@ -29,7 +29,6 @@
  */
 package com.jcabi.github.mock;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -82,11 +81,7 @@ public final class MkStorageTest {
         final Runnable second = new Runnable() {
             @Override
             public void run() {
-                try {
-                    storage.lock();
-                } catch (final IOException ex) {
-                    throw new IllegalStateException(ex);
-                }
+                storage.lock();
             }
         };
         storage.lock();

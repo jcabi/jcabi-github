@@ -33,7 +33,6 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Github;
 import com.jcabi.github.Gitignores;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -80,13 +79,13 @@ final class MkGitignores implements Gitignores {
     }
 
     @Override
-    public Iterable<String> iterate() throws IOException {
+    public Iterable<String> iterate() {
         return GITIGNORES.keySet();
     }
 
     @Override
     public String template(
-        final String name) throws IOException {
+        final String name) {
         final String template = GITIGNORES.get(name);
         if (template == null) {
             throw new IllegalArgumentException("Template not found.");

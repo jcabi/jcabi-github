@@ -112,7 +112,7 @@ final class RtPull implements Pull {
     }
 
     @Override
-    public Iterable<Commit> commits() throws IOException {
+    public Iterable<Commit> commits() {
         return new RtPagination<Commit>(
             this.request.uri().path("/commits").back(),
             new RtValuePagination.Mapping<Commit, JsonObject>() {
@@ -129,7 +129,7 @@ final class RtPull implements Pull {
     }
 
     @Override
-    public Iterable<JsonObject> files() throws IOException {
+    public Iterable<JsonObject> files() {
         return new RtPagination<JsonObject>(
                 this.request.uri().path("/files").back(),
                 RtPagination.COPYING
@@ -179,7 +179,7 @@ final class RtPull implements Pull {
     }
 
     @Override
-    public PullComments comments() throws IOException {
+    public PullComments comments() {
         return new RtPullComments(this.entry, this);
     }
 

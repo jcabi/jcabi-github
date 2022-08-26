@@ -67,10 +67,9 @@ public final class RtSearchTest {
     /**
      * RtSearch can search for repos.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForRepos() throws Exception {
+    public void canSearchForRepos() {
         final String coords = "test-user1/test-repo1";
         final Search search = new RtGithub(
             new FakeRequest().withBody(
@@ -89,10 +88,9 @@ public final class RtSearchTest {
     /**
      * RtSearch can search for issues.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForIssues() throws Exception {
+    public void canSearchForIssues() {
         final int number = 1;
         final Search search = new RtGithub(
             new FakeRequest().withBody(
@@ -201,11 +199,9 @@ public final class RtSearchTest {
      * @param name Content name
      * @param url Content url
      * @return JsonObjectBuilder
-     * @throws Exception If some problem inside
      */
     private static JsonObjectBuilder content(
-        final String path, final String name, final String url)
-        throws Exception {
+        final String path, final String name, final String url) {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("name", name)
