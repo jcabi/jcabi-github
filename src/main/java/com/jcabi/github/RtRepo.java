@@ -50,12 +50,12 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "ghub", "entry", "coords" })
+@EqualsAndHashCode(of = {"ghub", "entry", "coords"})
 @SuppressWarnings
     (
         {
             "PMD.TooManyMethods",
-        "PMD.CouplingBetweenObjects"
+            "PMD.CouplingBetweenObjects"
         }
     )
 final class RtRepo implements Repo {
@@ -213,8 +213,19 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Branch defaultBranch() throws IOException {
+        return new RtBranch(
+            this.request,
+            this,
+            this.json().getString("default_branch"),
+            ""
+        );
+    }
+
+    @Override
     public void patch(
-        final JsonObject json)
+        final JsonObject json
+    )
         throws IOException {
         new RtJson(this.request).patch(json);
     }

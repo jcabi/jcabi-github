@@ -32,6 +32,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Assignees;
+import com.jcabi.github.Branch;
 import com.jcabi.github.Branches;
 import com.jcabi.github.Collaborators;
 import com.jcabi.github.Contents;
@@ -72,7 +73,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "self", "coords" })
+@EqualsAndHashCode(of = {"storage", "self", "coords"})
 @SuppressWarnings
     (
         {
@@ -293,6 +294,11 @@ final class MkRepo implements Repo {
         final int ruby = 777;
         languages.add(new RtLanguage("Ruby", ruby));
         return languages;
+    }
+
+    @Override
+    public Branch defaultBranch() {
+        return this.branches().find("master");
     }
 
     @Override

@@ -35,6 +35,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import javax.json.Json;
@@ -310,6 +311,34 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+    }
+
+    /**
+     * RtRepo can fetch its default branch.
+     *
+     * @throws IOException If some problem occurs.
+     */
+    @Test
+    public void fetchDefaultBranch() throws IOException {
+        final String expected = "main";
+        try (
+            final MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add("default_branch", expected)
+                        .build().toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            MatcherAssert.assertThat(
+                RtRepoTest.repo(
+                    new ApacheRequest(container.home())
+                ).defaultBranch().name(),
+                Matchers.equalTo(expected)
+            );
+            container.stop();
+        }
     }
 
     /**

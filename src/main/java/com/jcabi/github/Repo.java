@@ -45,7 +45,7 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount" })
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount"})
 public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
@@ -189,12 +189,20 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Iterable<Language> languages() throws IOException;
 
     /**
+     * Get default branch.
+     *
+     * @return Default branch.
+     * @throws IOException If there is any I/O problem.
+     */
+    Branch defaultBranch() throws IOException;
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = { "repo", "jsn" })
+    @EqualsAndHashCode(of = {"repo", "jsn"})
     final class Smart implements Repo {
         /**
          * Encapsulated Repo.
@@ -204,6 +212,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param rep Repo
@@ -232,6 +241,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         public boolean hasDescription() throws IOException {
             return this.jsn.hasNotNull("description");
         }
+
         /**
          * Get its description.
          * @return Description
@@ -240,6 +250,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         public String description() throws IOException {
             return this.jsn.text("description");
         }
+
         /**
          * Is it private?.
          * @return TRUE if it's private
@@ -252,22 +263,27 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
                     .toString().replace("\"", "")
             );
         }
+
         @Override
         public Github github() {
             return this.repo.github();
         }
+
         @Override
         public Coordinates coordinates() {
             return this.repo.coordinates();
         }
+
         @Override
         public Issues issues() {
             return this.repo.issues();
         }
+
         @Override
         public Milestones milestones() {
             return this.repo.milestones();
         }
+
         @Override
         public Pulls pulls() {
             return this.repo.pulls();
@@ -277,68 +293,89 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         public Hooks hooks() {
             return this.repo.hooks();
         }
+
         @Override
         public IssueEvents issueEvents() {
             return this.repo.issueEvents();
         }
+
         @Override
         public Labels labels() {
             return this.repo.labels();
         }
+
         @Override
         public Assignees assignees() {
             return this.repo.assignees();
         }
+
         @Override
         public Releases releases() {
             return this.repo.releases();
         }
+
         @Override
         public DeployKeys keys() {
             return this.repo.keys();
         }
+
         @Override
         public Forks forks() {
             return this.repo.forks();
         }
+
         @Override
         public Contents contents() {
             return this.repo.contents();
         }
+
         @Override
         public Collaborators collaborators() {
             return this.repo.collaborators();
         }
+
         @Override
         public Git git() {
             return this.repo.git();
         }
+
         @Override
         public Stars stars() {
             return this.repo.stars();
         }
+
         @Override
         public Notifications notifications() {
             return this.repo.notifications();
         }
+
         @Override
         public Iterable<Language> languages() throws IOException {
             return this.repo.languages();
         }
+
+        @Override
+        public Branch defaultBranch() throws IOException {
+            return this.repo.defaultBranch();
+        }
+
         @Override
         public void patch(
             final JsonObject json
         ) throws IOException {
             this.repo.patch(json);
         }
+
         @Override
         public RepoCommits commits() {
             return this.repo.commits();
         }
+
         @Override
         public Branches branches() {
             return this.repo.branches();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.repo.json();
