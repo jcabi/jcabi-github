@@ -52,7 +52,7 @@
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * Test case for {@link Repo}.</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @version $Id: cb503652fda2bd654a8edfe5c8d7e49214bb034e $</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @version $Id: 59559b8141b8f50e6596f262f76ad3bc6a95e2de $</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jcabi/github/mock/MkRepoTest.html">MkRepoTest</a> {
@@ -185,7 +185,25 @@
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>             Matchers.hasSize(Tv.THREE)
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>         );
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">     * MkRepo can return its default branch.</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">     * @throws IOException if some problem inside.</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a>     @Test
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> retrievesDefaultBranch() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>         <strong class="jxr_keyword">final</strong> String user = <span class="jxr_string">"testuser5"</span>;
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>         <strong class="jxr_keyword">final</strong> Repo repo = <strong class="jxr_keyword">new</strong> MkRepo(
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>             <strong class="jxr_keyword">new</strong> MkStorage.InFile(),
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>             user,
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>             <strong class="jxr_keyword">new</strong> Coordinates.Simple(user, <span class="jxr_string">"testrepo5"</span>)
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>         );
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         MatcherAssert.assertThat(
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>             repo.defaultBranch().name(),
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>             Matchers.equalTo(<span class="jxr_string">"master"</span>)
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>         );
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>     }
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2023 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>
