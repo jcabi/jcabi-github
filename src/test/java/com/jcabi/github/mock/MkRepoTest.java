@@ -177,4 +177,22 @@ public final class MkRepoTest {
             Matchers.hasSize(Tv.THREE)
         );
     }
+
+    /**
+     * MkRepo can return its default branch.
+     * @throws IOException if some problem inside.
+     */
+    @Test
+    public void retrievesDefaultBranch() throws IOException {
+        final String user = "testuser5";
+        final Repo repo = new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo5")
+        );
+        MatcherAssert.assertThat(
+            repo.defaultBranch().name(),
+            Matchers.equalTo("master")
+        );
+    }
 }

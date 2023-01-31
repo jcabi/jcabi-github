@@ -298,7 +298,13 @@ final class MkRepo implements Repo {
 
     @Override
     public Branch defaultBranch() {
-        return this.branches().find("master");
+        return new MkBranch(
+            this.storage,
+            this.self,
+            this.coords,
+            "master",
+            ""
+        );
     }
 
     @Override
