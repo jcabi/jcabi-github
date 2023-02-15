@@ -114,7 +114,11 @@ public final class MkSearchTest {
             new Repos.RepoCreate("TestCode", false)
         );
         MatcherAssert.assertThat(
-            github.search().codes("jeff", "repositories", Search.Order.DESC),
+            github.search().codes(
+                "jeff",
+                "repositories",
+                Search.Order.DESC
+            ),
             Matchers.not(Matchers.emptyIterable())
         );
     }

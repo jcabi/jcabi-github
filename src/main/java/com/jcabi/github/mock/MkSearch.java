@@ -52,7 +52,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self" })
+@EqualsAndHashCode(of = {"storage", "self"})
 final class MkSearch implements Search {
 
     /**

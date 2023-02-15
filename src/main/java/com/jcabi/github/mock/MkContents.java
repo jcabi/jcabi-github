@@ -56,8 +56,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
+@EqualsAndHashCode(of = {"storage", "self", "coords"})
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class MkContents implements Contents {
 
     /**
@@ -104,8 +104,7 @@ final class MkContents implements Contents {
 
     @Override
     public Content readme() throws IOException {
-        // @checkstyle MultipleStringLiterals (1 line)
-        return this.readme("master");
+        return this.readme(this.repo().defaultBranch().name());
     }
 
     @Override
@@ -128,7 +127,7 @@ final class MkContents implements Contents {
             if (json.containsKey("ref")) {
                 branch = json.getString("ref");
             } else {
-                branch = "master";
+                branch = this.repo().defaultBranch().name();
             }
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("content")
@@ -163,9 +162,13 @@ final class MkContents implements Contents {
     @Override
     public Content get(
         final String path
-    ) {
+    ) throws IOException {
         return new MkContent(
-            this.storage, this.self, this.coords, path, "master"
+            this.storage,
+            this.self,
+            this.coords,
+            path,
+            this.repo().defaultBranch().name()
         );
     }
 
@@ -201,7 +204,7 @@ final class MkContents implements Contents {
             if (content.containsKey("ref")) {
                 branch = content.getString("ref");
             } else {
-                branch = "master";
+                branch = this.repo().defaultBranch().name();
             }
             this.storage.apply(
                 new Directives()
@@ -235,7 +238,7 @@ final class MkContents implements Contents {
             if (json.containsKey(ref)) {
                 branch = json.getString(ref);
             } else {
-                branch = "master";
+                branch = this.repo().defaultBranch().name();
             }
             final String xpath = String.format(
                 // @checkstyle LineLengthCheck (1 line)
