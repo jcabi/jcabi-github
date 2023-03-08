@@ -319,6 +319,14 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public int commentsCount() throws IOException {
             return this.jsn.number("comments");
         }
+        /**
+         * Is it a draft pull request?
+         * @return TRUE if it's a draft pull request
+         * @throws IOException If there is any I/O problem
+         */
+        public boolean isDraft() throws IOException {
+            return this.jsn.json().getBoolean("draft");
+        }
         @Override
         public Repo repo() {
             return this.pull.repo();

@@ -34,6 +34,7 @@ import java.io.IOException;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -125,6 +126,31 @@ public final class PullTest {
         MatcherAssert.assertThat(
             new Pull.Smart(pull).author().login(),
             Matchers.equalTo(login)
+        );
+    }
+
+    /**
+     * Pull.Smart can get the pull request draft state.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    public void getDraftState() throws IOException {
+        final Repo repo = Mockito.mock(Repo.class);
+        Mockito.when(repo.github()).thenReturn(new MkGithub());
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.when(pull.json()).thenReturn(
+            Json.createObjectBuilder()
+                .add(
+                    "draft",
+                    true
+                )
+                .build()
+        );
+        Mockito.when(pull.repo()).thenReturn(repo);
+        MatcherAssert.assertThat(
+            "Could not retrieve correct draft status",
+            new Pull.Smart(pull).isDraft(),
+            new IsEqual<>(true)
         );
     }
 }
