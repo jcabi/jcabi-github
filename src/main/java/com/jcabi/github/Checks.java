@@ -29,6 +29,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -40,6 +41,6 @@ import java.util.Collection;
  */
 public interface Checks {
 
-    Collection<Check> all();
+    Collection<Check> all() throws IOException;
 
 }
