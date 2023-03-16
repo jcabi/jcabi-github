@@ -185,7 +185,7 @@ public final class RtCollaboratorsTest {
      * @param login Username to login
      * @return JsonObject
      */
-    static JsonValue json(final String login) {
+    private static JsonValue json(final String login) {
         return Json.createObjectBuilder()
             .add("login", login)
             .build();

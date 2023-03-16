@@ -35,6 +35,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Random;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -46,6 +47,7 @@ import org.mockito.Mockito;
  * Test case for {@link RtChecks}.
  *
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
+ * @version $Id$
  * @since 1.5.0
  */
 public final class RtChecksTest {
@@ -57,10 +59,20 @@ public final class RtChecksTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
+    /**
+     * Checks whether RtChecks can get all checks.
+     *
+     * @throws IOException If some problem happens.
+     */
     @Test
     public void getsAllChecks() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer()
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, this.json()))
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.json()
+                )
+            )
             .start(this.resource.port())) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
@@ -73,15 +85,22 @@ public final class RtChecksTest {
         }
     }
 
-    private String json() {
+    /**
+     * Creates json response body.
+     *
+     * @return Json response body.
+     */
+    private static String json() {
         return Json.createObjectBuilder()
             .add("total_count", Json.createValue(1))
-            .add("check_runs",
+            .add(
+                "check_runs",
                 Json.createArrayBuilder()
                     .add(
                         Json.createObjectBuilder()
-                            .add("id", Json.createValue(100))
+                            .add("id", Json.createValue(new Random().nextInt()))
                             .add("status", "completed")
+                            .add("conclusion", "success")
                             .build()
                     )
             )
@@ -92,14 +111,16 @@ public final class RtChecksTest {
     /**
      * Create and return repo for testing.
      * @return Repo
+     * @throws IOException If some problem happens.
      */
     private Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         final Pulls pulls = Mockito.mock(Pulls.class);
         final Pull pull = Mockito.mock(Pull.class);
         final PullRef ref = Mockito.mock(PullRef.class);
-        Mockito.doReturn(new Coordinates.Simple("volodya-lombrozo", "jtcop"))
-            .when(repo)
+        Mockito.doReturn(
+                new Coordinates.Simple("volodya-lombrozo", "jtcop")
+            ).when(repo)
             .coordinates();
         Mockito.doReturn(pulls).when(repo).pulls();
         Mockito.doReturn(pull).when(pulls).get(0);
@@ -108,6 +129,4 @@ public final class RtChecksTest {
         Mockito.doReturn("abcdef1").when(ref).ref();
         return repo;
     }
-
-
 }
