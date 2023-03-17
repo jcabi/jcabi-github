@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2022, jcabi.com
+ * Copyright (c) 2013-2023, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "self", "coords"})
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkReleases implements Releases {
 
     /**
@@ -128,8 +128,7 @@ final class MkReleases implements Releases {
                 new Directives().xpath(this.xpath()).add("release")
                     .add("id").set(Integer.toString(number)).up()
                     .add("tag_name").set(tag).up()
-                    .add("target_commitish")
-                    .set(this.repo().defaultBranch().name()).up()
+                    .add("target_commitish").set("master").up()
                     .add("name").set("").up()
                     .add("body").set("").up()
                     .add("draft").set("true").up()

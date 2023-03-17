@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2022, jcabi.com
+ * Copyright (c) 2013-2023, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "self"})
+@EqualsAndHashCode(of = { "storage", "self" })
 final class MkSearch implements Search {
 
     /**

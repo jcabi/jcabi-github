@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2022, jcabi.com
+ * Copyright (c) 2013-2023, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,8 +56,8 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "self", "coords"})
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
+@EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 final class MkContents implements Contents {
 
     /**
@@ -104,7 +104,8 @@ final class MkContents implements Contents {
 
     @Override
     public Content readme() throws IOException {
-        return this.readme(this.repo().defaultBranch().name());
+        // @checkstyle MultipleStringLiterals (1 line)
+        return this.readme("master");
     }
 
     @Override
@@ -127,7 +128,7 @@ final class MkContents implements Contents {
             if (json.containsKey("ref")) {
                 branch = json.getString("ref");
             } else {
-                branch = this.repo().defaultBranch().name();
+                branch = "master";
             }
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("content")
@@ -162,13 +163,9 @@ final class MkContents implements Contents {
     @Override
     public Content get(
         final String path
-    ) throws IOException {
+    ) {
         return new MkContent(
-            this.storage,
-            this.self,
-            this.coords,
-            path,
-            this.repo().defaultBranch().name()
+            this.storage, this.self, this.coords, path, "master"
         );
     }
 
@@ -204,7 +201,7 @@ final class MkContents implements Contents {
             if (content.containsKey("ref")) {
                 branch = content.getString("ref");
             } else {
-                branch = this.repo().defaultBranch().name();
+                branch = "master";
             }
             this.storage.apply(
                 new Directives()
@@ -238,7 +235,7 @@ final class MkContents implements Contents {
             if (json.containsKey(ref)) {
                 branch = json.getString(ref);
             } else {
-                branch = this.repo().defaultBranch().name();
+                branch = "master";
             }
             final String xpath = String.format(
                 // @checkstyle LineLengthCheck (1 line)

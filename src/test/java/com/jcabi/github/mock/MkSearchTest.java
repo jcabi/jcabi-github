@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2022, jcabi.com
+ * Copyright (c) 2013-2023, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -114,11 +114,7 @@ public final class MkSearchTest {
             new Repos.RepoCreate("TestCode", false)
         );
         MatcherAssert.assertThat(
-            github.search().codes(
-                "jeff",
-                "repositories",
-                Search.Order.DESC
-            ),
+            github.search().codes("jeff", "repositories", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterable())
         );
     }
