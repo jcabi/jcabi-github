@@ -50,6 +50,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class MkPullTest {
     /**
      * Login of test user.
@@ -239,6 +240,15 @@ public final class MkPullTest {
             "Issue is not a pull request",
             new Issue.Smart(pull.repo().issues().get(pull.number())).isPull(),
             Matchers.is(true)
+        );
+    }
+
+    @Test
+    public void retrievesAllChecks() throws Exception {
+        final Pull pull = MkPullTest.pullRequest();
+        MatcherAssert.assertThat(
+            pull.checks().all(),
+            Matchers.hasSize(0)
         );
     }
 

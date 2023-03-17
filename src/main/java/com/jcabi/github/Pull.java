@@ -113,7 +113,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * @throws IOException IOException If there is any I/O problem
      */
     MergeState merge(String msg,
-        String sha) throws IOException;
+        String sha
+    ) throws IOException;
 
     /**
      * Get Pull Comments.
@@ -124,12 +125,20 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     PullComments comments() throws IOException;
 
     /**
+     * Get Pull Checks.
+     * @return Checks.
+     * @throws IOException If there is any I/O problem.
+     * @see <a href="https://developer.github.com/v3/checks/runs/">Checks API</a>
+     */
+    Checks checks() throws IOException;
+
+    /**
      * Smart pull request with extra features.
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = { "pull", "jsn" })
+    @EqualsAndHashCode(of = {"pull", "jsn"})
     final class Smart implements Pull {
         /**
          * Encapsulated pull request.
@@ -139,6 +148,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param pll Pull request
@@ -149,6 +159,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             this.pull = pll;
             this.jsn = new SmartJson(pll);
         }
+
         /**
          * Is it open?
          * @return TRUE if it's open
@@ -157,6 +168,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public boolean isOpen() throws IOException {
             return Issue.OPEN_STATE.equals(this.state());
         }
+
         /**
          * Get its state.
          * @return State of pull request
@@ -165,6 +177,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public String state() throws IOException {
             return this.jsn.text("state");
         }
+
         /**
          * Change its state.
          * @param state State of pull request
@@ -177,6 +190,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("state", state).build()
             );
         }
+
         /**
          * Get its title.
          * @return Title of pull request
@@ -185,6 +199,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public String title() throws IOException {
             return this.jsn.text("title");
         }
+
         /**
          * Change its title.
          * @param text Title of pull request
@@ -197,6 +212,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("title", text).build()
             );
         }
+
         /**
          * Get its body.
          * @return Body of pull request
@@ -205,6 +221,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public String body() throws IOException {
             return this.jsn.text("body");
         }
+
         /**
          * Change its body.
          * @param text Body of pull request
@@ -217,6 +234,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
+
         /**
          * Get its URL.
          * @return URL of pull request
@@ -225,6 +243,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public URL url() throws IOException {
             return new URL(this.jsn.text("url"));
         }
+
         /**
          * Get its HTML URL.
          * @return URL of pull request
@@ -233,6 +252,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public URL htmlUrl() throws IOException {
             return new URL(this.jsn.text("html_url"));
         }
+
         /**
          * When this pull request was created.
          * @return Date of creation
@@ -247,6 +267,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * When this pull request was updated.
          * @return Date of update
@@ -261,6 +282,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * When this pull request was closed.
          * @return Date of closing
@@ -275,6 +297,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * When this pull request was merged.
          * @return Date of merging
@@ -310,6 +333,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public Issue issue() {
             return this.pull.repo().issues().get(this.pull.number());
         }
+
         /**
          * Get comments count.
          * @return Count of comments
@@ -319,22 +343,27 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public int commentsCount() throws IOException {
             return this.jsn.number("comments");
         }
+
         @Override
         public Repo repo() {
             return this.pull.repo();
         }
+
         @Override
         public int number() {
             return this.pull.number();
         }
+
         @Override
         public Iterable<Commit> commits() throws IOException {
             return this.pull.commits();
         }
+
         @Override
         public Iterable<JsonObject> files() throws IOException {
             return this.pull.files();
         }
+
         @Override
         public void merge(
             final String msg
@@ -345,7 +374,8 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         @Override
         public MergeState merge(
             final String msg,
-            final String sha)
+            final String sha
+        )
             throws IOException {
             return this.pull.merge(msg, sha);
         }
@@ -356,15 +386,22 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         }
 
         @Override
+        public Checks checks() throws IOException {
+            return this.pull.checks();
+        }
+
+        @Override
         public JsonObject json() throws IOException {
             return this.pull.json();
         }
+
         @Override
         public void patch(
             final JsonObject json
         ) throws IOException {
             this.pull.patch(json);
         }
+
         @Override
         public int compareTo(
             final Pull obj

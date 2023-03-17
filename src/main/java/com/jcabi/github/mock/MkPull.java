@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Checks;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.MergeState;
@@ -53,12 +54,13 @@ import lombok.ToString;
  * Mock Github pull.
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
+@EqualsAndHashCode(of = {"storage", "self", "coords", "num"})
 @SuppressWarnings("PMD.TooManyMethods")
 final class MkPull implements Pull {
     /**
@@ -123,7 +125,8 @@ final class MkPull implements Pull {
         final MkStorage stg,
         final String login,
         final Coordinates rep,
-        final int number) {
+        final int number
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
@@ -200,13 +203,19 @@ final class MkPull implements Pull {
     @Override
     public MergeState merge(
         final String msg,
-        final String sha) {
+        final String sha
+    ) {
         throw new UnsupportedOperationException("Merge not supported");
     }
 
     @Override
     public PullComments comments() throws IOException {
         return new MkPullComments(this.storage, this.self, this.coords, this);
+    }
+
+    @Override
+    public Checks checks() {
+        return new MkChecks();
     }
 
     @Override
@@ -241,8 +250,8 @@ final class MkPull implements Pull {
                 json.add(
                     MkPull.USER_PROP,
                     Json.createObjectBuilder()
-                    .add("login", xml.xpath("user/login/text()").get(0))
-                    .build()
+                        .add("login", xml.xpath("user/login/text()").get(0))
+                        .build()
                 );
             } else if (MkPull.HEAD_PROP.equals(val.getKey())) {
                 json.add(
