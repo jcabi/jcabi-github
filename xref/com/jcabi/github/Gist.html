@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/Gist.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2022, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2023, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -51,9 +51,9 @@
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Github gist.</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: e513aaa6de5a2beba4c283269899157655d00e45 $</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: a12cd3c4d79308fe16729bb0343521354d9eb24d $</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/gists/" target="alexandria_uri">http://developer.github.com/v3/gists/</a>"&gt;Gists API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="https://developer.github.com/v3/gists/"&gt;Gists API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  @Immutable
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  @SuppressWarnings(<span class="jxr_string">"PMD.TooManyMethods"</span>)
@@ -76,7 +76,7 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * @param name Name of it</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     * @return File content</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/gists/" target="alexandria_uri">http://developer.github.com/v3/gists/</a>#get-a-single-gist"&gt;Get a Single Gist&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/gists/#get-a-single-gist"&gt;Get a Single Gist&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>      String read(String name) <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  
@@ -85,7 +85,7 @@
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     * @param name Name of it</em>
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">     * @param content Content to write</em>
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/gists/" target="alexandria_uri">http://developer.github.com/v3/gists/</a>#edit-a-gist"&gt;Edit a Gist&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/gists/#edit-a-gist"&gt;Edit a Gist&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">void</strong> write(String name, String content) <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  
@@ -119,7 +119,7 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">     * Get all comments of the gist.</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">     * @return GistComments</em>
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/gists/comments/" target="alexandria_uri">http://developer.github.com/v3/gists/comments/</a>"&gt;Gist Comments API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/gists/comments/"&gt;Gist Comments API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     <a href="../../../com/jcabi/github/GistComments.html">GistComments</a> comments() <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 

@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/PullComments.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2022, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2023, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -45,9 +45,9 @@
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment"> * Github pull comments.</em>
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * @author Andres Candal (andres.candal@rollasolution.com)</em>
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * @version $Id: 76fa84af0e7ef72c64cb180439861326e763ad6b $</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * @version $Id: 8a8d8bdfb797a2f051235f0422b1a5ad30085f3b $</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * @since 0.8</em>
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/comments/" target="alexandria_uri">http://developer.github.com/v3/pulls/comments/</a>"&gt;Review Comments API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="https://developer.github.com/v3/pulls/comments/"&gt;Review Comments API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  @Immutable
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../com/jcabi/github/PullComments.html">PullComments</a> {
@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">     * @param number Pull comment number</em>
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">     * @return Pull comment</em>
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/comments/" target="alexandria_uri">http://developer.github.com/v3/pulls/comments/</a>#get-a-single-comment"&gt;Get a single comment&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/pulls/comments/#get-a-single-comment"&gt;Get a single comment&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>      <a href="../../../com/jcabi/github/PullComment.html">PullComment</a> get(<strong class="jxr_keyword">int</strong> number);
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  
@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">     * @param params Iterating parameters, as specified by API</em>
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">     * @return Iterable of pull comments</em>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/comments/" target="alexandria_uri">http://developer.github.com/v3/pulls/comments/</a>#list-comments-in-a-repository"&gt;List comments in a repository&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository"&gt;List comments in a repository&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>      Iterable&lt;PullComment&gt; iterate(
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          Map&lt;String, String&gt; params);
@@ -84,7 +84,7 @@
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     * @param number Pull comment number</em>
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     * @param params Iterating parameters, as specified by API</em>
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">     * @return Iterable of pull comments</em>
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/comments/" target="alexandria_uri">http://developer.github.com/v3/pulls/comments/</a>#list-comments-on-a-pull-request"&gt;List comments on a pull request&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request"&gt;List comments on a pull request&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>      Iterable&lt;PullComment&gt; iterate(<strong class="jxr_keyword">int</strong> number,
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>          Map&lt;String, String&gt; params);
@@ -98,7 +98,7 @@
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>  <em class="jxr_javadoccomment">     * @param position Line index in the diff to comment on</em>
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  <em class="jxr_javadoccomment">     * @return PullComment just created</em>
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/comments/" target="alexandria_uri">http://developer.github.com/v3/pulls/comments/</a>#create-a-comment"&gt;Create a comment&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/pulls/comments/#create-a-comment"&gt;Create a comment&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">     * @checkstyle ParameterNumberCheck (7 lines)</em>
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>      <a href="../../../com/jcabi/github/PullComment.html">PullComment</a> post(
@@ -115,7 +115,7 @@
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">     * @param comment Commit ID (SHA) of it</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">     * @return PullComment just created</em>
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/pulls/comments/" target="alexandria_uri">http://developer.github.com/v3/pulls/comments/</a>#create-a-comment"&gt;Create a comment&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/pulls/comments/#create-a-comment"&gt;Create a comment&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>     <a href="../../../com/jcabi/github/PullComment.html">PullComment</a> reply(
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>         String body,

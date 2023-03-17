@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/Repo.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2022, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2023, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * Github repository.</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: f174c89abb144dabea5d5411ed66451a3d373fcf $</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * @version $Id: 0e332143b9c01f88c029af1ff3f10c439d5749cf $</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @checkstyle MultipleStringLiterals (500 lines)</em>
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> */</em>
@@ -97,49 +97,49 @@
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>  <em class="jxr_javadoccomment">     * Get all issue events for the repository.</em>
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  <em class="jxr_javadoccomment">     * @return Issue events</em>
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/events/" target="alexandria_uri">http://developer.github.com/v3/issues/events/</a>#list-events-for-a-repository"&gt;List Events for a Repository&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/issues/events/#list-events-for-a-repository"&gt;List Events for a Repository&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      <a href="../../../com/jcabi/github/IssueEvents.html">IssueEvents</a> issueEvents();
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_javadoccomment">     * Get all labels of the repo.</em>
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     * @return Labels</em>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/labels/" target="alexandria_uri">http://developer.github.com/v3/issues/labels/</a>"&gt;Labels API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/issues/labels/"&gt;Labels API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>     <a href="../../../com/jcabi/github/Labels.html">Labels</a> labels();
 <a class="jxr_linenumber" name="L102" href="#L102">102</a> 
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">     * Get all available assignees to which issues may be assigned.</em>
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">     * @return Assignees</em>
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/issues/assignees/" target="alexandria_uri">http://developer.github.com/v3/issues/assignees/</a>"&gt;Assignees API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/issues/assignees/"&gt;Assignees API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>     <a href="../../../com/jcabi/github/Assignees.html">Assignees</a> assignees();
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">     * Get all releases of the repo.</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">     * @return Releases</em>
-<a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/releases/" target="alexandria_uri">http://developer.github.com/v3/repos/releases/</a>"&gt;Releases API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/releases/"&gt;Releases API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>     <a href="../../../com/jcabi/github/Releases.html">Releases</a> releases();
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> 
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">     * Get all deploy keys of the repo.</em>
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> <em class="jxr_javadoccomment">     * @return DeployKeys</em>
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/keys/" target="alexandria_uri">http://developer.github.com/v3/repos/keys/</a>"&gt;Deploy Keys API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/keys/"&gt;Deploy Keys API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L122" href="#L122">122</a>     <a href="../../../com/jcabi/github/DeployKeys.html">DeployKeys</a> keys();
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> 
 <a class="jxr_linenumber" name="L124" href="#L124">124</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L125" href="#L125">125</a> <em class="jxr_javadoccomment">     * Get all forks of the repo.</em>
 <a class="jxr_linenumber" name="L126" href="#L126">126</a> <em class="jxr_javadoccomment">     * @return Forks</em>
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/forks/" target="alexandria_uri">http://developer.github.com/v3/repos/forks/</a>"&gt;Forks API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/forks/"&gt;Forks API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>     <a href="../../../com/jcabi/github/Forks.html">Forks</a> forks();
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 
 <a class="jxr_linenumber" name="L131" href="#L131">131</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">     * Get repository's commits.</em>
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">     * @return Commits</em>
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/commits/" target="alexandria_uri">http://developer.github.com/v3/repos/commits/</a>"&gt;Commits API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/commits/"&gt;Commits API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>     <a href="../../../com/jcabi/github/RepoCommits.html">RepoCommits</a> commits();
 <a class="jxr_linenumber" name="L137" href="#L137">137</a> 
@@ -153,21 +153,21 @@
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L146" href="#L146">146</a> <em class="jxr_javadoccomment">     * Get all contents of the repo.</em>
 <a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">     * @return Contents</em>
-<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/contents/" target="alexandria_uri">http://developer.github.com/v3/repos/contents/</a>"&gt;Contents API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/contents/"&gt;Contents API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L149" href="#L149">149</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L150" href="#L150">150</a>     <a href="../../../com/jcabi/github/Contents.html">Contents</a> contents();
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> 
 <a class="jxr_linenumber" name="L152" href="#L152">152</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> <em class="jxr_javadoccomment">     * Gel all collaborators.</em>
 <a class="jxr_linenumber" name="L154" href="#L154">154</a> <em class="jxr_javadoccomment">     * @return Collaborators</em>
-<a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/collaborators/" target="alexandria_uri">http://developer.github.com/v3/repos/collaborators/</a>"&gt;Collaborators API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/collaborators/"&gt;Collaborators API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>     <a href="../../../com/jcabi/github/Collaborators.html">Collaborators</a> collaborators();
 <a class="jxr_linenumber" name="L158" href="#L158">158</a> 
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">     * Get the Git API entry point.</em>
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> <em class="jxr_javadoccomment">     * @return Collaborators</em>
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/git/" target="alexandria_uri">http://developer.github.com/v3/git/</a>"&gt;Git Data API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/git/"&gt;Git Data API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L163" href="#L163">163</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>     <a href="../../../com/jcabi/github/Git.html">Git</a> git();
 <a class="jxr_linenumber" name="L165" href="#L165">165</a> 

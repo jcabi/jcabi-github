@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/com/jcabi/github/Repos.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2022, jcabi.com</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (c) 2013-2023, jcabi.com</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * All rights reserved.</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * Redistribution and use in source and binary forms, with or without</em>
@@ -51,9 +51,9 @@
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Github Repo API.</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: 7a994514f14522a5c35ba73a5614b31cc3312895 $</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: 36c8c934c9b686868545eb8a9f584bf37ac330b9 $</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @since 0.5</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://developer.github.com/v3/repos/" target="alexandria_uri">http://developer.github.com/v3/repos/</a>"&gt;Repos API&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="https://developer.github.com/v3/repos/"&gt;Repos API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  @SuppressWarnings(<span class="jxr_string">"PMD.TooManyMethods"</span>)
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  @Immutable
@@ -72,7 +72,7 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     * @return Repository</em>
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">     * @since 0.5</em>
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/" target="alexandria_uri">http://developer.github.com/v3/repos/</a>#create"&gt;Create Repository&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/#create"&gt;Create Repository&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>      <a href="../../../com/jcabi/github/Repo.html">Repo</a> create(<a href="../../../com/jcabi/github/Repos.html">RepoCreate</a> settings)
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">throws</strong> IOException;
@@ -81,7 +81,7 @@
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">     * Get repository by name.</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">     * @param coords Repository name in "user/repo" format</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">     * @return Repository</em>
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/" target="alexandria_uri">http://developer.github.com/v3/repos/</a>#get"&gt;Get Repository&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/#get"&gt;Get Repository&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>      <a href="../../../com/jcabi/github/Repo.html">Repo</a> get(<a href="../../../com/jcabi/github/Coordinates.html">Coordinates</a> coords);
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  
@@ -93,7 +93,7 @@
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>  <em class="jxr_javadoccomment">     * @param coords Repository name in "user/repo" format</em>
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment">     * @throws IOException If there is any I/O problem</em>
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="<a href="http://developer.github.com/v3/repos/" target="alexandria_uri">http://developer.github.com/v3/repos/</a>#delete-a-repository"&gt;Delete a Repository&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/#delete-a-repository"&gt;Delete a Repository&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>      <strong class="jxr_keyword">void</strong> remove(<a href="../../../com/jcabi/github/Coordinates.html">Coordinates</a> coords) <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  
@@ -119,7 +119,7 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">     * Settings to use when creating a new GitHub repository.</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">     *</em>
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">     * @author Chris Rebert (github@rebertia.com)</em>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     * @version $Id: 7a994514f14522a5c35ba73a5614b31cc3312895 $</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     * @version $Id: 36c8c934c9b686868545eb8a9f584bf37ac330b9 $</em>
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">     * @since 0.24</em>
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_javadoccomment">     * @see &lt;a href="https://developer.github.com/v3/repos/#create"&gt;Create Repo API&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">     * @todo #1095:30m Add the ability to set the other parameters of</em>
