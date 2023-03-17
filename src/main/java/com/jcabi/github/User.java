@@ -44,7 +44,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
- * @see <a href="http://developer.github.com/v3/users/">User API</a>
+ * @see <a href="https://developer.github.com/v3/users/">User API</a>
  * @since 0.1
  */
 @Immutable
@@ -108,7 +108,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
     /**
      * Smart user with extra features.
-     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
+     * @see <a href="https://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     @Immutable
     @ToString

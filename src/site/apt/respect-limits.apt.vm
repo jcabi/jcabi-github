@@ -42,7 +42,7 @@ Respect Limits
   sets following headers describing current state of rate limit in each
   response: <<<X-RateLimit-Limit>>>, <<<X-RateLimit-Remaining>>>, and
   <<<X-RateLimit-Reset>>>. For further information see
-  {{{http://developer.github.com/v3/#rate-limiting} API Documentation}}.
+  {{{https://developer.github.com/v3/#rate-limiting} API Documentation}}.
 
   If you want to control limits, you can use
   {{{./apidocs-${project.version}/com/jcabi/github/wire/CarefulWire.html}<<<CarefulWire>>>}}

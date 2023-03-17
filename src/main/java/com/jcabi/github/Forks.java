@@ -38,7 +38,7 @@ import java.io.IOException;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
  */
 @Immutable
 public interface Forks {
@@ -54,7 +54,7 @@ public interface Forks {
      *
      * @param sort The sort order.
      * @return All forks
-     * @see <a href="http://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
+     * @see <a href="https://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
      */
     Iterable<Fork> iterate(String sort);
 
@@ -64,7 +64,7 @@ public interface Forks {
      * @param organization The organization the repository will be forked into.
      * @return The new fork
      * @throws IOException  If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
+     * @see <a href="https://developer.github.com/v3/repos/forks/#create-a-fork">Create a fork</a>
      */
     Fork create(String organization) throws IOException;
 }

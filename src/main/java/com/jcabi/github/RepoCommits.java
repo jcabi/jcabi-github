@@ -37,7 +37,7 @@ import java.util.Map;
  * Commits of a Github repository.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -47,7 +47,7 @@ public interface RepoCommits extends JsonReadable {
      * Iterate all repository's commits.
      * @return All commits
      * @param params Url's parameters
-     * @see <a href="http://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
+     * @see <a href="https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     Iterable<RepoCommit> iterate(
         final Map<String, String> params
@@ -58,7 +58,7 @@ public interface RepoCommits extends JsonReadable {
      *
      * @param sha SHA of a commit
      * @return RepoCommit
-     * @see <a href="http://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
+     * @see <a href="https://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
      */
     RepoCommit get(String sha);
 

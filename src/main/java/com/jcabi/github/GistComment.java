@@ -60,7 +60,7 @@ import lombok.ToString;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+ * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -82,7 +82,7 @@ public interface GistComment
     /**
      * Delete the comment.
      * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/comments/#delete-a-comment">Delete a Comment</a>
+     * @see <a href="https://developer.github.com/v3/gists/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;
 

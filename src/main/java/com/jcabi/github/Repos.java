@@ -45,7 +45,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.5
- * @see <a href="http://developer.github.com/v3/repos/">Repos API</a>
+ * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
  */
 @SuppressWarnings("PMD.TooManyMethods")
 @Immutable
@@ -64,7 +64,7 @@ public interface Repos {
      * @return Repository
      * @throws IOException If there is any I/O problem
      * @since 0.5
-     * @see <a href="http://developer.github.com/v3/repos/#create">Create Repository</a>
+     * @see <a href="https://developer.github.com/v3/repos/#create">Create Repository</a>
      */
     Repo create(RepoCreate settings)
         throws IOException;
@@ -73,7 +73,7 @@ public interface Repos {
      * Get repository by name.
      * @param coords Repository name in "user/repo" format
      * @return Repository
-     * @see <a href="http://developer.github.com/v3/repos/#get">Get Repository</a>
+     * @see <a href="https://developer.github.com/v3/repos/#get">Get Repository</a>
      */
     Repo get(Coordinates coords);
 
@@ -85,7 +85,7 @@ public interface Repos {
      *
      * @param coords Repository name in "user/repo" format
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/#delete-a-repository">Delete a Repository</a>
+     * @see <a href="https://developer.github.com/v3/repos/#delete-a-repository">Delete a Repository</a>
      */
     void remove(Coordinates coords) throws IOException;
 

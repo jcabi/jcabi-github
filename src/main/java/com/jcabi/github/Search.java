@@ -38,7 +38,7 @@ import java.util.EnumMap;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/search/">Search API</a>
+ * @see <a href="https://developer.github.com/v3/search/">Search API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -58,7 +58,7 @@ public interface Search {
      * @param sort The sort field
      * @param order The sort order
      * @return Repos
-     * @see <a href="http://developer.github.com/v3/search/#search-repositories">Search repositories</a>
+     * @see <a href="https://developer.github.com/v3/search/#search-repositories">Search repositories</a>
      */
     Iterable<Repo> repos(
         String keywords,
@@ -74,7 +74,7 @@ public interface Search {
      * @param order The sort order
      * @param qualifiers The search qualifier
      * @return Issues
-     * @see <a href="http://developer.github.com/v3/search/#search-issues">Search issues</a>
+     * @see <a href="https://developer.github.com/v3/search/#search-issues">Search issues</a>
      * @checkstyle ParameterNumberCheck (7 lines)
      */
     Iterable<Issue> issues(
@@ -90,7 +90,7 @@ public interface Search {
      * @param sort The sort field
      * @param order The sort order
      * @return Users
-     * @see <a href="http://developer.github.com/v3/search/#search-users">Search users</a>
+     * @see <a href="https://developer.github.com/v3/search/#search-users">Search users</a>
      */
     Iterable<User> users(
         String keywords,
@@ -104,7 +104,7 @@ public interface Search {
      * @param sort The sort field
      * @param order The sort order
      * @return Contents
-     * @see <a href="http://developer.github.com/v3/search/#search-code">Search code</a>
+     * @see <a href="https://developer.github.com/v3/search/#search-code">Search code</a>
      */
     Iterable<Content> codes(
         String keywords,

@@ -57,7 +57,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
  * @todo #1462:30min Implement lock reason validation. According to
  *  documentation lock reason must belong to a specific value domain. This
  *  validation must be performed in lock method and tests must be added to
@@ -99,14 +99,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     /**
      * Get all comments of the issue.
      * @return Comments
-     * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+     * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
      */
     Comments comments();
 
     /**
      * Get all labels of the issue.
      * @return Labels
-     * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
      */
     IssueLabels labels();
 
@@ -114,7 +114,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
      * Get all events of the issue.
      * @return Events
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-an-issue">List Events for an Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/#list-events-for-an-issue">List Events for an Issue</a>
      */
     Iterable<Event> events() throws IOException;
 

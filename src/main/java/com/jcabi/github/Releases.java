@@ -53,7 +53,7 @@ public interface Releases {
     /**
      * Iterate them all.
      * @return Iterator of releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list">List</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#list">List</a>
      */
     Iterable<Release> iterate();
 
@@ -61,7 +61,7 @@ public interface Releases {
      * Get a single release.
      * @param number Release id
      * @return Release
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
      */
     Release get(int number);
 
@@ -70,7 +70,7 @@ public interface Releases {
      * @param tag The name of the tag
      * @return Release just created
      * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
      */
     Release create(
         String tag)
@@ -81,7 +81,7 @@ public interface Releases {
      *
      * @param number ID of the release to remove.
      * @throws IOException If an IO problem occurs.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
      */
     void remove(int number) throws IOException;
 

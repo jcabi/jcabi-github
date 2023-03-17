@@ -45,7 +45,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.6
- * @see <a href="http://developer.github.com/v3/rate_limit/">Rate Limit API</a>
+ * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

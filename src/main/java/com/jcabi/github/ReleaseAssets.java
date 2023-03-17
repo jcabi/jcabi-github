@@ -38,7 +38,7 @@ import java.io.IOException;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  */
 @Immutable
 public interface ReleaseAssets {
@@ -52,7 +52,7 @@ public interface ReleaseAssets {
     /**
      * Iterate them all.
      * @return All comments
-     * @see <a href="http://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
      */
     Iterable<ReleaseAsset> iterate();
 
@@ -63,7 +63,7 @@ public interface ReleaseAssets {
      * @param name Name of the release asset.
      * @return The new release asset.
      * @throws IOException If an IO Exception occurs
-     * @see <a href="http://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
      */
     ReleaseAsset upload(
         byte[] content,
@@ -75,7 +75,7 @@ public interface ReleaseAssets {
      * Get a single release asset.
      * @param number The release asset ID.
      * @return The release asset.
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
      */
     ReleaseAsset get(int number);
 

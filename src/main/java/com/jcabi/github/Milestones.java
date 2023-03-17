@@ -37,7 +37,7 @@ import java.util.Map;
  * Github Milestones.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/issues/milestones/">Milestones API</a>
+ * @see <a href="https://developer.github.com/v3/issues/milestones/">Milestones API</a>
  * @since 0.7
  */
 @Immutable
@@ -54,7 +54,7 @@ public interface Milestones {
      * @param title Milestone creation JSON
      * @return Milestone
      * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
+     * @see <a href="https://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
      * @since 0.5
      */
     Milestone create(String title)
@@ -64,7 +64,7 @@ public interface Milestones {
      * Get specific milestone by number.
      * @param number Milestone number
      * @return Milestone
-     * @see <a href="http://developer.github.com/v3/issues/milestones/#get-a-single-milestone">Get a single milestone</a>
+     * @see <a href="https://developer.github.com/v3/issues/milestones/#get-a-single-milestone">Get a single milestone</a>
      */
     Milestone get(int number);
 
@@ -72,7 +72,7 @@ public interface Milestones {
      * Iterate them all.
      * @param params Iterating parameters, as requested by API
      * @return Iterator of milestones
-     * @see <a href="http://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a>
+     * @see <a href="https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a>
      */
     Iterable<Milestone> iterate(
         Map<String, String> params);
@@ -81,7 +81,7 @@ public interface Milestones {
      * Remove milestone by number.
      * @param number Milestone number
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>
+     * @see <a href="https://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>
      */
     void remove(int number)
         throws IOException;

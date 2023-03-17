@@ -39,7 +39,7 @@ import javax.json.JsonObject;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
+ * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
  */
 @Immutable
 public interface Commits {

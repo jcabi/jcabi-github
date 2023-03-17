@@ -36,7 +36,7 @@ import com.jcabi.aspects.Immutable;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
 @Immutable
@@ -45,7 +45,7 @@ public interface Organizations {
      * Get specific organization by name.
      * @param login Login name of the organization.
      * @return Organization
-     * @see <a href="http://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
+     * @see <a href="https://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
      */
     Organization get(String login);
 

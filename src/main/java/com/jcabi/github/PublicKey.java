@@ -54,7 +54,7 @@ import lombok.ToString;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")

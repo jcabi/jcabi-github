@@ -1,14 +1,14 @@
 <img alt="logo" src="http://img.jcabi.com/logo-square.png" width="64px" height="64px" />
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![DevOps By Rultor.com](http://www.rultor.com/b/jcabi/jcabi-github)](http://www.rultor.com/p/jcabi/jcabi-github)
+[![DevOps By Rultor.com](https://www.rultor.com/b/jcabi/jcabi-github)](https://www.rultor.com/p/jcabi/jcabi-github)
 [![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 
 [![mvn](https://github.com/jcabi/jcabi-github/actions/workflows/mvn.yml/badge.svg)](https://github.com/jcabi/jcabi-github/actions/workflows/mvn.yml)
-[![PDD status](http://www.0pdd.com/svg?name=jcabi/jcabi-github)](http://www.0pdd.com/p?name=jcabi/jcabi-github)
+[![PDD status](https://www.0pdd.com/svg?name=jcabi/jcabi-github)](https://www.0pdd.com/p?name=jcabi/jcabi-github)
 [![codecov](https://codecov.io/gh/jcabi/jcabi-github/branch/master/graph/badge.svg)](https://codecov.io/gh/jcabi/jcabi-github)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jcabi/jcabi-github)
-[![JavaDoc](https://img.shields.io/badge/javadoc-html-blue.svg)](http://www.javadoc.io/doc/com.jcabi/jcabi-github)
+[![JavaDoc](https://img.shields.io/badge/javadoc-html-blue.svg)](https://www.javadoc.io/doc/com.jcabi/jcabi-github)
 [![Hits-of-Code](https://hitsofcode.com/github/jcabi/jcabi-github)](https://hitsofcode.com/view/github/jcabi/jcabi-github)
 ![Lines of code](https://img.shields.io/tokei/lines/github/jcabi/jcabi-github)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/jcabi/jcabi-github/blob/master/LICENSE.txt)
@@ -20,12 +20,12 @@ we have a unique implemenation of GitHub server-side functionality,
 which you can use in your unit tests, eliminating the necessity to connect
 to GitHub during unit/integration testing.
 Please, read the blog post
-[_Object-Oriented Github API_](http://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html)
+[_Object-Oriented Github API_](https://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html)
 by [Yegor Bugayenko](https://www.yegor256.com), the creator of this library.
 
 Java 8 or higher is required.
 
-More details are here: [github.jcabi.com](http://github.jcabi.com/).
+More details are here: [github.jcabi.com](https://github.jcabi.com/).
 
 You may also get help in this [Telegram chat](https://t.me/elegantobjects).
 

@@ -89,49 +89,49 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     /**
      * Get all issue events for the repository.
      * @return Issue events
-     * @see <a href="http://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
      */
     IssueEvents issueEvents();
 
     /**
      * Get all labels of the repo.
      * @return Labels
-     * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
      */
     Labels labels();
 
     /**
      * Get all available assignees to which issues may be assigned.
      * @return Assignees
-     * @see <a href="http://developer.github.com/v3/issues/assignees/">Assignees API</a>
+     * @see <a href="https://developer.github.com/v3/issues/assignees/">Assignees API</a>
      */
     Assignees assignees();
 
     /**
      * Get all releases of the repo.
      * @return Releases
-     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
      */
     Releases releases();
 
     /**
      * Get all deploy keys of the repo.
      * @return DeployKeys
-     * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+     * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
      */
     DeployKeys keys();
 
     /**
      * Get all forks of the repo.
      * @return Forks
-     * @see <a href="http://developer.github.com/v3/repos/forks/">Forks API</a>
+     * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
      */
     Forks forks();
 
     /**
      * Get repository's commits.
      * @return Commits
-     * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+     * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
      */
     RepoCommits commits();
 
@@ -145,21 +145,21 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     /**
      * Get all contents of the repo.
      * @return Contents
-     * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
      */
     Contents contents();
 
     /**
      * Gel all collaborators.
      * @return Collaborators
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/">Collaborators API</a>
+     * @see <a href="https://developer.github.com/v3/repos/collaborators/">Collaborators API</a>
      */
     Collaborators collaborators();
 
     /**
      * Get the Git API entry point.
      * @return Collaborators
-     * @see <a href="http://developer.github.com/v3/git/">Git Data API</a>
+     * @see <a href="https://developer.github.com/v3/git/">Git Data API</a>
      */
     Git git();
 

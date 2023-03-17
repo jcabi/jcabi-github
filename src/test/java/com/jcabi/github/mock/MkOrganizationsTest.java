@@ -41,7 +41,7 @@ import org.junit.Test;
  * Github organizations.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
 public final class MkOrganizationsTest {

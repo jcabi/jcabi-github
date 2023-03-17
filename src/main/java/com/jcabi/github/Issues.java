@@ -41,7 +41,7 @@ import java.util.Map;
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/">Issues API</a>
+ * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
  */
 @Immutable
 public interface Issues {
@@ -56,7 +56,7 @@ public interface Issues {
      * Get specific issue by number.
      * @param number Issue number
      * @return Issue
-     * @see <a href="http://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
      */
     Issue get(int number);
 
@@ -66,7 +66,7 @@ public interface Issues {
      * @param body Body of it
      * @return Issue just created
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/#create-an-issue">Create an Issue</a>
      */
     Issue create(String title, String body) throws IOException;
 
@@ -74,7 +74,7 @@ public interface Issues {
      * Iterate them all.
      * @param params Iterating parameters, as requested by API
      * @return Iterator of issues
-     * @see <a href="http://developer.github.com/v3/issues/#list-issues">List Issues</a>
+     * @see <a href="https://developer.github.com/v3/issues/#list-issues">List Issues</a>
      */
     Iterable<Issue> iterate(Map<String, String> params);
 

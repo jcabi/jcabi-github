@@ -52,7 +52,7 @@ import lombok.EqualsAndHashCode;
  * @since 0.8
  * @param <T> Type of iterable objects
  * @param <P> Type of source objects
- * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
+ * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  */
 @Immutable
 @EqualsAndHashCode(of = { "entry", "map" })

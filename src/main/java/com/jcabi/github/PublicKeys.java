@@ -37,7 +37,7 @@ import java.io.IOException;
  *
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  */
 @Immutable
 public interface PublicKeys {
@@ -53,7 +53,7 @@ public interface PublicKeys {
      * Iterate all public keys.
      *
      * @return All public keys.
-     * @see <a href="http://developer.github.com/v3/users/keys#list-your-public-keys/">List your public keys.</a>
+     * @see <a href="https://developer.github.com/v3/users/keys#list-your-public-keys/">List your public keys.</a>
      */
     Iterable<PublicKey> iterate();
 
@@ -62,7 +62,7 @@ public interface PublicKeys {
      *
      * @param number ID of the public key to remove.
      * @return A single public key.
-     * @see <a href="http://developer.github.com/v3/users/keys#get-a-single-public-key/">Get a single public key.</a>
+     * @see <a href="https://developer.github.com/v3/users/keys#get-a-single-public-key/">Get a single public key.</a>
      */
     PublicKey get(int number);
 
@@ -73,7 +73,7 @@ public interface PublicKeys {
      * @param key The value of this key.
      * @return A new PublicKey
      * @throws IOException If an IO problem occurs.
-     * @see <a href="http://developer.github.com/v3/users/keys/#create-a-public-key/">Create a public key.</a>
+     * @see <a href="https://developer.github.com/v3/users/keys/#create-a-public-key/">Create a public key.</a>
      */
     PublicKey create(
         String title,
@@ -85,7 +85,7 @@ public interface PublicKeys {
      *
      * @param number ID of the public key to remove.
      * @throws IOException If an IO problem occurs.
-     * @see <a href="http://developer.github.com/v3/users/keys/#delete-a-public-key/">Delete a public key.</a>
+     * @see <a href="https://developer.github.com/v3/users/keys/#delete-a-public-key/">Delete a public key.</a>
      */
     void remove(int number) throws IOException;
 

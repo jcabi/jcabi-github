@@ -38,7 +38,7 @@ import java.io.IOException;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  */
 @Immutable
 public interface DeployKeys {
@@ -52,7 +52,7 @@ public interface DeployKeys {
     /**
      * Iterate them all.
      * @return Iterator of deploy keys
-     * @see <a href="http://developer.github.com/v3/repos/keys/#list">List</a>
+     * @see <a href="https://developer.github.com/v3/repos/keys/#list">List</a>
      */
     Iterable<DeployKey> iterate();
 
@@ -60,7 +60,7 @@ public interface DeployKeys {
      * Get a single deploy key.
      * @param number Id of a deploy key
      * @return Deploy key
-     * @see <a href="http://developer.github.com/v3/repos/keys/#get">Get a deploy key</a>
+     * @see <a href="https://developer.github.com/v3/repos/keys/#get">Get a deploy key</a>
      */
     DeployKey get(int number);
 
@@ -70,7 +70,7 @@ public interface DeployKeys {
      * @param key Key
      * @return A new deploy key
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
+     * @see <a href="https://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
      */
     DeployKey create(String title, String key) throws IOException;
 

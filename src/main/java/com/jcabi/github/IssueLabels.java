@@ -44,7 +44,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -60,7 +60,7 @@ public interface IssueLabels {
      * Add new labels.
      * @param labels The labels to add
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/labels/#add-labels-to-an-issue">Add labels to an issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue">Add labels to an issue</a>
      */
     void add(Iterable<String> labels) throws IOException;
 
@@ -68,14 +68,14 @@ public interface IssueLabels {
      * Replace all labels.
      * @param labels The labels to save
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue">Replace all labels for an issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue">Replace all labels for an issue</a>
      */
     void replace(Iterable<String> labels) throws IOException;
 
     /**
      * Iterate them all.
      * @return Iterator of labels
-     * @see <a href="http://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
     Iterable<Label> iterate();
 
@@ -83,14 +83,14 @@ public interface IssueLabels {
      * Remove label by name.
      * @param name Name of the label to remove
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue">Remove a Label from an Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue">Remove a Label from an Issue</a>
      */
     void remove(String name) throws IOException;
 
     /**
      * Remove all labels.
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue">Remove all labels from an issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue">Remove all labels from an issue</a>
      */
     void clear() throws IOException;
 

@@ -36,7 +36,7 @@ import com.jcabi.aspects.Immutable;
  *
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
+ * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
  */
 @Immutable
 public interface Tree extends JsonReadable {

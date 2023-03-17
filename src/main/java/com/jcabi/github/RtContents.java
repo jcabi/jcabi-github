@@ -246,7 +246,7 @@ final class RtContents implements Contents {
      * @param ref The name of the commit/branch/tag.
      * @return Content fetched
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     private Content content(
         final String path, final String ref

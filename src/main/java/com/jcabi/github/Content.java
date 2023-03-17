@@ -45,7 +45,7 @@ import lombok.ToString;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")

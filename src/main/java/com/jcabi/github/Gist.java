@@ -45,7 +45,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
+ * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -68,7 +68,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @param name Name of it
      * @return File content
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
+     * @see <a href="https://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     String read(String name) throws IOException;
 
@@ -77,7 +77,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * @param name Name of it
      * @param content Content to write
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/#edit-a-gist">Edit a Gist</a>
+     * @see <a href="https://developer.github.com/v3/gists/#edit-a-gist">Edit a Gist</a>
      */
     void write(String name, String content) throws IOException;
 
@@ -111,7 +111,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
      * Get all comments of the gist.
      * @return GistComments
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+     * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
      */
     GistComments comments() throws IOException;
 

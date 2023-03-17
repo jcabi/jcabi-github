@@ -39,7 +39,7 @@ import java.util.Map;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.3
- * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  */
 @Immutable
 public interface Pulls {
@@ -54,7 +54,7 @@ public interface Pulls {
      * Get specific get by number.
      * @param number Pull request number
      * @return Pull request
-     * @see <a href="http://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
      */
     Pull get(int number);
 
@@ -65,7 +65,7 @@ public interface Pulls {
      * @param base Base
      * @return Issue just created
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/#create-a-pull-request">Create a Pull Request</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#create-a-pull-request">Create a Pull Request</a>
      */
     Pull create(
         String title,
@@ -77,7 +77,7 @@ public interface Pulls {
      * Iterate them all.
      * @param params Params
      * @return Iterator of issues
-     * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
      */
     Iterable<Pull> iterate(Map<String, String> params);
 

@@ -46,7 +46,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.3
- * @see <a href="http://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  *
  */
@@ -84,7 +84,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * Get all commits of the pull request.
      * @return Commits
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/#list-commits-on-a-pull-request">List Commits on a Pull Request</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#list-commits-on-a-pull-request">List Commits on a Pull Request</a>
      */
     Iterable<Commit> commits() throws IOException;
 
@@ -92,7 +92,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * List all files of the pull request.
      * @return Files
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/#list-pull-requests-files">List Pull Request Files</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#list-pull-requests-files">List Pull Request Files</a>
      */
     Iterable<JsonObject> files() throws IOException;
 
@@ -100,7 +100,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * Merge it.
      * @param msg Commit message
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
      */
     void merge(String msg)
         throws IOException;
@@ -119,7 +119,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * Get Pull Comments.
      * @return Comments.
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
+     * @see <a href="https://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
      */
     PullComments comments() throws IOException;
 

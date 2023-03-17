@@ -45,7 +45,7 @@ public interface Assignees {
     /**
      * Iterate all available assignees.
      * @return Iterator of available assignees to which issues may be assigned
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
+     * @see <a href="https://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
      */
     Iterable<User> iterate();
 
@@ -54,7 +54,7 @@ public interface Assignees {
      * @param login Login of user to be checked
      * @return True if given assignee login belongs to an assignee for the repository
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
+     * @see <a href="https://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
      */
     boolean check(String login)
         throws IOException;

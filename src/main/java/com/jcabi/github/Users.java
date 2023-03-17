@@ -58,7 +58,7 @@ public interface Users {
      * Get user by login.
      * @param login Login of it
      * @return User
-     * @see <a href="http://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
+     * @see <a href="https://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
      */
     User get(String login);
 
@@ -73,7 +73,7 @@ public interface Users {
      * Iterate all users, starting with the one you've seen already.
      * @param identifier The integer ID of the last User that you’ve seen.
      * @return Iterator of gists
-     * @see <a href="http://developer.github.com/v3/users/#get-all-users">Get All Users</a>
+     * @see <a href="https://developer.github.com/v3/users/#get-all-users">Get All Users</a>
      */
     Iterable<User> iterate(
         String identifier

@@ -42,7 +42,7 @@ import lombok.ToString;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/hooks/">Hooks API</a>
+ * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
  */
 @Immutable
 public interface Hook extends JsonReadable {

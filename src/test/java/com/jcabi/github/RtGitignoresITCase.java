@@ -40,7 +40,7 @@ import org.junit.Test;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
+ * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
  *
  */
 @Immutable

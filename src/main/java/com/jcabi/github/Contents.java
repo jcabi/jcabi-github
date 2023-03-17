@@ -39,7 +39,7 @@ import javax.json.JsonObject;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
@@ -57,7 +57,7 @@ public interface Contents {
      *
      * @return The Content of the readme file.
      * @throws IOException If an IO Exception occurs.
-     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
+     * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
     Content readme() throws IOException;
 
@@ -67,7 +67,7 @@ public interface Contents {
      * @param branch The branch name
      * @return The Content of the readme file.
      * @throws IOException If an IO Exception occurs.
-     * @see <a href="http://http://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
+     * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
     Content readme(String branch) throws IOException;
 
@@ -76,7 +76,7 @@ public interface Contents {
      * @param content Parameters to create new content
      * @return Content just created
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#create-a-file">Create a file</a>
      */
     Content create(JsonObject content) throws IOException;
 
@@ -86,7 +86,7 @@ public interface Contents {
      * @param ref The name of the commit/branch/tag.
      * @return Content fetched
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     Content get(String path, String ref) throws IOException;
 
@@ -96,7 +96,7 @@ public interface Contents {
      * @param path The content path
      * @return Content fetched
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     Content get(String path) throws IOException;
 
@@ -106,7 +106,7 @@ public interface Contents {
      * @param ref The name of the commit/branch/tag. Default: the repository's default branch (usually master)
      * @return Contents fetched
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
      */
     Iterable<Content> iterate(String path, String ref) throws IOException;
 
@@ -115,7 +115,7 @@ public interface Contents {
      * @param content Parameters to remove a file
      * @return RepoCommit referring to this operation
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#delete-a-file">Delete a file</a>
      */
     RepoCommit remove(JsonObject content) throws IOException;
 
@@ -125,7 +125,7 @@ public interface Contents {
      * @param json JSON object containing updates to the content.
      * @return Commit referring to this operation
      * @throws IOException If any I/O problems occur.
-     * @see <a href="http://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
+     * @see <a href="https://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
      */
     RepoCommit update(String path, JsonObject json) throws IOException;
 

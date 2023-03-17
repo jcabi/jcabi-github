@@ -43,7 +43,7 @@ import lombok.ToString;
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
  * @since 0.24
- * @see <a href="http://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")

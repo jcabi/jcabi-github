@@ -41,7 +41,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -59,7 +59,7 @@ public interface Labels {
      * @param color Color of it
      * @return The label created
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
      */
     Label create(
         String name, String color
@@ -69,14 +69,14 @@ public interface Labels {
      * Get a label by name.
      * @param name The name of it
      * @return The label
-     * @see <a href="http://developer.github.com/v3/issues/labels/#get-a-single-label">Get a single label</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#get-a-single-label">Get a single label</a>
      */
     Label get(String name);
 
     /**
      * Iterate them all.
      * @return Iterator of labels
-     * @see <a href="http://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
     Iterable<Label> iterate();
 
@@ -84,7 +84,7 @@ public interface Labels {
      * Delete label by name.
      * @param name Name of the label to remove
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
+     * @see <a href="https://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
      */
     void delete(String name)
         throws IOException;

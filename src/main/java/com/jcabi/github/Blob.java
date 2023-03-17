@@ -41,7 +41,7 @@ import lombok.ToString;
  *
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
+ * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

@@ -10,7 +10,7 @@ Object Oriented Github API
 
   Set of classes in `com.jcabi.github` package
   is an object oriented Java adapter of
-  {{{http://developer.github.com/v3/}Github API}}:
+  {{{https://developer.github.com/v3/}Github API}}:
 
 +--
 import com.jcabi.github.RtGithub;
@@ -30,7 +30,7 @@ public class Main {
   Read {{{./apidocs-${project.version}/index.html}JavaDoc}}
   for more information and examples.
 
-  There are {{{http://developer.github.com/libraries/}a few other Java adapters}}
+  There are {{{https://developer.github.com/libraries/}a few other Java adapters}}
   of Github API, but our
   implementation has its advantages, including:
 

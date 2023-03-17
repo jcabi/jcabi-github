@@ -39,7 +39,7 @@ import java.util.Map;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/gists/">Gists API</a>
+ * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  */
 @Immutable
 public interface Gists {
@@ -57,7 +57,7 @@ public interface Gists {
      * @param visible Indicates whether the gist is public
      * @return Gist
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/#create-a-gist">Create a Gist</a>
+     * @see <a href="https://developer.github.com/v3/gists/#create-a-gist">Create a Gist</a>
      */
     Gist create(
         Map<String, String> files, boolean visible
@@ -67,14 +67,14 @@ public interface Gists {
      * Get gist by name.
      * @param name Name of it
      * @return Gist
-     * @see <a href="http://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
+     * @see <a href="https://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
      */
     Gist get(String name);
 
     /**
      * Iterate all gists.
      * @return Iterator of gists
-     * @see <a href="http://developer.github.com/v3/gists/#list-gists">List Gists</a>
+     * @see <a href="https://developer.github.com/v3/gists/#list-gists">List Gists</a>
      */
     Iterable<Gist> iterate();
 

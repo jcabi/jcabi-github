@@ -70,7 +70,7 @@ import lombok.EqualsAndHashCode;
  * @version $Id$
  * @since 0.4
  * @param <T> Type of iterable objects
- * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
+ * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  */
 @EqualsAndHashCode(of = "origin")
 public final class Bulk<T extends JsonReadable> implements Iterable<T> {

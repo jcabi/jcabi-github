@@ -39,7 +39,7 @@ import java.util.Map;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
 @Immutable
 public interface PullComments {
@@ -56,7 +56,7 @@ public interface PullComments {
      *
      * @param number Pull comment number
      * @return Pull comment
-     * @see <a href="http://developer.github.com/v3/pulls/comments/#get-a-single-comment">Get a single comment</a>
+     * @see <a href="https://developer.github.com/v3/pulls/comments/#get-a-single-comment">Get a single comment</a>
      */
     PullComment get(int number);
 
@@ -65,7 +65,7 @@ public interface PullComments {
      *
      * @param params Iterating parameters, as specified by API
      * @return Iterable of pull comments
-     * @see <a href="http://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
+     * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
      */
     Iterable<PullComment> iterate(
         Map<String, String> params);
@@ -76,7 +76,7 @@ public interface PullComments {
      * @param number Pull comment number
      * @param params Iterating parameters, as specified by API
      * @return Iterable of pull comments
-     * @see <a href="http://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a>
+     * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a>
      */
     Iterable<PullComment> iterate(int number,
         Map<String, String> params);
@@ -90,7 +90,7 @@ public interface PullComments {
      * @param position Line index in the diff to comment on
      * @return PullComment just created
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
+     * @see <a href="https://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
      * @checkstyle ParameterNumberCheck (7 lines)
      */
     PullComment post(
@@ -107,7 +107,7 @@ public interface PullComments {
      * @param comment Commit ID (SHA) of it
      * @return PullComment just created
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
+     * @see <a href="https://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
      */
     PullComment reply(
         String body,

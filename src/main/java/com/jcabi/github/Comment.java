@@ -61,7 +61,7 @@ import lombok.ToString;
  * @author Paulo Lobo (pauloeduardolobo@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -84,7 +84,7 @@ public interface Comment
     /**
      * Delete the comment.
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
+     * @see <a href="https://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;
 

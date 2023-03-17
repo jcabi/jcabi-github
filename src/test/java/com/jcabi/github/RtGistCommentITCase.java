@@ -40,7 +40,7 @@ import org.junit.Test;
  * Integration test for {@link RtGistComment}.
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+ * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
 @OAuthScope(Scope.GIST)

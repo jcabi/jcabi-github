@@ -44,7 +44,7 @@ import java.io.IOException;
  * @author Giang Le (giang@vn-smartsolutions.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+ * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  */
 @Immutable
 public interface GistComments {
@@ -58,14 +58,14 @@ public interface GistComments {
      * Get comment by number.
      * @param number Comment number
      * @return Comment
-     * @see <a href="http://developer.github.com/v3/gists/comments/#get-a-single-comment">Get a Single Comment</a>
+     * @see <a href="https://developer.github.com/v3/gists/comments/#get-a-single-comment">Get a Single Comment</a>
      */
     GistComment get(int number);
 
     /**
      * Iterate them all.
      * @return All comments
-     * @see <a href="http://developer.github.com/v3/gists/comments/#list-comments-on-a-gist">List Comments on an Gist</a>
+     * @see <a href="https://developer.github.com/v3/gists/comments/#list-comments-on-a-gist">List Comments on an Gist</a>
      */
     Iterable<GistComment> iterate();
 
@@ -74,7 +74,7 @@ public interface GistComments {
      * @param text Text of comment to post in Markdown format
      * @return Comment
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/gists/comments/#create-a-comment">Create a Comment</a>
+     * @see <a href="https://developer.github.com/v3/gists/comments/#create-a-comment">Create a Comment</a>
      */
     GistComment post(String text)
         throws IOException;

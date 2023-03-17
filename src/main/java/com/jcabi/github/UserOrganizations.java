@@ -37,7 +37,7 @@ import java.io.IOException;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @author Chris Rebert (github@chrisrebert.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/orgs/">Organizations API</a>
+ * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
 @Immutable
@@ -61,7 +61,7 @@ public interface UserOrganizations {
      * private and public organizations for authenticated users
      * @return Iterator of Organizations
      * @throws IOException If there is an I/O problem
-     * @see <a href="http://developer.github.com/v3/orgs/#list-user-organizations">List User Organizations</a>
+     * @see <a href="https://developer.github.com/v3/orgs/#list-user-organizations">List User Organizations</a>
      * @since 0.24
      */
     Iterable<Organization> iterate() throws IOException;

@@ -47,7 +47,7 @@ import lombok.ToString;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -75,7 +75,7 @@ public interface Release extends JsonReadable, JsonPatchable {
     /**
      * Get all release assets of this release.
      * @return Release assets.
-     * @see <a href="http://developer.github.com/v3/repos/releases/">Releases API</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
      */
     ReleaseAssets assets();
 

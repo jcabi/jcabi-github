@@ -60,7 +60,7 @@ public interface Collaborators {
      * @param user User
      * @return True is a user is a collaborator, otherwise returns false
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#get">
+     * @see <a href="https://developer.github.com/v3/repos/collaborators/#get">
      *  Check if a user is collaborator</a>
      */
     boolean isCollaborator(String user) throws IOException;
@@ -70,7 +70,7 @@ public interface Collaborators {
      *
      * @param user User
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
+     * @see <a href="https://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
      */
     void add(String user) throws IOException;
 
@@ -101,7 +101,7 @@ public interface Collaborators {
      *
      * @param user User
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
+     * @see <a href="https://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>
      */
     void remove(String user) throws IOException;
 

@@ -66,7 +66,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
     /**
      * Delete the release asset.
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Release Asset</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Release Asset</a>
      */
     void remove() throws IOException;
 
@@ -74,7 +74,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
      * Gets release asset raw content.
      * @return Release asset number
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
+     * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
      */
     InputStream raw() throws IOException;
 

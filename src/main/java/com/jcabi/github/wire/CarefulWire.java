@@ -53,7 +53,7 @@ import lombok.ToString;
  * less than a given threshold, {@code CarefulWire} will sleep until a time
  * specified in the {@code X-RateLimit-Reset} header. For further information
  * about the Github rate limiting see
- * <a href="http://developer.github.com/v3/#rate-limiting">API
+ * <a href="https://developer.github.com/v3/#rate-limiting">API
  * documentation</a>.
  *
  * <p>You can use {@code CarefulWire} with a {@link com.jcabi.github.Github}

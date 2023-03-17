@@ -39,7 +39,7 @@ import javax.json.JsonObject;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
+ * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
  */
 @Immutable
 public interface Trees {
@@ -54,7 +54,7 @@ public interface Trees {
      * Get specific tree by sha.
      * @param sha Tree sha
      * @return Tree
-     * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
+     * @see <a href="https://developer.github.com/v3/git/trees">Get a tree</a>
      */
     Tree get(String sha);
 
@@ -62,7 +62,7 @@ public interface Trees {
      * Get specific tree recursively by sha.
      * @param sha Tree sha
      * @return Tree
-     * @see <a href="http://developer.github.com/v3/git/trees">Get a tree</a>
+     * @see <a href="https://developer.github.com/v3/git/trees">Get a tree</a>
      */
     Tree getRec(String sha);
     /**

@@ -50,7 +50,7 @@ import lombok.ToString;
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

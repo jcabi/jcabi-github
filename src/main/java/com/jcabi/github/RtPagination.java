@@ -51,7 +51,7 @@ import javax.json.JsonObject;
  * @version $Id$
  * @since 0.4
  * @param <T> Type of iterable objects
- * @see <a href="http://developer.github.com/v3/#pagination">Pagination</a>
+ * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  * @since 0.11
  */
 @Immutable

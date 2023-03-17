@@ -51,7 +51,7 @@ public interface Git {
     /**
      * Get its blobs.
      * @return Blobs
-     * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
+     * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
      * @throws IOException If some io problem occurs
      */
     Blobs blobs() throws IOException;
@@ -59,28 +59,28 @@ public interface Git {
     /**
      * Get its commits.
      * @return Commits
-     * @see <a href="http://developer.github.com/v3/git/commits/">Commits API</a>
+     * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
      */
     Commits commits();
 
     /**
      * Get its references.
      * @return References
-     * @see <a href="http://developer.github.com/v3/git/references/">References API</a>
+     * @see <a href="https://developer.github.com/v3/git/references/">References API</a>
      */
     References references();
 
     /**
      * Get its tags.
      * @return Tags
-     * @see <a href="http://developer.github.com/v3/git/tags/">Tags API</a>
+     * @see <a href="https://developer.github.com/v3/git/tags/">Tags API</a>
      */
     Tags tags();
 
     /**
      * Get its trees.
      * @return Trees
-     * @see <a href="http://developer.github.com/v3/git/trees/">Trees API</a>
+     * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
      */
     Trees trees();
 }

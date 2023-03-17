@@ -38,7 +38,7 @@ import java.io.IOException;
  *
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
+ * @see <a href="https://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
  * @since 0.8
  */
 @Immutable
@@ -53,7 +53,7 @@ public interface Gitignores {
      * Iterate them all.
      * @return Iterator of Gitignote template names
      * @throws IOException If it fails due to I/O problem
-     * @see <a href="http://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
+     * @see <a href="https://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
      */
     Iterable<String> iterate() throws IOException;
 

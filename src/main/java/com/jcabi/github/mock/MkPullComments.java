@@ -49,7 +49,7 @@ import org.xembly.Directives;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
 @Immutable
 @ToString

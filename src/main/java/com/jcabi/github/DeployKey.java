@@ -44,7 +44,7 @@ import lombok.ToString;
  * @author Andres Candal (andres.candal@rollasolution.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -59,7 +59,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
     /**
      * Delete a deploy key.
      * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
+     * @see <a href="https://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
      */
     void remove() throws IOException;
 

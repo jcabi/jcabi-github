@@ -46,7 +46,7 @@ import lombok.ToString;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.4
- * @see <a href="http://developer.github.com/v3/issues/events/">Issue Events API</a>
+ * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -55,103 +55,103 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String CLOSED = "closed";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String REOPENED = "reopened";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String SUBSCRIBED = "subscribed";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String MERGED = "merged";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String REFERENCED = "referenced";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String MENTIONED = "mentioned";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String ASSIGNED = "assigned";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String UNASSIGNED = "unassigned";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String LABELED = "labeled";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String UNLABELED = "unlabeled";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String MILESTONED = "milestoned";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String DEMILESTONED = "demilestoned";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String RENAMED = "renamed";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String LOCKED = "locked";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String UNLOCKED = "unlocked";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String HEAD_REF_DELETED = "head_ref_deleted";
 
     /**
      * Event type.
-     * @see <a href="http://developer.github.com/v3/issues/events/">Event Types</a>
+     * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String HEAD_REF_RESTORED = "head_ref_restored";
 

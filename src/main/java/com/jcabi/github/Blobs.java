@@ -38,7 +38,7 @@ import java.io.IOException;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  * @since 0.8
- * @see <a href="http://developer.github.com/v3/git/blobs/">Blobs API</a>
+ * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  */
 @Immutable
 public interface Blobs {
@@ -53,7 +53,7 @@ public interface Blobs {
      * Get specific blob by sha.
      * @param sha SHA of a blob
      * @return Blob
-     * @see <a href="http://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
+     * @see <a href="https://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
      */
     Blob get(String sha);
 
@@ -63,7 +63,7 @@ public interface Blobs {
      * @param encoding Encoding
      * @return A new blob
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
+     * @see <a href="https://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
      */
     Blob create(String content, String encoding) throws IOException;
 

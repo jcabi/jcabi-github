@@ -44,7 +44,7 @@ import lombok.ToString;
  * Commits comparison.
  * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  * @version $Id$
- * @see <a href="http://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
  */
 @Immutable
 public interface CommitsComparison extends JsonReadable {

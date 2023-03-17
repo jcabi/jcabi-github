@@ -45,7 +45,7 @@ import java.util.Date;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 0.1
- * @see <a href="http://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  */
 @Immutable
 public interface Comments {
@@ -60,7 +60,7 @@ public interface Comments {
      * Get comment by number.
      * @param number Comment number
      * @return Comment
-     * @see <a href="http://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
+     * @see <a href="https://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
      */
     Comment get(int number);
 
@@ -69,7 +69,7 @@ public interface Comments {
      * @param since Since when? Just give {@code new Date(0)} if you want
      *  all comments.
      * @return All comments
-     * @see <a href="http://developer.github.com/v3/issues/comments/#list-comments-on-an-issue">List Comments on an Issue</a>
+     * @see <a href="https://developer.github.com/v3/issues/comments/#list-comments-on-an-issue">List Comments on an Issue</a>
      */
     Iterable<Comment> iterate(Date since);
 
@@ -78,7 +78,7 @@ public interface Comments {
      * @param text Text of comment to post in Markdown format
      * @return Comment
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/issues/comments/#create-a-comment">Create a Comment</a>
+     * @see <a href="https://developer.github.com/v3/issues/comments/#create-a-comment">Create a Comment</a>
      */
     Comment post(String text) throws IOException;
 

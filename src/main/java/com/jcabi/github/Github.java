@@ -69,7 +69,7 @@ import lombok.EqualsAndHashCode;
  * idea. That's why {@code Github} class has {@link #entry()} method,
  * which returns an entry point to the RESTful API. For example, you
  * want to use
- * <a href="http://developer.github.com/v3/search/#search-repositories">"Search
+ * <a href="https://developer.github.com/v3/search/#search-repositories">"Search
  * Repositories"</a> feature of Github:
  *
  * <pre> Github github = new RtGithub(oauthKey);
@@ -145,7 +145,7 @@ public interface Github {
     /**
      * Get gitignores.
      * @return Gitignotes API
-     * @see <a href="http://developer.github.com/v3/gitignore/">Gitignore API</a>
+     * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
      * @since 0.8
      */
     Gitignores gitignores();
@@ -154,7 +154,7 @@ public interface Github {
      * Get meta information.
      * @return JSON with meta
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/meta/">Meta API</a>
+     * @see <a href="https://developer.github.com/v3/meta/">Meta API</a>
      * @since 0.6
      */
     JsonObject meta() throws IOException;
@@ -163,14 +163,14 @@ public interface Github {
      * Get emojis.
      * @return JSON with emojis
      * @throws IOException If there is any I/O problem
-     * @see <a href="http://developer.github.com/v3/emojis/">Emojis API</a>
+     * @see <a href="https://developer.github.com/v3/emojis/">Emojis API</a>
      * @since 0.6
      */
     JsonObject emojis() throws IOException;
 
     /**
      * Time in Github JSON.
-     * @see <a href="http://developer.github.com/v3/#schema">Schema</a>
+     * @see <a href="https://developer.github.com/v3/#schema">Schema</a>
      * @since 0.2
      */
     @Immutable
