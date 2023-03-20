@@ -129,6 +129,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * @return Checks.
      * @throws IOException If there is any I/O problem.
      * @see <a href="https://developer.github.com/v3/checks/runs/">Checks API</a>
+     * @since 1.6.0
      */
     Checks checks() throws IOException;
 
@@ -385,6 +386,12 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             return this.pull.comments();
         }
 
+        /**
+         * Retrieve a PR check runs.
+         * @return Checks
+         * @throws IOException If there is any I/O problem.
+         * @since 1.6.0
+         */
         @Override
         public Checks checks() throws IOException {
             return this.pull.checks();
