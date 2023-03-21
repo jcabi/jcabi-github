@@ -27,25 +27,69 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Check;
+import com.jcabi.github.Pull;
 import java.io.IOException;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Github check.
+ * Test case for {@link MkChecks}.
  *
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @version $Id$
- * @since 1.5.0
+ * @since 1.6.1
  */
-public interface Check {
+public final class MkChecksTest {
 
     /**
-     * Checks whether Check was successful.
-     * @return True if Check was successful.
-     * @throws IOException If there is any I/O problem.
+     * Pull request.
      */
-    boolean successful() throws IOException;
+    private transient Pull pull;
 
+    /**
+     * Set up.
+     * @throws IOException If some problem with I/O.
+     */
+    @Before
+    public void setUp() throws IOException {
+        this.pull = new MkGithub()
+            .randomRepo()
+            .pulls()
+            .create("Test PR", "abcdef8", "abcdef9");
+    }
+
+    /**
+     * MkChecks can return empty checks by default.
+     * @throws IOException If some problem with I/O.
+     */
+    @Test
+    public void returnsEmptyChecksByDefault() throws IOException {
+        MatcherAssert.assertThat(
+            ((MkChecks) this.pull.checks()).all(),
+            Matchers.empty()
+        );
+    }
+
+    /**
+     * MkChecks can create a check.
+     * @throws IOException If some problem with I/O.
+     */
+    @Test
+    public void createsCheck() throws IOException {
+        final MkChecks checks = (MkChecks) this.pull.checks();
+        final Check check = checks.create();
+        MatcherAssert.assertThat(
+            checks.all(),
+            Matchers.hasSize(1)
+        );
+        MatcherAssert.assertThat(
+            check,
+            Matchers.equalTo(checks.all().iterator().next())
+        );
+    }
 }

@@ -29,24 +29,28 @@
  */
 package com.jcabi.github.mock;
 
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Check;
-import com.jcabi.github.Checks;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Collection;
-import org.cactoos.list.ListOf;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github Checks.
+ * Mock Github check.
  *
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @version $Id$
- * @since 1.6.0
+ * @since 1.6.1
  */
-public final class MkChecks implements Checks {
+@Immutable
+@Loggable(Loggable.DEBUG)
+@ToString
+@EqualsAndHashCode(of = {"storage", "coordinates", "pull", "identifier"})
+public final class MkCheck implements Check {
 
     /**
      * Storage.
@@ -64,58 +68,34 @@ public final class MkChecks implements Checks {
     private final transient Pull pull;
 
     /**
-     * Ctor.
-     * @param strg Storage
-     * @param coord Coordinates of repo
-     * @param pll Pull
+     * Check identifier.
      */
-    MkChecks(
-        final MkStorage strg,
+    private final transient int identifier;
+
+    /**
+     * Main ctor.
+     * @param stg Storage
+     * @param coord Coordinates
+     * @param pll Pull
+     * @param number Check identifier
+     * @checkstyle ParameterNumber (6 lines)
+     */
+    public MkCheck(
+        final MkStorage stg,
         final Coordinates coord,
-        final Pull pll
+        final Pull pll,
+        final int number
     ) {
-        this.storage = strg;
+        this.storage = stg;
         this.coordinates = coord;
         this.pull = pll;
+        this.identifier = number;
     }
 
     @Override
-    public Collection<Check> all() throws IOException {
-        return new ListOf<>(
-            new MkIterable<>(
-                this.storage,
-                String.format("%s/check", this.xpath()),
-                item -> new MkCheck(
-                    this.storage,
-                    this.coordinates,
-                    this.pull,
-                    Integer.parseInt(item.xpath("@id").get(0))
-                )
-            )
-        );
-    }
-
-    /**
-     * Create check.
-     * @return Check.
-     * @throws IOException If fails.
-     */
-    public Check create() throws IOException {
-        final int identifier = new SecureRandom().nextInt();
-        final Directives directives = new Directives()
-            .xpath(this.xpath())
-            .add("check")
-            .attr("id", identifier)
-            .attr("status", "queued")
-            .attr("conclusion", "cancelled")
-            .up();
-        this.storage.apply(directives);
-        return new MkCheck(
-            this.storage,
-            this.coordinates,
-            this.pull,
-            identifier
-        );
+    public boolean successful() throws IOException {
+        this.storage.apply(new Directives(this.xpath()));
+        return false;
     }
 
     /**
@@ -125,8 +105,8 @@ public final class MkChecks implements Checks {
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)
-            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks",
-            this.coordinates, this.pull.number()
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks/check[id='%d']",
+            this.coordinates, this.pull.number(), this.identifier
         );
     }
 }
