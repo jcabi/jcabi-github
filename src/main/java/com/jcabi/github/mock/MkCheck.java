@@ -34,10 +34,10 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Check;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
+import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.xembly.Directives;
 
 /**
  * Mock Github check.
@@ -94,8 +94,15 @@ public final class MkCheck implements Check {
 
     @Override
     public boolean successful() throws IOException {
-        this.storage.apply(new Directives(this.xpath()));
-        return false;
+        final XML node = this.storage.xml().nodes(this.xpath()).get(0);
+        final Status status = Status.fromString(
+            node.xpath("@status").get(0)
+        );
+        final Conclusion conclusion = Conclusion.fromString(
+            node.xpath("@conclusion").get(0)
+        );
+        return status == Status.COMPLETED
+            && conclusion == Conclusion.SUCCESS;
     }
 
     /**
@@ -105,7 +112,7 @@ public final class MkCheck implements Check {
     private String xpath() {
         return String.format(
             // @checkstyle LineLength (1 line)
-            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks/check[id='%d']",
+            "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks/check[@id='%d']",
             this.coordinates, this.pull.number(), this.identifier
         );
     }

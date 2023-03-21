@@ -50,8 +50,8 @@ public final class RtCheckTest {
     public void checksSuccessfulState() {
         MatcherAssert.assertThat(
             new RtCheck(
-                RtCheck.Status.COMPLETED,
-                RtCheck.Conclusion.SUCCESS
+                Check.Status.COMPLETED,
+                Check.Conclusion.SUCCESS
             ).successful(),
             Matchers.is(true)
         );
@@ -64,8 +64,8 @@ public final class RtCheckTest {
     public void checksNotSuccessfulStateIfInProgress() {
         MatcherAssert.assertThat(
             new RtCheck(
-                RtCheck.Status.IN_PROGRESS,
-                RtCheck.Conclusion.SUCCESS
+                Check.Status.IN_PROGRESS,
+                Check.Conclusion.SUCCESS
             ).successful(),
             Matchers.is(false)
         );
@@ -78,8 +78,8 @@ public final class RtCheckTest {
     public void checksNotSuccessfulState() {
         MatcherAssert.assertThat(
             new RtCheck(
-                RtCheck.Status.COMPLETED,
-                RtCheck.Conclusion.CANCELLED
+                Check.Status.COMPLETED,
+                Check.Conclusion.CANCELLED
             ).successful(),
             Matchers.is(false)
         );

@@ -97,17 +97,22 @@ public final class MkChecks implements Checks {
 
     /**
      * Create check.
+     * @param status Status.
+     * @param conclusion Conclusion.
      * @return Check.
      * @throws IOException If fails.
      */
-    public Check create() throws IOException {
+    public Check create(
+        final Check.Status status,
+        final Check.Conclusion conclusion
+    ) throws IOException {
         final int identifier = new SecureRandom().nextInt();
         final Directives directives = new Directives()
             .xpath(this.xpath())
             .add("check")
             .attr("id", identifier)
-            .attr("status", "queued")
-            .attr("conclusion", "cancelled")
+            .attr("status", status.value())
+            .attr("conclusion", conclusion.value())
             .up();
         this.storage.apply(directives);
         return new MkCheck(

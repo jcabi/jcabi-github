@@ -38,13 +38,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkChecks}.
+ * Test case for {@link MkCheck}.
  *
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @version $Id$
  * @since 1.6.1
  */
-public final class MkChecksTest {
+public final class MkCheckTest {
 
     /**
      * Pull request.
@@ -53,51 +53,43 @@ public final class MkChecksTest {
 
     /**
      * Set up.
-     * @throws IOException If some problem with I/O.
+     * @throws java.io.IOException If some problem with I/O.
      */
     @Before
     public void setUp() throws IOException {
         this.pull = new MkGithub()
             .randomRepo()
             .pulls()
-            .create("Test PR", "abcdef8", "abcdef9");
+            .create("Test PR", "abcdea8", "abcdea9");
     }
 
     /**
-     * MkChecks can return empty checks by default.
+     * MkChecks can create successful check.
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void returnsEmptyChecksByDefault() throws IOException {
+    public void createsSuccessfulCheck() throws IOException {
         MatcherAssert.assertThat(
-            ((MkChecks) this.pull.checks()).all(),
-            Matchers.empty()
-        );
-    }
-
-    /**
-     * MkChecks can create a check.
-     * @throws IOException If some problem with I/O.
-     */
-    @Test
-    public void createsCheck() throws IOException {
-        final MkChecks checks = (MkChecks) this.pull.checks();
-        final Check check = checks.create(
-            Check.Status.COMPLETED,
-            Check.Conclusion.SUCCESS
-        );
-        MatcherAssert.assertThat(
-            checks.all(),
-            Matchers.hasSize(1)
-        );
-        final Check next = checks.all().iterator().next();
-        MatcherAssert.assertThat(
-            check,
-            Matchers.equalTo(next)
-        );
-        MatcherAssert.assertThat(
-            next.successful(),
+            ((MkChecks) this.pull.checks())
+                .create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS)
+                .successful(),
             Matchers.is(true)
+        );
+    }
+
+    /**
+     * MkChecks can create failed check.
+     * @throws IOException If some problem with I/O.
+     */
+    @Test
+    public void createsFailedCheck() throws IOException {
+        MatcherAssert.assertThat(
+            ((MkChecks) this.pull.checks())
+                .create(
+                    Check.Status.COMPLETED,
+                    Check.Conclusion.FAILURE
+                ).successful(),
+            Matchers.is(false)
         );
     }
 }
