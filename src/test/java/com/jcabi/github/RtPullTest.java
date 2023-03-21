@@ -38,7 +38,10 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Collection;
+import java.util.Random;
 import javax.json.Json;
+import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -52,6 +55,7 @@ import org.mockito.Mockito;
  * @author Carlos Miranda (miranda.cma@gmail.com)
  * @version $Id$
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public final class RtPullTest {
     /**
      * Property name for ref name in pull request ref JSON object.
@@ -184,16 +188,7 @@ public final class RtPullTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    Json.createObjectBuilder()
-                        .add(
-                            "head",
-                            Json.createObjectBuilder()
-                                .add(RtPullTest.REF_PROP, ref)
-                                .add(RtPullTest.SHA_PROP, sha)
-                                .build()
-                        )
-                        .build()
-                        .toString()
+                    RtPullTest.head(ref, sha).toString()
                 )
             ).start(this.resource.port())
         ) {
@@ -251,6 +246,44 @@ public final class RtPullTest {
     }
 
     /**
+     * RtPull should be able to fetch pull checks.
+     * @throws IOException If some I/O problem occurs.
+     */
+    @Test
+    public void canFetchChecks() throws IOException {
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(
+                    new MkAnswer.Simple(
+                        HttpURLConnection.HTTP_OK,
+                        RtPullTest.head().toString()
+                    )
+                )
+                .next(
+                    new MkAnswer.Simple(
+                        HttpURLConnection.HTTP_OK,
+                        RtPullTest.check().toString()
+                    ))
+                .start(this.resource.port())
+        ) {
+            final Collection<Check> all = new RtPull(
+                new ApacheRequest(container.home()),
+                this.repo(),
+                new Random().nextInt()
+            ).checks().all();
+            MatcherAssert.assertThat(
+                all,
+                Matchers.hasSize(1)
+            );
+            MatcherAssert.assertThat(
+                all.iterator().next().successful(),
+                Matchers.is(true)
+            );
+            container.stop();
+        }
+    }
+
+    /**
      * RtPull should be able to compare different instances.
      *
      */
@@ -287,6 +320,55 @@ public final class RtPullTest {
         Mockito.doReturn("/user").when(coords).user();
         Mockito.doReturn("/repo").when(coords).repo();
         return repo;
+    }
+
+    /**
+     * Check as JSON object.
+     * @return Check as JSON object.
+     */
+    private static JsonObject check() {
+        return Json.createObjectBuilder()
+            .add("total_count", Json.createValue(1))
+            .add(
+                "check_runs",
+                Json.createArrayBuilder()
+                    .add(
+                        Json.createObjectBuilder()
+                            .add("id", Json.createValue(new Random().nextInt()))
+                            .add("status", "completed")
+                            .add("conclusion", "success")
+                            .build()
+                    )
+            ).build();
+    }
+
+    /**
+     * Head as JSON object.
+     * @return Head as JSON object.
+     */
+    private static JsonObject head() {
+        return RtPullTest.head(
+            "ref-ref",
+            "6d299617d9094ae6940b3958bbabab68fd1ddabb"
+        );
+    }
+
+    /**
+     * Head as JSON object.
+     * @param ref Ref.
+     * @param sha Sha.
+     * @return Head as JSON object.
+     */
+    private static JsonObject head(final String ref, final String sha) {
+        return Json.createObjectBuilder()
+            .add(
+                "head",
+                Json.createObjectBuilder()
+                    .add(RtPullTest.REF_PROP, ref)
+                    .add(RtPullTest.SHA_PROP, sha)
+                    .build()
+            )
+            .build();
     }
 
 }

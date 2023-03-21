@@ -179,6 +179,11 @@ final class RtPull implements Pull {
     }
 
     @Override
+    public Checks checks() throws IOException {
+        return new RtChecks(this.entry, this);
+    }
+
+    @Override
     public PullRef base() throws IOException {
         return new RtPullRef(
             this.owner.github(),
