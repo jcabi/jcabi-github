@@ -117,11 +117,6 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <version>31.1-jre</version>
     </dependency>
     <dependency>
-      <groupId>org.cactoos</groupId>
-      <artifactId>cactoos</artifactId>
-      <version>0.55.0</version>
-    </dependency>
-    <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>20040616</version>

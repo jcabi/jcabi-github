@@ -29,6 +29,7 @@
  */
 package com.jcabi.github.mock;
 
+import com.google.common.collect.ImmutableList;
 import com.jcabi.github.Check;
 import com.jcabi.github.Checks;
 import com.jcabi.github.Coordinates;
@@ -36,7 +37,6 @@ import com.jcabi.github.Pull;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Collection;
-import org.cactoos.list.ListOf;
 import org.xembly.Directives;
 
 /**
@@ -81,7 +81,7 @@ public final class MkChecks implements Checks {
 
     @Override
     public Collection<Check> all() throws IOException {
-        return new ListOf<>(
+        return ImmutableList.copyOf(
             new MkIterable<>(
                 this.storage,
                 String.format("%s/check", this.xpath()),
