@@ -54,7 +54,7 @@
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * Mock Github pull requests.</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @version $Id: 1346a0e5d2ff691764f973cf53c972cfe60e9177 $</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @version $Id: ecb12c9268465c3184d0695c586d110286ba4edf $</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @since 0.5</em>
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  @Immutable
@@ -152,38 +152,39 @@
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>                     .add(<span class="jxr_string">"number"</span>).set(Integer.toString(number)).up()
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>                     .add(<span class="jxr_string">"head"</span>).set(canonical).up()
 <a class="jxr_linenumber" name="L146" href="#L146">146</a>                     .add(<span class="jxr_string">"base"</span>).set(base).up()
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>                     .add(<span class="jxr_string">"user"</span>)
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>                     .add(<span class="jxr_string">"login"</span>).set(<strong class="jxr_keyword">this</strong>.self)
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>                     .up()
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>             );
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>         } <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>         }
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(number);
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>     }
-<a class="jxr_linenumber" name="L156" href="#L156">156</a> 
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>     @Override
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Pull&gt; iterate(<strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; params) {
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;&gt;(
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             <strong class="jxr_keyword">this</strong>.storage,
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>             String.format(<span class="jxr_string">"%s/pull"</span>, <strong class="jxr_keyword">this</strong>.xpath()),
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>             xml -&gt; <strong class="jxr_keyword">this</strong>.get(
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>                 Integer.parseInt(xml.xpath(<span class="jxr_string">"number/text()"</span>).get(0))
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>             )
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>         );
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>     }
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> 
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">     * @return XPath</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>     <strong class="jxr_keyword">private</strong> String xpath() {
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>         <strong class="jxr_keyword">return</strong> String.format(
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/pulls"</span>,
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>             <strong class="jxr_keyword">this</strong>.coords
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>         );
-<a class="jxr_linenumber" name="L177" href="#L177">177</a>     }
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> }
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>                     .add(<span class="jxr_string">"checks"</span>).up()
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>                     .add(<span class="jxr_string">"user"</span>)
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>                     .add(<span class="jxr_string">"login"</span>).set(<strong class="jxr_keyword">this</strong>.self)
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>                     .up()
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>             );
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>         } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>             <strong class="jxr_keyword">this</strong>.storage.unlock();
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>         }
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.get(number);
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     }
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>     @Override
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;Pull&gt; iterate(<strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; params) {
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> MkIterable&lt;&gt;(
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>             <strong class="jxr_keyword">this</strong>.storage,
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>             String.format(<span class="jxr_string">"%s/pull"</span>, <strong class="jxr_keyword">this</strong>.xpath()),
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>             xml -&gt; <strong class="jxr_keyword">this</strong>.get(
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>                 Integer.parseInt(xml.xpath(<span class="jxr_string">"number/text()"</span>).get(0))
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>             )
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>         );
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>     }
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">     * XPath of this element in XML tree.</em>
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_javadoccomment">     * @return XPath</em>
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>     <strong class="jxr_keyword">private</strong> String xpath() {
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         <strong class="jxr_keyword">return</strong> String.format(
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>             <span class="jxr_string">"/github/repos/repo[@coords='%s']/pulls"</span>,
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>             <strong class="jxr_keyword">this</strong>.coords
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>         );
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>     }
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2023 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

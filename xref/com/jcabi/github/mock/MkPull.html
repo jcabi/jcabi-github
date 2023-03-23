@@ -61,7 +61,7 @@
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment"> * Mock Github pull.</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @version $Id: 447548b4921978e1cef2c6612b97d2158ecca8b5 $</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment"> * @version $Id: 706ac81824731ebf955e66bbe22ee5c3a13fe481 $</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment"> * @since 0.5</em>
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment"> */</em>
@@ -228,7 +228,7 @@
 <a class="jxr_linenumber" name="L220" href="#L220">220</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L221" href="#L221">221</a>     @Override
 <a class="jxr_linenumber" name="L222" href="#L222">222</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jcabi/github/Checks.html">Checks</a> checks() {
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkChecks.html">MkChecks</a>();
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/jcabi/github/mock/MkChecks.html">MkChecks</a>(<strong class="jxr_keyword">this</strong>.storage, <strong class="jxr_keyword">this</strong>.coords, <strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L224" href="#L224">224</a>     }
 <a class="jxr_linenumber" name="L225" href="#L225">225</a> 
 <a class="jxr_linenumber" name="L226" href="#L226">226</a>     @Override
