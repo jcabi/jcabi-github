@@ -27,89 +27,77 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Check;
+import com.jcabi.github.Pull;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtCheck}.
+ * Test case for {@link MkChecks}.
  *
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @version $Id$
- * @since 1.5.0
+ * @since 1.6.1
  */
-public final class RtCheckTest {
+public final class MkChecksTest {
 
     /**
-     * RtCheck can check successful state.
+     * Pull request.
+     */
+    private transient Pull pull;
+
+    /**
+     * Set up.
+     * @throws IOException If some problem with I/O.
+     */
+    @Before
+    public void setUp() throws IOException {
+        this.pull = new MkGithub()
+            .randomRepo()
+            .pulls()
+            .create("Test PR", "abcdef8", "abcdef9");
+    }
+
+    /**
+     * MkChecks can return empty checks by default.
+     * @throws IOException If some problem with I/O.
      */
     @Test
-    public void checksSuccessfulState() {
+    public void returnsEmptyChecksByDefault() throws IOException {
         MatcherAssert.assertThat(
-            new RtCheck(
-                Check.Status.COMPLETED,
-                Check.Conclusion.SUCCESS
-            ).successful(),
+            ((MkChecks) this.pull.checks()).all(),
+            Matchers.empty()
+        );
+    }
+
+    /**
+     * MkChecks can create a check.
+     * @throws IOException If some problem with I/O.
+     */
+    @Test
+    public void createsCheck() throws IOException {
+        final MkChecks checks = (MkChecks) this.pull.checks();
+        final Check check = checks.create(
+            Check.Status.COMPLETED,
+            Check.Conclusion.SUCCESS
+        );
+        MatcherAssert.assertThat(
+            checks.all(),
+            Matchers.hasSize(1)
+        );
+        final Check next = checks.all().iterator().next();
+        MatcherAssert.assertThat(
+            check,
+            Matchers.equalTo(next)
+        );
+        MatcherAssert.assertThat(
+            next.successful(),
             Matchers.is(true)
-        );
-    }
-
-    /**
-     * RtCheck can check not successful state if in progress.
-     */
-    @Test
-    public void checksNotSuccessfulStateIfInProgress() {
-        MatcherAssert.assertThat(
-            new RtCheck(
-                Check.Status.IN_PROGRESS,
-                Check.Conclusion.SUCCESS
-            ).successful(),
-            Matchers.is(false)
-        );
-    }
-
-    /**
-     * RtCheck can check not successful state if cancelled.
-     */
-    @Test
-    public void checksNotSuccessfulState() {
-        MatcherAssert.assertThat(
-            new RtCheck(
-                Check.Status.COMPLETED,
-                Check.Conclusion.CANCELLED
-            ).successful(),
-            Matchers.is(false)
-        );
-    }
-
-    /**
-     * Can not create RtCheck with unexisting status.
-     */
-    @Test
-    public void createsWithUnexistingStatus() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
-                "unexisting",
-                "success"
-            ).successful()
-        );
-    }
-
-    /**
-     * Can not create RtCheck with unexisting conclusion.
-     */
-    @Test
-    public void createsWithUnexistingConclusion() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
-                "completed",
-                "unexist"
-            ).successful()
         );
     }
 }

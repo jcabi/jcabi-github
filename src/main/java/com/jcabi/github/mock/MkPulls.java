@@ -144,6 +144,7 @@ final class MkPulls implements Pulls {
                     .add("number").set(Integer.toString(number)).up()
                     .add("head").set(canonical).up()
                     .add("base").set(base).up()
+                    .add("checks").up()
                     .add("user")
                     .add("login").set(this.self)
                     .up()

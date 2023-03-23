@@ -27,89 +27,69 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.jcabi.github;
+package com.jcabi.github.mock;
 
+import com.jcabi.github.Check;
+import com.jcabi.github.Pull;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtCheck}.
+ * Test case for {@link MkCheck}.
  *
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @version $Id$
- * @since 1.5.0
+ * @since 1.6.1
  */
-public final class RtCheckTest {
+public final class MkCheckTest {
 
     /**
-     * RtCheck can check successful state.
+     * Pull request.
+     */
+    private transient Pull pull;
+
+    /**
+     * Set up.
+     * @throws java.io.IOException If some problem with I/O.
+     */
+    @Before
+    public void setUp() throws IOException {
+        this.pull = new MkGithub()
+            .randomRepo()
+            .pulls()
+            .create("Test PR", "abcdea8", "abcdea9");
+    }
+
+    /**
+     * MkChecks can create successful check.
+     * @throws IOException If some problem with I/O.
      */
     @Test
-    public void checksSuccessfulState() {
+    public void createsSuccessfulCheck() throws IOException {
         MatcherAssert.assertThat(
-            new RtCheck(
-                Check.Status.COMPLETED,
-                Check.Conclusion.SUCCESS
-            ).successful(),
+            ((MkChecks) this.pull.checks())
+                .create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS)
+                .successful(),
             Matchers.is(true)
         );
     }
 
     /**
-     * RtCheck can check not successful state if in progress.
+     * MkChecks can create failed check.
+     * @throws IOException If some problem with I/O.
      */
     @Test
-    public void checksNotSuccessfulStateIfInProgress() {
+    public void createsFailedCheck() throws IOException {
         MatcherAssert.assertThat(
-            new RtCheck(
-                Check.Status.IN_PROGRESS,
-                Check.Conclusion.SUCCESS
-            ).successful(),
+            ((MkChecks) this.pull.checks())
+                .create(
+                    Check.Status.COMPLETED,
+                    Check.Conclusion.FAILURE
+                ).successful(),
             Matchers.is(false)
-        );
-    }
-
-    /**
-     * RtCheck can check not successful state if cancelled.
-     */
-    @Test
-    public void checksNotSuccessfulState() {
-        MatcherAssert.assertThat(
-            new RtCheck(
-                Check.Status.COMPLETED,
-                Check.Conclusion.CANCELLED
-            ).successful(),
-            Matchers.is(false)
-        );
-    }
-
-    /**
-     * Can not create RtCheck with unexisting status.
-     */
-    @Test
-    public void createsWithUnexistingStatus() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
-                "unexisting",
-                "success"
-            ).successful()
-        );
-    }
-
-    /**
-     * Can not create RtCheck with unexisting conclusion.
-     */
-    @Test
-    public void createsWithUnexistingConclusion() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
-                "completed",
-                "unexist"
-            ).successful()
         );
     }
 }

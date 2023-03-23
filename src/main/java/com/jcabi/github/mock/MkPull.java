@@ -220,7 +220,7 @@ final class MkPull implements Pull {
      */
     @Override
     public Checks checks() {
-        return new MkChecks();
+        return new MkChecks(this.storage, this.coords, this);
     }
 
     @Override
