@@ -31,7 +31,9 @@ package com.jcabi.github;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import javax.json.JsonObject;
@@ -96,7 +98,10 @@ class RtChecks implements Checks {
             .path(this.pull.head().ref())
             .path("/check-runs")
             .back()
-            .method(Request.GET).fetch().as(JsonResponse.class)
+            .method(Request.GET).fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
             .json()
             .readObject()
             .getJsonArray("check_runs")

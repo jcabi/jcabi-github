@@ -39,6 +39,7 @@ import java.util.Random;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -70,7 +71,7 @@ public final class RtChecksTest {
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    RtChecksTest.json()
+                    RtChecksTest.jsonWithCheckRuns()
                 )
             )
             .start(this.resource.port())) {
@@ -85,12 +86,54 @@ public final class RtChecksTest {
         }
     }
 
+    @Test
+    public void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.jsonWithoutCheckRuns()
+                )
+            )
+            .start(this.resource.port())) {
+            final Checks checks = new RtChecks(
+                new JdkRequest(container.home()),
+                this.repo().pulls().get(0)
+            );
+            MatcherAssert.assertThat(
+                checks.all(),
+                Matchers.iterableWithSize(1)
+            );
+        }
+    }
+
+    @Test
+    public void assertsOkResponse() throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NOT_FOUND,
+                    RtChecksTest.jsonWithCheckRuns()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Checks checks = new RtChecks(
+                new JdkRequest(container.home()),
+                this.repo().pulls().get(0)
+            );
+            Assert.assertThrows(
+                AssertionError.class,
+                checks::all
+            );
+        }
+    }
+
     /**
      * Creates json response body.
      *
      * @return Json response body.
      */
-    private static String json() {
+    private static String jsonWithCheckRuns() {
         return Json.createObjectBuilder()
             .add("total_count", Json.createValue(1))
             .add(
@@ -104,6 +147,13 @@ public final class RtChecksTest {
                             .build()
                     )
             )
+            .build()
+            .toString();
+    }
+
+    private static String jsonWithoutCheckRuns() {
+        return Json.createObjectBuilder()
+            .add("total_count", Json.createValue(1))
             .build()
             .toString();
     }
