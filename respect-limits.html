@@ -33,7 +33,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li >
-                            <span>                        <a href="apidocs-1.6.1/index.html" title="JavaDoc 1.6.1">JavaDoc 1.6.1</a>
+                            <span>                        <a href="apidocs-1.6.2/index.html" title="JavaDoc 1.6.2">JavaDoc 1.6.2</a>
         </span>
                                                                                                                                                                 <ul>
                                                                     </ul>
@@ -95,13 +95,13 @@
                             </div>
                             <ul class="badges">
                                 <li>
-                                    <strong itemprop="version">1.6.1</strong>
+                                    <strong itemprop="version">1.6.2</strong>
                                 </li>
                                 <li>
                                     
-                                    <time itemprop="datePublished" datetime="2023-03-23T08:05:22Z">
+                                    <time itemprop="datePublished" datetime="2023-03-27T02:01:01Z">
                                         
-                                        23-Mar-2023
+                                        27-Mar-2023
                                     </time>
                                 </li>
                                 <li class="menu-button">menu</li>
@@ -115,8 +115,8 @@
                             <section>
 <h2><a name="Respect_Limits"></a>Respect Limits</h2>
 <p>Github has limits for number of request per hour. It sets following headers describing current state of rate limit in each response: <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. For further information see <a class="externalLink" href="https://developer.github.com/v3/#rate-limiting"> API Documentation</a>.</p>
-<p>If you want to control limits, you can use <a href="./apidocs-1.6.1/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> class for it. If <code>X-RateLimit-Remaining</code> of received response is less than a given threshold, <a href="./apidocs-1.6.1/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> will sleep until a time specified in the <code>X-RateLimit-Reset</code> header.</p>
-<p>You can use <a href="./apidocs-1.6.1/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> with <a href="./apidocs-1.6.1/com/jcabi/github/Github.html"><code>Github</code></a>:</p>
+<p>If you want to control limits, you can use <a href="./apidocs-1.6.2/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> class for it. If <code>X-RateLimit-Remaining</code> of received response is less than a given threshold, <a href="./apidocs-1.6.2/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> will sleep until a time specified in the <code>X-RateLimit-Reset</code> header.</p>
+<p>You can use <a href="./apidocs-1.6.2/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> with <a href="./apidocs-1.6.2/com/jcabi/github/Github.html"><code>Github</code></a>:</p>
 <div class="source">
 <pre>Github github = new RtGithub(
     new RtGithub().entry().through(CarefulWire.class, 50)
