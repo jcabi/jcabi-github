@@ -31,8 +31,12 @@ package com.jcabi.github;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
@@ -86,23 +90,29 @@ class RtChecks implements Checks {
      * @throws IOException If there is any I/O problem.
      */
     @Override
-    public Collection<Check> all() throws IOException {
+    public Collection<? extends Check> all() throws IOException {
         final Coordinates coords = this.pull.repo().coordinates();
-        return this.request.uri()
+        final RestResponse rest = this.request.uri()
             .path("/repos")
             .path(coords.user())
             .path(coords.repo())
             .path("/commits")
-            .path(this.pull.head().ref())
+            .path(this.pull.head().sha())
             .path("/check-runs")
             .back()
-            .method(Request.GET).fetch().as(JsonResponse.class)
+            .method(Request.GET).fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK);
+        final JsonObject object = rest.as(JsonResponse.class)
             .json()
-            .readObject()
-            .getJsonArray("check_runs")
-            .stream()
-            .map(RtChecks::check)
-            .collect(Collectors.toList());
+            .readObject();
+        return Optional.ofNullable(object.getJsonArray("check_runs"))
+            .map(
+                obj -> obj.stream()
+                    .map(RtChecks::check)
+                    .collect(Collectors.toList())
+            )
+            .orElseGet(Collections::emptyList);
     }
 
     /**

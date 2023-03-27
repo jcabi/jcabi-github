@@ -39,6 +39,7 @@ import java.util.Random;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -70,7 +71,7 @@ public final class RtChecksTest {
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    RtChecksTest.json()
+                    RtChecksTest.jsonWithCheckRuns()
                 )
             )
             .start(this.resource.port())) {
@@ -86,11 +87,63 @@ public final class RtChecksTest {
     }
 
     /**
+     * Checks whether RtChecks can return empty checks if they are absent.
+     *
+     * @throws IOException If some I/O problem happens.
+     */
+    @Test
+    public void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.empty()
+                )
+            )
+            .start(this.resource.port())) {
+            MatcherAssert.assertThat(
+                ((Checks) new RtChecks(
+                    new JdkRequest(container.home()),
+                    this.repo().pulls().get(0)
+                )).all(),
+                Matchers.iterableWithSize(0)
+            );
+        }
+    }
+
+    /**
+     * Checks whether RtChecks can throw an exception
+     * if response code is not 200.
+     *
+     * @throws IOException If some I/O problem happens.
+     */
+    @Test
+    public void assertsOkResponse() throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NOT_FOUND,
+                    RtChecksTest.jsonWithCheckRuns()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Checks checks = new RtChecks(
+                new JdkRequest(container.home()),
+                this.repo().pulls().get(0)
+            );
+            Assert.assertThrows(
+                AssertionError.class,
+                checks::all
+            );
+        }
+    }
+
+    /**
      * Creates json response body.
      *
      * @return Json response body.
      */
-    private static String json() {
+    private static String jsonWithCheckRuns() {
         return Json.createObjectBuilder()
             .add("total_count", Json.createValue(1))
             .add(
@@ -104,6 +157,16 @@ public final class RtChecksTest {
                             .build()
                     )
             )
+            .build()
+            .toString();
+    }
+
+    /**
+     * Creates json response body without check runs.
+     * @return Json response body.
+     */
+    private static String empty() {
+        return Json.createObjectBuilder()
             .build()
             .toString();
     }
@@ -126,7 +189,7 @@ public final class RtChecksTest {
         Mockito.doReturn(pull).when(pulls).get(0);
         Mockito.doReturn(repo).when(pull).repo();
         Mockito.doReturn(ref).when(pull).head();
-        Mockito.doReturn("abcdef1").when(ref).ref();
+        Mockito.doReturn("abcdef1").when(ref).sha();
         return repo;
     }
 }

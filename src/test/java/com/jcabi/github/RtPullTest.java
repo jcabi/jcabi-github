@@ -266,7 +266,7 @@ public final class RtPullTest {
                     ))
                 .start(this.resource.port())
         ) {
-            final Collection<Check> all = new RtPull(
+            final Collection<? extends Check> all = new RtPull(
                 new ApacheRequest(container.home()),
                 this.repo(),
                 new Random().nextInt()
