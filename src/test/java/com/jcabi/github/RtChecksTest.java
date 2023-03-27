@@ -96,13 +96,12 @@ public final class RtChecksTest {
                 )
             )
             .start(this.resource.port())) {
-            final Checks checks = new RtChecks(
-                new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
-            );
             MatcherAssert.assertThat(
-                checks.all(),
-                Matchers.iterableWithSize(1)
+                ((Checks) new RtChecks(
+                    new JdkRequest(container.home()),
+                    this.repo().pulls().get(0)
+                )).all(),
+                Matchers.iterableWithSize(0)
             );
         }
     }

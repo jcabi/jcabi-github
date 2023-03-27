@@ -47,6 +47,6 @@ public interface Checks {
      * @return Checks.
      * @throws IOException If there is any I/O problem.
      */
-    Collection<Check> all() throws IOException;
+    Collection<? extends Check> all() throws IOException;
 
 }
