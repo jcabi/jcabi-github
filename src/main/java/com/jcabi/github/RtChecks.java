@@ -97,15 +97,21 @@ class RtChecks implements Checks {
             .path(coords.user())
             .path(coords.repo())
             .path("/commits")
-            .path(this.pull.head().ref())
+            .path(this.pull.head().sha())
             .path("/check-runs")
             .back()
             .method(Request.GET).fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
-        final JsonObject object = rest.as(JsonResponse.class).json().readObject();
+        final JsonObject object = rest.as(JsonResponse.class)
+            .json()
+            .readObject();
         return Optional.ofNullable(object.getJsonArray("check_runs"))
-            .map(obj -> obj.stream().map(RtChecks::check).collect(Collectors.toList()))
+            .map(
+                obj -> obj.stream()
+                    .map(RtChecks::check)
+                    .collect(Collectors.toList())
+            )
             .orElseGet(Collections::emptyList);
     }
 

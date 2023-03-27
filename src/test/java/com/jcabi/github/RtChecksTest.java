@@ -86,13 +86,18 @@ public final class RtChecksTest {
         }
     }
 
+    /**
+     * Checks whether RtChecks can return empty checks if they are absent.
+     *
+     * @throws IOException If some I/O problem happens.
+     */
     @Test
     public void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    RtChecksTest.jsonWithoutCheckRuns()
+                    RtChecksTest.empty()
                 )
             )
             .start(this.resource.port())) {
@@ -106,6 +111,12 @@ public final class RtChecksTest {
         }
     }
 
+    /**
+     * Checks whether RtChecks can throw an exception
+     * if response code is not 200.
+     *
+     * @throws IOException If some I/O problem happens.
+     */
     @Test
     public void assertsOkResponse() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer()
@@ -150,9 +161,12 @@ public final class RtChecksTest {
             .toString();
     }
 
-    private static String jsonWithoutCheckRuns() {
+    /**
+     * Creates json response body without check runs.
+     * @return Json response body.
+     */
+    private static String empty() {
         return Json.createObjectBuilder()
-            .add("total_count", Json.createValue(1))
             .build()
             .toString();
     }
@@ -175,7 +189,7 @@ public final class RtChecksTest {
         Mockito.doReturn(pull).when(pulls).get(0);
         Mockito.doReturn(repo).when(pull).repo();
         Mockito.doReturn(ref).when(pull).head();
-        Mockito.doReturn("abcdef1").when(ref).ref();
+        Mockito.doReturn("abcdef1").when(ref).sha();
         return repo;
     }
 }
