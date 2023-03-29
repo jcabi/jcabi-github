@@ -171,7 +171,7 @@ final class RtContents implements Contents {
     public Content get(
         final String path
     ) throws IOException {
-        return this.content(path, "master");
+        return this.content(path, this.repo().defaultBranch().name());
     }
 
     @Override
