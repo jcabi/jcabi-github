@@ -138,6 +138,71 @@ public final class RtChecksTest {
         }
     }
 
+    @Test
+    public void retrievesUnfinishedChecksWithoutConclusion() throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add("total_count", Json.createValue(1))
+                        .add("check_runs",
+                            Json.createArrayBuilder()
+                                .add(
+                                    Json.createObjectBuilder()
+                                        .add("id", Json.createValue(new Random().nextInt()))
+                                        .add("status", "completed")
+                                        .build()
+                                )
+                        )
+                        .build()
+                        .toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Checks checks = new RtChecks(
+                new JdkRequest(container.home()),
+                this.repo().pulls().get(0)
+            );
+            MatcherAssert.assertThat(checks.all(), Matchers.hasSize(1));
+            for (final Check check : checks.all()) {
+                MatcherAssert.assertThat(check.successful(), Matchers.is(false));
+            }
+        }
+    }
+
+    @Test
+    public void retrievesUnfinishedChecksWithoutStatusAndConclusion() throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createObjectBuilder()
+                        .add("total_count", Json.createValue(1))
+                        .add("check_runs",
+                            Json.createArrayBuilder()
+                                .add(
+                                    Json.createObjectBuilder()
+                                        .add("id", Json.createValue(new Random().nextInt()))
+                                        .build()
+                                )
+                        )
+                        .build()
+                        .toString()
+                )
+            ).start(this.resource.port())
+        ) {
+            final Checks checks = new RtChecks(
+                new JdkRequest(container.home()),
+                this.repo().pulls().get(0)
+            );
+            MatcherAssert.assertThat(checks.all(), Matchers.hasSize(1));
+            for (final Check check : checks.all()) {
+                MatcherAssert.assertThat(check.successful(), Matchers.is(false));
+            }
+        }
+    }
+
     /**
      * Creates json response body.
      *
