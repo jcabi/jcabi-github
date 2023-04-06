@@ -35,8 +35,12 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Random;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -52,6 +56,11 @@ import org.mockito.Mockito;
  * @since 1.5.0
  */
 public final class RtChecksTest {
+
+    /**
+     * Conclusion key in json check.
+     */
+    private static final String CONCLUSION_KEY = "conclusion";
 
     /**
      * The rule for skipping test if there's BindException.
@@ -138,25 +147,24 @@ public final class RtChecksTest {
         }
     }
 
+    /**
+     * Checks that library can handle unfinished checks.
+     * @throws IOException If some I/O problem happens.
+     */
     @Test
-    public void retrievesUnfinishedChecksWithoutConclusion() throws IOException {
+    public void retrievesUnfinishedChecksWithoutConclusion()
+        throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    Json.createObjectBuilder()
-                        .add("total_count", Json.createValue(1))
-                        .add("check_runs",
-                            Json.createArrayBuilder()
-                                .add(
-                                    Json.createObjectBuilder()
-                                        .add("id", Json.createValue(new Random().nextInt()))
-                                        .add("status", "completed")
-                                        .build()
-                                )
-                        )
-                        .build()
-                        .toString()
+                    RtChecksTest.jsonChecks(
+                        RtChecksTest.jsonCheck()
+                            .add(
+                                RtChecksTest.CONCLUSION_KEY,
+                                Check.Conclusion.SUCCESS.value()
+                            )
+                    )
                 )
             ).start(this.resource.port())
         ) {
@@ -164,31 +172,31 @@ public final class RtChecksTest {
                 new JdkRequest(container.home()),
                 this.repo().pulls().get(0)
             );
-            MatcherAssert.assertThat(checks.all(), Matchers.hasSize(1));
-            for (final Check check : checks.all()) {
-                MatcherAssert.assertThat(check.successful(), Matchers.is(false));
+            final Collection<? extends Check> all = checks.all();
+            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            for (final Check check : all) {
+                MatcherAssert.assertThat(
+                    check.successful(),
+                    Matchers.is(false)
+                );
             }
         }
     }
 
+    /**
+     * Checks that library can handle unfinished checks.
+     * @throws IOException If some I/O problem happens.
+     */
     @Test
-    public void retrievesUnfinishedChecksWithoutStatusAndConclusion() throws IOException {
+    public void retrievesUnfinishedChecksWithoutStatusAndConclusion()
+        throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    Json.createObjectBuilder()
-                        .add("total_count", Json.createValue(1))
-                        .add("check_runs",
-                            Json.createArrayBuilder()
-                                .add(
-                                    Json.createObjectBuilder()
-                                        .add("id", Json.createValue(new Random().nextInt()))
-                                        .build()
-                                )
-                        )
-                        .build()
-                        .toString()
+                    RtChecksTest.jsonChecks(
+                        RtChecksTest.jsonCheck()
+                    )
                 )
             ).start(this.resource.port())
         ) {
@@ -196,9 +204,13 @@ public final class RtChecksTest {
                 new JdkRequest(container.home()),
                 this.repo().pulls().get(0)
             );
-            MatcherAssert.assertThat(checks.all(), Matchers.hasSize(1));
-            for (final Check check : checks.all()) {
-                MatcherAssert.assertThat(check.successful(), Matchers.is(false));
+            final Collection<? extends Check> all = checks.all();
+            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            for (final Check check : all) {
+                MatcherAssert.assertThat(
+                    check.successful(),
+                    Matchers.is(false)
+                );
             }
         }
     }
@@ -209,19 +221,36 @@ public final class RtChecksTest {
      * @return Json response body.
      */
     private static String jsonWithCheckRuns() {
+        return RtChecksTest.jsonChecks(
+            RtChecksTest.jsonCheck()
+                .add("status", Check.Status.COMPLETED.value())
+                .add(
+                    RtChecksTest.CONCLUSION_KEY,
+                    Check.Conclusion.SUCCESS.value()
+                )
+        );
+    }
+
+    /**
+     * Creates Json Check Builder.
+     * @return JsonObjectBuilder.
+     */
+    private static JsonObjectBuilder jsonCheck() {
+        return Json.createObjectBuilder()
+            .add("id", Json.createValue(new Random().nextInt()));
+    }
+
+    /**
+     * Creates json checks.
+     * @param checks All checks that have to be included.
+     * @return Json.
+     */
+    private static String jsonChecks(final JsonObjectBuilder... checks) {
+        final JsonArrayBuilder all = Json.createArrayBuilder();
+        Arrays.stream(checks).map(JsonObjectBuilder::build).forEach(all::add);
         return Json.createObjectBuilder()
             .add("total_count", Json.createValue(1))
-            .add(
-                "check_runs",
-                Json.createArrayBuilder()
-                    .add(
-                        Json.createObjectBuilder()
-                            .add("id", Json.createValue(new Random().nextInt()))
-                            .add("status", "completed")
-                            .add("conclusion", "success")
-                            .build()
-                    )
-            )
+            .add("check_runs", all.build())
             .build()
             .toString();
     }

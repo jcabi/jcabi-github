@@ -123,8 +123,27 @@ class RtChecks implements Checks {
     private static RtCheck check(final JsonValue value) {
         final JsonObject check = value.asJsonObject();
         return new RtCheck(
-            check.getString("status"),
-            check.getString("conclusion")
+            RtChecks.getOrUndefined("status", check),
+            RtChecks.getOrUndefined("conclusion", check)
         );
+    }
+
+    /**
+     * Retrieves String value from JsonObject by key or return "undefined".
+     * @param key Json key.
+     * @param check Retrieve from
+     * @return Json String value or "undefined".
+     */
+    private static String getOrUndefined(
+        final String key,
+        final JsonObject check
+    ) {
+        final String res;
+        if (check.containsKey(key)) {
+            res = check.getString(key);
+        } else {
+            res = Check.UNDEFINED_VALUE;
+        }
+        return res;
     }
 }

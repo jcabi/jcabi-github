@@ -44,6 +44,11 @@ import java.util.Locale;
 public interface Check {
 
     /**
+     * Undefined status or conclusion.
+     */
+    String UNDEFINED_VALUE = "undefined";
+
+    /**
      * Checks whether Check was successful.
      * @return True if Check was successful.
      * @throws IOException If there is any I/O problem.
@@ -70,7 +75,12 @@ public interface Check {
         /**
          * Completed.
          */
-        COMPLETED("completed");
+        COMPLETED("completed"),
+
+        /**
+         * Undefined. If GitHub response doesn't contain the Status value.
+         */
+        UNDEFINED(Check.UNDEFINED_VALUE);
 
         /**
          * Status.
@@ -173,7 +183,12 @@ public interface Check {
         /**
          * Timed out.
          */
-        TIMED_OUT("timed_out");
+        TIMED_OUT("timed_out"),
+
+        /**
+         * Undefined. If GitHub response doesn't contain the Conclusion value.
+         */
+        UNDEFINED(Check.UNDEFINED_VALUE);
 
         /**
          * Conclusion.
