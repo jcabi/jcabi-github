@@ -41,6 +41,7 @@ import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -61,6 +62,11 @@ public final class RtChecksTest {
      * Conclusion key in json check.
      */
     private static final String CONCLUSION_KEY = "conclusion";
+
+    /**
+     * Status key in json check.
+     */
+    private static final String STATUS_KEY = "status";
 
     /**
      * The rule for skipping test if there's BindException.
@@ -188,6 +194,45 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
+    public void retrievesUnfinishedChecksWithNullableConclusion()
+        throws IOException {
+        try (final MkContainer container = new MkGrizzlyContainer()
+            .next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.jsonChecks(
+                        RtChecksTest.jsonCheck()
+                            .add(
+                                RtChecksTest.CONCLUSION_KEY,
+                                JsonValue.NULL
+                            ).add(
+                                RtChecksTest.STATUS_KEY,
+                                Check.Status.QUEUED.value()
+                            )
+                    )
+                )
+            ).start(this.resource.port())
+        ) {
+            final Checks checks = new RtChecks(
+                new JdkRequest(container.home()),
+                this.repo().pulls().get(0)
+            );
+            final Collection<? extends Check> all = checks.all();
+            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            for (final Check check : all) {
+                MatcherAssert.assertThat(
+                    check.successful(),
+                    Matchers.is(false)
+                );
+            }
+        }
+    }
+
+    /**
+     * Checks that library can handle unfinished checks.
+     * @throws IOException If some I/O problem happens.
+     */
+    @Test
     public void retrievesUnfinishedChecksWithoutStatusAndConclusion()
         throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer()
@@ -223,7 +268,10 @@ public final class RtChecksTest {
     private static String jsonWithCheckRuns() {
         return RtChecksTest.jsonChecks(
             RtChecksTest.jsonCheck()
-                .add("status", Check.Status.COMPLETED.value())
+                .add(
+                    RtChecksTest.STATUS_KEY,
+                    Check.Status.COMPLETED.value()
+                )
                 .add(
                     RtChecksTest.CONCLUSION_KEY,
                     Check.Conclusion.SUCCESS.value()

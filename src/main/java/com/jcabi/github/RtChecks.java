@@ -139,7 +139,7 @@ class RtChecks implements Checks {
         final JsonObject check
     ) {
         final String res;
-        if (check.containsKey(key)) {
+        if (check.containsKey(key) && !check.isNull(key)) {
             res = check.getString(key);
         } else {
             res = Check.UNDEFINED_VALUE;
