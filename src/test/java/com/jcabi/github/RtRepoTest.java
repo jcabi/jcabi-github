@@ -33,6 +33,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
@@ -40,6 +41,8 @@ import java.net.HttpURLConnection;
 import java.util.Iterator;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
+import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -56,6 +59,15 @@ import org.mockito.Mockito;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtRepoTest {
 
+    /**
+     * Repo user for tests.
+     */
+    private static final String TEST_USER = "testuser";
+
+    /**
+     * Repo name for tests.
+     */
+    private static final String TEST_REPO = "testrepo";
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
@@ -425,6 +437,53 @@ public final class RtRepoTest {
     }
 
     /**
+     * RtStars can retrieve stargazers.
+     *
+     * @throws IOException If something goes wrong.
+     */
+    @Test
+    public void retrievesStargazers() throws IOException {
+        try (
+            final MkContainer container = new MkGrizzlyContainer()
+                .next(
+                    new MkAnswer.Simple(
+                        HttpURLConnection.HTTP_OK,
+                        "[]"
+                    )
+                ).start(this.resource.port())
+        ) {
+            final Repo repo = RtRepoTest.repo(
+                new ApacheRequest(container.home())
+            );
+            final Iterable<JsonValue> stargazers = repo.stargazers()
+                .iterable();
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                "We expect no stargazers",
+                stargazers,
+                Matchers.emptyIterable()
+            );
+            MatcherAssert.assertThat(
+                "Stargazers request should be a GET request",
+                query.method(),
+                Matchers.equalTo(Request.GET)
+            );
+            MatcherAssert.assertThat(
+                query.uri().getPath(),
+                Matchers.containsString(
+                    UriBuilder.fromPath("repos")
+                        .path(RtRepoTest.TEST_USER)
+                        .path(RtRepoTest.TEST_REPO)
+                        .path("stargazers")
+                        .build()
+                        .getPath()
+                )
+            );
+            container.stop();
+        }
+    }
+
+    /**
      * Create and return JsonObject to test.
      * @param event Event type
      * @return JsonObject
@@ -445,7 +504,7 @@ public final class RtRepoTest {
         return new RtRepo(
             Mockito.mock(Github.class),
             request,
-            new Coordinates.Simple("testuser", "testrepo")
+            new Coordinates.Simple(RtRepoTest.TEST_USER, RtRepoTest.TEST_REPO)
         );
     }
 }

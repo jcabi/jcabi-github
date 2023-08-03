@@ -48,7 +48,7 @@ import org.hamcrest.Matchers;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner", "request" })
+@EqualsAndHashCode(of = {"owner", "request"})
 final class RtStars implements Stars {
 
     /**
@@ -91,8 +91,8 @@ final class RtStars implements Stars {
                         HttpURLConnection.HTTP_NO_CONTENT,
                         HttpURLConnection.HTTP_NOT_FOUND
                     )
-            )
-        ).status() == HttpURLConnection.HTTP_NO_CONTENT;
+                )
+            ).status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 
     @Override

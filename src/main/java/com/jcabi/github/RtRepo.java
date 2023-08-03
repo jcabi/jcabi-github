@@ -223,6 +223,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public Stargazers stargazers() {
+        return new RtStargazers(this.request);
+    }
+
+    @Override
     public void patch(
         final JsonObject json
     )

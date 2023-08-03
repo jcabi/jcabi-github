@@ -197,6 +197,12 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     Branch defaultBranch() throws IOException;
 
     /**
+     * Lists the people that have starred the repository.
+     * @return Lists the people that have starred the repository.
+     */
+    Stargazers stargazers();
+
+    /**
      * Smart Repo with extra features.
      */
     @Immutable
@@ -357,6 +363,13 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @Override
         public Branch defaultBranch() throws IOException {
             return this.repo.defaultBranch();
+        }
+
+        @Override
+        public Stargazers stargazers() {
+            throw new UnsupportedOperationException(
+                "stargazers() not yet implemented"
+            );
         }
 
         @Override

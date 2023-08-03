@@ -50,7 +50,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords" })
+@EqualsAndHashCode(of = {"storage", "self", "coords"})
 final class MkStars implements Stars {
 
     /**

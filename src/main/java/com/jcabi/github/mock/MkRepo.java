@@ -53,6 +53,7 @@ import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommits;
 import com.jcabi.github.RtLanguage;
+import com.jcabi.github.Stargazers;
 import com.jcabi.github.Stars;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -304,6 +305,16 @@ final class MkRepo implements Repo {
             this.coords,
             "master",
             ""
+        );
+    }
+
+    @Override
+    public Stargazers stargazers() {
+        throw new UnsupportedOperationException(
+            String.format(
+                "%s.stargazers() not yet implemented",
+                this.getClass().getSimpleName()
+            )
         );
     }
 

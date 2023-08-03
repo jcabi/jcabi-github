@@ -68,8 +68,8 @@ public final class RtStarsTest {
     public void checkIfRepoStarred() throws Exception {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+                    new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+                ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
                 .start(this.resource.port())
         ) {
             final Stars starred = new RtStars(
