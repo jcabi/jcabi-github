@@ -1,7 +1,7 @@
 package com.jcabi.github;
 
+import com.jcabi.github.mock.MkGithub;
 import java.io.IOException;
-import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -16,7 +16,13 @@ public class RepositoryStatisticsTest {
     public void gathersBasicStatisticsFromRepo() throws IOException {
         MatcherAssert.assertThat(
             "We expect to have basic statistics from repo",
-            new RepositoryStatistics(null).toMap(),
+            new RepositoryStatistics(
+                new MkGithub()
+                    .repos()
+                    .create(
+                        new Repos.RepoCreate("volodya-lombrozo", false)
+                    )
+            ).toMap(),
             Matchers.allOf(
                 Matchers.hasKey("language"),
                 Matchers.hasKey("forks_count"),

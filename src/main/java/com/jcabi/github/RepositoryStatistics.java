@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 
@@ -40,13 +39,7 @@ public class RepositoryStatistics {
         }
 
         private MapEntry<String, Object> toEntry(final JsonObject object) {
-            final String k = this.getKey();
-            final JsonValue value = object.get(k);
-            return new MapEntry<>(k, value.toString());
-        }
-
-        public String getKey() {
-            return key;
+            return new MapEntry<>(this.key, object.get(this.key).toString());
         }
     }
 }
