@@ -30,6 +30,7 @@
 package com.jcabi.github;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -163,6 +164,14 @@ public final class RepositoryStatistics {
         }
 
         /**
+         * Getter for the key.
+         * @return The key of the JSON object returned by the GitHub API.
+         */
+        public String getKey() {
+            return this.key;
+        }
+
+        /**
          * Extracts the JSON object returned by the GitHub to a map entry.
          * @param object The JSON object returned by the GitHub API.
          * @return The map entry.
@@ -186,6 +195,115 @@ public final class RepositoryStatistics {
                 result = ((JsonString) value).getString();
             }
             return result;
+        }
+    }
+
+    /**
+     * Smart RepositoryStatistics.
+     *
+     * @version $Id $
+     * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
+     * @since 1.8.0
+     */
+    public static class Smart {
+
+        /**
+         * Repository statistics.
+         */
+        private final RepositoryStatistics stats;
+
+        /**
+         * Public ctor.
+         * @param repo
+         */
+        public Smart(final Repo repo) {
+            this(new RepositoryStatistics(repo));
+        }
+
+        /**
+         * Public ctor.
+         * @param statistics
+         */
+        public Smart(final RepositoryStatistics statistics) {
+            this.stats = statistics;
+        }
+
+        /**
+         * Number of forks of this repository.
+         * @return Number of forks
+         * @throws IOException If there is any I/O problem
+         */
+        public int forks() throws IOException {
+            return this.integer(KEY.FORKS_COUNT);
+        }
+
+        /**
+         * Number of users who have starred this repository.
+         * @return Number of stargazers
+         * @throws IOException If there is any I/O problem
+         */
+        public int stargazers() throws IOException {
+            return this.integer(KEY.STARGAZERS_COUNT);
+        }
+
+        /**
+         * Number of users watching the repository.
+         * @return Number of watchers
+         * @throws IOException If there is any I/O problem
+         */
+        public int watchers() throws IOException {
+            return this.integer(KEY.WATCHERS_COUNT);
+        }
+
+        /**
+         * The size of the repository.
+         * @return Size of the repository
+         * @throws IOException If there is any I/O problem
+         */
+        public int size() throws IOException {
+            return this.integer(KEY.SIZE);
+        }
+
+        /**
+         * The number of open issues in this repository.
+         * @return Number of open issues
+         * @throws IOException If there is any I/O problem
+         */
+        public int openIssues() throws IOException {
+            return this.integer(KEY.OPEN_ISSUES_COUNT);
+        }
+
+        /**
+         * The time the repository was created.
+         * @return Time the repository was created
+         * @throws IOException If there is any I/O problem
+         */
+        public ZonedDateTime created() throws IOException {
+            return this.datetime(KEY.CREATED_AT);
+        }
+
+        /**
+         * Parses integer from JSON.
+         * @param key Json key.
+         * @return Integer value.
+         * @throws IOException If there is any I/O problem
+         */
+        private int integer(final KEY key) throws IOException {
+            return Integer.parseInt(
+                String.valueOf(this.stats.toMap().get(key.getKey()))
+            );
+        }
+
+        /**
+         * Parses datetime from JSON.
+         * @param key Json key.
+         * @return Datetime value.
+         * @throws IOException If there is any I/O problem
+         */
+        private ZonedDateTime datetime(final KEY key) throws IOException {
+            return ZonedDateTime.parse(
+                String.valueOf(this.stats.toMap().get(key.getKey()))
+            );
         }
     }
 }
