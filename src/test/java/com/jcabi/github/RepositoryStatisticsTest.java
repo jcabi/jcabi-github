@@ -9,6 +9,7 @@ import org.junit.Test;
 /**
  * Test case for {@link RepositoryStatistics}.
  *
+ * @since 1.8.0
  */
 public class RepositoryStatisticsTest {
 
