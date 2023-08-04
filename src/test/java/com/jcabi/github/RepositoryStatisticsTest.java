@@ -50,7 +50,11 @@ import org.junit.Test;
  *  MkRepo should return different types like integer, double, long,
  *  etc. When it is implemented, we can replace strings with concrete
  *  types and remove that puzzle.
+ * @checkstyle StaticVariableNameCheck (1000 lines)
+ * @checkstyle MagicNumberCheck (1000 lines)
+ * @checkstyle LineLengthCheck (2 lines)
  */
+@SuppressWarnings({"PMD.SuspiciousConstantFieldName", "PMD.VariableNamingConventions"})
 public final class RepositoryStatisticsTest {
 
     /**
@@ -131,8 +135,7 @@ public final class RepositoryStatisticsTest {
     /**
      * Updated value in JSON.
      */
-    private static String UPDATED_VALUE = "2011-01-26T19:14:43Z";
-
+    private static String UPDATED_VALUE = "2012-01-26T19:14:43Z";
 
     /**
      * Checks that RepositryStatistics can convert all values to a map.
@@ -191,10 +194,14 @@ public final class RepositoryStatisticsTest {
         );
     }
 
+    /**
+     * Checks that RepositryStatistics.Smart can retrieve all values.
+     * @throws IOException If some problem with I/O happened.
+     */
     @Test
     public void retrievesSmartStatistics() throws IOException {
-        final RepositoryStatistics.Smart smart
-            = new RepositoryStatistics.Smart(this.repo());
+        final RepositoryStatistics.Smart smart =
+            new RepositoryStatistics.Smart(this.repo());
         MatcherAssert.assertThat(
             "Forks should be equal to 1",
             smart.forks(),
@@ -241,6 +248,11 @@ public final class RepositoryStatisticsTest {
         );
     }
 
+    /**
+     * Creates mock repo.
+     * @return Repo
+     * @throws IOException If some problem with I/O happened.
+     */
     private Repo repo() throws IOException {
         return new MkGithub()
             .repos()

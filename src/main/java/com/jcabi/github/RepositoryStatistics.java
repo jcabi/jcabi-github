@@ -205,16 +205,16 @@ public final class RepositoryStatistics {
      * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
      * @since 1.8.0
      */
-    public static class Smart {
+    public static final class Smart {
 
         /**
          * Repository statistics.
          */
-        private final RepositoryStatistics stats;
+        private final transient RepositoryStatistics stats;
 
         /**
          * Public ctor.
-         * @param repo
+         * @param repo Repository.
          */
         public Smart(final Repo repo) {
             this(new RepositoryStatistics(repo));
@@ -222,7 +222,7 @@ public final class RepositoryStatistics {
 
         /**
          * Public ctor.
-         * @param statistics
+         * @param statistics Repository statistics.
          */
         public Smart(final RepositoryStatistics statistics) {
             this.stats = statistics;
