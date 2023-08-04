@@ -33,9 +33,15 @@ import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import javax.json.Json;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -121,7 +127,7 @@ public interface Repos {
     @SuppressWarnings("PMD.TooManyMethods")
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = { "nam", "priv", "descr", "home", "init" })
+    @EqualsAndHashCode(of = {"nam", "priv", "descr", "home", "init"})
     final class RepoCreate implements JsonReadable {
         /**
          * Name of the new repo.
@@ -147,6 +153,11 @@ public interface Repos {
          * Organization where the created repo belongs.
          */
         private final transient String organization;
+
+        /**
+         * Other parameters which repo might have.
+         */
+        private final transient Map<String, JsonValue> other;
 
         /**
          * Public ctor.
@@ -188,6 +199,7 @@ public interface Repos {
             this.home = page;
             this.init = auto;
             this.organization = org;
+            this.other = new HashMap<>(0);
         }
 
         /**
@@ -360,6 +372,12 @@ public interface Repos {
             );
         }
 
+        public RepoCreate with(final String key, final JsonValue value) {
+            //todo need immutable implementation
+            this.other.put(key, value);
+            return this;
+        }
+
         @Override
         public JsonObject json() {
             JsonObjectBuilder builder = Json.createObjectBuilder()
@@ -369,6 +387,9 @@ public interface Repos {
                 .add("private", this.priv);
             if (this.init.isPresent()) {
                 builder = builder.add("auto_init", this.init.get());
+            }
+            for (final Map.Entry<String, JsonValue> entry : this.other.entrySet()) {
+                builder.add(entry.getKey(), entry.getValue());
             }
             return builder.build();
         }

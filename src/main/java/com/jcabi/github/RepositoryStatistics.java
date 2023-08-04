@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 
@@ -87,12 +90,16 @@ public class RepositoryStatistics {
          */
         private final String key;
 
-        /**
-         * Constructor.
-         * @param key The key of the JSON object returned by the GitHub API.
-         */
         KEY(final String key) {
             this.key = key;
+        }
+
+        /**
+         * String key.
+         * @return string key.
+         */
+        public String getKey() {
+            return this.key;
         }
 
         /**
@@ -101,7 +108,26 @@ public class RepositoryStatistics {
          * @return The map entry.
          */
         private MapEntry<String, Object> toEntry(final JsonObject object) {
-            return new MapEntry<>(this.key, object.get(this.key).toString());
+            if (!object.containsKey(this.key)) {
+                throw new IllegalStateException(
+                    String.format("JSON object '%s' doesn't contains mandatory attribute '%s'",
+                        object,
+                        this.key
+                    )
+                );
+            }
+            return new MapEntry<>(this.key, KEY.extract(object.get(this.key)));
+        }
+
+        private static Object extract(JsonValue value) {
+            final Object result;
+            final JsonValue.ValueType type = value.getValueType();
+            if (type == JsonValue.ValueType.NUMBER) {
+                result = ((JsonNumber) value).intValue();
+            } else {
+                result = ((JsonString) value).getString();
+            }
+            return result;
         }
     }
 }
