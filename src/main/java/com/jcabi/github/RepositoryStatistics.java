@@ -1,3 +1,32 @@
+/**
+ * Copyright (c) 2013-2023, jcabi.com
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met: 1) Redistributions of source code must retain the above
+ * copyright notice, this list of conditions and the following
+ * disclaimer. 2) Redistributions in binary form must reproduce the above
+ * copyright notice, this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided
+ * with the distribution. 3) Neither the name of the jcabi.com nor
+ * the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written
+ * permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+ * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.jcabi.github;
 
 import java.io.IOException;
@@ -11,23 +40,58 @@ import javax.json.JsonValue;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 
-public class RepositoryStatistics {
-    private final Repo repo;
+/**
+ * Repository statistics.
+ *
+ * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
+ * @version $Id $
+ * @since 1.8.0
+ * @todo #1660:90min Add RepositoryStatistics.Smart.
+ *  Implement RepositoryStatistics.Smart and use it to retrieve repository
+ *  statistics with the following methods:
+ *  - RepositoryStatistics.Smart#language()
+ *  - RepositoryStatistics.Smart#forksCount()
+ *  - RepositoryStatistics.Smart#stargazers()
+ *  - RepositoryStatistics.Smart#watchers()
+ *  - RepositoryStatistics.Smart#size()
+ *  - RepositoryStatistics.Smart#openIssues()
+ *  In other words, it would be convenient to have particular methods with
+ *  understandable names instead of using toMap() method.
+ */
+public final class RepositoryStatistics {
 
-    public RepositoryStatistics(final Repo repo) {
-        this.repo = repo;
+    /**
+     * Repository.
+     */
+    private final transient Repo repo;
+
+    /**
+     * Public ctor.
+     * @param repository Repository
+     */
+    public RepositoryStatistics(final Repo repository) {
+        this.repo = repository;
     }
 
-    Map<String, Object> toMap() throws IOException {
-        final JsonObject json = repo.json();
+    /**
+     * Get all statistics as a map.
+     * @return Map of statistics
+     * @throws IOException If there is any I/O problem
+     */
+    public Map<String, Object> toMap() throws IOException {
+        final JsonObject json = this.repo.json();
         return new MapOf<>(
-            Arrays.stream(KEY.values()).map(key -> key.toEntry(json)).collect(Collectors.toList())
+            Arrays.stream(KEY.values())
+                .map(key -> key.toEntry(json))
+                .collect(Collectors.toList())
         );
     }
 
     /**
      * Keys of the JSON object returned by the GitHub API.
      *
+     * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
+     * @version $Id $
      * @since 1.8.0
      */
     private enum KEY {
@@ -90,16 +154,12 @@ public class RepositoryStatistics {
          */
         private final String key;
 
-        KEY(final String key) {
-            this.key = key;
-        }
-
         /**
-         * String key.
-         * @return string key.
+         * Constructor.
+         * @param json The key of the JSON object returned by the GitHub API.
          */
-        public String getKey() {
-            return this.key;
+        KEY(final String json) {
+            this.key = json;
         }
 
         /**
@@ -107,19 +167,28 @@ public class RepositoryStatistics {
          * @param object The JSON object returned by the GitHub API.
          * @return The map entry.
          */
-        private MapEntry<String, Object> toEntry(final JsonObject object) {
+        MapEntry<String, Object> toEntry(final JsonObject object) {
             if (!object.containsKey(this.key)) {
                 throw new IllegalStateException(
-                    String.format("JSON object '%s' doesn't contains mandatory attribute '%s'",
+                    String.format(
+                        "JSON object '%s' doesn't contain attribute '%s'",
                         object,
                         this.key
                     )
                 );
             }
-            return new MapEntry<>(this.key, KEY.extract(object.get(this.key)));
+            return new MapEntry<>(
+                this.key,
+                KEY.extract(object.get(this.key))
+            );
         }
 
-        private static Object extract(JsonValue value) {
+        /**
+         * Extracts the JSON value to a Java object.
+         * @param value JSON value.
+         * @return Java object.
+         */
+        private static Object extract(final JsonValue value) {
             final Object result;
             final JsonValue.ValueType type = value.getValueType();
             if (type == JsonValue.ValueType.NUMBER) {

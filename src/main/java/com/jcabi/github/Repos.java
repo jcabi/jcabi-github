@@ -35,12 +35,9 @@ import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import javax.json.Json;
-import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonString;
 import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -372,8 +369,18 @@ public interface Repos {
             );
         }
 
+        /**
+         * Returns a RepoCreate with the given json fields.
+         * @param key Json key
+         * @param value Json value
+         * @return The same RepoCreate.
+         * @todo #1660:30min Make 'with' method immutable.
+         *  Currently, the 'with' method mutates the 'other' field.
+         *  This is not ideal, as it makes the class mutable.
+         *  Make the 'with' method immutable and return a new
+         *  RepoCreate object with the new field.
+         */
         public RepoCreate with(final String key, final JsonValue value) {
-            //todo need immutable implementation
             this.other.put(key, value);
             return this;
         }
@@ -388,7 +395,8 @@ public interface Repos {
             if (this.init.isPresent()) {
                 builder = builder.add("auto_init", this.init.get());
             }
-            for (final Map.Entry<String, JsonValue> entry : this.other.entrySet()) {
+            for (final Map.Entry<String, JsonValue> entry
+                : this.other.entrySet()) {
                 builder.add(entry.getKey(), entry.getValue());
             }
             return builder.build();
