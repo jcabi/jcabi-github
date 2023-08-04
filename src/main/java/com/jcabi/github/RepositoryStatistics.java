@@ -37,8 +37,6 @@ import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
-import org.cactoos.map.MapEntry;
-import org.cactoos.map.MapOf;
 
 /**
  * Repository statistics.
@@ -80,11 +78,13 @@ public final class RepositoryStatistics {
      */
     public Map<String, Object> toMap() throws IOException {
         final JsonObject json = this.repo.json();
-        return new MapOf<>(
-            Arrays.stream(KEY.values())
-                .map(key -> key.toEntry(json))
-                .collect(Collectors.toList())
-        );
+        return Arrays.stream(KEY.values())
+            .collect(
+                Collectors.toMap(
+                    key -> key.key,
+                    key -> key.value(json)
+                )
+            );
     }
 
     /**
@@ -167,7 +167,7 @@ public final class RepositoryStatistics {
          * @param object The JSON object returned by the GitHub API.
          * @return The map entry.
          */
-        MapEntry<String, Object> toEntry(final JsonObject object) {
+        Object value(final JsonObject object) {
             if (!object.containsKey(this.key)) {
                 throw new IllegalStateException(
                     String.format(
@@ -177,18 +177,7 @@ public final class RepositoryStatistics {
                     )
                 );
             }
-            return new MapEntry<>(
-                this.key,
-                KEY.extract(object.get(this.key))
-            );
-        }
-
-        /**
-         * Extracts the JSON value to a Java object.
-         * @param value JSON value.
-         * @return Java object.
-         */
-        private static Object extract(final JsonValue value) {
+            final JsonValue value = object.get(this.key);
             final Object result;
             final JsonValue.ValueType type = value.getValueType();
             if (type == JsonValue.ValueType.NUMBER) {
