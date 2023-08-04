@@ -50,6 +50,12 @@ import org.junit.Test;
  *  MkRepo should return different types like integer, double, long,
  *  etc. When it is implemented, we can replace strings with concrete
  *  types and remove that puzzle.
+ * @todo #1663:90min Refactor RepositoryStatisticsTest.
+ *  RepositoryStatisticsTest has too many boilerplate code. Also it
+ *  has repeated variables and constants. Refactor it to make it more
+ *  readable and maintainable. Moreover all this variables don't follow
+ *  PMD and Checkstyle rules. When it is done, remove this puzzle and
+ *  all the checkstyle and PMD suppressions.
  * @checkstyle StaticVariableNameCheck (1000 lines)
  * @checkstyle MagicNumberCheck (1000 lines)
  * @checkstyle LineLengthCheck (2 lines)

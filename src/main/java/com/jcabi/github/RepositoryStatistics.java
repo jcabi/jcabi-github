@@ -45,17 +45,6 @@ import javax.json.JsonValue;
  * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @version $Id $
  * @since 1.8.0
- * @todo #1660:90min Add RepositoryStatistics.Smart.
- *  Implement RepositoryStatistics.Smart and use it to retrieve repository
- *  statistics with the following methods:
- *  - RepositoryStatistics.Smart#language()
- *  - RepositoryStatistics.Smart#forksCount()
- *  - RepositoryStatistics.Smart#stargazers()
- *  - RepositoryStatistics.Smart#watchers()
- *  - RepositoryStatistics.Smart#size()
- *  - RepositoryStatistics.Smart#openIssues()
- *  In other words, it would be convenient to have particular methods with
- *  understandable names instead of using toMap() method.
  */
 public final class RepositoryStatistics {
 
