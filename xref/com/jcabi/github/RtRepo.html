@@ -51,7 +51,7 @@
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * Github repository.</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * @author Yegor Bugayenko (yegor256@gmail.com)</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: 841f5798eaaeb76a86517c5903bf4f561783b97b $</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * @version $Id: b0151c854a897ada9f541c0f8a9003c66e6ac977 $</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @checkstyle ClassFanOutComplexity (10 lines)</em>
@@ -231,33 +231,38 @@
 <a class="jxr_linenumber" name="L223" href="#L223">223</a>     }
 <a class="jxr_linenumber" name="L224" href="#L224">224</a> 
 <a class="jxr_linenumber" name="L225" href="#L225">225</a>     @Override
-<a class="jxr_linenumber" name="L226" href="#L226">226</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> patch(
-<a class="jxr_linenumber" name="L227" href="#L227">227</a>         <strong class="jxr_keyword">final</strong> JsonObject json
-<a class="jxr_linenumber" name="L228" href="#L228">228</a>     )
-<a class="jxr_linenumber" name="L229" href="#L229">229</a>         <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>         <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtJson.html">RtJson</a>(<strong class="jxr_keyword">this</strong>.request).patch(json);
-<a class="jxr_linenumber" name="L231" href="#L231">231</a>     }
-<a class="jxr_linenumber" name="L232" href="#L232">232</a> 
-<a class="jxr_linenumber" name="L233" href="#L233">233</a>     @Override
-<a class="jxr_linenumber" name="L234" href="#L234">234</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/RepoCommits.html">RepoCommits</a> commits() {
-<a class="jxr_linenumber" name="L235" href="#L235">235</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtRepoCommits.html">RtRepoCommits</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Stargazers.html">Stargazers</a> stargazers() {
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtStargazers.html">RtStargazers</a>(<strong class="jxr_keyword">this</strong>.request);
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>     }
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>     @Override
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> patch(
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         <strong class="jxr_keyword">final</strong> JsonObject json
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>     )
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>         <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>         <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtJson.html">RtJson</a>(<strong class="jxr_keyword">this</strong>.request).patch(json);
 <a class="jxr_linenumber" name="L236" href="#L236">236</a>     }
 <a class="jxr_linenumber" name="L237" href="#L237">237</a> 
 <a class="jxr_linenumber" name="L238" href="#L238">238</a>     @Override
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Branches.html">Branches</a> branches() {
-<a class="jxr_linenumber" name="L240" href="#L240">240</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtBranches.html">RtBranches</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/RepoCommits.html">RepoCommits</a> commits() {
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtRepoCommits.html">RtRepoCommits</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L241" href="#L241">241</a>     }
 <a class="jxr_linenumber" name="L242" href="#L242">242</a> 
 <a class="jxr_linenumber" name="L243" href="#L243">243</a>     @Override
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>     <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtJson.html">RtJson</a>(<strong class="jxr_keyword">this</strong>.request).fetch();
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>     <strong class="jxr_keyword">public</strong> <a href="../../../com/jcabi/github/Branches.html">Branches</a> branches() {
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtBranches.html">RtBranches</a>(<strong class="jxr_keyword">this</strong>.entry, <strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L246" href="#L246">246</a>     }
 <a class="jxr_linenumber" name="L247" href="#L247">247</a> 
 <a class="jxr_linenumber" name="L248" href="#L248">248</a>     @Override
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> repo) {
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.coords.compareTo(repo.coordinates());
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>     <strong class="jxr_keyword">public</strong> JsonObject json() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../com/jcabi/github/RtJson.html">RtJson</a>(<strong class="jxr_keyword">this</strong>.request).fetch();
 <a class="jxr_linenumber" name="L251" href="#L251">251</a>     }
-<a class="jxr_linenumber" name="L252" href="#L252">252</a> }
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>     @Override
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> compareTo(<strong class="jxr_keyword">final</strong> <a href="../../../com/jcabi/github/Repo.html">Repo</a> repo) {
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.coords.compareTo(repo.coordinates());
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>     }
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2023 <a href="https://www.jcabi.com">jcabi.com</a>. All rights reserved.</div>

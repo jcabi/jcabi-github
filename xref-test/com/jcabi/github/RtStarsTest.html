@@ -56,7 +56,7 @@
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * @author Paul Polishchuk (ppol@ua.fm)</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * @author Paulo Lobo (pauloeduardolobo@gmail.com)</em>
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * @version $Id: 90cd04d881f70abb8d4fba5748320d3623fc99ad $</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * @version $Id: a36e50e5b5802404361cf7c499dcc5b6922df03e $</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../com/jcabi/github/RtStarsTest.html">RtStarsTest</a> {
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  
@@ -76,8 +76,8 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> checkIfRepoStarred() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          <strong class="jxr_keyword">try</strong> (
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>              <strong class="jxr_keyword">final</strong> MkContainer container = <strong class="jxr_keyword">new</strong> MkGrizzlyContainer().next(
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>                  <strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>              ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>                      <strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>                  ).next(<strong class="jxr_keyword">new</strong> MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>                  .start(<strong class="jxr_keyword">this</strong>.resource.port())
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>          ) {
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>              <strong class="jxr_keyword">final</strong> Stars starred = <strong class="jxr_keyword">new</strong> RtStars(
