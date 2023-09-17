@@ -160,7 +160,7 @@ public interface Repos {
          * Public ctor.
          * @param nme Name of the new repository. Cannot be empty.
          * @param prvt Will the new repo be private?
-         *  If not, then it will be public.
+         * Initializes an empty HashMap for 'otherMap' to store additional, optional JSON key-value pairs.
          */
         public RepoCreate(final String nme, final boolean prvt) {
             this(nme, prvt, "", "", Optional.<Boolean>absent(), "", new HashMap<>(0));
