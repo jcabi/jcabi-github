@@ -186,6 +186,7 @@ public interface Repos {
             final String page,
             final Optional<Boolean> auto,
             final String org
+            final Map<String, JsonValue> otherMap
         ) {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");
@@ -196,7 +197,7 @@ public interface Repos {
             this.home = page;
             this.init = auto;
             this.organization = org;
-            this.other = new HashMap<>(0);
+            this.other = new HashMap<>(othermap);
         }
 
         /**
@@ -374,15 +375,24 @@ public interface Repos {
          * @param key Json key
          * @param value Json value
          * @return The same RepoCreate.
-         * @todo #1660:30min Make 'with' method immutable.
-         *  Currently, the 'with' method mutates the 'other' field.
-         *  This is not ideal, as it makes the class mutable.
-         *  Make the 'with' method immutable and return a new
-         *  RepoCreate object with the new field.
          */
         public RepoCreate with(final String key, final JsonValue value) {
-            this.other.put(key, value);
-            return this;
+            // Create a new map to encapsulate JsonObject.
+            Map<String, JsonValue> newOther = new HashMap<>(this.other);
+
+            // Add the new key-value pair to the new map
+            newOther.put(key, value);
+            
+            // Return a new RepoCreate object with the new map.
+            return new RepoCreate(
+                this.nam,
+                this.priv,
+                this.descr,
+                this.home,
+                this.init,
+                this.organization,
+                newOther
+            );
         }
 
         @Override
