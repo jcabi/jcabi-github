@@ -163,7 +163,7 @@ public interface Repos {
          *  If not, then it will be public.
          */
         public RepoCreate(final String nme, final boolean prvt) {
-            this(nme, prvt, "", "", Optional.<Boolean>absent(), "");
+            this(nme, prvt, "", "", Optional.<Boolean>absent(), "", new HashMap<>(0));
         }
 
         /**
@@ -185,7 +185,7 @@ public interface Repos {
             final String desc,
             final String page,
             final Optional<Boolean> auto,
-            final String org
+            final String org,
             final Map<String, JsonValue> otherMap
         ) {
             if (nme.isEmpty()) {
@@ -197,7 +197,7 @@ public interface Repos {
             this.home = page;
             this.init = auto;
             this.organization = org;
-            this.other = new HashMap<>(othermap);
+            this.other = new HashMap<>(otherMap);
         }
 
         /**
@@ -266,7 +266,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -282,7 +283,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -300,7 +302,8 @@ public interface Repos {
                 desc,
                 this.home,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -318,7 +321,8 @@ public interface Repos {
                 this.descr,
                 page,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -334,7 +338,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 auto,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -350,7 +355,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 Optional.of(auto),
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -366,7 +372,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 this.init,
-                org
+                org,
+                this.other
             );
         }
 
