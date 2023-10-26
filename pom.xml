@@ -221,7 +221,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>org.glassfish.grizzly</groupId>
       <artifactId>grizzly-http-servlet-server</artifactId>
-      <version>4.0.0</version>
+      <version>4.0.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
