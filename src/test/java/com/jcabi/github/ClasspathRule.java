@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2023, jcabi.com
+ * Copyright (c) 2013-2024, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,8 +37,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -60,18 +59,16 @@ public final class ClasspathRule implements TestRule {
             new Reflections(
                 new ConfigurationBuilder()
                     .setScanners(
-                        new SubTypesScanner(false),
-                        new ResourcesScanner()
-                )
+                        Scanners.SubTypes,
+                        Scanners.Resources
+                    )
                     .setUrls(
                         ClasspathHelper.forClassLoader(
                             ClasspathHelper.contextClassLoader(),
                             ClasspathHelper.staticClassLoader()
                         )
                     ).filterInputsBy(
-                    new FilterBuilder().include(
-                        FilterBuilder.prefix("com.jcabi.github")
-                    )
+                        new FilterBuilder().includePackage("com.jcabi.github")
                     )
             ).getSubTypesOf(Object.class),
             input -> {

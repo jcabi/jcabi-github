@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2023, jcabi.com
+ * Copyright (c) 2013-2024, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.mockito.Mockito;
  * Tests for {@link Pull}.
  * @author Paul Polishchuk (ppol@ua.fm)
  * @version $Id$
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class PullTest {
 
@@ -127,4 +126,5 @@ public final class PullTest {
             Matchers.equalTo(login)
         );
     }
+
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2023, jcabi.com
+ * Copyright (c) 2013-2024, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import javax.json.JsonObject;
  * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
