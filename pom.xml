@@ -88,12 +88,12 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>com.jcabi.incubator</groupId>
       <artifactId>xembly</artifactId>
-      <version>0.30.0</version>
+      <version>0.31.1</version>
     </dependency>
     <dependency>
       <groupId>com.jcabi</groupId>
       <artifactId>jcabi-log</artifactId>
-      <version>0.23.0</version>
+      <version>0.24.1</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -221,7 +221,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>org.glassfish.grizzly</groupId>
       <artifactId>grizzly-http-servlet-server</artifactId>
-      <version>4.0.1</version>
+      <version>4.0.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -233,19 +233,19 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.16.0</version>
+      <version>2.16.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.16.0</version>
+      <version>2.16.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-reload4j</artifactId>
-      <version>2.0.11</version>
+      <version>2.0.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -260,7 +260,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
       <dependency>
         <groupId>com.fasterxml.jackson</groupId>
         <artifactId>jackson-bom</artifactId>
-        <version>2.16.0</version>
+        <version>2.16.1</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
