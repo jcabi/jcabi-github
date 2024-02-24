@@ -1,4 +1,4 @@
-<img alt="logo" src="http://img.jcabi.com/logo-square.png" width="64px" height="64px" />
+<img alt="logo" src="https://www.jcabi.com/logo-square.svg" width="64px" height="64px" />
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![DevOps By Rultor.com](https://www.rultor.com/b/jcabi/jcabi-github)](https://www.rultor.com/p/jcabi/jcabi-github)
