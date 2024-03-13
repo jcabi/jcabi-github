@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2023, jcabi.com
+ * Copyright (c) 2013-2024, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,14 +35,14 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.RtGithub;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Sample test.
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  */
-public final class SampleTest {
+final class SampleTest {
 
     /**
      * Fetches labels from Github.

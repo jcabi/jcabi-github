@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2023, jcabi.com
+ * Copyright (c) 2013-2024, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -136,8 +136,8 @@ public final class RtPublicMembers implements PublicMembers {
                         HttpURLConnection.HTTP_NO_CONTENT,
                         HttpURLConnection.HTTP_NOT_FOUND
                     )
+                )
             )
-        )
             .status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2023, jcabi.com
+ * Copyright (c) 2013-2024, jcabi.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import lombok.ToString;
  * @author Alexander Lukashevich (sanai56967@gmail.com)
  * @version $Id$
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 public interface Blob extends JsonReadable {
