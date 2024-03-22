@@ -31,6 +31,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Github;
 import com.jcabi.github.Notifications;
 import com.jcabi.github.PublicKeys;
@@ -167,5 +168,15 @@ final class MkUser implements User {
     private String xpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }
+
+	@Override
+	public Iterable<Coordinates> invitations() throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean acceptInvitation(Coordinates coords) throws IOException {
+		throw new UnsupportedOperationException();
+	}
 
 }
