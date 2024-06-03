@@ -32,10 +32,19 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
@@ -95,6 +104,22 @@ final class RtRepo implements Repo {
             .path(this.coords.user())
             .path(this.coords.repo())
             .back();
+    }
+    
+    public Iterable<String> invitees() throws IOException {
+    	Iterator<JsonValue> iter = this.request.uri().path("/invitations").back().method(Request.GET)
+		.body().set(Json.createArrayBuilder().build()).back()
+		.fetch().as(RestResponse.class)
+        .assertStatus(HttpURLConnection.HTTP_OK)
+        .as(JsonResponse.class)
+        .json().readArray().iterator();
+    	
+    	Set<String> invitees = new HashSet<String>();
+    	while (iter.hasNext()) {
+			JsonObject val = (JsonObject) iter.next();
+			invitees.add(val.getJsonObject("invitee").getString("login"));
+		}
+    	return invitees;
     }
 
     @Override
