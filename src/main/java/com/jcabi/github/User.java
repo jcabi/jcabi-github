@@ -31,11 +31,23 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.http.Request;
+import com.jcabi.http.response.JsonResponse;
+import com.jcabi.http.response.RestResponse;
+
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -105,6 +117,21 @@ public interface User extends JsonReadable, JsonPatchable {
      *  receiving response occurs.
      */
     void markAsRead(final Date lastread) throws IOException;
+    
+    /**
+     * Get all invitations of this user
+     * @return iterable list of repository coordinates that this user is invited to
+     * @throws IOException 
+     */
+    Iterable<Coordinates> invitations() throws IOException;
+    
+    /**
+     * accept invitation to repository
+     * @param coords coordinates of repository to accept invitation to
+     * @return true if invitation was successfully accepted
+     * @throws IOException
+     */
+    public boolean acceptInvitation(Coordinates coords) throws IOException;
 
     /**
      * Smart user with extra features.
@@ -131,7 +158,60 @@ public interface User extends JsonReadable, JsonPatchable {
         public Smart(final User usr) {
             this.user = usr;
             this.jsn = new SmartJson(usr);
-        }
+        }        
+
+		@Override
+		public Iterable<Coordinates> invitations() throws IOException {
+			Iterator<JsonValue> iter = this.github().entry().uri().path("/user/repository_invitations").back().method(Request.GET)
+			.body().back()
+			.fetch().as(RestResponse.class)
+	        .assertStatus(HttpURLConnection.HTTP_OK)
+	        .as(JsonResponse.class)
+	        .json().readArray().iterator();
+			
+			Set<Coordinates> coordsSet = new HashSet<Coordinates>();
+			while (iter.hasNext()) {
+				JsonObject invite = (JsonObject) iter.next();
+				coordsSet.add(
+					    new Coordinates.Simple(
+					    	invite.getString("name"),
+					    	invite.getJsonObject("owner").getString("login")
+					    )
+					);
+			}
+			return coordsSet;
+		}
+		
+		@Override
+		public boolean acceptInvitation(final Coordinates coords) throws IOException {
+			Iterator<JsonValue> iter = this.github().entry().uri().path("/user/repository_invitations").back().method(Request.GET)
+					.body().back()
+					.fetch().as(RestResponse.class)
+			        .assertStatus(HttpURLConnection.HTTP_OK)
+			        .as(JsonResponse.class)
+			        .json().readArray().iterator();
+			int idToAccept = 0;
+			boolean match = false;
+			String thisCoord = coords.user().concat("/").concat(coords.repo());
+			while (iter.hasNext() && !match) {
+				JsonObject invitation = (JsonObject) iter.next();
+				JsonObject repository = invitation.getJsonObject("repository");
+				String fullRepoName = repository.getString("full_name");
+				if (fullRepoName.equals(thisCoord)) {
+					match = true;
+					idToAccept = invitation.getInt("id");
+				}
+			}
+			if (match) {
+				RestResponse resp = this.github().entry().uri().path("/user/repository_invitations/" + idToAccept).back().method(Request.PATCH)
+						.body().back()
+						.fetch().as(RestResponse.class);
+						
+				return resp.status() == HttpURLConnection.HTTP_NO_CONTENT;
+			}
+			return false;
+		}
+
 
         /**
          * Does it exist in GitHub?

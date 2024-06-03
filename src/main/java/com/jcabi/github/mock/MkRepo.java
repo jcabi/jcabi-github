@@ -341,4 +341,12 @@ final class MkRepo implements Repo {
         );
     }
 
+    /**
+     * Not yet implemented
+     */
+	@Override
+	public Iterable<String> invitees() throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
 }
