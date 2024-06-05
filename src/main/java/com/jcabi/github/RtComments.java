@@ -98,7 +98,7 @@ final class RtComments implements Comments {
     }
 
     @Override
-    public Comment get(final int number) {
+    public Comment get(final long number) {
         return new RtComment(this.entry, this.owner, number);
     }
 
@@ -115,7 +115,7 @@ final class RtComments implements Comments {
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
                 // @checkstyle MultipleStringLiterals (1 line)
-                .json().readObject().getInt("id")
+                .json().readObject().getJsonNumber("id").longValue()
         );
     }
 
@@ -125,7 +125,7 @@ final class RtComments implements Comments {
             this.request.uri()
                 .queryParam("since", new Github.Time(since))
                 .back(),
-            object -> this.get(object.getInt("id"))
+            object -> this.get(object.getJsonNumber("id").longValue())
         );
     }
 

@@ -62,7 +62,7 @@ public interface Comments {
      * @return Comment
      * @see <a href="https://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
      */
-    Comment get(int number);
+    Comment get(long number);
 
     /**
      * Iterate them all.

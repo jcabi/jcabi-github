@@ -112,7 +112,7 @@ final class MkComments implements Comments {
     }
 
     @Override
-    public Comment get(final int number) {
+    public Comment get(final long number) {
         return new MkComment(
             this.storage, this.self, this.repo, this.ticket, number
         );
@@ -124,7 +124,7 @@ final class MkComments implements Comments {
             this.storage,
             String.format("%s/comment", this.xpath()),
             xml -> this.get(
-                Integer.parseInt(xml.xpath("number/text()").get(0))
+                Long.parseLong(xml.xpath("number/text()").get(0))
             )
         );
     }
@@ -134,14 +134,14 @@ final class MkComments implements Comments {
         final String text
     ) throws IOException {
         this.storage.lock();
-        final int number;
+        final long number;
         try {
             final String timestamp = new Github.Time().toString();
             number = 1 + this.storage.xml()
                 .nodes("//comment/number").size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
-                    .add("number").set(Integer.toString(number)).up()
+                    .add("number").set(Long.toString(number)).up()
                     .add("url")
                     .set(
                         String.format(

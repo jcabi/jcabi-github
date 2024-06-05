@@ -78,7 +78,7 @@ final class MkComment implements Comment {
     /**
      * Comment number.
      */
-    private final transient int num;
+    private final transient long num;
 
     /**
      * Public ctor.
@@ -94,7 +94,7 @@ final class MkComment implements Comment {
         final String login,
         final Coordinates rep,
         final int issue,
-        final int number
+        final long number
     ) {
         this.storage = stg;
         this.self = login;
