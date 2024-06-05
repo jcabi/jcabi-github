@@ -29,7 +29,7 @@
  */
 package com.jcabi.github;
 
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -153,7 +153,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).url(),
-            Matchers.is(new URL(prop))
+            Matchers.is(new URI(prop).toURL())
         );
     }
 
@@ -173,7 +173,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).gitUrl(),
-            Matchers.is(new URL(prop))
+            Matchers.is(new URI(prop).toURL())
         );
     }
 
@@ -193,7 +193,7 @@ public class ContentTest {
         ).when(content).json();
         MatcherAssert.assertThat(
             new Content.Smart(content).htmlUrl(),
-            Matchers.is(new URL(prop))
+            Matchers.is(new URI(prop).toURL())
         );
     }
 

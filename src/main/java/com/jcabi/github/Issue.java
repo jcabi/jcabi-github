@@ -32,6 +32,8 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -320,7 +322,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(this.jsn.text("url"));
+            try {
+                return new URI(this.jsn.text("url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
         /**
          * Get its HTML URL.
@@ -328,7 +334,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
-            return new URL(this.jsn.text("html_url"));
+            try {
+                return new URI(this.jsn.text("html_url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
         /**
          * When this issue was created.

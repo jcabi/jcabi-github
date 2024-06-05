@@ -32,6 +32,8 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
@@ -106,7 +108,11 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(this.jsn.text("url"));
+            try {
+                return new URI(this.jsn.text("url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
         @Override
         public Repo repo() {

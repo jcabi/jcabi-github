@@ -29,7 +29,7 @@
  */
 package com.jcabi.github;
 
-import java.net.URL;
+import java.net.URI;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -61,7 +61,7 @@ public class ReleaseAssetTest {
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
             new ReleaseAsset.Smart(releaseAsset).url(),
-            Matchers.is(new URL(prop))
+            Matchers.is(new URI(prop).toURL())
         );
     }
 

@@ -71,7 +71,7 @@ final class RtComment implements Comment {
     /**
      * Comment number.
      */
-    private final transient int num;
+    private final transient long num;
 
     /**
      * Public ctor.
@@ -79,7 +79,7 @@ final class RtComment implements Comment {
      * @param issue Owner of this comment
      * @param number Number of the get
      */
-    RtComment(final Request req, final Issue issue, final int number) {
+    RtComment(final Request req, final Issue issue, final long number) {
         final Coordinates coords = issue.repo().coordinates();
         this.request = req.uri()
             .path("/repos")
@@ -87,7 +87,7 @@ final class RtComment implements Comment {
             .path(coords.repo())
             .path("/issues")
             .path("/comments")
-            .path(Integer.toString(number))
+            .path(Long.toString(number))
             .back();
         this.owner = issue;
         this.num = number;
@@ -104,7 +104,7 @@ final class RtComment implements Comment {
     }
 
     @Override
-    public int number() {
+    public long number() {
         return this.num;
     }
 
@@ -129,7 +129,7 @@ final class RtComment implements Comment {
     public int compareTo(
         final Comment comment
     ) {
-        return this.number() - comment.number();
+        return Long.compare(this.number(), comment.number());
     }
 
     @Override

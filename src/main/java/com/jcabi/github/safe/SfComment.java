@@ -77,7 +77,7 @@ public final class SfComment implements Comment {
     }
 
     @Override
-    public int number() {
+    public long number() {
         return this.origin.number();
     }
 

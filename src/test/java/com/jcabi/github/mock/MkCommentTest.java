@@ -33,7 +33,7 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repos;
-import java.net.URL;
+import java.net.URI;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -104,7 +104,7 @@ public final class MkCommentTest {
         final long after = MkCommentTest.now();
         MatcherAssert.assertThat(
             comment.number(),
-            Matchers.greaterThan(0)
+            Matchers.greaterThan(0L)
         );
         final Comment.Smart smart = new Comment.Smart(comment);
         MatcherAssert.assertThat(
@@ -122,10 +122,10 @@ public final class MkCommentTest {
         MatcherAssert.assertThat(
             smart.url(),
             Matchers.equalTo(
-                new URL(
+                new URI(
                     // @checkstyle LineLength (1 line)
                     "https://api.jcabi-github.invalid/repos/jeff/blueharvest/issues/comments/1"
-                )
+                ).toURL()
             )
         );
         MatcherAssert.assertThat(

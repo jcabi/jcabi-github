@@ -109,7 +109,7 @@ final class MkComment implements Comment {
     }
 
     @Override
-    public int number() {
+    public long number() {
         return this.num;
     }
 
@@ -124,7 +124,7 @@ final class MkComment implements Comment {
     public int compareTo(
         final Comment comment
     ) {
-        return this.number() - comment.number();
+        return Long.compare(this.number(), comment.number());
     }
 
     @Override

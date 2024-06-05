@@ -102,7 +102,7 @@ public final class RtCommentTest {
     public void returnsItsNumber() throws Exception {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing2", "issue2");
-        final int num = 10;
+        final long num = 10L;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
         MatcherAssert.assertThat(comment.number(), Matchers.is(num));
     }

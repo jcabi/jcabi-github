@@ -32,6 +32,8 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Collection;
@@ -79,7 +81,7 @@ public interface Comment
      * Number.
      * @return Comment number
      */
-    int number();
+    long number();
 
     /**
      * Delete the comment.
@@ -161,7 +163,11 @@ public interface Comment
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(this.jsn.text("url"));
+            try {
+                return new URI(this.jsn.text("url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
         /**
          * When this comment was created.
@@ -196,7 +202,7 @@ public interface Comment
             return this.comment.issue();
         }
         @Override
-        public int number() {
+        public long number() {
             return this.comment.number();
         }
         @Override

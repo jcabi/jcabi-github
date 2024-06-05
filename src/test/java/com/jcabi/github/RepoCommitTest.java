@@ -30,7 +30,7 @@
 package com.jcabi.github;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -61,7 +61,7 @@ public class RepoCommitTest {
         ).when(commit).json();
         MatcherAssert.assertThat(
             new RepoCommit.Smart(commit).url(),
-            Matchers.is(new URL(prop))
+            Matchers.is(new URI(prop).toURL())
         );
     }
 

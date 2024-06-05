@@ -32,6 +32,8 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
@@ -141,7 +143,11 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL url() throws IOException {
-            return new URL(this.jsn.text("url"));
+            try {
+                return new URI(this.jsn.text("url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
 
         /**
@@ -150,7 +156,11 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL htmlUrl() throws IOException {
-            return new URL(this.jsn.text("html_url"));
+            try {
+                return new URI(this.jsn.text("html_url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
 
         /**
@@ -159,7 +169,11 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL assetsUrl() throws IOException {
-            return new URL(this.jsn.text("assets_url"));
+            try {
+                return new URI(this.jsn.text("assets_url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
 
         /**
@@ -168,7 +182,11 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public URL uploadUrl() throws IOException {
-            return new URL(this.jsn.text("upload_url"));
+            try {
+                return new URI(this.jsn.text("upload_url")).toURL();
+            } catch (final URISyntaxException ex) {
+                throw new IllegalArgumentException(ex);
+            }
         }
 
         /**
