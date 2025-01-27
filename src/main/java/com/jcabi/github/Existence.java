@@ -37,8 +37,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Check if a Github JSON object actually exists on the server.
  *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @since 0.38
  */
 @Immutable

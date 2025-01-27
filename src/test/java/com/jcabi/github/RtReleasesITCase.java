@@ -40,8 +40,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtReleases}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @OAuthScope(Scope.REPO)

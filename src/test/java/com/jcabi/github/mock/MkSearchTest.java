@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkSearch}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

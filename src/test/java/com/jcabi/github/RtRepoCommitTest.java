@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtRepoCommit}.
- * @author Aleksey Popov (alopen@yandex.ru)
- * @version $Id$
  */
 public class RtRepoCommitTest {
     /**

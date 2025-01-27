@@ -35,8 +35,6 @@ import java.util.Map;
 
 /**
  * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable

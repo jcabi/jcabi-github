@@ -49,8 +49,6 @@ import lombok.ToString;
  *
  * <pre> URL url = new RepoCommit.Smart(commit).url();</pre>
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  * @checkstyle MultipleStringLiterals (500 lines)

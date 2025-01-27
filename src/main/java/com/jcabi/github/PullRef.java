@@ -39,8 +39,6 @@ import lombok.ToString;
 /**
  * GitHub pull request ref.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  * @see <a href="https://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a single pull request API</a>
  *

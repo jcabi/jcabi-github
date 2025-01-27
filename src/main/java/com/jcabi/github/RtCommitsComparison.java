@@ -42,8 +42,6 @@ import lombok.ToString;
 
 /**
  * Commits comparison.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -36,8 +36,6 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RtUser}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.USER)
 public final class RtUserITCase {

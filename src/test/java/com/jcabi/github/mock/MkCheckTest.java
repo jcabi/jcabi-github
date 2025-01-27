@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkCheck}.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  * @since 1.6.1
  */
 public final class MkCheckTest {

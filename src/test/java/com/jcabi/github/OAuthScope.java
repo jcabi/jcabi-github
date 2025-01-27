@@ -43,8 +43,6 @@ import java.lang.annotation.Target;
  *  check if the supplied account can fulfill the IT case requirement before
  *  it is run and make the case fail if the required OAuth scopes is not
  *  present.
- * @author Jason Wong (super132j@yahoo.com)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/oauth/#scopes">Github OAuth
  * scopes</a>
  */

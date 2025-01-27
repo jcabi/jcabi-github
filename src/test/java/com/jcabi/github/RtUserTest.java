@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtUser}.
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle LineLengthCheck (500 lines)

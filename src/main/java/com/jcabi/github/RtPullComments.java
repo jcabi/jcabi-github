@@ -44,8 +44,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github pull comment.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -46,9 +46,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtStars}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  */
 public final class RtStarsTest {
 

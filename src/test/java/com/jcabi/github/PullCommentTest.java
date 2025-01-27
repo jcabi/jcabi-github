@@ -41,8 +41,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link PullComment}.
  *
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 public final class PullCommentTest {
 

@@ -42,8 +42,6 @@ import org.xembly.Directives;
 /**
  * Mock github public keys.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable

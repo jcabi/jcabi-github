@@ -46,8 +46,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtTrees}.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtTreesTest {

@@ -51,8 +51,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github search pagination.
  *
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  * @param <T> Type of iterable objects
  */
 @Immutable

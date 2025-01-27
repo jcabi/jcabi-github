@@ -43,8 +43,6 @@ import org.xembly.Directives;
 /**
  * Unit tests for the MkUser class.
  *
- * @author Ed Hillmann (edhillmann@yahoo.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 public final class MkUserTest {

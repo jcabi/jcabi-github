@@ -34,8 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * Github users.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/users/">Users API</a>
  */

@@ -59,8 +59,6 @@ import lombok.ToString;
  * }
  * </pre>
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.23
  */
 @Immutable

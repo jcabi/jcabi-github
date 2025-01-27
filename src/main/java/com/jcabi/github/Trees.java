@@ -36,8 +36,6 @@ import javax.json.JsonObject;
 /**
  * Github Git Data Trees.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
  */

@@ -50,8 +50,6 @@ import lombok.EqualsAndHashCode;
  *     System.out.println("state is: " + issue.state());
  * }</pre>
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.5
  * @param <T> Type of iterable objects
  */

@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkPullComment}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class MkPullCommentTest {
     /**

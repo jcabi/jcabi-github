@@ -38,8 +38,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link Status}.
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.24
  */
 @SuppressWarnings("PMD.TooManyMethods")

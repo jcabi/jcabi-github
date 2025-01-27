@@ -46,8 +46,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtGistComment}.
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
 public class RtGistCommentTest {

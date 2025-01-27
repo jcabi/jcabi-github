@@ -51,8 +51,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkGithub}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class MkGithubTest {

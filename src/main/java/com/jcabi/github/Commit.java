@@ -49,8 +49,6 @@ import lombok.ToString;
  *
  * <pre> URL url = new Commit.Smart(commit).url();</pre>
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.3
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>

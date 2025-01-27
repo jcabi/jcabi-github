@@ -44,8 +44,6 @@ import org.hamcrest.Matchers;
 
 /**
  * Implementation of Collaborators.
- * @author Aleksey Popov (alopen@yandex.ru)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

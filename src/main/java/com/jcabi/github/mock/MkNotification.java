@@ -36,8 +36,6 @@ import com.jcabi.xml.XML;
 /**
  * Mock for Github Notification.
  *
- * @author Piotr Pradzynski (prondzyn@gmail.com)
- * @version $Id$
  * @since 0.25
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */

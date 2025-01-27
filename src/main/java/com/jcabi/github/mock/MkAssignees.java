@@ -42,8 +42,6 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Mock for Github Assignees.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.7
  */
 @Immutable

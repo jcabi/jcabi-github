@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Integration test for {@link RtGistComments}.
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */

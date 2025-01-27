@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtSearchPagination}.
  *
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 public final class RtSearchPaginationTest {
 

@@ -42,8 +42,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github Search.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */

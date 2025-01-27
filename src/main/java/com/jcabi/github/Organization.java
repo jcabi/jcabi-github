@@ -52,8 +52,6 @@ import lombok.ToString;
  * if (org.name() == null) {
  *   name = "new_name";
  * }</pre>
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7

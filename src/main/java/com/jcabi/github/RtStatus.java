@@ -38,9 +38,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github commit status.
- * @author Marcin Cylke (maracin.cylke+github@gmail.com)
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.23
  */
 @Immutable

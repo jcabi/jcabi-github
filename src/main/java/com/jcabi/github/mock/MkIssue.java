@@ -54,8 +54,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Mock Github issue.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.5
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */

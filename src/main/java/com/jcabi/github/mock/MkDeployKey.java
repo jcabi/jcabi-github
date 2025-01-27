@@ -41,8 +41,6 @@ import org.xembly.Directives;
 
 /**
  * Mock Github deploy key.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

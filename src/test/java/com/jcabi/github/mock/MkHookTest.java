@@ -41,8 +41,6 @@ import org.xembly.Directives;
 
 /**
  * Tests for {@link MkHook}.
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @since 0.42
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */

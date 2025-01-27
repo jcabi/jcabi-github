@@ -45,8 +45,6 @@ import org.reflections.util.FilterBuilder;
 
 /**
  * Utility class which provides convenient methods for annotations check etc.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class ClasspathRule implements TestRule {

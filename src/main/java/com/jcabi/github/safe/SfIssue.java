@@ -46,8 +46,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Safe issue.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.36
  */
 @Immutable

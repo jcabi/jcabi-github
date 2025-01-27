@@ -41,8 +41,6 @@ import org.xembly.Directives;
 
 /**
  * Test case for {@link MkStorage}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.DoNotUseThreads")

@@ -36,8 +36,6 @@ import java.util.Map;
 /**
  * Github gists.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  */

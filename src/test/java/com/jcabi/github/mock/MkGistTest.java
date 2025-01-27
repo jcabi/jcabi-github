@@ -38,8 +38,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkGist}.
- * @author Sinyagin Alexander (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 public final class MkGistTest {
     /**

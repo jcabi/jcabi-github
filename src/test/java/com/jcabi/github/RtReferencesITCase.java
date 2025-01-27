@@ -40,8 +40,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtReferences}.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(Scope.REPO)

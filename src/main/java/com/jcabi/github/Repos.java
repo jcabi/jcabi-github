@@ -45,8 +45,6 @@ import lombok.ToString;
 /**
  * Github Repo API.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.5
  * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
  */
@@ -113,9 +111,7 @@ public interface Repos {
     /**
      * Settings to use when creating a new GitHub repository.
      *
-     * @author Chris Rebert (github@rebertia.com)
-     * @version $Id$
-     * @since 0.24
+             * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repo API</a>
      * @todo #1095:30m Add the ability to set the other parameters of
      *  the repo creation API (has_issues, has_wiki, has_downloads,

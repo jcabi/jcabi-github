@@ -38,8 +38,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link PublicKey}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 public final class PublicKeyTest {

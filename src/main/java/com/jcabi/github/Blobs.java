@@ -35,8 +35,6 @@ import java.io.IOException;
 /**
  * Github Git Data Blobs.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  */

@@ -43,8 +43,6 @@ import org.junit.Test;
 
 /**
  * Integration testcase for RtTags.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(Scope.REPO)

@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link CommitsComparison}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (75 lines)
  */
 public final class CommitsComparisonTest {

@@ -43,8 +43,6 @@ import org.xembly.Directives;
 
 /**
  * Mock Github release.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

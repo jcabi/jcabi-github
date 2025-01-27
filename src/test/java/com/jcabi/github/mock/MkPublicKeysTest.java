@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkPublicKeys}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 public final class MkPublicKeysTest {
 

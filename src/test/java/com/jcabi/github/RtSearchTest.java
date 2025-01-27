@@ -49,9 +49,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtSearch}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (300 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */

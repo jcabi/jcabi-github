@@ -54,8 +54,6 @@ import lombok.ToString;
  * }
  * </pre>
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/issues/milestones/">Milestones API</a>
  * @since 0.7
  */

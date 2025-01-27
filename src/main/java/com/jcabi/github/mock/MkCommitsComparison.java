@@ -42,8 +42,6 @@ import lombok.ToString;
 
 /**
  * Mock commits' comparison of a Github repository.
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

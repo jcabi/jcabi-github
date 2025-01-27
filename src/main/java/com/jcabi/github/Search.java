@@ -35,8 +35,6 @@ import java.util.EnumMap;
 /**
  * Github search.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/search/">Search API</a>
  */

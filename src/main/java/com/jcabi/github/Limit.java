@@ -42,8 +42,6 @@ import lombok.ToString;
 /**
  * Github Rate Limit API, one resource limit.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.6
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
  * @checkstyle MultipleStringLiterals (500 lines)

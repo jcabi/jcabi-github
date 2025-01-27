@@ -49,8 +49,6 @@ import lombok.ToString;
  *
  * <pre> URL url = new Status.Smart(status).url();</pre>
  *
- * @author Marcin Cylke (marcin.cylke+github@gmail.com)
- * @version $Id$
  * @since 0.23
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
  */
@@ -88,9 +86,7 @@ public interface Statuses extends JsonReadable {
     /**
      * Data to use when creating a new GitHub commit status.
      *
-     * @author Chris Rebert (github@rebertia.com)
-     * @version $Id$
-     * @since 0.24
+             * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
     @ToString

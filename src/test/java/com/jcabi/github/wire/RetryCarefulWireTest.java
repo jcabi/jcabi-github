@@ -47,10 +47,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RetryCarefulWire}.
  * Just combines the RetryWire and CarefulWire test cases.
- * @version $Id$
- * @author Chris Rebert (github@chrisrebert.com)
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
  */
 public final class RetryCarefulWireTest {
     /**

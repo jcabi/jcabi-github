@@ -35,8 +35,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link Coordinates}.
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  */
 public final class CoordinatesTest {
 

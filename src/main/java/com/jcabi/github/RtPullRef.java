@@ -36,8 +36,6 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub pull request ref.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)

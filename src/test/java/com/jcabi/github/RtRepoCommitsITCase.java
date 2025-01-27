@@ -46,8 +46,6 @@ import org.junit.Test;
  * real commits from jcabi-github repository for integration testing of
  * RtRepoCommits
  *
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.REPO)
 public class RtRepoCommitsITCase {

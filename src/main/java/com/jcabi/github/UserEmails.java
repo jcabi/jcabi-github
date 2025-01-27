@@ -34,8 +34,6 @@ import java.io.IOException;
 
 /**
  * Github user's emails.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

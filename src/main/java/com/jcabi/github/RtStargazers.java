@@ -38,8 +38,6 @@ import javax.json.JsonValue;
 /**
  * GitHub stargazers.
  *
- * @version $Id $
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @since 1.7.1
  */
 public final class RtStargazers implements Stargazers {

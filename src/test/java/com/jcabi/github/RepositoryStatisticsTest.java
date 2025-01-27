@@ -41,8 +41,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RepositoryStatistics}.
  *
- * @version $Id$
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @since 1.8.0
  * @todo #1660:90min MkRepo returns only string values from json.
  *  MkRepo returns only strings values, it is why in all tests

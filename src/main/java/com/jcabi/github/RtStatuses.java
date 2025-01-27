@@ -38,8 +38,6 @@ import javax.json.JsonObject;
 
 /**
  * Github statuses for a given commit.
- * @author Marcin Cylke (maracin.cylke+github@gmail.com)
- * @version $Id$
  * @since 0.23
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */

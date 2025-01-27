@@ -46,8 +46,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtMarkdown}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtMarkdownTest {

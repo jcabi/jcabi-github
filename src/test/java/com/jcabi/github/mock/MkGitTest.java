@@ -37,8 +37,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkGit}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  */
 public final class MkGitTest {

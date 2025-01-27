@@ -44,8 +44,6 @@ import org.xembly.Directives;
 
 /**
  * Mock of Github Commits.
- * @author Ed Hillmann (edhillmann@yahoo.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -37,8 +37,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github users.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.4
  */
 @Immutable

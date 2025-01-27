@@ -43,8 +43,6 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Milestones}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @OAuthScope(Scope.REPO)
@@ -142,4 +140,3 @@ public final class RtMilestonesITCase {
         );
     }
 }
-

@@ -34,8 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * Github repository language.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.19
  * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
  */

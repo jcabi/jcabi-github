@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtPublicKeys}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.ADMIN_PUBLIC_KEY)
 public class RtPublicKeysITCase {

@@ -34,8 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * Github issue events.
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.23
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
  */

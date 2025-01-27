@@ -42,8 +42,6 @@ import org.junit.Test;
 /**
  * Integration test for {@link RtReleaseAsset}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */

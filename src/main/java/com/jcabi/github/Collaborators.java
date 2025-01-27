@@ -35,8 +35,6 @@ import java.io.IOException;
 
 /**
  * Github repository collaborators.
- * @author Aleksey Popov (alopen@yandex.ru)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

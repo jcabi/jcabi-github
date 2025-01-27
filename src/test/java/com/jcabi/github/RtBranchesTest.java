@@ -49,8 +49,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtBranches}.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtBranchesTest {

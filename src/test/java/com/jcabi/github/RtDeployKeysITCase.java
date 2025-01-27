@@ -41,8 +41,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtDeployKeys}.
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  */
 @OAuthScope(Scope.ADMIN_PUBLIC_KEY)

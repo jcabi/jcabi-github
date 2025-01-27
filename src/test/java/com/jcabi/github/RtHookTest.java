@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtHook}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (2 lines)
  */
 public final class RtHookTest {

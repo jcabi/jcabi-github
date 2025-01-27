@@ -35,8 +35,6 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link FromProperties}.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @since 0.37
  */
 public final class FromPopertiesTest {

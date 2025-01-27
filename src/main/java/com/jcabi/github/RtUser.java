@@ -43,8 +43,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github user.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.1
  */
 @Immutable
@@ -173,4 +171,3 @@ final class RtUser implements User {
         new RtJson(this.request).patch(json);
     }
 }
-

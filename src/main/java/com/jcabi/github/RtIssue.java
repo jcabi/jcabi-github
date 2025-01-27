@@ -43,8 +43,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github issue.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)

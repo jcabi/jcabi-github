@@ -45,8 +45,6 @@ import lombok.EqualsAndHashCode;
  * Github Gitignore.
  * <p>Defines storage of .gitignore templates
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

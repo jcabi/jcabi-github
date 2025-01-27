@@ -46,8 +46,6 @@ import org.xembly.Directives;
 
 /**
  * Mock of Github Trees.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

@@ -66,8 +66,6 @@ import lombok.EqualsAndHashCode;
  *
  * <p>Now, there will be just two HTTP requests.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>

@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.USER_EMAIL)
 public final class RtUserEmailsITCase {

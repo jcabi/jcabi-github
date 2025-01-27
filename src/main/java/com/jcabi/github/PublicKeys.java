@@ -35,8 +35,6 @@ import java.io.IOException;
 /**
  * Github public keys.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  */
 @Immutable

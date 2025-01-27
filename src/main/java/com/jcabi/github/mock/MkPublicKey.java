@@ -40,8 +40,6 @@ import lombok.ToString;
 
 /**
  * Mock Github public key.
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

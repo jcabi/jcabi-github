@@ -37,8 +37,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtPublicKey}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 @OAuthScope(Scope.READ_PUBLIC_KEY)
 public final class RtPublicKeyITCase {

@@ -34,8 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * Git branches.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
  */

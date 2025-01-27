@@ -47,8 +47,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github value pagination.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  * @param <T> Type of iterable objects
  * @param <P> Type of source objects

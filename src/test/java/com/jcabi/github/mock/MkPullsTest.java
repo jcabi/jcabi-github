@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkPulls}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 1.0
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */

@@ -42,8 +42,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtRelease}.
- * @author Haris Osmanagic (haris.osmanagic@gmail.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */

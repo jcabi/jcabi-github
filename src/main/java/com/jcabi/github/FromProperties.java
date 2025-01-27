@@ -34,8 +34,6 @@ import java.util.Properties;
 
 /**
  * User agent data read from the jcabigithub.properties file.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @since 0.37
  */
 public final class FromProperties implements UserAgent {

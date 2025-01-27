@@ -37,8 +37,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github Git.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

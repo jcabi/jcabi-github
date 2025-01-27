@@ -45,8 +45,6 @@ import lombok.ToString;
 /**
  * Mock Github event.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.6.1
  */
 @Immutable

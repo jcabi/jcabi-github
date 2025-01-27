@@ -59,8 +59,6 @@ import lombok.ToString;
  *
  * <pre>String login = new GistComment.Smart(comment).author().login();</pre>
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @checkstyle MultipleStringLiterals (500 lines)

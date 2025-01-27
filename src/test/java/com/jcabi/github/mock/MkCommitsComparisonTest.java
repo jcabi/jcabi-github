@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkCommitsComparison).
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 public final class MkCommitsComparisonTest {
 

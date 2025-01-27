@@ -41,8 +41,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github trees.
- * @version $Id$
- * @author Alexander Lukashevich (sanai56967@gmail.com)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

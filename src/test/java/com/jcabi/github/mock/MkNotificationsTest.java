@@ -38,8 +38,6 @@ import org.xembly.Directives;
 /**
  * Test case for {@link MkNotifications}.
  *
- * @author Piotr Pradzynski (prondzyn@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

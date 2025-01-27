@@ -38,9 +38,6 @@ import org.junit.Test;
 
 /**
  * Github user organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  * @checkstyle MultipleStringLiteralsCheck (500 lines)

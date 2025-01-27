@@ -36,8 +36,6 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RtLimits}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(Scope.REPO)

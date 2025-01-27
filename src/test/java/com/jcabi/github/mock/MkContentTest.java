@@ -44,8 +44,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkContent}.
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  */
 public final class MkContentTest {

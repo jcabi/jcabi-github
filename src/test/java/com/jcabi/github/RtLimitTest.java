@@ -39,8 +39,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtLimit}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class RtLimitTest {
 

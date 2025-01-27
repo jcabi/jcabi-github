@@ -46,8 +46,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtGists}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 public final class RtGistsTest {
 

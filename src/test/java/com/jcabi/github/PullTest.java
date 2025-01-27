@@ -39,8 +39,6 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Pull}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class PullTest {

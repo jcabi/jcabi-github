@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Test case for {@link PullRef}.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  */
 public final class PullRefTest {

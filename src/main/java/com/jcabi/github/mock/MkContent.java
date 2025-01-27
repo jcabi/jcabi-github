@@ -46,8 +46,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 /**
  * Mock Github content.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

@@ -42,8 +42,6 @@ import javax.json.JsonValue;
 /**
  * Repository statistics.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id $
  * @since 1.8.0
  */
 public final class RepositoryStatistics {
@@ -80,9 +78,7 @@ public final class RepositoryStatistics {
     /**
      * Keys of the JSON object returned by the GitHub API.
      *
-     * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
-     * @version $Id $
-     * @since 1.8.0
+             * @since 1.8.0
      */
     private enum KEY {
 
@@ -190,9 +186,7 @@ public final class RepositoryStatistics {
     /**
      * Smart RepositoryStatistics.
      *
-     * @version $Id $
-     * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
-     * @since 1.8.0
+             * @since 1.8.0
      */
     public static final class Smart {
 
@@ -296,4 +290,3 @@ public final class RepositoryStatistics {
         }
     }
 }
-

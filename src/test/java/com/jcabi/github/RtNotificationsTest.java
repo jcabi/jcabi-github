@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtNotifications}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @todo #920 Create a test fetchSingleNotification and implement
  *  get() operation in RtNotifications.
  * @todo #920 Create a test fetchNonEmptyListOfNotifications and implement

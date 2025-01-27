@@ -43,8 +43,6 @@ import lombok.ToString;
 /**
  * Mock GitHub pull request ref.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  */
 @Immutable

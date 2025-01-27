@@ -40,8 +40,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtAssignees}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.7
  */
 @OAuthScope(Scope.READ_ORG)

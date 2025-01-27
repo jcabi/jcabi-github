@@ -36,8 +36,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github organizations.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */

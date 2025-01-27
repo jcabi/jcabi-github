@@ -39,9 +39,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link JsonNode}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  */
 public final class JsonNodeTest {
 

@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

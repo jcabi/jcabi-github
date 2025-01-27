@@ -44,9 +44,7 @@ import javax.json.JsonValue;
 /**
  * Github Checks.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
- * @version $Id$
  * @since 1.5.0
  */
 class RtChecks implements Checks {

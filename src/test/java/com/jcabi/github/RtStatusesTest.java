@@ -51,8 +51,6 @@ import org.junit.Test;
 /**
  * Testcase for {@link RtStatuses}.
  *
- * @author Marcin Cylke (marcin.cylke+github@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @todo #1130:30min Write RtStatusesITCase, an integration test case for

@@ -37,8 +37,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Milestone}.
- * @author Paul Polischuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class MilestoneTest {

@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Unit tests for the MkUser class.
  *
- * @author Roman Kisilenko (roman.kisilenko@gmail.com)
- * @version $Id$
  */
 public class MkMilestoneTest {
 

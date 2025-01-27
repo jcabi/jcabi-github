@@ -42,8 +42,6 @@ import org.xembly.Directives;
 
 /**
  * Mock of Github References.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

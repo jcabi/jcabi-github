@@ -52,8 +52,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtChecks}.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  * @since 1.5.0
  */
 public final class RtChecksTest {

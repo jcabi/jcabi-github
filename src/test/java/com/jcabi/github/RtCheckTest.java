@@ -37,8 +37,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtCheck}.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  * @since 1.5.0
  */
 public final class RtCheckTest {

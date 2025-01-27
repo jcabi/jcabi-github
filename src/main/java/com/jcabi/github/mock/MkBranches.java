@@ -43,8 +43,6 @@ import org.xembly.Directives;
 /**
  * Mock Git branches.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  */
 @Immutable

@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtSearch}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (140 lines)
  */
 @OAuthScope({ Scope.REPO, Scope.USER })

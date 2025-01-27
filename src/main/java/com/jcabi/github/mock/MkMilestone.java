@@ -38,8 +38,6 @@ import javax.json.JsonObject;
 
 /**
  * Mock Github milestone.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

@@ -38,8 +38,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Bulk}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 public final class BulkTest {
 

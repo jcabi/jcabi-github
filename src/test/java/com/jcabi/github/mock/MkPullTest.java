@@ -45,8 +45,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link MkPull}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id $
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */

@@ -42,8 +42,6 @@ import org.xembly.Directives;
 /**
  * Mock Github blobs.
  *
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })

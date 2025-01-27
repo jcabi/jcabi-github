@@ -53,8 +53,6 @@ import lombok.ToString;
  *
  * <pre>String id = new PullComment.Smart(comment).identifier();</pre>
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
  */

@@ -41,8 +41,6 @@ import org.hamcrest.Matchers;
 /**
  * Github Assignees.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */

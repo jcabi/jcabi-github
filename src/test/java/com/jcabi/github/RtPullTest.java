@@ -52,8 +52,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtPull}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtPullTest {

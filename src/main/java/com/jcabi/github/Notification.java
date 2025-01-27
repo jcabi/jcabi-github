@@ -36,8 +36,6 @@ import com.jcabi.aspects.Immutable;
  * <p>Use a supplementary "smart" decorator to get other properties
  * from an notification.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.19
  * @todo #920 Create Smart decorator to get other properties of Notification,
  *  such as reason, unread, updated_at, last_read_at, url, etc.

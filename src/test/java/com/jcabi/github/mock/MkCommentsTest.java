@@ -38,8 +38,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkComments}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 public final class MkCommentsTest {
 

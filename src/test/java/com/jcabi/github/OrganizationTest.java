@@ -37,8 +37,6 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Organization}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class OrganizationTest {

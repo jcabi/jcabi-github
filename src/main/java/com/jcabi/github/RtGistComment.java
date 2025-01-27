@@ -41,8 +41,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Gist comment.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

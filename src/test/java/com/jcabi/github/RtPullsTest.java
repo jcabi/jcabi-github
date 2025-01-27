@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtPulls}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class RtPullsTest {

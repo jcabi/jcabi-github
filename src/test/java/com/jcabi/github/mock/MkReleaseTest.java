@@ -43,8 +43,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkRelease}.
  *
- * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
- * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class MkReleaseTest {

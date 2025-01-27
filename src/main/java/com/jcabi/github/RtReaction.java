@@ -34,8 +34,6 @@ import java.util.Arrays;
 /**
  * Runtime Reaction.
  *
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @since 1.0
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize")

@@ -41,8 +41,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Github label.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1

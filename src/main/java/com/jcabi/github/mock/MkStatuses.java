@@ -39,8 +39,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub commit statuses.
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  * @todo #1129:30min Finish implementing this class (MkStatuses), a mock of
  *  GitHub's commits statuses (the "Statuses" interface).

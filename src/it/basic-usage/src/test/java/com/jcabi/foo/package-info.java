@@ -31,7 +31,5 @@
 /**
  * Integration testing.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 package com.jcabi.foo;

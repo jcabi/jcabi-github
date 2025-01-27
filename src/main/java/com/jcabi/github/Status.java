@@ -42,8 +42,6 @@ import lombok.ToString;
 
 /**
  * GitHub commit status.
- * @author Marcin Cylke (marcin.cylke+github@gmail.com)
- * @version $Id$
  * @since 0.23
  */
 @Immutable
@@ -70,8 +68,7 @@ public interface Status extends JsonReadable {
     /**
      * States of Status API.
      * @author Marcin Cylke(marcin.cylke+github@gmail.com)
-     * @version $Id$
-     */
+         */
     enum State implements StringEnum {
         /**
          * Pending state.
@@ -124,9 +121,7 @@ public interface Status extends JsonReadable {
 
     /**
      * Smart Status with extra features.
-     * @author Chris Rebert (github@chrisrebert.com)
-     * @version $Id$
-     * @since 0.24
+             * @since 0.24
      */
     @Immutable
     @ToString

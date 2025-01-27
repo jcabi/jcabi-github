@@ -40,8 +40,6 @@ import lombok.ToString;
 
 /**
  * File change.
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.24
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
  */

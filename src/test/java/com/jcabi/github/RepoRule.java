@@ -39,8 +39,6 @@ import org.junit.runners.model.Statement;
 
 /**
  * Utility class which provides convenient methods for repo managing.
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 public final class RepoRule implements TestRule {
 

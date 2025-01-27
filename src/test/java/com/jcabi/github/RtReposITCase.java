@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Integration case for {@link RtRepos}.
  *
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 @OAuthScope({ Scope.REPO, Scope.DELETE_REPO })
 public class RtReposITCase {

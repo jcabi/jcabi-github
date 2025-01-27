@@ -39,8 +39,6 @@ import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link MkRepos}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReposTest {

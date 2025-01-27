@@ -38,8 +38,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtStatus}.
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.24
  */
 public final class RtStatusTest {

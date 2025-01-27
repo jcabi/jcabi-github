@@ -51,8 +51,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)

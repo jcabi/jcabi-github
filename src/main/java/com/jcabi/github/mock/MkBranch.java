@@ -37,8 +37,6 @@ import com.jcabi.github.Repo;
 /**
  * Mock Git branch.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  */
 public final class MkBranch implements Branch {

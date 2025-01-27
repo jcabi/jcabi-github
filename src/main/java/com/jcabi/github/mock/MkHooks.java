@@ -44,8 +44,6 @@ import org.xembly.Directives;
 
 /**
  * Mock Github hooks.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

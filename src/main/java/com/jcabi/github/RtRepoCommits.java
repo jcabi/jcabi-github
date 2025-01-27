@@ -43,8 +43,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable

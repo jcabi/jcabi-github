@@ -44,8 +44,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtEvent}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtEventTest {

@@ -43,8 +43,6 @@ import org.xembly.Directives;
 
 /**
  * Github starring API.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.15
  */
 @Immutable

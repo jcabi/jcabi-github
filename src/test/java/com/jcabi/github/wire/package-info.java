@@ -31,7 +31,5 @@
 /**
  * Tests for wires.
  *
- * @author Alexander Sinygain (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 package com.jcabi.github.wire;

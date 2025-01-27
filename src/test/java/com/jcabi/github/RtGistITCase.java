@@ -38,8 +38,6 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Gist}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.GIST)
 public final class RtGistITCase {

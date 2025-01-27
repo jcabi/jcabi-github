@@ -43,8 +43,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkReleaseAsset}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */

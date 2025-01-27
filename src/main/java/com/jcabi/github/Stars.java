@@ -35,8 +35,6 @@ import java.io.IOException;
 /**
  * Github starring API.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  */

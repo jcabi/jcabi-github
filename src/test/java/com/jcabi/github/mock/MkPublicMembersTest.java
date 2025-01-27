@@ -42,8 +42,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkPublicMembers}.
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  */
 public final class MkPublicMembersTest {
     /**

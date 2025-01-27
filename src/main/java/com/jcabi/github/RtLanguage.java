@@ -34,8 +34,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github repository language.
- * @author Nikolay Popov (dementla7@rambler.ru)
- * @version $Id$
  */
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "txt", "length" })

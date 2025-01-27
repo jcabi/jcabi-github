@@ -38,8 +38,6 @@ import org.xembly.Directives;
 /**
  * Mock for public members of a GitHub organization.
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/orgs/members/">Organization Members API</a>
  * @since 0.24
  */

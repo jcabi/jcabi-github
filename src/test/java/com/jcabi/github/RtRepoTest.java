@@ -52,9 +52,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtRepo}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtRepoTest {

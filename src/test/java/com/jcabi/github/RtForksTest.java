@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtForks}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 public final class RtForksTest {
 

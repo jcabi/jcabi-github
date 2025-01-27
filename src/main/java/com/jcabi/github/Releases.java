@@ -38,8 +38,6 @@ import lombok.ToString;
 /**
  * Github Releases.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkIssueEvents}.
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.23
  */
 public final class MkIssueEventsTest {

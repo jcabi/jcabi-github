@@ -48,9 +48,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleases}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)

@@ -40,8 +40,6 @@ import org.xembly.Directives;
 
 /**
  * Mock Github milestones.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  */
 @Immutable
 final class MkMilestones implements Milestones {

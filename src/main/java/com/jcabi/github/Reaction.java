@@ -32,8 +32,6 @@ package com.jcabi.github;
 /**
  * Reaction for issue / comment.
  *
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @since 1.0
  * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
  * @todo #1469:30min Add support to team discussion and team discussion comments

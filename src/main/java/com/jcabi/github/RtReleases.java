@@ -43,8 +43,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github releases.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

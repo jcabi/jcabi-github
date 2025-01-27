@@ -41,8 +41,6 @@ import org.xembly.Directives;
 /**
  * Mock Github repository collaborators.
  *
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 @Immutable
 final class MkCollaborators implements Collaborators {

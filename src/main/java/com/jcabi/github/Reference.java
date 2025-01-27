@@ -36,8 +36,6 @@ import javax.json.JsonObject;
 /**
  * Github Git Data Reference.
  *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  */
 @Immutable
 public interface Reference {

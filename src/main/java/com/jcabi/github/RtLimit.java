@@ -39,8 +39,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github limit rate.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.6
  */
 @Immutable

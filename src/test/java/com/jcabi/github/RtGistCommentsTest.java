@@ -46,8 +46,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtGistComments}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class RtGistCommentsTest {
 

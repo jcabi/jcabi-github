@@ -36,8 +36,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtPublicMembers}.
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  */
 public final class RtPublicMembersITCase {
     /**

@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Testcase for MkTree.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkTreeTest {

@@ -36,8 +36,6 @@ import javax.json.JsonObject;
 /**
  * Github contents.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  * @checkstyle MultipleStringLiteralsCheck (500 lines)

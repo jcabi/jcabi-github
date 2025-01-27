@@ -35,8 +35,6 @@ import java.io.IOException;
 /**
  * GitHub Assignees.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.7
  */
 @Immutable

@@ -38,8 +38,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtBlobs}.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(Scope.REPO)

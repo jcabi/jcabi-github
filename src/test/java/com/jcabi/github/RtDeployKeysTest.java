@@ -47,8 +47,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtDeployKeys}.
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

@@ -36,8 +36,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 /**
  * Repository coordinates.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.1
  */
 @Immutable

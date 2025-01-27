@@ -38,8 +38,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link ReleaseAsset}.
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")

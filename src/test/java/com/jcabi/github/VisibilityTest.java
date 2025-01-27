@@ -45,8 +45,6 @@ import org.junit.Test;
  * {@code com.jcabi.github}. Certain types including all Smart types are
  * excluded.
  *
- * @author Carlos Crespo (carlos.a.crespo@gmail.com)
- * @version $Id$
  */
 public final class VisibilityTest {
 

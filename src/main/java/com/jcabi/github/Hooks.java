@@ -36,8 +36,6 @@ import java.util.Map;
 /**
  * Github hooks.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
  */

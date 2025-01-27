@@ -39,8 +39,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RepoCommit}.
- * @author Paul Polischuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RepoCommitTest {

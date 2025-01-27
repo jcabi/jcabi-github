@@ -46,8 +46,6 @@ import org.junit.Test;
 /**
  * Testcase for RtCommits.
  *
- * @author Ed Hillmann (edhillmann@yahoo.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RtCommitsTest {

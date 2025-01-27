@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Milestones}.
- * @author Kirill Che (g4s8.public@gmail.com)
- * @version $Id$
  * @since 0.33.1
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)

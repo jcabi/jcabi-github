@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Sample test.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 public final class SampleTest {
 

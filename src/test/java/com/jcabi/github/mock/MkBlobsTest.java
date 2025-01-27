@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkBlobs).
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  */
 public final class MkBlobsTest {
 

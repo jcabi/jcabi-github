@@ -49,9 +49,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtIssue}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtIssueTest {

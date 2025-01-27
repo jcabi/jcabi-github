@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Testcase for MkStars.
- * @author Yuriy Alevohin (alevohin@mail.ru)
- * @version $Id$
  */
 public class MkStarsTest {
 

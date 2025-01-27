@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link JsonPatch}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 public final class JsonPatchTest {
 

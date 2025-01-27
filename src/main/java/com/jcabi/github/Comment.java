@@ -59,9 +59,6 @@ import lombok.ToString;
  *
  * <pre>String login = new Comment.Smart(comment).author().login();</pre>
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  * @checkstyle MultipleStringLiterals (500 lines)

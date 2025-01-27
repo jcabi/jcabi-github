@@ -36,8 +36,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtCommitsComparison}.
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.24
  */
 public final class RtCommitsComparisonITCase {

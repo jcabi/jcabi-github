@@ -39,8 +39,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtForks}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.REPO)
 public class RtForksITCase {

@@ -34,8 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * Github Git Data Tag.
  *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

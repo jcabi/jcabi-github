@@ -47,8 +47,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtLabels}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class RtLabelsTest {
     /**

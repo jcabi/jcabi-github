@@ -42,8 +42,6 @@ import org.xembly.Directives;
 /**
  * Mock Github forks.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })

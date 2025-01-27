@@ -44,8 +44,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtMilestones}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class RtMilestonesTest {
 

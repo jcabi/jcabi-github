@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Testcase for {@link MkReference}.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReferenceTest {

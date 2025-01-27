@@ -31,8 +31,6 @@ package com.jcabi.github;
 
 /**
  * Represents a GitHub notifications thread.
- * @author Dmitri Pisarenko (dp@altruix.co)
- * @version $Id$
  * @since 1.0
  */
 public interface GitHubThread {

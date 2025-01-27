@@ -45,8 +45,6 @@ import org.xembly.Directives;
 
 /**
  * Mock commits of a Github repository.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

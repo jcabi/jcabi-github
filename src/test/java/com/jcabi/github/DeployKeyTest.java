@@ -36,8 +36,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link DeployKey}.
  *
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 public final class DeployKeyTest {

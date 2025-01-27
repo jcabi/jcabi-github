@@ -46,8 +46,6 @@ import lombok.ToString;
 /**
  * Github release.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  * @checkstyle MultipleStringLiterals (500 lines)

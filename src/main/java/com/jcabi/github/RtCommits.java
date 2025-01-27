@@ -41,8 +41,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github Commits.
- * @author Ed Hillmann (edhillmann@yahoo.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -50,8 +50,6 @@ import org.junit.rules.ExpectedException;
 /**
  * Test case for {@link RtPublicMembers}.
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtPublicMembersTest {

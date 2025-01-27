@@ -51,9 +51,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleaseAsset}.
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)

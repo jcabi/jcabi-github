@@ -43,8 +43,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtJson}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class RtJsonTest {
     /**

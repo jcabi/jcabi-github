@@ -42,8 +42,6 @@ import lombok.ToString;
 /**
  * Mock Github check.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  * @since 1.6.1
  */
 @Immutable

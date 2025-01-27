@@ -46,8 +46,6 @@ import org.xembly.Directives;
 /**
  * Mock GitHub issue events.
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.23
  */
 @Immutable

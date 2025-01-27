@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtCommitsComparison}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 public final class RtCommitsComparisonTest {
 

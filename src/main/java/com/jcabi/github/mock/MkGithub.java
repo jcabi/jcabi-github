@@ -65,8 +65,6 @@ import org.apache.commons.lang3.RandomStringUtils;
  * on JVM exit:
  *
  * <pre> Github github = new MkGithub("jeff");</pre>
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.5
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */

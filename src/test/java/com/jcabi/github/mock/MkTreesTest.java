@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Testcase for MkTrees.
- * @author Alexander Lukashevich (sanai56967@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

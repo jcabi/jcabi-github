@@ -40,8 +40,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkEvent}.
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 public final class MkEventTest {
     /**

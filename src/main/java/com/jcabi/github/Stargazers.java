@@ -35,8 +35,6 @@ import javax.json.JsonValue;
 /**
  * List of stargazers.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  * @since 1.7.1
  * @see <a href="https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#list-stargazers">List Stargazers</a>
  */

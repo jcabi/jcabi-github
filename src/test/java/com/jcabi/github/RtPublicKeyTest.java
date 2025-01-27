@@ -38,8 +38,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtPublicKey}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  */
 public final class RtPublicKeyTest {
 

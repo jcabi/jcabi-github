@@ -41,8 +41,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock Github commit.
- * @author Carlos Crespo (carlos.a.crespo@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

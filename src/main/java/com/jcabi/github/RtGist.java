@@ -47,8 +47,6 @@ import org.hamcrest.Matchers;
 /**
  * Github gist.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */

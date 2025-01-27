@@ -31,8 +31,6 @@ package com.jcabi.github;
 
 /**
  * User agent data.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @since 0.37
  */
 interface UserAgent {

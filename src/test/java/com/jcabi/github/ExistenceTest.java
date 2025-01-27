@@ -39,8 +39,6 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link Existence}.
  *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @since 0.38
  */
 public final class ExistenceTest {

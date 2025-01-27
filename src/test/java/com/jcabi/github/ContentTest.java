@@ -39,8 +39,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Content}.
- * @author Paul Polischuk (ppol@ua.fm)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")

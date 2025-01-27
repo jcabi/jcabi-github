@@ -42,8 +42,6 @@ import lombok.ToString;
 /**
  * Mock Github Rate Limit API.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.6
  */
 @Immutable

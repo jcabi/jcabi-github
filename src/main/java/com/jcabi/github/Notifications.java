@@ -34,9 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * Github Notifications API.
  *
- * @author Giang Le (lthuangiang@gmail.com)
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */

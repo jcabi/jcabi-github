@@ -34,8 +34,6 @@ import com.jcabi.aspects.Immutable;
 /**
  * An enum whose values correspond to unique strings.
  *
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.22.0
  */
 @Immutable

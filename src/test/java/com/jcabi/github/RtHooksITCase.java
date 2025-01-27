@@ -42,8 +42,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtHooks}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  */
 @OAuthScope(Scope.ADMIN_REPO_HOOK)

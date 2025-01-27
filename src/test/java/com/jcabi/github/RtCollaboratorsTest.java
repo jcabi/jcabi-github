@@ -49,8 +49,6 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link RtCollaborators}.
- * @author Aleksey Popov (alopen@yandex.ru)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)

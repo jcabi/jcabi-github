@@ -44,8 +44,6 @@ import org.xembly.Xembler;
 /**
  * Storage of Github data.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.5
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */

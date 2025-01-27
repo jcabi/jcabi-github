@@ -34,8 +34,6 @@ import org.junit.Test;
 /**
  * Tests for Runtime Reaction.
  *
- * @author Paulo Lobo (pauloeduardolobo@gmail.com)
- * @version $Id$
  * @since 1.0
  */
 public final class RtReactionTest {

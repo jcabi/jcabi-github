@@ -78,7 +78,7 @@ final Github github = new RtGithub(
 change the URI **paths**. Changing the requests' paths is not possible since the whole architecture
 of this library relies on Github's URI paths.
 
-For more complex configurations, you can instantiate ``RtGithub`` with your own custom ``Request``, by using the [RtGithub(Request)](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L147) constructor. 
+For more complex configurations, you can instantiate ``RtGithub`` with your own custom ``Request``, by using the [RtGithub(Request)](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L147) constructor.
 Be sure to configure the ``Request`` properly. See how the [default Request](https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L82) is created -- you basically have to do the same thing.
 
 ## Mock Implementation Of The API
@@ -154,4 +154,3 @@ In order to run static analysis checks only use this:
 ```
 $ mvn clean install -DskipTests -Dinvoker.skip=true -Pqulice
 ```
-

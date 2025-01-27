@@ -46,8 +46,6 @@ import org.xembly.Directives;
 /**
  * Mock Github pull comments.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */

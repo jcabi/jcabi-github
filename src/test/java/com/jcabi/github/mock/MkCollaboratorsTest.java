@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkCollaborators}.
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 public final class MkCollaboratorsTest {
 

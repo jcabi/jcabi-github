@@ -39,8 +39,6 @@ import org.xembly.Xembler;
 
 /**
  * Unit tests for {@link MkNotification}.
- * @author George Aristy (george.aristy@gmail.com)
- * @version $Id$
  * @since 0.40
  * @checkstyle MagicNumberCheck (500 lines)
  */

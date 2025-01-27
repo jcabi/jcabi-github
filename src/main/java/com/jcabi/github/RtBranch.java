@@ -37,8 +37,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Git branch implementation.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  * @since 0.24
  */
 @Immutable

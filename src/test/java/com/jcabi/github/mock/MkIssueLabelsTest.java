@@ -42,8 +42,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkIssueLabels}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 public final class MkIssueLabelsTest {
     /**

@@ -50,8 +50,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtComment}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */

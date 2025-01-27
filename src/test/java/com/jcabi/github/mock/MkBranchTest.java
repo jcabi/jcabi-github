@@ -39,8 +39,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkBranch}.
  *
- * @author Chris Rebert (github@rebertia.com)
- * @version $Id$
  */
 public final class MkBranchTest {
     /**

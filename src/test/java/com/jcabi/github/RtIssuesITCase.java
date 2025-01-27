@@ -43,8 +43,6 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Github}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  */
 @OAuthScope(Scope.REPO)
 public final class RtIssuesITCase {

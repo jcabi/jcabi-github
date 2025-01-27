@@ -37,8 +37,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkFork}.
  *
- * @author Tomas Colombo (tomas.colombo@rollasolution.com)
- * @version $Id$
  * @since 0.8
  */
 public final class MkForkTest {

@@ -49,8 +49,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRelease}.
- * @author Alexander Sinyagin (sinyagin.alexander@gmail.com)
- * @version $Id$
  */
 public class RtReleaseTest {
     /**

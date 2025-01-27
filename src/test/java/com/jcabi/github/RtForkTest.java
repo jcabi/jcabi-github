@@ -46,8 +46,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtFork}.
  *
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtForkTest {

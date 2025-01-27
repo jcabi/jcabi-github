@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Test class for MkMilestones.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkMilestonesTest {

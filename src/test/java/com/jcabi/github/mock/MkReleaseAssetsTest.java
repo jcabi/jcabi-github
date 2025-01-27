@@ -42,8 +42,6 @@ import org.junit.Test;
 /**
  * Test case for {@link MkReleaseAssets}.
  *
- * @author Carlos Miranda (miranda.cma@gmail.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle MethodNameCheck (200 lines)

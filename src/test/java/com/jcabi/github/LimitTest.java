@@ -41,8 +41,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Limit}.
  *
- * @author Tomas Colombo (tomas.colombo@rollasolution.com)
- * @version $Id$
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class LimitTest {

@@ -39,8 +39,6 @@ import org.junit.Test;
 
 /**
  * Testcase for MkTag.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkTagTest {

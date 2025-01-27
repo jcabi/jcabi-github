@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtIssues}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtIssuesTest {

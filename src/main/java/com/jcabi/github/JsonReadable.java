@@ -36,8 +36,6 @@ import javax.json.JsonObject;
 /**
  * JSON readable.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.4
  */
 @Immutable

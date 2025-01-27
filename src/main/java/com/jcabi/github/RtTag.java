@@ -39,8 +39,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Github Tag.
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -41,8 +41,6 @@ import java.io.IOException;
  * GistComments comments = gist.comments();
  * GistComment comment = comments.post("Hi, how are you?");</pre>
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  */

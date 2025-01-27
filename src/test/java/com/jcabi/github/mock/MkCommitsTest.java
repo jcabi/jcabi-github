@@ -40,8 +40,6 @@ import org.junit.Test;
 
 /**
  * Testcase for MkTags.
- * @author Ed Hillmann (edhillmann@yahoo.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class MkCommitsTest {

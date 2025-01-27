@@ -35,8 +35,6 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Immutable ReentrantLock.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.18
  */
 @Immutable

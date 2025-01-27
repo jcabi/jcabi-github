@@ -49,8 +49,6 @@ import org.xembly.Directives;
 /**
  * Mock Github contents.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  */
 @Immutable

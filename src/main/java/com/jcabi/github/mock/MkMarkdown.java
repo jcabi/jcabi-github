@@ -39,8 +39,6 @@ import lombok.ToString;
 /**
  * Mock markdown API.
  *
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  * @since  0.10
  */
 @Immutable

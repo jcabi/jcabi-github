@@ -32,8 +32,6 @@ package com.jcabi.github;
 /**
  * Integration test case for {@link RtNotifications}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @todo #920 Create integration tests for at least
  *  iterate() and get() operations of RtNotifications.
  */

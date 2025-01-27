@@ -36,8 +36,6 @@ import java.io.IOException;
  * Github Gitignore.
  * <p>Defines storage of .gitignore templates
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
  * @since 0.8
  */

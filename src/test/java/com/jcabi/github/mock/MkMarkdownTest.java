@@ -36,8 +36,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkMarkdown}.
- * @author Andrej Istomin (andrej.istomin.ikeen@gmail.com)
- * @version $Id$
  */
 public class MkMarkdownTest {
 

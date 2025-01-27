@@ -35,8 +35,6 @@ import java.io.IOException;
 /**
  * Github deploy keys.
  *
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  */

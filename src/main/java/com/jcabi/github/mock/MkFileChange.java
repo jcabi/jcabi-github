@@ -37,8 +37,6 @@ import lombok.ToString;
 
 /**
  * Mock file change.
- * @author Chris Rebert (github@chrisrebert.com)
- * @version $Id$
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)

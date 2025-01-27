@@ -42,8 +42,6 @@ import org.xembly.Directives;
 /**
  * Mock Github Checks.
  *
- * @author Volodya Lombrozo (volodya.lombrozo@gmail.com)
- * @version $Id$
  * @since 1.6.0
  */
 public final class MkChecks implements Checks {

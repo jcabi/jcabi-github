@@ -37,8 +37,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkReleases}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */

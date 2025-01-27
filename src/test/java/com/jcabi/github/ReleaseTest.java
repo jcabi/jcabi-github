@@ -38,9 +38,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Release}.
- * @author Denis Anisimov (denis.nix.anisimov@gmail.com)
  * @checkstyle MultipleStringLiteralsCheck (400 lines)
- * @version $Id$
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class ReleaseTest {

@@ -36,8 +36,6 @@ import javax.json.JsonObject;
 /**
  * Markdown API.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.6
  * @see <a href="https://developer.github.com/v3/markdown/">Markdown API</a>
  */

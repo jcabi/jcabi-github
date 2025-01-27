@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Integration test case for {@link RtStars}.
  *
- * @author Artem Nakonechny (wentwogcq@gmail.com)
- * @version $Id$
  */
 @OAuthScope({ Scope.REPO, Scope.USER })
 public final class RtStarsITCase {

@@ -40,8 +40,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Github reference.
  *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id$
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

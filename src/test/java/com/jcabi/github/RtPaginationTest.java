@@ -47,8 +47,6 @@ import org.junit.Test;
 /**
  * Test case for {@link RtPagination}.
  *
- * @author Giang Le (giang@vn-smartsolutions.com)
- * @version $Id$
  */
 public final class RtPaginationTest {
     /**

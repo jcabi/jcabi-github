@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtContents}.
- * @author Andres Candal (andres.candal@rollasolution.com)
- * @version $Id$
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)

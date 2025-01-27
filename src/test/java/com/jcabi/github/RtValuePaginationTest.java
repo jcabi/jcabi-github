@@ -47,8 +47,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtValuePagination}.
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  */
 public final class RtValuePaginationTest {
     /**

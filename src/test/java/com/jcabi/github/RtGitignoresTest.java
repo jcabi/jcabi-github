@@ -45,8 +45,6 @@ import org.junit.Test;
 /**
  * Unit tests for {@link RtGitignores}.
  *
- * @author Paul Polishchuk (ppol@ua.fm)
- * @version $Id$
  * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
 @Immutable

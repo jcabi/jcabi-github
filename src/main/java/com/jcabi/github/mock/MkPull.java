@@ -52,8 +52,6 @@ import lombok.ToString;
 
 /**
  * Mock Github pull.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @since 0.5
  */

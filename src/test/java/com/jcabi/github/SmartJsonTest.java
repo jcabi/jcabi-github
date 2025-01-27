@@ -40,8 +40,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link SmartJsonTest}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class SmartJsonTest {
