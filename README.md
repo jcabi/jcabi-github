@@ -11,6 +11,7 @@
 [![JavaDoc](https://img.shields.io/badge/javadoc-html-blue.svg)](https://www.javadoc.io/doc/com.jcabi/jcabi-github)
 [![Hits-of-Code](https://hitsofcode.com/github/jcabi/jcabi-github)](https://hitsofcode.com/view/github/jcabi/jcabi-github)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/jcabi/jcabi-github/blob/master/LICENSE.txt)
+[![libs.tech recommends](https://libs.tech/project/14204295/badge.svg)](https://libs.tech/project/14204295/jcabi-github)
 
 This is a Java adapter to the [GitHub RESTful API](https://developer.github.com/v3/).
 There are a few other similar implementations on the market, but jcabi-github has a very strong
