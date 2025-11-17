@@ -11,6 +11,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RtUser}.
+ * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.USER)
 public final class RtUserITCase {

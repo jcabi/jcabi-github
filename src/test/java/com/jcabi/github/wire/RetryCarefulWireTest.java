@@ -22,6 +22,7 @@ import org.junit.Test;
 /**
  * Test case for {@link RetryCarefulWire}.
  * Just combines the RetryWire and CarefulWire test cases.
+ * @since 0.1
  */
 public final class RetryCarefulWireTest {
     /**
@@ -31,13 +32,11 @@ public final class RetryCarefulWireTest {
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
-
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
@@ -67,7 +66,10 @@ public final class RetryCarefulWireTest {
         final long now = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis());
         MatcherAssert.assertThat(
-            "Value is not greater than expected",now, Matchers.greaterThanOrEqualTo(reset));
+            "Value is not greater than expected",
+            now,
+            Matchers.greaterThanOrEqualTo(reset)
+        );
         container.stop();
     }
 

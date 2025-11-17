@@ -21,7 +21,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtGistComments}.
- *
+ * @since 0.1
  */
 public final class RtGistCommentsTest {
 
@@ -39,12 +39,13 @@ public final class RtGistCommentsTest {
     public void getComment() throws IOException {
         final String body = "Just commenting";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtGistCommentsTest.comment(body).toString()
                 )
-            ).start(this.resource.port())) {
+            ).start(this.resource.port())
+        ) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("1").when(gist).identifier();
             final RtGistComments comments = new RtGistComments(
@@ -65,7 +66,7 @@ public final class RtGistCommentsTest {
      */
     @Test
     public void iterateComments() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -98,12 +99,13 @@ public final class RtGistCommentsTest {
             HttpURLConnection.HTTP_OK,
             RtGistCommentsTest.comment(body).toString()
         );
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 RtGistCommentsTest.comment(body).toString()
             )
-        ).next(answer).start(this.resource.port())) {
+        ).next(answer).start(this.resource.port())
+        ) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("3").when(gist).identifier();
             final RtGistComments comments = new RtGistComments(

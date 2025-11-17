@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtForks}.
- *
+ * @since 0.1
  */
 public final class RtForksTest {
 
@@ -41,7 +41,6 @@ public final class RtForksTest {
 
     /**
      * RtForks should be able to iterate its forks.
-     *
      */
     @Test
     public void retrievesForks() {
@@ -58,7 +57,6 @@ public final class RtForksTest {
 
     /**
      * RtForks should be able to create a new fork.
-     *
      */
     @Test
     public void createsFork() throws IOException {
@@ -68,7 +66,7 @@ public final class RtForksTest {
             RtForksTest.fork(organization).toString()
         );
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_ACCEPTED,
                     RtForksTest.fork(organization).toString()

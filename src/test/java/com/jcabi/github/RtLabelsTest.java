@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLabels}.
- *
+ * @since 0.1
  */
 public final class RtLabelsTest {
     /**
@@ -41,7 +41,7 @@ public final class RtLabelsTest {
         final String color = "FFFFFF";
         final String body = RtLabelsTest.label(name, color).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
                 .start(this.resource.port())
@@ -72,14 +72,13 @@ public final class RtLabelsTest {
 
     /**
      * RtLabels can get a single label.
-     *
      */
     @Test
     public void getSingleLabel() throws IOException {
         final String name = "bug";
         final String color = "f29513";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtLabelsTest.label(name, color).toString()
@@ -106,7 +105,7 @@ public final class RtLabelsTest {
     @Test
     public void deleteLabel() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {
@@ -136,7 +135,7 @@ public final class RtLabelsTest {
     @Test
     public void iterateLabels() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()

@@ -24,7 +24,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtSearch}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (300 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
@@ -39,7 +39,6 @@ public final class RtSearchTest {
 
     /**
      * RtSearch can search for repos.
-     *
      */
     @Test
     public void canSearchForRepos() {
@@ -61,7 +60,6 @@ public final class RtSearchTest {
 
     /**
      * RtSearch can search for issues.
-     *
      */
     @Test
     public void canSearchForIssues() {
@@ -93,7 +91,6 @@ public final class RtSearchTest {
 
     /**
      * RtSearch can search for users.
-     *
      */
     @Test
     public void canSearchForUsers() throws IOException {
@@ -116,7 +113,6 @@ public final class RtSearchTest {
 
     /**
      * RtSearch can search for contents.
-     *
      */
     @Test
     public void canSearchForContents() throws IOException {
@@ -133,7 +129,7 @@ public final class RtSearchTest {
             "https://api.github.com/repos/user/repo/contents/src/attributes/classes.js?ref=f3b89ba0820882bd4ce4404b7e7c819e7b506de5"
         ).build();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     RtSearchTest.search(first, second).toString()
                 )
@@ -189,7 +185,7 @@ public final class RtSearchTest {
      * @return JsonObject
      */
     private static JsonObject search(
-        final JsonObject ... contents) {
+        final JsonObject... contents) {
         final JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final JsonObject content : contents) {
             builder.add(content);

@@ -18,7 +18,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtJson}.
- *
+ * @since 0.1
  */
 public final class RtJsonTest {
     /**
@@ -30,12 +30,11 @@ public final class RtJsonTest {
 
     /**
      * RtJson can fetch HTTP request.
-     *
      */
     @Test
     public void sendHttpRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"body\":\"hi\"}"
@@ -54,12 +53,11 @@ public final class RtJsonTest {
 
     /**
      * RtJson can execute PATCH request.
-     *
      */
     @Test
     public void executePatchRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"body\":\"hj\"}"

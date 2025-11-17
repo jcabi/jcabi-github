@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtRepoCommit}.
+ * @since 0.1
  */
 public class RtRepoCommitTest {
     /**

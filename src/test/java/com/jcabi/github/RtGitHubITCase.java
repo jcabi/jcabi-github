@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link GitHub}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

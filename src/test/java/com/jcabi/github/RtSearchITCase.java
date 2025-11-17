@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtSearch}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (140 lines)
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
@@ -22,7 +22,6 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can search for repos.
-     *
      */
     @Test
     public void canSearchForRepos() {
@@ -36,7 +35,6 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can fetch multiple pages of a large result (more than 25 items).
-     *
      */
     @Test
     public void canFetchMultiplePages() {
@@ -57,7 +55,6 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can search for issues.
-     *
      */
     @Test
     public void canSearchForIssues() {
@@ -78,7 +75,6 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can search for users.
-     *
      */
     @Test
     public void canSearchForUsers() {
@@ -92,7 +88,6 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can search for contents.
-     *
      * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
     @Test

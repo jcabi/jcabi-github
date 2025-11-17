@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtOrganizations}.
- *
+ * @since 0.1
  */
 public final class RtOrganizationsTest {
 
@@ -34,12 +34,11 @@ public final class RtOrganizationsTest {
 
     /**
      * RtOrganizations should be able to get a single organization.
-     *
      */
     @Test
     public void fetchesSingleOrganization() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())
         ) {
@@ -66,7 +65,7 @@ public final class RtOrganizationsTest {
     public void retrievesOrganizations() throws IOException {
         final GitHub github = new MkGitHub();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()

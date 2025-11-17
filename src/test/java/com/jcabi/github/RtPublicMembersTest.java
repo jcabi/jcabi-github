@@ -24,7 +24,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link RtPublicMembers}.
- *
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtPublicMembersTest {
@@ -91,10 +91,10 @@ public final class RtPublicMembersTest {
     @Test
     public void concealsMembers() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .start(this.resource.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -165,7 +165,7 @@ public final class RtPublicMembersTest {
     @Test
     public void checkPublicMembership() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
@@ -213,15 +213,15 @@ public final class RtPublicMembersTest {
     @Test
     public void iteratesPublicMembers() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(
                     new MkAnswer.Simple(
                         HttpURLConnection.HTTP_OK,
                         "[{\"login\":\"octobat\"}]"
                     )
-            )
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port())
+                )
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .start(this.resource.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),

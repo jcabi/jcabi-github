@@ -20,6 +20,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
+ * @since 0.1
  */
 public final class RtUserEmailsTest {
 
@@ -32,7 +33,6 @@ public final class RtUserEmailsTest {
     /**
      * RtUserEmails can fetch emails.
      */
-
     @Test
     public void fetchesEmails() throws IOException {
         final String email = "test@email.com";

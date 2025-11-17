@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtReference}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtReferenceTest {
@@ -39,7 +39,7 @@ public final class RtReferenceTest {
     @Test
     public void patchesContent() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureA\"}"
@@ -70,7 +70,7 @@ public final class RtReferenceTest {
     @Test
     public void fetchesContent() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureB\"}"
@@ -97,7 +97,7 @@ public final class RtReferenceTest {
     @Test
     public void returnsRef() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureC\"}"
@@ -125,12 +125,12 @@ public final class RtReferenceTest {
     public void returnsOwner() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureD\"}"
                 )
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),

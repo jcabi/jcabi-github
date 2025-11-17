@@ -18,7 +18,6 @@ public final class RtGitTest {
 
     /**
      * RtGit can fetch its own repo.
-     *
      */
     @Test
     public void canFetchOwnRepo() {

@@ -27,13 +27,14 @@ import java.lang.annotation.Target;
 public @interface OAuthScope {
     /**
      * The GitHub OAuth scopes required.
+     * @return OAuth scopes
      */
     OAuthScope.Scope[] value();
 
     /**
      * The enum represents the available OAuth scopes.
      */
-    public enum Scope {
+    enum Scope {
         /**
          * Represents "no scope" scope.
          */

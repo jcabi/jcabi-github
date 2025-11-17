@@ -23,7 +23,10 @@ public final class RtOrganizationsITCase {
         final Organization org = new GitHubIT().connect()
             .organizations().get(login);
         MatcherAssert.assertThat(
-            "Values are not equal",org.login(), Matchers.equalTo(login));
+            "Values are not equal",
+            org.login(),
+            Matchers.equalTo(login)
+        );
     }
 
 }

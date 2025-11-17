@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Label}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class LabelTest {

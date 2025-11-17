@@ -14,7 +14,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link CarefulWire}.
- *
+ * @since 0.1
  */
 public final class CarefulWireTest {
     /**
@@ -24,7 +24,6 @@ public final class CarefulWireTest {
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
-
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
 
     /**
@@ -47,7 +46,10 @@ public final class CarefulWireTest {
         final long now = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis());
         MatcherAssert.assertThat(
-            "Value is not greater than expected",now, Matchers.greaterThanOrEqualTo(reset));
+            "Value is not greater than expected",
+            now,
+            Matchers.greaterThanOrEqualTo(reset)
+        );
     }
 
     /**

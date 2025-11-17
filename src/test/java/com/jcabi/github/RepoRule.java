@@ -14,6 +14,7 @@ import org.junit.runners.model.Statement;
 
 /**
  * Utility class which provides convenient methods for repo managing.
+ * @since 0.1
  */
 public final class RepoRule implements TestRule {
 

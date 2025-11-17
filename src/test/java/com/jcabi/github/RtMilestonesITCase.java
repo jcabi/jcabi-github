@@ -18,6 +18,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Milestones}.
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

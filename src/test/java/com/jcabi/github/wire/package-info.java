@@ -5,6 +5,5 @@
 
 /**
  * Tests for wires.
- *
  */
 package com.jcabi.github.wire;

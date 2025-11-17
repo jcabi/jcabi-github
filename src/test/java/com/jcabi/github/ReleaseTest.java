@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Release}.
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (400 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")

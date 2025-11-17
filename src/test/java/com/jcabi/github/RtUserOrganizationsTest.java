@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtUserOrganizations}.
- *
+ * @since 0.1
  */
 public final class RtUserOrganizationsTest {
     /**

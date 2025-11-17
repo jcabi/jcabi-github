@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link ReleaseAsset}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
@@ -27,17 +28,17 @@ public class ReleaseAssetTest {
      */
     @Test
     public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/octo/Hello/releases/assets/1";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("url", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).url(),
+            new ReleaseAsset.Smart(asset).url(),
             Matchers.is(new URI(prop).toURL())
         );
     }
@@ -47,16 +48,16 @@ public class ReleaseAssetTest {
      */
     @Test
     public final void fetchesName() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "assetname.ext";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("name", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).name(),
+            new ReleaseAsset.Smart(asset).name(),
             Matchers.is(prop)
         );
     }
@@ -66,16 +67,16 @@ public class ReleaseAssetTest {
      */
     @Test
     public final void fetchesLabel() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "short description";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("label", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).label(),
+            new ReleaseAsset.Smart(asset).label(),
             Matchers.is(prop)
         );
     }
@@ -85,16 +86,16 @@ public class ReleaseAssetTest {
      */
     @Test
     public final void fetchesState() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "uploaded";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("state", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).state(),
+            new ReleaseAsset.Smart(asset).state(),
             Matchers.is(prop)
         );
     }
@@ -104,16 +105,16 @@ public class ReleaseAssetTest {
      */
     @Test
     public final void fetchesContentType() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "application/zip";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("content_type", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).contentType(),
+            new ReleaseAsset.Smart(asset).contentType(),
             Matchers.is(prop)
         );
     }

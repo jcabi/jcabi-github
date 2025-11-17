@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Testcase for RtCommits.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public class RtCommitsTest {
@@ -35,12 +35,11 @@ public class RtCommitsTest {
 
     /**
      * Tests creating a Commit.
-     *
      */
     @Test
     public final void createsCommit() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_CREATED,
                     "{\"sha\":\"0abcd89jcabitest\"}"
@@ -56,10 +55,10 @@ public class RtCommitsTest {
             final JsonObject input = Json.createObjectBuilder()
                 .add("message", "initial version")
                 .add("author", author).build();
-            final Commit newCommit = commits.create(input);
+            final Commit commit = commits.create(input);
             MatcherAssert.assertThat(
                 "Object is not of expected type",
-                newCommit,
+                commit,
                 Matchers.instanceOf(Commit.class)
             );
             MatcherAssert.assertThat(
@@ -69,7 +68,7 @@ public class RtCommitsTest {
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                newCommit.sha(),
+                commit.sha(),
                 Matchers.equalTo("0abcd89jcabitest")
             );
         }

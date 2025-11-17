@@ -14,6 +14,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtRepoCommits}.
+ * @since 0.1
  */
 public final class RtRepoCommitsTest {
 
@@ -57,7 +58,10 @@ public final class RtRepoCommitsTest {
             RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
-            "Values are not equal",commits.get(sha).sha(), Matchers.equalTo(sha));
+            "Values are not equal",
+            commits.get(sha).sha(),
+            Matchers.equalTo(sha)
+        );
     }
 
     /**
@@ -129,7 +133,7 @@ public final class RtRepoCommitsTest {
      * RtRepoCommits can read correctly URL.
      */
     @Test
-    public void readCorrectURL() {
+    public void readCorrectUrl() {
         MatcherAssert.assertThat(
             "String does not end with expected value",
             new RtRepoCommits(new FakeRequest(), RtRepoCommitsTest.repo())

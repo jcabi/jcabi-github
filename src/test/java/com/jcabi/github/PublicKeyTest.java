@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link PublicKey}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 public final class PublicKeyTest {

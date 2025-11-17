@@ -48,7 +48,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchAsJSON() throws Exception {
+    public void fetchAsJson() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");

@@ -19,7 +19,7 @@ import org.junit.Test;
  * Checks that there are not public classes in package
  * {@code com.jcabi.github}. Certain types including all Smart types are
  * excluded.
- *
+ * @since 0.1
  */
 public final class VisibilityTest {
 
@@ -45,7 +45,6 @@ public final class VisibilityTest {
      * Test for visibility.
      * Checks that there are not public classes in package
      * {@code com.jcabi.github}.
-     *
      */
     @Test
     public void checkVisibility() {

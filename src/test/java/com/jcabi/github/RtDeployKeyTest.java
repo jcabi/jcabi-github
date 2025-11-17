@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtDeployKey}.
- *
+ * @since 0.1
  */
 public final class RtDeployKeyTest {
 
@@ -33,17 +33,17 @@ public final class RtDeployKeyTest {
 
     /**
      * RtDeployKey can delete a deploy key.
-     *
      */
     @Test
     public void canDeleteDeployKey() throws IOException {
         try (
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                ""
-            )
-        ).start(this.resource.port())) {
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    ""
+                )
+            ).start(this.resource.port())
+        ) {
             final DeployKey key = new RtDeployKey(
                 new ApacheRequest(container.home()),
                 3,

@@ -18,6 +18,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link GitHub}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
@@ -113,7 +114,10 @@ public final class RtRepoITCase {
     @Test
     public void fetchCommits() {
         MatcherAssert.assertThat(
-            "Value is null",RtRepoITCase.repo.commits(), Matchers.notNullValue());
+            "Value is null",
+            RtRepoITCase.repo.commits(),
+            Matchers.notNullValue()
+        );
     }
 
     /**
@@ -134,7 +138,10 @@ public final class RtRepoITCase {
     @Test
     public void fetchLanguages() throws IOException {
         MatcherAssert.assertThat(
-            "Value is null",RtRepoITCase.repo.languages(), Matchers.notNullValue());
+            "Value is null",
+            RtRepoITCase.repo.languages(),
+            Matchers.notNullValue()
+        );
     }
 
     /**
