@@ -55,7 +55,7 @@ public final class RtRepoTest {
     @Test
     public void iteratesEvents() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -230,7 +230,7 @@ public final class RtRepoTest {
     @Test
     public void executePatchRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtRepoTest.event(Event.ASSIGNED).toString()
@@ -319,7 +319,7 @@ public final class RtRepoTest {
     public void fetchDefaultBranch() throws IOException {
         final String expected = "main";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
@@ -357,7 +357,7 @@ public final class RtRepoTest {
     @Test
     public void fetchLanguages() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
@@ -384,7 +384,7 @@ public final class RtRepoTest {
         final String lang = "C";
         final String other = "Java";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
@@ -435,7 +435,7 @@ public final class RtRepoTest {
     @Test
     public void retrievesStargazers() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(
                     new MkAnswer.Simple(
                         HttpURLConnection.HTTP_OK,

@@ -67,7 +67,7 @@ public final class RtEventTest {
      */
     @Test
     public void retrieveEventAsJson() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 "{\"test\":\"events\"}"

@@ -12,12 +12,12 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkMarkdown}.
+ * @since 0.1
  */
 public class MkMarkdownTest {
 
     /**
      * MkMarkdown can be rendered.
-     *
      */
     @Test
     public final void canBeRendered() throws IOException {

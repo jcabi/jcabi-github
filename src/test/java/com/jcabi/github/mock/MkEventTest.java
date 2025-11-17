@@ -16,6 +16,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkEvent}.
+ * @since 0.1
  */
 public final class MkEventTest {
     /**

@@ -14,7 +14,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkPublicKey}.
- *
+ * @since 0.1
  */
 public final class MkPublicKeyTest {
 
@@ -25,7 +25,6 @@ public final class MkPublicKeyTest {
 
     /**
      * MkPublicKey can be represented as JSON.
-     *
      */
     @Test
     public void canRetrieveAsJson() throws IOException {
