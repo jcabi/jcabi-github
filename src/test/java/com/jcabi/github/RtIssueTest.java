@@ -44,6 +44,7 @@ public final class RtIssueTest {
     public void fetchesComments() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
+            "Value is null",
             issue.comments(),
             Matchers.notNullValue()
         );
@@ -57,6 +58,7 @@ public final class RtIssueTest {
     public void fetchesLabels() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
+            "Value is null",
             issue.labels(),
             Matchers.notNullValue()
         );
@@ -70,6 +72,7 @@ public final class RtIssueTest {
     public void fetchesEvents() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
         MatcherAssert.assertThat(
+            "Value is null",
             issue.events(),
             Matchers.notNullValue()
         );
@@ -87,6 +90,7 @@ public final class RtIssueTest {
             1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.json().getString("issue"),
             Matchers.equalTo("json")
         );
@@ -113,10 +117,12 @@ public final class RtIssueTest {
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
@@ -133,9 +139,11 @@ public final class RtIssueTest {
         final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
         final RtIssue greater = new RtIssue(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
     }

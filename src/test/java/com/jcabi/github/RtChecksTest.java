@@ -68,6 +68,7 @@ public final class RtChecksTest {
                 this.repo().pulls().get(0)
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 checks.all(),
                 Matchers.iterableWithSize(1)
             );
@@ -90,6 +91,7 @@ public final class RtChecksTest {
             )
             .start(this.resource.port())) {
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 ((Checks) new RtChecks(
                     new JdkRequest(container.home()),
                     this.repo().pulls().get(0)
@@ -152,9 +154,11 @@ public final class RtChecksTest {
                 this.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
-            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            MatcherAssert.assertThat(
+                "Collection size is incorrect",all, Matchers.hasSize(1));
             for (final Check check : all) {
                 MatcherAssert.assertThat(
+                    "Values are not equal",
                     check.successful(),
                     Matchers.is(false)
                 );
@@ -191,9 +195,11 @@ public final class RtChecksTest {
                 this.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
-            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            MatcherAssert.assertThat(
+                "Collection size is incorrect",all, Matchers.hasSize(1));
             for (final Check check : all) {
                 MatcherAssert.assertThat(
+                    "Values are not equal",
                     check.successful(),
                     Matchers.is(false)
                 );
@@ -223,9 +229,11 @@ public final class RtChecksTest {
                 this.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
-            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            MatcherAssert.assertThat(
+                "Collection size is incorrect",all, Matchers.hasSize(1));
             for (final Check check : all) {
                 MatcherAssert.assertThat(
+                    "Values are not equal",
                     check.successful(),
                     Matchers.is(false)
                 );

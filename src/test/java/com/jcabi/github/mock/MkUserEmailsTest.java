@@ -31,6 +31,7 @@ public final class MkUserEmailsTest {
             Collections.singleton(email)
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             added,
             Matchers.allOf(
                 Matchers.iterableWithSize(1),
@@ -55,6 +56,7 @@ public final class MkUserEmailsTest {
         );
         emails.remove(Collections.singleton(removed));
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             emails.iterate(),
             Matchers.allOf(
                 Matchers.iterableWithSize(1),
@@ -77,6 +79,7 @@ public final class MkUserEmailsTest {
         };
         emails.add(Arrays.asList(added));
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             emails.iterate(),
             Matchers.allOf(
                 Matchers.iterableWithSize(2),
@@ -95,6 +98,7 @@ public final class MkUserEmailsTest {
         final String email = "jeff@something.net";
         emails.add(Collections.singleton(email));
         MatcherAssert.assertThat(
+            "Values are not equal",
             emails.json().getString("email"),
             Matchers.is(email)
         );

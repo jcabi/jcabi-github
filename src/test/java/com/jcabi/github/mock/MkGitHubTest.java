@@ -48,14 +48,17 @@ public final class MkGitHubTest {
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Comment.Smart(comment).body(),
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             repo.issues().get(issue.number()).comments().iterate(new Date(0L)),
             Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.equalTo(
                 new User.Smart(repo.github().users().self()).login()
@@ -82,6 +85,7 @@ public final class MkGitHubTest {
             .comments()
             .post("Nice change");
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.not(
                 Matchers.equalTo(
@@ -90,6 +94,7 @@ public final class MkGitHubTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.equalTo(login)
         );
@@ -103,6 +108,7 @@ public final class MkGitHubTest {
     public void retrievesMarkdown() throws IOException {
         final GitHub github = new MkGitHub();
         MatcherAssert.assertThat(
+            "Value is null",
             github.markdown(),
             Matchers.notNullValue()
         );
@@ -116,6 +122,7 @@ public final class MkGitHubTest {
         final MkGitHub github = new MkGitHub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.repos().get(repo.coordinates()).coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
@@ -142,6 +149,7 @@ public final class MkGitHubTest {
         final ExecutorService svc = Executors.newFixedThreadPool(threads);
         svc.invokeAll(tasks);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             repo.issues().iterate(new ArrayMap<>()),
             Matchers.iterableWithSize(threads)
         );

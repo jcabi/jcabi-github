@@ -73,6 +73,7 @@ public final class LimitTest {
         final RtLimit.Smart smart = new RtLimit.Smart(limit);
         // @checkstyle MagicNumberCheck (3 lines)
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.reset(),
             Matchers.equalTo(new Date(1372700873000L))
         );

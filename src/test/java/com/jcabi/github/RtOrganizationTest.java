@@ -44,6 +44,7 @@ public final class RtOrganizationTest {
             "testJson"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             org.json().getString("organization"),
             Matchers.equalTo("json")
         );
@@ -70,10 +71,12 @@ public final class RtOrganizationTest {
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
@@ -98,12 +101,15 @@ public final class RtOrganizationTest {
             "def"
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             less.compareTo(less), Matchers.equalTo(0)
         );
     }
@@ -126,6 +132,7 @@ public final class RtOrganizationTest {
                 "testToString"
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 org.toString(),
                 Matchers.endsWith("/orgs/testToString")
             );

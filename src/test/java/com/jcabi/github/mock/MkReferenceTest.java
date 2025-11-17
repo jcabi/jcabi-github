@@ -26,6 +26,7 @@ public final class MkReferenceTest {
     @Test
     public void returnsName() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             this.reference().ref(),
             Matchers.is("refs/tags/hello")
         );
@@ -38,6 +39,7 @@ public final class MkReferenceTest {
     @Test
     public void returnsRepo() throws Exception {
         MatcherAssert.assertThat(
+            "Value is null",
             this.reference().repo(),
             Matchers.notNullValue()
         );
@@ -52,10 +54,12 @@ public final class MkReferenceTest {
         final Reference ref = this.reference();
         final JsonObject json = ref.json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("ref"),
             Matchers.is("refs/tags/hello")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("sha"),
             Matchers.is("testsha")
         );
@@ -73,6 +77,7 @@ public final class MkReferenceTest {
             .build();
         ref.patch(json);
         MatcherAssert.assertThat(
+            "Values are not equal",
             ref.json().getString("sha"),
             Matchers.is("testshaPATCH")
         );

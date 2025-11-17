@@ -51,6 +51,7 @@ public final class RtLabelTest {
                 "bug"
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 label.json().getString("msg"),
                 Matchers.equalTo("hi")
             );
@@ -83,6 +84,7 @@ public final class RtLabelTest {
                     .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );

@@ -54,11 +54,13 @@ public final class RtPublicMembersITCase {
     public void checksPublicMembership() throws IOException {
         MatcherAssert.assertThat(
             "Check true positive of public membership in an organization",
-            RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.member)
+            RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.member),
+            Matchers.is(true)
         );
         MatcherAssert.assertThat(
             "Check true negative of public membership in an organization",
-            !RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.nonMember)
+            !RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.nonMember),
+            Matchers.is(true)
         );
     }
 
@@ -68,14 +70,17 @@ public final class RtPublicMembersITCase {
     @Test
     public void listsPublicMembers() {
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             RtPublicMembersITCase.org.publicMembers().iterate(),
             Matchers.iterableWithSize(Matchers.greaterThanOrEqualTo(1))
         );
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             RtPublicMembersITCase.org.publicMembers().iterate(),
             Matchers.hasItem(RtPublicMembersITCase.member)
         );
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             RtPublicMembersITCase.org.publicMembers().iterate(),
             Matchers.not(Matchers.hasItem(RtPublicMembersITCase.nonMember))
         );

@@ -27,6 +27,7 @@ public final class MkCommentsTest {
         comments.post("hello, dude!");
         comments.post("hello again");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(new Date(0L)),
             Matchers.iterableWithSize(2)
         );

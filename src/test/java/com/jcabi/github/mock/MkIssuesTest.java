@@ -31,6 +31,7 @@ public final class MkIssuesTest {
         repo.issues().create("hey", "body of 2nd issue");
         repo.issues().create("hey again", "body of 3rd issue");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             repo.issues().iterate(new ArrayMap<>()),
             Matchers.iterableWithSize(Tv.THREE)
         );
@@ -46,6 +47,7 @@ public final class MkIssuesTest {
             repo.issues().create("hello", "the body")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.author().login(),
             Matchers.equalTo(repo.github().users().self().login())
         );

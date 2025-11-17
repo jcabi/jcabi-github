@@ -34,6 +34,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.url().toString(),
             Matchers.equalTo(url)
         );
@@ -53,6 +54,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.htmlUrl().toString(),
             Matchers.equalTo(htmlurl)
         );
@@ -72,6 +74,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.assetsUrl().toString(),
             Matchers.equalTo(assetsurl)
         );
@@ -91,6 +94,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.uploadUrl().toString(),
             Matchers.equalTo(uploadurl)
         );
@@ -105,6 +109,7 @@ public final class ReleaseTest {
         Mockito.doReturn(1).when(release).number();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.number(),
             Matchers.equalTo(1)
         );
@@ -124,6 +129,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.tag(),
             Matchers.equalTo(tag)
         );
@@ -143,6 +149,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.commitish(),
             Matchers.equalTo(master)
         );
@@ -163,10 +170,12 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.hasName(),
             Matchers.is(true)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.name(),
             Matchers.equalTo(name)
         );
@@ -186,6 +195,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.hasName(),
             Matchers.is(false)
         );
@@ -205,6 +215,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.body(),
             Matchers.equalTo(description)
         );
@@ -224,6 +235,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.createdAt(),
             Matchers.equalTo(new GitHub.Time(created).date())
         );
@@ -243,6 +255,7 @@ public final class ReleaseTest {
         ).when(release).json();
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.publishedAt(),
             Matchers.equalTo(new GitHub.Time(published).date())
         );
@@ -258,6 +271,7 @@ public final class ReleaseTest {
             Json.createObjectBuilder().add("prerelease", Boolean.TRUE).build()
         ).when(release).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(release).prerelease(),
             Matchers.is(Boolean.TRUE)
         );
@@ -273,6 +287,7 @@ public final class ReleaseTest {
             Json.createObjectBuilder().add("prerelease", "false").build()
         ).when(release).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(release).prerelease(),
             Matchers.is(Boolean.FALSE)
         );
@@ -288,6 +303,7 @@ public final class ReleaseTest {
             Json.createObjectBuilder().build()
         ).when(release).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(release).prerelease(),
             Matchers.is(Boolean.FALSE)
         );
@@ -303,6 +319,7 @@ public final class ReleaseTest {
             Json.createObjectBuilder().add("draft", Boolean.TRUE).build()
         ).when(release).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(release).draft(),
             Matchers.is(Boolean.TRUE)
         );
@@ -318,6 +335,7 @@ public final class ReleaseTest {
             Json.createObjectBuilder().add("draft", Boolean.FALSE).build()
         ).when(release).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(release).draft(),
             Matchers.is(Boolean.FALSE)
         );
@@ -333,6 +351,7 @@ public final class ReleaseTest {
             Json.createObjectBuilder().build()
         ).when(release).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(release).draft(),
             Matchers.is(Boolean.FALSE)
         );

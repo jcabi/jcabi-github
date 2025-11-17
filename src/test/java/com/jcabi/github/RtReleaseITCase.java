@@ -77,6 +77,7 @@ public final class RtReleaseITCase {
             .get(release.number()).json();
         for (final String property : patch.keySet()) {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 json.getString(property),
                 Matchers.equalTo(patch.getString(property))
             );

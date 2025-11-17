@@ -24,6 +24,7 @@ public final class RtGitTest {
     public void canFetchOwnRepo() {
         final Repo repo = RtGitTest.repo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtGit(new FakeRequest(), repo).repo(),
             Matchers.is(repo)
         );

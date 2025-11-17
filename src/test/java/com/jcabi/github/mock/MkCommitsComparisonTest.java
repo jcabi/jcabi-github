@@ -25,6 +25,7 @@ public final class MkCommitsComparisonTest {
     public void getRepo() throws IOException {
         final String user = "test_user";
         MatcherAssert.assertThat(
+            "Value is null",
             new MkCommitsComparison(
                 new MkStorage.InFile(), user,
                 new Coordinates.Simple(user, "test_repo")
@@ -37,6 +38,7 @@ public final class MkCommitsComparisonTest {
     @Test
     public void canGetJson() throws IOException {
         MatcherAssert.assertThat(
+            "Value is null",
             new MkCommitsComparison(
                 new MkStorage.InFile(), "test1", new Coordinates.Simple(
                     "test_user1", "test_repo1"
@@ -45,6 +47,7 @@ public final class MkCommitsComparisonTest {
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             new MkCommitsComparison(
                 new MkStorage.InFile(), "test2", new Coordinates.Simple(
                     "test_user2", "test_repo2"
@@ -64,10 +67,12 @@ public final class MkCommitsComparisonTest {
             new Coordinates.Simple("test_user_A", "test_repo_B")
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             new CommitsComparison.Smart(cmp).commits(),
             Matchers.iterableWithSize(0)
         );
         MatcherAssert.assertThat(
+            "Value is null",
             cmp.json().getJsonArray("commits"),
             Matchers.notNullValue()
         );

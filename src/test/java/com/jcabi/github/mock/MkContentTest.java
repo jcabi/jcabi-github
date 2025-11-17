@@ -36,6 +36,7 @@ public final class MkContentTest {
             MkContentTest.jsonContent("repo.txt", "for repo", "json repo")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.repo(),
             Matchers.is(repo)
         );
@@ -53,6 +54,7 @@ public final class MkContentTest {
             MkContentTest.jsonContent(path, "for path", "path test")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.path(),
             Matchers.is(path)
         );
@@ -70,6 +72,7 @@ public final class MkContentTest {
             MkContentTest.jsonContent(path, "for json", "json test")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             // @checkstyle MultipleStringLiterals (1 line)
             content.json().getString("name"),
             Matchers.is(path)
@@ -89,6 +92,7 @@ public final class MkContentTest {
         ).raw();
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.is(raw)
             );

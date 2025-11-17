@@ -34,6 +34,7 @@ public final class MkEventTest {
             Optional.of("test_label")
         ).number();
         MatcherAssert.assertThat(
+            "Value is null",
             new MkEvent(
                 storage,
                 user,
@@ -64,6 +65,7 @@ public final class MkEventTest {
             Optional.of(label)
         ).number();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Event.Smart(
                 new MkEvent(
                     storage,
@@ -93,6 +95,7 @@ public final class MkEventTest {
             Optional.absent()
         ).number();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Event.Smart(
                 new MkEvent(
                     storage,

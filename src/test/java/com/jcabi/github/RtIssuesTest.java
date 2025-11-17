@@ -57,10 +57,12 @@ public final class RtIssuesTest {
                 title, "having a problem with it."
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Issue.Smart(issue).title(),
                 Matchers.equalTo(title)
             );
@@ -88,6 +90,7 @@ public final class RtIssuesTest {
             );
             final Issue issue = issues.get(1);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Issue.Smart(issue).title(),
                 Matchers.equalTo(title)
             );
@@ -116,6 +119,7 @@ public final class RtIssuesTest {
                 RtIssuesTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 issues.iterate(new ArrayMap<>()),
                 Matchers.iterableWithSize(2)
             );
@@ -144,6 +148,7 @@ public final class RtIssuesTest {
                 RtIssuesTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 issues.search(
                     Issues.Sort.UPDATED,
                     Search.Order.ASC,

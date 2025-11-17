@@ -23,6 +23,7 @@ public final class MkForkTest {
     public void fetchAsJson() throws IOException {
         final Fork fork = new MkGitHub().randomRepo().forks().create("fork");
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             fork.json().toString(),
             Matchers.containsString("{")
         );

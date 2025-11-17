@@ -58,14 +58,17 @@ public final class RtTreesTest {
         try {
             final Tree tri = trees.create(input);
             MatcherAssert.assertThat(
+                "Object is not of expected type",
                 tri,
                 Matchers.instanceOf(Tree.class)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 trees.get(tri.sha()),
                 Matchers.equalTo(tri)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
@@ -91,6 +94,7 @@ public final class RtTreesTest {
             RtTreesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             trees.get(sha).sha(), Matchers.equalTo(sha)
         );
     }
@@ -112,6 +116,7 @@ public final class RtTreesTest {
             RtTreesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             trees.getRec(sha).sha(), Matchers.equalTo(sha)
         );
     }

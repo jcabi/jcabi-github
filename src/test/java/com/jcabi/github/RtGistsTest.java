@@ -50,10 +50,12 @@ public final class RtGistsTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 gists.create(Collections.singletonMap("test", ""), false),
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
+                "String does not start with expected value",
                 container.take().body(),
                 Matchers.startsWith("{\"files\":{\"test\":{\"content\":")
             );
@@ -77,6 +79,7 @@ public final class RtGistsTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 gists.get("gist"),
                 Matchers.notNullValue()
             );
@@ -103,6 +106,7 @@ public final class RtGistsTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 gists.iterate().iterator().next(),
                 Matchers.notNullValue()
             );
@@ -128,6 +132,7 @@ public final class RtGistsTest {
             gists.remove("12234");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );

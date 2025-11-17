@@ -33,13 +33,16 @@ public final class RtBranchTest {
     public void fetchesCommit() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
-        MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(RtBranchTest.SHA));
+        MatcherAssert.assertThat(
+            "Values are not equal",commit.sha(), Matchers.equalTo(RtBranchTest.SHA));
         final Coordinates coords = commit.repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );
@@ -51,6 +54,7 @@ public final class RtBranchTest {
     @Test
     public void fetchesName() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtBranchTest.newBranch(new MkGitHub().randomRepo()).name(),
             Matchers.equalTo(RtBranchTest.BRANCH_NAME)
         );
@@ -65,10 +69,12 @@ public final class RtBranchTest {
         final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );

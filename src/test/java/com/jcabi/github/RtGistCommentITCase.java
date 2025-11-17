@@ -30,11 +30,13 @@ public final class RtGistCommentITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post(body);
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             comments.iterate(),
             Matchers.hasItem(comment)
         );
         comment.remove();
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             comments.iterate(),
             Matchers.not(Matchers.hasItem(comment))
         );
@@ -51,6 +53,7 @@ public final class RtGistCommentITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
+            "Values are not equal",
             comment.json().getInt("id"),
             Matchers.equalTo(comment.number())
         );
@@ -68,11 +71,13 @@ public final class RtGistCommentITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("test")
         );
         comment.patch(Json.createObjectBuilder().add("body", "hi!").build());
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("hi")
         );
@@ -90,11 +95,13 @@ public final class RtGistCommentITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("hi there");
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.endsWith("there")
         );
         new GistComment.Smart(comment).body("hello there");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("hello")
         );

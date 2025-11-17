@@ -25,6 +25,7 @@ public final class MkBlobsTest {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
         final Blob blob = blobs.create("content1", "encoding1");
         MatcherAssert.assertThat(
+            "Values are not equal",
             blobs.get(blob.sha()),
             Matchers.equalTo(blob)
         );
@@ -38,6 +39,7 @@ public final class MkBlobsTest {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
         final Blob created =  blobs.create("content", "base64");
         MatcherAssert.assertThat(
+            "Value is null",
             blobs.get(created.sha()),
             Matchers.notNullValue()
         );

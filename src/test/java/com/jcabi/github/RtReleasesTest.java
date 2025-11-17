@@ -47,6 +47,7 @@ public final class RtReleasesTest {
             RtReleasesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             releases.iterate(),
             Matchers.emptyIterable()
         );
@@ -71,6 +72,7 @@ public final class RtReleasesTest {
             RtReleasesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             releases.iterate().iterator().next().number(),
             Matchers.equalTo(number)
         );
@@ -84,7 +86,8 @@ public final class RtReleasesTest {
         final Releases releases = new RtReleases(
             new FakeRequest(), RtReleasesTest.repo()
         );
-        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",releases.get(1), Matchers.notNullValue());
     }
 
     /**
@@ -106,10 +109,12 @@ public final class RtReleasesTest {
             );
             final Release release = releases.create(tag);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 release.json().getString("tag_name"),
                 Matchers.equalTo(tag)
             );
@@ -137,10 +142,12 @@ public final class RtReleasesTest {
             releases.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/releases/1")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );

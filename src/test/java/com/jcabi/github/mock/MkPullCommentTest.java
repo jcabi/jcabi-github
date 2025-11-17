@@ -25,6 +25,7 @@ public final class MkPullCommentTest {
     public void retrieveAsJson() throws Exception {
         final PullComment comment = MkPullCommentTest.comment();
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             comment.json().getString("url"),
             Matchers.startsWith("http://")
         );
@@ -41,6 +42,7 @@ public final class MkPullCommentTest {
         final PullComment comment = MkPullCommentTest.comment();
         comment.patch(Json.createObjectBuilder().add("path", path).build());
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             comment.json().toString(),
             Matchers.containsString(path)
         );

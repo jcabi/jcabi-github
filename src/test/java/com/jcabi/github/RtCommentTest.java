@@ -48,9 +48,11 @@ public final class RtCommentTest {
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
         final RtComment greater = new RtComment(new FakeRequest(), issue, 2);
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
     }
@@ -63,7 +65,8 @@ public final class RtCommentTest {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
-        MatcherAssert.assertThat(comment.issue(), Matchers.is(issue));
+        MatcherAssert.assertThat(
+            "Values are not equal",comment.issue(), Matchers.is(issue));
     }
 
     /**
@@ -75,7 +78,8 @@ public final class RtCommentTest {
         final Issue issue = repo.issues().create("testing2", "issue2");
         final long num = 10L;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
-        MatcherAssert.assertThat(comment.number(), Matchers.is(num));
+        MatcherAssert.assertThat(
+            "Values are not equal",comment.number(), Matchers.is(num));
     }
 
     /**
@@ -95,6 +99,7 @@ public final class RtCommentTest {
             comment.remove();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
@@ -118,6 +123,7 @@ public final class RtCommentTest {
             );
             final JsonObject json = comment.json();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 json.getString("body"),
                 Matchers.is("test5")
             );
@@ -143,6 +149,7 @@ public final class RtCommentTest {
             comment.patch(jsonPatch);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(), Matchers.equalTo(Request.PATCH)
             );
         }
@@ -167,6 +174,7 @@ public final class RtCommentTest {
             comment.react(new Reaction.Simple(Reaction.HEART));
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Assertion failed",
                 query.method(),
                 new IsEqual<>(Request.POST)
             );
@@ -199,6 +207,7 @@ public final class RtCommentTest {
                 new ApacheRequest(container.home()), issue, 10
             );
             MatcherAssert.assertThat(
+                "Assertion failed",
                 comment.reactions(),
                 new IsIterableWithSize<>(new IsEqual<>(1))
             );
@@ -221,10 +230,12 @@ public final class RtCommentTest {
             );
             final String stringComment = comment.toString();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 stringComment,
                 Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
             );
-            MatcherAssert.assertThat(stringComment, Matchers.endsWith("10"));
+            MatcherAssert.assertThat(
+                "String does not end with expected value",stringComment, Matchers.endsWith("10"));
         }
     }
 }

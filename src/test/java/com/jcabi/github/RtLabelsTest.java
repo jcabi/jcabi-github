@@ -52,14 +52,17 @@ public final class RtLabelsTest {
             );
             final Label label = labels.create(name, color);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Label.Smart(label).name(),
                 Matchers.equalTo(name)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Label.Smart(label).color(),
                 Matchers.equalTo(color)
             );
@@ -89,6 +92,7 @@ public final class RtLabelsTest {
             );
             final Label label = issues.get(name);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Label.Smart(label).color(),
                 Matchers.equalTo(color)
             );
@@ -113,10 +117,12 @@ public final class RtLabelsTest {
             issues.delete("issue");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
@@ -145,6 +151,7 @@ public final class RtLabelsTest {
                 RtLabelsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 labels.iterate(),
                 Matchers.iterableWithSize(2)
             );

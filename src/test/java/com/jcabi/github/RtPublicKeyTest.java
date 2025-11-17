@@ -29,6 +29,7 @@ public final class RtPublicKeyTest {
             1
         );
         MatcherAssert.assertThat(
+            "Value is null",
             key.json(),
             Matchers.notNullValue()
         );
@@ -43,6 +44,7 @@ public final class RtPublicKeyTest {
         final User user = Mockito.mock(User.class);
         final RtPublicKey key = new RtPublicKey(new FakeRequest(), user, 2);
         MatcherAssert.assertThat(
+            "Assertion failed",
             key.user(),
             Matchers.sameInstance(user)
         );
@@ -61,6 +63,7 @@ public final class RtPublicKeyTest {
             number
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             key.number(),
             Matchers.equalTo(number)
         );

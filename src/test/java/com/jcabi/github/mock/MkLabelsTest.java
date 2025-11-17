@@ -27,6 +27,7 @@ public final class MkLabelsTest {
         final Repo repo = new MkGitHub().randomRepo();
         repo.labels().create("bug", "e0e0e0");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             repo.labels().iterate(),
             Matchers.iterableWithSize(1)
         );
@@ -45,10 +46,12 @@ public final class MkLabelsTest {
         issue.labels().add(Collections.singletonList(name));
         labels.delete(name);
         MatcherAssert.assertThat(
+            "Collection is not empty",
             repo.labels().iterate(),
             Matchers.emptyIterable()
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             issue.labels().iterate(),
             Matchers.emptyIterable()
         );
@@ -64,6 +67,7 @@ public final class MkLabelsTest {
         final String name = "task";
         repo.labels().create(name, color);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Label.Smart(repo.labels().get(name)).color(),
             Matchers.equalTo(color)
         );

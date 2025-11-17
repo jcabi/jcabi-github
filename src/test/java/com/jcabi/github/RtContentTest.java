@@ -51,6 +51,7 @@ public final class RtContentTest {
             "blah"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.json().getString("content"),
             Matchers.equalTo("json")
         );
@@ -75,10 +76,12 @@ public final class RtContentTest {
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
@@ -102,12 +105,15 @@ public final class RtContentTest {
             "zzz"
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             greater.compareTo(greater), Matchers.is(0)
         );
     }
@@ -128,10 +134,12 @@ public final class RtContentTest {
                 "raw"
             ).raw();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.is(raw)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().headers().get(HttpHeaders.ACCEPT).get(0),
                 Matchers.is("application/vnd.github.v3.raw")
             );

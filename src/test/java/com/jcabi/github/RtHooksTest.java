@@ -56,6 +56,7 @@ public final class RtHooksTest {
                 RtHooksTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection is not empty",
                 hooks.iterate(),
                 Matchers.emptyIterable()
             );
@@ -94,6 +95,7 @@ public final class RtHooksTest {
                 RtHooksTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 hooks.iterate(),
                 Matchers.iterableWithSize(2)
             );
@@ -124,6 +126,7 @@ public final class RtHooksTest {
             );
             final Hook hook = hooks.get(1);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Hook.Smart(hook).name(),
                 Matchers.equalTo(name)
             );
@@ -157,10 +160,12 @@ public final class RtHooksTest {
                 name, config, Collections.emptyList(), true
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Hook.Smart(hook).name(),
                 Matchers.equalTo(name)
             );
@@ -186,10 +191,12 @@ public final class RtHooksTest {
             hooks.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is(Matchers.emptyString())
             );

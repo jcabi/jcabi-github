@@ -71,6 +71,7 @@ public final class RtReleaseAssetITCase {
         final Release release = RtReleaseAssetITCase.repo.releases().create(name);
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 release.json().getInt("id"),
                 Matchers.equalTo(release.number())
             );
@@ -91,6 +92,7 @@ public final class RtReleaseAssetITCase {
             final String desc = "Description of the release";
             release.patch(Json.createObjectBuilder().add("body", desc).build());
             MatcherAssert.assertThat(
+                "String does not start with expected value",
                 new Release.Smart(release).body(),
                 Matchers.startsWith(desc)
             );
@@ -109,6 +111,7 @@ public final class RtReleaseAssetITCase {
         final Release release = releases.create(rname);
         try {
             MatcherAssert.assertThat(
+                "Value is null",
                 releases.get(release.number()),
                 Matchers.notNullValue()
             );
@@ -116,6 +119,7 @@ public final class RtReleaseAssetITCase {
             release.delete();
         }
         MatcherAssert.assertThat(
+            "Assertion failed",
             releases.iterate(),
             Matchers.not(Matchers.contains(release))
         );

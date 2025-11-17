@@ -66,6 +66,7 @@ public final class RtPullTest {
                 1
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 pull.commits(),
                 Matchers.notNullValue()
             );
@@ -93,6 +94,7 @@ public final class RtPullTest {
                 2
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 pull.files().iterator().next().getString("file1"),
                 Matchers.equalTo("testFile")
             );
@@ -132,14 +134,17 @@ public final class RtPullTest {
             );
             final PullRef base = pull.base();
             MatcherAssert.assertThat(
+                "Value is null",
                 base,
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 base.ref(),
                 Matchers.equalTo(ref)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 base.sha(),
                 Matchers.equalTo(sha)
             );
@@ -170,14 +175,17 @@ public final class RtPullTest {
             );
             final PullRef head = pull.head();
             MatcherAssert.assertThat(
+                "Value is null",
                 head,
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 head.ref(),
                 Matchers.equalTo(ref)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 head.sha(),
                 Matchers.equalTo(sha)
             );
@@ -204,10 +212,12 @@ public final class RtPullTest {
             pull.merge("Test commit.");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo("{\"commit_message\":\"Test commit.\"}")
             );
@@ -242,10 +252,12 @@ public final class RtPullTest {
                 new Random().nextInt()
             ).checks().all();
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 all,
                 Matchers.hasSize(1)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 all.iterator().next().successful(),
                 Matchers.is(true)
             );
@@ -262,9 +274,11 @@ public final class RtPullTest {
         final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
         final RtPull greater = new RtPull(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
     }

@@ -33,7 +33,8 @@ public class RtReposITCase {
         final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            MatcherAssert.assertThat(repo, Matchers.notNullValue());
+            MatcherAssert.assertThat(
+                "Value is null",repo, Matchers.notNullValue());
         } finally {
             repos.remove(repo.coordinates());
         }
@@ -65,6 +66,7 @@ public class RtReposITCase {
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 repos.exists(repo.coordinates()),
                 Matchers.equalTo(true)
             );
@@ -85,6 +87,7 @@ public class RtReposITCase {
         );
         try {
             MatcherAssert.assertThat(
+                "Assertion failed",
                 repo.coordinates(),
                 Matchers.hasToString("/orgs/myorg/repos/test")
             );

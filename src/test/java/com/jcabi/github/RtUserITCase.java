@@ -23,6 +23,7 @@ public final class RtUserITCase {
         final GitHub github = new GitHubIT().connect();
         final User self = github.users().self();
         MatcherAssert.assertThat(
+            "Values are not equal",
             self.login(),
             Matchers.not(Matchers.is(Matchers.emptyString()))
         );
@@ -34,6 +35,7 @@ public final class RtUserITCase {
     @Test
     public void readKeys() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new GitHubIT().connect().users().self().keys().toString(),
             Matchers.equalTo("https://api.github.com/user/keys")
         );

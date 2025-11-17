@@ -48,6 +48,7 @@ public final class RtOrganizationsTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 orgs.get("org"),
                 Matchers.notNullValue()
             );
@@ -81,10 +82,12 @@ public final class RtOrganizationsTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 orgs.iterate(),
                 Matchers.iterableWithSize(Tv.THREE)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/user/orgs")
             );

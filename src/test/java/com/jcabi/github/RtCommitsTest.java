@@ -58,14 +58,17 @@ public class RtCommitsTest {
                 .add("author", author).build();
             final Commit newCommit = commits.create(input);
             MatcherAssert.assertThat(
+                "Object is not of expected type",
                 newCommit,
                 Matchers.instanceOf(Commit.class)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 newCommit.sha(),
                 Matchers.equalTo("0abcd89jcabitest")
             );

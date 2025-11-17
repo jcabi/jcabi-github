@@ -37,6 +37,7 @@ public final class MkRepoCommitTest {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = this.repo(storage);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new MkRepoCommit(
                 storage, repo, MkRepoCommitTest.SHA1
             ).repo(), Matchers.equalTo(repo)
@@ -51,6 +52,7 @@ public final class MkRepoCommitTest {
     public void getSha() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new MkRepoCommit(storage, this.repo(storage), MkRepoCommitTest.SHA2).sha(),
             Matchers.equalTo(MkRepoCommitTest.SHA2)
         );
@@ -78,10 +80,12 @@ public final class MkRepoCommitTest {
             storage, repob, MkRepoCommitTest.SHA2
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater),
             Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less),
             Matchers.greaterThan(0)
         );
@@ -101,6 +105,7 @@ public final class MkRepoCommitTest {
             storage, this.repo(storage), MkRepoCommitTest.SHA1
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repoCommit.json(), Matchers.notNullValue()
         );
     }
@@ -116,9 +121,11 @@ public final class MkRepoCommitTest {
         final MkRepoCommit commit = new MkRepoCommit(storage, repo, sha);
         final MkRepoCommit other = new MkRepoCommit(storage, repo, sha);
         MatcherAssert.assertThat(
+            "Values are not equal",
             commit.compareTo(other), Matchers.equalTo(0)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             other.compareTo(commit), Matchers.equalTo(0)
         );
     }
@@ -137,9 +144,11 @@ public final class MkRepoCommitTest {
             storage, repo, "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98"
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             commit.compareTo(other), Matchers.not(0)
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             other.compareTo(commit), Matchers.not(0)
         );
     }

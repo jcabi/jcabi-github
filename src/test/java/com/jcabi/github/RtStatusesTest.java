@@ -50,6 +50,7 @@ public final class RtStatusesTest {
         final Commit original = new MkGitHub().randomRepo().git()
             .commits().get("5e8d65e0dbfab0716db16493e03a0baba480625a");
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtStatuses(new FakeRequest(), original).commit(),
             Matchers.equalTo(original)
         );
@@ -96,6 +97,7 @@ public final class RtStatusesTest {
             );
             final MkQuery request = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 request.method(),
                 Matchers.equalTo(Request.POST)
             );
@@ -103,18 +105,22 @@ public final class RtStatusesTest {
                 new StringReader(request.body())
             ).readObject();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 obj.getString(stateprop),
                 Matchers.equalTo(Status.State.FAILURE.identifier())
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 obj.getString(contextprop),
                 Matchers.equalTo(context)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 obj.getString(descriptionprop),
                 Matchers.equalTo(description)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 obj.getString(urlprop),
                 Matchers.equalTo(url)
             );

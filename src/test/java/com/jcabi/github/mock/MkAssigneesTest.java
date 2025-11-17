@@ -25,6 +25,7 @@ public final class MkAssigneesTest {
     @Test
     public void iteratesAssignees() throws Exception {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             MkAssigneesTest.repo().assignees().iterate(),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
@@ -39,6 +40,7 @@ public final class MkAssigneesTest {
         final Repo repo = MkAssigneesTest.repo();
         repo.collaborators().add("Vladimir");
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.assignees().check("Vladimir"),
             Matchers.is(true)
         );
@@ -51,6 +53,7 @@ public final class MkAssigneesTest {
     @Test
     public void checkOwnerIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkAssigneesTest.repo().assignees().check("Jonathan"),
             Matchers.is(true)
         );

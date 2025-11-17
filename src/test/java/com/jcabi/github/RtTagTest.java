@@ -48,6 +48,7 @@ public final class RtTagTest {
         );
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 tag.json().getString("tag"),
                 Matchers.is("v.0.1")
             );

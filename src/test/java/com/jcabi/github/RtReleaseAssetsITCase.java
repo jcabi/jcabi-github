@@ -78,6 +78,7 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
@@ -103,6 +104,7 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
@@ -113,6 +115,7 @@ public final class RtReleaseAssetsITCase {
                 othername
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 otheruploaded.json().getString("name"),
                 Matchers.is(othername)
             );
@@ -143,6 +146,7 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
@@ -152,6 +156,7 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 otheruploaded.json().getString("name"),
                 Matchers.is(name)
             );
@@ -177,6 +182,7 @@ public final class RtReleaseAssetsITCase {
                 "fetch.txt"
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 assets.get(uploaded.number()),
                 Matchers.is(uploaded)
             );
@@ -206,6 +212,7 @@ public final class RtReleaseAssetsITCase {
                 "second.txt"
             );
             MatcherAssert.assertThat(
+                "Assertion failed",
                 assets.iterate(),
                 Matchers.contains(first, second)
             );
@@ -225,6 +232,7 @@ public final class RtReleaseAssetsITCase {
         final ReleaseAssets assets = release.assets();
         try {
             MatcherAssert.assertThat(
+                "Collection is not empty",
                 assets.iterate(),
                 Matchers.emptyIterable()
             );

@@ -51,6 +51,7 @@ public final class RtReleaseAssetTest {
             1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString("asset"),
             Matchers.equalTo("release")
         );
@@ -69,6 +70,7 @@ public final class RtReleaseAssetTest {
             1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.release(),
             Matchers.is(release)
         );
@@ -95,13 +97,16 @@ public final class RtReleaseAssetTest {
             asset.patch(json);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(), Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.body(),
                 Matchers.containsString("{\"name\":\"hello\"}")
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/john/blueharvest/releases/assets/2")
             );
@@ -128,6 +133,7 @@ public final class RtReleaseAssetTest {
             asset.remove();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
@@ -154,9 +160,11 @@ public final class RtReleaseAssetTest {
             final InputStream stream = asset.raw();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(), Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.notNullValue()
             );

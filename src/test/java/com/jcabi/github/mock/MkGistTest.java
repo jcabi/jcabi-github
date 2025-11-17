@@ -27,6 +27,7 @@ public final class MkGistTest {
             Collections.singletonMap(filename, ""), false
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.read(filename),
             Matchers.is(Matchers.emptyString())
         );
@@ -45,6 +46,7 @@ public final class MkGistTest {
         gist.write(filename, "Hello, github!");
         final Gist forkedGist = gist.fork();
         MatcherAssert.assertThat(
+            "Values are not equal",
             forkedGist.read(filename),
             Matchers.equalTo(gist.read(filename))
         );

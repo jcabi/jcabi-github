@@ -35,6 +35,7 @@ public final class RtSearchPaginationTest {
             object -> object.getString(key)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             pagination.iterator().next(), Matchers.equalTo(value)
         );
     }

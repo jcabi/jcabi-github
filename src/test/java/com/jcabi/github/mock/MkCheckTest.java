@@ -43,6 +43,7 @@ public final class MkCheckTest {
     @Test
     public void createsSuccessfulCheck() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             ((MkChecks) this.pull.checks())
                 .create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS)
                 .successful(),
@@ -57,6 +58,7 @@ public final class MkCheckTest {
     @Test
     public void createsFailedCheck() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             ((MkChecks) this.pull.checks())
                 .create(
                     Check.Status.COMPLETED,

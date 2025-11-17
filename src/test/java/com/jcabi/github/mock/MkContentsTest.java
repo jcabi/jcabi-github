@@ -36,6 +36,7 @@ public final class MkContentsTest {
             MkContentsTest.content("README.md", "readme on master", body).build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             contents.readme().json().getString("content"),
             Matchers.is(body)
         );
@@ -56,6 +57,7 @@ public final class MkContentsTest {
                 .build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             contents.readme(branch).json().getString("content"),
             Matchers.is(body)
         );
@@ -73,14 +75,17 @@ public final class MkContentsTest {
             this.createFile(new MkGitHub().randomRepo(), path)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.path(),
             Matchers.is(path)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.name(),
             Matchers.is(path)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.sha(),
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
@@ -103,18 +108,22 @@ public final class MkContentsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.path(),
             Matchers.is(path)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.name(),
             Matchers.is(path)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.sha(),
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             content.content(),
             Matchers.is(body)
         );
@@ -135,8 +144,10 @@ public final class MkContentsTest {
             .add("committer", MkContentsTest.committer())
             .build();
         final RepoCommit commit = repo.contents().remove(json);
-        MatcherAssert.assertThat(commit, Matchers.notNullValue());
         MatcherAssert.assertThat(
+            "Value is null",commit, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Values are not equal",
             commit.json().getString("message"),
             Matchers.equalTo("theDeleteMessage")
         );
@@ -159,8 +170,10 @@ public final class MkContentsTest {
             .add("committer", MkContentsTest.committer())
             .build();
         final RepoCommit commit = repo.contents().remove(json);
-        MatcherAssert.assertThat(commit, Matchers.notNullValue());
         MatcherAssert.assertThat(
+            "Value is null",commit, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Values are not equal",
             commit.json().getString("message"),
             Matchers.equalTo("theDeleteMessage")
         );
@@ -177,6 +190,7 @@ public final class MkContentsTest {
         final String cont = "content";
         final Contents contents = new MkGitHub().randomRepo().contents();
         MatcherAssert.assertThat(
+            "Values are not equal",
             contents.create(
                 MkContentsTest.content(path, message, initial).build()
             ).json().getString(cont),
@@ -187,6 +201,7 @@ public final class MkContentsTest {
             path, MkContentsTest.content(path, message, updated).build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             contents.get(path, "master").json().getString(cont),
             Matchers.is(updated)
         );
@@ -208,6 +223,7 @@ public final class MkContentsTest {
         contents.create(json);
         final String xpath = "/github/repos/repo/commits/commit";
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             storage.xml().nodes(xpath),
             Matchers.iterableWithSize(1)
         );
@@ -215,14 +231,17 @@ public final class MkContentsTest {
             .content(path, "theMessage", "blah")
             .build();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(contents.update(path, update)).sha(),
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(contents.get(path, "master")).path(),
             Matchers.is(path)
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             storage.xml().nodes(xpath),
             Matchers.iterableWithSize(2)
         );
@@ -243,6 +262,7 @@ public final class MkContentsTest {
             .add("ref", branch)
             .build();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(contents.create(content)).content(),
             Matchers.is(initial)
         );
@@ -252,6 +272,7 @@ public final class MkContentsTest {
                 .add("ref", branch).build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(contents.get(path, branch)).content(),
             Matchers.is(updated)
         );
@@ -271,10 +292,12 @@ public final class MkContentsTest {
                 .build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             contents.exists(path, branch),
             Matchers.is(true)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             contents.exists("content-not-exist.txt", branch),
             Matchers.is(false)
         );
@@ -293,10 +316,12 @@ public final class MkContentsTest {
             .content(path, message, text)
             .build();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(contents.create(content)).content(),
             Matchers.is(text)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(contents.get(path)).content(),
             Matchers.is(text)
         );
@@ -315,6 +340,7 @@ public final class MkContentsTest {
         );
         this.addContent(repo, "foo/baz", "foo/boo");
         MatcherAssert.assertThat(
+            "Assertion failed",
             repo.contents().iterate("foo/bar", "ref-1"),
             Matchers.contains(correct)
         );

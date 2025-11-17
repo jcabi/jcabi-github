@@ -28,6 +28,7 @@ public final class RtGistsITCase {
         );
         final Gist.Smart smart = new Gist.Smart(gist);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.read(filename),
             Matchers.equalTo(content)
         );
@@ -44,6 +45,7 @@ public final class RtGistsITCase {
             Collections.singletonMap("test.txt", "content"), false
         );
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gists.iterate(),
             Matchers.hasItem(gist)
         );
@@ -60,6 +62,7 @@ public final class RtGistsITCase {
             Collections.singletonMap(filename, "body"), false
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             gists.get(gist.identifier()).identifier(),
             Matchers.equalTo(gist.identifier())
         );
@@ -76,11 +79,13 @@ public final class RtGistsITCase {
             false
         );
         MatcherAssert.assertThat(
+            "Value is null",
             gists.iterate(),
             Matchers.notNullValue()
         );
         gists.remove(gist.json().getString("id"));
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))
         );

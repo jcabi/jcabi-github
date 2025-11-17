@@ -23,6 +23,7 @@ public class MkMarkdownTest {
     public final void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new MkGitHub().markdown().render(
                 Json.createObjectBuilder()
                     .add("text", text)

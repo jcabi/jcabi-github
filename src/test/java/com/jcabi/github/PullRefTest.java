@@ -40,6 +40,7 @@ public final class PullRefTest {
     public void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             PullRefTest.pullRef(repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
@@ -52,6 +53,7 @@ public final class PullRefTest {
     @Test
     public void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             PullRefTest.pullRef().ref(),
             Matchers.equalTo(PullRefTest.REF)
         );
@@ -64,6 +66,7 @@ public final class PullRefTest {
     @Test
     public void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             PullRefTest.pullRef().sha(),
             Matchers.equalTo(PullRefTest.SHA)
         );
@@ -76,6 +79,7 @@ public final class PullRefTest {
     @Test
     public void fetchesLabel() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             PullRefTest.pullRef().label(),
             Matchers.equalTo(PullRefTest.LABEL)
         );
@@ -90,10 +94,12 @@ public final class PullRefTest {
         final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = PullRefTest.pullRef(repo).commit();
         MatcherAssert.assertThat(
+            "Values are not equal",
             commit.repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             commit.sha(),
             Matchers.equalTo(PullRefTest.SHA)
         );
@@ -107,6 +113,7 @@ public final class PullRefTest {
     public void fetchesUser() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             PullRefTest.pullRef(repo).user().login(),
             Matchers.equalTo(repo.coordinates().user())
         );

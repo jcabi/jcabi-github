@@ -29,6 +29,7 @@ public final class MkCommentTest {
         final Comment comment = this.comment("hey buddy");
         new Comment.Smart(comment).body("hello, this is a new body");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Comment.Smart(comment).body(),
             Matchers.startsWith("hello, this ")
         );
@@ -55,10 +56,12 @@ public final class MkCommentTest {
             2
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater),
             Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less),
             Matchers.greaterThan(0)
         );
@@ -76,23 +79,28 @@ public final class MkCommentTest {
         final Comment comment = this.comment(cmt);
         final long after = MkCommentTest.now();
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             comment.number(),
             Matchers.greaterThan(0L)
         );
         final Comment.Smart smart = new Comment.Smart(comment);
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             smart.issue().number(),
             Matchers.greaterThan(0)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.author().login(),
             Matchers.equalTo("jeff")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.body(),
             Matchers.equalTo(cmt)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.url(),
             Matchers.equalTo(
                 new URI(
@@ -102,18 +110,22 @@ public final class MkCommentTest {
             )
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             smart.createdAt().getTime(),
             Matchers.greaterThanOrEqualTo(before)
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             smart.createdAt().getTime(),
             Matchers.lessThanOrEqualTo(after)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             smart.updatedAt().getTime(),
             Matchers.greaterThanOrEqualTo(before)
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             smart.updatedAt().getTime(),
             Matchers.lessThanOrEqualTo(after)
         );

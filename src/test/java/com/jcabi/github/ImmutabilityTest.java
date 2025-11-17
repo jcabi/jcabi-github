@@ -38,6 +38,7 @@ public final class ImmutabilityTest {
     @Test
     public void checkImmutability() {
         MatcherAssert.assertThat(
+            "Assertion failed",
             Iterables.filter(
                 this.classpath.allTypes(),
                 input -> !ImmutabilityTest.skip().contains(

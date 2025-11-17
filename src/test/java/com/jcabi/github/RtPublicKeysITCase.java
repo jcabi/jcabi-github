@@ -30,6 +30,7 @@ public class RtPublicKeysITCase {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("key", this.key());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate(),
             Matchers.hasItem(key)
         );
@@ -46,6 +47,7 @@ public class RtPublicKeysITCase {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("Title", this.key());
         MatcherAssert.assertThat(
+            "Values are not equal",
             keys.get(key.number()),
             Matchers.equalTo(key)
         );
@@ -62,11 +64,13 @@ public class RtPublicKeysITCase {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("", this.key());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate() ,
             Matchers.hasItem(key)
         );
         keys.remove(key.number());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );
@@ -84,10 +88,12 @@ public class RtPublicKeysITCase {
         final PublicKey key = keys.create("rsa", this.key());
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 keys.iterate(),
                 Matchers.hasItem(key)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 key.user(),
                 Matchers.equalTo(
                     keys.user()
@@ -97,6 +103,7 @@ public class RtPublicKeysITCase {
             keys.remove(key.number());
         }
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );

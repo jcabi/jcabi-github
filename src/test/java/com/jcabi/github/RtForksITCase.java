@@ -38,14 +38,18 @@ public class RtForksITCase {
         final Repo repo = this.rule.repo(RtForksITCase.repos());
         try {
             final Fork fork = repo.forks().create(organization);
-            MatcherAssert.assertThat(fork, Matchers.notNullValue());
-            final Iterable<Fork> forks = repo.forks().iterate("newest");
-            MatcherAssert.assertThat(forks, Matchers.notNullValue());
             MatcherAssert.assertThat(
+                "Value is null",fork, Matchers.notNullValue());
+            final Iterable<Fork> forks = repo.forks().iterate("newest");
+            MatcherAssert.assertThat(
+                "Value is null",forks, Matchers.notNullValue());
+            MatcherAssert.assertThat(
+                "Collection is not empty",
                 forks,
                 Matchers.not(Matchers.emptyIterable())
             );
             MatcherAssert.assertThat(
+                "Assertion failed",
                 forks,
                 Matchers.contains(fork)
             );

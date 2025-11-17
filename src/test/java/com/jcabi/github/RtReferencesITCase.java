@@ -25,7 +25,7 @@ public final class RtReferencesITCase {
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    private static final RepoRule rule = new RepoRule();
+    private static final RepoRule RULE = new RepoRule();
 
     /**
      * Test repos.
@@ -44,7 +44,7 @@ public final class RtReferencesITCase {
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtReferencesITCase.repos = github.repos();
-        RtReferencesITCase.repo = RtReferencesITCase.rule.repo(RtReferencesITCase.repos);
+        RtReferencesITCase.repo = RtReferencesITCase.RULE.repo(RtReferencesITCase.repos);
     }
 
     /**
@@ -72,6 +72,7 @@ public final class RtReferencesITCase {
                 .getString("sha")
         );
         MatcherAssert.assertThat(
+            "Value is null",
             reference,
             Matchers.notNullValue()
         );
@@ -95,6 +96,7 @@ public final class RtReferencesITCase {
                 .getString("sha")
         );
         MatcherAssert.assertThat(
+            "Value is null",
             refs.iterate(),
             Matchers.notNullValue()
         );
@@ -118,6 +120,7 @@ public final class RtReferencesITCase {
                 .getString("sha")
         );
         MatcherAssert.assertThat(
+            "Value is null",
             refs.iterate("heads"),
             Matchers.notNullValue()
         );

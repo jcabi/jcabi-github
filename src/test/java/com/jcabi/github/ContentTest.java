@@ -34,6 +34,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).type(),
             Matchers.is(prop)
         );
@@ -53,6 +54,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).size(),
             // @checkstyle MagicNumber (1 line)
             Matchers.is(prop)
@@ -72,6 +74,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).name(),
             Matchers.is(prop)
         );
@@ -86,6 +89,7 @@ public class ContentTest {
         final String path = "this is some path";
         Mockito.doReturn(path).when(content).path();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).path(),
             Matchers.is(path)
         );
@@ -104,6 +108,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).sha(),
             Matchers.is(prop)
         );
@@ -123,6 +128,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).url(),
             Matchers.is(new URI(prop).toURL())
         );
@@ -142,6 +148,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).gitUrl(),
             Matchers.is(new URI(prop).toURL())
         );
@@ -161,6 +168,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).htmlUrl(),
             Matchers.is(new URI(prop).toURL())
         );
@@ -179,6 +187,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).content(),
             Matchers.is(prop)
         );
@@ -197,6 +206,7 @@ public class ContentTest {
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new String(
                 new Content.Smart(content).decoded(), StandardCharsets.UTF_8
             ),
@@ -213,6 +223,7 @@ public class ContentTest {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(repo).when(content).repo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Content.Smart(content).repo(),
             Matchers.is(repo)
         );

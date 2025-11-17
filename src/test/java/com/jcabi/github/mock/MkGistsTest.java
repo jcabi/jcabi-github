@@ -29,6 +29,7 @@ public final class MkGistsTest {
         final String file = "t.txt";
         gist.write(file, "hello, everybody!");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             gist.read(file),
             Matchers.startsWith("hello, ")
         );
@@ -44,11 +45,13 @@ public final class MkGistsTest {
             Collections.singletonMap("fileName.txt", "content"), false
         );
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gists.iterate(),
             Matchers.hasItem(gist)
         );
         gists.remove(gist.identifier());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))
         );
@@ -70,10 +73,12 @@ public final class MkGistsTest {
         gist.write(file, "hello, everybody!");
         othergist.write(file, "bye, everybody!");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             gist.read(file),
             Matchers.startsWith("hello, ")
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             othergist.read(file),
             Matchers.startsWith("bye, ")
         );
@@ -88,11 +93,13 @@ public final class MkGistsTest {
             Collections.singletonMap("file-name.txt", ""), false
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.starred(),
             Matchers.equalTo(false)
         );
         gist.star();
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.starred(),
             Matchers.equalTo(true)
         );
@@ -107,16 +114,19 @@ public final class MkGistsTest {
             Collections.singletonMap("file-name.txt", ""), false
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.starred(),
             Matchers.equalTo(false)
         );
         gist.star();
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.starred(),
             Matchers.equalTo(true)
         );
         gist.unstar();
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.starred(),
             Matchers.equalTo(false)
         );
@@ -133,6 +143,7 @@ public final class MkGistsTest {
             Collections.singletonMap(filename, ""), false
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             gist.read(filename),
             Matchers.is(Matchers.emptyString())
         );

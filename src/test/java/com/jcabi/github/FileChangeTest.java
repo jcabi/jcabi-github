@@ -25,18 +25,22 @@ public final class FileChangeTest {
     public void getsStatus() throws IOException {
         final String status = "status";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(status, "added").status(),
             Matchers.equalTo(FileChange.Status.ADDED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(status, "modified").status(),
             Matchers.equalTo(FileChange.Status.MODIFIED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(status, "removed").status(),
             Matchers.equalTo(FileChange.Status.REMOVED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(status, "renamed").status(),
             Matchers.equalTo(FileChange.Status.RENAMED)
         );
@@ -50,6 +54,7 @@ public final class FileChangeTest {
     public void getsFilename() throws IOException {
         final String filename = "foo/bar.txt";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange("filename", filename).filename(),
             Matchers.equalTo(filename)
         );
@@ -63,6 +68,7 @@ public final class FileChangeTest {
     public void getsSha() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange("sha", sha).sha(),
             Matchers.equalTo(sha)
         );
@@ -77,6 +83,7 @@ public final class FileChangeTest {
         // @checkstyle MagicNumberCheck (1 line)
         final int adds = 42;
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.intFileChange("additions", adds).additions(),
             Matchers.equalTo(adds)
         );
@@ -91,6 +98,7 @@ public final class FileChangeTest {
         // @checkstyle MagicNumberCheck (1 line)
         final int deletions = 97;
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.intFileChange("deletions", deletions).deletions(),
             Matchers.equalTo(deletions)
         );
@@ -105,6 +113,7 @@ public final class FileChangeTest {
         // @checkstyle MagicNumberCheck (1 line)
         final int changes = 11;
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.intFileChange("changes", changes).changes(),
             Matchers.equalTo(changes)
         );
@@ -118,6 +127,7 @@ public final class FileChangeTest {
     @Test
     public void getsAbsentPatch() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new FileChange.Smart(
                 new MkFileChange(
                     Json.createObjectBuilder().build()
@@ -137,6 +147,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String patch = "@@ -120,7 +120,7 @@ class Test1 @@ -1000,7 +1000,7 @@ class Test1";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(
                 "patch",
                 patch
@@ -154,6 +165,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(
                 "raw_url",
                 url
@@ -171,6 +183,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange(
                 "blob_url",
                 url
@@ -188,6 +201,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/repos/octocat/Hello-World/contents/foo/bar.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db51";
         MatcherAssert.assertThat(
+            "Values are not equal",
             FileChangeTest.stringFileChange("contents_url", url)
                 .contentsUrl(),
             Matchers.equalTo(url)

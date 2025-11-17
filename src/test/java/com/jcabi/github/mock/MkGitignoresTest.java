@@ -22,6 +22,7 @@ public final class MkGitignoresTest {
     public void canFetchSingleRawTemplate() throws IOException {
         final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             gitignores.template("Java"),
             Matchers.startsWith("*.class")
         );
@@ -34,6 +35,7 @@ public final class MkGitignoresTest {
     public void canIterateOverTemplates() throws IOException {
         final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             gitignores.iterate(),
             Matchers.not(Matchers.emptyIterable())
         );

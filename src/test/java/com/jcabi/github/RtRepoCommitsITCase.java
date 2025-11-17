@@ -49,6 +49,7 @@ public class RtRepoCommitsITCase {
             }
         }
         MatcherAssert.assertThat(
+            "Values are not equal",
             found,
             Matchers.equalTo(shas.size())
         );
@@ -64,12 +65,14 @@ public class RtRepoCommitsITCase {
             "9b2e6efde9"
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             patch,
             Matchers.startsWith(
                 "From 9b2e6efde94fabec5876dc481b38811e8b4e992f"
             )
         );
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             patch,
             Matchers.containsString(
                 "Issue #430 RepoCommit interface was added"
@@ -87,6 +90,7 @@ public class RtRepoCommitsITCase {
             "b828dfa"
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             diff,
             Matchers.startsWith("diff --git")
         );
@@ -99,6 +103,7 @@ public class RtRepoCommitsITCase {
     public final void getCommit() {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtRepoCommitsITCase.repo().commits().get(sha).sha(),
             Matchers.equalTo(sha)
         );

@@ -50,6 +50,7 @@ public final class VisibilityTest {
     @Test
     public void checkVisibility() {
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             Iterables.filter(
                 this.classpath.allTypes(),
                 input -> !(

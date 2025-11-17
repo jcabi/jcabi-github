@@ -36,6 +36,7 @@ public final class MkPullsTest {
             repo.issues().get(pull.number())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.title(),
             Matchers.is("hello")
         );

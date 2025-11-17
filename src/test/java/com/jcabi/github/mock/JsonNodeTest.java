@@ -26,12 +26,15 @@ public final class JsonNodeTest {
             "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
         );
         final JsonObject json = new JsonNode(xml.nodes("user").get(0)).json();
-        MatcherAssert.assertThat(json, Matchers.notNullValue());
         MatcherAssert.assertThat(
+            "Value is null",json, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("name"),
             Matchers.equalTo("Jeff")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getJsonObject("dept").getString("title"),
             Matchers.equalTo("IT")
         );
@@ -48,6 +51,7 @@ public final class JsonNodeTest {
         );
         final JsonObject json = new JsonNode(xml).json();
         MatcherAssert.assertThat(
+            "Assertion failed",
             json.toString(),
             new IsEqual<>("{\"users\":[\"Jeff\",\"Bauer\",\"Iko\"]}")
         );

@@ -24,6 +24,7 @@ public final class RtGitHubITCase {
     public void authenticatesItself() {
         final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
+            "Value is null",
             github.users().self(),
             Matchers.notNullValue()
         );
@@ -36,6 +37,7 @@ public final class RtGitHubITCase {
     public void connectsAnonymously() throws IOException {
         final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
+            "Value is null",
             new Issue.Smart(
                 github.repos().get(
                     new Coordinates.Simple("jcabi/jcabi-github")
@@ -52,6 +54,7 @@ public final class RtGitHubITCase {
     public void fetchesMeta() throws IOException {
         final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             github.meta().getJsonArray("hooks"),
             Matchers.not(Matchers.empty())
         );
@@ -64,6 +67,7 @@ public final class RtGitHubITCase {
     public void fetchesEmojis() throws IOException {
         final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.emojis().getString("+1"),
             Matchers.startsWith("https://")
         );
@@ -86,6 +90,7 @@ public final class RtGitHubITCase {
         );
         final GitHub github = new RtGitHub(user, password);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(github.users().self()).login(),
             Matchers.is(user)
         );

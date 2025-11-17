@@ -58,15 +58,18 @@ public final class RtContentsTest {
                 RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 contents.readme().path(),
                 Matchers.is(path)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/readme")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body().length(),
                 Matchers.is(0)
             );
@@ -91,15 +94,18 @@ public final class RtContentsTest {
                 RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 contents.readme("test-branch").path(),
                 Matchers.is(path)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/readme")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is("{\"ref\":\"test-branch\"}")
             );
@@ -138,24 +144,29 @@ public final class RtContentsTest {
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith(
                     "/repos/test/contents/contents/test/file?ref=branch1"
                 )
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.path(),
                 Matchers.is(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.name(),
                 Matchers.is(name)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith(
                     "/repos/test/contents/contents/test/file?ref=branch1"
@@ -196,18 +207,22 @@ public final class RtContentsTest {
                 contents.create(content)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.path(),
                 Matchers.is(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.name(),
                 Matchers.is(name)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/contents/contents/test/thefile")
             );
@@ -244,11 +259,13 @@ public final class RtContentsTest {
                     .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 commit.sha(),
                 Matchers.is("commitSha")
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.body(),
                 Matchers.allOf(
                     Matchers.containsString("\"message\":\"Delete me\""),
@@ -256,6 +273,7 @@ public final class RtContentsTest {
                 )
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/contents/to/remove")
             );
@@ -290,19 +308,23 @@ public final class RtContentsTest {
                 .add("sha", "90b67dda6d5944ad167e20ec52bfed8fd56986c8")
                 .build();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new RepoCommit.Smart(contents.update(path, json)).sha(),
                 Matchers.is(sha)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().getPath(),
                 Matchers.endsWith(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo(json.toString())
             );
@@ -333,6 +355,7 @@ public final class RtContentsTest {
                 RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 contents.iterate("dir", "branch2"),
                 Matchers.iterableWithSize(2)
             );

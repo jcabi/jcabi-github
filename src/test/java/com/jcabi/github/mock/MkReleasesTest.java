@@ -24,6 +24,7 @@ public final class MkReleasesTest {
     public void canFetchEmptyListOfReleases() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             releases.iterate(),
             Matchers.emptyIterable()
         );
@@ -38,6 +39,7 @@ public final class MkReleasesTest {
         final String tag = "v1.0";
         releases.create(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             // @checkstyle MultipleStringLiterals (1 line)
             releases.iterate().iterator().next().json().getString("tag_name"),
             Matchers.equalTo(tag)
@@ -50,7 +52,8 @@ public final class MkReleasesTest {
     @Test
     public void canFetchSingleRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
-        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",releases.get(1), Matchers.notNullValue());
     }
 
     /**
@@ -62,6 +65,7 @@ public final class MkReleasesTest {
         final String tag = "v1.0.0";
         final Release release = releases.create(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             release.json().getString("tag_name"),
             Matchers.equalTo(tag)
         );
@@ -76,6 +80,7 @@ public final class MkReleasesTest {
         releases.create("v1.0.1");
         releases.create("v1.0.2");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             releases.iterate(),
             Matchers.iterableWithSize(2)
         );
@@ -90,11 +95,13 @@ public final class MkReleasesTest {
         releases.create("v1.1.1");
         releases.create("v1.1.2");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             releases.iterate(),
             Matchers.iterableWithSize(2)
         );
         releases.remove(1);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             releases.iterate(),
             Matchers.iterableWithSize(1)
         );
@@ -109,10 +116,12 @@ public final class MkReleasesTest {
         final String tag = "v5.0";
         releases.create(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Releases.Smart(releases).exists(tag),
             Matchers.is(true)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(new Releases.Smart(releases).find(tag)).tag(),
             Matchers.equalTo(tag)
         );
@@ -128,6 +137,7 @@ public final class MkReleasesTest {
         final String tag = "tag";
         releases.create(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(releases.iterate().iterator().next())
                 .name().isEmpty(),
             Matchers.is(true)
@@ -144,6 +154,7 @@ public final class MkReleasesTest {
         final String tag = "tag";
         releases.create(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(releases.iterate().iterator().next())
                 .body().isEmpty(),
             Matchers.is(true)

@@ -65,6 +65,7 @@ public final class RtMilestonesITCase {
         );
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 milestones.iterate(Collections.singletonMap("state", "all")),
                 Matchers.hasItem(milestone)
             );
@@ -84,6 +85,7 @@ public final class RtMilestonesITCase {
         );
         try {
             MatcherAssert.assertThat(
+                "Collection is not empty",
                 milestones.iterate(Collections.singletonMap("state", "all")),
                 Matchers.not(Matchers.emptyIterable())
             );
@@ -100,11 +102,13 @@ public final class RtMilestonesITCase {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create("a milestones");
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             milestones.iterate(new ArrayMap<>()),
             Matchers.hasItem(milestone)
         );
         milestones.remove(milestone.number());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             milestones.iterate(new ArrayMap<>()),
             Matchers.not(Matchers.hasItem(milestone))
         );

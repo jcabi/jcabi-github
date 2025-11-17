@@ -50,6 +50,7 @@ public final class RtStarsTest {
                 RtStarsTest.repo("someuser", "starredrepo")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 starred.starred(), Matchers.is(true)
             );
             final Stars unstarred = new RtStars(
@@ -57,6 +58,7 @@ public final class RtStarsTest {
                 RtStarsTest.repo("otheruser", "notstarredrepo")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 unstarred.starred(), Matchers.is(false)
             );
             container.stop();
@@ -83,10 +85,12 @@ public final class RtStarsTest {
             stars.star();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath(user)
@@ -119,10 +123,12 @@ public final class RtStarsTest {
             stars.unstar();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath(user)

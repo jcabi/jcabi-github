@@ -30,6 +30,7 @@ public final class SmartsTest {
             Collections.singletonList(origin)
         );
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             comments.iterator().next().body(),
             Matchers.endsWith("world!")
         );

@@ -84,6 +84,7 @@ public class RtGistCommentTest {
                 .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 comment.json().getString(bodyString),
                 Matchers.equalTo(patchedBody)
             );
@@ -113,6 +114,7 @@ public class RtGistCommentTest {
             );
             comment.remove();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );

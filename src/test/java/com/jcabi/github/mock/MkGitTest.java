@@ -25,6 +25,7 @@ public final class MkGitTest {
     public void canFetchOwnRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.git().repo(),
             Matchers.equalTo(repo)
         );
@@ -36,6 +37,7 @@ public final class MkGitTest {
     @Test
     public void givesReferences() throws IOException {
         MatcherAssert.assertThat(
+            "Value is null",
             new MkGitHub().randomRepo().git().references(),
             Matchers.notNullValue()
         );

@@ -51,12 +51,15 @@ public final class RtPullCommentTest {
         final RtPullComment greater =
             new RtPullComment(new FakeRequest(), pull, 2);
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             less.compareTo(less), Matchers.equalTo(0)
         );
     }
@@ -79,10 +82,12 @@ public final class RtPullCommentTest {
                 new RtPullComment(new ApacheRequest(container.home()), pull, 1);
             final JsonObject json = comment.json();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 json.getString("body"),
                 Matchers.is("test")
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/joe/blueharvest/pulls/comments/1")
             );
@@ -110,13 +115,16 @@ public final class RtPullCommentTest {
             comment.patch(json);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(), Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.body(),
                 Matchers.containsString("{\"body\":\"test comment\"}")
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/joe/blueharvest/pulls/comments/2")
             );

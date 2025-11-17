@@ -24,6 +24,7 @@ public final class RtStatusTest {
     public void fetchesId() throws IOException {
         final int ident = 666;
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtStatus(
                 RtStatusTest.commit(),
                 Json.createObjectBuilder().add("id", ident).build()
@@ -40,6 +41,7 @@ public final class RtStatusTest {
     public void fetchesUrl() throws IOException {
         final String url = "http://api.jcabi-github.invalid/whatever";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtStatus(
                 RtStatusTest.commit(),
                 Json.createObjectBuilder().add("url", url).build()
@@ -56,6 +58,7 @@ public final class RtStatusTest {
     public void fetchesCommit() throws IOException {
         final Commit cmmt = RtStatusTest.commit();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtStatus(cmmt, Json.createObjectBuilder().build()).commit(),
             Matchers.equalTo(cmmt)
         );

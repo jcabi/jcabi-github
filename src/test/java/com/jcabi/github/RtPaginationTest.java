@@ -55,10 +55,12 @@ public final class RtPaginationTest {
             );
             final Iterator<JsonObject> iterator = page.iterator();
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 iterator.next().toString(),
                 Matchers.containsString("Jeff")
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 iterator.next().toString(),
                 Matchers.containsString("Mark")
             );
@@ -84,6 +86,7 @@ public final class RtPaginationTest {
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();
             MatcherAssert.assertThat(
+                "Value is null",
                 iterator.next(),
                 Matchers.notNullValue()
             );

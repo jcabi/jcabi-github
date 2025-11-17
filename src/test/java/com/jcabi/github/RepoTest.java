@@ -29,6 +29,7 @@ public final class RepoTest {
                 .build()
         ).when(repo).json();
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             new Repo.Smart(repo).description(),
             Matchers.containsString("world!")
         );
@@ -46,6 +47,7 @@ public final class RepoTest {
                 .build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Repo.Smart(repo).isPrivate(),
             Matchers.is(true)
         );

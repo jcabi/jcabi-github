@@ -61,10 +61,12 @@ public final class RtReposTest {
             );
             final Repo repo = this.rule.repo(repos);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Assertion failed",
                 repo.coordinates(),
                 new IsEqual<>(new Coordinates.Simple(owner, name))
             );
@@ -94,6 +96,7 @@ public final class RtReposTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 repos.iterate(identifier),
                 Matchers.iterableWithSize(2)
             );
@@ -118,10 +121,12 @@ public final class RtReposTest {
             repos.remove(new Coordinates.Simple("", ""));
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is(Matchers.emptyString())
             );

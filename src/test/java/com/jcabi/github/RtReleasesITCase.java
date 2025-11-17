@@ -67,6 +67,7 @@ public final class RtReleasesITCase {
         );
         try {
             MatcherAssert.assertThat(
+                "Collection is not empty",
                 releases.iterate(),
                 Matchers.not(Matchers.emptyIterableOf(Release.class))
             );
@@ -84,10 +85,12 @@ public final class RtReleasesITCase {
         final String tag = "v1.0";
         final Release release = releases.create(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             releases.get(release.number()).number(),
             Matchers.equalTo(release.number())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(releases.get(release.number())).tag(),
             Matchers.equalTo(tag)
         );
@@ -105,10 +108,12 @@ public final class RtReleasesITCase {
         try {
             final Release obtained = releases.get(number);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 created,
                 Matchers.is(obtained)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Release.Smart(created).tag(),
                 Matchers.equalTo(new Release.Smart(obtained).tag())
             );
@@ -127,11 +132,13 @@ public final class RtReleasesITCase {
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             releases.iterate(),
             Matchers.hasItem(release)
         );
         releases.remove(release.number());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             releases.iterate(),
             Matchers.not(Matchers.hasItem(release))
         );
@@ -149,6 +156,7 @@ public final class RtReleasesITCase {
         final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIFTEEN);
         new Release.Smart(release).tag(tag);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(releases.get(release.number())).tag(),
             Matchers.equalTo(tag)
         );
@@ -167,6 +175,7 @@ public final class RtReleasesITCase {
         final String body = "Description of the release";
         new Release.Smart(release).body(body);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Release.Smart(releases.get(release.number())).body(),
             Matchers.equalTo(body)
         );

@@ -32,6 +32,7 @@ public final class RtReleaseAssetsTest {
                 .withBody("[{\"id\":1},{\"id\":2}]"), RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             assets.iterate(),
             Matchers.iterableWithSize(2)
         );
@@ -51,6 +52,7 @@ public final class RtReleaseAssetsTest {
             RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             assets.upload(body.getBytes(), "text/plain", "hello.txt")
                 .number(),
             Matchers.is(1)
@@ -70,6 +72,7 @@ public final class RtReleaseAssetsTest {
             RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             assets.get(Tv.THREE).number(),
             Matchers.is(Tv.THREE)
         );

@@ -51,6 +51,7 @@ public final class RtUsersTest {
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             users.iterate(identifier),
             Matchers.iterableWithSize(2)
         );
@@ -75,6 +76,7 @@ public final class RtUsersTest {
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             users.get(login).login(),
             Matchers.equalTo(login)
         );
@@ -99,6 +101,7 @@ public final class RtUsersTest {
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             users.self().login(),
             Matchers.equalTo(login)
         );

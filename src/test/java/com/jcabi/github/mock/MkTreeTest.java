@@ -26,6 +26,7 @@ public final class MkTreeTest {
     @Test
     public void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             this.tree().json().getString("message"),
             Matchers.is("\"test tree\"")
         );

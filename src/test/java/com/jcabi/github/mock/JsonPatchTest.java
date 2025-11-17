@@ -31,6 +31,7 @@ public final class JsonPatchTest {
         );
         final XML xml = storage.xml();
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             xml.xpath("/github/name/text()").get(0),
             Matchers.describedAs(xml.toString(), Matchers.endsWith("you!"))
         );

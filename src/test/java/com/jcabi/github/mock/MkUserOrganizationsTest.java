@@ -30,6 +30,7 @@ public final class MkUserOrganizationsTest {
             .organizations();
         github.organizations().get(login);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             userOrgs.iterate(),
             Matchers.iterableWithSize(1)
         );

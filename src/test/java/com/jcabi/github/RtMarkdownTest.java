@@ -50,12 +50,14 @@ public final class RtMarkdownTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 markdown.render(
                     Json.createObjectBuilder().add("hello", "world").build()
                 ),
                 Matchers.equalTo("{\"a\":\"b\"}")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().body(),
                 Matchers.equalTo("{\"hello\":\"world\"}")
             );
@@ -80,10 +82,12 @@ public final class RtMarkdownTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 markdown.raw("Hello World!"),
                 Matchers.equalTo("Test Output")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().body(),
                 Matchers.equalTo("Hello World!")
             );

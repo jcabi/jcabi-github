@@ -68,6 +68,7 @@ public final class RtRepoTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 repo.issueEvents().iterate(),
                 Matchers.iterableWithSize(2)
             );
@@ -85,6 +86,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.labels(),
             Matchers.notNullValue()
         );
@@ -100,6 +102,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.issues(),
             Matchers.notNullValue()
         );
@@ -115,6 +118,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.branches(),
             Matchers.notNullValue()
         );
@@ -130,6 +134,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.pulls(),
             Matchers.notNullValue()
         );
@@ -145,6 +150,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.hooks(),
             Matchers.notNullValue()
         );
@@ -160,6 +166,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.keys(),
             Matchers.notNullValue()
         );
@@ -175,6 +182,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.releases(),
             Matchers.notNullValue()
         );
@@ -190,6 +198,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.contents(),
             Matchers.notNullValue()
         );
@@ -207,6 +216,7 @@ public final class RtRepoTest {
             coords
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             repo.coordinates(),
             Matchers.sameInstance(coords)
         );
@@ -231,6 +241,7 @@ public final class RtRepoTest {
             );
             repo.patch(RtRepoTest.event(Event.ASSIGNED));
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );
@@ -254,6 +265,7 @@ public final class RtRepoTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.json().toString(),
             Matchers.equalTo(
                 "{\"full_name\":\"octocat/Hello-World\",\"fork\":true}"
@@ -269,7 +281,8 @@ public final class RtRepoTest {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.commits(), Matchers.notNullValue());
     }
 
     /**
@@ -280,7 +293,8 @@ public final class RtRepoTest {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.git(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.git(), Matchers.notNullValue());
     }
 
     /**
@@ -291,7 +305,8 @@ public final class RtRepoTest {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.stars(), Matchers.notNullValue());
     }
 
     /**
@@ -313,6 +328,7 @@ public final class RtRepoTest {
             ).start(this.resource.port())
         ) {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 RtRepoTest.repo(
                     new ApacheRequest(container.home())
                 ).defaultBranch().name(),
@@ -330,7 +346,8 @@ public final class RtRepoTest {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.notifications(), Matchers.notNullValue());
     }
 
     /**
@@ -351,7 +368,8 @@ public final class RtRepoTest {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
             );
-            MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+            MatcherAssert.assertThat(
+                "Value is null",repo.languages(), Matchers.notNullValue());
             container.stop();
         }
     }
@@ -380,22 +398,27 @@ public final class RtRepoTest {
             );
             final Iterator<Language> iter = repo.languages().iterator();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.hasNext(),
                 Matchers.is(true)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.next().name(),
                 Matchers.is(lang)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.hasNext(),
                 Matchers.is(true)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.next().name(),
                 Matchers.is(other)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.hasNext(),
                 Matchers.is(false)
             );
@@ -436,6 +459,7 @@ public final class RtRepoTest {
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath("repos")

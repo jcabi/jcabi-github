@@ -42,6 +42,7 @@ public final class CommitsComparisonTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             comparison.commits().iterator().next().sha(), Matchers.equalTo(sha)
         );
     }
@@ -73,6 +74,7 @@ public final class CommitsComparisonTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new FileChange.Smart(
                 comparison.files().iterator().next()
             ).filename(),

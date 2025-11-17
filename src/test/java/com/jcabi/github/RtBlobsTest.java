@@ -54,10 +54,12 @@ public final class RtBlobsTest {
             final String content = "Content of the blob";
             final Blob blob = blobs.create(content, "utf-8");
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Blob.Smart(blob).url(),
                 Matchers.equalTo("http://localhost/1")
             );
@@ -80,7 +82,8 @@ public final class RtBlobsTest {
             ),
             RtBlobsTest.repo()
         );
-        MatcherAssert.assertThat(blobs.get(sha).sha(), Matchers.equalTo(sha));
+        MatcherAssert.assertThat(
+            "Values are not equal",blobs.get(sha).sha(), Matchers.equalTo(sha));
     }
 
     /**

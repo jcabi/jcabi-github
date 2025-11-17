@@ -36,6 +36,7 @@ public final class MkIssueLabelsTest {
         final Issue issue = repo.issues().create("title", "body");
         issue.labels().add(Collections.singletonList(name));
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.labels().iterate(),
             Matchers.iterableWithSize(1)
         );
@@ -51,6 +52,7 @@ public final class MkIssueLabelsTest {
         final String name = "task";
         new IssueLabels.Smart(issue.labels()).addIfAbsent(name, "f0f0f0");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.labels().iterate(),
             Matchers.iterableWithSize(1)
         );
@@ -67,6 +69,7 @@ public final class MkIssueLabelsTest {
         final Issue issue = repo.issues().create("Titular", "Corpus");
         issue.labels().add(Collections.singletonList(name));
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.events(),
             Matchers.iterableWithSize(1)
         );
@@ -74,18 +77,22 @@ public final class MkIssueLabelsTest {
             issue.events().iterator().next()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             labeled.type(),
             Matchers.equalTo(Event.LABELED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             labeled.author().login(),
             Matchers.equalTo(MkIssueLabelsTest.USER)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             labeled.repo(),
             Matchers.equalTo(repo)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             labeled.label().get().name(),
             Matchers.equalTo(name)
         );
@@ -103,6 +110,7 @@ public final class MkIssueLabelsTest {
         issue.labels().add(Collections.singletonList(name));
         issue.labels().remove(name);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.events(),
             Matchers.iterableWithSize(2)
         );
@@ -110,18 +118,22 @@ public final class MkIssueLabelsTest {
         events.next();
         final Event.Smart unlabeled = new Event.Smart(events.next());
         MatcherAssert.assertThat(
+            "Values are not equal",
             unlabeled.type(),
             Matchers.equalTo(Event.UNLABELED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             unlabeled.author().login(),
             Matchers.equalTo(MkIssueLabelsTest.USER)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             unlabeled.repo(),
             Matchers.equalTo(repo)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             unlabeled.label().get().name(),
             Matchers.equalTo(name)
         );

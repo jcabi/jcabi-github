@@ -43,14 +43,17 @@ public final class MkIssueEventsTest {
         );
         final long after = MkIssueEventsTest.now();
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.type(),
             Matchers.equalTo(type)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.author().login(),
             Matchers.equalTo(login)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.url().toString(),
             Matchers.equalTo(
                 String.format(
@@ -61,10 +64,12 @@ public final class MkIssueEventsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             event.createdAt().getTime(),
             Matchers.greaterThanOrEqualTo(before)
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             event.createdAt().getTime(),
             Matchers.lessThanOrEqualTo(after)
         );
@@ -87,6 +92,7 @@ public final class MkIssueEventsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.label().get().name(),
             Matchers.equalTo(label)
         );
@@ -109,14 +115,17 @@ public final class MkIssueEventsTest {
         ).number();
         final Event.Smart event = new Event.Smart(events.get(eventnum));
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.number(),
             Matchers.equalTo(eventnum)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.type(),
             Matchers.equalTo(type)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.author().login(),
             Matchers.equalTo(login)
         );
@@ -142,15 +151,18 @@ public final class MkIssueEventsTest {
             MkIssueEventsTest.ABSENT_STR
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             events.iterate(),
             Matchers.iterableWithSize(2)
         );
         final Iterator<Event> iter = events.iterate().iterator();
         MatcherAssert.assertThat(
+            "Values are not equal",
             iter.next(),
             Matchers.equalTo(first)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             iter.next(),
             Matchers.equalTo(second)
         );

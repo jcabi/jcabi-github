@@ -34,6 +34,7 @@ public class RepoCommitTest {
                 .build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(commit).url(),
             Matchers.is(new URI(prop).toURL())
         );
@@ -52,6 +53,7 @@ public class RepoCommitTest {
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new RepoCommit.Smart(commit).message(),
             Matchers.startsWith("hello, ")
         );
@@ -74,6 +76,7 @@ public class RepoCommitTest {
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(commit).isVerified(),
             Matchers.is(true)
         );
@@ -97,6 +100,7 @@ public class RepoCommitTest {
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(commit).author(),
             Matchers.equalTo(login)
         );

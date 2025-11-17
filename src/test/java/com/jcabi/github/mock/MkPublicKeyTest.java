@@ -34,14 +34,17 @@ public final class MkPublicKeyTest {
         final JsonObject json = new MkGitHub().users().add("john").keys()
             .create(title, key).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("id"),
             Matchers.equalTo("1")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("title"),
             Matchers.equalTo(title)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString(MkPublicKeyTest.KEY),
             Matchers.equalTo(key)
         );
@@ -61,6 +64,7 @@ public final class MkPublicKeyTest {
             Json.createObjectBuilder().add(MkPublicKeyTest.KEY, patched).build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             key.json().getString(MkPublicKeyTest.KEY),
             Matchers.equalTo(patched)
         );

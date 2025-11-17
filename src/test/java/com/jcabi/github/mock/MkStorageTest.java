@@ -36,6 +36,7 @@ public final class MkStorageTest {
                     .set("hello, world")
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 storage.xml().xpath("/github/test/text()").get(0),
                 Matchers.endsWith(", world")
             );
@@ -56,7 +57,11 @@ public final class MkStorageTest {
         Future<?> future = executor.submit(second);
         try {
             future.get(1L, TimeUnit.SECONDS);
-            MatcherAssert.assertThat("timeout SHOULD happen", false);
+            MatcherAssert.assertThat(
+                "Timeout did not occur",
+                false,
+                Matchers.is(true)
+            );
         } catch (final TimeoutException ex) {
             future.cancel(true);
         } finally {
@@ -66,7 +71,11 @@ public final class MkStorageTest {
         try {
             future.get(1L, TimeUnit.SECONDS);
         } catch (final TimeoutException ex) {
-            MatcherAssert.assertThat("timeout SHOULD NOT happen", false);
+            MatcherAssert.assertThat(
+                "Timeout occurred unexpectedly",
+                false,
+                Matchers.is(true)
+            );
             future.cancel(true);
         }
         executor.shutdown();

@@ -61,10 +61,12 @@ public final class RtForkTest {
             );
             fork.patch(RtForkTest.fork(patched));
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Fork.Smart(fork).organization(),
                 Matchers.equalTo(patched)
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 new Fork.Smart(fork).name(),
                 Matchers.notNullValue()
             );

@@ -29,6 +29,7 @@ public final class PublicKeyTest {
             Json.createObjectBuilder().add("key", value).build()
         ).when(key).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PublicKey.Smart(key).key(),
             Matchers.is(value)
         );
@@ -58,6 +59,7 @@ public final class PublicKeyTest {
             Json.createObjectBuilder().add("url", prop).build()
         ).when(key).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PublicKey.Smart(key).url().toString(),
             Matchers.is(prop)
         );
@@ -74,6 +76,7 @@ public final class PublicKeyTest {
             Json.createObjectBuilder().add("title", prop).build()
         ).when(key).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PublicKey.Smart(key).title(),
             Matchers.is(prop)
         );

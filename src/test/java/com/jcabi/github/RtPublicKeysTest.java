@@ -54,6 +54,7 @@ public final class RtPublicKeysTest {
                 Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 keys.iterate(),
                 Matchers.iterableWithSize(2)
             );
@@ -80,6 +81,7 @@ public final class RtPublicKeysTest {
                 Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 keys.get(1),
                 Matchers.notNullValue()
             );
@@ -108,10 +110,12 @@ public final class RtPublicKeysTest {
             keys.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/user/keys/1")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
@@ -137,15 +141,18 @@ public final class RtPublicKeysTest {
                 Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 keys.create("theTitle", "theKey").number(),
                 Matchers.is(1)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/user/keys")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo(
                     "{\"title\":\"theTitle\",\"key\":\"theKey\"}"

@@ -26,6 +26,7 @@ public final class MkTagTest {
     @Test
     public void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             this.tag().json().getString("message"),
             Matchers.is("\"test tag\"")
         );

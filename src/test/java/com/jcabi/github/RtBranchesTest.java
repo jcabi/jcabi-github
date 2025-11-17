@@ -62,22 +62,27 @@ public final class RtBranchesTest {
                 new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 branches.iterate(),
                 Matchers.iterableWithSize(2)
             );
             final Iterator<Branch> iter = branches.iterate().iterator();
             final Branch first = iter.next();
-            MatcherAssert.assertThat(first.name(), Matchers.equalTo(firstname));
             MatcherAssert.assertThat(
+                "Values are not equal",first.name(), Matchers.equalTo(firstname));
+            MatcherAssert.assertThat(
+                "Values are not equal",
                 first.commit().sha(),
                 Matchers.equalTo(firstsha)
             );
             final Branch second = iter.next();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 second.name(),
                 Matchers.equalTo(secondname)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 second.commit().sha(),
                 Matchers.equalTo(secondsha)
             );
@@ -132,10 +137,12 @@ public final class RtBranchesTest {
         final RtBranches branch = new RtBranches(new FakeRequest(), repo);
         final Coordinates coords = branch.repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );

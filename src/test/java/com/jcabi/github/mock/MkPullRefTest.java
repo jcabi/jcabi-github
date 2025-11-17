@@ -41,6 +41,7 @@ public final class MkPullRefTest {
         final Repo repo = new MkGitHub(storage, MkPullRefTest.USERNAME)
             .randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkPullRefTest.pullRef(storage, repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
@@ -53,6 +54,7 @@ public final class MkPullRefTest {
     @Test
     public void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkPullRefTest.pullRef().ref(),
             Matchers.equalTo(MkPullRefTest.REF)
         );
@@ -65,6 +67,7 @@ public final class MkPullRefTest {
     @Test
     public void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkPullRefTest.pullRef().sha(),
             Matchers.equalTo(MkPullRefTest.SHA)
         );

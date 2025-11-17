@@ -65,6 +65,7 @@ public final class RtIssuesITCase {
         );
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
+                "Value is null",
                 issue.title(),
                 Matchers.notNullValue()
             );
@@ -93,11 +94,13 @@ public final class RtIssuesITCase {
         final Set<String> labelNames = new HashSet<>();
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
+                "Value is null",
                 issue.title(),
                 Matchers.notNullValue()
             );
             if (prevUpdated != null) {
                 MatcherAssert.assertThat(
+                    "Value is not less than expected",
                     issue.updatedAt(),
                     Matchers.lessThanOrEqualTo(prevUpdated)
                 );
@@ -108,6 +111,7 @@ public final class RtIssuesITCase {
                 labelNames.add(label.name());
             }
             MatcherAssert.assertThat(
+                "Assertion failed",
                 labelNames,
                 Matchers.contains(targetLabel)
             );

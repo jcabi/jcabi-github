@@ -27,6 +27,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForRepos() {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             new GitHubIT().connect()
                 .search().repos("repo", "stars", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
@@ -48,6 +49,7 @@ public final class RtSearchITCase {
             count += 1;
         }
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             count,
             Matchers.greaterThanOrEqualTo(Tv.HUNDRED)
         );
@@ -63,6 +65,7 @@ public final class RtSearchITCase {
             new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
+            "Collection is not empty",
             new GitHubIT().connect().search().issues(
                 "qualifiers",
                 "updated",
@@ -80,6 +83,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForUsers() {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             new GitHubIT().connect()
                 .search().users("jcabi", "joined", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(User.class))
@@ -94,6 +98,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForContents() {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             new GitHubIT().connect().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC
             ),

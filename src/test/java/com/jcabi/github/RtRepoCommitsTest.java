@@ -33,6 +33,7 @@ public final class RtRepoCommitsTest {
             RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             commits.iterate(
                 Collections.emptyMap()
             ).iterator().next().sha(),
@@ -55,7 +56,8 @@ public final class RtRepoCommitsTest {
             ),
             RtRepoCommitsTest.repo()
         );
-        MatcherAssert.assertThat(commits.get(sha).sha(), Matchers.equalTo(sha));
+        MatcherAssert.assertThat(
+            "Values are not equal",commits.get(sha).sha(), Matchers.equalTo(sha));
     }
 
     /**
@@ -74,6 +76,7 @@ public final class RtRepoCommitsTest {
             RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             commits.compare(
                 "6dcb09b5b57875f334f61aebed695e2e4193db53",
                 "6dcb09b5b57875f334f61aebed695e2e4193db54"
@@ -92,6 +95,7 @@ public final class RtRepoCommitsTest {
             RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             commits.diff(
                 "6dcb09b5b57875f334f61aebed695e2e4193db55",
                 "6dcb09b5b57875f334f61aebed695e2e4193db56"
@@ -112,6 +116,7 @@ public final class RtRepoCommitsTest {
             RtRepoCommitsTest.repo()
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             commits.patch(
                 "6dcb09b5b57875f334f61aebed695e2e4193db57",
                 "6dcb09b5b57875f334f61aebed695e2e4193db58"
@@ -126,6 +131,7 @@ public final class RtRepoCommitsTest {
     @Test
     public void readCorrectURL() {
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             new RtRepoCommits(new FakeRequest(), RtRepoCommitsTest.repo())
                 .compare("base", "head").toString(),
             Matchers.endsWith(

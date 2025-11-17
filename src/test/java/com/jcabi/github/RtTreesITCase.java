@@ -74,6 +74,7 @@ public final class RtTreesITCase {
         ).build();
         final Tree tree = trees.create(json);
         MatcherAssert.assertThat(
+            "Values are not equal",
             trees.get(tree.json().getString("sha")),
             Matchers.is(tree)
         );

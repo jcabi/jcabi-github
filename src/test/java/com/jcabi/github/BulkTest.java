@@ -33,6 +33,7 @@ public final class BulkTest {
         );
         final Comment comment = comments.iterator().next();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Comment.Smart(comment).body(),
             Matchers.equalTo("hey you")
         );

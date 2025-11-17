@@ -25,6 +25,7 @@ public final class RtUserOrganizationsITCase {
             .users().get("yegor256")
             .organizations();
         MatcherAssert.assertThat(
+            "Value is null",
             orgs.iterate().iterator().next(),
             Matchers.notNullValue()
         );

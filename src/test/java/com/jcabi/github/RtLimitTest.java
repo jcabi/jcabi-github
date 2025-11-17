@@ -30,6 +30,7 @@ public final class RtLimitTest {
             "core"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             limit.json().toString(),
             Matchers.equalTo(
                 "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
@@ -49,6 +50,7 @@ public final class RtLimitTest {
             "absent"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             limit.json().toString(),
             Matchers.equalTo("{}")
         );

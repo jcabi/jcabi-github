@@ -32,6 +32,7 @@ public final class MkHooksTest {
     public void canFetchEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             hooks.iterate(),
             Matchers.emptyIterable()
         );
@@ -52,11 +53,13 @@ public final class MkHooksTest {
             true
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             hooks.iterate(),
             Matchers.iterableWithSize(1)
         );
         hooks.remove(hook.number());
         MatcherAssert.assertThat(
+            "Collection is not empty",
             hooks.iterate(),
             Matchers.emptyIterable()
         );
@@ -76,6 +79,7 @@ public final class MkHooksTest {
             true
         );
         MatcherAssert.assertThat(
+            "Value is null",
             hooks.get(hook.number()),
             Matchers.notNullValue()
         );
@@ -101,6 +105,7 @@ public final class MkHooksTest {
             true
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             hooks.iterate(),
             Matchers.iterableWithSize(2)
         );
@@ -120,6 +125,7 @@ public final class MkHooksTest {
             true
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             hooks.iterate().iterator().next().number(),
             Matchers.equalTo(hook.number())
         );

@@ -46,10 +46,12 @@ public final class IssueTest {
         ).when(issue).json();
         final Issue.Smart smart = new Issue.Smart(issue);
         MatcherAssert.assertThat(
+            "Value is null",
             smart.title(),
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             smart.body(),
             Matchers.notNullValue()
         );
@@ -76,6 +78,7 @@ public final class IssueTest {
         Mockito.doReturn(pulls).when(repo).pulls();
         Mockito.when(pulls.get(ArgumentMatchers.eq(Tv.THREE))).thenReturn(pull);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
         );
@@ -96,6 +99,7 @@ public final class IssueTest {
             ).build()
         ).when(issue).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isPull(),
             Matchers.is(false)
         );
@@ -111,6 +115,7 @@ public final class IssueTest {
             Json.createObjectBuilder().build()
         ).when(issue).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isPull(),
             Matchers.is(false)
         );
@@ -144,7 +149,8 @@ public final class IssueTest {
         this.thrown.expect(UnsupportedOperationException.class);
         labels.clear();
         final Label label = labels.iterate().iterator().next();
-        MatcherAssert.assertThat(label, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",label, Matchers.notNullValue());
         this.thrown.expect(UnsupportedOperationException.class);
         label.patch(Mockito.mock(JsonObject.class));
     }

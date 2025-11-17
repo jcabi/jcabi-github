@@ -64,7 +64,8 @@ public final class RetryCarefulWireTest {
             .assertStatus(HttpURLConnection.HTTP_OK);
         final long now = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis());
-        MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
+        MatcherAssert.assertThat(
+            "Value is not greater than expected",now, Matchers.greaterThanOrEqualTo(reset));
         container.stop();
     }
 
@@ -83,7 +84,8 @@ public final class RetryCarefulWireTest {
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Remaining header was absent",
-            true
+            true,
+            Matchers.is(true)
         );
     }
 
@@ -103,7 +105,8 @@ public final class RetryCarefulWireTest {
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Reset header was absent",
-            true
+            true,
+            Matchers.is(true)
         );
     }
 }

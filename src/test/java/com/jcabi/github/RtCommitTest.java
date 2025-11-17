@@ -51,6 +51,7 @@ public class RtCommitTest {
                 )
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 commit.message(),
                 Matchers.equalTo("hello")
             );

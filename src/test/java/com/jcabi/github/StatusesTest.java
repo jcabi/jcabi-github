@@ -47,6 +47,7 @@ public final class StatusesTest {
     public void convertsToJsonWhenAllPresent() {
         final String success = "Everything is not so awesome";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Statuses.StatusCreate(Status.State.ERROR)
                 .withTargetUrl(Optional.of(StatusesTest.URL))
                 .withDescription(success)
@@ -70,6 +71,7 @@ public final class StatusesTest {
     public void convertsToJsonWhenUrlAbsent() {
         final String success = "Living the dream!";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Statuses.StatusCreate(Status.State.SUCCESS)
                 .withDescription(success)
                 .withContext(Optional.of(StatusesTest.CONTEXT))
@@ -90,6 +92,7 @@ public final class StatusesTest {
     @Test
     public void convertsToJsonWhenDescriptionAbsent() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Statuses.StatusCreate(Status.State.FAILURE)
                 .withTargetUrl(Optional.of(StatusesTest.URL))
                 .withContext(Optional.of(StatusesTest.CONTEXT))
@@ -112,6 +115,7 @@ public final class StatusesTest {
     public void convertsToJsonWhenContextAbsent() {
         final String pending = "Kragle is drying...";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Statuses.StatusCreate(Status.State.PENDING)
                 .withTargetUrl(Optional.of(StatusesTest.URL))
                 .withDescription(pending)

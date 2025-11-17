@@ -27,6 +27,7 @@ public final class RtGitignoresITCase {
     public void iterateTemplateNames() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gitignores.iterate(),
             Matchers.hasItem("C++")
         );
@@ -39,6 +40,7 @@ public final class RtGitignoresITCase {
     public void getRawTemplateByName() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             gitignores.template("C"),
             Matchers.containsString("#")
         );

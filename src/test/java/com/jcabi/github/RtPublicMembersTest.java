@@ -78,6 +78,7 @@ public final class RtPublicMembersTest {
     public void fetchesOrg() throws IOException {
         final Organization org = RtPublicMembersTest.organization();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtPublicMembers(new FakeRequest(), org).org(),
             Matchers.equalTo(org)
         );
@@ -102,14 +103,17 @@ public final class RtPublicMembersTest {
             members.conceal(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
@@ -138,10 +142,12 @@ public final class RtPublicMembersTest {
             members.publicize(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
@@ -175,20 +181,24 @@ public final class RtPublicMembersTest {
             members.contains(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
             MatcherAssert.assertThat(
                 "404 is interpreted as the user not being a public member",
-                !members.contains(RtPublicMembersTest.user())
+                !members.contains(RtPublicMembersTest.user()),
+                Matchers.is(true)
             );
             MatcherAssert.assertThat(
                 "204 is interpreted as the user being a public member",
-                members.contains(RtPublicMembersTest.user())
+                members.contains(RtPublicMembersTest.user()),
+                Matchers.is(true)
             );
             this.thrown.expect(AssertionError.class);
             members.contains(RtPublicMembersTest.user());
@@ -220,10 +230,12 @@ public final class RtPublicMembersTest {
             members.iterate().iterator().next();
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBERS_URL)
             );

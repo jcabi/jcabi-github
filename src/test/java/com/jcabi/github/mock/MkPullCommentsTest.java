@@ -31,6 +31,7 @@ public final class MkPullCommentsTest {
         final PullComments comments = this.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
+            "Values are not equal",
             comments.get(comment.number()).number(),
             Matchers.equalTo(comment.number())
         );
@@ -51,6 +52,7 @@ public final class MkPullCommentsTest {
             .post("new pull comment", "new commit", "/p", 1);
         comments.post("test 1", "tesst 1", "/test1", 1);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 comments.pull().number(),
                 Collections.emptyMap()
@@ -58,6 +60,7 @@ public final class MkPullCommentsTest {
             Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 Collections.emptyMap()
             ),
@@ -75,6 +78,7 @@ public final class MkPullCommentsTest {
         comments.post("comment 1", "commit 1", "/commit1", 1);
         comments.post("comment 2", "commit 2", "/commit2", 2);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 comments.pull().number(),
                 Collections.emptyMap()
@@ -114,6 +118,7 @@ public final class MkPullCommentsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Value is null",
             position.get(0), Matchers.notNullValue()
         );
         final List<String> body = storage.xml().xpath(
@@ -124,7 +129,8 @@ public final class MkPullCommentsTest {
                 repo.coordinates().repo()
             )
         );
-        MatcherAssert.assertThat(body.get(0), Matchers.equalTo(bodytext));
+        MatcherAssert.assertThat(
+            "Values are not equal",body.get(0), Matchers.equalTo(bodytext));
     }
 
     /**
@@ -143,10 +149,12 @@ public final class MkPullCommentsTest {
         final String body = "Reply Comment";
         final JsonObject reply = comments.reply(body, orig).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             reply.getString("body"),
             Matchers.is(body)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             reply.getString("original_position"),
             Matchers.is(Integer.toString(orig))
         );
@@ -166,6 +174,7 @@ public final class MkPullCommentsTest {
             1
         ).number();
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 orig, Collections.emptyMap()
             ),
@@ -173,6 +182,7 @@ public final class MkPullCommentsTest {
         );
         comments.remove(orig);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 orig, Collections.emptyMap()
             ),
@@ -211,6 +221,7 @@ public final class MkPullCommentsTest {
             element
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             storage.xml().xpath(xpath).get(0),
             Matchers.is(element)
         );

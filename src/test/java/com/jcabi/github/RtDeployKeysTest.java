@@ -44,6 +44,7 @@ public final class RtDeployKeysTest {
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             deployKeys.iterate(),
             Matchers.emptyIterable()
         );
@@ -67,6 +68,7 @@ public final class RtDeployKeysTest {
         )) {
             container.start(this.resource.port());
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 new RtDeployKeys(
                     new ApacheRequest(container.home()),
                     RtDeployKeysTest.repo()
@@ -89,6 +91,7 @@ public final class RtDeployKeysTest {
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             // @checkstyle MultipleStringLiterals (1 line)
             keys.get(number).json().getInt("id"),
             Matchers.equalTo(number)
@@ -113,6 +116,7 @@ public final class RtDeployKeysTest {
                 new ApacheRequest(container.home()), RtDeployKeysTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 keys.create("Title", "Key").number(),
                 Matchers.equalTo(number)
             );

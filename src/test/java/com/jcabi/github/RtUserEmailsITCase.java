@@ -22,6 +22,7 @@ public final class RtUserEmailsITCase {
     @Test
     public void fetchesEmails() throws IOException {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             RtUserEmailsITCase.userEmails().iterate(),
             Matchers.not(Matchers.emptyIterableOf(String.class))
         );
@@ -37,10 +38,12 @@ public final class RtUserEmailsITCase {
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 emails.add(Collections.singletonList(email)),
                 Matchers.hasItem(email)
             );
-            MatcherAssert.assertThat(emails.iterate(), Matchers.hasItem(email));
+            MatcherAssert.assertThat(
+                "Collection does not contain expected item",emails.iterate(), Matchers.hasItem(email));
         } finally {
             emails.remove(Collections.singletonList(email));
         }
@@ -56,11 +59,13 @@ public final class RtUserEmailsITCase {
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         emails.add(Collections.singletonList(email));
         try {
-            MatcherAssert.assertThat(emails.iterate(), Matchers.hasItem(email));
+            MatcherAssert.assertThat(
+                "Collection does not contain expected item",emails.iterate(), Matchers.hasItem(email));
         } finally {
             emails.remove(Collections.singletonList(email));
         }
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             emails.iterate(), Matchers.not(Matchers.hasItem(email))
         );
     }

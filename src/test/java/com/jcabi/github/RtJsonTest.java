@@ -44,6 +44,7 @@ public final class RtJsonTest {
         ) {
             final RtJson json = new RtJson(new ApacheRequest(container.home()));
             MatcherAssert.assertThat(
+                "Values are not equal",
                 json.fetch().getString("body"),
                 Matchers.equalTo("hi")
             );
@@ -72,6 +73,7 @@ public final class RtJsonTest {
                     .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo("PATCH")
             );

@@ -28,6 +28,7 @@ public final class SampleTest {
             new Coordinates.Simple("jcabi/jcabi-github")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.labels().iterate().iterator().hasNext(),
             Matchers.equalTo(true)
         );

@@ -32,6 +32,7 @@ public final class PullTest {
                 .build()
         ).when(pull).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).commentsCount(),
             Matchers.is(number)
         );
@@ -53,6 +54,7 @@ public final class PullTest {
         Mockito.when(pull.number()).thenReturn(number);
         Mockito.when(pull.repo()).thenReturn(repo);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).issue().number(),
             Matchers.equalTo(number)
         );
@@ -68,6 +70,7 @@ public final class PullTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.when(pull.comments()).thenReturn(pullComments);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).comments(),
             Matchers.equalTo(pullComments)
         );
@@ -95,6 +98,7 @@ public final class PullTest {
         );
         Mockito.when(pull.repo()).thenReturn(repo);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).author().login(),
             Matchers.equalTo(login)
         );

@@ -59,6 +59,7 @@ public final class RtCollaboratorsTest {
                 this.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 users.iterate(),
                 Matchers.iterableWithSize(2)
             );
@@ -87,6 +88,7 @@ public final class RtCollaboratorsTest {
             users.add("dummy1");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
@@ -116,6 +118,7 @@ public final class RtCollaboratorsTest {
                 this.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 users.isCollaborator("octocat2"),
                 Matchers.equalTo(true)
             );
@@ -147,6 +150,7 @@ public final class RtCollaboratorsTest {
             users.remove("dummy");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );

@@ -23,6 +23,7 @@ public final class RtMarkdownITCase {
     public void rendersMarkdown() throws IOException {
         final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.markdown().render(
                 Json.createObjectBuilder()
                     .add("text", "Hello, **world**!")
@@ -39,6 +40,7 @@ public final class RtMarkdownITCase {
     public void rendersRawMarkdown() throws IOException {
         final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.markdown().raw(
                 "Hey, **world**!"
             ),

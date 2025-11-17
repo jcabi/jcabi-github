@@ -35,6 +35,7 @@ public final class MkUserTest {
         );
         final UserOrganizations orgs = user.organizations();
         MatcherAssert.assertThat(
+            "Value is null",
             orgs,
             Matchers.notNullValue()
         );
@@ -50,6 +51,7 @@ public final class MkUserTest {
     @Test
     public void returnsNotifications() throws IOException {
         MatcherAssert.assertThat(
+            "Value is null",
             new MkUser(
                 new MkStorage.InFile(),
                 "notifications"
@@ -91,10 +93,12 @@ public final class MkUserTest {
         );
         user.markAsRead(Date.from(upto));
         MatcherAssert.assertThat(
+            "Values are not equal",
             storage.xml().xpath("//notification[id = 1]/read/text()").get(0),
             Matchers.is("true")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             storage.xml().xpath("//notification[id = 2]/read/text()").get(0),
             Matchers.is("false")
         );

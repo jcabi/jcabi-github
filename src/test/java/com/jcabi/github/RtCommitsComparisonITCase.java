@@ -29,6 +29,7 @@ public final class RtCommitsComparisonITCase {
             .compare("fec537c74da115b01a5c27b225d22a3976545acf", headsha)
             .files();
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             files,
             Matchers.iterableWithSize(1)
         );
@@ -36,10 +37,12 @@ public final class RtCommitsComparisonITCase {
             files.iterator().next()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.additions(),
             Matchers.equalTo(2)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.blobUrl(),
             Matchers.equalTo(
                 // @checkstyle LineLength (1 line)
@@ -47,11 +50,13 @@ public final class RtCommitsComparisonITCase {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.changes(),
             // @checkstyle MagicNumberCheck (1 line)
             Matchers.equalTo(4)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.contentsUrl(),
             Matchers.equalTo(
                 // @checkstyle LineLength (1 line)
@@ -59,14 +64,17 @@ public final class RtCommitsComparisonITCase {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.deletions(),
             Matchers.equalTo(2)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.filename(),
             Matchers.equalTo(".rultor.yml")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.patch(),
             Matchers.equalTo(
                 Optional.of(
@@ -76,6 +84,7 @@ public final class RtCommitsComparisonITCase {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.rawUrl(),
             Matchers.equalTo(
                 // @checkstyle LineLength (1 line)
@@ -83,10 +92,12 @@ public final class RtCommitsComparisonITCase {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.sha(),
             Matchers.equalTo("daaa16ef7a19c2071ce80a6545077c11880daac3")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.status(),
             Matchers.equalTo(FileChange.Status.MODIFIED)
         );

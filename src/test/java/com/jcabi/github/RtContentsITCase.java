@@ -41,6 +41,7 @@ public final class RtContentsITCase {
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 repos.get(repo.coordinates()).contents().readme().path(),
                 Matchers.equalTo("README.md")
             );
@@ -78,6 +79,7 @@ public final class RtContentsITCase {
                     .add("sha", new Content.Smart(content).sha()).build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new String(
                     Base64.decodeBase64(
                         new Content.Smart(
@@ -122,6 +124,7 @@ public final class RtContentsITCase {
                     .add("sha", new Content.Smart(content).sha()).build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new String(
                     Base64.decodeBase64(
                         new Content.Smart(
@@ -177,6 +180,7 @@ public final class RtContentsITCase {
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 repos.get(repo.coordinates()).contents().create(
                     this.jsonObject(
                         path, new String(
@@ -211,15 +215,18 @@ public final class RtContentsITCase {
             contents.create(this.jsonObject(path, cont, message));
             final Content content = contents.get(path, "master");
             MatcherAssert.assertThat(
+                "Values are not equal",
                 content.path(),
                 Matchers.equalTo(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Content.Smart(content).content(),
                 Matchers.equalTo(String.format("%s\n", cont))
             );
             final Content other = contents.get(path);
-            MatcherAssert.assertThat(content, Matchers.equalTo(other));
+            MatcherAssert.assertThat(
+                "Values are not equal",content, Matchers.equalTo(other));
         } finally {
             repos.remove(repo.coordinates());
         }
@@ -275,6 +282,7 @@ public final class RtContentsITCase {
             );
             final Iterable<Content> iterated = contents.iterate("", "master");
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 iterated,
                 Matchers.allOf(
                     Matchers.hasItems(contents.get(afile), contents.get(dir)),
@@ -305,10 +313,12 @@ public final class RtContentsITCase {
             contents.create(this.jsonObject(path, cont, "test exist"));
             final String branch = "master";
             MatcherAssert.assertThat(
+                "Values are not equal",
                 contents.exists(path, branch),
                 Matchers.is(true)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 contents.exists("content-not-exist.txt", branch),
                 Matchers.is(false)
             );

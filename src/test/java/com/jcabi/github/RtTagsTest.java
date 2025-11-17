@@ -63,14 +63,17 @@ public final class RtTagsTest {
             .add("tagger", tagger).build();
         try {
             MatcherAssert.assertThat(
+                "Object is not of expected type",
                 tags.create(input),
                 Matchers.instanceOf(Tag.class)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );

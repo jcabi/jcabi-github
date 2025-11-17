@@ -20,6 +20,7 @@ public final class FromPopertiesTest {
     @Test
     public void formatsUserAgent() {
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new FromProperties("jcabigithub.properties").format(),
             Matchers.startsWith("jcabi-github ")
         );

@@ -24,6 +24,7 @@ public class RtRepoCommitTest {
             new FakeRequest(), RtRepoCommitTest.repo(), sha
         );
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             commit.toString(),
             Matchers.endsWith(
                 String.format(

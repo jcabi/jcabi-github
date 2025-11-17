@@ -58,10 +58,12 @@ public final class RtUserOrganizationsTest {
                 user
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 orgs.iterate(),
                 Matchers.iterableWithSize(Tv.THREE)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith(String.format("/users/%s/orgs", username))
             );

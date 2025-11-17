@@ -43,6 +43,7 @@ public final class MkChecksTest {
     @Test
     public void returnsEmptyChecksByDefault() throws IOException {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             ((MkChecks) this.pull.checks()).all(),
             Matchers.empty()
         );
@@ -60,15 +61,18 @@ public final class MkChecksTest {
             Check.Conclusion.SUCCESS
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             checks.all(),
             Matchers.hasSize(1)
         );
         final Check next = checks.all().iterator().next();
         MatcherAssert.assertThat(
+            "Values are not equal",
             check,
             Matchers.equalTo(next)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             next.successful(),
             Matchers.is(true)
         );

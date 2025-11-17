@@ -38,6 +38,7 @@ public final class RtHooksITCase {
         try {
             RtHooksITCase.createHook(repo);
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 repo.hooks().iterate(), Matchers.iterableWithSize(1)
             );
         } finally {
@@ -54,6 +55,7 @@ public final class RtHooksITCase {
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
+                "Value is null",
                 RtHooksITCase.createHook(repo), Matchers.notNullValue()
             );
         } finally {
@@ -72,6 +74,7 @@ public final class RtHooksITCase {
         try {
             final int number = RtHooksITCase.createHook(repo).number();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 repo.hooks().get(number).json().getInt("id"),
                 Matchers.equalTo(number)
             );
@@ -92,6 +95,7 @@ public final class RtHooksITCase {
             final Hook hook = RtHooksITCase.createHook(repo);
             repo.hooks().remove(hook.number());
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 repo.hooks().iterate(), Matchers.not(Matchers.hasItem(hook))
             );
         } finally {

@@ -53,6 +53,7 @@ public final class RtAssigneesTest {
                 this.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 users.iterate(),
                 Matchers.iterableWithSize(2)
             );
@@ -79,6 +80,7 @@ public final class RtAssigneesTest {
                 this.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 users.check("octocat2"),
                 Matchers.equalTo(true)
             );
@@ -106,6 +108,7 @@ public final class RtAssigneesTest {
                 this.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 users.check("octocat33"),
                 Matchers.equalTo(false)
             );

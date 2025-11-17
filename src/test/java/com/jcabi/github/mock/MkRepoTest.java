@@ -32,6 +32,7 @@ public final class MkRepoTest {
             new Repos.RepoCreate("test5", false)
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             repo.coordinates(),
             Matchers.hasToString("jeff/test5")
         );
@@ -47,7 +48,8 @@ public final class MkRepoTest {
             new Repos.RepoCreate("test1", false)
         );
         final Milestones milestones = repo.milestones();
-        MatcherAssert.assertThat(milestones, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",milestones, Matchers.notNullValue());
     }
 
     /**
@@ -63,7 +65,8 @@ public final class MkRepoTest {
             user,
             new Coordinates.Simple(user, "testrepo")
         );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.commits(), Matchers.notNullValue());
     }
 
     /**
@@ -79,7 +82,8 @@ public final class MkRepoTest {
             user,
             new Coordinates.Simple(user, "testrepo")
         );
-        MatcherAssert.assertThat(repo.branches(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.branches(), Matchers.notNullValue());
     }
 
     /**
@@ -89,10 +93,12 @@ public final class MkRepoTest {
     public void exposesAttributes() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
+            "Value is null",
             new Repo.Smart(repo).description(),
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Repo.Smart(repo).isPrivate(),
             Matchers.is(true)
         );
@@ -110,7 +116,8 @@ public final class MkRepoTest {
             user,
             new Coordinates.Simple(user, "testrepo2")
         );
-        MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.stars(), Matchers.notNullValue());
     }
 
     /**
@@ -125,7 +132,8 @@ public final class MkRepoTest {
             user,
             new Coordinates.Simple(user, "testrepo3")
         );
-        MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",repo.notifications(), Matchers.notNullValue());
     }
 
     /**
@@ -141,8 +149,10 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo4")
         );
         final Iterable<Language> languages = repo.languages();
-        MatcherAssert.assertThat(languages, Matchers.notNullValue());
         MatcherAssert.assertThat(
+            "Value is null",languages, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Collection size is incorrect",
             Lists.newArrayList(languages),
             Matchers.hasSize(Tv.THREE)
         );
@@ -161,6 +171,7 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo5")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.defaultBranch().name(),
             Matchers.equalTo("master")
         );

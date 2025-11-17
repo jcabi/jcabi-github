@@ -61,6 +61,7 @@ public final class RtIssueLabelsITCase {
         final String color = "cfcfcf";
         labels.addIfAbsent(name, color);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Label.Smart(labels.get(name)).color(),
             Matchers.equalTo(color)
         );

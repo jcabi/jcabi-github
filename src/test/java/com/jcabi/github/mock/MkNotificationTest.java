@@ -24,6 +24,7 @@ public final class MkNotificationTest {
     @Test
     public void returnsNumber() {
         MatcherAssert.assertThat(
+            "Assertion failed",
             new MkNotification(
                 new XMLDocument(
                     new Xembler(

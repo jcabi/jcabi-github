@@ -32,6 +32,7 @@ public final class MkSearchTest {
             new Repos.RepoCreate("TestRepo", false)
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             github.search().repos("TestRepo", "updated", Search.Order.ASC),
             Matchers.not(Matchers.emptyIterable())
         );
@@ -49,6 +50,7 @@ public final class MkSearchTest {
         );
         repo.issues().create("test issue", "TheTest");
         MatcherAssert.assertThat(
+            "Collection is not empty",
             github.search().issues(
                 "TheTest",
                 "updated",
@@ -68,6 +70,7 @@ public final class MkSearchTest {
         final MkGitHub github = new MkGitHub("jeff");
         github.users().self();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             github.search().users("jeff", "repositories", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterable())
         );
@@ -84,6 +87,7 @@ public final class MkSearchTest {
             new Repos.RepoCreate("TestCode", false)
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             github.search().codes("jeff", "repositories", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterable())
         );

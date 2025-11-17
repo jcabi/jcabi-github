@@ -27,6 +27,7 @@ public final class MkReferencesTest {
         final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
+            "Value is null",
             refs.create("refs/heads/branch1", "abcderf122"),
             Matchers.notNullValue()
         );
@@ -40,6 +41,7 @@ public final class MkReferencesTest {
         final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
+            "Value is null",
             refs.repo(),
             Matchers.notNullValue()
         );
@@ -55,6 +57,7 @@ public final class MkReferencesTest {
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate(),
             Matchers.iterableWithSize(2)
         );
@@ -70,10 +73,12 @@ public final class MkReferencesTest {
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate("heads"),
             Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate("tags"),
             Matchers.iterableWithSize(1)
         );
@@ -88,6 +93,7 @@ public final class MkReferencesTest {
         final References refs = owner.git().references();
         refs.create("refs/tags/t2", "2322f34");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.tags(),
             Matchers.iterableWithSize(1)
         );
@@ -102,6 +108,7 @@ public final class MkReferencesTest {
         final References refs = owner.git().references();
         refs.create("refs/heads/branch2", "blahblah");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.heads(),
             Matchers.iterableWithSize(1)
         );
@@ -117,11 +124,13 @@ public final class MkReferencesTest {
         refs.create("refs/heads/testbr", "qweqwe22");
         refs.create("refs/tags/t2", "111teee");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate(),
             Matchers.iterableWithSize(2)
         );
         refs.remove("refs/tags/t2");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate(),
             Matchers.iterableWithSize(1)
         );

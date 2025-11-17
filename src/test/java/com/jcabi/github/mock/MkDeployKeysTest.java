@@ -23,6 +23,7 @@ public final class MkDeployKeysTest {
     public void canFetchEmptyListOfDeployKeys() throws IOException {
         final DeployKeys deployKeys = new MkGitHub().randomRepo().keys();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             deployKeys.iterate(),
             Matchers.emptyIterable()
         );
@@ -35,7 +36,8 @@ public final class MkDeployKeysTest {
     public void canFetchSingleDeployKey() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title", "Key");
-        MatcherAssert.assertThat(keys.get(key.number()), Matchers.equalTo(key));
+        MatcherAssert.assertThat(
+            "Values are not equal",keys.get(key.number()), Matchers.equalTo(key));
     }
 
     /**
@@ -45,7 +47,8 @@ public final class MkDeployKeysTest {
     public void canCreateDeployKey() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title1", "Key1");
-        MatcherAssert.assertThat(key, Matchers.equalTo(keys.get(key.number())));
+        MatcherAssert.assertThat(
+            "Values are not equal",key, Matchers.equalTo(keys.get(key.number())));
     }
 
     /**
@@ -58,10 +61,12 @@ public final class MkDeployKeysTest {
         final DeployKey first = keys.create("Title2", "Key2");
         final DeployKey second = keys.create("Title3", "Key3");
         MatcherAssert.assertThat(
+            "Values are not equal",
             first,
             Matchers.not(Matchers.is(second))
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             first.number(),
             Matchers.not(Matchers.is(second.number()))
         );
@@ -76,6 +81,7 @@ public final class MkDeployKeysTest {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey first = keys.create("Title4", "Key4");
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             first.json().toString(),
             Matchers.allOf(
                 Matchers.containsString("\"title\":\"Title4\""),

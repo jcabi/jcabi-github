@@ -64,6 +64,7 @@ public final class RtBlobsITCase {
             "Test Content", "utf-8"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             blob.sha(),
             Matchers.equalTo(blob.json().getString("sha"))
         );
@@ -81,10 +82,12 @@ public final class RtBlobsITCase {
             content, encoding
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             blobs.get(blob.sha()).json().getString("sha"),
             Matchers.equalTo(blob.sha())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             blobs.get(blob.sha()).json().getString("encoding"),
             Matchers.equalTo(encoding)
         );

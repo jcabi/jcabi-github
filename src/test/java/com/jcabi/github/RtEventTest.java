@@ -40,6 +40,7 @@ public final class RtEventTest {
         final Repo repo = this.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
         MatcherAssert.assertThat(
+            "Assertion failed",
             event.repo(),
             Matchers.sameInstance(repo)
         );
@@ -54,6 +55,7 @@ public final class RtEventTest {
         final Repo repo = this.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.number(),
             Matchers.equalTo(2)
         );
@@ -77,6 +79,7 @@ public final class RtEventTest {
                 3
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 event.json().getString("test"),
                 Matchers.equalTo("events")
             );
@@ -92,9 +95,11 @@ public final class RtEventTest {
         final RtEvent less = new RtEvent(new FakeRequest(), this.repo(), 1);
         final RtEvent greater = new RtEvent(new FakeRequest(), this.repo(), 2);
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
     }

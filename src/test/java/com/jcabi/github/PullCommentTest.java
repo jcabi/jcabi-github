@@ -51,6 +51,7 @@ public final class PullCommentTest {
             Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).identifier(),
             Matchers.is(value)
         );
@@ -80,6 +81,7 @@ public final class PullCommentTest {
             Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).commitId(),
             Matchers.is(value)
         );
@@ -109,6 +111,7 @@ public final class PullCommentTest {
             Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).url(),
             Matchers.is(value)
         );
@@ -138,6 +141,7 @@ public final class PullCommentTest {
             Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).body(),
             Matchers.is(value)
         );
@@ -169,6 +173,7 @@ public final class PullCommentTest {
             Json.createObjectBuilder().add("user", user).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).author(),
             Matchers.is(value)
         );

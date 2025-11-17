@@ -34,6 +34,7 @@ public final class MkReleaseAssetTest {
     public void fetchesRelease() throws Exception {
         final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
+            "Values are not equal",
             rel.assets().get(1).release(),
             Matchers.is(rel)
         );
@@ -48,6 +49,7 @@ public final class MkReleaseAssetTest {
     public void fetchesNumber() throws Exception {
         final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
+            "Values are not equal",
             rel.assets().get(1).number(),
             Matchers.is(1)
         );
@@ -65,11 +67,13 @@ public final class MkReleaseAssetTest {
             "testRemove".getBytes(), "text/plain", "remove.txt"
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             assets.iterate(),
             Matchers.iterableWithSize(1)
         );
         asset.remove();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             assets.iterate(),
             Matchers.emptyIterable()
         );
@@ -92,6 +96,7 @@ public final class MkReleaseAssetTest {
             );
         }
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             assets.iterate(),
             Matchers.iterableWithSize(limit)
         );
@@ -99,6 +104,7 @@ public final class MkReleaseAssetTest {
             bodies[idx].remove();
         }
         MatcherAssert.assertThat(
+            "Collection is not empty",
             assets.iterate(),
             Matchers.emptyIterable()
         );
@@ -117,10 +123,12 @@ public final class MkReleaseAssetTest {
             "testJson".getBytes(), type, name
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString("content_type"),
             Matchers.is(type)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString("name"),
             Matchers.is(name)
         );
@@ -139,6 +147,7 @@ public final class MkReleaseAssetTest {
         );
         final String attribute = "name";
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString(attribute),
             Matchers.is(orig)
         );
@@ -147,6 +156,7 @@ public final class MkReleaseAssetTest {
             Json.createObjectBuilder().add(attribute, patched).build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString(attribute),
             Matchers.is(patched)
         );
@@ -165,6 +175,7 @@ public final class MkReleaseAssetTest {
             .assets()
             .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
+            "Values are not equal",
             new String(
               DatatypeConverter.parseBase64Binary(
                   IOUtils.toString(asset.raw(), StandardCharsets.UTF_8)

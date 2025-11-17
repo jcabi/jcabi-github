@@ -45,7 +45,8 @@ public final class CarefulWireTest {
             .fetch();
         final long now = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis());
-        MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
+        MatcherAssert.assertThat(
+            "Value is not greater than expected",now, Matchers.greaterThanOrEqualTo(reset));
     }
 
     /**
@@ -63,7 +64,8 @@ public final class CarefulWireTest {
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Remaining header was absent",
-            true
+            true,
+            Matchers.is(true)
         );
     }
 
@@ -83,7 +85,8 @@ public final class CarefulWireTest {
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Reset header was absent",
-            true
+            true,
+            Matchers.is(true)
         );
     }
 }

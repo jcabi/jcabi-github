@@ -28,6 +28,7 @@ public final class ExistenceTest {
             Json.createObjectBuilder().build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Existence(object).check(), Matchers.is(Boolean.TRUE)
         );
     }
@@ -40,6 +41,7 @@ public final class ExistenceTest {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new AssertionError()).when(object).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Existence(object).check(), Matchers.is(Boolean.FALSE)
         );
     }

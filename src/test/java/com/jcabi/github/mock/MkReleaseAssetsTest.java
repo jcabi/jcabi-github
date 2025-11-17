@@ -36,6 +36,7 @@ public final class MkReleaseAssetsTest {
             "testUpload".getBytes(), "text/plain", "upload.txt"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.number(),
             Matchers.is(1)
         );
@@ -53,6 +54,7 @@ public final class MkReleaseAssetsTest {
             "testGet".getBytes(), "text/plain", "get.txt"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             assets.get(asset.number()),
             Matchers.is(asset)
         );
@@ -70,6 +72,7 @@ public final class MkReleaseAssetsTest {
             "testIterate".getBytes(), "text/plain", "iterate.txt"
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             assets.iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
@@ -84,6 +87,7 @@ public final class MkReleaseAssetsTest {
     public void fetchesRelease() throws Exception {
         final Release rel = MkReleaseAssetsTest.release();
         MatcherAssert.assertThat(
+            "Values are not equal",
             rel.assets().release(),
             Matchers.is(rel)
         );
@@ -100,6 +104,7 @@ public final class MkReleaseAssetsTest {
             .assets()
             .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
+            "Values are not equal",
             IOUtils.toString(asset.raw(), StandardCharsets.UTF_8),
             Matchers.is(DatatypeConverter.printBase64Binary(test.getBytes()))
         );

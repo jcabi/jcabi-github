@@ -35,6 +35,7 @@ public final class IssueLabelsTest {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);
         Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             new IssueLabels.Smart(labels).findByColor("c0c0c0"),
             Matchers.allOf(
                 Matchers.iterableWithSize(1),
@@ -55,10 +56,12 @@ public final class IssueLabelsTest {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);
         Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new IssueLabels.Smart(labels).contains("first"),
             Matchers.is(true)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new IssueLabels.Smart(labels).contains("third"),
             Matchers.is(false)
         );
@@ -76,6 +79,7 @@ public final class IssueLabelsTest {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);
         Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new IssueLabels.Smart(labels).get("a").name(),
             Matchers.equalTo("a")
         );

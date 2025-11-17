@@ -23,6 +23,7 @@ public final class RtLimitsITCase {
     public void checksRemainingRequests() throws IOException {
         final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
+            "Value is null",
             new Limit.Smart(github.limits().get("core")).remaining(),
             Matchers.notNullValue()
         );

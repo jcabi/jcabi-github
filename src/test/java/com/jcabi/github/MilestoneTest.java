@@ -28,6 +28,7 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).title(),
             Matchers.notNullValue()
         );
@@ -45,6 +46,7 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).description(),
             Matchers.notNullValue()
         );
@@ -62,6 +64,7 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).state(),
             Matchers.notNullValue()
         );
@@ -79,6 +82,7 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).dueOn(),
             Matchers.notNullValue()
         );

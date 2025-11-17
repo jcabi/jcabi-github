@@ -29,6 +29,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).url(),
             Matchers.notNullValue()
         );
@@ -46,6 +47,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).avatarUrl(),
             Matchers.notNullValue()
         );
@@ -63,6 +65,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).name(),
             Matchers.notNullValue()
         );
@@ -80,6 +83,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).company(),
             Matchers.notNullValue()
         );
@@ -97,6 +101,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).blog(),
             Matchers.notNullValue()
         );
@@ -114,6 +119,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).location(),
             Matchers.notNullValue()
         );
@@ -131,6 +137,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).email(),
             Matchers.notNullValue()
         );
@@ -148,6 +155,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).billingEmail(),
             Matchers.notNullValue()
         );
@@ -165,6 +173,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).publicRepos(),
             Matchers.notNullValue()
         );
@@ -182,6 +191,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).publicGists(),
             Matchers.notNullValue()
         );
@@ -199,6 +209,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).followers(),
             Matchers.notNullValue()
         );
@@ -216,6 +227,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).following(),
             Matchers.notNullValue()
         );
@@ -233,6 +245,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).htmlUrl(),
             Matchers.notNullValue()
         );
@@ -250,6 +263,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).createdAt(),
             Matchers.notNullValue()
         );
@@ -267,6 +281,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).type(),
             Matchers.notNullValue()
         );

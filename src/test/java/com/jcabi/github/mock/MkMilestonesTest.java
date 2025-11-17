@@ -26,7 +26,8 @@ public final class MkMilestonesTest {
     public void returnsRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Repo owner = repo.milestones().repo();
-        MatcherAssert.assertThat(repo, Matchers.is(owner));
+        MatcherAssert.assertThat(
+            "Values are not equal",repo, Matchers.is(owner));
     }
 
     /**
@@ -37,8 +38,10 @@ public final class MkMilestonesTest {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
-        MatcherAssert.assertThat(milestone, Matchers.notNullValue());
         MatcherAssert.assertThat(
+            "Value is null",milestone, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",
             milestones.create("another milestone"),
             Matchers.notNullValue()
         );
@@ -53,6 +56,7 @@ public final class MkMilestonesTest {
             .milestones();
         final Milestone created = milestones.create("test");
         MatcherAssert.assertThat(
+            "Value is null",
             milestones.get(created.number()),
             Matchers.notNullValue()
         );
@@ -66,11 +70,13 @@ public final class MkMilestonesTest {
             .milestones();
         final Milestone created = milestones.create("testTitle");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             milestones.iterate(new ArrayMap<>()),
             Matchers.iterableWithSize(1)
         );
         milestones.remove(created.number());
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             milestones.iterate(new ArrayMap<>()),
             Matchers.iterableWithSize(0)
         );
@@ -85,6 +91,7 @@ public final class MkMilestonesTest {
             .milestones();
         milestones.create("testMilestone");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             milestones.iterate(new ArrayMap<>()),
             Matchers.iterableWithSize(1)
         );

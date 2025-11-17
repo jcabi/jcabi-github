@@ -36,6 +36,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).url(),
             Matchers.is(new URI(prop).toURL())
         );
@@ -54,6 +55,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).name(),
             Matchers.is(prop)
         );
@@ -72,6 +74,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).label(),
             Matchers.is(prop)
         );
@@ -90,6 +93,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).state(),
             Matchers.is(prop)
         );
@@ -108,6 +112,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).contentType(),
             Matchers.is(prop)
         );
@@ -126,6 +131,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).size(),
             Matchers.is(prop)
         );
@@ -144,6 +150,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).downloadCount(),
             Matchers.is(prop)
         );
@@ -162,6 +169,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).createdAt(),
             Matchers.equalTo(new GitHub.Time(prop).date())
         );
@@ -180,6 +188,7 @@ public class ReleaseAssetTest {
                 .build()
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new ReleaseAsset.Smart(releaseAsset).updatedAt(),
             Matchers.equalTo(new GitHub.Time(prop).date())
         );

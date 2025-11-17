@@ -43,6 +43,7 @@ public final class RtUserEmailsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             emails.iterate().iterator().next(), Matchers.equalTo(email)
         );
     }
@@ -65,6 +66,7 @@ public final class RtUserEmailsTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 emails.add(Collections.singletonList(email)).iterator().next(),
                 Matchers.equalTo(email)
             );

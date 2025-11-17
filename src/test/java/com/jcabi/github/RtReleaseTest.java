@@ -75,10 +75,12 @@ public class RtReleaseTest {
         release.patch(json);
         final MkQuery query = this.container.take();
         MatcherAssert.assertThat(
+            "Values are not equal",
             query.method(),
             Matchers.equalTo(Request.PATCH)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             query.body(),
             Matchers.equalTo(json.toString())
         );
@@ -95,6 +97,7 @@ public class RtReleaseTest {
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.delete();
         MatcherAssert.assertThat(
+            "Values are not equal",
             this.container.take().method(),
             Matchers.equalTo(Request.DELETE)
         );
@@ -113,6 +116,7 @@ public class RtReleaseTest {
             .build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             this.container.take().method(),
             Matchers.equalTo(Request.PATCH)
         );

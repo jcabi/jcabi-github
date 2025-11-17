@@ -52,6 +52,7 @@ public final class RtDeployKeyTest {
             key.remove();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );

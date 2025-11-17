@@ -61,6 +61,7 @@ public final class RtAssigneesITCase {
         );
         for (final User user : users) {
             MatcherAssert.assertThat(
+                "Value is null",
                 user.login(),
                 Matchers.notNullValue()
             );
@@ -73,6 +74,7 @@ public final class RtAssigneesITCase {
     @Test
     public void checkUserIsAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtAssigneesITCase.repo.assignees().check(RtAssigneesITCase.repo.coordinates().user()),
             Matchers.is(true)
         );
@@ -84,6 +86,7 @@ public final class RtAssigneesITCase {
     @Test
     public void checkUserIsNotAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtAssigneesITCase.repo.assignees()
                 .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),
             Matchers.is(false)

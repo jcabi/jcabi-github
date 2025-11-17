@@ -63,10 +63,12 @@ public final class RtIssueITCase {
         final Issue issue = RtIssueITCase.issue();
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Comment.Smart(comment).body(),
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.comments().iterate(new Date(0L)),
             Matchers.iterableWithSize(1)
         );
@@ -79,6 +81,7 @@ public final class RtIssueITCase {
         );
         if (author.hasName() && self.hasName()) {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 author.name(),
                 Matchers.equalTo(
                     self.name()
@@ -97,11 +100,13 @@ public final class RtIssueITCase {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).title("test one more time");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Issue.Smart(issue).title(),
             Matchers.startsWith("test o")
         );
         new Issue.Smart(issue).body("some new body of the issue");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Issue.Smart(issue).body(),
             Matchers.startsWith("some new ")
         );
@@ -116,11 +121,13 @@ public final class RtIssueITCase {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(false)
         );
         new Issue.Smart(issue).open();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(true)
         );
@@ -153,6 +160,7 @@ public final class RtIssueITCase {
         }
         final User assignee = new Issue.Smart(issue).assignee();
         MatcherAssert.assertThat(
+            "Values are not equal",
             assignee.login(),
             Matchers.equalTo(login)
         );
@@ -165,6 +173,7 @@ public final class RtIssueITCase {
     public void checksForPullRequest() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isPull(),
             Matchers.is(false)
         );
@@ -179,6 +188,7 @@ public final class RtIssueITCase {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Event.Smart(issue.events().iterator().next()).type(),
             Matchers.equalTo(Event.CLOSED)
         );
@@ -193,6 +203,7 @@ public final class RtIssueITCase {
         final Issue.Smart issue = new Issue.Smart(RtIssueITCase.issue());
         issue.close();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Event.Smart(
                 new Issue.Smart(issue).latestEvent(Event.CLOSED)
             ).author().login(),
@@ -208,6 +219,7 @@ public final class RtIssueITCase {
     @Test
     public void issueAlwaysExistsInGitHub() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
         );
     }
@@ -221,6 +233,7 @@ public final class RtIssueITCase {
         final Issue issue = new Issue.Smart(RtIssueITCase.issue());
         issue.lock("off-topic");
         MatcherAssert.assertThat(
+            "Assertion failed",
             issue.isLocked(),
             new IsEqual<>(true)
         );
@@ -236,6 +249,7 @@ public final class RtIssueITCase {
         issue.lock("too heated");
         issue.unlock();
         MatcherAssert.assertThat(
+            "Assertion failed",
             issue.isLocked(),
             new IsEqual<>(false)
         );

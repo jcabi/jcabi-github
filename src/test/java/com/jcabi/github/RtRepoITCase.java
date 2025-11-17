@@ -76,6 +76,7 @@ public final class RtRepoITCase {
     @Test
     public void identifiesItself() {
         MatcherAssert.assertThat(
+            "Value is null",
             RtRepoITCase.repo.coordinates(),
             Matchers.notNullValue()
         );
@@ -89,6 +90,7 @@ public final class RtRepoITCase {
         final Issue issue = RtRepoITCase.repo.issues().create("Test", "This is a bug");
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             RtRepoITCase.repo.issueEvents().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
@@ -100,6 +102,7 @@ public final class RtRepoITCase {
     @Test
     public void exists() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Repo.Smart(RtRepoITCase.repo).exists(), Matchers.is(Boolean.TRUE)
         );
     }
@@ -109,7 +112,8 @@ public final class RtRepoITCase {
      */
     @Test
     public void fetchCommits() {
-        MatcherAssert.assertThat(RtRepoITCase.repo.commits(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",RtRepoITCase.repo.commits(), Matchers.notNullValue());
     }
 
     /**
@@ -118,6 +122,7 @@ public final class RtRepoITCase {
     @Test
     public void iteratesAssignees() {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             RtRepoITCase.repo.assignees().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
@@ -128,7 +133,8 @@ public final class RtRepoITCase {
      */
     @Test
     public void fetchLanguages() throws IOException {
-        MatcherAssert.assertThat(RtRepoITCase.repo.languages(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",RtRepoITCase.repo.languages(), Matchers.notNullValue());
     }
 
     /**
@@ -139,6 +145,7 @@ public final class RtRepoITCase {
     @Ignore
     public void iteratesLanguages() throws IOException {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             RtRepoITCase.repo.languages(),
             Matchers.not(Matchers.emptyIterable())
         );

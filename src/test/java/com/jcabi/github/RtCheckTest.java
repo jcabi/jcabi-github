@@ -22,6 +22,7 @@ public final class RtCheckTest {
     @Test
     public void checksSuccessfulState() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtCheck(
                 Check.Status.COMPLETED,
                 Check.Conclusion.SUCCESS
@@ -36,6 +37,7 @@ public final class RtCheckTest {
     @Test
     public void checksNotSuccessfulStateIfInProgress() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtCheck(
                 Check.Status.IN_PROGRESS,
                 Check.Conclusion.SUCCESS
@@ -50,6 +52,7 @@ public final class RtCheckTest {
     @Test
     public void checksNotSuccessfulState() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtCheck(
                 Check.Status.COMPLETED,
                 Check.Conclusion.CANCELLED

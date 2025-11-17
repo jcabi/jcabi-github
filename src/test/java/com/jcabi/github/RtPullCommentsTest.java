@@ -52,6 +52,7 @@ public final class RtPullCommentsTest {
         final RtPullComments comments =
             new RtPullComments(new FakeRequest(), pull);
         MatcherAssert.assertThat(
+            "Value is null",
             comments.get(1),
             Matchers.notNullValue()
         );
@@ -81,6 +82,7 @@ public final class RtPullCommentsTest {
                 new JdkRequest(container.home()), pull
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 comments.iterate(Collections.emptyMap()),
                 Matchers.iterableWithSize(2)
             );
@@ -112,6 +114,7 @@ public final class RtPullCommentsTest {
                 new JdkRequest(container.home()), pull
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 comments.iterate(1, Collections.emptyMap()),
                 Matchers.iterableWithSize(2)
             );
@@ -148,10 +151,12 @@ public final class RtPullCommentsTest {
                 body, commit, path, position
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new PullComment.Smart(pullComment).commitId(),
                 Matchers.equalTo(commit)
             );
@@ -191,10 +196,12 @@ public final class RtPullCommentsTest {
                 body, number
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new PullComment.Smart(pullComment).reply(),
                 Matchers.equalTo(number)
             );
@@ -222,9 +229,11 @@ public final class RtPullCommentsTest {
             comments.remove(2);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(), Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith(
                     String.format(

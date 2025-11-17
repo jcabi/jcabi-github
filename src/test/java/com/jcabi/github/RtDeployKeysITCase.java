@@ -62,6 +62,7 @@ public final class RtDeployKeysITCase {
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 keys.iterate(),
                 Matchers.hasItem(key)
             );
@@ -81,6 +82,7 @@ public final class RtDeployKeysITCase {
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new DeployKey.Smart(key).title(),
                 Matchers.is(title)
             );
@@ -100,6 +102,7 @@ public final class RtDeployKeysITCase {
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 keys.get(key.number()),
                 Matchers.is(key)
             );
@@ -119,6 +122,7 @@ public final class RtDeployKeysITCase {
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Value is null",
                 keys.get(key.number()),
                 Matchers.notNullValue()
             );
@@ -126,6 +130,7 @@ public final class RtDeployKeysITCase {
             key.remove();
         }
         MatcherAssert.assertThat(
+            "Assertion failed",
             keys.iterate(),
             Matchers.not(Matchers.contains(key))
         );

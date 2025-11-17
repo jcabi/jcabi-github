@@ -53,6 +53,7 @@ public final class RtGitignoresTest {
                     new RtGitHub(new JdkRequest(container.home()))
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                     gitignores.iterate(),
                     Matchers.iterableWithSize(2)
             );
@@ -69,6 +70,7 @@ public final class RtGitignoresTest {
             new RtGitHub(new FakeRequest().withBody("# Object files"))
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             gitignores.template("C#"),
             Matchers.startsWith("# Object")
         );

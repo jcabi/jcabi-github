@@ -34,6 +34,7 @@ public class MkMilestoneTest {
         );
         final Repo repo = milestone.repo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.coordinates(),
             Matchers.equalTo(coordinates)
         );

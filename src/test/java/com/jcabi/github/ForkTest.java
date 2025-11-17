@@ -29,6 +29,7 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).name(),
             Matchers.is(name)
         );
@@ -47,6 +48,7 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).fullName(),
             Matchers.is(name)
         );
@@ -65,6 +67,7 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).description(),
             Matchers.is(description)
         );
@@ -82,6 +85,7 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).size(),
             Matchers.is(prop)
         );
@@ -115,34 +119,42 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.url().toString(),
             Matchers.is(url)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.htmlUrl().toString(),
             Matchers.is(html)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.cloneUrl().toString(),
             Matchers.is(clone)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.gitUrl().toString(),
             Matchers.is(git)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.sshUrl().toString(),
             Matchers.is(ssh)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.svnUrl().toString(),
             Matchers.is(svn)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.mirrorUrl().toString(),
             Matchers.is(mirror)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.homeUrl().toString(),
             Matchers.is(homepage)
         );
@@ -166,14 +178,17 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.forks(),
             Matchers.is(forks)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.stargazers(),
             Matchers.is(stargazers)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.watchers(),
             Matchers.is(watchers)
         );
@@ -193,6 +208,7 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.openIssues(),
             Matchers.is(openIssues)
         );
@@ -212,6 +228,7 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.defaultBranch(),
             Matchers.is(master)
         );

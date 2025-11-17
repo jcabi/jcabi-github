@@ -25,6 +25,7 @@ public final class RtGitHubTest {
     public void retrievesRepos() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
+            "Value is null",
             github.repos(),
             Matchers.notNullValue()
         );
@@ -38,6 +39,7 @@ public final class RtGitHubTest {
     public void retrievesGists() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
+            "Value is null",
             github.gists(),
             Matchers.notNullValue()
         );
@@ -51,6 +53,7 @@ public final class RtGitHubTest {
     public void retrievesUsers() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
+            "Value is null",
             github.users(),
             Matchers.notNullValue()
         );
@@ -66,6 +69,7 @@ public final class RtGitHubTest {
             new FakeRequest().withBody("{\"meta\":\"blah\"}")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.meta().getString("meta"),
             Matchers.equalTo("blah")
         );
@@ -83,6 +87,7 @@ public final class RtGitHubTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.emojis().getString("emojikey"),
             new IsEqual<>("urlvalue")
         );
@@ -96,6 +101,7 @@ public final class RtGitHubTest {
     public void retrievesMarkdown() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
+            "Value is null",
             github.markdown(),
             Matchers.notNullValue()
         );
@@ -108,6 +114,7 @@ public final class RtGitHubTest {
     public void retrievesGitignores() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
+            "Value is null",
             github.gitignores(),
             Matchers.notNullValue()
         );
@@ -122,6 +129,7 @@ public final class RtGitHubTest {
         final GitHub.Time first = new GitHub.Time(time);
         final GitHub.Time second = new GitHub.Time(time);
         MatcherAssert.assertThat(
+            "Values are not equal",
             first.equals(second),
             Matchers.is(true)
         );
@@ -137,6 +145,7 @@ public final class RtGitHubTest {
             System.currentTimeMillis() + 1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             first.equals(second),
             Matchers.is(false)
         );
@@ -148,6 +157,7 @@ public final class RtGitHubTest {
     @Test
     public void equalsToAnotherGitHub() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtGitHub(new FakeRequest().header("abc", "cde")),
             Matchers.not(
                 Matchers.equalTo(
@@ -156,6 +166,7 @@ public final class RtGitHubTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtGitHub(new FakeRequest()),
             Matchers.equalTo(new RtGitHub(new FakeRequest()))
         );

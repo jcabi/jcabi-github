@@ -72,6 +72,7 @@ public final class RtTagsITCase {
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
         MatcherAssert.assertThat(
+            "Value is null",
             RtTagsITCase.repo.git().tags().create(
                 Json.createObjectBuilder()
                     .add("tag", tag).add("message", "initial version")

@@ -58,6 +58,7 @@ public final class RtLabelsITCase {
             new Smarts<>(labels.iterate());
         for (final Label.Smart label : list) {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 label.color(),
                 Matchers.not(Matchers.is(Matchers.emptyString()))
             );
@@ -72,10 +73,12 @@ public final class RtLabelsITCase {
         final Labels labels = RtLabelsITCase.repo.labels();
         final Label label = new Labels.Smart(labels).createOrGet("test-3");
         MatcherAssert.assertThat(
+            "Value is null",
             new Label.Smart(label).color(),
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             labels.iterate(),
             Matchers.not(Matchers.emptyIterable())
         );

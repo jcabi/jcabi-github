@@ -52,6 +52,7 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
+            "Values are not equal",
             search.repos("test", "stars", Search.Order.DESC).iterator().next()
                 .coordinates().toString(),
             Matchers.equalTo(coords)
@@ -79,6 +80,7 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
+            "Values are not equal",
             search.issues(
                 "test2",
                 "created",
@@ -105,6 +107,7 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
+            "Values are not equal",
             search.users("test3", "joined", Search.Order.DESC)
                 .iterator().next().login(),
             Matchers.equalTo(login)
@@ -142,6 +145,7 @@ public final class RtSearchTest {
                 new ApacheRequest(container.home())
             ).search();
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 search.codes("test4", "joined", Search.Order.DESC),
                 Matchers.iterableWithSize(2)
             );
@@ -158,6 +162,7 @@ public final class RtSearchTest {
             .withBody("{\"help\": \"\u001Fblah\u0001cwhoa\u0000!\"}").fetch();
         final JsonResponse response = new JsonResponse(resp);
         MatcherAssert.assertThat(
+            "Values are not equal",
             response.json().readObject().getString("help"),
             Matchers.is("\u001Fblah\u0001cwhoa\u0000!")
         );

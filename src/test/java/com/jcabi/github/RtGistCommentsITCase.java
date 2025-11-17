@@ -27,6 +27,7 @@ public final class RtGistCommentsITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("gist comment");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("gist")
         );
@@ -44,6 +45,7 @@ public final class RtGistCommentsITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
+            "Values are not equal",
             comments.get(comment.number()),
             Matchers.equalTo(comment)
         );
@@ -61,6 +63,7 @@ public final class RtGistCommentsITCase {
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             comments.iterate(),
             Matchers.hasItem(comment)
         );

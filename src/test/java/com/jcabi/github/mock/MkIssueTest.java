@@ -35,11 +35,13 @@ public final class MkIssueTest {
     public void opensAndCloses() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(true)
         );
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(false)
         );
@@ -53,6 +55,7 @@ public final class MkIssueTest {
     public void pointsToAnEmptyPullRequest() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).isPull(),
             Matchers.is(false)
         );
@@ -66,6 +69,7 @@ public final class MkIssueTest {
     public void showsIssueAuthor() throws Exception {
         final Issue issue = this.issue();
         MatcherAssert.assertThat(
+            "Value is null",
             new Issue.Smart(issue).author().login(),
             Matchers.notNullValue()
         );
@@ -80,6 +84,7 @@ public final class MkIssueTest {
         final Issue issue = this.issue();
         new Issue.Smart(issue).title("hey, works?");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Issue.Smart(issue).title(),
             Matchers.startsWith("hey, ")
         );
@@ -94,6 +99,7 @@ public final class MkIssueTest {
         final Issue issue = this.issue();
         new Issue.Smart(issue).body("hey, body works?");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Issue.Smart(issue).body(),
             Matchers.startsWith("hey, b")
         );
@@ -106,9 +112,12 @@ public final class MkIssueTest {
     @Test
     public void exponsesProperties() throws Exception {
         final Issue.Smart issue = new Issue.Smart(this.issue());
-        MatcherAssert.assertThat(issue.createdAt(), Matchers.notNullValue());
-        MatcherAssert.assertThat(issue.updatedAt(), Matchers.notNullValue());
-        MatcherAssert.assertThat(issue.htmlUrl(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",issue.createdAt(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",issue.updatedAt(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null",issue.htmlUrl(), Matchers.notNullValue());
     }
 
     /**
@@ -122,6 +131,7 @@ public final class MkIssueTest {
         issue.repo().labels().create(tag, "c0c0c0");
         issue.labels().add(Collections.singletonList(tag));
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             new Issue.Smart(issue).roLabels().iterate(),
             Matchers.hasItem(
                 new CustomMatcher<Label>("label just created") {
@@ -152,10 +162,12 @@ public final class MkIssueTest {
             2
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater),
             Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less),
             Matchers.greaterThan(0)
         );
@@ -179,6 +191,7 @@ public final class MkIssueTest {
             .issues()
             .get(number);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Issue.Smart(issue).author().login(),
             Matchers.is("second")
         );
@@ -190,7 +203,8 @@ public final class MkIssueTest {
      */
     @Test
     public void canCheckIfIssueExists() throws Exception {
-        MatcherAssert.assertThat(this.issue().exists(), Matchers.is(true));
+        MatcherAssert.assertThat(
+            "Values are not equal",this.issue().exists(), Matchers.is(true));
     }
 
     /**
@@ -199,6 +213,7 @@ public final class MkIssueTest {
     @Test
     public void canCheckNonExistentIssue() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new MkIssue(
                 new MkStorage.InFile(),
                 "login",
@@ -218,6 +233,7 @@ public final class MkIssueTest {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         issue.assign("walter");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             issue.assignee().login(),
             Matchers.startsWith("wal")
         );
@@ -232,6 +248,7 @@ public final class MkIssueTest {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         issue.close();
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.events(),
             Matchers.iterableWithSize(1)
         );
@@ -239,6 +256,7 @@ public final class MkIssueTest {
             issue.events().iterator().next()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             closed.type(),
             Matchers.equalTo(Event.CLOSED)
         );
@@ -254,6 +272,7 @@ public final class MkIssueTest {
         issue.close();
         issue.open();
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             issue.events(),
             Matchers.iterableWithSize(2)
         );
@@ -261,10 +280,12 @@ public final class MkIssueTest {
         final Event.Smart closed = new Event.Smart(events.next());
         final Event.Smart reopened = new Event.Smart(events.next());
         MatcherAssert.assertThat(
+            "Values are not equal",
             closed.type(),
             Matchers.equalTo(Event.CLOSED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             reopened.type(),
             Matchers.equalTo(Event.REOPENED)
         );

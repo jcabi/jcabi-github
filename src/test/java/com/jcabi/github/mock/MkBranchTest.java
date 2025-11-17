@@ -24,6 +24,7 @@ public final class MkBranchTest {
     public void fetchesName() throws IOException {
         final String name = "topic";
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkBranchTest.branches(new MkGitHub().randomRepo())
                 .create(name, "f8dfc75138a2b57859b65cfc45239978081b8de4")
                 .name(),
@@ -39,6 +40,7 @@ public final class MkBranchTest {
     public void fetchesCommit() throws IOException {
         final String sha = "ad1298cac285d601cd66b37ec8989836d7c6e651";
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkBranchTest.branches(new MkGitHub().randomRepo())
                 .create("feature-branch", sha).commit().sha(),
             Matchers.equalTo(sha)
@@ -56,10 +58,12 @@ public final class MkBranchTest {
             .create("test", "sha")
             .repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );

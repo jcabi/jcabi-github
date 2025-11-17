@@ -25,6 +25,7 @@ public final class MkNotificationsTest {
     @Test
     public void fetchesEmptyListOfNotifications() throws IOException {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             new MkNotifications(
                 new MkStorage.InFile(),
                 "notifications"
@@ -50,6 +51,7 @@ public final class MkNotificationsTest {
                         .add("id").set("3").up().up()
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             new MkNotifications(
                 storage,
                 "/github/notifications/notification"
@@ -74,6 +76,7 @@ public final class MkNotificationsTest {
                         .add("id").set("2").up().up()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             new MkNotifications(
                 storage,
                 "/github/notifications/notification"
@@ -97,6 +100,7 @@ public final class MkNotificationsTest {
                         .add("id").set("3").up().up()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             new MkNotifications(
                 storage,
                 "/github/notifications/notification"

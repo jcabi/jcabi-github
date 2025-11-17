@@ -52,6 +52,7 @@ public final class RtGistTest {
                 "test"
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 gist.read("hello"),
                 Matchers.equalTo("success!")
             );
@@ -76,6 +77,7 @@ public final class RtGistTest {
             );
             gist.write("testFile", "testContent");
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 container.take().body(),
                 Matchers.containsString(
                     "\"testFile\":{\"content\":\"testContent\"}"
@@ -127,6 +129,7 @@ public final class RtGistTest {
             final String content = gist.read("hello");
             final Gist forkedGist = gist.fork();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 forkedGist.read("hello"),
                 Matchers.equalTo(content)
             );
@@ -156,10 +159,12 @@ public final class RtGistTest {
                 )
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 smart.files(),
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/gists/testGetFiles")
             );
@@ -183,6 +188,7 @@ public final class RtGistTest {
                 "testToString"
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 gist.toString(),
                 Matchers.endsWith("/gists/testToString")
             );
@@ -208,10 +214,12 @@ public final class RtGistTest {
             gist.unstar();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
@@ -243,6 +251,7 @@ public final class RtGistTest {
                     .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );

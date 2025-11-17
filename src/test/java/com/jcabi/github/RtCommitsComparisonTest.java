@@ -68,28 +68,38 @@ public final class RtCommitsComparisonTest {
         );
         final JsonObject json = comparison.json();
         MatcherAssert.assertThat(
+            "Value is null",
             json.getJsonObject("base_commit"), Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             json.getJsonArray("commits"), Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comparison.files(),
             Matchers.iterableWithSize(1)
         );
         final FileChange.Smart file = new FileChange.Smart(
             comparison.files().iterator().next()
         );
-        MatcherAssert.assertThat(file.sha(), Matchers.equalTo(sha));
-        MatcherAssert.assertThat(file.filename(), Matchers.equalTo(filename));
-        MatcherAssert.assertThat(file.additions(), Matchers.equalTo(additions));
-        MatcherAssert.assertThat(file.deletions(), Matchers.equalTo(deletions));
-        MatcherAssert.assertThat(file.changes(), Matchers.equalTo(changes));
         MatcherAssert.assertThat(
+            "Values are not equal",file.sha(), Matchers.equalTo(sha));
+        MatcherAssert.assertThat(
+            "Values are not equal",file.filename(), Matchers.equalTo(filename));
+        MatcherAssert.assertThat(
+            "Values are not equal",file.additions(), Matchers.equalTo(additions));
+        MatcherAssert.assertThat(
+            "Values are not equal",file.deletions(), Matchers.equalTo(deletions));
+        MatcherAssert.assertThat(
+            "Values are not equal",file.changes(), Matchers.equalTo(changes));
+        MatcherAssert.assertThat(
+            "Values are not equal",
             file.status(),
             Matchers.equalTo(FileChange.Status.ADDED)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             file.patch(),
             Matchers.equalTo(Optional.of(patch))
         );

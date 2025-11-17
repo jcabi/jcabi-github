@@ -55,10 +55,12 @@ public final class RtPullsTest {
             );
             final Pull pull = pulls.create(title, "octocat", "master");
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Pull.Smart(pull).title(),
                 Matchers.equalTo(title)
             );
@@ -86,6 +88,7 @@ public final class RtPullsTest {
             );
             final Pull pull = pulls.get(Tv.BILLION);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Pull.Smart(pull).title(),
                 Matchers.equalTo(title)
             );
@@ -114,6 +117,7 @@ public final class RtPullsTest {
                 RtPullsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 pulls.iterate(new ArrayMap<>()),
                 Matchers.iterableWithSize(2)
             );

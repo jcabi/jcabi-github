@@ -54,10 +54,12 @@ public final class RtHookTest {
                 1
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 hook.json(),
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/repo/hooks/1")
             );
@@ -80,6 +82,7 @@ public final class RtHookTest {
             ).start(this.resource.port())
         ) {
             MatcherAssert.assertThat(
+                "Assertion failed",
                 new RtHook(
                     new ApacheRequest(container.home()),
                     RtHookTest.repo(),

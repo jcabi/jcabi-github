@@ -57,16 +57,19 @@ public final class RtStarsITCase {
     @Test
     public void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );
         RtStarsITCase.repo.stars().star();
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(true)
         );
         RtStarsITCase.repo.stars().unstar();
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );

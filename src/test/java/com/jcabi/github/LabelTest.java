@@ -29,10 +29,12 @@ public final class LabelTest {
             "{\"name\":\"paul\"}"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             one.equals(other),
             Matchers.is(false)
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             one.compareTo(other),
             Matchers.not(0)
         );

@@ -23,6 +23,7 @@ public final class MkLimitsTest {
     public void worksWithMockedData() throws IOException {
         final Limits limits = new MkGitHub().limits();
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             new Limit.Smart(limits.get(Limits.CORE)).limit(),
             Matchers.greaterThan(0)
         );

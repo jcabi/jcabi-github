@@ -56,6 +56,7 @@ public final class RtIssueMilestoneITCase {
             .milestones().create("one");
         new Issue.Smart(issue).milestone(milestone);
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             new Milestone.Smart(milestone).openIssues(),
             Matchers.greaterThan(0)
         );
@@ -67,6 +68,7 @@ public final class RtIssueMilestoneITCase {
             RtIssueMilestoneITCase.issue()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.hasMilestone(),
             Matchers.is(false)
         );
@@ -74,6 +76,7 @@ public final class RtIssueMilestoneITCase {
             .milestones().create("two");
         issue.milestone(milestone);
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.hasMilestone(),
             Matchers.is(true)
         );
@@ -89,6 +92,7 @@ public final class RtIssueMilestoneITCase {
             RtIssueMilestoneITCase.repo.milestones().create(title)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Milestone.Smart(
                 new Issue.Smart(
                     RtIssueMilestoneITCase.repo.issues().get(issue.number())

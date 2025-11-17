@@ -39,10 +39,12 @@ public class MkCommitsTest {
                     .add("author", author).build()
             );
         MatcherAssert.assertThat(
+            "Value is null",
             newCommit,
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             newCommit.sha(),
             Matchers.equalTo("12ahscba")
         );

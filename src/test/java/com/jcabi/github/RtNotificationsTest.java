@@ -30,6 +30,7 @@ public final class RtNotificationsTest {
     @Test
     public void iterateEmpty() {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             new RtNotifications(
                 new FakeRequest()
                     .withBody("[]")
@@ -44,6 +45,7 @@ public final class RtNotificationsTest {
     @Test
     public void iterateNotifications() {
         MatcherAssert.assertThat(
+            "Assertion failed",
             new RtNotifications(
                 new FakeRequest().withBody(
                     // @checkstyle StringLiteralsConcatenationCheck (50 lines)

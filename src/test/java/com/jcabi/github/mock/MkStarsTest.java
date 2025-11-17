@@ -24,6 +24,7 @@ public class MkStarsTest {
         final Stars stars = new MkGitHub().randomRepo().stars();
         stars.star();
         MatcherAssert.assertThat(
+            "Values are not equal",
             stars.starred(),
             Matchers.is(true)
         );
@@ -38,6 +39,7 @@ public class MkStarsTest {
         stars.star();
         stars.unstar();
         MatcherAssert.assertThat(
+            "Values are not equal",
             stars.starred(),
             Matchers.is(false)
         );

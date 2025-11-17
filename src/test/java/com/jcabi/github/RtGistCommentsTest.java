@@ -53,6 +53,7 @@ public final class RtGistCommentsTest {
             );
             final GistComment comment = comments.get(1);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new GistComment.Smart(comment).body(),
                 Matchers.equalTo(body)
             );
@@ -80,6 +81,7 @@ public final class RtGistCommentsTest {
                 gist
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 comments.iterate(),
                 Matchers.iterableWithSize(2)
             );
@@ -110,10 +112,12 @@ public final class RtGistCommentsTest {
             );
             final GistComment comment = comments.post(body);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new GistComment.Smart(comment).body(),
                 Matchers.equalTo(body)
             );

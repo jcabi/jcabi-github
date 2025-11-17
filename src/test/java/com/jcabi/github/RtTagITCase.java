@@ -76,6 +76,7 @@ public final class RtTagITCase {
             final String content = "initial version";
             final String message = "message";
             MatcherAssert.assertThat(
+                "Values are not equal",
                 RtTagITCase.repo.git().tags().create(
                     Json.createObjectBuilder().add("tag", tag)
                         .add(message, content)

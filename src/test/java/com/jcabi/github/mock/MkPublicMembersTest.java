@@ -26,6 +26,7 @@ public final class MkPublicMembersTest {
     public void fetchesOrg() throws IOException {
         final Organization org = MkPublicMembersTest.organization();
         MatcherAssert.assertThat(
+            "Values are not equal",
             org.publicMembers().org().login(),
             Matchers.equalTo(org.login())
         );
@@ -42,22 +43,26 @@ public final class MkPublicMembersTest {
         org.addMember(user);
         MatcherAssert.assertThat(
             "Newly-added user is not a public member",
-            !members.contains(user)
+            !members.contains(user),
+            Matchers.is(true)
         );
         members.publicize(user);
         MatcherAssert.assertThat(
             "User has been made a public member",
-            members.contains(user)
+            members.contains(user),
+            Matchers.is(true)
         );
         members.conceal(user);
         MatcherAssert.assertThat(
             "Concealed user is not a public member",
-            !members.contains(user)
+            !members.contains(user),
+            Matchers.is(true)
         );
         members.publicize(user);
         MatcherAssert.assertThat(
             "User has been made a public member again",
-            members.contains(user)
+            members.contains(user),
+            Matchers.is(true)
         );
     }
 
@@ -70,24 +75,29 @@ public final class MkPublicMembersTest {
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("agent99");
         MatcherAssert.assertThat(
+            "Collection is not empty",
             members.iterate(),
             Matchers.emptyIterableOf(User.class)
         );
         org.addMember(user);
         MatcherAssert.assertThat(
             "The newly-added user is not a public member",
-            !members.contains(user)
+            !members.contains(user),
+            Matchers.is(true)
         );
         members.publicize(user);
         MatcherAssert.assertThat(
             "The user has been made a public member",
-            members.contains(user)
+            members.contains(user),
+            Matchers.is(true)
         );
-        MatcherAssert.assertThat(members.iterate(), Matchers.hasItem(user));
+        MatcherAssert.assertThat(
+            "Collection does not contain expected item",members.iterate(), Matchers.hasItem(user));
         members.conceal(user);
         MatcherAssert.assertThat(
             "The concealed user is not a public member",
-            !members.contains(user)
+            !members.contains(user),
+            Matchers.is(true)
         );
     }
 
@@ -100,22 +110,27 @@ public final class MkPublicMembersTest {
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("jasmine");
         MatcherAssert.assertThat(
+            "Collection is not empty",
             members.iterate(),
             Matchers.emptyIterableOf(User.class)
         );
         org.addMember(user);
         MatcherAssert.assertThat(
+            "Collection is not empty",
             members.iterate(),
             Matchers.emptyIterableOf(User.class)
         );
         members.publicize(user);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             members.iterate(),
             Matchers.iterableWithSize(1)
         );
-        MatcherAssert.assertThat(members.iterate(), Matchers.hasItem(user));
+        MatcherAssert.assertThat(
+            "Collection does not contain expected item",members.iterate(), Matchers.hasItem(user));
         members.conceal(user);
         MatcherAssert.assertThat(
+            "Collection is not empty",
             members.iterate(),
             Matchers.emptyIterableOf(User.class)
         );

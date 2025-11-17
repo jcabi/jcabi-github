@@ -39,6 +39,7 @@ public final class StatusTest {
     public void fetchesCommit() throws Exception {
         final Commit cmmt = StatusTest.commit();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(cmmt, Json.createObjectBuilder().build())
             ).commit(),
@@ -54,6 +55,7 @@ public final class StatusTest {
     public void fetchesId() throws Exception {
         final int ident = 777;
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -72,6 +74,7 @@ public final class StatusTest {
     public void fetchesUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/wherever";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -89,6 +92,7 @@ public final class StatusTest {
     @Test
     public void fetchesErrorState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -107,6 +111,7 @@ public final class StatusTest {
     @Test
     public void fetchesFailureState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -125,6 +130,7 @@ public final class StatusTest {
     @Test
     public void fetchesPendingState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -143,6 +149,7 @@ public final class StatusTest {
     @Test
     public void fetchesSuccessState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -162,6 +169,7 @@ public final class StatusTest {
     public void fetchesPresentTargetUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/good-luck";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -180,6 +188,7 @@ public final class StatusTest {
     @Test
     public void fetchesAbsentTargetUrl() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -197,6 +206,7 @@ public final class StatusTest {
     @Test
     public void fetchesNullTargetUrl() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -216,6 +226,7 @@ public final class StatusTest {
     public void fetchesPresentDescription() throws Exception {
         final String description = "Mostly harmless";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -234,6 +245,7 @@ public final class StatusTest {
     @Test
     public void fetchesAbsentDescription() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -251,6 +263,7 @@ public final class StatusTest {
     @Test
     public void fetchesNullDescription() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -270,6 +283,7 @@ public final class StatusTest {
     public void fetchesContext() throws Exception {
         final String context = "jcabi/github/tester";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -288,6 +302,7 @@ public final class StatusTest {
     public void fetchesCreatedAt() throws Exception {
         final String when = "2015-02-27T19:35:32Z";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -306,6 +321,7 @@ public final class StatusTest {
     public void fetchesUpdatedAt() throws Exception {
         final String when = "2013-02-27T19:35:32Z";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -324,6 +340,7 @@ public final class StatusTest {
     public void fetchesCreator() throws Exception {
         final String login = "bob";
         MatcherAssert.assertThat(
+            "Assertion failed",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),

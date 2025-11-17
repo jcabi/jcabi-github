@@ -38,6 +38,7 @@ public final class MkTreesTest {
                 )
             ).build();
         MatcherAssert.assertThat(
+            "Value is null",
             new MkGitHub().randomRepo().git().trees().create(tree),
             Matchers.notNullValue()
         );
@@ -65,6 +66,7 @@ public final class MkTreesTest {
         final Repo repo = new MkGitHub().randomRepo();
         repo.git().trees().create(json);
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             repo.git().trees().getRec(sha).json().getString("sha"),
             Matchers.containsString(sha)
         );

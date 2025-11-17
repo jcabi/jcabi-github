@@ -46,6 +46,7 @@ public final class RtMilestonesTest {
             );
             milestones.remove(1);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );

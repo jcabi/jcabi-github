@@ -34,6 +34,7 @@ public final class RtGistITCase {
             final String file = smart.files().iterator().next();
             gist.write(file, "hey, works for you this way?");
             MatcherAssert.assertThat(
+                "String does not start with expected value",
                 gist.read(file),
                 Matchers.startsWith("hey, works for ")
             );
@@ -63,6 +64,7 @@ public final class RtGistITCase {
         final Gist forked = gist.fork();
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 forked.read(filename),
                 Matchers.equalTo(content)
             );
