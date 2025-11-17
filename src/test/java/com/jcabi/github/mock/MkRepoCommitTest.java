@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.xembly.Directives;
 
 /**
- * Test case for {@link MkRepoCommit).
+ * Test case for {@link MkRepoCommit}.
  */
 public final class MkRepoCommitTest {
 

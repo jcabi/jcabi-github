@@ -18,8 +18,8 @@ import org.junit.Test;
 
 /**
  * Test case for RtCommit.
- * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.18.2
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtCommitTest {
 

@@ -12,7 +12,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkBlobs).
+ * Test case for {@link MkBlobs}.
  */
 public final class MkBlobsTest {
 

@@ -13,7 +13,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkRepoCommits).
+ * Test case for {@link MkRepoCommits}.
  */
 public final class MkRepoCommitsTest {
 

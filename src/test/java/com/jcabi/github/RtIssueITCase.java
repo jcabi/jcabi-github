@@ -141,9 +141,8 @@ public final class RtIssueITCase {
      *  edit with Issue.assign(). We had this problem when our account was
      *  flagged as suspicious by GitHub. In this case you should contact GitHub
      *  support and ask them to unblock account you use.
-     *
-     * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
      * @throws Exception if any problem inside.
+     * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
      */
     @Test
     public void identifyAssignee() throws Exception {
