@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,10 +34,9 @@ public final class RtDeployKeyTest {
     /**
      * RtDeployKey can delete a deploy key.
      *
-     * @throws Exception If some problem inside.
      */
     @Test
-    public void canDeleteDeployKey() throws Exception {
+    public void canDeleteDeployKey() throws IOException {
         try (
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

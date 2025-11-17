@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ public final class RepoTest {
 
     /**
      * Repo.Smart can fetch description from Repo.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchDescription() throws Exception {
+    public void canFetchDescription() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -36,10 +36,9 @@ public final class RepoTest {
 
     /**
      * Repo.Smart can fetch private status from Repo.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchPrivateStatus() throws Exception {
+    public void canFetchPrivateStatus() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         repo.patch(
             Json.createObjectBuilder()

@@ -34,11 +34,10 @@ public final class RtGistTest {
     /**
      * RtGist should be able to do reads.
      *
-     * @throws Exception if there is a problem.
      * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
-    public void readsFileWithContents() throws Exception {
+    public void readsFileWithContents() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -62,10 +61,9 @@ public final class RtGistTest {
 
     /**
      * RtGist should be able to do writes.
-     * @throws Exception if there is a problem.
      */
     @Test
-    public void writesFileContents() throws Exception {
+    public void writesFileContents() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
@@ -139,10 +137,9 @@ public final class RtGistTest {
     /**
      * Gist.Smart can iterate through its files.
      *
-     * @throws Exception if something goes wrong.
      */
     @Test
-    public void canIterateFiles() throws Exception {
+    public void canIterateFiles() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -173,10 +170,9 @@ public final class RtGistTest {
     /**
      * RtGist can return a String representation correctly reflecting its URI.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void canRepresentAsString() throws Exception {
+    public void canRepresentAsString() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer()
             .start(this.resource.port())
@@ -196,10 +192,9 @@ public final class RtGistTest {
 
     /**
      * RtGist can unstar a starred Gist.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void canUnstarAGist() throws Exception {
+    public void canUnstarAGist() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -227,10 +222,9 @@ public final class RtGistTest {
     /**
      * RtGist can execute PATCH request.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    public void executePatchRequest() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

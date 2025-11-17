@@ -9,6 +9,7 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -32,10 +33,9 @@ public class RtCommitTest {
 
     /**
      * Commit.Smart can read message.
-     * @throws Exception when an error occurs
      */
     @Test
-    public final void readsMessage() throws Exception {
+    public final void readsMessage() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

@@ -9,6 +9,7 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -41,33 +42,30 @@ public final class RtTagsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+        RtTagsITCase.repos = github.repos();
+        RtTagsITCase.repo = RtTagsITCase.rule.repo(RtTagsITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtTagsITCase.repos != null && RtTagsITCase.repo != null) {
+            RtTagsITCase.repos.remove(RtTagsITCase.repo.coordinates());
         }
     }
 
     /**
      * RtTags creates a tag.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsTag() throws Exception {
-        final References refs = repo.git().references();
+    public void createsTag() throws IOException {
+        final References refs = RtTagsITCase.repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
         final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIVE);
@@ -75,7 +73,7 @@ public final class RtTagsITCase {
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
         MatcherAssert.assertThat(
-            repo.git().tags().create(
+            RtTagsITCase.repo.git().tags().create(
                 Json.createObjectBuilder()
                     .add("tag", tag).add("message", "initial version")
                     .add("object", sha).add("type", "commit")

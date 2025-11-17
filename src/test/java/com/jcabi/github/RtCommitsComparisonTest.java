@@ -8,6 +8,7 @@ import com.google.common.base.Optional;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,12 +20,11 @@ public final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch JSON.
-     * @throws Exception If some problem inside
      * @checkstyle MultipleStringLiterals (75 lines)
      * @checkstyle ExecutableStatementCountCheck (75 lines)
      */
     @Test
-    public void fetchesJson() throws Exception {
+    public void fetchesJson() throws IOException {
         final String sha = "fffffffffffffffffffffffffffffffffffffffe";
         final String filename = "bar/quux.txt";
         // @checkstyle MagicNumberCheck (3 lines)
@@ -75,7 +75,7 @@ public final class RtCommitsComparisonTest {
         );
         MatcherAssert.assertThat(
             comparison.files(),
-            Matchers.<FileChange>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         final FileChange.Smart file = new FileChange.Smart(
             comparison.files().iterator().next()

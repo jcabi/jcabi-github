@@ -20,7 +20,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "ghub" })
+@EqualsAndHashCode(of = "ghub")
 @SuppressWarnings("PMD.UseConcurrentHashMap")
 final class MkGitignores implements Gitignores {
 
@@ -53,13 +53,13 @@ final class MkGitignores implements Gitignores {
 
     @Override
     public Iterable<String> iterate() {
-        return GITIGNORES.keySet();
+        return MkGitignores.GITIGNORES.keySet();
     }
 
     @Override
     public String template(
         final String name) {
-        final String template = GITIGNORES.get(name);
+        final String template = MkGitignores.GITIGNORES.get(name);
         if (template == null) {
             throw new IllegalArgumentException("Template not found.");
         }

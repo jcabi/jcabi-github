@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -17,10 +18,9 @@ import org.junit.Test;
 public final class RtGistsITCase {
     /**
      * RtGists can create a gist.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void createGist() throws Exception {
+    public void createGist() throws IOException {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistsITCase.gists();
@@ -37,10 +37,9 @@ public final class RtGistsITCase {
 
     /**
      * RtGists can iterate all gists.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iterateGists() throws Exception {
+    public void iterateGists() throws IOException {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test.txt", "content"), false
@@ -53,10 +52,9 @@ public final class RtGistsITCase {
     }
     /**
      * RtGists can get a single gist.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void singleGist() throws Exception {
+    public void singleGist() throws IOException {
         final String filename = "single-name.txt";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
@@ -70,10 +68,9 @@ public final class RtGistsITCase {
     }
     /**
      * This tests that RtGists can remove a gist by name.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void removesGistByName() throws Exception {
+    public void removesGistByName() throws IOException {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content of test file"),

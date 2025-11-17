@@ -40,7 +40,7 @@ public interface Statuses extends JsonReadable {
     /**
      * Create new status.
      * @param status Add this status
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @return The added status
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
@@ -100,8 +100,8 @@ public interface Statuses extends JsonReadable {
             this(
                 stat,
                 "",
-                Optional.<String>absent(),
-                Optional.<String>absent()
+                Optional.absent(),
+                Optional.absent()
             );
         }
 

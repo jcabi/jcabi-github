@@ -12,6 +12,7 @@ import com.jcabi.http.request.JdkRequest;
 import com.jcabi.immutable.ArrayMap;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.EnumMap;
 import org.hamcrest.MatcherAssert;
@@ -37,12 +38,11 @@ public final class RtIssuesTest {
     /**
      * RtIssues can create an issue.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void createIssue() throws Exception {
+    public void createIssue() throws IOException {
         final String title = "Found a bug";
-        final String body = issue(title).toString();
+        final String body = RtIssuesTest.issue(title).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
@@ -51,7 +51,7 @@ public final class RtIssuesTest {
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
-                repo()
+                RtIssuesTest.repo()
             );
             final Issue issue = issues.create(
                 title, "having a problem with it."
@@ -70,22 +70,21 @@ public final class RtIssuesTest {
 
     /**
      * RtIssues can get a single issue.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getSingleIssue() throws Exception {
+    public void getSingleIssue() throws IOException {
         final String title = "Unit test";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    issue(title).toString()
+                    RtIssuesTest.issue(title).toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
-                repo()
+                RtIssuesTest.repo()
             );
             final Issue issue = issues.get(1);
             MatcherAssert.assertThat(
@@ -98,28 +97,27 @@ public final class RtIssuesTest {
 
     /**
      * RtIssues can iterate issues.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iterateIssues() throws Exception {
+    public void iterateIssues() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(issue("new issue"))
-                        .add(issue("code issue"))
+                        .add(RtIssuesTest.issue("new issue"))
+                        .add(RtIssuesTest.issue("code issue"))
                         .build().toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
-                repo()
+                RtIssuesTest.repo()
             );
             MatcherAssert.assertThat(
                 issues.iterate(new ArrayMap<>()),
-                Matchers.<Issue>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -127,24 +125,23 @@ public final class RtIssuesTest {
 
     /**
      * RtIssues can search issues within a repository.
-     * @throws Exception if there is any error
      */
     @Test
-    public void searchIssues() throws Exception {
+    public void searchIssues() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(issue("some issue"))
-                        .add(issue("some other issue"))
+                        .add(RtIssuesTest.issue("some issue"))
+                        .add(RtIssuesTest.issue("some other issue"))
                         .build().toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
-                repo()
+                RtIssuesTest.repo()
             );
             MatcherAssert.assertThat(
                 issues.search(
@@ -154,7 +151,7 @@ public final class RtIssuesTest {
                         Issues.Qualifier.class
                     )
                 ),
-                Matchers.<Issue>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }

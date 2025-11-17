@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -30,23 +31,21 @@ public final class RtIssueLabelsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+        RtIssueLabelsITCase.repos = github.repos();
+        RtIssueLabelsITCase.repo = new RepoRule().repo(RtIssueLabelsITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtIssueLabelsITCase.repos != null && RtIssueLabelsITCase.repo != null) {
+            RtIssueLabelsITCase.repos.remove(RtIssueLabelsITCase.repo.coordinates());
         }
     }
 
@@ -72,10 +71,9 @@ public final class RtIssueLabelsITCase {
     /**
      * Create and return issue to test.
      * @return Issue
-     * @throws Exception If some problem inside
      */
-    private static Issue issue() throws Exception {
-        return repo.issues().create("test issue title", "test issue body");
+    private static Issue issue() throws IOException {
+        return RtIssueLabelsITCase.repo.issues().create("test issue title", "test issue body");
     }
 
 }

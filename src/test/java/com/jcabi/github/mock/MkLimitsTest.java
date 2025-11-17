@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Limit;
 import com.jcabi.github.Limits;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ public final class MkLimitsTest {
 
     /**
      * MkLimits can work.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedData() throws Exception {
+    public void worksWithMockedData() throws IOException {
         final Limits limits = new MkGithub().limits();
         MatcherAssert.assertThat(
             new Limit.Smart(limits.get(Limits.CORE)).limit(),

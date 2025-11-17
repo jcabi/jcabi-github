@@ -137,7 +137,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String patch = "@@ -120,7 +120,7 @@ class Test1 @@ -1000,7 +1000,7 @@ class Test1";
         MatcherAssert.assertThat(
-            stringFileChange(
+            FileChangeTest.stringFileChange(
                 "patch",
                 patch
             ).patch(),
@@ -154,7 +154,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
         MatcherAssert.assertThat(
-            stringFileChange(
+            FileChangeTest.stringFileChange(
                 "raw_url",
                 url
             ).rawUrl(),
@@ -171,7 +171,7 @@ public final class FileChangeTest {
         // @checkstyle LineLength (1 line)
         final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
         MatcherAssert.assertThat(
-            stringFileChange(
+            FileChangeTest.stringFileChange(
                 "blob_url",
                 url
             ).blobUrl(),

@@ -8,6 +8,7 @@ import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
@@ -31,7 +32,7 @@ public final class MkReleaseAssetTest {
      */
     @Test
     public void fetchesRelease() throws Exception {
-        final Release rel = release();
+        final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
             rel.assets().get(1).release(),
             Matchers.is(rel)
@@ -45,7 +46,7 @@ public final class MkReleaseAssetTest {
      */
     @Test
     public void fetchesNumber() throws Exception {
-        final Release rel = release();
+        final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
             rel.assets().get(1).number(),
             Matchers.is(1)
@@ -59,13 +60,13 @@ public final class MkReleaseAssetTest {
      */
     @Test
     public void removesAsset() throws Exception {
-        final ReleaseAssets assets = release().assets();
+        final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testRemove".getBytes(), "text/plain", "remove.txt"
         );
         MatcherAssert.assertThat(
             assets.iterate(),
-            Matchers.<ReleaseAsset>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         asset.remove();
         MatcherAssert.assertThat(
@@ -81,7 +82,7 @@ public final class MkReleaseAssetTest {
      */
     @Test
     public void removesSeveralAssets() throws Exception {
-        final ReleaseAssets assets = release().assets();
+        final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
         // @checkstyle MagicNumberCheck (1 line)
         final int limit = 3;
         final ReleaseAsset[] bodies = new ReleaseAsset[limit];
@@ -92,7 +93,7 @@ public final class MkReleaseAssetTest {
         }
         MatcherAssert.assertThat(
             assets.iterate(),
-            Matchers.<ReleaseAsset>iterableWithSize(limit)
+            Matchers.iterableWithSize(limit)
         );
         for (int idx = 0; idx < limit; ++idx) {
             bodies[idx].remove();
@@ -112,7 +113,7 @@ public final class MkReleaseAssetTest {
     public void canRepresentAsJson() throws Exception {
         final String name = "json.txt";
         final String type = "text/plain";
-        final ReleaseAsset asset = release().assets().upload(
+        final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
             "testJson".getBytes(), type, name
         );
         MatcherAssert.assertThat(
@@ -133,7 +134,7 @@ public final class MkReleaseAssetTest {
     @Test
     public void canPatchJson() throws Exception {
         final String orig = "orig.txt";
-        final ReleaseAsset asset = release().assets().upload(
+        final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
             "testPatch".getBytes(), "text/plain", orig
         );
         final String attribute = "name";
@@ -155,10 +156,9 @@ public final class MkReleaseAssetTest {
      * Should return the Base64-encoded value of the input contents. When
      * decoded, should be equal to the input.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesRawRepresentation() throws Exception {
+    public void fetchesRawRepresentation() throws IOException {
         final String test = "This is a test asset.";
         final ReleaseAsset asset = new MkGithub().randomRepo().releases()
             .create("v1.0")
@@ -177,9 +177,8 @@ public final class MkReleaseAssetTest {
     /**
      * Create a Release to work with.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Release release() throws Exception {
+    private static Release release() throws IOException {
         return new MkGithub().randomRepo().releases().create("v1.0");
     }
 }

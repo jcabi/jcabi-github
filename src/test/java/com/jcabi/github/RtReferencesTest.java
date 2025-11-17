@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -32,10 +33,9 @@ public final class RtReferencesTest {
 
     /**
      * RtReferences should create and return a Reference.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void createsReference() throws Exception {
+    public void createsReference() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -62,10 +62,9 @@ public final class RtReferencesTest {
 
     /**
      * RtReferences should be able to iterate over References.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferences() throws Exception {
+    public void iteratesReferences() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -88,10 +87,9 @@ public final class RtReferencesTest {
 
     /**
      * RtReferences should be able to remove a Reference.
-     * @throws Exception - If somethins goes wrong.
      */
     @Test
-    public void removesReference() throws Exception {
+    public void removesReference() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -112,10 +110,9 @@ public final class RtReferencesTest {
 
     /**
      * RtReferences should be able to iterate over tags.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesTags() throws Exception {
+    public void iteratesTags() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -130,7 +127,7 @@ public final class RtReferencesTest {
             );
             MatcherAssert.assertThat(
                 refs.tags(),
-                Matchers.<Reference>iterableWithSize(1)
+                Matchers.iterableWithSize(1)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),
@@ -142,10 +139,9 @@ public final class RtReferencesTest {
 
     /**
      * RtReferences should be able to iterate over heads.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesHeads() throws Exception {
+    public void iteratesHeads() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -160,7 +156,7 @@ public final class RtReferencesTest {
             );
             MatcherAssert.assertThat(
                 refs.heads(),
-                Matchers.<Reference>iterableWithSize(1)
+                Matchers.iterableWithSize(1)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),

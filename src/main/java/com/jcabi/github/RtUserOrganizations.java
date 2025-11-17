@@ -68,7 +68,7 @@ final class RtUserOrganizations implements UserOrganizations {
         final String login = this.owner.login();
         return new RtPagination<>(
             this.entry.uri().path("/users").path(login).path("/orgs").back(),
-            new OrganizationMapping(this.ghub.organizations())
+            new RtUserOrganizations.OrganizationMapping(this.ghub.organizations())
         );
     }
 

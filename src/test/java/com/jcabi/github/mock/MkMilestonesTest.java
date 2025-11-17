@@ -8,6 +8,7 @@ import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.immutable.ArrayMap;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -20,10 +21,9 @@ public final class MkMilestonesTest {
 
     /**
      * This tests that MkMilestones can return its owner repo.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void returnsRepo() throws Exception {
+    public void returnsRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(repo, Matchers.is(owner));
@@ -31,10 +31,9 @@ public final class MkMilestonesTest {
 
     /**
      * This tests that MkMilestones can create a MkMilestone.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void createsMilestone() throws Exception {
+    public void createsMilestone() throws IOException {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
@@ -47,10 +46,9 @@ public final class MkMilestonesTest {
 
     /**
      * This tests that MkMilestones can return a certain MkMilestone, by number.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void getsMilestone() throws Exception {
+    public void getsMilestone() throws IOException {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("test");
@@ -61,36 +59,34 @@ public final class MkMilestonesTest {
     }
     /**
      * This tests that MkMilestones can remove a certain MkMilestone, by number.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void removesMilestone() throws Exception {
+    public void removesMilestone() throws IOException {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("testTitle");
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<>()),
-            Matchers.<Milestone>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         milestones.remove(created.number());
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<>()),
-            Matchers.<Milestone>iterableWithSize(0)
+            Matchers.iterableWithSize(0)
         );
     }
     /**
      * This tests that the iterate(Map<String, String> params)
      * method in MkMilestones works fine.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void iteratesMilestones() throws Exception {
+    public void iteratesMilestones() throws IOException {
         final Milestones milestones = new MkGithub().randomRepo()
             .milestones();
         milestones.create("testMilestone");
         MatcherAssert.assertThat(
             milestones.iterate(new ArrayMap<>()),
-            Matchers.<Milestone>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 }

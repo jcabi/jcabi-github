@@ -15,6 +15,7 @@ import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 /**
@@ -33,10 +34,9 @@ public final class IssueTest {
 
     /**
      * Issue.Smart can fetch key properties of an Issue.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesProperties() throws Exception {
+    public void fetchesProperties() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -57,10 +57,9 @@ public final class IssueTest {
 
     /**
      * Issue.Smart can detect a pull request.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void detectsPullRequest() throws Exception {
+    public void detectsPullRequest() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -75,7 +74,7 @@ public final class IssueTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo).when(issue).repo();
         Mockito.doReturn(pulls).when(repo).pulls();
-        Mockito.when(pulls.get(Mockito.eq(Tv.THREE))).thenReturn(pull);
+        Mockito.when(pulls.get(ArgumentMatchers.eq(Tv.THREE))).thenReturn(pull);
         MatcherAssert.assertThat(
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
@@ -86,10 +85,9 @@ public final class IssueTest {
 
     /**
      * Issue.Smart can detect an absence of a pull request.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void detectsPullRequestAbsence() throws Exception {
+    public void detectsPullRequestAbsence() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -105,10 +103,9 @@ public final class IssueTest {
 
     /**
      * Issue.Smart can detect an full absence of a pull request.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void detectsFullPullRequestAbsence() throws Exception {
+    public void detectsFullPullRequestAbsence() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()

@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -15,7 +15,7 @@ import org.junit.Test;
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
-@OAuthScope(Scope.GIST)
+@OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistCommentsITCase {
     /**
      * RtGistComments can create a comment.
@@ -71,9 +71,8 @@ public final class RtGistCommentsITCase {
     /**
      * Return gist to test.
      * @return Gist
-     * @throws Exception If some problem inside
      */
-    private static Gist gist() throws Exception {
+    private static Gist gist() throws IOException {
         return new GithubIT()
             .connect()
             .gists()

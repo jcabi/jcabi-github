@@ -6,6 +6,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Github;
 import com.jcabi.github.Organizations;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
@@ -20,10 +22,9 @@ import org.junit.Test;
 public final class MkOrganizationsTest {
     /**
      * MkOrganizations can get specific organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void getSingleOrganization() throws Exception {
+    public void getSingleOrganization() throws IOException {
         final String login = "orgTestGet";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile()
@@ -40,10 +41,9 @@ public final class MkOrganizationsTest {
 
     /**
      * Organization created_at field should be variable.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void testCreatedAt() throws Exception {
+    public void testCreatedAt() throws IOException, ParseException, InterruptedException {
         final String name = "testCreatedAt";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile()
@@ -65,10 +65,9 @@ public final class MkOrganizationsTest {
 
     /**
      * MkOrganizations can list the logged-in user's organizations.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesCurrentUserOrganizations() throws Exception {
+    public void iteratesCurrentUserOrganizations() throws IOException {
         final Organizations orgs = new MkGithub().organizations();
         orgs.get("orgTestIterate");
         MatcherAssert.assertThat(

@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.hamcrest.MatcherAssert;
@@ -36,10 +37,9 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct repository.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectRepo() throws Exception {
+    public void createWithCorrectRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String login = "login";
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -52,10 +52,9 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct id.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectId() throws Exception {
+    public void createWithCorrectId() throws IOException {
         final int number = 5;
         final MkStorage storage = new MkStorage.InFile();
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -71,10 +70,9 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct url.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectUrl() throws Exception {
+    public void createWithCorrectUrl() throws IOException {
         final String url = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -94,10 +92,9 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct test url.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectTestUrl() throws Exception {
+    public void createWithCorrectTestUrl() throws IOException {
         final String test = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -117,10 +114,9 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct ping url.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectPingUrl() throws Exception {
+    public void createWithCorrectPingUrl() throws IOException {
         final String ping = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -141,10 +137,9 @@ public final class MkHookTest {
     /**
      * MkHook.json() should return the "events" json array with the given
      * event names.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectEvents() throws Exception {
+    public void createWithCorrectEvents() throws IOException {
         final Iterable<String> events = Arrays.asList("event1", "event2");
         final int number = 123;
         final Coordinates coords = new Coordinates.Simple("user/repo");

@@ -43,7 +43,7 @@ public final class RtPublicMembersTest {
      */
     private static final String MEMBERS_URL = String.format(
         "/orgs/%s/public_members",
-        ORG
+        RtPublicMembersTest.ORG
     );
 
     /**
@@ -51,8 +51,8 @@ public final class RtPublicMembersTest {
      */
     private static final String MEMBER_URL = String.format(
         "%s/%s",
-        MEMBERS_URL,
-        USERNAME
+        RtPublicMembersTest.MEMBERS_URL,
+        RtPublicMembersTest.USERNAME
     );
 
     /**
@@ -76,7 +76,7 @@ public final class RtPublicMembersTest {
      */
     @Test
     public void fetchesOrg() throws IOException {
-        final Organization org = organization();
+        final Organization org = RtPublicMembersTest.organization();
         MatcherAssert.assertThat(
             new RtPublicMembers(new FakeRequest(), org).org(),
             Matchers.equalTo(org)
@@ -97,9 +97,9 @@ public final class RtPublicMembersTest {
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
-            members.conceal(user());
+            members.conceal(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
                 req.method(),
@@ -111,10 +111,10 @@ public final class RtPublicMembersTest {
             );
             MatcherAssert.assertThat(
                 req.uri().toString(),
-                Matchers.endsWith(MEMBER_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
             this.thrown.expect(AssertionError.class);
-            members.conceal(user());
+            members.conceal(RtPublicMembersTest.user());
             container.stop();
         }
     }
@@ -133,9 +133,9 @@ public final class RtPublicMembersTest {
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
-            members.publicize(user());
+            members.publicize(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
                 req.method(),
@@ -143,10 +143,10 @@ public final class RtPublicMembersTest {
             );
             MatcherAssert.assertThat(
                 req.uri().toString(),
-                Matchers.endsWith(MEMBER_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
             this.thrown.expect(AssertionError.class);
-            members.publicize(user());
+            members.publicize(RtPublicMembersTest.user());
             container.stop();
         }
     }
@@ -170,9 +170,9 @@ public final class RtPublicMembersTest {
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
-            members.contains(user());
+            members.contains(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
                 req.method(),
@@ -180,18 +180,18 @@ public final class RtPublicMembersTest {
             );
             MatcherAssert.assertThat(
                 req.uri().toString(),
-                Matchers.endsWith(MEMBER_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
             MatcherAssert.assertThat(
                 "404 is interpreted as the user not being a public member",
-                !members.contains(user())
+                !members.contains(RtPublicMembersTest.user())
             );
             MatcherAssert.assertThat(
                 "204 is interpreted as the user being a public member",
-                members.contains(user())
+                members.contains(RtPublicMembersTest.user())
             );
             this.thrown.expect(AssertionError.class);
-            members.contains(user());
+            members.contains(RtPublicMembersTest.user());
             container.stop();
         }
     }
@@ -215,7 +215,7 @@ public final class RtPublicMembersTest {
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
             members.iterate().iterator().next();
             final MkQuery req = container.take();
@@ -225,7 +225,7 @@ public final class RtPublicMembersTest {
             );
             MatcherAssert.assertThat(
                 req.uri().toString(),
-                Matchers.endsWith(MEMBERS_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBERS_URL)
             );
             this.thrown.expect(AssertionError.class);
             members.iterate().iterator().next();
@@ -239,7 +239,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     private static Organization organization() throws IOException {
-        return new MkOrganization(new MkStorage.InFile(), ORG);
+        return new MkOrganization(new MkStorage.InFile(), RtPublicMembersTest.ORG);
     }
 
     /**
@@ -248,6 +248,6 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     private static User user() throws IOException {
-        return new MkGithub().users().get(USERNAME);
+        return new MkGithub().users().get(RtPublicMembersTest.USERNAME);
     }
 }

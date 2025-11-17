@@ -53,7 +53,7 @@ public final class MkPullRefTest {
     @Test
     public void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().ref(),
+            MkPullRefTest.pullRef().ref(),
             Matchers.equalTo(MkPullRefTest.REF)
         );
     }
@@ -65,7 +65,7 @@ public final class MkPullRefTest {
     @Test
     public void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().sha(),
+            MkPullRefTest.pullRef().sha(),
             Matchers.equalTo(MkPullRefTest.SHA)
         );
     }

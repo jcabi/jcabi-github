@@ -33,10 +33,9 @@ public final class MkCommitsComparisonTest {
     }
     /**
      * MkCommitsComparison can get a JSON.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canGetJson() throws Exception {
+    public void canGetJson() throws IOException {
         MatcherAssert.assertThat(
             new MkCommitsComparison(
                 new MkStorage.InFile(), "test1", new Coordinates.Simple(
@@ -57,17 +56,16 @@ public final class MkCommitsComparisonTest {
 
     /**
      * MkCommitsComparison can get a JSON with commits.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canGetJsonWithCommits() throws Exception {
+    public void canGetJsonWithCommits() throws IOException {
         final CommitsComparison cmp = new MkCommitsComparison(
             new MkStorage.InFile(), "test-9",
             new Coordinates.Simple("test_user_A", "test_repo_B")
         );
         MatcherAssert.assertThat(
             new CommitsComparison.Smart(cmp).commits(),
-            Matchers.<RepoCommit>iterableWithSize(0)
+            Matchers.iterableWithSize(0)
         );
         MatcherAssert.assertThat(
             cmp.json().getJsonArray("commits"),

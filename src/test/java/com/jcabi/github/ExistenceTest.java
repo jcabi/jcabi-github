@@ -20,10 +20,9 @@ public final class ExistenceTest {
 
     /**
      * Existence can tell when the given JsonReadable exists.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void jsonExists() throws Exception {
+    public void jsonExists() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.when(object.json()).thenReturn(
             Json.createObjectBuilder().build()
@@ -35,10 +34,9 @@ public final class ExistenceTest {
 
     /**
      * Existence can tell when the given JsonReadable does not exist.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void jsonDoesNotExist() throws Exception {
+    public void jsonDoesNotExist() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new AssertionError()).when(object).json();
         MatcherAssert.assertThat(
@@ -48,10 +46,9 @@ public final class ExistenceTest {
 
     /**
      * Existends throws the possible IOException resulted from the server call.
-     * @throws Exception If something goes wrong.
      */
     @Test(expected = IOException.class)
-    public void rethrowsIOException() throws Exception {
+    public void rethrowsIOException() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new IOException()).when(object).json();
         new Existence(object).check();

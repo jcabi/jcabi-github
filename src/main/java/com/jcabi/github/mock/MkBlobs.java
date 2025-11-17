@@ -42,7 +42,7 @@ final class MkBlobs implements Blobs {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      */
     public MkBlobs(
         final MkStorage stg,
@@ -81,7 +81,7 @@ final class MkBlobs implements Blobs {
         final String encoding)
         throws IOException {
         this.storage.lock();
-        final String sha = fakeSha();
+        final String sha = MkBlobs.fakeSha();
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("blob")

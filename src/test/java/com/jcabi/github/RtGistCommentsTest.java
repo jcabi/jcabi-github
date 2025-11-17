@@ -11,6 +11,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,16 +34,15 @@ public final class RtGistCommentsTest {
 
     /**
      * RtGistComments can get a single comment.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getComment() throws Exception {
+    public void getComment() throws IOException {
         final String body = "Just commenting";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    comment(body).toString()
+                    RtGistCommentsTest.comment(body).toString()
                 )
             ).start(this.resource.port())) {
             final Gist gist = Mockito.mock(Gist.class);
@@ -61,16 +61,15 @@ public final class RtGistCommentsTest {
 
     /**
      * RtGistComments can iterate comments.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iterateComments() throws Exception {
+    public void iterateComments() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(comment("comment 1"))
-                    .add(comment("comment 2"))
+                    .add(RtGistCommentsTest.comment("comment 1"))
+                    .add(RtGistCommentsTest.comment("comment 2"))
                     .build().toString()
             )
         ).start(this.resource.port())) {
@@ -82,26 +81,25 @@ public final class RtGistCommentsTest {
             );
             MatcherAssert.assertThat(
                 comments.iterate(),
-                Matchers.<GistComment>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }
 
     /**
      * RtGistComments can create a comment.
-     * @throws Exception if there is any error
      */
     @Test
-    public void postComment() throws Exception {
+    public void postComment() throws IOException {
         final String body = "new commenting";
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
-            comment(body).toString()
+            RtGistCommentsTest.comment(body).toString()
         );
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
-                comment(body).toString()
+                RtGistCommentsTest.comment(body).toString()
             )
         ).next(answer).start(this.resource.port())) {
             final Gist gist = Mockito.mock(Gist.class);

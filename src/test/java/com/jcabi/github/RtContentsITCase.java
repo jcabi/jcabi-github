@@ -8,6 +8,7 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -34,10 +35,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can fetch readme file.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchReadmeFiles() throws Exception {
+    public void canFetchReadmeFiles() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -52,10 +52,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can get update file content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canUpdateFileContent() throws Exception {
+    public void canUpdateFileContent() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -96,10 +95,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can get update file content in specific branch.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canUpdateFileContentInSpecificBranch() throws Exception {
+    public void canUpdateFileContentInSpecificBranch() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -141,10 +139,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can remove and throw an exception when get an absent content.
-     * @throws Exception If some problem inside
      */
     @Test(expected = AssertionError.class)
-    public void throwsWhenTryingToGetAnAbsentContent() throws Exception {
+    public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -173,10 +170,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can create file content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateFileContent() throws Exception {
+    public void canCreateFileContent() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -198,10 +194,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can get content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void getContent() throws Exception {
+    public void getContent() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -233,13 +228,12 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can iterate content.
-     * @throws Exception If some problem inside
      * @todo #863 unignore after Contents#get is implemented for
      *  directories (#968 and #903)
      */
     @Test
     @Ignore
-    public void iteratesContent() throws Exception {
+    public void iteratesContent() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -285,7 +279,7 @@ public final class RtContentsITCase {
                 iterated,
                 Matchers.allOf(
                     Matchers.hasItems(contents.get(afile), contents.get(dir)),
-                    Matchers.<Content>iterableWithSize(Tv.THREE)
+                    Matchers.iterableWithSize(Tv.THREE)
                 )
             );
         } finally {
@@ -295,10 +289,9 @@ public final class RtContentsITCase {
 
     /**
      * RtContents can check whether content exists or not.
-     * @throws Exception if any problem inside.
      */
     @Test
-    public void checkExists() throws Exception {
+    public void checkExists() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final String branch = "master";

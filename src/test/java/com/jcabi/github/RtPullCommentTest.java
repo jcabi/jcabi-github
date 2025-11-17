@@ -14,6 +14,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -40,10 +41,9 @@ public final class RtPullCommentTest {
     public final transient RandomPort resource = new RandomPort();
     /**
      * RtPullComment should be able to compare different instances.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(new MkGithub().randomRepo()).when(pull).repo();
         final RtPullComment less =
@@ -74,7 +74,7 @@ public final class RtPullCommentTest {
             ).start(this.resource.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            Mockito.doReturn(repo()).when(pull).repo();
+            Mockito.doReturn(RtPullCommentTest.repo()).when(pull).repo();
             final RtPullComment comment =
                 new RtPullComment(new ApacheRequest(container.home()), pull, 1);
             final JsonObject json = comment.json();
@@ -102,7 +102,7 @@ public final class RtPullCommentTest {
             ).start(this.resource.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            Mockito.doReturn(repo()).when(pull).repo();
+            Mockito.doReturn(RtPullCommentTest.repo()).when(pull).repo();
             final RtPullComment comment =
                 new RtPullComment(new ApacheRequest(container.home()), pull, 2);
             final JsonObject json = Json.createObjectBuilder()
@@ -126,11 +126,10 @@ public final class RtPullCommentTest {
 
     /**
      * RtPullComment can add a reaction.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
     @Ignore
-    public void reacts() throws Exception {
+    public void reacts() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -158,9 +157,8 @@ public final class RtPullCommentTest {
     /**
      * This method returns a Repo for testing.
      * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() throws IOException {
         return new MkGithub("joe").repos().create(
             new Repos.RepoCreate("blueharvest", false)
         );

@@ -42,10 +42,9 @@ public final class RetryCarefulWireTest {
     /**
      * RetryCarefulWire can make a few requests before giving up and
      * can wait until the rate limit resets.
-     * @throws Exception If something goes wrong inside
      */
     @Test
-    public void makesMultipleRequestsAndWaitUntilReset() throws Exception {
+    public void makesMultipleRequestsAndWaitUntilReset() throws IOException {
         final int threshold = 10;
         // @checkstyle MagicNumber (2 lines)
         final long reset = TimeUnit.MILLISECONDS
@@ -54,7 +53,7 @@ public final class RetryCarefulWireTest {
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK)
-                .withHeader(REMAINING_HEADER, "9")
+                .withHeader(RetryCarefulWireTest.REMAINING_HEADER, "9")
                 .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             )
             .start(this.resource.port());
@@ -79,7 +78,7 @@ public final class RetryCarefulWireTest {
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
+            .withReason(RetryCarefulWireTest.OK)
             .through(RetryCarefulWire.class, threshold)
             .fetch();
         MatcherAssert.assertThat(
@@ -98,8 +97,8 @@ public final class RetryCarefulWireTest {
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
-            .withHeader(REMAINING_HEADER, "7")
+            .withReason(RetryCarefulWireTest.OK)
+            .withHeader(RetryCarefulWireTest.REMAINING_HEADER, "7")
             .through(RetryCarefulWire.class, threshold)
             .fetch();
         MatcherAssert.assertThat(

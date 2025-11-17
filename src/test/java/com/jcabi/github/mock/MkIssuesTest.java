@@ -10,6 +10,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.immutable.ArrayMap;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -22,26 +23,24 @@ public final class MkIssuesTest {
 
     /**
      * MkIssues can list issues.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssues() throws Exception {
+    public void iteratesIssues() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         repo.issues().create("hey, you", "body of issue");
         repo.issues().create("hey", "body of 2nd issue");
         repo.issues().create("hey again", "body of 3rd issue");
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<>()),
-            Matchers.<Issue>iterableWithSize(Tv.THREE)
+            Matchers.iterableWithSize(Tv.THREE)
         );
     }
 
     /**
      * MkIssues can create a new issue with correct author.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void createsNewIssueWithCorrectAuthor() throws Exception {
+    public void createsNewIssueWithCorrectAuthor() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Issue.Smart issue = new Issue.Smart(
             repo.issues().create("hello", "the body")
@@ -54,10 +53,9 @@ public final class MkIssuesTest {
 
     /**
      * MkIssues can create a multiple issues.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void createsMultipleIssues() throws Exception {
+    public void createsMultipleIssues() throws IOException {
         final Github github = new MkGithub("jeff");
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("test-3", false)

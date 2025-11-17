@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,10 +20,9 @@ public final class PublicKeyTest {
 
     /**
      * PublicKey.Smart can fetch the key value from PublicKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesKey() throws Exception {
+    public void fetchesKey() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String value = "sha-rsa AAA...";
         Mockito.doReturn(
@@ -36,10 +36,9 @@ public final class PublicKeyTest {
 
     /**
      * PublicKey.Smart can update the key value of PublicKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesKey() throws Exception {
+    public void updatesKey() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String value = "sha-rsa BBB...";
         new PublicKey.Smart(key).key(value);
@@ -50,10 +49,9 @@ public final class PublicKeyTest {
 
     /**
      * PublicKey.Smart can fetch URL property from PublicKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    public void fetchesUrl() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "https://api.github.com/user/keys/1";
         Mockito.doReturn(
@@ -67,10 +65,9 @@ public final class PublicKeyTest {
 
     /**
      * PublicKey.Smart can fetch title property from PublicKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesTitle() throws Exception {
+    public void fetchesTitle() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "octocat@octomac";
         Mockito.doReturn(
@@ -84,10 +81,9 @@ public final class PublicKeyTest {
 
     /**
      * PublicKey.Smart can update the title property of PublicKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesTitle() throws Exception {
+    public void updatesTitle() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "octocat@octomac";
         new PublicKey.Smart(key).title(prop);

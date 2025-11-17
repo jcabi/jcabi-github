@@ -9,6 +9,7 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -31,10 +32,9 @@ public final class RtMilestonesTest {
 
     /**
      * RtMilestones can remove a milestone.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void deleteMilestone() throws Exception {
+    public void deleteMilestone() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -42,7 +42,7 @@ public final class RtMilestonesTest {
         ) {
             final RtMilestones milestones = new RtMilestones(
                 new ApacheRequest(container.home()),
-                repo()
+                RtMilestonesTest.repo()
             );
             milestones.remove(1);
             MatcherAssert.assertThat(

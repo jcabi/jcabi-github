@@ -5,6 +5,7 @@
 package com.jcabi.github.mock;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ public class MkMarkdownTest {
     /**
      * MkMarkdown can be rendered.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public final void canBeRendered() throws Exception {
+    public final void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
             new MkGithub().markdown().render(

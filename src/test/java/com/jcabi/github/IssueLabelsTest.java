@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -20,10 +21,9 @@ public final class IssueLabelsTest {
 
     /**
      * IssueLabels.Smart can fetch labels by color.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesLabelsByColor() throws Exception {
+    public void fetchesLabelsByColor() throws IOException {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("color", "c0c0c0").build()
@@ -37,7 +37,7 @@ public final class IssueLabelsTest {
         MatcherAssert.assertThat(
             new IssueLabels.Smart(labels).findByColor("c0c0c0"),
             Matchers.allOf(
-                Matchers.<Label>iterableWithSize(1),
+                Matchers.iterableWithSize(1),
                 Matchers.hasItems(first)
             )
         );

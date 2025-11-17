@@ -159,7 +159,7 @@ final class MkIssue implements Issue {
                 type = Event.CLOSED;
             }
             new MkIssueEvents(this.storage, this.self, this.coords)
-                .create(type, this.num, this.self, Optional.<String>absent());
+                .create(type, this.num, this.self, Optional.absent());
         }
     }
 

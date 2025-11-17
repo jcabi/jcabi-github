@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -17,10 +18,9 @@ public final class DeployKeyTest {
 
     /**
      * DeployKey.Smart can update the key value of DeployKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesKey() throws Exception {
+    public void updatesKey() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String value = "sha-rsa BBB...";
         new DeployKey.Smart(key).key(value);
@@ -31,10 +31,9 @@ public final class DeployKeyTest {
 
     /**
      * DeployKey.Smart can update the title property of DeployKey.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesTitle() throws Exception {
+    public void updatesTitle() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String prop = "octocat@octomac";
         new DeployKey.Smart(key).title(prop);

@@ -13,6 +13,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,10 +35,9 @@ public final class RtOrganizationTest {
     /**
      * RtOrganization should be able to describe itself in JSON format.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchIssueAsJson() throws Exception {
+    public void canFetchIssueAsJson() throws IOException {
         final RtOrganization org = new RtOrganization(
             new MkGithub(),
             new FakeRequest().withBody("{\"organization\":\"json\"}"),
@@ -52,10 +52,9 @@ public final class RtOrganizationTest {
     /**
      * RtOrganization should be able to perform a patch request.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void patchWithJson() throws Exception {
+    public void patchWithJson() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
@@ -85,10 +84,9 @@ public final class RtOrganizationTest {
     /**
      * RtOrganization should be able to compare instances of each other.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final RtOrganization less = new RtOrganization(
             new MkGithub(),
             new FakeRequest(),
@@ -114,10 +112,9 @@ public final class RtOrganizationTest {
      * RtOrganization can return a String representation correctly reflecting
      * its URI.
      *
-     * @throws Exception if something goes wrong.
      */
     @Test
-    public void canRepresentAsString() throws Exception {
+    public void canRepresentAsString() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")

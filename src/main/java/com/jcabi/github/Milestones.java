@@ -26,7 +26,7 @@ public interface Milestones {
      * Create Milestone.
      * @param title Milestone creation JSON
      * @return Milestone
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
      * @since 0.5
      */

@@ -6,8 +6,10 @@ package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -33,23 +35,21 @@ public final class RtDeployKeysITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+        RtDeployKeysITCase.repos = github.repos();
+        RtDeployKeysITCase.repo = new RepoRule().repo(RtDeployKeysITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtDeployKeysITCase.repos != null && RtDeployKeysITCase.repo != null) {
+            RtDeployKeysITCase.repos.remove(RtDeployKeysITCase.repo.coordinates());
         }
     }
     /**
@@ -58,9 +58,9 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void canFetchAllDeployKeys() throws Exception {
-        final DeployKeys keys = repo.keys();
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Iterate Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 keys.iterate(),
@@ -77,9 +77,9 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void createsDeployKey() throws Exception {
-        final DeployKeys keys = repo.keys();
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Create Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 new DeployKey.Smart(key).title(),
@@ -96,9 +96,9 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void getsDeployKey() throws Exception {
-        final DeployKeys keys = repo.keys();
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Get Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 keys.get(key.number()),
@@ -115,9 +115,9 @@ public final class RtDeployKeysITCase {
      */
     @Test
     public void removesDeployKey() throws Exception {
-        final DeployKeys keys = repo.keys();
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Remove Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 keys.get(key.number()),
@@ -136,9 +136,8 @@ public final class RtDeployKeysITCase {
      * Generates a random public key for test.
      *
      * @return The encoded SSH public key.
-     * @throws Exception If a problem occurs.
      */
-    private static String key() throws Exception {
+    private static String key() throws JSchException, IOException {
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);

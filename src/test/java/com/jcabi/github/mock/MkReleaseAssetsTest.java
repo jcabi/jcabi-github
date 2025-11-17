@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
@@ -30,7 +31,7 @@ public final class MkReleaseAssetsTest {
      */
     @Test
     public void uploadsNewAsset() throws Exception {
-        final ReleaseAssets assets = release().assets();
+        final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testUpload".getBytes(), "text/plain", "upload.txt"
         );
@@ -47,7 +48,7 @@ public final class MkReleaseAssetsTest {
      */
     @Test
     public void fetchesSingleAsset() throws Exception {
-        final ReleaseAssets assets = release().assets();
+        final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testGet".getBytes(), "text/plain", "get.txt"
         );
@@ -64,7 +65,7 @@ public final class MkReleaseAssetsTest {
      */
     @Test
     public void iteratesAssets() throws Exception {
-        final ReleaseAssets assets = release().assets();
+        final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         assets.upload(
             "testIterate".getBytes(), "text/plain", "iterate.txt"
         );
@@ -81,7 +82,7 @@ public final class MkReleaseAssetsTest {
      */
     @Test
     public void fetchesRelease() throws Exception {
-        final Release rel = release();
+        final Release rel = MkReleaseAssetsTest.release();
         MatcherAssert.assertThat(
             rel.assets().release(),
             Matchers.is(rel)
@@ -90,10 +91,9 @@ public final class MkReleaseAssetsTest {
 
     /**
      * Must encode the input bytes into Base64.
-     * @throws Exception Unexpected.
      */
     @Test
-    public void encodesContentsAsBase64() throws Exception {
+    public void encodesContentsAsBase64() throws IOException {
         final String test = "This is a test asset.";
         final ReleaseAsset asset = new MkGithub().randomRepo().releases()
             .create("v1.0")
@@ -108,9 +108,8 @@ public final class MkReleaseAssetsTest {
     /**
      * Create a Release to work with.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Release release() throws Exception {
+    private static Release release() throws IOException {
         return new MkGithub().randomRepo().releases().create("v1.0");
     }
 }

@@ -8,6 +8,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Tree;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -33,9 +34,8 @@ public final class MkTreeTest {
     /**
      * Return a Tree for testing.
      * @return Tree
-     * @throws Exception If something goes wrong.
      */
-    private Tree tree() throws Exception {
+    private Tree tree() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",
             Json.createArrayBuilder().add(

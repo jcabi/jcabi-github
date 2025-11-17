@@ -7,6 +7,7 @@ package com.jcabi.github;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
@@ -21,10 +22,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can fetch data from JSON.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesStringFromJson() throws Exception {
+    public void fetchesStringFromJson() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"first\": \"a\"}")
@@ -35,10 +35,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can fetch number from JSON.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNumberFromJson() throws Exception {
+    public void fetchesNumberFromJson() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"second\": 1}")
@@ -49,10 +48,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can fetch an array from JSON.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesArrayFromJson() throws Exception {
+    public void fetchesArrayFromJson() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"arr\": [1, 2]}")
@@ -63,10 +61,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can fetch an object from JSON.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesObjectFromJson() throws Exception {
+    public void fetchesObjectFromJson() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"o\": {\"foo\": [1]}}")
@@ -77,10 +74,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can check for not null keys.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksNotNullKeyNotPresent() throws Exception {
+    public void checksNotNullKeyNotPresent() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"first\": \"a\"}")
@@ -91,10 +87,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can check for not null keys.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksNotNullKeyPresentAndNull() throws Exception {
+    public void checksNotNullKeyPresentAndNull() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"first\": null}")
@@ -105,10 +100,9 @@ public final class SmartJsonTest {
 
     /**
      * SmartJson can check for not null keys.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksNotNullKeyPresentAndNotNull() throws Exception {
+    public void checksNotNullKeyPresentAndNotNull() throws IOException {
         MatcherAssert.assertThat(
             new SmartJson(
                 SmartJsonTest.json("{\"first\": \"a\"}")

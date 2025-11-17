@@ -14,6 +14,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
@@ -46,7 +47,7 @@ public final class RtReleaseAssetTest {
     public void canRepresentAsJson() throws Exception {
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest().withBody("{\"asset\":\"release\"}"),
-            release(),
+            RtReleaseAssetTest.release(),
             1
         );
         MatcherAssert.assertThat(
@@ -61,7 +62,7 @@ public final class RtReleaseAssetTest {
      */
     @Test
     public void canObtainOwnRelease() throws Exception {
-        final Release release = release();
+        final Release release = RtReleaseAssetTest.release();
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest(),
             release,
@@ -86,7 +87,7 @@ public final class RtReleaseAssetTest {
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
-                release(),
+                RtReleaseAssetTest.release(),
                 2
             );
             final JsonObject json = Json.createObjectBuilder()
@@ -121,7 +122,7 @@ public final class RtReleaseAssetTest {
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
-                release(),
+                RtReleaseAssetTest.release(),
                 3
             );
             asset.remove();
@@ -147,7 +148,7 @@ public final class RtReleaseAssetTest {
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
-                release(),
+                RtReleaseAssetTest.release(),
                 4
             );
             final InputStream stream = asset.raw();
@@ -166,9 +167,8 @@ public final class RtReleaseAssetTest {
     /**
      * This method returns a Release for testing.
      * @return Release to be used for test.
-     * @throws Exception - if anything goes wrong.
      */
-    private static Release release() throws Exception {
+    private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final Repo repo = new MkGithub("john").repos().create(
             new Repos.RepoCreate("blueharvest", false)

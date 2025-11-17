@@ -38,8 +38,8 @@ public final class CarefulWireTest {
             .toSeconds(System.currentTimeMillis()) + 5L;
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
-            .withHeader(REMAINING_HEADER, "9")
+            .withReason(CarefulWireTest.OK)
+            .withHeader(CarefulWireTest.REMAINING_HEADER, "9")
             .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             .through(CarefulWire.class, threshold)
             .fetch();
@@ -58,7 +58,7 @@ public final class CarefulWireTest {
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
+            .withReason(CarefulWireTest.OK)
             .through(CarefulWire.class, threshold)
             .fetch();
         MatcherAssert.assertThat(
@@ -77,8 +77,8 @@ public final class CarefulWireTest {
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
-            .withHeader(REMAINING_HEADER, "7")
+            .withReason(CarefulWireTest.OK)
+            .withHeader(CarefulWireTest.REMAINING_HEADER, "7")
             .through(CarefulWire.class, threshold)
             .fetch();
         MatcherAssert.assertThat(

@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -105,9 +106,8 @@ public final class RtGistCommentITCase {
     /**
      * Return gist to test.
      * @return Gist
-     * @throws Exception If some problem inside
      */
-    private static Gist gist() throws Exception {
+    private static Gist gist() throws IOException {
         return new GithubIT()
             .connect()
             .gists()

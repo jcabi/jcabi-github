@@ -14,6 +14,7 @@ import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -88,12 +89,11 @@ public final class RtReleasesTest {
 
     /**
      * RtReleases can create a release.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateRelease() throws Exception {
+    public void canCreateRelease() throws IOException {
         final String tag = "v1.0.0";
-        final String rel = release(tag).toString();
+        final String rel = RtReleasesTest.release(tag).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
@@ -102,7 +102,7 @@ public final class RtReleasesTest {
         ) {
             final RtReleases releases = new RtReleases(
                 new JdkRequest(container.home()),
-                repo()
+                RtReleasesTest.repo()
             );
             final Release release = releases.create(tag);
             MatcherAssert.assertThat(
@@ -119,17 +119,16 @@ public final class RtReleasesTest {
 
     /**
      * RtReleases can delete a release.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canDeleteRelease() throws Exception {
+    public void canDeleteRelease() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final Releases releases = new RtReleases(
                 new ApacheRequest(container.home()),

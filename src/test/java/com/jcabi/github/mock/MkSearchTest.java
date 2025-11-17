@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.github.Search;
+import java.io.IOException;
 import java.util.EnumMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -23,10 +24,9 @@ public final class MkSearchTest {
     /**
      * MkSearch can search for repos.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForRepos() throws Exception {
+    public void canSearchForRepos() throws IOException {
         final MkGithub github = new MkGithub();
         github.repos().create(
             new Repos.RepoCreate("TestRepo", false)
@@ -40,10 +40,9 @@ public final class MkSearchTest {
     /**
      * MkSearch can search for issues.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForIssues() throws Exception {
+    public void canSearchForIssues() throws IOException {
         final MkGithub github = new MkGithub();
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("TestIssues", false)
@@ -63,10 +62,9 @@ public final class MkSearchTest {
     /**
      * MkSearch can search for users.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForUsers() throws Exception {
+    public void canSearchForUsers() throws IOException {
         final MkGithub github = new MkGithub("jeff");
         github.users().self();
         MatcherAssert.assertThat(
@@ -78,10 +76,9 @@ public final class MkSearchTest {
     /**
      * MkSearch can search for codes.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForCodes() throws Exception {
+    public void canSearchForCodes() throws IOException {
         final MkGithub github = new MkGithub("jeff");
         github.repos().create(
             new Repos.RepoCreate("TestCode", false)

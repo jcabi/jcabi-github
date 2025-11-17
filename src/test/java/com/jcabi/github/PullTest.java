@@ -21,10 +21,9 @@ public final class PullTest {
     /**
      * Pull.Smart can fetch comments count from Pull.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchCommentsCount() throws Exception {
+    public void canFetchCommentsCount() throws IOException {
         final int number = 1;
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(

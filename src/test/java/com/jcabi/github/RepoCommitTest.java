@@ -6,7 +6,9 @@ package com.jcabi.github;
 
 import jakarta.json.Json;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -20,10 +22,9 @@ public class RepoCommitTest {
 
     /**
      * RepoCommit.Smart can fetch url property from RepoCommit.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrl() throws Exception {
+    public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -40,10 +41,9 @@ public class RepoCommitTest {
 
     /**
      * RepoCommit.Smart can fetch message property from RepoCommit.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesMessage() throws Exception {
+    public final void fetchesMessage() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(

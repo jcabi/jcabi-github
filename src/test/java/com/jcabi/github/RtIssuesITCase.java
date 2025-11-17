@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
+import java.io.IOException;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashSet;
@@ -33,35 +34,32 @@ public final class RtIssuesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+        RtIssuesITCase.repos = github.repos();
+        RtIssuesITCase.repo = new RepoRule().repo(RtIssuesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtIssuesITCase.repos != null && RtIssuesITCase.repo != null) {
+            RtIssuesITCase.repos.remove(RtIssuesITCase.repo.coordinates());
         }
     }
 
     /**
      * RtIssues can iterate issues.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssues() throws Exception {
+    public void iteratesIssues() throws IOException {
         final Iterable<Issue.Smart> issues = new Smarts<>(
             new Bulk<>(
-                repo.issues().iterate(
+                RtIssuesITCase.repo.issues().iterate(
                     new ArrayMap<String, String>().with("sort", "comments")
                 )
             )
@@ -76,17 +74,16 @@ public final class RtIssuesITCase {
 
     /**
      * RtIssues can search issues within a repository.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void searchesIssues() throws Exception {
+    public void searchesIssues() throws IOException {
         final String targetLabel = "bug";
         final EnumMap<Issues.Qualifier, String> qualifiers =
             new EnumMap<>(Issues.Qualifier.class);
         qualifiers.put(Issues.Qualifier.LABELS, targetLabel);
         final Iterable<Issue.Smart> issues = new Smarts<>(
             new Bulk<>(
-                repo.issues().search(
+                RtIssuesITCase.repo.issues().search(
                     Issues.Sort.UPDATED,
                     Search.Order.ASC,
                     qualifiers

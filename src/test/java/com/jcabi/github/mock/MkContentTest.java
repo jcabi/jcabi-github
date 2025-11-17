@@ -9,6 +9,7 @@ import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
@@ -26,14 +27,13 @@ public final class MkContentTest {
     /**
      * MkContent should be able to fetch its own repo.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canGetOwnRepo() throws Exception {
+    public void canGetOwnRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Contents contents = repo.contents();
         final Content content = contents.create(
-            jsonContent("repo.txt", "for repo", "json repo")
+            MkContentTest.jsonContent("repo.txt", "for repo", "json repo")
         );
         MatcherAssert.assertThat(
             content.repo(),
@@ -44,14 +44,13 @@ public final class MkContentTest {
     /**
      * MkContent should be able to fetch its own path.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canGetOwnPath() throws Exception {
+    public void canGetOwnPath() throws IOException {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String path = "dummy.txt";
         final Content content = contents.create(
-            jsonContent(path, "for path", "path test")
+            MkContentTest.jsonContent(path, "for path", "path test")
         );
         MatcherAssert.assertThat(
             content.path(),
@@ -62,14 +61,13 @@ public final class MkContentTest {
     /**
      * MkContent should be able to fetch its JSON representation.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesJsonRepresentation() throws Exception {
+    public void fetchesJsonRepresentation() throws IOException {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String path = "fake.txt";
         final Content content = contents.create(
-            jsonContent(path, "for json", "json test")
+            MkContentTest.jsonContent(path, "for json", "json test")
         );
         MatcherAssert.assertThat(
             // @checkstyle MultipleStringLiterals (1 line)
@@ -81,14 +79,13 @@ public final class MkContentTest {
     /**
      * MkContent should be able to fetch its raw representation.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesRawRepresentation() throws Exception {
+    public void fetchesRawRepresentation() throws IOException {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String raw = "raw test \u20ac\u0000";
         final InputStream stream = contents.create(
-            jsonContent("raw.txt", "for raw", raw)
+            MkContentTest.jsonContent("raw.txt", "for raw", raw)
         ).raw();
         try {
             MatcherAssert.assertThat(

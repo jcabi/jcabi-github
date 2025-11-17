@@ -56,7 +56,7 @@ public interface GistComment
 
     /**
      * Delete the comment.
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/gists/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;

@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,10 +34,9 @@ public final class RtAssigneesTest {
 
     /**
      * RtAssignees can iterate over assignees.
-     * @throws Exception Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    public void iteratesAssignees() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -54,17 +54,16 @@ public final class RtAssigneesTest {
             );
             MatcherAssert.assertThat(
                 users.iterate(),
-                Matchers.<User>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }
 
     /**
      * RtAssignees can check if user is assignee for this repo.
-     * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkUserIsAssigneeForRepo() throws Exception {
+    public void checkUserIsAssigneeForRepo() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -88,10 +87,9 @@ public final class RtAssigneesTest {
 
     /**
      * RtAssignees can check if user is NOT assignee for this repo.
-     * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws Exception {
+    public void checkUserIsNotAssigneeForRepo() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

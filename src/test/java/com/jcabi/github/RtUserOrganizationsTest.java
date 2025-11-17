@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,10 +35,9 @@ public final class RtUserOrganizationsTest {
      * RtUserOrganizations can iterate organizations for
      * an unauthenticated user.
      *
-     * @throws Exception If a problem occurs
      */
     @Test
-    public void canIterateOrganizationsForUnauthUser() throws Exception {
+    public void canIterateOrganizationsForUnauthUser() throws IOException {
         final String username = "octopus";
         final Github github = new MkGithub();
         final User user = github.users().get(username);
@@ -45,9 +45,9 @@ public final class RtUserOrganizationsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(org(Tv.THREE, "org11"))
-                    .add(org(Tv.FOUR, "org12"))
-                    .add(org(Tv.FIVE, "org13"))
+                    .add(RtUserOrganizationsTest.org(Tv.THREE, "org11"))
+                    .add(RtUserOrganizationsTest.org(Tv.FOUR, "org12"))
+                    .add(RtUserOrganizationsTest.org(Tv.FIVE, "org13"))
                     .build().toString()
             )
         ).start(this.resource.port());
@@ -59,7 +59,7 @@ public final class RtUserOrganizationsTest {
             );
             MatcherAssert.assertThat(
                 orgs.iterate(),
-                Matchers.<Organization>iterableWithSize(Tv.THREE)
+                Matchers.iterableWithSize(Tv.THREE)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),

@@ -57,7 +57,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its name.
          * @return Name of fork
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
             return this.jsn.text("name");
@@ -66,7 +66,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its organization.
          * @return Organization
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String organization() throws IOException {
             return this.jsn.text("organization");
@@ -88,7 +88,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its full name.
          * @return Full name of fork
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String fullName() throws IOException {
             return this.jsn.text("full_name");
@@ -97,7 +97,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its description.
          * @return Description of fork
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
             return this.jsn.text("description");
@@ -221,7 +221,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its default branch.
          * @return Default branch
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String defaultBranch() throws IOException {
             return this.jsn.text("default_branch");

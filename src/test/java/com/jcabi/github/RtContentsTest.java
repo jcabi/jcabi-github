@@ -14,6 +14,7 @@ import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -41,10 +42,9 @@ public final class RtContentsTest {
     /**
      * RtContents can fetch the default branch readme file.
      *
-     * @throws Exception if some problem inside.
      */
     @Test
-    public void canFetchReadmeFile() throws Exception {
+    public void canFetchReadmeFile() throws IOException {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
@@ -55,7 +55,7 @@ public final class RtContentsTest {
             ).start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
                 contents.readme().path(),
@@ -76,10 +76,9 @@ public final class RtContentsTest {
     /**
      * RtContents can fetch the readme file from the specified branch.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchReadmeFileFromSpecifiedBranch() throws Exception {
+    public void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
@@ -89,7 +88,7 @@ public final class RtContentsTest {
         ).start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
                 contents.readme("test-branch").path(),
@@ -110,11 +109,10 @@ public final class RtContentsTest {
     /**
      * RtContents can fetch files from the repository.
      *
-     * @throws Exception if some problem inside.
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canFetchFilesFromRepository() throws Exception {
+    public void canFetchFilesFromRepository() throws IOException {
         final String path = "test/file";
         final String name = "file";
         final JsonObject body = Json.createObjectBuilder()
@@ -133,7 +131,7 @@ public final class RtContentsTest {
             .start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final Content.Smart smart = new Content.Smart(
                 contents.get(path, "branch1")
@@ -168,10 +166,9 @@ public final class RtContentsTest {
 
     /**
      * RtContents can create a file in the repository.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void canCreateFileInRepository() throws Exception {
+    public void canCreateFileInRepository() throws IOException {
         final String path = "test/thefile";
         final String name = "thefile";
         final JsonObject body = Json.createObjectBuilder()
@@ -188,7 +185,7 @@ public final class RtContentsTest {
             .start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final JsonObject content = Json.createObjectBuilder()
                 .add("path", path)
@@ -220,11 +217,10 @@ public final class RtContentsTest {
     /**
      * RtContents can delete files from the repository.
      *
-     * @throws Exception if a problem occurs.
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canDeleteFilesFromRepository() throws Exception {
+    public void canDeleteFilesFromRepository() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -238,7 +234,7 @@ public final class RtContentsTest {
         ).start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final RepoCommit commit = contents.remove(
                 Json.createObjectBuilder()
@@ -268,10 +264,9 @@ public final class RtContentsTest {
 
     /**
      * RtContents can update files into the repository.
-     * @throws Exception If any problems during test execution occurs.
      */
     @Test
-    public void canUpdateFilesInRepository() throws Exception {
+    public void canUpdateFilesInRepository() throws IOException {
         final String sha = "2f97253a513bbe26658881c29e27910082fef900";
         final JsonObject resp = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
@@ -286,7 +281,7 @@ public final class RtContentsTest {
             .start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final String path = "test.txt";
             final JsonObject json = Json.createObjectBuilder()
@@ -316,10 +311,9 @@ public final class RtContentsTest {
 
     /**
      * RtContents can iterate through a directory's contents.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void canIterateDirectoryContents() throws Exception {
+    public void canIterateDirectoryContents() throws IOException {
         final JsonArray body = Json.createArrayBuilder().add(
             Json.createObjectBuilder()
                 .add("path", "README.md")
@@ -336,11 +330,11 @@ public final class RtContentsTest {
             .start(this.resource.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
                 contents.iterate("dir", "branch2"),
-                Matchers.<Content>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }

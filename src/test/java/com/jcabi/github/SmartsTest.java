@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -18,10 +19,9 @@ public final class SmartsTest {
 
     /**
      * Smarts can make instances of Comment.Smart.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void decoratesObjectsOnFly() throws Exception {
+    public void decoratesObjectsOnFly() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("body", "hello, world!").build()

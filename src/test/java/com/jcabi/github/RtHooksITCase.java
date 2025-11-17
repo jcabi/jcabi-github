@@ -31,16 +31,15 @@ public final class RtHooksITCase {
 
     /**
      * RtHooks can iterate hooks.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchAllHooks() throws Exception {
+    public void canFetchAllHooks() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
             RtHooksITCase.createHook(repo);
             MatcherAssert.assertThat(
-                repo.hooks().iterate(), Matchers.<Hook>iterableWithSize(1)
+                repo.hooks().iterate(), Matchers.iterableWithSize(1)
             );
         } finally {
             repos.remove(repo.coordinates());
@@ -49,10 +48,9 @@ public final class RtHooksITCase {
 
     /**
      * RtHooks can create a hook.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateAHook() throws Exception {
+    public void canCreateAHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -67,10 +65,9 @@ public final class RtHooksITCase {
     /**
      * RtHooks can fetch a single hook.
      *
-     * @throws Exception If some problem inside.
      */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    public void canFetchSingleHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -87,10 +84,9 @@ public final class RtHooksITCase {
     /**
      * RtHooks can remove a hook by ID.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void canRemoveHook() throws Exception {
+    public void canRemoveHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -134,7 +130,7 @@ public final class RtHooksITCase {
         return repo.hooks().create(
             "web",
             config,
-            Collections.<Event>emptyList(),
+            Collections.emptyList(),
             false
         );
     }

@@ -6,6 +6,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Stars;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ public class MkStarsTest {
 
     /**
      * MkStars can star repository.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void starsRepository() throws Exception {
+    public final void starsRepository() throws IOException {
         final Stars stars = new MkGithub().randomRepo().stars();
         stars.star();
         MatcherAssert.assertThat(
@@ -31,10 +31,9 @@ public class MkStarsTest {
 
     /**
      * MkStars can unstar repository.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void unstarsRepository() throws Exception {
+    public final void unstarsRepository() throws IOException {
         final Stars stars = new MkGithub().randomRepo().stars();
         stars.star();
         stars.unstar();

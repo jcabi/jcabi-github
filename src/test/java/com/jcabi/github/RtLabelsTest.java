@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,13 +34,12 @@ public final class RtLabelsTest {
 
     /**
      * RtLabels can create a label.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void createLabel() throws Exception {
+    public void createLabel() throws IOException {
         final String name = "API";
         final String color = "FFFFFF";
-        final String body = label(name, color).toString();
+        final String body = RtLabelsTest.label(name, color).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
@@ -48,7 +48,7 @@ public final class RtLabelsTest {
         ) {
             final RtLabels labels = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             final Label label = labels.create(name, color);
             MatcherAssert.assertThat(
@@ -70,23 +70,22 @@ public final class RtLabelsTest {
     /**
      * RtLabels can get a single label.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getSingleLabel() throws Exception {
+    public void getSingleLabel() throws IOException {
         final String name = "bug";
         final String color = "f29513";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    label(name, color).toString()
+                    RtLabelsTest.label(name, color).toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtLabels issues = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             final Label label = issues.get(name);
             MatcherAssert.assertThat(
@@ -99,10 +98,9 @@ public final class RtLabelsTest {
 
     /**
      * RtLabels can delete a label.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void deleteLabel() throws Exception {
+    public void deleteLabel() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -110,7 +108,7 @@ public final class RtLabelsTest {
         ) {
             final RtLabels issues = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             issues.delete("issue");
             final MkQuery query = container.take();
@@ -128,28 +126,27 @@ public final class RtLabelsTest {
 
     /**
      * RtLabels can iterate labels.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iterateLabels() throws Exception {
+    public void iterateLabels() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(label("new issue", "f29512"))
-                        .add(label("new bug", "f29522"))
+                        .add(RtLabelsTest.label("new issue", "f29512"))
+                        .add(RtLabelsTest.label("new bug", "f29522"))
                         .build().toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtLabels labels = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             MatcherAssert.assertThat(
                 labels.iterate(),
-                Matchers.<Label>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }

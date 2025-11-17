@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.DeployKey;
 import com.jcabi.github.DeployKeys;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ import org.junit.Test;
 public final class MkDeployKeysTest {
     /**
      * MkDeployKeys can fetch empty list of deploy keys.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfDeployKeys() throws Exception {
+    public void canFetchEmptyListOfDeployKeys() throws IOException {
         final DeployKeys deployKeys = new MkGithub().randomRepo().keys();
         MatcherAssert.assertThat(
             deployKeys.iterate(),
@@ -30,10 +30,9 @@ public final class MkDeployKeysTest {
 
     /**
      * MkDeployKeys can fetch a single deploy key.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchSingleDeployKey() throws Exception {
+    public void canFetchSingleDeployKey() throws IOException {
         final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey key = keys.create("Title", "Key");
         MatcherAssert.assertThat(keys.get(key.number()), Matchers.equalTo(key));
@@ -41,10 +40,9 @@ public final class MkDeployKeysTest {
 
     /**
      * MkDeployKeys can create a deploy key.
-     * @throws Exception If some problem inside.
      */
     @Test
-    public void canCreateDeployKey() throws Exception {
+    public void canCreateDeployKey() throws IOException {
         final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey key = keys.create("Title1", "Key1");
         MatcherAssert.assertThat(key, Matchers.equalTo(keys.get(key.number())));
@@ -53,10 +51,9 @@ public final class MkDeployKeysTest {
     /**
      * MkDeployKeys can create distinct deploy keys.
      * Reproduces bug described in issue #346.
-     * @throws Exception If some problem inside.
      */
     @Test
-    public void canCreateDistinctDeployKeys() throws Exception {
+    public void canCreateDistinctDeployKeys() throws IOException {
         final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey first = keys.create("Title2", "Key2");
         final DeployKey second = keys.create("Title3", "Key3");
@@ -73,10 +70,9 @@ public final class MkDeployKeysTest {
     /**
      * MkDeployKeys can be represented in JSON format.
      * Reproduces bug described in issue #346.
-     * @throws Exception If some problem inside.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    public void canRepresentAsJson() throws IOException {
         final DeployKeys keys = new MkGithub().randomRepo().keys();
         final DeployKey first = keys.create("Title4", "Key4");
         MatcherAssert.assertThat(

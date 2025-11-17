@@ -42,7 +42,7 @@ public interface Trees {
      * Create new tree.
      * @param params Parameters to create new tree
      * @return Tree
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      */
     Tree create(
         JsonObject params)

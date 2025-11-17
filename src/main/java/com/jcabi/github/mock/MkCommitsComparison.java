@@ -94,7 +94,7 @@ final class MkCommitsComparison implements CommitsComparison {
 
     @Override
     public Iterable<FileChange> files() {
-        return ImmutableList.<FileChange>of(
+        return ImmutableList.of(
             new MkFileChange(MkCommitsComparison.FILE_JSON)
         );
     }

@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -27,13 +28,12 @@ public final class RtBranchTest {
 
     /**
      * RtBranch can fetch its commit.
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesCommit() throws Exception {
+    public void fetchesCommit() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
-        MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(SHA));
+        MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(RtBranchTest.SHA));
         final Coordinates coords = commit.repo().coordinates();
         MatcherAssert.assertThat(
             coords.user(),
@@ -47,22 +47,20 @@ public final class RtBranchTest {
 
     /**
      * RtBranch can fetch its branch name.
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesName() throws Exception {
+    public void fetchesName() throws IOException {
         MatcherAssert.assertThat(
             RtBranchTest.newBranch(new MkGithub().randomRepo()).name(),
-            Matchers.equalTo(BRANCH_NAME)
+            Matchers.equalTo(RtBranchTest.BRANCH_NAME)
         );
     }
 
     /**
      * RtBranch can fetch its repo.
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesRepo() throws Exception {
+    public void fetchesRepo() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();
@@ -85,8 +83,8 @@ public final class RtBranchTest {
         return new RtBranch(
             new FakeRequest(),
             repo,
-            BRANCH_NAME,
-            SHA
+            RtBranchTest.BRANCH_NAME,
+            RtBranchTest.SHA
         );
     }
 }

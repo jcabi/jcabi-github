@@ -11,6 +11,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,10 +34,9 @@ public final class RtGitignoresTest {
 
     /**
      * RtGitignores can iterate template names.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iterateTemplateNames() throws Exception {
+    public void iterateTemplateNames() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -54,7 +54,7 @@ public final class RtGitignoresTest {
             );
             MatcherAssert.assertThat(
                     gitignores.iterate(),
-                    Matchers.<String>iterableWithSize(2)
+                    Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -62,10 +62,9 @@ public final class RtGitignoresTest {
 
     /**
      * RtGitignores can get raw template by name.
-     * @throws Exception if there is any error
      */
     @Test
-    public void getRawTemplateByName() throws Exception {
+    public void getRawTemplateByName() throws IOException {
         final RtGitignores gitignores = new RtGitignores(
             new RtGithub(new FakeRequest().withBody("# Object files"))
         );

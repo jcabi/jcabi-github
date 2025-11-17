@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,10 +20,9 @@ public final class RtPublicKeyTest {
     /**
      * RtPublicKey can be described as a JSON object.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    public void canRepresentAsJson() throws IOException {
         final RtPublicKey key = new RtPublicKey(
             new FakeRequest().withBody("{}"),
             Mockito.mock(User.class),

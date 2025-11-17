@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -35,19 +36,18 @@ public final class RtRepoITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = repos.create(
+        RtRepoITCase.repos = github.repos();
+        RtRepoITCase.repo = RtRepoITCase.repos.create(
             new Repos.RepoCreate(
                 RandomStringUtils.randomAlphanumeric(Tv.TEN),
                 false
             ).withAutoInit(true)
         );
-        repo.contents().create(
+        RtRepoITCase.repo.contents().create(
             Json.createObjectBuilder()
                 .add("path", "test.java")
                 .add("message", "Test file for language test")
@@ -63,12 +63,11 @@ public final class RtRepoITCase {
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtRepoITCase.repos != null && RtRepoITCase.repo != null) {
+            RtRepoITCase.repos.remove(RtRepoITCase.repo.coordinates());
         }
     }
 
@@ -78,33 +77,31 @@ public final class RtRepoITCase {
     @Test
     public void identifiesItself() {
         MatcherAssert.assertThat(
-            repo.coordinates(),
+            RtRepoITCase.repo.coordinates(),
             Matchers.notNullValue()
         );
     }
 
     /**
      * RtRepo can fetch events.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesEvents() throws Exception {
-        final Issue issue = repo.issues().create("Test", "This is a bug");
+    public void iteratesEvents() throws IOException {
+        final Issue issue = RtRepoITCase.repo.issues().create("Test", "This is a bug");
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            repo.issueEvents().iterate(),
+            RtRepoITCase.repo.issueEvents().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
     }
 
     /**
      * RtRepo can tell if it exists.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void exists() throws Exception {
+    public void exists() throws IOException {
         MatcherAssert.assertThat(
-            new Repo.Smart(repo).exists(), Matchers.is(Boolean.TRUE)
+            new Repo.Smart(RtRepoITCase.repo).exists(), Matchers.is(Boolean.TRUE)
         );
     }
 
@@ -113,7 +110,7 @@ public final class RtRepoITCase {
      */
     @Test
     public void fetchCommits() {
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+        MatcherAssert.assertThat(RtRepoITCase.repo.commits(), Matchers.notNullValue());
     }
 
     /**
@@ -122,30 +119,28 @@ public final class RtRepoITCase {
     @Test
     public void iteratesAssignees() {
         MatcherAssert.assertThat(
-            repo.assignees().iterate(),
+            RtRepoITCase.repo.assignees().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
     }
 
     /**
      * RtRepo can fetch languages.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchLanguages() throws Exception {
-        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+    public void fetchLanguages() throws IOException {
+        MatcherAssert.assertThat(RtRepoITCase.repo.languages(), Matchers.notNullValue());
     }
 
     /**
      * RtRepo can iterate languages. This test is ignored because of bug
      * https://github.com/jcabi/jcabi-github/issues/1007 .
-     * @throws Exception If some problem inside
      */
     @Test
     @Ignore
-    public void iteratesLanguages() throws Exception {
+    public void iteratesLanguages() throws IOException {
         MatcherAssert.assertThat(
-            repo.languages(),
+            RtRepoITCase.repo.languages(),
             Matchers.not(Matchers.emptyIterable())
         );
     }

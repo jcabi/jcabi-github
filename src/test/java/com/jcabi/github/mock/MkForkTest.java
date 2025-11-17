@@ -5,6 +5,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Fork;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ import org.junit.Test;
 public final class MkForkTest {
     /**
      * MkFork can fetch as json object.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void fetchAsJson() throws Exception {
+    public void fetchAsJson() throws IOException {
         final Fork fork = new MkGithub().randomRepo().forks().create("fork");
         MatcherAssert.assertThat(
             fork.json().toString(),

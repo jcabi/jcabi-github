@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -36,33 +37,30 @@ public final class RtBlobsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+        RtBlobsITCase.repos = github.repos();
+        RtBlobsITCase.repo = RtBlobsITCase.rule.repo(RtBlobsITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtBlobsITCase.repos != null && RtBlobsITCase.repo != null) {
+            RtBlobsITCase.repos.remove(RtBlobsITCase.repo.coordinates());
         }
     }
 
     /**
      * RtBlobs can create a blob.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createsBlob() throws Exception {
-        final Blobs blobs = repo.git().blobs();
+    public void createsBlob() throws IOException {
+        final Blobs blobs = RtBlobsITCase.repo.git().blobs();
         final Blob blob = blobs.create(
             "Test Content", "utf-8"
         );
@@ -74,11 +72,10 @@ public final class RtBlobsITCase {
 
     /**
      * RtBlobs can get a blob.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void getsBlob() throws Exception {
-        final Blobs blobs = repo.git().blobs();
+    public void getsBlob() throws IOException {
+        final Blobs blobs = RtBlobsITCase.repo.git().blobs();
         final String content = "Content of the blob";
         final String encoding = "base64";
         final Blob blob = blobs.create(

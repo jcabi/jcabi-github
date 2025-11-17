@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import org.hamcrest.MatcherAssert;
@@ -61,12 +62,11 @@ public class RtReleaseTest {
 
     /**
      * RtRelease can edit a release.
-     * @throws Exception If any problem during test execution occurs.
      */
     @Test
-    public final void editRelease() throws Exception {
+    public final void editRelease() throws IOException {
         this.container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
         ).start(this.resource.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         final JsonObject json = Json.createObjectBuilder()
@@ -86,12 +86,11 @@ public class RtReleaseTest {
 
     /**
      * RtRelease can delete a release.
-     * @throws Exception If any problems in the test occur.
      */
     @Test
-    public final void deleteRelease() throws Exception {
+    public final void deleteRelease() throws IOException {
         this.container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, EMPTY_JSON)
+            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, RtReleaseTest.EMPTY_JSON)
         ).start(this.resource.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.delete();
@@ -103,12 +102,11 @@ public class RtReleaseTest {
 
     /**
      * RtRelese can execute PATCH request.
-     * @throws Exception if there is any problem
      */
     @Test
-    public final void executePatchRequest() throws Exception {
+    public final void executePatchRequest() throws IOException {
         this.container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, EMPTY_JSON)
+            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
         ).start(this.resource.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.patch(Json.createObjectBuilder().add("name", "v1")

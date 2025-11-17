@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ public final class BulkTest {
 
     /**
      * Bulk can cache JSON data.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void cachesJsonData() throws Exception {
+    public void cachesJsonData() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);
         final Request request = new FakeRequest()
             .withBody("[{\"body\": \"hey you\"}]");

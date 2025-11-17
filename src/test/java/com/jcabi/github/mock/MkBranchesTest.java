@@ -61,7 +61,7 @@ public final class MkBranchesTest {
         branches.create(twoname, twosha);
         MatcherAssert.assertThat(
             branches.iterate(),
-            Matchers.<Branch>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         final Iterator<Branch> iter = branches.iterate().iterator();
         final Branch one = iter.next();

@@ -4,8 +4,8 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.junit.Test;
  * RtRepoCommits
  *
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public class RtRepoCommitsITCase {
 
     /**
@@ -56,10 +56,9 @@ public class RtRepoCommitsITCase {
 
     /**
      * RtRepoCommits can compare two commits and return result in patch mode.
-     * @throws Exception if there is no github key provided
      */
     @Test
-    public final void compareCommitsPatch() throws Exception {
+    public final void compareCommitsPatch() throws IOException {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
             "5339b8e35b",
             "9b2e6efde9"
@@ -80,10 +79,9 @@ public class RtRepoCommitsITCase {
 
     /**
      * RtRepoCommits can compare two commits and return result in diff mode.
-     * @throws Exception if there is no github key provided
      */
     @Test
-    public final void compareCommitsDiff() throws Exception {
+    public final void compareCommitsDiff() throws IOException {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
             "2b3814e",
             "b828dfa"

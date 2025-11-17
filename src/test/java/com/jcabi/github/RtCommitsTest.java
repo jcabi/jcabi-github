@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -35,10 +36,9 @@ public class RtCommitsTest {
     /**
      * Tests creating a Commit.
      *
-     * @throws Exception when an error occurs
      */
     @Test
-    public final void createsCommit() throws Exception {
+    public final void createsCommit() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

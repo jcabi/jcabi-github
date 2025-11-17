@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -94,16 +95,15 @@ public final class MkReposTest {
         MkReposTest.repo(repos, "2", "repo 2");
         MatcherAssert.assertThat(
             repos.iterate(since),
-            Matchers.<Repo>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * MkRepos can create a private repo.
-     * @throws Exception If there is any error
      */
     @Test
-    public void createsPrivateRepo() throws Exception {
+    public void createsPrivateRepo() throws IOException {
         final boolean priv = true;
         MatcherAssert.assertThat(
             new Repo.Smart(
@@ -135,10 +135,9 @@ public final class MkReposTest {
      * @param name Repo name
      * @param desc Repo description
      * @return Repo
-     * @throws Exception if there is any error
      */
     private static Repo repo(final Repos repos, final String name,
-        final String desc) throws Exception {
+        final String desc) throws IOException {
         return repos.create(
             new Repos.RepoCreate(name, false).withDescription(desc)
         );
@@ -150,10 +149,9 @@ public final class MkReposTest {
      * @param name Repo name
      * @param org Repo organization
      * @return Repo
-     * @throws Exception if there is any error
      */
     private static Repo repoWithOrg(final Repos repos, final String name,
-        final String org) throws Exception {
+        final String org) throws IOException {
         return repos.create(
             new Repos.RepoCreate(name, false).withOrganization(org)
         );

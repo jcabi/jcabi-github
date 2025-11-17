@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -28,11 +29,11 @@ public final class RtReleaseAssetsTest {
     public void listReleaseAssets() throws Exception {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
-                .withBody("[{\"id\":1},{\"id\":2}]"), release()
+                .withBody("[{\"id\":1},{\"id\":2}]"), RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
             assets.iterate(),
-            Matchers.<ReleaseAsset>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
@@ -47,7 +48,7 @@ public final class RtReleaseAssetsTest {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
                 .withBody(body),
-            release()
+            RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
             assets.upload(body.getBytes(), "text/plain", "hello.txt")
@@ -66,7 +67,7 @@ public final class RtReleaseAssetsTest {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
                 .withBody("{\"id\":3}"),
-                release()
+            RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
             assets.get(Tv.THREE).number(),
@@ -77,9 +78,8 @@ public final class RtReleaseAssetsTest {
     /**
      * This method returns a Release for testing.
      * @return Release to be used for test.
-     * @throws Exception - if anything goes wrong.
      */
-    private static Release release() throws Exception {
+    private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final Repo repo = new MkGithub("john").randomRepo();
         Mockito.doReturn(repo).when(release).repo();

@@ -14,6 +14,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.ws.rs.core.HttpHeaders;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
@@ -41,10 +42,9 @@ public final class RtContentTest {
     /**
      * RtContent should be able to describe itself in JSON format.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchContentAsJson() throws Exception {
+    public void fetchContentAsJson() throws IOException {
         final RtContent content = new RtContent(
             new FakeRequest().withBody("{\"content\":\"json\"}"),
             this.repo(),
@@ -59,10 +59,9 @@ public final class RtContentTest {
     /**
      * RtContent should be able to perform a patch request.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void patchWithJson() throws Exception {
+    public void patchWithJson() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
         ).start(this.resource.port())) {
@@ -116,10 +115,9 @@ public final class RtContentTest {
     /**
      * RtContent should be able to fetch raw content.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchesRawContent() throws Exception {
+    public void fetchesRawContent() throws IOException {
         final String raw = "the raw \u20ac";
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)

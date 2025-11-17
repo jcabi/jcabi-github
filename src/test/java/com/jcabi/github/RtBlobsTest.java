@@ -12,6 +12,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -37,12 +38,11 @@ public final class RtBlobsTest {
     /**
      * RtBlobs can create a blob.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateBlob() throws Exception {
+    public void canCreateBlob() throws IOException {
         final String content = "Content of the blob";
-        final String body = blob().toString();
+        final String body = RtBlobsTest.blob().toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
@@ -50,7 +50,7 @@ public final class RtBlobsTest {
             .start(this.resource.port())) {
             final RtBlobs blobs = new RtBlobs(
                 new ApacheRequest(container.home()),
-                repo()
+                RtBlobsTest.repo()
             );
             final Blob blob = blobs.create(content, "utf-8");
             MatcherAssert.assertThat(
@@ -78,7 +78,7 @@ public final class RtBlobsTest {
                     .build()
                     .toString()
             ),
-            repo()
+            RtBlobsTest.repo()
         );
         MatcherAssert.assertThat(blobs.get(sha).sha(), Matchers.equalTo(sha));
     }

@@ -111,7 +111,7 @@ final class MkContents implements Contents {
                     .add("content").set(json.getString("content")).up()
                     .add("type").set("file").up()
                     .add("encoding").set("base64").up()
-                    .add("sha").set(fakeSha()).up()
+                    .add("sha").set(MkContents.fakeSha()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("git_url").set("http://localhost/2").up()
                     .add("html_url").set("http://localhost/3").up()
@@ -271,7 +271,7 @@ final class MkContents implements Contents {
     private MkRepoCommit commit(
         final JsonObject json
     ) throws IOException {
-        final String sha = fakeSha();
+        final String sha = MkContents.fakeSha();
         // @checkstyle MultipleStringLiterals (40 lines)
         final Directives commit = new Directives().xpath(this.commitXpath())
             .add("commit")

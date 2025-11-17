@@ -13,6 +13,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -77,10 +78,9 @@ public final class RtIssueTest {
     /**
      * RtIssue should be able to describe itself in JSON format.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchIssueAsJson() throws Exception {
+    public void fetchIssueAsJson() throws IOException {
         final RtIssue issue = new RtIssue(
             new FakeRequest().withBody("{\"issue\":\"json\"}"),
             this.repo(),
@@ -95,10 +95,9 @@ public final class RtIssueTest {
     /**
      * RtIssue should be able to perform a patch request.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void patchWithJson() throws Exception {
+    public void patchWithJson() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
@@ -143,10 +142,9 @@ public final class RtIssueTest {
 
     /**
      * RtIssue can add a reaction.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void reacts() throws Exception {
+    public void reacts() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

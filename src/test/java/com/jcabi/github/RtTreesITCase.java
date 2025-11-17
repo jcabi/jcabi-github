@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -38,33 +39,30 @@ public final class RtTreesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+        RtTreesITCase.repos = github.repos();
+        RtTreesITCase.repo = RtTreesITCase.rule.repo(RtTreesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtTreesITCase.repos != null && RtTreesITCase.repo != null) {
+            RtTreesITCase.repos.remove(RtTreesITCase.repo.coordinates());
         }
     }
 
     /**
      * RtTags creates a tag.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsAndObtainsTree() throws Exception {
-        final Trees trees = repo.git().trees();
+    public void createsAndObtainsTree() throws IOException {
+        final Trees trees = RtTreesITCase.repo.git().trees();
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",
             Json.createArrayBuilder().add(

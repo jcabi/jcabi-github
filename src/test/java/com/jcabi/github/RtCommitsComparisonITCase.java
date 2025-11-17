@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.google.common.base.Optional;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -16,11 +17,10 @@ import org.junit.Test;
 public final class RtCommitsComparisonITCase {
     /**
      * RtCommitsComparison can read the file changes in the comparison.
-     * @throws Exception If some problem inside
      * @see <a href="https://api.github.com/repos/jcabi/jcabi-github/compare/fec537c74da115b01a5c27b225d22a3976545acf...3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4">The relevant commit comparison</a>
      */
     @Test
-    public void readsFiles() throws Exception {
+    public void readsFiles() throws IOException {
         final String headsha = "3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4";
         final Iterable<FileChange> files = new GithubIT().connect()
             .repos()
@@ -30,7 +30,7 @@ public final class RtCommitsComparisonITCase {
             .files();
         MatcherAssert.assertThat(
             files,
-            Matchers.<FileChange>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         final FileChange.Smart file = new FileChange.Smart(
             files.iterator().next()

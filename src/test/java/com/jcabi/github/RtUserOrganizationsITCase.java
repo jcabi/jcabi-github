@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ import org.junit.Test;
 public final class RtUserOrganizationsITCase {
     /**
      * RtUserOrganizations can iterate all organizations of a user.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void iterateOrganizations() throws Exception {
+    public void iterateOrganizations() throws IOException {
         final UserOrganizations orgs = new GithubIT().connect()
             .users().get("yegor256")
             .organizations();

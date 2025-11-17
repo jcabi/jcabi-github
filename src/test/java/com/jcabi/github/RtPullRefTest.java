@@ -49,7 +49,7 @@ public final class RtPullRefTest {
     public void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             RtPullRefTest.pullRef().ref(),
-            Matchers.equalTo(REF)
+            Matchers.equalTo(RtPullRefTest.REF)
         );
     }
 
@@ -61,7 +61,7 @@ public final class RtPullRefTest {
     public void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             RtPullRefTest.pullRef().sha(),
-            Matchers.equalTo(SHA)
+            Matchers.equalTo(RtPullRefTest.SHA)
         );
     }
 
@@ -87,8 +87,8 @@ public final class RtPullRefTest {
         return new RtPullRef(
             repo.github(),
             Json.createObjectBuilder()
-                .add("ref", REF)
-                .add("sha", SHA)
+                .add("ref", RtPullRefTest.REF)
+                .add("sha", RtPullRefTest.SHA)
                 .add("user", user)
                 .add(
                     "repo",

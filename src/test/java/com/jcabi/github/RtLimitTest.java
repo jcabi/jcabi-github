@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -20,10 +21,9 @@ public final class RtLimitTest {
     /**
      * RtLimit can describe as a JSON object.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void describeAsJson() throws Exception {
+    public void describeAsJson() throws IOException {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(Github.class),
             new FakeRequest().withBody(this.body()),
@@ -40,10 +40,9 @@ public final class RtLimitTest {
     /**
      * RtLimit can throw exception when resource is absent.
      *
-     * @throws Exception if some problem inside
      */
     @Test(expected = IllegalStateException.class)
-    public void throwsWhenResourceIsAbsent() throws Exception {
+    public void throwsWhenResourceIsAbsent() throws IOException {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(Github.class),
             new FakeRequest().withBody(this.body()),

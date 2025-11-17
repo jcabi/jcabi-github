@@ -19,7 +19,7 @@ public interface Collaborators {
      *
      * @see <a href="https://developer.github.com/v3/repos/collaborators/#parameters-1">Add user with permissions</a>
      */
-    enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE };
+    enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE }
 
     /**
      * Owner of them.

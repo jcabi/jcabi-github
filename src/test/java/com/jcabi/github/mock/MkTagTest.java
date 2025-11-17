@@ -8,6 +8,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Tag;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -33,9 +34,8 @@ public final class MkTagTest {
     /**
      * Return a Tag for testing.
      * @return Tag
-     * @throws Exception If something goes wrong.
      */
-    private Tag tag() throws Exception {
+    private Tag tag() throws IOException {
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "abcsha12").add("message", "test tag")
             .add("name", "v.0.1").build();

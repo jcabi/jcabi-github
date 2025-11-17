@@ -12,6 +12,7 @@ import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -50,27 +51,26 @@ public final class RtForksTest {
         );
         MatcherAssert.assertThat(
             forks.iterate("newest"),
-            Matchers.<Fork>iterableWithSize(0)
+            Matchers.iterableWithSize(0)
         );
     }
 
     /**
      * RtForks should be able to create a new fork.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void createsFork() throws Exception {
+    public void createsFork() throws IOException {
         final String organization = RandomStringUtils.randomAlphanumeric(10);
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
-            fork(organization).toString()
+            RtForksTest.fork(organization).toString()
         );
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_ACCEPTED,
-                    fork(organization).toString()
+                    RtForksTest.fork(organization).toString()
                 )
             ).next(answer).start(this.resource.port())) {
             final Repo owner = Mockito.mock(Repo.class);
@@ -88,7 +88,7 @@ public final class RtForksTest {
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                fork.json().getString(ORGANIZATION),
+                fork.json().getString(RtForksTest.ORGANIZATION),
                 Matchers.equalTo(organization)
             );
         }
@@ -115,7 +115,7 @@ public final class RtForksTest {
         final String organization) {
         return Json.createObjectBuilder()
             .add("id", 1)
-            .add(ORGANIZATION, organization)
+            .add(RtForksTest.ORGANIZATION, organization)
             .build();
     }
 }

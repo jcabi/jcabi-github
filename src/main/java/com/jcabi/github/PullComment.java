@@ -116,7 +116,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String identifier() throws IOException {
-            return this.jsn.text(ID);
+            return this.jsn.text(Smart.ID);
         }
 
         /**
@@ -128,7 +128,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(ID, value).build()
+                Json.createObjectBuilder().add(Smart.ID, value).build()
             );
         }
 
@@ -138,7 +138,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String commitId() throws IOException {
-            return this.jsn.text(COMMIT_ID);
+            return this.jsn.text(Smart.COMMIT_ID);
         }
 
         /**
@@ -150,7 +150,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(COMMIT_ID, value).build()
+                Json.createObjectBuilder().add(Smart.COMMIT_ID, value).build()
             );
         }
 
@@ -160,7 +160,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String url() throws IOException {
-            return this.jsn.text(URL);
+            return this.jsn.text(Smart.URL);
         }
 
         /**
@@ -181,7 +181,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(URL, value).build()
+                Json.createObjectBuilder().add(Smart.URL, value).build()
             );
         }
 
@@ -191,7 +191,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
-            return this.jsn.text(BODY);
+            return this.jsn.text(Smart.BODY);
         }
 
         /**
@@ -203,7 +203,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(BODY, value).build()
+                Json.createObjectBuilder().add(Smart.BODY, value).build()
             );
         }
 

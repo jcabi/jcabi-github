@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ import org.junit.Test;
 public final class MkReleasesTest {
     /**
      * MkReleases can fetch empty list of releases.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfReleases() throws Exception {
+    public void canFetchEmptyListOfReleases() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         MatcherAssert.assertThat(
             releases.iterate(),
@@ -31,10 +31,9 @@ public final class MkReleasesTest {
 
     /**
      * MkReleases can fetch non-empty list of releases.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchNonEmptyListOfReleases() throws Exception {
+    public void canFetchNonEmptyListOfReleases() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v1.0";
         releases.create(tag);
@@ -47,20 +46,18 @@ public final class MkReleasesTest {
 
     /**
      * MkReleases can fetch a single release.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchSingleRelease() throws Exception {
+    public void canFetchSingleRelease() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
     }
 
     /**
      * MkReleases can create a release.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateRelease() throws Exception {
+    public void canCreateRelease() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v1.0.0";
         final Release release = releases.create(tag);
@@ -72,45 +69,42 @@ public final class MkReleasesTest {
 
     /**
      * MkReleases can iterate through the releases.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void iteratesReleases() throws Exception {
+    public void iteratesReleases() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         releases.create("v1.0.1");
         releases.create("v1.0.2");
         MatcherAssert.assertThat(
             releases.iterate(),
-            Matchers.<Release>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * MkReleases can be removed.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void canRemoveRelease() throws Exception {
+    public void canRemoveRelease() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         releases.create("v1.1.1");
         releases.create("v1.1.2");
         MatcherAssert.assertThat(
             releases.iterate(),
-            Matchers.<Release>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         releases.remove(1);
         MatcherAssert.assertThat(
             releases.iterate(),
-            Matchers.<Release>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 
     /**
      * MkReleases can find release by tag.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void findsReleaseByTag() throws Exception {
+    public void findsReleaseByTag() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "v5.0";
         releases.create(tag);
@@ -127,10 +121,9 @@ public final class MkReleasesTest {
     /**
      * The release's name should be empty upon initial creation.
      *
-     * @throws Exception Unexpected.
      */
     @Test
-    public void releaseNameIsEmpty() throws Exception {
+    public void releaseNameIsEmpty() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);
@@ -144,10 +137,9 @@ public final class MkReleasesTest {
     /**
      * The release's body should be empty upon initial creation.
      *
-     * @throws Exception Unexpected.
      */
     @Test
-    public void releaseBodyIsEmpty() throws Exception {
+    public void releaseBodyIsEmpty() throws IOException {
         final Releases releases = new MkGithub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);

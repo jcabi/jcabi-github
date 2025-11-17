@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -13,7 +12,7 @@ import org.junit.Test;
  * Test case for {@link RtPublicKey}.
  *
  */
-@OAuthScope(Scope.READ_PUBLIC_KEY)
+@OAuthScope(OAuthScope.Scope.READ_PUBLIC_KEY)
 public final class RtPublicKeyITCase {
     /**
      * RtPublicKey can retrieve correctly URI.

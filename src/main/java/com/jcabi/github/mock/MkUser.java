@@ -93,7 +93,7 @@ final class MkUser implements User {
     public Notifications notifications() {
         return new MkNotifications(
             this.storage,
-            this.xpath().concat("/notifications/notification")
+            this.xpath() + "/notifications/notification"
         );
     }
 
@@ -111,7 +111,7 @@ final class MkUser implements User {
         for (final XML nid : ids) {
             json.patch(
                 String.format(
-                    this.xpath().concat("/notifications/notification[id = %s]"),
+                    this.xpath() + "/notifications/notification[id = %s]",
                     nid.xpath("text()").get(0)
                 ),
                 read

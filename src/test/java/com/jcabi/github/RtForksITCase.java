@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -28,10 +29,9 @@ public class RtForksITCase {
     /**
      * RtForks should be able to iterate its forks.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public final void retrievesForks() throws Exception {
+    public final void retrievesForks() throws IOException {
         final String organization = System.getProperty(
             "failsafe.github.organization"
         );

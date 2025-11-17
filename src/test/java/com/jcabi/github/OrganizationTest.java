@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch url from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    public void fetchesUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -36,10 +36,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch avatar_url from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAvatarUrl() throws Exception {
+    public void fetchesAvatarUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -54,10 +53,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch name from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesName() throws Exception {
+    public void fetchesName() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -72,10 +70,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch company from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCompany() throws Exception {
+    public void fetchesCompany() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -90,10 +87,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch blog from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesBlog() throws Exception {
+    public void fetchesBlog() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -108,10 +104,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch location from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesLocation() throws Exception {
+    public void fetchesLocation() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -126,10 +121,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch email from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmail() throws Exception {
+    public void fetchesEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -144,10 +138,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch billing_email from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesBillingEmail() throws Exception {
+    public void fetchesBillingEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -162,10 +155,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch public_repos from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPublicRepos() throws Exception {
+    public void fetchesPublicRepos() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -180,10 +172,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch public_gists from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPublicGists() throws Exception {
+    public void fetchesPublicGists() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -198,10 +189,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch followers from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFollowers() throws Exception {
+    public void fetchesFollowers() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -216,10 +206,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch following from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFollowing() throws Exception {
+    public void fetchesFollowing() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -234,10 +223,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch html_url from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesHtmlUrl() throws Exception {
+    public void fetchesHtmlUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -252,10 +240,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch created_at from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreatedAt() throws Exception {
+    public void fetchesCreatedAt() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -270,10 +257,9 @@ public final class OrganizationTest {
 
     /**
      * Organization.Smart can fetch type from an Organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesType() throws Exception {
+    public void fetchesType() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

@@ -38,7 +38,7 @@ public final class MkRepoCommitTest {
         final Repo repo = this.repo(storage);
         MatcherAssert.assertThat(
             new MkRepoCommit(
-                storage, repo, SHA1
+                storage, repo, MkRepoCommitTest.SHA1
             ).repo(), Matchers.equalTo(repo)
         );
     }
@@ -51,18 +51,17 @@ public final class MkRepoCommitTest {
     public void getSha() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
-            new MkRepoCommit(storage, this.repo(storage), SHA2).sha(),
-            Matchers.equalTo(SHA2)
+            new MkRepoCommit(storage, this.repo(storage), MkRepoCommitTest.SHA2).sha(),
+            Matchers.equalTo(MkRepoCommitTest.SHA2)
         );
     }
 
     /**
      * MkRepoCommit should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repoa = new MkRepo(
             storage, "login1",
@@ -73,10 +72,10 @@ public final class MkRepoCommitTest {
             new Coordinates.Simple("test_login2", "test_repo2")
         );
         final MkRepoCommit less =  new MkRepoCommit(
-            storage, repoa, SHA1
+            storage, repoa, MkRepoCommitTest.SHA1
         );
         final MkRepoCommit greater =  new MkRepoCommit(
-            storage, repob, SHA2
+            storage, repob, MkRepoCommitTest.SHA2
         );
         MatcherAssert.assertThat(
             less.compareTo(greater),
@@ -89,18 +88,17 @@ public final class MkRepoCommitTest {
     }
     /**
      * MkRepoCommit can get a JSON.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canGetJson() throws Exception {
+    public void canGetJson() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github").add("repos")
                 .add("repo").attr("coords", "test_login/test_repo")
-                .add("commits").add("commit").add("sha").set(SHA1)
+                .add("commits").add("commit").add("sha").set(MkRepoCommitTest.SHA1)
         );
         final MkRepoCommit repoCommit = new MkRepoCommit(
-            storage, this.repo(storage), SHA1
+            storage, this.repo(storage), MkRepoCommitTest.SHA1
         );
         MatcherAssert.assertThat(
             repoCommit.json(), Matchers.notNullValue()
@@ -109,10 +107,9 @@ public final class MkRepoCommitTest {
 
     /**
      * MkRepoCommit can compare equal commits.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void compareEqual() throws Exception {
+    public void compareEqual() throws IOException {
         final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = this.repo(storage);
@@ -128,10 +125,9 @@ public final class MkRepoCommitTest {
 
     /**
      * MkRepoCommit can compare different commits.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void compareDifferent() throws Exception {
+    public void compareDifferent() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = this.repo(storage);
         final MkRepoCommit commit = new MkRepoCommit(

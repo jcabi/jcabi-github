@@ -21,7 +21,7 @@ public class RtRepoCommitTest {
     public final void hasProperRequestUrl() {
         final String sha = RandomStringUtils.randomAlphanumeric(50);
         final RtRepoCommit commit = new RtRepoCommit(
-            new FakeRequest(), repo(), sha
+            new FakeRequest(), RtRepoCommitTest.repo(), sha
         );
         MatcherAssert.assertThat(
             commit.toString(),

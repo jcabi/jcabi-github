@@ -4,6 +4,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.BeforeClass;
@@ -40,25 +41,24 @@ public final class RtPublicMembersITCase {
     public static void setUp() {
         final Github github = new GithubIT().connect();
         final Users users = github.users();
-        org = github.organizations().get(ORG_NAME);
-        member = users.get("yegor256");
-        nonMember = users.get("charset");
+        RtPublicMembersITCase.org = github.organizations().get(RtPublicMembersITCase.ORG_NAME);
+        RtPublicMembersITCase.member = users.get("yegor256");
+        RtPublicMembersITCase.nonMember = users.get("charset");
     }
 
     /**
      * RtPublicMembers can check whether a user is a public member
      * of an organization.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void checksPublicMembership() throws Exception {
+    public void checksPublicMembership() throws IOException {
         MatcherAssert.assertThat(
             "Check true positive of public membership in an organization",
-            org.publicMembers().contains(member)
+            RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.member)
         );
         MatcherAssert.assertThat(
             "Check true negative of public membership in an organization",
-            !org.publicMembers().contains(nonMember)
+            !RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.nonMember)
         );
     }
 
@@ -68,16 +68,16 @@ public final class RtPublicMembersITCase {
     @Test
     public void listsPublicMembers() {
         MatcherAssert.assertThat(
-            org.publicMembers().iterate(),
-            Matchers.<User>iterableWithSize(Matchers.greaterThanOrEqualTo(1))
+            RtPublicMembersITCase.org.publicMembers().iterate(),
+            Matchers.iterableWithSize(Matchers.greaterThanOrEqualTo(1))
         );
         MatcherAssert.assertThat(
-            org.publicMembers().iterate(),
-            Matchers.hasItem(member)
+            RtPublicMembersITCase.org.publicMembers().iterate(),
+            Matchers.hasItem(RtPublicMembersITCase.member)
         );
         MatcherAssert.assertThat(
-            org.publicMembers().iterate(),
-            Matchers.not(Matchers.hasItem(nonMember))
+            RtPublicMembersITCase.org.publicMembers().iterate(),
+            Matchers.not(Matchers.hasItem(RtPublicMembersITCase.nonMember))
         );
     }
 }

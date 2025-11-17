@@ -35,17 +35,16 @@ public final class RtPublicKeysTest {
     /**
      * RtPublicKeys should be able to iterate its keys.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesKeys() throws Exception {
+    public void retrievesKeys() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(key(1))
-                        .add(key(2))
+                        .add(RtPublicKeysTest.key(1))
+                        .add(RtPublicKeysTest.key(2))
                         .build().toString()
                 )
             ).start(this.resource.port())
@@ -56,7 +55,7 @@ public final class RtPublicKeysTest {
             );
             MatcherAssert.assertThat(
                 keys.iterate(),
-                Matchers.<PublicKey>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -65,10 +64,9 @@ public final class RtPublicKeysTest {
     /**
      * RtPublicKeys should be able to obtain a single key.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchSingleKey() throws Exception {
+    public void canFetchSingleKey() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -92,10 +90,9 @@ public final class RtPublicKeysTest {
     /**
      * RtPublicKeys should be able to remove a key.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRemoveKey() throws Exception {
+    public void canRemoveKey() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -131,7 +128,7 @@ public final class RtPublicKeysTest {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_CREATED, key(1).toString()
+                    HttpURLConnection.HTTP_CREATED, RtPublicKeysTest.key(1).toString()
                 )
             ).start(this.resource.port())
         ) {

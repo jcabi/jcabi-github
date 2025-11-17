@@ -8,6 +8,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Reference;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -80,9 +81,8 @@ public final class MkReferenceTest {
     /**
      * Return a Reference for testing.
      * @return Reference
-     * @throws Exception - if something goes wrong.
      */
-    private Reference reference() throws Exception {
+    private Reference reference() throws IOException {
         return new MkGithub().randomRepo().git()
             .references().create("refs/tags/hello", "testsha");
     }

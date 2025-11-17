@@ -22,7 +22,7 @@ public final class RtGitTest {
      */
     @Test
     public void canFetchOwnRepo() {
-        final Repo repo = repo();
+        final Repo repo = RtGitTest.repo();
         MatcherAssert.assertThat(
             new RtGit(new FakeRequest(), repo).repo(),
             Matchers.is(repo)

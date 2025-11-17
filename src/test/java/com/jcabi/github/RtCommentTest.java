@@ -14,6 +14,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -39,10 +40,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment should be able to compare different instances.
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("title", "body");
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
@@ -57,10 +57,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment can return its issue (owner).
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void returnsItsIssue() throws Exception {
+    public void returnsItsIssue() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
@@ -69,10 +68,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment can return its number.
-     * @throws Exception - in case something goes wrong.
      */
     @Test
-    public void returnsItsNumber() throws Exception {
+    public void returnsItsNumber() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Issue issue = repo.issues().create("testing2", "issue2");
         final long num = 10L;
@@ -82,10 +80,9 @@ public final class RtCommentTest {
 
     /**
      * This tests that the remove() method is working fine.
-     * @throws Exception - in case something goes wrong.
      */
     @Test
-    public void removesComment() throws Exception {
+    public void removesComment() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -106,10 +103,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment can return its JSon description.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void returnsItsJSon() throws Exception {
+    public void returnsItsJSon() throws IOException {
         final String body = "{\"body\":\"test5\"}";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -130,10 +126,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment can patch a comment.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void patchesComment() throws Exception {
+    public void patchesComment() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -155,10 +150,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment can add a reaction.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void reacts() throws Exception {
+    public void reacts() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -181,10 +175,9 @@ public final class RtCommentTest {
 
     /**
      * RtComment can list its reactions.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void reactions() throws Exception {
+    public void reactions() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -214,10 +207,9 @@ public final class RtCommentTest {
 
     /**
      * This tests that the toString() method is working fine.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void givesToString() throws Exception {
+    public void givesToString() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

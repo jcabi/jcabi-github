@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -14,15 +14,14 @@ import org.junit.Test;
 /**
  * Integration case for {@link Gist}.
  */
-@OAuthScope(Scope.GIST)
+@OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistITCase {
 
     /**
      * RtGist can text and write files.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void readsAndWritesGists() throws Exception {
+    public void readsAndWritesGists() throws IOException {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistITCase.github().gists();
@@ -47,12 +46,11 @@ public final class RtGistITCase {
 
     /**
      * RtGist can fork a gist.
-     * @throws Exception If some problem inside
      * @checkstyle MultipleStringLiterals (7 lines)
      * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test
-    public void forksGist() throws Exception {
+    public void forksGist() throws IOException {
         final String filename = "filename1.txt";
         final String content = "content of file1";
         final Gists gists1 = RtGistITCase.github("failsafe.github.key").gists();

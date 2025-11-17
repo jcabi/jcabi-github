@@ -21,11 +21,10 @@ import org.junit.Test;
 public final class MkPublicMembersTest {
     /**
      * MkPublicMembers can fetch its organization.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesOrg() throws Exception {
-        final Organization org = organization();
+    public void fetchesOrg() throws IOException {
+        final Organization org = MkPublicMembersTest.organization();
         MatcherAssert.assertThat(
             org.publicMembers().org().login(),
             Matchers.equalTo(org.login())
@@ -34,11 +33,10 @@ public final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers can publicize/conceal a member's membership.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void changesPublicityOfMembershipOfUsers() throws Exception {
-        final MkOrganization org = organization();
+    public void changesPublicityOfMembershipOfUsers() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("johnny5");
         org.addMember(user);
@@ -65,11 +63,10 @@ public final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers can check whether a user is a public member.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checkPublicMembership() throws Exception {
-        final MkOrganization org = organization();
+    public void checkPublicMembership() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("agent99");
         MatcherAssert.assertThat(
@@ -96,11 +93,10 @@ public final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers can iterate over all public members.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesPublicMembers() throws Exception {
-        final MkOrganization org = organization();
+    public void iteratesPublicMembers() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("jasmine");
         MatcherAssert.assertThat(
@@ -115,7 +111,7 @@ public final class MkPublicMembersTest {
         members.publicize(user);
         MatcherAssert.assertThat(
             members.iterate(),
-            Matchers.<User>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(members.iterate(), Matchers.hasItem(user));
         members.conceal(user);

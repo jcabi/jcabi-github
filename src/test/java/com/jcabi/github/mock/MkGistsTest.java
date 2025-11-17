@@ -20,10 +20,9 @@ public final class MkGistsTest {
 
     /**
      * MkGists can work with gists.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedGists() throws Exception {
+    public void worksWithMockedGists() throws IOException {
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap("test-file-name.txt", "none"), false
         );
@@ -37,10 +36,9 @@ public final class MkGistsTest {
 
     /**
      * This tests that the remove() method in MkGists is working fine.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void removesGistByIdentifier() throws Exception {
+    public void removesGistByIdentifier() throws IOException {
         final Gists gists = new MkGithub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content"), false
@@ -58,10 +56,9 @@ public final class MkGistsTest {
     /**
      * MkGists can work several gists.
      * Test to check issue #128
-     * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithSeveralGists() throws Exception {
+    public void worksWithSeveralGists() throws IOException {
         final Gists gists = new MkGithub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test-file-name.txt", "none"), false
@@ -84,10 +81,9 @@ public final class MkGistsTest {
 
     /**
      * Test starring and star-checking of a gist.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void testStar() throws Exception {
+    public void testStar() throws IOException {
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
@@ -104,10 +100,9 @@ public final class MkGistsTest {
 
     /**
      * Test unstarring and star-checking of a gist.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void testUnstar() throws Exception {
+    public void testUnstar() throws IOException {
         final Gist gist = new MkGithub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );

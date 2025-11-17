@@ -9,6 +9,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -36,10 +37,9 @@ public final class RtHookTest {
     /**
      * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
      *
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void performsValidRequest() throws Exception {
+    public void performsValidRequest() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -50,7 +50,7 @@ public final class RtHookTest {
         ) {
             final Hook hook = new RtHook(
                 new ApacheRequest(container.home()),
-                repo(),
+                RtHookTest.repo(),
                 1
             );
             MatcherAssert.assertThat(
@@ -68,10 +68,9 @@ public final class RtHookTest {
     /**
      * RtHook.json() should return a json array with the hook's events.
      *
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void returnsEvents() throws Exception {
+    public void returnsEvents() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -83,7 +82,7 @@ public final class RtHookTest {
             MatcherAssert.assertThat(
                 new RtHook(
                     new ApacheRequest(container.home()),
-                    repo(),
+                    RtHookTest.repo(),
                     1
                 ).json().getJsonArray("events")
                     .stream()

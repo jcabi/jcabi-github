@@ -134,7 +134,7 @@ public interface Repos {
          *  If not, then it will be public.
          */
         public RepoCreate(final String nme, final boolean prvt) {
-            this(nme, prvt, "", "", Optional.<Boolean>absent(), "");
+            this(nme, prvt, "", "", Optional.absent(), "");
         }
 
         /**

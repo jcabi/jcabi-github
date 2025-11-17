@@ -54,7 +54,7 @@ public final class VisibilityTest {
                 this.classpath.allTypes(),
                 input -> !(
                     input.isInterface()
-                        || SKIP.contains(input.getName())
+                        || VisibilityTest.SKIP.contains(input.getName())
                         || input.getEnclosingClass() != null
                             && input.getName().endsWith("Smart")
                     )

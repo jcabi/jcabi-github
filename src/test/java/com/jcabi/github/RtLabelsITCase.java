@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -16,7 +16,7 @@ import org.junit.Test;
  * @since 0.6
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtLabelsITCase {
     /**
      * Test repos.
@@ -30,33 +30,30 @@ public final class RtLabelsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+        RtLabelsITCase.repos = github.repos();
+        RtLabelsITCase.repo = new RepoRule().repo(RtLabelsITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtLabelsITCase.repos != null && RtLabelsITCase.repo != null) {
+            RtLabelsITCase.repos.remove(RtLabelsITCase.repo.coordinates());
         }
     }
 
     /**
      * RtLabels can list all labels.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void listsLabels() throws Exception {
-        final Labels labels = repo.labels();
+    public void listsLabels() throws IOException {
+        final Labels labels = RtLabelsITCase.repo.labels();
         final Iterable<Label.Smart> list =
             new Smarts<>(labels.iterate());
         for (final Label.Smart label : list) {
@@ -69,11 +66,10 @@ public final class RtLabelsITCase {
 
     /**
      * RtLabels can create a new label.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void createsNewLabel() throws Exception {
-        final Labels labels = repo.labels();
+    public void createsNewLabel() throws IOException {
+        final Labels labels = RtLabelsITCase.repo.labels();
         final Label label = new Labels.Smart(labels).createOrGet("test-3");
         MatcherAssert.assertThat(
             new Label.Smart(label).color(),

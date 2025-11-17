@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -41,37 +42,34 @@ public final class RtReleaseAssetITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
-        repo.releases().create(
+        RtReleaseAssetITCase.repos = github.repos();
+        RtReleaseAssetITCase.repo = RtReleaseAssetITCase.rule.repo(RtReleaseAssetITCase.repos);
+        RtReleaseAssetITCase.repo.releases().create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtReleaseAssetITCase.repos != null && RtReleaseAssetITCase.repo != null) {
+            RtReleaseAssetITCase.repos.remove(RtReleaseAssetITCase.repo.coordinates());
         }
     }
 
     /**
      * RtReleaseAsset can fetch as JSON object.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void fetchAsJSON() throws Exception {
+    public void fetchAsJSON() throws IOException {
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-        final Release release = repo.releases().create(name);
+        final Release release = RtReleaseAssetITCase.repo.releases().create(name);
         try {
             MatcherAssert.assertThat(
                 release.json().getInt("id"),
@@ -84,11 +82,10 @@ public final class RtReleaseAssetITCase {
 
     /**
      * RtReleaseAsset can execute patch request.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void executePatchRequest() throws Exception {
-        final Release release = repo.releases().create(
+    public void executePatchRequest() throws IOException {
+        final Release release = RtReleaseAssetITCase.repo.releases().create(
             String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
         );
         final String desc = "Description of the release";
@@ -105,11 +102,10 @@ public final class RtReleaseAssetITCase {
 
     /**
      * RtReleaseAsset can do delete operation.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void removesReleaseAsset() throws Exception {
-        final Releases releases = repo.releases();
+    public void removesReleaseAsset() throws IOException {
+        final Releases releases = RtReleaseAssetITCase.repo.releases();
         final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases.create(rname);
         try {

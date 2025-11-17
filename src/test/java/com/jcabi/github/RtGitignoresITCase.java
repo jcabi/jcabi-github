@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -22,10 +23,9 @@ public final class RtGitignoresITCase {
 
     /**
      * RtGitignores can iterate template names.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iterateTemplateNames() throws Exception {
+    public void iterateTemplateNames() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             gitignores.iterate(),
@@ -35,10 +35,9 @@ public final class RtGitignoresITCase {
 
     /**
      * RtGitignores can get raw template by name.
-     * @throws Exception if there is any error
      */
     @Test
-    public void getRawTemplateByName() throws Exception {
+    public void getRawTemplateByName() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             gitignores.template("C"),

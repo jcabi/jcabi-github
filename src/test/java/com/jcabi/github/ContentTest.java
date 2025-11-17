@@ -5,7 +5,10 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -20,10 +23,9 @@ import org.mockito.Mockito;
 public class ContentTest {
     /**
      * Content.Smart can fetch type property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesType() throws Exception {
+    public final void fetchesType() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some type";
         Mockito.doReturn(
@@ -39,10 +41,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch size property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSize() throws Exception {
+    public final void fetchesSize() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final int prop = 5555;
         Mockito.doReturn(
@@ -60,10 +61,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch name property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesName() throws Exception {
+    public final void fetchesName() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some name";
         Mockito.doReturn(
@@ -93,10 +93,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch sha property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSha() throws Exception {
+    public final void fetchesSha() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some sha";
         Mockito.doReturn(
@@ -112,10 +111,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch url property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrl() throws Exception {
+    public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -132,10 +130,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch git_url property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesGitUrl() throws Exception {
+    public final void fetchesGitUrl() throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1";
@@ -152,10 +149,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch html_url property from Content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesHtmlUrl() throws Exception {
+    public final void fetchesHtmlUrl() throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://github.com/pengwynn/octokit/blob/master/README.md";
@@ -172,10 +168,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch encoded content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesContent() throws Exception {
+    public final void fetchesContent() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGU=";
         Mockito.doReturn(
@@ -191,10 +186,9 @@ public class ContentTest {
 
     /**
      * Content.Smart can fetch decoded content.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDecoded() throws Exception {
+    public final void fetchesDecoded() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGXigqw=";
         Mockito.doReturn(

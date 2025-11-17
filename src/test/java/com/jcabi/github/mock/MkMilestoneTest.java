@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ public class MkMilestoneTest {
 
     /**
      * MkMilestone returns a repo with same coordinates.
-     * @throws Exception if test fails
      */
     @Test
-    public final void returnsSameCoordinatesRepo() throws Exception {
+    public final void returnsSameCoordinatesRepo() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
             "user",
             "repo"

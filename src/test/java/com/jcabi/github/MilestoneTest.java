@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ import org.mockito.Mockito;
 public class MilestoneTest {
     /**
      * Milestone.Smart can fetch title property from Milestone.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesTitle() throws Exception {
+    public final void fetchesTitle() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -35,10 +35,9 @@ public class MilestoneTest {
 
     /**
      * Milestone.Smart can fetch description property from Milestone.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDescription() throws Exception {
+    public final void fetchesDescription() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -53,10 +52,9 @@ public class MilestoneTest {
 
     /**
      * Milestone.Smart can fetch state property from Milestone.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesState() throws Exception {
+    public final void fetchesState() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -71,10 +69,9 @@ public class MilestoneTest {
 
     /**
      * Milestone.Smart can fetch due_on property from Milestone.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDueOn() throws Exception {
+    public final void fetchesDueOn() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

@@ -24,10 +24,9 @@ public final class MkRepoTest {
 
     /**
      * Repo can work.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void works() throws Exception {
+    public void works() throws IOException {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
             new Repos.RepoCreate("test5", false)
@@ -40,10 +39,9 @@ public final class MkRepoTest {
 
     /**
      * This tests that the milestones() method in MkRepo is working fine.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void returnsMkMilestones() throws Exception {
+    public void returnsMkMilestones() throws IOException {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
             new Repos.RepoCreate("test1", false)
@@ -86,10 +84,9 @@ public final class MkRepoTest {
 
     /**
      * Repo can exponse attributes.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void exposesAttributes() throws Exception {
+    public void exposesAttributes() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         MatcherAssert.assertThat(
             new Repo.Smart(repo).description(),

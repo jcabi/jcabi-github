@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,10 +35,9 @@ public final class RtOrganizationsTest {
     /**
      * RtOrganizations should be able to get a single organization.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void fetchesSingleOrganization() throws Exception {
+    public void fetchesSingleOrganization() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -59,20 +59,19 @@ public final class RtOrganizationsTest {
      * RtOrganizations should be able to iterate
      * the logged-in user's organizations.
      *
-     * @throws Exception If a problem occurs
      * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
-    public void retrievesOrganizations() throws Exception {
+    public void retrievesOrganizations() throws IOException {
         final Github github = new MkGithub();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(org(1, "org1"))
-                        .add(org(2, "org2"))
-                        .add(org(3, "org3"))
+                        .add(RtOrganizationsTest.org(1, "org1"))
+                        .add(RtOrganizationsTest.org(2, "org2"))
+                        .add(RtOrganizationsTest.org(3, "org3"))
                         .build().toString()
                 )
             ).start(this.resource.port())
@@ -83,7 +82,7 @@ public final class RtOrganizationsTest {
             );
             MatcherAssert.assertThat(
                 orgs.iterate(),
-                Matchers.<Organization>iterableWithSize(Tv.THREE)
+                Matchers.iterableWithSize(Tv.THREE)
             );
             MatcherAssert.assertThat(
                 container.take().uri().toString(),

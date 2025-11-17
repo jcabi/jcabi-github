@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
@@ -31,10 +32,9 @@ public final class RtGithubITCase {
 
     /**
      * RtGithub can connect anonymously.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void connectsAnonymously() throws Exception {
+    public void connectsAnonymously() throws IOException {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
             new Issue.Smart(
@@ -48,10 +48,9 @@ public final class RtGithubITCase {
 
     /**
      * RtGithub can fetch meta information.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesMeta() throws Exception {
+    public void fetchesMeta() throws IOException {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
             github.meta().getJsonArray("hooks"),
@@ -61,10 +60,9 @@ public final class RtGithubITCase {
 
     /**
      * RtGithub can fetch emojis.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmojis() throws Exception {
+    public void fetchesEmojis() throws IOException {
         final Github github = new RtGithub();
         MatcherAssert.assertThat(
             github.emojis().getString("+1"),
@@ -74,10 +72,9 @@ public final class RtGithubITCase {
 
     /**
      * RtGithub can authenticate with username and password through HTTP Basic.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void authenticatesWithUsernameAndPassword() throws Exception {
+    public void authenticatesWithUsernameAndPassword() throws IOException {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
         Assume.assumeThat(

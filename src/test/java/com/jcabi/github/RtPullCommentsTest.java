@@ -16,6 +16,7 @@ import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -47,7 +48,7 @@ public final class RtPullCommentsTest {
     @Test
     public void fetchesPullComment() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         final RtPullComments comments =
             new RtPullComments(new FakeRequest(), pull);
         MatcherAssert.assertThat(
@@ -64,14 +65,14 @@ public final class RtPullCommentsTest {
     @Test
     public void iteratesRepoPullComments() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(comment("comment 1"))
-                        .add(comment("comment 2"))
+                        .add(RtPullCommentsTest.comment("comment 1"))
+                        .add(RtPullCommentsTest.comment("comment 2"))
                         .build().toString()
                 )
             ).start(this.resource.port())
@@ -80,8 +81,8 @@ public final class RtPullCommentsTest {
                 new JdkRequest(container.home()), pull
             );
             MatcherAssert.assertThat(
-                comments.iterate(Collections.<String, String>emptyMap()),
-                Matchers.<PullComment>iterableWithSize(2)
+                comments.iterate(Collections.emptyMap()),
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -95,14 +96,14 @@ public final class RtPullCommentsTest {
     @Test
     public void iteratesPullRequestComments() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(comment("comment 3"))
-                        .add(comment("comment 4"))
+                        .add(RtPullCommentsTest.comment("comment 3"))
+                        .add(RtPullCommentsTest.comment("comment 4"))
                         .build().toString()
                 )
             ).start(this.resource.port())
@@ -111,8 +112,8 @@ public final class RtPullCommentsTest {
                 new JdkRequest(container.home()), pull
             );
             MatcherAssert.assertThat(
-                comments.iterate(1, Collections.<String, String>emptyMap()),
-                Matchers.<PullComment>iterableWithSize(2)
+                comments.iterate(1, Collections.emptyMap()),
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -130,7 +131,7 @@ public final class RtPullCommentsTest {
         final String commit = "test-commit-id";
         final String path = "test-path";
         final int position = 4;
-        final String response = pulls(body, commit, path, position).toString();
+        final String response = RtPullCommentsTest.pulls(body, commit, path, position).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
@@ -138,7 +139,7 @@ public final class RtPullCommentsTest {
                 .start(this.resource.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            Mockito.doReturn(repo()).when(pull).repo();
+            Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
             final RtPullComments pullComments = new RtPullComments(
                 new ApacheRequest(container.home()),
                     pull
@@ -181,7 +182,7 @@ public final class RtPullCommentsTest {
                 .start(this.resource.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            Mockito.doReturn(repo()).when(pull).repo();
+            Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
             final RtPullComments pullComments = new RtPullComments(
                 new ApacheRequest(container.home()),
                     pull
@@ -214,7 +215,7 @@ public final class RtPullCommentsTest {
             ).start(this.resource.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            final Repo repository = repo();
+            final Repo repository = RtPullCommentsTest.repo();
             Mockito.doReturn(repository).when(pull).repo();
             final RtPullComments comments =
                 new RtPullComments(new ApacheRequest(container.home()), pull);
@@ -239,9 +240,8 @@ public final class RtPullCommentsTest {
     /**
      * This method returns a Repo for testing.
      * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() throws IOException {
         return new MkGithub("johnny").randomRepo();
     }
 

@@ -21,8 +21,8 @@ import lombok.ToString;
  * a given threshold, and in the event of {@link IOException} retries a few
  * times before giving up and rethrowing the exception.
  *
- * <p>Just a wrapper for a {@link com.jcabi.http.wire.RetryWire} that wraps a
- * {@link com.jcabi.github.wire.CarefulWire} that wraps the underlying wire.
+ * <p>Just a wrapper for a {@link RetryWire} that wraps a
+ * {@link CarefulWire} that wraps the underlying wire.
  *
  * <p>You can use {@code RetryCarefulWire} with a
  * {@link com.jcabi.github.Github} object:

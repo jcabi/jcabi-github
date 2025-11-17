@@ -12,6 +12,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,10 +35,9 @@ public final class RtTreesTest {
 
     /**
      * RtTrees can create a tree.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void createsTree() throws Exception {
+    public void createsTree() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
@@ -46,7 +46,7 @@ public final class RtTreesTest {
         ).start(this.resource.port());
         final Trees trees = new RtTrees(
             new ApacheRequest(container.home()),
-            repo()
+            RtTreesTest.repo()
         );
         final JsonObject tree = Json.createObjectBuilder()
             .add("path", "/path").add("mode", "100644 ")
@@ -88,7 +88,7 @@ public final class RtTreesTest {
                     .build()
                     .toString()
             ),
-            repo()
+            RtTreesTest.repo()
         );
         MatcherAssert.assertThat(
             trees.get(sha).sha(), Matchers.equalTo(sha)
@@ -109,7 +109,7 @@ public final class RtTreesTest {
                     .build()
                     .toString()
             ),
-            repo()
+            RtTreesTest.repo()
         );
         MatcherAssert.assertThat(
             trees.getRec(sha).sha(), Matchers.equalTo(sha)

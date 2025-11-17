@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public final class MkAssigneesTest {
     @Test
     public void iteratesAssignees() throws Exception {
         MatcherAssert.assertThat(
-            repo().assignees().iterate(),
+            MkAssigneesTest.repo().assignees().iterate(),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
     }
@@ -35,7 +36,7 @@ public final class MkAssigneesTest {
      */
     @Test
     public void checkCollaboratorIsAssigneeForRepo() throws Exception {
-        final Repo repo = repo();
+        final Repo repo = MkAssigneesTest.repo();
         repo.collaborators().add("Vladimir");
         MatcherAssert.assertThat(
             repo.assignees().check("Vladimir"),
@@ -50,7 +51,7 @@ public final class MkAssigneesTest {
     @Test
     public void checkOwnerIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
-            repo().assignees().check("Jonathan"),
+            MkAssigneesTest.repo().assignees().check("Jonathan"),
             Matchers.is(true)
         );
     }
@@ -58,9 +59,8 @@ public final class MkAssigneesTest {
     /**
      * Create a repo to work with.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() throws IOException {
         return new MkGithub("Jonathan").randomRepo();
     }
 }

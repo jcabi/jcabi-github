@@ -44,7 +44,7 @@ final class MkStars implements Stars {
      * @param stg The storage.
      * @param login The login name.
      * @param rep The Repository.
-     * @throws java.io.IOException If something goes wrong.
+     * @throws IOException If something goes wrong.
      */
     MkStars(
         final MkStorage stg,

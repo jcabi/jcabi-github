@@ -4,6 +4,7 @@
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
@@ -30,23 +31,21 @@ public final class RtIssueMilestoneITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(RtIssueMilestoneITCase.repos);
+        RtIssueMilestoneITCase.repos = github.repos();
+        RtIssueMilestoneITCase.repo = new RepoRule().repo(RtIssueMilestoneITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtIssueMilestoneITCase.repos != null && RtIssueMilestoneITCase.repo != null) {
+            RtIssueMilestoneITCase.repos.remove(RtIssueMilestoneITCase.repo.coordinates());
         }
     }
 
@@ -102,9 +101,8 @@ public final class RtIssueMilestoneITCase {
     /**
      * Create and return issue to test.
      * @return Issue
-     * @throws Exception If some problem inside
      */
-    private static Issue issue() throws Exception {
-        return repo.issues().create("test issue title", "test issue body");
+    private static Issue issue() throws IOException {
+        return RtIssueMilestoneITCase.repo.issues().create("test issue title", "test issue body");
     }
 }

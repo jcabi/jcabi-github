@@ -13,6 +13,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,11 +35,10 @@ public final class RtTagsTest {
 
     /**
      * RtTags can create a tag.
-     * @throws Exception - If something goes wrong.
      * @checkstyle IndentationCheck (20 lines)
      */
     @Test
-    public void createsTag() throws Exception {
+    public void createsTag() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,

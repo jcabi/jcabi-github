@@ -26,15 +26,14 @@ import org.junit.Test;
 public final class MkContentsTest {
     /**
      * MkContents can fetch the default branch readme file.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchReadmeFile() throws Exception {
+    public void canFetchReadmeFile() throws IOException {
         final Contents contents = new MkGithub().randomRepo().contents();
         final String body = "Readme On Master";
         // @checkstyle MultipleStringLiterals (6 lines)
         contents.create(
-            content("README.md", "readme on master", body).build()
+            MkContentsTest.content("README.md", "readme on master", body).build()
         );
         MatcherAssert.assertThat(
             contents.readme().json().getString("content"),
@@ -45,15 +44,14 @@ public final class MkContentsTest {
     /**
      * MkContents should be able to fetch readme from a branch.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchReadmeFromBranch() throws Exception {
+    public void canFetchReadmeFromBranch() throws IOException {
         final String branch = "branch-1";
         final Contents contents = new MkGithub().randomRepo().contents();
         final String body = "Readme On Branch";
         contents.create(
-            content("README.md", "readme on branch", body)
+            MkContentsTest.content("README.md", "readme on branch", body)
                 .add("ref", branch)
                 .build()
         );
@@ -91,16 +89,15 @@ public final class MkContentsTest {
     /**
      * MkContents can create new file in non default branch.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateFileInSomeBranch() throws Exception {
+    public void canCreateFileInSomeBranch() throws IOException {
         final String path = "file-in-branch.txt";
         final String branch = "branch-2";
         final String body = "some file";
         final Content.Smart content = new Content.Smart(
             new MkGithub().randomRepo().contents().create(
-                content(path, "some file", body)
+                MkContentsTest.content(path, "some file", body)
                     .add("ref", branch)
                     .build()
             )
@@ -171,10 +168,9 @@ public final class MkContentsTest {
 
     /**
      * MkContents should be able to update a file.
-     * @throws Exception - if anything goes wrong.
      */
     @Test
-    public void updatesFile() throws Exception {
+    public void updatesFile() throws IOException {
         final String path = "file.txt";
         final String message = "content message";
         final String initial = "initial text";
@@ -199,10 +195,9 @@ public final class MkContentsTest {
     /**
      * MkContents is able to update the file content.
      * During update new commit is created
-     * @throws Exception Exception if some problem inside
      */
     @Test
-    public void updatesFileCreateCommit() throws Exception {
+    public void updatesFileCreateCommit() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Contents contents = MkContentsTest.repo(storage).contents();
         final String path = "file.txt";
@@ -214,7 +209,7 @@ public final class MkContentsTest {
         final String xpath = "/github/repos/repo/commits/commit";
         MatcherAssert.assertThat(
             storage.xml().nodes(xpath),
-            Matchers.<XML>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         final JsonObject update = MkContentsTest
             .content(path, "theMessage", "blah")
@@ -229,16 +224,15 @@ public final class MkContentsTest {
         );
         MatcherAssert.assertThat(
             storage.xml().nodes(xpath),
-            Matchers.<XML>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * MkContents can update an content.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void updateContent() throws Exception {
+    public void updateContent() throws IOException {
         final String path = "content-to-update.txt";
         final String message = "commit message";
         final String initial = "Hello World!";
@@ -265,10 +259,9 @@ public final class MkContentsTest {
 
     /**
      * MkContents can check whether content exists or not.
-     * @throws Exception if any problem inside.
      */
     @Test
-    public void checkExists() throws Exception {
+    public void checkExists() throws IOException {
         final String path = "content-exist.txt";
         final String branch = "rel.08";
         final Contents contents = new MkGithub().randomRepo().contents();
@@ -289,10 +282,9 @@ public final class MkContentsTest {
 
     /**
      * MkContents can get content from default branch.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void getContentFromDefaultBranch() throws Exception {
+    public void getContentFromDefaultBranch() throws IOException {
         final String path = "content-default-branch.txt";
         final String message = "content default branch created";
         final String text = "I'm content of default branch";
@@ -317,7 +309,7 @@ public final class MkContentsTest {
     @Test
     public void canIterate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = repo(storage);
+        final Repo repo = MkContentsTest.repo(storage);
         final Content[] correct = this.addContent(
             repo, "foo/bar/1", "foo/bar/2"
         );
@@ -355,10 +347,9 @@ public final class MkContentsTest {
      * @param repo The repository
      * @param path Content path
      * @return Created content
-     * @throws Exception if some problem inside
      */
     private Content createFile(
-        final Repo repo, final String path) throws Exception {
+        final Repo repo, final String path) throws IOException {
         final Contents contents = repo.contents();
         final JsonObject json = MkContentsTest
             .content(path, "theCreateMessage", "newContent")

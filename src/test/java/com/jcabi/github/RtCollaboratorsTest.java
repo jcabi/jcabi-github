@@ -15,6 +15,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -59,7 +60,7 @@ public final class RtCollaboratorsTest {
             );
             MatcherAssert.assertThat(
                 users.iterate(),
-                Matchers.<User>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }
@@ -167,9 +168,8 @@ public final class RtCollaboratorsTest {
     /**
      * Create and return repo for testing.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private Repo repo() throws Exception {
+    private Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "collaboratorrepo"))
             .when(repo).coordinates();

@@ -11,6 +11,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -34,10 +35,9 @@ public final class RtGistsTest {
     /**
      * RtGists can create new files.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCreateFiles() throws Exception {
+    public void canCreateFiles() throws IOException {
         try (
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -64,10 +64,9 @@ public final class RtGistsTest {
     /**
      * RtGists can retrieve a specific Gist.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRetrieveSpecificGist() throws Exception {
+    public void canRetrieveSpecificGist() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
@@ -88,10 +87,9 @@ public final class RtGistsTest {
     /**
      * RtGists can iterate through its contents.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canIterateThrouRtGists() throws Exception {
+    public void canIterateThrouRtGists() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -113,10 +111,9 @@ public final class RtGistsTest {
     }
     /**
      * RtGists can remove a gist by name.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void removesGistByName() throws Exception {
+    public void removesGistByName() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

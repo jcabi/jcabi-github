@@ -32,7 +32,7 @@
                 final Github github = new RtGithub()
                 final Repo repo = github.repos().get(
                     new Coordinates.Simple("jcabi/jcabi-github")
-                );
+                )
                 for (final Label label : repo.labels().iterate()) {
                     println "label found: " + label.name()
                 }

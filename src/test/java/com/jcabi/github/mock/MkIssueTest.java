@@ -10,6 +10,7 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import org.hamcrest.CustomMatcher;
@@ -122,7 +123,7 @@ public final class MkIssueTest {
         issue.labels().add(Collections.singletonList(tag));
         MatcherAssert.assertThat(
             new Issue.Smart(issue).roLabels().iterate(),
-            Matchers.<Label>hasItem(
+            Matchers.hasItem(
                 new CustomMatcher<Label>("label just created") {
                     @Override
                     public boolean matches(final Object item) {
@@ -135,10 +136,9 @@ public final class MkIssueTest {
 
     /**
      * MkIssue should be able to compare different instances.
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final MkIssue less = new MkIssue(
             new MkStorage.InFile(),
             "login-less",
@@ -163,10 +163,9 @@ public final class MkIssueTest {
 
     /**
      * MkIssue can remember it's author.
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canRememberItsAuthor() throws Exception {
+    public void canRememberItsAuthor() throws IOException {
         final MkGithub first = new MkGithub("first");
         final Github second = first.relogin("second");
         final Repo repo = first.randomRepo();
@@ -196,10 +195,9 @@ public final class MkIssueTest {
 
     /**
      * MkIssue.exists() return false on nonexistent issues.
-     * @throws Exception if any error occurs.
      */
     @Test
-    public void canCheckNonExistentIssue() throws Exception {
+    public void canCheckNonExistentIssue() throws IOException {
         MatcherAssert.assertThat(
             new MkIssue(
                 new MkStorage.InFile(),
@@ -235,7 +233,7 @@ public final class MkIssueTest {
         issue.close();
         MatcherAssert.assertThat(
             issue.events(),
-            Matchers.<Event>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         final Event.Smart closed = new Event.Smart(
             issue.events().iterator().next()
@@ -257,7 +255,7 @@ public final class MkIssueTest {
         issue.open();
         MatcherAssert.assertThat(
             issue.events(),
-            Matchers.<Event>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         final Iterator<Event> events = issue.events().iterator();
         final Event.Smart closed = new Event.Smart(events.next());
@@ -275,9 +273,8 @@ public final class MkIssueTest {
     /**
      * Create an issue to work with.
      * @return Issue just created
-     * @throws Exception If some problem inside
      */
-    private Issue issue() throws Exception {
+    private Issue issue() throws IOException {
         return new MkGithub().randomRepo()
             .issues().create("hey", "how are you?");
     }

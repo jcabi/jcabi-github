@@ -37,10 +37,9 @@ public final class RtBranchesTest {
 
     /**
      * RtBranches can iterate over all branches.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iteratesOverBranches() throws Exception {
+    public void iteratesOverBranches() throws IOException {
         final String firstname = "first";
         final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
         final String secondname = "second";
@@ -48,8 +47,8 @@ public final class RtBranchesTest {
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createArrayBuilder()
-                .add(branch(firstname, firstsha))
-                .add(branch(secondname, secondsha))
+                .add(RtBranchesTest.branch(firstname, firstsha))
+                .add(RtBranchesTest.branch(secondname, secondsha))
                 .build().toString()
         );
         try (
@@ -64,7 +63,7 @@ public final class RtBranchesTest {
             );
             MatcherAssert.assertThat(
                 branches.iterate(),
-                Matchers.<Branch>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             final Iterator<Branch> iter = branches.iterate().iterator();
             final Branch first = iter.next();
@@ -88,10 +87,9 @@ public final class RtBranchesTest {
 
     /**
      * RtBranches can find one branck by name.
-     * @throws Exception if there is any error
      */
     @Test
-    public void findBranch() throws Exception {
+    public void findBranch() throws IOException {
         final String thirdname = "third";
         final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";
         final String fourthname = "fourth";
@@ -99,8 +97,8 @@ public final class RtBranchesTest {
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createArrayBuilder()
-                .add(branch(thirdname, thirdsha))
-                .add(branch(fourthname, fourthsha))
+                .add(RtBranchesTest.branch(thirdname, thirdsha))
+                .add(RtBranchesTest.branch(fourthname, fourthsha))
                 .build().toString()
         );
         try (

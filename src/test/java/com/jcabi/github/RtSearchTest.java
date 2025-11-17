@@ -15,6 +15,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import java.io.IOException;
 import java.util.EnumMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -91,10 +92,9 @@ public final class RtSearchTest {
     /**
      * RtSearch can search for users.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForUsers() throws Exception {
+    public void canSearchForUsers() throws IOException {
         final String login = "test-user";
         final Search search = new RtGithub(
             new FakeRequest().withBody(
@@ -114,10 +114,9 @@ public final class RtSearchTest {
     /**
      * RtSearch can search for contents.
      *
-     * @throws Exception if a problem occurs
      */
     @Test
-    public void canSearchForContents() throws Exception {
+    public void canSearchForContents() throws IOException {
         final JsonObject first = RtSearchTest.content(
             "test/unit/attributes.js",
             "attributes.js",
@@ -144,7 +143,7 @@ public final class RtSearchTest {
             ).search();
             MatcherAssert.assertThat(
                 search.codes("test4", "joined", Search.Order.DESC),
-                Matchers.<Content>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -152,10 +151,9 @@ public final class RtSearchTest {
 
     /**
      * RtSearch can read non-unicode.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void readNonUnicode() throws Exception {
+    public void readNonUnicode() throws IOException {
         final Response resp = new FakeRequest()
             .withBody("{\"help\": \"\u001Fblah\u0001cwhoa\u0000!\"}").fetch();
         final JsonResponse response = new JsonResponse(resp);

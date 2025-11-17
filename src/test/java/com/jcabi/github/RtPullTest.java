@@ -49,10 +49,9 @@ public final class RtPullTest {
     /**
      * RtPull should be able to retrieve commits.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void fetchesCommits() throws Exception {
+    public void fetchesCommits() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -77,10 +76,9 @@ public final class RtPullTest {
     /**
      * RtPull should be able to retrieve files.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void fetchesFiles() throws Exception {
+    public void fetchesFiles() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -190,10 +188,9 @@ public final class RtPullTest {
     /**
      * RtPull should be able to perform a merge.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void executeMerge() throws Exception {
+    public void executeMerge() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")

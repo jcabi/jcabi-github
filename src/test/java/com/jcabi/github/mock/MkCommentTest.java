@@ -8,6 +8,7 @@ import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repos;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
@@ -36,10 +37,9 @@ public final class MkCommentTest {
     /**
      * MkComment should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final MkComment less = new MkComment(
             new MkStorage.InFile(),
             "login-less",
@@ -123,9 +123,8 @@ public final class MkCommentTest {
      * Create a comment to work with.
      * @param text Text of comment
      * @return Comment just created
-     * @throws Exception If some problem inside
      */
-    private Comment comment(final String text) throws Exception {
+    private Comment comment(final String text) throws IOException {
         return new MkGithub().repos().create(
             new Repos.RepoCreate("blueharvest", false)
         ).issues().create("hey", "how are you?").comments().post(text);

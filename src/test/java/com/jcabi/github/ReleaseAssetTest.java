@@ -5,7 +5,11 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.ParseException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -20,10 +24,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch url property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUrl() throws Exception {
+    public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/octo/Hello/releases/assets/1";
@@ -40,10 +43,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch name property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesName() throws Exception {
+    public final void fetchesName() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "assetname.ext";
         Mockito.doReturn(
@@ -59,10 +61,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch label property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesLabel() throws Exception {
+    public final void fetchesLabel() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "short description";
         Mockito.doReturn(
@@ -78,10 +79,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch state property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesState() throws Exception {
+    public final void fetchesState() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "uploaded";
         Mockito.doReturn(
@@ -97,10 +97,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch content_type property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesContentType() throws Exception {
+    public final void fetchesContentType() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "application/zip";
         Mockito.doReturn(
@@ -116,10 +115,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch size property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesSize() throws Exception {
+    public final void fetchesSize() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final int prop = 1024;
         Mockito.doReturn(
@@ -135,10 +133,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch download_count property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesDownloadCount() throws Exception {
+    public final void fetchesDownloadCount() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final int prop = 42;
         Mockito.doReturn(
@@ -154,10 +151,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch created_at property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesCreatedAt() throws Exception {
+    public final void fetchesCreatedAt() throws IOException, ParseException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -173,10 +169,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch updated_at property from ReleaseAsset.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesUpdatedAt() throws Exception {
+    public final void fetchesUpdatedAt() throws IOException, ParseException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -192,10 +187,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can update the name property of ReleaseAsset.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public final void updatesName() throws Exception {
+    public final void updatesName() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_name";
         new ReleaseAsset.Smart(releaseAsset).name(prop);
@@ -206,10 +200,9 @@ public class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can update the label property of ReleaseAsset.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public final void updatesLabel() throws Exception {
+    public final void updatesLabel() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_label";
         new ReleaseAsset.Smart(releaseAsset).label(prop);

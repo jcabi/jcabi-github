@@ -12,6 +12,7 @@ import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -33,10 +34,9 @@ public final class RtValuePaginationTest {
 
     /**
      * RtPagination can jump to next page of results.
-     * @throws Exception if there is any problem
      */
     @Test
-    public void jumpNextPage() throws Exception {
+    public void jumpNextPage() throws IOException {
         final String jeff = "Jeff";
         final String mark = "Mark";
         final String judy = "Judy";
@@ -75,10 +75,9 @@ public final class RtValuePaginationTest {
 
     /**
      * RtValuePagination can throw if there is no more elements in pagination.
-     * @throws Exception if there is any problem
      */
     @Test(expected = NoSuchElementException.class)
-    public void throwsIfNoMoreElement() throws Exception {
+    public void throwsIfNoMoreElement() throws IOException {
         final String jeff = "other Jeff";
         final String mark = "other Mark";
         final MkContainer container = new MkGrizzlyContainer().next(

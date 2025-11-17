@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,10 +35,9 @@ public final class RtReferenceTest {
 
     /**
      * RtReference should be able to execute patch.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void patchesContent() throws Exception {
+    public void patchesContent() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -65,10 +65,9 @@ public final class RtReferenceTest {
 
     /**
      * RtReference should be able to fetch its json.
-     * @throws Exception - if something goes wrong.
      */
     @Test
-    public void fetchesContent() throws Exception {
+    public void fetchesContent() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -92,10 +91,9 @@ public final class RtReferenceTest {
 
     /**
      * RtReference should be able to return its ref.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsRef() throws Exception {
+    public void returnsRef() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -119,10 +117,9 @@ public final class RtReferenceTest {
 
     /**
      * RtReference should be able to return its owner repo.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsOwner() throws Exception {
+    public void returnsOwner() throws IOException {
         final Repo owner = new MkGithub().randomRepo();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(

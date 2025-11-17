@@ -11,6 +11,7 @@ import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
@@ -41,10 +42,9 @@ public final class MkPullTest {
     /**
      * MkPull should be able to compare different instances.
      *
-     * @throws Exception when a problem occurs.
      */
     @Test
-    public void canCompareInstances() throws Exception {
+    public void canCompareInstances() throws IOException {
         final MkPull less = new MkPull(
             new MkStorage.InFile(),
             "login-less",
@@ -228,9 +228,8 @@ public final class MkPullTest {
     /**
      * Create an repo to work with.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
+    private static Repo repo() throws IOException {
         return new MkGithub(MkPullTest.USERNAME).randomRepo();
     }
 

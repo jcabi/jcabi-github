@@ -60,8 +60,8 @@ public final class RtDeployKeysTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(key(1))
-                    .add(key(2))
+                    .add(RtDeployKeysTest.key(1))
+                    .add(RtDeployKeysTest.key(2))
                     .build().toString()
             )
         )) {
@@ -71,7 +71,7 @@ public final class RtDeployKeysTest {
                     new ApacheRequest(container.home()),
                     RtDeployKeysTest.repo()
                 ).iterate(),
-                Matchers.<DeployKey>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }

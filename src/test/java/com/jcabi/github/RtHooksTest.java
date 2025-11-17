@@ -14,6 +14,7 @@ import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import java.util.Map;
@@ -42,10 +43,9 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can fetch empty list of hooks.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
+    public void canFetchEmptyListOfHooks() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
@@ -65,25 +65,24 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can fetch non empty list of hooks.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchNonEmptyListOfHooks() throws Exception {
+    public void canFetchNonEmptyListOfHooks() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
                         .add(
-                            hook(
+                            RtHooksTest.hook(
                                 "hook 1",
-                                Collections.<String, String>emptyMap()
+                                Collections.emptyMap()
                             )
                         )
                         .add(
-                            hook(
+                            RtHooksTest.hook(
                                 "hook 2",
-                                Collections.<String, String>emptyMap()
+                                Collections.emptyMap()
                             )
                         )
                         .build().toString()
@@ -96,7 +95,7 @@ public final class RtHooksTest {
             );
             MatcherAssert.assertThat(
                 hooks.iterate(),
-                Matchers.<Hook>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -104,10 +103,9 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can fetch single hook.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    public void canFetchSingleHook() throws IOException {
         final String name = "hook name";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -115,7 +113,7 @@ public final class RtHooksTest {
                     HttpURLConnection.HTTP_OK,
                     RtHooksTest.hook(
                         name,
-                        Collections.<String, String>emptyMap()
+                        Collections.emptyMap()
                     ).toString()
                 )
             ).start(this.resource.port())
@@ -136,10 +134,9 @@ public final class RtHooksTest {
     /**
      * RtHooks can create a hook.
      *
-     * @throws Exception if something goes wrong.
      */
     @Test
-    public void canCreateHook() throws Exception {
+    public void canCreateHook() throws IOException {
         final String name = "hook name";
         final ConcurrentHashMap<String, String> config =
             new ConcurrentHashMap<>(2);
@@ -157,7 +154,7 @@ public final class RtHooksTest {
                 RtHooksTest.repo()
             );
             final Hook hook = hooks.create(
-                name, config, Collections.<Event>emptyList(), true
+                name, config, Collections.emptyList(), true
             );
             MatcherAssert.assertThat(
                 container.take().method(),
@@ -174,10 +171,9 @@ public final class RtHooksTest {
     /**
      * RtHooks can delete a hook.
      *
-     * @throws Exception if something goes wrong.
      */
     @Test
-    public void canDeleteHook() throws Exception {
+    public void canDeleteHook() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

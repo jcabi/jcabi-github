@@ -13,6 +13,7 @@ import com.jcabi.github.Repos;
 import com.jcabi.github.User;
 import com.jcabi.immutable.ArrayMap;
 import com.jcabi.log.VerboseCallable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -40,11 +41,10 @@ public final class MkGithubTest {
 
     /**
      * MkGithub can work.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void worksWithMockedData() throws Exception {
-        final Repo repo = new MkGithub().repos().create(NEW_REPO_SETTINGS);
+    public void worksWithMockedData() throws IOException {
+        final Repo repo = new MkGithub().repos().create(MkGithubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -53,7 +53,7 @@ public final class MkGithubTest {
         );
         MatcherAssert.assertThat(
             repo.issues().get(issue.number()).comments().iterate(new Date(0L)),
-            Matchers.<Comment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
             new User.Smart(new Comment.Smart(comment).author()).login(),
@@ -66,13 +66,12 @@ public final class MkGithubTest {
     /**
      * MkGithub can relogin.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canRelogin() throws Exception {
+    public void canRelogin() throws IOException {
         final String login = "mark";
         final MkGithub github = new MkGithub();
-        final Repo repo = github.repos().create(NEW_REPO_SETTINGS);
+        final Repo repo = github.repos().create(MkGithubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("title", "Found a bug");
         final Comment comment = github
             .relogin(login)
@@ -99,10 +98,9 @@ public final class MkGithubTest {
     /**
      * MkGithub can retrieve the markdown.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesMarkdown() throws Exception {
+    public void retrievesMarkdown() throws IOException {
         final Github github = new MkGithub();
         MatcherAssert.assertThat(
             github.markdown(),
@@ -112,10 +110,9 @@ public final class MkGithubTest {
 
     /**
      * MkGithub can create random repo.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateRandomRepo() throws Exception {
+    public void canCreateRandomRepo() throws IOException {
         final MkGithub github = new MkGithub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
@@ -126,10 +123,9 @@ public final class MkGithubTest {
 
     /**
      * MkGithub can handle multiple threads in parallel.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canHandleMultipleThreads() throws Exception {
+    public void canHandleMultipleThreads() throws IOException, InterruptedException {
         final Repo repo = new MkGithub().randomRepo();
         final Callable<Void> task = new VerboseCallable<>(
             () -> {
@@ -147,16 +143,15 @@ public final class MkGithubTest {
         svc.invokeAll(tasks);
         MatcherAssert.assertThat(
             repo.issues().iterate(new ArrayMap<>()),
-            Matchers.<Issue>iterableWithSize(threads)
+            Matchers.iterableWithSize(threads)
         );
     }
 
     /**
      * Can retrieve users.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void canRetrieveUsers() throws Exception {
+    public void canRetrieveUsers() throws IOException {
         MatcherAssert.assertThat(
             "Retrieved inexistent user",
             new User.Smart(

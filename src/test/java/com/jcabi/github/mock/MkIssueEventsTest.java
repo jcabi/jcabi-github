@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Event;
+import java.io.IOException;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -142,7 +143,7 @@ public final class MkIssueEventsTest {
         );
         MatcherAssert.assertThat(
             events.iterate(),
-            Matchers.<Event>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         final Iterator<Event> iter = events.iterate().iterator();
         MatcherAssert.assertThat(
@@ -160,9 +161,8 @@ public final class MkIssueEventsTest {
      * Can't use normal IssueEvents because we need the mock-only
      * {@link MkIssueEvents#create(String, int, String, Optional)} method.
      * @return MkIssueEvents
-     * @throws Exception If some problem inside
      */
-    private MkIssueEvents issueEvents() throws Exception {
+    private MkIssueEvents issueEvents() throws IOException {
         return MkIssueEvents.class.cast(
             new MkGithub().randomRepo().issueEvents()
         );

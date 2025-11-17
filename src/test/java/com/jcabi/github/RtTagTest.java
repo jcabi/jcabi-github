@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -31,10 +32,9 @@ public final class RtTagTest {
 
     /**
      * RtTag can fetch its json.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void fetchesContent() throws Exception {
+    public void fetchesContent() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,

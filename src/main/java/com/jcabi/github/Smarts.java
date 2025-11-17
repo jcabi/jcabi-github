@@ -61,7 +61,7 @@ public final class Smarts<T> implements Iterable<T> {
             }
             @Override
             public T next() {
-                return Smarts.<T>wrap(iterator.next());
+                return Smarts.wrap(iterator.next());
             }
             @Override
             public void remove() {

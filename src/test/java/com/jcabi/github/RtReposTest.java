@@ -12,6 +12,7 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -21,7 +22,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Test case for {@link com.jcabi.github.Repos}.
+ * Test case for {@link Repos}.
  * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
@@ -42,13 +43,12 @@ public final class RtReposTest {
 
     /**
      * RtRepos can create a repo.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void createRepo() throws Exception {
+    public void createRepo() throws IOException {
         final String owner = "test-owner";
         final String name = "test-repo";
-        final String response = response(owner, name).toString();
+        final String response = RtReposTest.response(owner, name).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
@@ -74,18 +74,17 @@ public final class RtReposTest {
 
     /**
      * RtUsers can iterate users.
-     * @throws Exception if there is any Error
      */
     @Test
-    public void iterateRepos() throws Exception {
+    public void iterateRepos() throws IOException {
         final String identifier = "1";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(response("octocat", identifier))
-                        .add(response("dummy", "2"))
+                        .add(RtReposTest.response("octocat", identifier))
+                        .add(RtReposTest.response("dummy", "2"))
                         .build().toString()
                 )
             ).start(this.resource.port())
@@ -96,7 +95,7 @@ public final class RtReposTest {
             );
             MatcherAssert.assertThat(
                 repos.iterate(identifier),
-                Matchers.<Repo>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -104,10 +103,9 @@ public final class RtReposTest {
 
     /**
      * RtRepos can remove a repo.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void removeRepo() throws Exception {
+    public void removeRepo() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

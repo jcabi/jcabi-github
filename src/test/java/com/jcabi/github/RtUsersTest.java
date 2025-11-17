@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -32,10 +33,9 @@ public final class RtUsersTest {
 
     /**
      * RtUsers can iterate users.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iterateUsers() throws Exception {
+    public void iterateUsers() throws IOException {
         final String identifier = "1";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -52,7 +52,7 @@ public final class RtUsersTest {
         );
         MatcherAssert.assertThat(
             users.iterate(identifier),
-            Matchers.<User>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         container.stop();
     }
@@ -60,10 +60,9 @@ public final class RtUsersTest {
     /**
      * RtUsers can get a single user.
      *
-     * @throws Exception  if there is any error
      */
     @Test
-    public void getSingleUser() throws Exception {
+    public void getSingleUser() throws IOException {
         final String login = "mark";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -85,10 +84,9 @@ public final class RtUsersTest {
     /**
      * RtUsers can get a current  user.
      *
-     * @throws Exception  if there is any error
      */
     @Test
-    public void getCurrentUser() throws Exception {
+    public void getCurrentUser() throws IOException {
         final String login = "kendy";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

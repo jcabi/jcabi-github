@@ -11,6 +11,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.apache.http.HttpHeaders;
 import org.hamcrest.MatcherAssert;
@@ -35,10 +36,9 @@ public final class RtMarkdownTest {
     /**
      * RtMarkdown should be able to return JSON output.
      *
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void returnsJsonOutput() throws Exception {
+    public void returnsJsonOutput() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
@@ -66,10 +66,9 @@ public final class RtMarkdownTest {
     /**
      * RtMarkdown should be able to return raw output.
      *
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void returnsRawOutput() throws Exception {
+    public void returnsRawOutput() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")

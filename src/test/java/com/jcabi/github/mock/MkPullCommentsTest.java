@@ -25,10 +25,9 @@ public final class MkPullCommentsTest {
     /**
      * MkPullComments can fetch a single comment.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesPullComment() throws Exception {
+    public void fetchesPullComment() throws IOException {
         final PullComments comments = this.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
@@ -40,11 +39,10 @@ public final class MkPullCommentsTest {
     /**
      * MkPullComments can fetch all pull comments for a repo.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesRepoPullComments() throws Exception {
-        final PullComments comments = comments();
+    public void iteratesRepoPullComments() throws IOException {
+        final PullComments comments = this.comments();
         comments.pull()
             .repo()
             .pulls()
@@ -55,44 +53,42 @@ public final class MkPullCommentsTest {
         MatcherAssert.assertThat(
             comments.iterate(
                 comments.pull().number(),
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
             comments.iterate(
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * MkPullComments can fetch pull comments for a pull request.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesPullRequestComments() throws Exception {
-        final PullComments comments = comments();
+    public void iteratesPullRequestComments() throws IOException {
+        final PullComments comments = this.comments();
         comments.post("comment 1", "commit 1", "/commit1", 1);
         comments.post("comment 2", "commit 2", "/commit2", 2);
         MatcherAssert.assertThat(
             comments.iterate(
                 comments.pull().number(),
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * MkPullComments can create a pull comment.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void postsPullComment() throws Exception {
+    public void postsPullComment() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String commit = "commit_id";
         final String path = "path";
@@ -134,10 +130,9 @@ public final class MkPullCommentsTest {
     /**
      * MkPullComments can reply to an existing pull comment.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsPullCommentReply() throws Exception {
+    public void createsPullCommentReply() throws IOException {
         final PullComments comments = this.comments();
         final int orig = comments.post(
             "Orig Comment",
@@ -160,10 +155,9 @@ public final class MkPullCommentsTest {
     /**
      * MkPullComments can remove a pull comment.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void removesPullComment() throws Exception {
+    public void removesPullComment() throws IOException {
         final PullComments comments = this.comments();
         final int orig = comments.post(
             "Origg Comment",
@@ -173,16 +167,16 @@ public final class MkPullCommentsTest {
         ).number();
         MatcherAssert.assertThat(
             comments.iterate(
-                orig, Collections.<String, String>emptyMap()
+                orig, Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         comments.remove(orig);
         MatcherAssert.assertThat(
             comments.iterate(
-                orig, Collections.<String, String>emptyMap()
+                orig, Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(0)
+            Matchers.iterableWithSize(0)
         );
     }
 

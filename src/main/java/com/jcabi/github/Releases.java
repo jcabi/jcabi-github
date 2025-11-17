@@ -42,7 +42,7 @@ public interface Releases {
      * Create new release.
      * @param tag The name of the tag
      * @return Release just created
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
      */
     Release create(

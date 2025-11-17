@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ public final class RtUserITCase {
 
     /**
      * RtUser can understand who am I.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksWhoAmI() throws Exception {
+    public void checksWhoAmI() throws IOException {
         final Github github = new GithubIT().connect();
         final User self = github.users().self();
         MatcherAssert.assertThat(

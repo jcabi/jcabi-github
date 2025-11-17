@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,10 +19,9 @@ public final class CommitsComparisonTest {
 
     /**
      * CommitsComparison.Smart can fetch commits.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCommits() throws Exception {
+    public void fetchesCommits() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db50";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(
@@ -48,10 +48,9 @@ public final class CommitsComparisonTest {
 
     /**
      * CommitsComparison.Smart can fetch files.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFiles() throws Exception {
+    public void fetchesFiles() throws IOException {
         final String filename = "file.txt";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(

@@ -9,6 +9,7 @@ import com.jcabi.github.Commit;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -21,10 +22,9 @@ public class MkCommitsTest {
 
     /**
      * MkCommits can create commits.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public final void createsMkCommit() throws Exception {
+    public final void createsMkCommit() throws IOException {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();

@@ -8,6 +8,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -20,24 +21,22 @@ public final class MkLabelsTest {
 
     /**
      * MkLabels can list labels.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesLabels() throws Exception {
+    public void iteratesLabels() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         repo.labels().create("bug", "e0e0e0");
         MatcherAssert.assertThat(
             repo.labels().iterate(),
-            Matchers.<Label>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 
     /**
      * MkLabels can delete labels.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void deletesLabels() throws Exception {
+    public void deletesLabels() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Labels labels = repo.labels();
         final String name = "label-0";
@@ -57,10 +56,9 @@ public final class MkLabelsTest {
 
     /**
      * MkLabels can set label color.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void setsLabelColor() throws Exception {
+    public void setsLabelColor() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final String color = "f0f0f0";
         final String name = "task";

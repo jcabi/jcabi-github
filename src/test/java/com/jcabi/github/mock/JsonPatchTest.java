@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.xml.XML;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -17,10 +18,9 @@ public final class JsonPatchTest {
 
     /**
      * JsonPatch can patch an XML.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void patchesXml() throws Exception {
+    public void patchesXml() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         new JsonPatch(storage).patch(
             "/github",

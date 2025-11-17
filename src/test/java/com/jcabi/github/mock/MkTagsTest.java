@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,10 +20,9 @@ public final class MkTagsTest {
 
     /**
      * MkTags can create tags.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsMkTag() throws Exception {
+    public void createsMkTag() throws IOException {
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com").build();
         MatcherAssert.assertThat(

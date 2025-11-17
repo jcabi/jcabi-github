@@ -29,7 +29,7 @@ public final class MkRepoCommitsTest {
                 new MkStorage.InFile(),
                 user,
                 new Coordinates.Simple(user, "testrepo1")
-            ).iterate(Collections.<String, String>emptyMap()),
+            ).iterate(Collections.emptyMap()),
             Matchers.notNullValue()
         );
     }
@@ -71,10 +71,9 @@ public final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can compare commits as diff fromat.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canCompareAsDiffFormat() throws Exception {
+    public void canCompareAsDiffFormat() throws IOException {
         final String user =  "testuser4";
         final String base =  "c034abc";
         final String head =  "a0ed832";
@@ -90,10 +89,9 @@ public final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can compare commits as patch.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canCompareAsPatch() throws Exception {
+    public void canCompareAsPatch() throws IOException {
         final String user =  "testuser5";
         final String head = "9b2e6e7de9";
         MatcherAssert.assertThat(

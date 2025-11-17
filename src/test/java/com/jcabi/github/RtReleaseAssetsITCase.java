@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -40,36 +41,33 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
-        repo.releases().create(
+        RtReleaseAssetsITCase.repos = github.repos();
+        RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
+        RtReleaseAssetsITCase.repo.releases().create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtReleaseAssetsITCase.repos != null && RtReleaseAssetsITCase.repo != null) {
+            RtReleaseAssetsITCase.repos.remove(RtReleaseAssetsITCase.repo.coordinates());
         }
     }
 
     /**
      * RtReleaseAssets can upload release assets.
-     * @throws Exception If an exception occurs.
      */
     @Test
-    public void uploadsAssets() throws Exception {
-        final Releases releases = repo.releases();
+    public void uploadsAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -91,11 +89,10 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * RtReleaseAssets can upload two release assets.
-     * @throws Exception If an exception occurs.
      */
     @Test
-    public void uploadsTwoAssets() throws Exception {
-        final Releases releases = repo.releases();
+    public void uploadsTwoAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -127,11 +124,10 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * RtReleaseAssets can upload one release assets to two releases.
-     * @throws Exception If an exception occurs.
      */
     @Test
-    public void uploadsSameAssetInTwoReleases() throws Exception {
-        final Releases releases = repo.releases();
+    public void uploadsSameAssetInTwoReleases() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
@@ -168,11 +164,10 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * RtReleaseAssets can fetch release assets by asset ID.
-     * @throws Exception If an exception occurs.
      */
     @Test
-    public void fetchesAssets() throws Exception {
-        final Releases releases = repo.releases();
+    public void fetchesAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -193,11 +188,10 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * RtReleaseAssets can iterate through multiple release assets.
-     * @throws Exception If an exception occurs.
      */
     @Test
-    public void iteratesAssets() throws Exception {
-        final Releases releases = repo.releases();
+    public void iteratesAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();
@@ -223,11 +217,10 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * RtReleaseAssets can return an empty list of release assets.
-     * @throws Exception If an exception occurs.
      */
     @Test
-    public void returnsNoAssets() throws Exception {
-        final Releases releases = repo.releases();
+    public void returnsNoAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
         final ReleaseAssets assets = release.assets();

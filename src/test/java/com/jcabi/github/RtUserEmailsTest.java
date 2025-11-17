@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -30,10 +31,9 @@ public final class RtUserEmailsTest {
     public final transient RandomPort resource = new RandomPort();
     /**
      * RtUserEmails can fetch emails.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmails() throws Exception {
+    public void fetchesEmails() throws IOException {
         final String email = "test@email.com";
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withBody(
@@ -49,10 +49,9 @@ public final class RtUserEmailsTest {
 
     /**
      * RtUserEmails can add emails.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void addsEmails() throws Exception {
+    public void addsEmails() throws IOException {
         final String email = "test1@email.com";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -76,10 +75,9 @@ public final class RtUserEmailsTest {
 
     /**
      * RtUserEmails can remove emails.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void removesEmails() throws Exception {
+    public void removesEmails() throws IOException {
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT)
         );

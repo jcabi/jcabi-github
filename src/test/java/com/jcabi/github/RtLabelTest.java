@@ -10,6 +10,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,10 +34,9 @@ public final class RtLabelTest {
     /**
      * RtLabel can  can fetch HTTP request and describe response as a JSON.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void sendHttpRequestAndWriteResponseAsJson() throws Exception {
+    public void sendHttpRequestAndWriteResponseAsJson() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -61,10 +61,9 @@ public final class RtLabelTest {
     /**
      * GhLabel can execute PATCH request.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    public void executePatchRequest() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

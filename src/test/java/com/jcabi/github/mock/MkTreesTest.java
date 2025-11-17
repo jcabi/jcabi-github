@@ -8,6 +8,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Repo;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -21,10 +22,9 @@ public final class MkTreesTest {
 
     /**
      * MkTrees can create trees.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsMkTree() throws Exception {
+    public void createsMkTree() throws IOException {
         final JsonObject tree = Json.createObjectBuilder()
             .add("base_tree", "base_tree_sha")
             .add(
@@ -46,10 +46,9 @@ public final class MkTreesTest {
     /**
      * MkTrees can get tree recursively.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getTreeRec() throws Exception {
+    public void getTreeRec() throws IOException {
         final String sha = "0abcd89jcabitest";
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",

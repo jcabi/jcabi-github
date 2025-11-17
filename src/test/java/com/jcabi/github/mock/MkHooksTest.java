@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Event;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -45,14 +46,14 @@ public final class MkHooksTest {
     public void canDeleteSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
             hooks.iterate(),
-            Matchers.<Hook>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         hooks.remove(hook.number());
         MatcherAssert.assertThat(
@@ -69,9 +70,9 @@ public final class MkHooksTest {
     public void canFetchSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
@@ -88,20 +89,20 @@ public final class MkHooksTest {
     public void canFetchNonEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
             hooks.iterate(),
-            Matchers.<Hook>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
@@ -113,9 +114,9 @@ public final class MkHooksTest {
     public void canCreateHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
@@ -127,9 +128,8 @@ public final class MkHooksTest {
     /**
      * Create hooks to work with.
      * @return Hooks
-     * @throws Exception If some problem inside
      */
-    private static Hooks newHooks() throws Exception {
+    private static Hooks newHooks() throws IOException {
         return new MkGithub().randomRepo().hooks();
     }
 }

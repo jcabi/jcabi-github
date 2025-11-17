@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -33,7 +34,7 @@ public final class RtRepoCommitsTest {
         );
         MatcherAssert.assertThat(
             commits.iterate(
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ).iterator().next().sha(),
             Matchers.equalTo(sha)
         );
@@ -83,10 +84,9 @@ public final class RtRepoCommitsTest {
 
     /**
      * RtRepoCommits can compare two commits and present result in diff format.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void comparesCommitsDiffFormat() throws Exception {
+    public void comparesCommitsDiffFormat() throws IOException {
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody("diff --git"),
             RtRepoCommitsTest.repo()
@@ -102,10 +102,9 @@ public final class RtRepoCommitsTest {
 
     /**
      * RtRepoCommits can compare two commits and present result in patch format.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void comparesCommitsPatchFormat() throws Exception {
+    public void comparesCommitsPatchFormat() throws IOException {
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody(
                 "From 6dcb09b5b57875f33"
@@ -127,7 +126,7 @@ public final class RtRepoCommitsTest {
     @Test
     public void readCorrectURL() {
         MatcherAssert.assertThat(
-            new RtRepoCommits(new FakeRequest(), repo())
+            new RtRepoCommits(new FakeRequest(), RtRepoCommitsTest.repo())
                 .compare("base", "head").toString(),
             Matchers.endsWith(
                 "/see-FakeRequest-class/repos/user/repo/compare/base...head"

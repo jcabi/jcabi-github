@@ -5,6 +5,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Notification;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -20,10 +21,9 @@ public final class MkNotificationsTest {
 
     /**
      * MkNotifications can fetch empty list of Notification.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesEmptyListOfNotifications() throws Exception {
+    public void fetchesEmptyListOfNotifications() throws IOException {
         MatcherAssert.assertThat(
             new MkNotifications(
                 new MkStorage.InFile(),
@@ -35,10 +35,9 @@ public final class MkNotificationsTest {
 
     /**
      * MkNotifications can fetch non empty list of Notifications.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNonEmptyListOfNotifications() throws Exception  {
+    public void fetchesNonEmptyListOfNotifications() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github")
@@ -56,16 +55,15 @@ public final class MkNotificationsTest {
                 "/github/notifications/notification"
             ).iterate(),
             // @checkstyle MagicNumberCheck (1 line)
-            Matchers.<Notification>iterableWithSize(3)
+            Matchers.iterableWithSize(3)
         );
     }
 
     /**
      * MkNotifications can fetch a notification by id.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void fetchesNotificationById() throws Exception {
+    public void fetchesNotificationById() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github")
@@ -86,10 +84,9 @@ public final class MkNotificationsTest {
 
     /**
      * MkNotifications can fetch a notification by id.
-     * @throws Exception If something goes wrong
      */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void cannotFetchNotificationByNonExistentId() throws Exception {
+    public void cannotFetchNotificationByNonExistentId() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github")

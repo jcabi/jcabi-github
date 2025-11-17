@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -18,10 +19,9 @@ public final class RtUserEmailsITCase {
 
     /**
      * RtUserEmails can fetch emails.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesEmails() throws Exception {
+    public void fetchesEmails() throws IOException {
         MatcherAssert.assertThat(
             RtUserEmailsITCase.userEmails().iterate(),
             Matchers.not(Matchers.emptyIterableOf(String.class))
@@ -31,10 +31,9 @@ public final class RtUserEmailsITCase {
     /**
      * RtUserEmails can add emails. Note that you must use a real email address
      * (see http://mailinator.com/).
-     * @throws Exception If some problem inside
      */
     @Test
-    public void addsEmails() throws Exception {
+    public void addsEmails() throws IOException {
         final String email = "test@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         try {
@@ -51,10 +50,9 @@ public final class RtUserEmailsITCase {
     /**
      * RtUserEmails can remove emails. Note that you must use a real email
      * address (see http://mailinator.com/).
-     * @throws Exception If some problem inside
      */
     @Test
-    public void removesEmails() throws Exception {
+    public void removesEmails() throws IOException {
         final String email = "test1@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         emails.add(Collections.singletonList(email));

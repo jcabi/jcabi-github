@@ -23,10 +23,9 @@ import org.junit.Test;
 public final class MkReleaseTest {
     /**
      * Check if a release can be deleted.
-     * @throws Exception If any problems occur.
      */
     @Test
-    public void canDeleteRelease() throws Exception {
+    public void canDeleteRelease() throws IOException {
         final Releases releases = MkReleaseTest.releases();
         final Release release = releases.create("v1.0");
         release.delete();
@@ -216,9 +215,8 @@ public final class MkReleaseTest {
     /**
      * Create a release to work with.
      * @return Release
-     * @throws Exception If some problem inside
      */
-    private static Release release() throws Exception {
+    private static Release release() throws IOException {
         return MkReleaseTest.releases().create("v1");
     }
 

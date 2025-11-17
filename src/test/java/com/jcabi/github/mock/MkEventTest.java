@@ -9,6 +9,7 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,10 +20,9 @@ import org.junit.Test;
 public final class MkEventTest {
     /**
      * Can get created_at value from json object.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canGetCreatedAt() throws Exception {
+    public void canGetCreatedAt() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGithub(storage, user).randomRepo();
@@ -47,10 +47,9 @@ public final class MkEventTest {
 
     /**
      * MkEvent can get present label value from json object.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canGetPresentLabel() throws Exception {
+    public void canGetPresentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "ken";
         final Repo repo = new MkGithub(storage, user).repos().create(
@@ -79,10 +78,9 @@ public final class MkEventTest {
 
     /**
      * MkEvent can get absent label value from json object.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void canGetAbsentLabel() throws Exception {
+    public void canGetAbsentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "barbie";
         final Repo repo = new MkGithub(storage, user).repos().create(
@@ -92,7 +90,7 @@ public final class MkEventTest {
             Event.LABELED,
             1,
             user,
-            Optional.<String>absent()
+            Optional.absent()
         ).number();
         MatcherAssert.assertThat(
             new Event.Smart(

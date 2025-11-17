@@ -11,6 +11,8 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilderException;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,10 +36,9 @@ public final class RtStarsTest {
     /**
      * RtStars can check if repo is starred.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void checkIfRepoStarred() throws Exception {
+    public void checkIfRepoStarred() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                     new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
@@ -65,14 +66,13 @@ public final class RtStarsTest {
     /**
      * RtStars can star repository.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void starRepository() throws Exception {
+    public void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final String user = "staruser";
             final String repo = "starrepo";
@@ -102,10 +102,9 @@ public final class RtStarsTest {
     /**
      * RtStars can unstar repository.
      *
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void unstarRepository() throws Exception {
+    public void unstarRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)

@@ -6,8 +6,10 @@ package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -104,9 +106,8 @@ public class RtPublicKeysITCase {
     /**
      * Generates a random public key for test.
      * @return The encoded SSH public key.
-     * @throws Exception If a problem occurs.
      */
-    private String key() throws Exception {
+    private String key() throws JSchException, IOException {
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);

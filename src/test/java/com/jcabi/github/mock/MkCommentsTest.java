@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
+import java.io.IOException;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -27,16 +28,15 @@ public final class MkCommentsTest {
         comments.post("hello again");
         MatcherAssert.assertThat(
             comments.iterate(new Date(0L)),
-            Matchers.<Comment>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * Create a comments to work with.
      * @return Comments just created
-     * @throws Exception If some problem inside
      */
-    private Comments comments() throws Exception {
+    private Comments comments() throws IOException {
         return new MkGithub().randomRepo()
             .issues().create("hey", "how are you?")
             .comments();

@@ -58,10 +58,9 @@ public final class RtStatusesTest {
     /**
      * Tests creating a Status.
      *
-     * @throws Exception when an Error occurs
      */
     @Test
-    public void createsStatus() throws Exception {
+    public void createsStatus() throws IOException {
         final String stateprop = "state";
         final String urlprop = "target_url";
         final String descriptionprop = "description";

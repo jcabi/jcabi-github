@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Collaborators;
 import com.jcabi.github.User;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public final class MkCollaboratorsTest {
         collaborators.add(login);
         MatcherAssert.assertThat(
             collaborators.iterate(),
-            Matchers.<User>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
             collaborators.iterate().iterator().next().login(),
@@ -35,7 +36,7 @@ public final class MkCollaboratorsTest {
         collaborators.remove(login);
         MatcherAssert.assertThat(
             collaborators.iterate(),
-            Matchers.<User>iterableWithSize(0)
+            Matchers.iterableWithSize(0)
         );
     }
 
@@ -62,9 +63,8 @@ public final class MkCollaboratorsTest {
     /**
      * Create a collaborators to work with.
      * @return Collaborators just created
-     * @throws Exception If some problem inside
      */
-    private Collaborators collaborators() throws Exception {
+    private Collaborators collaborators() throws IOException {
         return new MkGithub().randomRepo().collaborators();
     }
 }

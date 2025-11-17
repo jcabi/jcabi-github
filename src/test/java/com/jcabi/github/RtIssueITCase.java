@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.log.Logger;
+import java.io.IOException;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,23 +35,21 @@ public final class RtIssueITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+        RtIssueITCase.repos = github.repos();
+        RtIssueITCase.repo = new RepoRule().repo(RtIssueITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtIssueITCase.repos != null && RtIssueITCase.repo != null) {
+            RtIssueITCase.repos.remove(RtIssueITCase.repo.coordinates());
         }
     }
 
@@ -70,7 +69,7 @@ public final class RtIssueITCase {
         );
         MatcherAssert.assertThat(
             issue.comments().iterate(new Date(0L)),
-            Matchers.<Comment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         final User.Smart author = new User.Smart(
             new Comment.Smart(comment)
@@ -246,10 +245,9 @@ public final class RtIssueITCase {
     /**
      * Create and return issue to test.
      * @return Issue
-     * @throws Exception If some problem inside
      */
-    private static Issue issue() throws Exception {
-        return repo.issues().create("test issue title", "test issue body");
+    private static Issue issue() throws IOException {
+        return RtIssueITCase.repo.issues().create("test issue title", "test issue body");
     }
 
 }

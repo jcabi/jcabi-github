@@ -13,7 +13,9 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.text.ParseException;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -41,10 +43,9 @@ public final class RtUserTest {
 
     /**
      * RtUser can understand who am I.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksWhoAmI() throws Exception {
+    public void checksWhoAmI() throws IOException {
         final String login = "monalia";
         final RtUser user = new RtUser(
             Mockito.mock(Github.class),
@@ -62,10 +63,9 @@ public final class RtUserTest {
 
     /**
      * RtUser can check if he has a name.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksIfHeHasAName() throws Exception {
+    public void checksIfHeHasAName() throws IOException {
         final User.Smart smart = new User.Smart(
             new RtUser(
                 Mockito.mock(Github.class),
@@ -86,10 +86,9 @@ public final class RtUserTest {
 
     /**
      * RtUser can check if he has NO name.
-     * @throws Exception If some problem inside
      */
     @Test
-    public void checksIfHeHasNoName() throws Exception {
+    public void checksIfHeHasNoName() throws IOException {
         final User.Smart smart = new User.Smart(
             new RtUser(
                 Mockito.mock(Github.class),
@@ -110,10 +109,9 @@ public final class RtUserTest {
     /**
      * RtUser can describe as a JSON object.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void describeAsJson() throws Exception {
+    public void describeAsJson() throws IOException {
         final RtUser user = new RtUser(
             Mockito.mock(Github.class),
             new FakeRequest().withBody(
@@ -136,10 +134,9 @@ public final class RtUserTest {
     /**
      * RtUser can execute PATCH request.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    public void executePatchRequest() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -186,10 +183,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles html_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasHtmlUrl() throws Exception {
+    public void hasHtmlUrl() throws IOException {
         final String value = "http://github.example.com";
         final User.Smart smart = this.userWith("html_url", value);
         MatcherAssert.assertThat(smart.htmlUrl(), Matchers.is(value));
@@ -197,10 +193,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles followers_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasFollwersUrl() throws Exception {
+    public void hasFollwersUrl() throws IOException {
         final String value = "http://github.example.com/followers";
         final User.Smart smart = this.userWith("followers_url", value);
         MatcherAssert.assertThat(smart.followersUrl(), Matchers.is(value));
@@ -208,10 +203,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles following_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasFollowingUrl() throws Exception {
+    public void hasFollowingUrl() throws IOException {
         final String value = "http://github.example.com/following";
         final User.Smart smart = this.userWith("following_url", value);
         MatcherAssert.assertThat(smart.followingUrl(), Matchers.is(value));
@@ -219,10 +213,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles gists_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasGistsUrl() throws Exception {
+    public void hasGistsUrl() throws IOException {
         final String value = "http://github.example.com/gists";
         final User.Smart smart = this.userWith("gists_url", value);
         MatcherAssert.assertThat(smart.gistsUrl(), Matchers.is(value));
@@ -230,10 +223,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles starred_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasStarredUrl() throws Exception {
+    public void hasStarredUrl() throws IOException {
         final String value = "http://github.example.com/starred";
         final User.Smart smart = this.userWith("starred_url", value);
         MatcherAssert.assertThat(smart.starredUrl(), Matchers.is(value));
@@ -241,10 +233,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles subscriptions_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasSubscriptionsUrl() throws Exception {
+    public void hasSubscriptionsUrl() throws IOException {
         final String value = "http://github.example.com/subscriptions";
         final User.Smart smart = this.userWith("subscriptions_url", value);
         MatcherAssert.assertThat(smart.subscriptionsUrl(), Matchers.is(value));
@@ -252,10 +243,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles organizations_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasOrganizationsUrl() throws Exception {
+    public void hasOrganizationsUrl() throws IOException {
         final String value = "http://github.example.com/organizations";
         final User.Smart smart = this.userWith("organizations_url", value);
         MatcherAssert.assertThat(smart.organizationsUrl(), Matchers.is(value));
@@ -263,10 +253,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles repos_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasReposUrl() throws Exception {
+    public void hasReposUrl() throws IOException {
         final String value = "http://github.example.com/repos";
         final User.Smart smart = this.userWith("repos_url", value);
         MatcherAssert.assertThat(smart.reposUrl(), Matchers.is(value));
@@ -274,10 +263,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles events_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasEventsUrl() throws Exception {
+    public void hasEventsUrl() throws IOException {
         final String value = "http://github.example.com/events";
         final User.Smart smart = this.userWith("events_url", value);
         MatcherAssert.assertThat(smart.eventsUrl(), Matchers.is(value));
@@ -285,10 +273,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles received_events_url JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasReceivedEventsUrl() throws Exception {
+    public void hasReceivedEventsUrl() throws IOException {
         final String value = "http://github.example.com/received_events";
         final User.Smart smart = this.userWith("received_events_url", value);
         MatcherAssert.assertThat(smart.receivedEventsUrl(), Matchers.is(value));
@@ -296,10 +283,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles type JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasType() throws Exception {
+    public void hasType() throws IOException {
         final String value = "http://github.example.com/organizations";
         final User.Smart smart = this.userWith("type", value);
         MatcherAssert.assertThat(smart.type(), Matchers.is(value));
@@ -307,20 +293,18 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles site_admin JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasSiteAdmin() throws Exception {
+    public void hasSiteAdmin() throws IOException {
         final User.Smart smart = this.userWith("site_admin", "true");
         MatcherAssert.assertThat(smart.siteAdmin(), Matchers.is(true));
     }
 
     /**
      * Tests if a User.Smart object handles blog JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasBlog() throws Exception {
+    public void hasBlog() throws IOException {
         final String value = "http://blog.example.com";
         final User.Smart smart = this.userWith("blog", value);
         MatcherAssert.assertThat(smart.blog(), Matchers.is(value));
@@ -328,20 +312,18 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles hireable JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasHireable() throws Exception {
+    public void hasHireable() throws IOException {
         final User.Smart smart = this.userWith("hireable", "true");
         MatcherAssert.assertThat(smart.hireable(), Matchers.is(true));
     }
 
     /**
      * Tests if a User.Smart object handles bio JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasBio() throws Exception {
+    public void hasBio() throws IOException {
         final String value = "http://github.example.com/bio";
         final User.Smart smart = this.userWith("bio", value);
         MatcherAssert.assertThat(smart.bio(), Matchers.is(value));
@@ -349,10 +331,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles public_repos JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasPublicRepos() throws Exception {
+    public void hasPublicRepos() throws IOException {
         final int value = Tv.THREE;
         final User.Smart smart = this.userWith(
             "public_repos",
@@ -363,10 +344,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles public_gists JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasPublicGists() throws Exception {
+    public void hasPublicGists() throws IOException {
         final int value = Tv.FOUR;
         final User.Smart smart = this.userWith(
             "public_gists",
@@ -377,10 +357,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles followers JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasFollowersCount() throws Exception {
+    public void hasFollowersCount() throws IOException {
         final int value = Tv.FIVE;
         final User.Smart smart = this.userWith(
             "followers",
@@ -391,10 +370,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles following JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasFollowingCount() throws Exception {
+    public void hasFollowingCount() throws IOException {
         final int value = Tv.SIX;
         final User.Smart smart = this.userWith(
             "following",
@@ -405,10 +383,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles created_at JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasCreated() throws Exception {
+    public void hasCreated() throws ParseException, IOException {
         final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
@@ -416,10 +393,9 @@ public final class RtUserTest {
 
     /**
      * Tests if a User.Smart object handles updated_at JSON property.
-     * @throws Exception if any problem occurs.
      */
     @Test
-    public void hasUpdated() throws Exception {
+    public void hasUpdated() throws ParseException, IOException {
         final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
@@ -427,10 +403,9 @@ public final class RtUserTest {
 
     /**
      * Verifies the behaviour of the RtUser.notifications method.
-     * @throws Exception Thrown in case of error.
      */
     @Test
-    public void notifications() throws Exception {
+    public void notifications() throws IOException {
         MatcherAssert.assertThat(
             new RtUser(
                 new MkGithub(),
@@ -443,10 +418,9 @@ public final class RtUserTest {
     /**
      * Method 'markAsRead()' should complete successfully if response code is
      * 205.
-     * @throws Exception Thrown in case of error.
      */
     @Test
-    public void markAsReadOkIfResponseStatusIs205() throws Exception {
+    public void markAsReadOkIfResponseStatusIs205() throws IOException {
         MkContainer container = null;
         try {
             container = new MkGrizzlyContainer().next(
@@ -466,11 +440,9 @@ public final class RtUserTest {
 
     /**
      * Method 'markAsRead()' should fail if response code is not 205.
-     * @throws Exception Thrown in case of an error other than the
-     *  AssertionError.
      */
     @Test(expected = AssertionError.class)
-    public void markAsReadErrorIfResponseStatusIsNot205() throws Exception {
+    public void markAsReadErrorIfResponseStatusIsNot205() throws IOException {
         MkContainer container = null;
         try {
             container = new MkGrizzlyContainer().next(

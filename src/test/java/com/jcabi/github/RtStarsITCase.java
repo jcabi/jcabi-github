@@ -35,8 +35,8 @@ public final class RtStarsITCase {
     @BeforeClass
     public static void setUp() throws IOException  {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+        RtStarsITCase.repos = github.repos();
+        RtStarsITCase.repo = new RepoRule().repo(RtStarsITCase.repos);
     }
 
     /**
@@ -45,8 +45,8 @@ public final class RtStarsITCase {
      */
     @AfterClass
     public static void tearDown() throws IOException  {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+        if (RtStarsITCase.repos != null && RtStarsITCase.repo != null) {
+            RtStarsITCase.repos.remove(RtStarsITCase.repo.coordinates());
         }
     }
 
@@ -58,17 +58,17 @@ public final class RtStarsITCase {
     @Test
     public void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
-            repo.stars().starred(),
+            RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );
-        repo.stars().star();
+        RtStarsITCase.repo.stars().star();
         MatcherAssert.assertThat(
-            repo.stars().starred(),
+            RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(true)
         );
-        repo.stars().unstar();
+        RtStarsITCase.repo.stars().unstar();
         MatcherAssert.assertThat(
-            repo.stars().starred(),
+            RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );
     }

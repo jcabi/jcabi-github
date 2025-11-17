@@ -26,7 +26,7 @@ public final class MkCheckTest {
 
     /**
      * Set up.
-     * @throws java.io.IOException If some problem with I/O.
+     * @throws IOException If some problem with I/O.
      */
     @Before
     public void setUp() throws IOException {

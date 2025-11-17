@@ -13,6 +13,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.immutable.ArrayMap;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -37,12 +38,11 @@ public final class RtPullsTest {
     /**
      * RtPulls can create a pull request.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void createPull() throws Exception {
+    public void createPull() throws IOException {
         final String title = "new feature";
-        final String body = pull(title).toString();
+        final String body = RtPullsTest.pull(title).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
@@ -51,7 +51,7 @@ public final class RtPullsTest {
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
-                repo()
+                RtPullsTest.repo()
             );
             final Pull pull = pulls.create(title, "octocat", "master");
             MatcherAssert.assertThat(
@@ -68,22 +68,21 @@ public final class RtPullsTest {
 
     /**
      * RtPulls can get a single pull request.
-     * @throws Exception if some problem inside
      */
     @Test
-    public void getSinglePull() throws Exception {
+    public void getSinglePull() throws IOException {
         final String title = "new-feature";
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    pull(title).toString()
+                    RtPullsTest.pull(title).toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
-                repo()
+                RtPullsTest.repo()
             );
             final Pull pull = pulls.get(Tv.BILLION);
             MatcherAssert.assertThat(
@@ -96,28 +95,27 @@ public final class RtPullsTest {
 
     /**
      * RtPulls can iterate pulls.
-     * @throws Exception if there is any error
      */
     @Test
-    public void iteratePulls() throws Exception {
+    public void iteratePulls() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(pull("new-topic"))
-                        .add(pull("Amazing new feature"))
+                        .add(RtPullsTest.pull("new-topic"))
+                        .add(RtPullsTest.pull("Amazing new feature"))
                         .build().toString()
                 )
             ).start(this.resource.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
-                repo()
+                RtPullsTest.repo()
             );
             MatcherAssert.assertThat(
                 pulls.iterate(new ArrayMap<>()),
-                Matchers.<Pull>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }

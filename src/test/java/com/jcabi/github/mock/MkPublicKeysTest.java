@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.PublicKey;
 import com.jcabi.github.PublicKeys;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,10 +20,9 @@ public final class MkPublicKeysTest {
     /**
      * MkPublicKeys should be able to iterate its keys.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void retrievesKeys() throws Exception {
+    public void retrievesKeys() throws IOException {
         final PublicKeys keys = new MkGithub().users().self().keys();
         final PublicKey key = keys.create("key", "ssh 1AA");
         MatcherAssert.assertThat(
@@ -34,10 +34,9 @@ public final class MkPublicKeysTest {
     /**
      * MkPublicKeys should be able to retrieve a single key.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canFetchSingleKey() throws Exception {
+    public void canFetchSingleKey() throws IOException {
         final PublicKeys keys = new MkGithub().users().add("jeff").keys();
         MatcherAssert.assertThat(
             keys.get(1),
@@ -48,10 +47,9 @@ public final class MkPublicKeysTest {
     /**
      * MkPublicKeys should be able to create a public key.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canCreatePublicKey() throws Exception {
+    public void canCreatePublicKey() throws IOException {
         final PublicKeys keys = new MkGithub().users().add("john").keys();
         final PublicKey key = keys.create("Title1", "PublicKey1");
         MatcherAssert.assertThat(
@@ -63,10 +61,9 @@ public final class MkPublicKeysTest {
     /**
      * MkPublicKeys should be able to remove a key.
      *
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRemoveKey() throws Exception {
+    public void canRemoveKey() throws IOException {
         final PublicKeys keys = new MkGithub().users().self().keys();
         final PublicKey key = keys.create("rsa", "rsa sh");
         MatcherAssert.assertThat(

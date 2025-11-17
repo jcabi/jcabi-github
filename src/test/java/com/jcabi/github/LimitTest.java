@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.github.Limit.Throttled;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -23,10 +24,9 @@ public final class LimitTest {
     /**
      * Limit can throw exception when resource is absent.
      *
-     * @throws Exception if some problem inside
      */
     @Test(expected = IllegalStateException.class)
-    public void throwsWhenResourceIsAbsent() throws Exception {
+    public void throwsWhenResourceIsAbsent() throws IOException {
         final Limit limit = Mockito.mock(Limit.class);
         final Throttled throttled = new Throttled(limit, 23);
         Mockito.when(limit.json()).thenReturn(
@@ -40,10 +40,9 @@ public final class LimitTest {
      * GitHub reset property is in seconds, but java.util.Date
      * constructor assumes miliseconds.
      *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void timeIsCreatedForReset() throws Exception {
+    public void timeIsCreatedForReset() throws IOException {
         // @checkstyle MagicNumberCheck (21 lines)
         final RtLimit limit = new RtLimit(
             Mockito.mock(Github.class),

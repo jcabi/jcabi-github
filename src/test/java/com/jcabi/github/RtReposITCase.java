@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -27,10 +28,9 @@ public class RtReposITCase {
     /**
      * RtRepos create repository test.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void create() throws Exception {
+    public final void create() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -42,10 +42,9 @@ public class RtReposITCase {
 
     /**
      * RtRepos should fail on creation of two repos with the same name.
-     * @throws Exception If some problem inside
      */
     @Test(expected = AssertionError.class)
-    public final void failsOnCreationOfTwoRepos() throws Exception {
+    public final void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -60,10 +59,9 @@ public class RtReposITCase {
     /**
      * RtRepos exists repository test.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void exists() throws Exception {
+    public final void exists() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -79,10 +77,9 @@ public class RtReposITCase {
     /**
      * RtRepos create repository test.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void createWithOrganization() throws Exception {
+    public final void createWithOrganization() throws IOException {
         final Repos repos = new GithubIT().connect().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")

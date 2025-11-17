@@ -9,6 +9,7 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -61,10 +62,9 @@ public final class RtEventTest {
     /**
      * RtEvent can be retrieved in JSON form.
      *
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrieveEventAsJson() throws Exception {
+    public void retrieveEventAsJson() throws IOException {
         try (final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,

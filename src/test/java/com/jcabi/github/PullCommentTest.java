@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -41,14 +42,13 @@ public final class PullCommentTest {
 
     /**
      * PullComment.Smart can fetch the id value from PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesId() throws Exception {
+    public void fetchesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
             new PullComment.Smart(comment).identifier(),
@@ -58,28 +58,26 @@ public final class PullCommentTest {
 
     /**
      * PullComment.Smart can update the id value of PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesId() throws Exception {
+    public void updatesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).identifier(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
         );
     }
 
     /**
      * PullComment.Smart can fetch the commit id value from PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesCommitId() throws Exception {
+    public void fetchesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(COMMIT_ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
             new PullComment.Smart(comment).commitId(),
@@ -89,28 +87,26 @@ public final class PullCommentTest {
 
     /**
      * PullComment.Smart can update the commit id value of PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesCommitId() throws Exception {
+    public void updatesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).commitId(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(COMMIT_ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
         );
     }
 
     /**
      * PullComment.Smart can fetch the url value from PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    public void fetchesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(URL, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
             new PullComment.Smart(comment).url(),
@@ -120,28 +116,26 @@ public final class PullCommentTest {
 
     /**
      * PullComment.Smart can update the url value of PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesUrl() throws Exception {
+    public void updatesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).url(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(URL, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
         );
     }
 
     /**
      * PullComment.Smart can fetch the body value from PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesBody() throws Exception {
+    public void fetchesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(BODY, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
             new PullComment.Smart(comment).body(),
@@ -151,24 +145,22 @@ public final class PullCommentTest {
 
     /**
      * PullComment.Smart can update the body value of PullComment.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void updatesBody() throws Exception {
+    public void updatesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).body(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(BODY, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
         );
     }
 
     /**
      * PullComment.Smart can retrieve who is the comment author.
-     * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrievesAuthor() throws Exception {
+    public void retrievesAuthor() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final JsonObject user = Json.createObjectBuilder()

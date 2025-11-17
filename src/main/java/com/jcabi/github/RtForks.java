@@ -65,7 +65,7 @@ final class RtForks implements Forks {
         final String sort) {
         return new RtPagination<>(
             this.request.uri().queryParam("sort", sort).back(),
-            object -> this.get(object.getInt(ID))
+            object -> this.get(object.getInt(RtForks.ID))
         );
     }
 
@@ -81,7 +81,7 @@ final class RtForks implements Forks {
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_ACCEPTED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt(ID)
+                .json().readObject().getInt(RtForks.ID)
         );
     }
 

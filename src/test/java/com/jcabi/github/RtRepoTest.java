@@ -50,17 +50,16 @@ public final class RtRepoTest {
     /**
      * RtRepo can fetch events.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesEvents() throws Exception {
+    public void iteratesEvents() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(event(Event.ASSIGNED))
-                        .add(event(Event.MENTIONED))
+                        .add(RtRepoTest.event(Event.ASSIGNED))
+                        .add(RtRepoTest.event(Event.MENTIONED))
                         .build().toString()
                 )
             ).start(this.resource.port())
@@ -70,7 +69,7 @@ public final class RtRepoTest {
             );
             MatcherAssert.assertThat(
                 repo.issueEvents().iterate(),
-                Matchers.<Event>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -216,15 +215,14 @@ public final class RtRepoTest {
     /**
      * RtRepo can execute PATCH request.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    public void executePatchRequest() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    event(Event.ASSIGNED).toString()
+                    RtRepoTest.event(Event.ASSIGNED).toString()
                 )
             ).start(this.resource.port())
         ) {
@@ -243,10 +241,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can describe as a JSON object.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void describeAsJson() throws Exception {
+    public void describeAsJson() throws IOException {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
@@ -338,10 +335,9 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch languages.
-     * @throws Exception if a problem occurs.
      */
     @Test
-    public void fetchLanguages() throws Exception {
+    public void fetchLanguages() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -363,10 +359,9 @@ public final class RtRepoTest {
     /**
      * RtRepo can iterate languages.
      *
-     * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesLanguages() throws Exception {
+    public void iteratesLanguages() throws IOException {
         final String lang = "C";
         final String other = "Java";
         try (

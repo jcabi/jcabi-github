@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -22,10 +23,9 @@ public final class MkPullsTest {
     /**
      * MkPulls can create a pull.
      * It should create an issue first, and then pull with the same number
-     * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateAPull() throws Exception {
+    public void canCreateAPull() throws IOException {
         final Repo repo = new MkGithub().randomRepo();
         final Pull pull = repo.pulls().create(
             "hello",

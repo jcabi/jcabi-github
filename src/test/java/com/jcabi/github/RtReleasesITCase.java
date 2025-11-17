@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -38,33 +39,30 @@ public final class RtReleasesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws IOException {
         final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+        RtReleasesITCase.repos = github.repos();
+        RtReleasesITCase.repo = RtReleasesITCase.rule.repo(RtReleasesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
     @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    public static void tearDown() throws IOException {
+        if (RtReleasesITCase.repos != null && RtReleasesITCase.repo != null) {
+            RtReleasesITCase.repos.remove(RtReleasesITCase.repo.coordinates());
         }
     }
 
     /**
      * RtReleases can iterate releases.
-     * @throws Exception if something goes wrong
      */
     @Test
-    public void canFetchAllReleases() throws Exception {
-        final Releases releases = repo.releases();
+    public void canFetchAllReleases() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
@@ -80,11 +78,10 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can fetch a single release.
-     * @throws Exception if any error inside
      */
     @Test
-    public void canFetchRelease() throws Exception {
-        final Releases releases = repo.releases();
+    public void canFetchRelease() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
         final String tag = "v1.0";
         final Release release = releases.create(tag);
         MatcherAssert.assertThat(
@@ -100,11 +97,10 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can create a release.
-     * @throws Exception if any error inside
      */
     @Test
-    public void canCreateRelease() throws Exception {
-        final Releases releases = repo.releases();
+    public void canCreateRelease() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
         final Release created = releases.create("0.1");
         final int number = created.number();
         try {
@@ -124,11 +120,10 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can remove a release.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void canRemoveRelease() throws Exception {
-        final Releases releases = repo.releases();
+    public void canRemoveRelease() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
@@ -145,11 +140,10 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can edit release tag.
-     * @throws Exception if any problem inside.
      */
     @Test
-    public void canEditTag() throws Exception {
-        final Releases releases = repo.releases();
+    public void canEditTag() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );
@@ -164,11 +158,10 @@ public final class RtReleasesITCase {
 
     /**
      * RtReleases can edit release body.
-     * @throws Exception if any problem inside.
      */
     @Test
-    public void canEditBody() throws Exception {
-        final Releases releases = repo.releases();
+    public void canEditBody() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );

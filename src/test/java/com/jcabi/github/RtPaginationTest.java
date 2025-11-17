@@ -11,6 +11,7 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -34,10 +35,9 @@ public final class RtPaginationTest {
     /**
      * RtPagination can jump to next page of results.
      *
-     * @throws Exception if there is any problem
      */
     @Test
-    public void jumpNextPage() throws Exception {
+    public void jumpNextPage() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 RtPaginationTest.simple("Hi Jeff")
@@ -69,13 +69,12 @@ public final class RtPaginationTest {
     /**
      * RtPagination can throw if there is no more elements in pagination.
      *
-     * @throws Exception if there is any problem
      */
     @Test(expected = NoSuchElementException.class)
-    public void throwsIfNoMoreElement() throws Exception {
+    public void throwsIfNoMoreElement() throws IOException {
         try (
             final MkContainer container = new MkGrizzlyContainer()
-                .next(simple("Hi there")).start(this.resource.port())
+                .next(RtPaginationTest.simple("Hi there")).start(this.resource.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(

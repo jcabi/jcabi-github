@@ -43,7 +43,7 @@ public class Main {
     Repo repo = github.repos().get(
         new Coordinates.Simple("octocat/Hello-World")
     );
-    Issue issue = repo.issues().create("Test title", "Test description");
+    final Issue issue = repo.issues().create("Test title", "Test description");
     issue.comments().post("My first comment!");
   }
 }

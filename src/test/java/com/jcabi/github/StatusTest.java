@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.github.mock.MkGithub;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -341,9 +342,8 @@ public final class StatusTest {
     /**
      * Returns a test commit to work with.
      * @return Commit
-     * @throws Exception If some problem inside
      */
-    private static Commit commit() throws Exception {
+    private static Commit commit() throws IOException {
         return new MkGithub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");
     }
