@@ -15,8 +15,8 @@ import lombok.ToString;
 
 /**
  * File change.
- * @since 0.24
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @since 0.24
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -69,6 +69,7 @@ public interface FileChange extends JsonReadable {
 
     /**
      * Smart file change with extra features.
+     * @since 0.24
      */
     @Immutable
     @ToString
@@ -83,7 +84,6 @@ public interface FileChange extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
-
         private final transient SmartJson jsn;
 
         /**

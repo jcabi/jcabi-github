@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtForks}.
- *
+ * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 public class RtForksITCase {
@@ -27,7 +27,6 @@ public class RtForksITCase {
 
     /**
      * RtForks should be able to iterate its forks.
-     *
      */
     @Test
     public final void retrievesForks() throws IOException {
@@ -39,10 +38,16 @@ public class RtForksITCase {
         try {
             final Fork fork = repo.forks().create(organization);
             MatcherAssert.assertThat(
-                "Value is null",fork, Matchers.notNullValue());
+                "Value is null",
+                fork,
+                Matchers.notNullValue()
+            );
             final Iterable<Fork> forks = repo.forks().iterate("newest");
             MatcherAssert.assertThat(
-                "Value is null",forks, Matchers.notNullValue());
+                "Value is null",
+                forks,
+                Matchers.notNullValue()
+            );
             MatcherAssert.assertThat(
                 "Collection is not empty",
                 forks,

@@ -47,7 +47,7 @@ final class RtOrganization implements Organization {
      * @param req Request
      * @param login Organization login name
      */
-    public RtOrganization(
+    RtOrganization(
         final GitHub github,
         final Request req,
         final String login

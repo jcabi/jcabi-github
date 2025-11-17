@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
  * @since 0.8
  */
 @Immutable
-@EqualsAndHashCode(of = { "ghub" , "request" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class RtGitignores implements Gitignores {
 
     /**
@@ -40,10 +40,10 @@ final class RtGitignores implements Gitignores {
      * Public CTOR.
      * @param github GitHub
      */
-    public RtGitignores(
+    RtGitignores(
         final GitHub github) {
         this.ghub = github;
-        this.request = github().entry().uri()
+        this.request = this.github().entry().uri()
             .path("/gitignore/templates").back();
     }
 

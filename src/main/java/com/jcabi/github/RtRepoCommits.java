@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Commits of a GitHub repository.
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable

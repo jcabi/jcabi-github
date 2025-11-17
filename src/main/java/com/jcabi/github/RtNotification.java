@@ -9,8 +9,8 @@ import com.jcabi.aspects.Immutable;
 /**
  * GitHub Notification.
  *
- * @since 0.19
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.19
  */
 @Immutable
 final class RtNotification implements Notification {

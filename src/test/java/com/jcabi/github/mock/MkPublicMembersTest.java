@@ -16,7 +16,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkPublicMembers}.
- *
+ * @since 0.1
  */
 public final class MkPublicMembersTest {
     /**
@@ -92,7 +92,10 @@ public final class MkPublicMembersTest {
             Matchers.is(true)
         );
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",members.iterate(), Matchers.hasItem(user));
+            "Collection does not contain expected item",
+            members.iterate(),
+            Matchers.hasItem(user)
+        );
         members.conceal(user);
         MatcherAssert.assertThat(
             "The concealed user is not a public member",
@@ -127,7 +130,10 @@ public final class MkPublicMembersTest {
             Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",members.iterate(), Matchers.hasItem(user));
+            "Collection does not contain expected item",
+            members.iterate(),
+            Matchers.hasItem(user)
+        );
         members.conceal(user);
         MatcherAssert.assertThat(
             "Collection is not empty",

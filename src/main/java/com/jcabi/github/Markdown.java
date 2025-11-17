@@ -11,8 +11,8 @@ import java.io.IOException;
 /**
  * Markdown API.
  *
- * @since 0.6
  * @see <a href="https://developer.github.com/v3/markdown/">Markdown API</a>
+ * @since 0.6
  */
 @Immutable
 public interface Markdown {

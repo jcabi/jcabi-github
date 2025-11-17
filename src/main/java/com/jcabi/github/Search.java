@@ -10,8 +10,8 @@ import java.util.EnumMap;
 /**
  * GitHub search.
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/search/">Search API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -184,10 +184,6 @@ public interface Search {
             this.qualifier = key;
         }
 
-        /**
-         * Get search qualifier.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.qualifier;
@@ -217,10 +213,6 @@ public interface Search {
             this.order = key;
         }
 
-        /**
-         * Get sort order.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.order;

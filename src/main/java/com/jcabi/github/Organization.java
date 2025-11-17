@@ -27,9 +27,9 @@ import lombok.ToString;
  * if (org.name() == null) {
  *   name = "new_name";
  * }</pre>
- * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -56,6 +56,7 @@ public interface Organization extends Comparable<Organization>,
 
     /**
      * Smart Organization with extra features.
+     * @since 0.7
      */
     @Immutable
     @ToString

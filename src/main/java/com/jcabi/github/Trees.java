@@ -11,8 +11,8 @@ import java.io.IOException;
 /**
  * GitHub Git Data Trees.
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Trees {
@@ -44,7 +44,6 @@ public interface Trees {
      * @return Tree
      * @throws IOException If there is any I/O problem
      */
-
     Tree create(
         JsonObject params)
         throws IOException;

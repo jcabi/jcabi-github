@@ -30,6 +30,7 @@ import lombok.ToString;
  * <pre>String title = new PublicKey.Smart(comment).title();</pre>
  *
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -50,6 +51,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
     /**
      * Smart PublicKey with extra features.
+     * @since 0.1
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable

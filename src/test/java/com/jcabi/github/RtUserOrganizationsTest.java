@@ -34,7 +34,6 @@ public final class RtUserOrganizationsTest {
     /**
      * RtUserOrganizations can iterate organizations for
      * an unauthenticated user.
-     *
      */
     @Test
     public void canIterateOrganizationsForUnauthUser() throws IOException {

@@ -13,13 +13,12 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkPublicKeys}.
- *
+ * @since 0.1
  */
 public final class MkPublicKeysTest {
 
     /**
      * MkPublicKeys should be able to iterate its keys.
-     *
      */
     @Test
     public void retrievesKeys() throws IOException {
@@ -34,7 +33,6 @@ public final class MkPublicKeysTest {
 
     /**
      * MkPublicKeys should be able to retrieve a single key.
-     *
      */
     @Test
     public void canFetchSingleKey() throws IOException {
@@ -48,7 +46,6 @@ public final class MkPublicKeysTest {
 
     /**
      * MkPublicKeys should be able to create a public key.
-     *
      */
     @Test
     public void canCreatePublicKey() throws IOException {
@@ -63,7 +60,6 @@ public final class MkPublicKeysTest {
 
     /**
      * MkPublicKeys should be able to remove a key.
-     *
      */
     @Test
     public void canRemoveKey() throws IOException {

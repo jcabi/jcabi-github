@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Repo}.
+ * @since 0.1
  */
 public final class RepoTest {
 

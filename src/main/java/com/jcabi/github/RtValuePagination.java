@@ -22,10 +22,10 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub value pagination.
  *
- * @since 0.8
  * @param <T> Type of iterable objects
  * @param <P> Type of source objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
+ * @since 0.8
  */
 @Immutable
 @EqualsAndHashCode(of = { "entry", "map" })
@@ -85,6 +85,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
      * Mapping from JsonValue successor to the destination type.
      * @param <X> Type of custom object
      * @param <P> Type of source object
+     * @since 0.8
      */
     @Immutable
     public interface Mapping<X, P extends JsonValue> {
@@ -98,6 +99,9 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
     /**
      * Iterator.
+     * @param <X> Type of custom object
+     * @param <P> Type of source object
+     * @since 0.8
      */
     @EqualsAndHashCode(of = { "mapping", "request", "objects", "more" })
     private static final class Items<X, P extends JsonValue> implements
@@ -109,24 +113,20 @@ public final class RtValuePagination<T, P extends JsonValue> implements
         /**
          * Next entry to use.
          */
-
         private transient Request request;
         /**
          * Available objects.
          */
-
         private transient Queue<P> objects;
         /**
          * Current entry can be used to fetch objects.
          */
-
         private transient boolean more = true;
         /**
          * Ctor.
          * @param entry Entry
          * @param mpp Mapping
          */
-
         Items(final Request entry, final RtValuePagination.Mapping<X, P> mpp) {
             this.request = entry;
             this.mapping = mpp;
@@ -168,7 +168,6 @@ public final class RtValuePagination<T, P extends JsonValue> implements
          * Fetch the next portion, if available.
          * @throws IOException If there is any I/O problem
          */
-
         @SuppressWarnings("unchecked")
         private void fetch() throws IOException {
             final RestResponse response = this.request.fetch()

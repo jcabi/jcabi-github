@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Issue}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class IssueTest {

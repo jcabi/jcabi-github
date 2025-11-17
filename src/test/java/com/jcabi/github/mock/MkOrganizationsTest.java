@@ -63,7 +63,10 @@ public final class MkOrganizationsTest {
                 .getString(created)
         ).date();
         MatcherAssert.assertThat(
-            "Value is not greater than expected",later, Matchers.greaterThanOrEqualTo(early));
+            "Value is not greater than expected",
+            later,
+            Matchers.greaterThanOrEqualTo(early)
+        );
     }
 
     /**

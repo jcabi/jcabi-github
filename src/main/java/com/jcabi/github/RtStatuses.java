@@ -45,30 +45,16 @@ public class RtStatuses implements Statuses {
         this.cmmt = commit;
     }
 
-    /**
-     * Generate string representation.
-     * @return String representation
-     */
     @Override
     public final String toString() {
         return this.request.uri().get().toString();
     }
 
-    /**
-     * Get commit object.
-     * @return Commit object
-     */
     @Override
     public final Commit commit() {
         return this.cmmt;
     }
 
-    /**
-     * Create new status for a commit.
-     * @param status Add this status
-     * @return Returned status
-     * @throws IOException In case of any I/O problems
-     */
     @Override
     public final Status create(
         final Statuses.StatusCreate status
@@ -84,9 +70,6 @@ public class RtStatuses implements Statuses {
     }
 
     /**
-     * Get all status messages for a given commit.
-     * @param ref It can be a SHA, a branch name, or a tag name.
-     * @return Full list of statuses for this commit.
      * @todo #1126:30min Implement this method which gets all status messages for a given commit.
      */
     @Override
@@ -96,11 +79,6 @@ public class RtStatuses implements Statuses {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    /**
-     * JSON object for this request.
-     * @return Json object
-     * @throws IOException In case of I/O problems
-     */
     @Override
     public final JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();

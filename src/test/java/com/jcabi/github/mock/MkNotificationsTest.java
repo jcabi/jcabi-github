@@ -13,7 +13,7 @@ import org.xembly.Directives;
 
 /**
  * Test case for {@link MkNotifications}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

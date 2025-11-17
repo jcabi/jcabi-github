@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtMilestones}.
- *
+ * @since 0.1
  */
 public final class RtMilestonesTest {
 
@@ -36,7 +36,7 @@ public final class RtMilestonesTest {
     @Test
     public void deleteMilestone() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {

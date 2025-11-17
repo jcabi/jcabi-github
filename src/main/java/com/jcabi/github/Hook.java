@@ -14,8 +14,8 @@ import lombok.ToString;
 /**
  * GitHub hook.
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Hook extends JsonReadable {
@@ -34,6 +34,7 @@ public interface Hook extends JsonReadable {
 
     /**
      * Smart Hook with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -47,13 +48,11 @@ public interface Hook extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
-
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param hoo Hook
          */
-
         public Smart(final Hook hoo) {
             this.hook = hoo;
             this.jsn = new SmartJson(hoo);
@@ -63,7 +62,6 @@ public interface Hook extends JsonReadable {
          * @return Name of hook
          * @throws IOException If there is any I/O problem
          */
-
         public String name() throws IOException {
             return this.jsn.text("name");
         }

@@ -13,13 +13,12 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPublicKey}.
- *
+ * @since 0.1
  */
 public final class RtPublicKeyTest {
 
     /**
      * RtPublicKey can be described as a JSON object.
-     *
      */
     @Test
     public void canRepresentAsJson() throws IOException {

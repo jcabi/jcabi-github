@@ -39,13 +39,13 @@ public final class RtDeployKeysTest {
      */
     @Test
     public void canFetchEmptyListOfDeployKeys() {
-        final DeployKeys deployKeys = new RtDeployKeys(
+        final DeployKeys keys = new RtDeployKeys(
             new FakeRequest().withBody("[]"),
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
             "Collection is not empty",
-            deployKeys.iterate(),
+            keys.iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -57,7 +57,7 @@ public final class RtDeployKeysTest {
      */
     @Test
     public void canFetchNonEmptyListOfDeployKeys() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -105,7 +105,7 @@ public final class RtDeployKeysTest {
     @Test
     public void canCreateDeployKey() throws IOException {
         final int number = 2;
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 String.format("{\"id\":%d}", number)
