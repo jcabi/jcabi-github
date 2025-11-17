@@ -7,7 +7,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Event;
 import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
-import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;

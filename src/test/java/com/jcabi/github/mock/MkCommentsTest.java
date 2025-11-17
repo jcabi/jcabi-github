@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import java.io.IOException;
 import java.util.Date;

@@ -5,7 +5,6 @@
 
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Reference;
 import com.jcabi.github.References;
 import com.jcabi.github.Repo;
 import java.io.IOException;

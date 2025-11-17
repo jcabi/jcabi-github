@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Notification;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

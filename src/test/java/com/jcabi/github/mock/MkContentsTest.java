@@ -8,7 +8,6 @@ import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
-import com.jcabi.xml.XML;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;

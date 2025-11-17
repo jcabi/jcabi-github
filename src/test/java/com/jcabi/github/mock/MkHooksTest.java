@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Event;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
 import java.io.IOException;

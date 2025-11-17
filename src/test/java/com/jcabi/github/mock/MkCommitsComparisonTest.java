@@ -6,7 +6,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.RepoCommit;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

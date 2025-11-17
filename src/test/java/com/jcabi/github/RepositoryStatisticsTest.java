@@ -54,67 +54,67 @@ public final class RepositoryStatisticsTest {
     /**
      * Language value in JSON.
      */
-    private static String LANGUAGE_VALUE = "java";
+    private static String languageValue = "java";
 
     /**
      * Stargazers key in JSON.
      */
-    private static String STARGAZERS_KEY = "stargazers_count";
+    private static String stargazersKey = "stargazers_count";
 
     /**
      * Stargazers value in JSON.
      */
-    private static int STARGAZERS_VALUE = 2;
+    private static int stargazersValue = 2;
 
     /**
      * Watchers key in JSON.
      */
-    private static String WATCHERS_KEY = "watchers_count";
+    private static String watchersKey = "watchers_count";
 
     /**
      * Watchers value in JSON.
      */
-    private static int WATCHERS_VALUE = 3;
+    private static int watchersValue = 3;
 
     /**
      * Size key in JSON.
      */
-    private static String SIZE_KEY = "size";
+    private static String sizeKey = "size";
 
     /**
      * Size value in JSON.
      */
-    private static int SIZE_VALUE = 4;
+    private static int sizeValue = 4;
 
     /**
      * Issues key in JSON.
      */
-    private static String ISSUES_KEY = "open_issues_count";
+    private static String issuesKey = "open_issues_count";
 
     /**
      * Issues value in JSON.
      */
-    private static int ISSUES_VALUE = 5;
+    private static int issuesValue = 5;
 
     /**
      * Created key in JSON.
      */
-    private static String CREATED_KEY = "created_at";
+    private static String createdKey = "created_at";
 
     /**
      * Created value in JSON.
      */
-    private static String CREATED_VALUE = "2011-01-26T19:14:43Z";
+    private static String createdValue = "2011-01-26T19:14:43Z";
 
     /**
      * Updated key in JSON.
      */
-    private static String UPDATED_KEY = "updated_at";
+    private static String updatedKey = "updated_at";
 
     /**
      * Updated value in JSON.
      */
-    private static String UPDATED_VALUE = "2012-01-26T19:14:43Z";
+    private static String updatedValue = "2012-01-26T19:14:43Z";
 
     /**
      * Checks that RepositryStatistics can convert all values to a map.
@@ -129,7 +129,7 @@ public final class RepositoryStatisticsTest {
             Matchers.<Map<String, ?>>allOf(
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.LANGUAGE_KEY,
-                    RepositoryStatisticsTest.LANGUAGE_VALUE
+                    RepositoryStatisticsTest.languageValue
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.FORKS_KEY,
@@ -138,36 +138,36 @@ public final class RepositoryStatisticsTest {
                     )
                 ),
                 Matchers.hasEntry(
-                    RepositoryStatisticsTest.STARGAZERS_KEY,
+                    RepositoryStatisticsTest.stargazersKey,
                     String.valueOf(
-                        RepositoryStatisticsTest.STARGAZERS_VALUE
+                        RepositoryStatisticsTest.stargazersValue
                     )
                 ),
                 Matchers.hasEntry(
-                    RepositoryStatisticsTest.WATCHERS_KEY,
+                    RepositoryStatisticsTest.watchersKey,
                     String.valueOf(
-                        RepositoryStatisticsTest.WATCHERS_VALUE
+                        RepositoryStatisticsTest.watchersValue
                     )
                 ),
                 Matchers.hasEntry(
-                    RepositoryStatisticsTest.SIZE_KEY,
+                    RepositoryStatisticsTest.sizeKey,
                     String.valueOf(
-                        RepositoryStatisticsTest.SIZE_VALUE
+                        RepositoryStatisticsTest.sizeValue
                     )
                 ),
                 Matchers.hasEntry(
-                    RepositoryStatisticsTest.ISSUES_KEY,
+                    RepositoryStatisticsTest.issuesKey,
                     String.valueOf(
-                        RepositoryStatisticsTest.ISSUES_VALUE
+                        RepositoryStatisticsTest.issuesValue
                     )
                 ),
                 Matchers.hasEntry(
-                    RepositoryStatisticsTest.CREATED_KEY,
-                    RepositoryStatisticsTest.CREATED_VALUE
+                    RepositoryStatisticsTest.createdKey,
+                    RepositoryStatisticsTest.createdValue
                 ),
                 Matchers.hasEntry(
-                    RepositoryStatisticsTest.UPDATED_KEY,
-                    RepositoryStatisticsTest.UPDATED_VALUE
+                    RepositoryStatisticsTest.updatedKey,
+                    RepositoryStatisticsTest.updatedValue
                 )
             )
         );
@@ -192,28 +192,28 @@ public final class RepositoryStatisticsTest {
             "Stargazers should be equal to 2",
             smart.stargazers(),
             Matchers.equalTo(
-                RepositoryStatisticsTest.STARGAZERS_VALUE
+                RepositoryStatisticsTest.stargazersValue
             )
         );
         MatcherAssert.assertThat(
             "Watchers should be equal to 3",
             smart.watchers(),
             Matchers.equalTo(
-                RepositoryStatisticsTest.WATCHERS_VALUE
+                RepositoryStatisticsTest.watchersValue
             )
         );
         MatcherAssert.assertThat(
             "Size should be equal to 4",
             smart.size(),
             Matchers.equalTo(
-                RepositoryStatisticsTest.SIZE_VALUE
+                RepositoryStatisticsTest.sizeValue
             )
         );
         MatcherAssert.assertThat(
             "Issues should be equal to 5",
             smart.openIssues(),
             Matchers.equalTo(
-                RepositoryStatisticsTest.ISSUES_VALUE
+                RepositoryStatisticsTest.issuesValue
             )
         );
         MatcherAssert.assertThat(
@@ -221,7 +221,7 @@ public final class RepositoryStatisticsTest {
             smart.created(),
             Matchers.equalTo(
                 ZonedDateTime.parse(
-                    RepositoryStatisticsTest.CREATED_VALUE
+                    RepositoryStatisticsTest.createdValue
                 )
             )
         );
@@ -240,7 +240,7 @@ public final class RepositoryStatisticsTest {
                     .with(
                         RepositoryStatisticsTest.LANGUAGE_KEY,
                         Json.createValue(
-                            RepositoryStatisticsTest.LANGUAGE_VALUE
+                            RepositoryStatisticsTest.languageValue
                         )
                     )
                     .with(
@@ -250,39 +250,39 @@ public final class RepositoryStatisticsTest {
                         )
                     )
                     .with(
-                        RepositoryStatisticsTest.STARGAZERS_KEY,
+                        RepositoryStatisticsTest.stargazersKey,
                         Json.createValue(
-                            RepositoryStatisticsTest.STARGAZERS_VALUE
+                            RepositoryStatisticsTest.stargazersValue
                         )
                     )
                     .with(
-                        RepositoryStatisticsTest.WATCHERS_KEY,
+                        RepositoryStatisticsTest.watchersKey,
                         Json.createValue(
-                            RepositoryStatisticsTest.WATCHERS_VALUE
+                            RepositoryStatisticsTest.watchersValue
                         )
                     )
                     .with(
-                        RepositoryStatisticsTest.SIZE_KEY,
+                        RepositoryStatisticsTest.sizeKey,
                         Json.createValue(
-                            RepositoryStatisticsTest.SIZE_VALUE
+                            RepositoryStatisticsTest.sizeValue
                         )
                     )
                     .with(
-                        RepositoryStatisticsTest.ISSUES_KEY,
+                        RepositoryStatisticsTest.issuesKey,
                         Json.createValue(
-                            RepositoryStatisticsTest.ISSUES_VALUE
+                            RepositoryStatisticsTest.issuesValue
                         )
                     )
                     .with(
-                        RepositoryStatisticsTest.CREATED_KEY,
+                        RepositoryStatisticsTest.createdKey,
                         Json.createValue(
-                            RepositoryStatisticsTest.CREATED_VALUE
+                            RepositoryStatisticsTest.createdValue
                         )
                     )
                     .with(
-                        RepositoryStatisticsTest.UPDATED_KEY,
+                        RepositoryStatisticsTest.updatedKey,
                         Json.createValue(
-                            RepositoryStatisticsTest.UPDATED_VALUE
+                            RepositoryStatisticsTest.updatedValue
                         )
                     )
             );

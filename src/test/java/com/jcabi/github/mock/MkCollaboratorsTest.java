@@ -5,7 +5,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Collaborators;
-import com.jcabi.github.User;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
