@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github hooks.
+ * GitHub hooks.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>

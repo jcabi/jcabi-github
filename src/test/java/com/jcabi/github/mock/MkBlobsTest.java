@@ -22,7 +22,7 @@ public final class MkBlobsTest {
      */
     @Test
     public void canCreateBlob() throws IOException {
-        final Blobs blobs = new MkGithub().randomRepo().git().blobs();
+        final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
         final Blob blob = blobs.create("content1", "encoding1");
         MatcherAssert.assertThat(
             blobs.get(blob.sha()),
@@ -35,7 +35,7 @@ public final class MkBlobsTest {
      */
     @Test
     public void getBlob() throws IOException {
-        final Blobs blobs = new MkGithub().randomRepo().git().blobs();
+        final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
         final Blob created =  blobs.create("content", "base64");
         MatcherAssert.assertThat(
             blobs.get(created.sha()),

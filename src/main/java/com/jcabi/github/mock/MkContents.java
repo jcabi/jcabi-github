@@ -22,7 +22,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock Github contents.
+ * Mock GitHub contents.
  *
  * @since 0.8
  */
@@ -169,8 +169,8 @@ final class MkContents implements Contents {
         this.storage.lock();
         final String path = content.getString("path");
         // @checkstyle MultipleStringLiterals (20 lines)
-        final String branch;
         try {
+            final String branch;
             if (content.containsKey("ref")) {
                 branch = content.getString("ref");
             } else {

@@ -25,7 +25,7 @@ public final class MkUserEmailsTest {
      */
     @Test
     public void canAddEmails() throws IOException {
-        final UserEmails emails = new MkGithub().users().add("john").emails();
+        final UserEmails emails = new MkGitHub().users().add("john").emails();
         final String email = "john@nowhere.com";
         final Iterable<String> added = emails.add(
             Collections.singleton(email)
@@ -45,7 +45,7 @@ public final class MkUserEmailsTest {
      */
     @Test
     public void canRemoveEmails() throws IOException {
-        final UserEmails emails = new MkGithub().users().add("joe").emails();
+        final UserEmails emails = new MkGitHub().users().add("joe").emails();
         final String removed = "joe@nowhere.com";
         final String retained = "joseph@somewhere.net";
         emails.add(
@@ -70,7 +70,7 @@ public final class MkUserEmailsTest {
      */
     @Test
     public void canIterateEmails() throws IOException {
-        final UserEmails emails = new MkGithub().users().add("matt").emails();
+        final UserEmails emails = new MkGitHub().users().add("matt").emails();
         final String[] added = new String[]{
             "matt@none.org",
             "matthew@somewhere.net",
@@ -91,7 +91,7 @@ public final class MkUserEmailsTest {
      */
     @Test
     public void canRepresentAsJson() throws IOException {
-        final UserEmails emails = new MkGithub().users().add("jeff").emails();
+        final UserEmails emails = new MkGitHub().users().add("jeff").emails();
         final String email = "jeff@something.net";
         emails.add(Collections.singleton(email));
         MatcherAssert.assertThat(

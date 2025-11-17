@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
@@ -26,10 +26,10 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
- * Test case for {@link MkGithub}.
+ * Test case for {@link MkGitHub}.
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class MkGithubTest {
+public final class MkGitHubTest {
     /**
      * Settings to use when creating temporary repos.
      */
@@ -40,11 +40,11 @@ public final class MkGithubTest {
         );
 
     /**
-     * MkGithub can work.
+     * MkGitHub can work.
      */
     @Test
     public void worksWithMockedData() throws IOException {
-        final Repo repo = new MkGithub().repos().create(MkGithubTest.NEW_REPO_SETTINGS);
+        final Repo repo = new MkGitHub().repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -64,14 +64,14 @@ public final class MkGithubTest {
     }
 
     /**
-     * MkGithub can relogin.
+     * MkGitHub can relogin.
      *
      */
     @Test
     public void canRelogin() throws IOException {
         final String login = "mark";
-        final MkGithub github = new MkGithub();
-        final Repo repo = github.repos().create(MkGithubTest.NEW_REPO_SETTINGS);
+        final MkGitHub github = new MkGitHub();
+        final Repo repo = github.repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("title", "Found a bug");
         final Comment comment = github
             .relogin(login)
@@ -96,12 +96,12 @@ public final class MkGithubTest {
     }
 
     /**
-     * MkGithub can retrieve the markdown.
+     * MkGitHub can retrieve the markdown.
      *
      */
     @Test
     public void retrievesMarkdown() throws IOException {
-        final Github github = new MkGithub();
+        final GitHub github = new MkGitHub();
         MatcherAssert.assertThat(
             github.markdown(),
             Matchers.notNullValue()
@@ -109,11 +109,11 @@ public final class MkGithubTest {
     }
 
     /**
-     * MkGithub can create random repo.
+     * MkGitHub can create random repo.
      */
     @Test
     public void canCreateRandomRepo() throws IOException {
-        final MkGithub github = new MkGithub();
+        final MkGitHub github = new MkGitHub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
             github.repos().get(repo.coordinates()).coordinates(),
@@ -122,11 +122,11 @@ public final class MkGithubTest {
     }
 
     /**
-     * MkGithub can handle multiple threads in parallel.
+     * MkGitHub can handle multiple threads in parallel.
      */
     @Test
     public void canHandleMultipleThreads() throws IOException, InterruptedException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Callable<Void> task = new VerboseCallable<>(
             () -> {
                 repo.issues().create("", "");
@@ -155,7 +155,7 @@ public final class MkGithubTest {
         MatcherAssert.assertThat(
             "Retrieved inexistent user",
             new User.Smart(
-                new MkGithub().users().get("other")
+                new MkGitHub().users().get("other")
             ).exists(),
             new IsEqual<>(false)
         );

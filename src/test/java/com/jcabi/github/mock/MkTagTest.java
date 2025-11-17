@@ -39,7 +39,7 @@ public final class MkTagTest {
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "abcsha12").add("message", "test tag")
             .add("name", "v.0.1").build();
-        return new MkGithub().randomRepo().git().tags().create(json);
+        return new MkGitHub().randomRepo().git().tags().create(json);
     }
 
 }

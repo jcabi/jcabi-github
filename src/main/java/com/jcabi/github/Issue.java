@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github issue.
+ * GitHub issue.
  *
  * <p>Use a supplementary "smart" decorator to get other properties
  * from an issue, for example:
@@ -94,7 +94,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     Iterable<Event> events() throws IOException;
 
     /**
-     * Does this issue exist in Github?
+     * Does this issue exist in GitHub?
      * @return TRUE if this issue exists
      * @throws IOException If there is any I/O problem
      */
@@ -320,7 +320,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -335,7 +335,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          */
         public Date closedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("closed_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -349,7 +349,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

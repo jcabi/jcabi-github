@@ -41,7 +41,7 @@ public final class MkForksTest {
      */
     @Test
     public void iteratesForks() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Fork fork = repo.forks().create("Organization");
         final Iterable<Fork> iterate = repo.forks().iterate("Order");
         MatcherAssert.assertThat(

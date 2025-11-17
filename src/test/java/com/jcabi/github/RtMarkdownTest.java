@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -46,7 +46,7 @@ public final class RtMarkdownTest {
             ).start(this.resource.port())
         ) {
             final RtMarkdown markdown = new RtMarkdown(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
@@ -76,7 +76,7 @@ public final class RtMarkdownTest {
             ).start(this.resource.port())
         ) {
             final RtMarkdown markdown = new RtMarkdown(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(

@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.github.mock.MkOrganization;
 import com.jcabi.github.mock.MkStorage;
 import com.jcabi.http.Request;
@@ -248,6 +248,6 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     private static User user() throws IOException {
-        return new MkGithub().users().get(RtPublicMembersTest.USERNAME);
+        return new MkGitHub().users().get(RtPublicMembersTest.USERNAME);
     }
 }

@@ -87,7 +87,7 @@ public final class MkRepoTest {
      */
     @Test
     public void exposesAttributes() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             new Repo.Smart(repo).description(),
             Matchers.notNullValue()

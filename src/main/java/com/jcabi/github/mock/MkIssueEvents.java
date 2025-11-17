@@ -9,7 +9,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Repo;
 import com.jcabi.log.Logger;
@@ -111,7 +111,7 @@ final class MkIssueEvents implements IssueEvents {
         final String type,
         final int issue, final String login, final Optional<String> label
     ) throws IOException {
-        final String created = new Github.Time().toString();
+        final String created = new GitHub.Time().toString();
         this.storage.lock();
         final int number;
         try {

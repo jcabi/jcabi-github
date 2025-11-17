@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github public keys.
+ * GitHub public keys.
  *
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  */

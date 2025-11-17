@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github References.
+ * Mock of GitHub References.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

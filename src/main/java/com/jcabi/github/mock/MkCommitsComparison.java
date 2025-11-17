@@ -16,7 +16,7 @@ import jakarta.json.JsonObject;
 import lombok.ToString;
 
 /**
- * Mock commits' comparison of a Github repository.
+ * Mock commits' comparison of a GitHub repository.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

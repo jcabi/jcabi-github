@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github comments.
+ * GitHub comments.
  *
  * @since 0.8
  */

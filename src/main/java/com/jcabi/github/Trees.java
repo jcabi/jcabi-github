@@ -9,7 +9,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 
 /**
- * Github Git Data Trees.
+ * GitHub Git Data Trees.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>

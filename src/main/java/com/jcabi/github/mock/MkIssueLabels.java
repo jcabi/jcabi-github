@@ -21,7 +21,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github labels.
+ * Mock GitHub labels.
  *
  * @since 0.5
  */

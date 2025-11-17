@@ -20,7 +20,7 @@ import java.util.Queue;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github value pagination.
+ * GitHub value pagination.
  *
  * @since 0.8
  * @param <T> Type of iterable objects

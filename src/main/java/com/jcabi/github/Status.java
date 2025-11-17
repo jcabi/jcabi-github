@@ -87,10 +87,10 @@ public interface Status extends JsonReadable {
          * @param ident Commit status state string
          * @return Corresponding State
          */
-        public static State forValue(
+        public static Status.State forValue(
             final String ident
         ) {
-            return State.valueOf(ident.toUpperCase(Locale.ENGLISH));
+            return Status.State.valueOf(ident.toUpperCase(Locale.ENGLISH));
         }
     }
 
@@ -128,8 +128,8 @@ public interface Status extends JsonReadable {
          * @return State as enum
          * @throws IOException If there is an I/O problem
          */
-        public State state() throws IOException {
-            return State.forValue(this.jsn.text("state"));
+        public Status.State state() throws IOException {
+            return Status.State.forValue(this.jsn.text("state"));
         }
 
         /**
@@ -168,7 +168,7 @@ public interface Status extends JsonReadable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -183,7 +183,7 @@ public interface Status extends JsonReadable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

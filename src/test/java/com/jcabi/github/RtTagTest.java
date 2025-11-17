@@ -5,7 +5,7 @@
 
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -43,7 +43,7 @@ public final class RtTagTest {
         ).start(this.resource.port());
         final Tag tag = new RtTag(
             new ApacheRequest(container.home()),
-            new MkGithub().randomRepo(),
+            new MkGitHub().randomRepo(),
             "abdes00test"
         );
         try {

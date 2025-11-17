@@ -27,7 +27,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github issue.
+ * Mock GitHub issue.
  *
  * @since 0.5
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
@@ -125,7 +125,7 @@ final class MkIssue implements Issue {
                 this.coords,
                 this.num
             ),
-            new MkIssueEventMapping(this)
+            new MkIssue.MkIssueEventMapping(this)
         );
     }
 

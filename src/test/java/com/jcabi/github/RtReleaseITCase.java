@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -21,7 +20,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtReleaseITCase {
 
     /**
@@ -45,7 +44,7 @@ public final class RtReleaseITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtReleaseITCase.repos = github.repos();
         RtReleaseITCase.repo = RtReleaseITCase.rule.repo(RtReleaseITCase.repos);
     }
@@ -70,8 +69,8 @@ public final class RtReleaseITCase {
         );
         final JsonObject patch = Json.createObjectBuilder()
             .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
-            .add("name", "jcabi Github test release")
-            .add("body", "jcabi Github was here!")
+            .add("name", "jcabi GitHub test release")
+            .add("body", "jcabi GitHub was here!")
             .build();
         release.patch(patch);
         final JsonObject json = RtReleaseITCase.repo.releases()

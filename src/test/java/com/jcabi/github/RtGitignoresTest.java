@@ -50,7 +50,7 @@ public final class RtGitignoresTest {
             ).start(this.resource.port())
         ) {
             final RtGitignores gitignores = new RtGitignores(
-                    new RtGithub(new JdkRequest(container.home()))
+                    new RtGitHub(new JdkRequest(container.home()))
             );
             MatcherAssert.assertThat(
                     gitignores.iterate(),
@@ -66,7 +66,7 @@ public final class RtGitignoresTest {
     @Test
     public void getRawTemplateByName() throws IOException {
         final RtGitignores gitignores = new RtGitignores(
-            new RtGithub(new FakeRequest().withBody("# Object files"))
+            new RtGitHub(new FakeRequest().withBody("# Object files"))
         );
         MatcherAssert.assertThat(
             gitignores.template("C#"),

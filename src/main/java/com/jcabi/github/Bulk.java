@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * Bulk items, with pre-saved JSON.
  *
  * <p>This class should be used as a decorator for object obtained
- * from Github, when you want to keep their JSON values in memory. For
+ * from GitHub, when you want to keep their JSON values in memory. For
  * example:
  *
  * <pre> Iterable&lt;Issue&gt; issues = repo.issues().iterate(
@@ -24,8 +24,8 @@ import lombok.EqualsAndHashCode;
  *   System.out.println(new Issue.Smart(issue).title());
  * }</pre>
  *
- * <p>Let's say, there are 50 issues in Github's repo. This code will
- * make 52 HTTP requests to Github. The first one will fetch the first
+ * <p>Let's say, there are 50 issues in GitHub's repo. This code will
+ * make 52 HTTP requests to GitHub. The first one will fetch the first
  * 30 issues in JSON array. Then, for every one of them, in order
  * to retrieve issue title a separate HTTP request will be made. Then,
  * one more page will be fetched, with 20 issues. And again, 20 new

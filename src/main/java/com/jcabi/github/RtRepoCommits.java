@@ -17,7 +17,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Commits of a Github repository.
+ * Commits of a GitHub repository.
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable

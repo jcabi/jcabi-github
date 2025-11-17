@@ -26,7 +26,7 @@ public final class MkTagsTest {
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com").build();
         MatcherAssert.assertThat(
-            new MkGithub().randomRepo().git().tags().create(
+            new MkGitHub().randomRepo().git().tags().create(
                 Json.createObjectBuilder().add("name", "v.0.1")
                     .add("message", "test tag").add("sha", "abcsha12")
                     .add("tagger", tagger).build()

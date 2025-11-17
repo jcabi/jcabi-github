@@ -106,7 +106,7 @@ public interface Coordinates extends Comparable<Coordinates> {
     final class Https implements Coordinates {
 
         /**
-         * Github domain.
+         * GitHub domain.
          */
         private static final String DOMAIN = "https://github.com/";
 
@@ -152,16 +152,16 @@ public interface Coordinates extends Comparable<Coordinates> {
          * @return Array of repo coordinates.
          */
         private String[] split() {
-            if (!this.url.startsWith(Https.DOMAIN)) {
+            if (!this.url.startsWith(Coordinates.Https.DOMAIN)) {
                 throw new IllegalArgumentException(
                     String.format(
                         "Invalid URL, the '%s' should start with '%s'",
                         this.url,
-                        Https.DOMAIN
+                        Coordinates.Https.DOMAIN
                     )
                 );
             }
-            return this.url.substring(Https.DOMAIN.length())
+            return this.url.substring(Coordinates.Https.DOMAIN.length())
                 .split(Coordinates.SEPARATOR, 2);
         }
     }

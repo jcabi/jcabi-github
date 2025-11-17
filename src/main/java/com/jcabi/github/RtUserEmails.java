@@ -20,7 +20,7 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user's emails.
+ * GitHub user's emails.
  * @since 0.8
  */
 @Immutable

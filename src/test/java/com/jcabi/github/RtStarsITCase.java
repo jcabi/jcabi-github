@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -16,7 +15,7 @@ import org.junit.Test;
  * Integration test case for {@link RtStars}.
  *
  */
-@OAuthScope({ Scope.REPO, Scope.USER })
+@OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
 public final class RtStarsITCase {
     /**
      * Test repos.
@@ -34,7 +33,7 @@ public final class RtStarsITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException  {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtStarsITCase.repos = github.repos();
         RtStarsITCase.repo = new RepoRule().repo(RtStarsITCase.repos);
     }

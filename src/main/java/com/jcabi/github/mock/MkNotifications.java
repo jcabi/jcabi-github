@@ -12,7 +12,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Mock for Github Notifications.
+ * Mock for GitHub Notifications.
  *
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>

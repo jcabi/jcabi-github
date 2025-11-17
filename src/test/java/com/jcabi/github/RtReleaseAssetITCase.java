@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,7 +20,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtReleaseAssetITCase {
 
     /**
@@ -45,7 +44,7 @@ public final class RtReleaseAssetITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtReleaseAssetITCase.repos = github.repos();
         RtReleaseAssetITCase.repo = RtReleaseAssetITCase.rule.repo(RtReleaseAssetITCase.repos);
         RtReleaseAssetITCase.repo.releases().create(
@@ -88,8 +87,8 @@ public final class RtReleaseAssetITCase {
         final Release release = RtReleaseAssetITCase.repo.releases().create(
             String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
         );
-        final String desc = "Description of the release";
         try {
+            final String desc = "Description of the release";
             release.patch(Json.createObjectBuilder().add("body", desc).build());
             MatcherAssert.assertThat(
                 new Release.Smart(release).body(),

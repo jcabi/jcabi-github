@@ -9,7 +9,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 
 /**
- * Github Git Data Commits.
+ * GitHub Git Data Commits.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
@@ -44,5 +44,5 @@ public interface Commits {
      * @since 0.23
      * @return Status
      */
-    Statuses statuses(final String ref);
+    Statuses statuses(String ref);
 }

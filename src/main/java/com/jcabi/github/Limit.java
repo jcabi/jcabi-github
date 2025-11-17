@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Rate Limit API, one resource limit.
+ * GitHub Rate Limit API, one resource limit.
  *
  * @since 0.6
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
@@ -25,10 +25,10 @@ import lombok.ToString;
 public interface Limit extends JsonReadable {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Smart limits with extra features.
@@ -85,7 +85,7 @@ public interface Limit extends JsonReadable {
             return this.origin.json();
         }
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.origin.github();
         }
     }
@@ -137,7 +137,7 @@ public interface Limit extends JsonReadable {
                 .build();
         }
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.origin.github();
         }
     }

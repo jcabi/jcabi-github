@@ -5,7 +5,7 @@
 
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.github.mock.MkStorage;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
@@ -173,7 +173,7 @@ public final class RtCollaboratorsTest {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "collaboratorrepo"))
             .when(repo).coordinates();
-        Mockito.doReturn(new MkGithub(new MkStorage.InFile(), "userLogin"))
+        Mockito.doReturn(new MkGitHub(new MkStorage.InFile(), "userLogin"))
             .when(repo).github();
         return repo;
     }

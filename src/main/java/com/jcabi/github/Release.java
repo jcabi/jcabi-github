@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github release.
+ * GitHub release.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
@@ -294,7 +294,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("created_at"))
+                return new GitHub.Time(this.jsn.text("created_at"))
                     .date();
             } catch (final ParseException ex) {
                 throw new IOException(ex);
@@ -308,7 +308,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Date publishedAt() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("published_at"))
+                return new GitHub.Time(this.jsn.text("published_at"))
                     .date();
             } catch (final ParseException ex) {
                 throw new IOException(ex);

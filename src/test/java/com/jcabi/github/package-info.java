@@ -4,7 +4,7 @@
  */
 
 /**
- * Object Oriented Github API, tests.
+ * Object Oriented GitHub API, tests.
  *
  * @since 0.1
  */

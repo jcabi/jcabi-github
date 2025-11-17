@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
@@ -166,8 +166,8 @@ public final class MkIssueTest {
      */
     @Test
     public void canRememberItsAuthor() throws IOException {
-        final MkGithub first = new MkGithub("first");
-        final Github second = first.relogin("second");
+        final MkGitHub first = new MkGitHub("first");
+        final GitHub second = first.relogin("second");
         final Repo repo = first.randomRepo();
         final int number = second.repos()
             .get(repo.coordinates())
@@ -275,7 +275,7 @@ public final class MkIssueTest {
      * @return Issue just created
      */
     private Issue issue() throws IOException {
-        return new MkGithub().randomRepo()
+        return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?");
     }
 

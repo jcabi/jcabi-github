@@ -30,7 +30,7 @@ public final class MkChecksTest {
      */
     @Before
     public void setUp() throws IOException {
-        this.pull = new MkGithub()
+        this.pull = new MkGitHub()
             .randomRepo()
             .pulls()
             .create("Test PR", "abcdef8", "abcdef9");

@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Milestone.
+ * GitHub Milestone.
  *
  * <p>Use a supplementary "smart" decorator to get other properties
  * from an milestone, for example:
@@ -153,7 +153,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public String state() throws IOException {
-            return this.jsn.text(Smart.STATE);
+            return this.jsn.text(Milestone.Smart.STATE);
         }
 
         /**
@@ -165,7 +165,7 @@ public interface Milestone extends Comparable<Milestone>,
             final String state
         ) throws IOException {
             this.milestone.patch(
-                Json.createObjectBuilder().add(Smart.STATE, state).build()
+                Json.createObjectBuilder().add(Milestone.Smart.STATE, state).build()
             );
         }
 
@@ -175,7 +175,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public String title() throws IOException {
-            return this.jsn.text(Smart.TITLE);
+            return this.jsn.text(Milestone.Smart.TITLE);
         }
 
         /**
@@ -187,7 +187,7 @@ public interface Milestone extends Comparable<Milestone>,
             final String title
         ) throws IOException {
             this.milestone.patch(
-                Json.createObjectBuilder().add(Smart.TITLE, title).build()
+                Json.createObjectBuilder().add(Milestone.Smart.TITLE, title).build()
             );
         }
 
@@ -197,7 +197,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
-            return this.jsn.text(Smart.DESCRIPTION);
+            return this.jsn.text(Milestone.Smart.DESCRIPTION);
         }
 
         /**
@@ -210,7 +210,7 @@ public interface Milestone extends Comparable<Milestone>,
         ) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder()
-                    .add(Smart.DESCRIPTION, description).build()
+                    .add(Milestone.Smart.DESCRIPTION, description).build()
             );
         }
 
@@ -234,7 +234,7 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -249,8 +249,8 @@ public interface Milestone extends Comparable<Milestone>,
          */
         public Date dueOn() throws IOException {
             try {
-                return new Github.Time(
-                    this.jsn.text(Smart.DUE_ON)
+                return new GitHub.Time(
+                    this.jsn.text(Milestone.Smart.DUE_ON)
                 ).date();
             } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
@@ -267,7 +267,7 @@ public interface Milestone extends Comparable<Milestone>,
         ) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder()
-                    .add(Smart.DUE_ON, new Github.Time(dueon).toString()).build()
+                    .add(Milestone.Smart.DUE_ON, new GitHub.Time(dueon).toString()).build()
             );
         }
 

@@ -27,7 +27,7 @@ public final class MkSearchTest {
      */
     @Test
     public void canSearchForRepos() throws IOException {
-        final MkGithub github = new MkGithub();
+        final MkGitHub github = new MkGitHub();
         github.repos().create(
             new Repos.RepoCreate("TestRepo", false)
         );
@@ -43,7 +43,7 @@ public final class MkSearchTest {
      */
     @Test
     public void canSearchForIssues() throws IOException {
-        final MkGithub github = new MkGithub();
+        final MkGitHub github = new MkGitHub();
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("TestIssues", false)
         );
@@ -65,7 +65,7 @@ public final class MkSearchTest {
      */
     @Test
     public void canSearchForUsers() throws IOException {
-        final MkGithub github = new MkGithub("jeff");
+        final MkGitHub github = new MkGitHub("jeff");
         github.users().self();
         MatcherAssert.assertThat(
             github.search().users("jeff", "repositories", Search.Order.DESC),
@@ -79,7 +79,7 @@ public final class MkSearchTest {
      */
     @Test
     public void canSearchForCodes() throws IOException {
-        final MkGithub github = new MkGithub("jeff");
+        final MkGitHub github = new MkGitHub("jeff");
         github.repos().create(
             new Repos.RepoCreate("TestCode", false)
         );

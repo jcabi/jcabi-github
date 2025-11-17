@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.GistComments;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.xml.XML;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock Github gist.
+ * Mock GitHub gist.
  *
  * @since 0.5
  */
@@ -63,8 +63,8 @@ final class MkGist implements Gist {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override

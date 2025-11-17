@@ -130,6 +130,6 @@ public final class MkHooksTest {
      * @return Hooks
      */
     private static Hooks newHooks() throws IOException {
-        return new MkGithub().randomRepo().hooks();
+        return new MkGitHub().randomRepo().hooks();
     }
 }

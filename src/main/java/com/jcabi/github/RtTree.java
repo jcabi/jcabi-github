@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github tree.
+ * GitHub tree.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

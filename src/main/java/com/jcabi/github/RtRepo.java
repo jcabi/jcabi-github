@@ -16,7 +16,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github repository.
+ * GitHub repository.
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
@@ -34,9 +34,9 @@ import lombok.EqualsAndHashCode;
 final class RtRepo implements Repo {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful entry.
@@ -55,11 +55,11 @@ final class RtRepo implements Repo {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param crd Coordinate of the repo
      */
-    RtRepo(final Github github, final Request req, final Coordinates crd) {
+    RtRepo(final GitHub github, final Request req, final Coordinates crd) {
         this.ghub = github;
         this.entry = req;
         this.coords = crd;
@@ -76,7 +76,7 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

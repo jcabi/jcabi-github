@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github labels of a repo.
+ * GitHub labels of a repo.
  *
  * @since 0.6
  */
@@ -36,7 +36,7 @@ final class RtLabels implements Labels {
     private final transient Request request;
 
     /**
-     * Github.
+     * GitHub.
      */
     private final transient Repo owner;
 

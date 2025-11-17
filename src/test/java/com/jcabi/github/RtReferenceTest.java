@@ -5,7 +5,7 @@
 
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -48,7 +48,7 @@ public final class RtReferenceTest {
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo(),
+                new MkGitHub().randomRepo(),
                 "refs/heads/featureA"
             );
             reference.patch(
@@ -78,7 +78,7 @@ public final class RtReferenceTest {
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo(),
+                new MkGitHub().randomRepo(),
                 "refs/heads/featureB"
             );
             MatcherAssert.assertThat(
@@ -104,7 +104,7 @@ public final class RtReferenceTest {
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo(),
+                new MkGitHub().randomRepo(),
                 "refs/heads/featureC"
             );
             MatcherAssert.assertThat(
@@ -120,7 +120,7 @@ public final class RtReferenceTest {
      */
     @Test
     public void returnsOwner() throws IOException {
-        final Repo owner = new MkGithub().randomRepo();
+        final Repo owner = new MkGitHub().randomRepo();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

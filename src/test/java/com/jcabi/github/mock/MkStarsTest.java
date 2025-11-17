@@ -21,7 +21,7 @@ public class MkStarsTest {
      */
     @Test
     public final void starsRepository() throws IOException {
-        final Stars stars = new MkGithub().randomRepo().stars();
+        final Stars stars = new MkGitHub().randomRepo().stars();
         stars.star();
         MatcherAssert.assertThat(
             stars.starred(),
@@ -34,7 +34,7 @@ public class MkStarsTest {
      */
     @Test
     public final void unstarsRepository() throws IOException {
-        final Stars stars = new MkGithub().randomRepo().stars();
+        final Stars stars = new MkGitHub().randomRepo().stars();
         stars.star();
         stars.unstar();
         MatcherAssert.assertThat(

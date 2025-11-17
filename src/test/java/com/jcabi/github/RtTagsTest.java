@@ -5,7 +5,7 @@
 
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -52,7 +52,7 @@ public final class RtTagsTest {
         ).start(this.resource.port());
         final Tags tags = new RtTags(
             new ApacheRequest(container.home()),
-            new MkGithub().randomRepo()
+            new MkGitHub().randomRepo()
         );
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")

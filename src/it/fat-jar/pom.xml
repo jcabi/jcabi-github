@@ -24,12 +24,12 @@
               <!-- <classpathScope>compile</classpathScope> -->
               <source><![CDATA[
                 import com.jcabi.github.Coordinates
-                import com.jcabi.github.Github
+                import com.jcabi.github.GitHub
                 import com.jcabi.github.Label
                 import com.jcabi.github.Repo
-                import com.jcabi.github.RtGithub
+                import com.jcabi.github.RtGitHub
                 import java.io.IOException
-                final Github github = new RtGithub()
+                final GitHub github = new RtGitHub()
                 final Repo repo = github.repos().get(
                     new Coordinates.Simple("jcabi/jcabi-github")
                 )

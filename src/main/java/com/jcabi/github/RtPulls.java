@@ -17,7 +17,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github pull requests.
+ * GitHub pull requests.
  *
  * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)

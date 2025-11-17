@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
@@ -20,7 +19,7 @@ import org.junit.Test;
  * Test case for {@link RtDeployKeys}.
  * @since 0.8
  */
-@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
+@OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
 public final class RtDeployKeysITCase {
 
     /**
@@ -38,7 +37,7 @@ public final class RtDeployKeysITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtDeployKeysITCase.repos = github.repos();
         RtDeployKeysITCase.repo = new RepoRule().repo(RtDeployKeysITCase.repos);
     }

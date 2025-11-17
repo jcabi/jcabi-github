@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Releases.
+ * GitHub Releases.
  *
  * @since 0.8
  */

@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -18,7 +17,7 @@ import org.junit.Test;
  *
  */
 @Immutable
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtGitignoresITCase {
 
     /**
@@ -50,6 +49,6 @@ public final class RtGitignoresITCase {
      * @return Gitignores
      */
     private static Gitignores gitignores() {
-        return new RtGitignores(new GithubIT().connect());
+        return new RtGitignores(new GitHubIT().connect());
     }
 }

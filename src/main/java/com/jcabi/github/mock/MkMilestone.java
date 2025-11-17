@@ -12,7 +12,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 
 /**
- * Mock Github milestone.
+ * Mock GitHub milestone.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

@@ -30,7 +30,7 @@ public final class MkContentTest {
      */
     @Test
     public void canGetOwnRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Contents contents = repo.contents();
         final Content content = contents.create(
             MkContentTest.jsonContent("repo.txt", "for repo", "json repo")
@@ -47,7 +47,7 @@ public final class MkContentTest {
      */
     @Test
     public void canGetOwnPath() throws IOException {
-        final Contents contents = new MkGithub().randomRepo().contents();
+        final Contents contents = new MkGitHub().randomRepo().contents();
         final String path = "dummy.txt";
         final Content content = contents.create(
             MkContentTest.jsonContent(path, "for path", "path test")
@@ -64,7 +64,7 @@ public final class MkContentTest {
      */
     @Test
     public void fetchesJsonRepresentation() throws IOException {
-        final Contents contents = new MkGithub().randomRepo().contents();
+        final Contents contents = new MkGitHub().randomRepo().contents();
         final String path = "fake.txt";
         final Content content = contents.create(
             MkContentTest.jsonContent(path, "for json", "json test")
@@ -82,7 +82,7 @@ public final class MkContentTest {
      */
     @Test
     public void fetchesRawRepresentation() throws IOException {
-        final Contents contents = new MkGithub().randomRepo().contents();
+        final Contents contents = new MkGitHub().randomRepo().contents();
         final String raw = "raw test \u20ac\u0000";
         final InputStream stream = contents.create(
             MkContentTest.jsonContent("raw.txt", "for raw", raw)

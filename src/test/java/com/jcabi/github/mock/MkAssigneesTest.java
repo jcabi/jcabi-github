@@ -61,6 +61,6 @@ public final class MkAssigneesTest {
      * @return Repo
      */
     private static Repo repo() throws IOException {
-        return new MkGithub("Jonathan").randomRepo();
+        return new MkGitHub("Jonathan").randomRepo();
     }
 }

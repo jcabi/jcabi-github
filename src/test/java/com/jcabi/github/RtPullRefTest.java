@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public final class RtPullRefTest {
      */
     @Test
     public void fetchesRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             RtPullRefTest.pullRef(repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
@@ -71,7 +71,7 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     private static PullRef pullRef() throws IOException {
-        return RtPullRefTest.pullRef(new MkGithub().randomRepo());
+        return RtPullRefTest.pullRef(new MkGitHub().randomRepo());
     }
 
     /**

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github Milestones.
+ * GitHub Milestones.
  * @see <a href="https://developer.github.com/v3/issues/milestones/">Milestones API</a>
  * @since 0.7
  */

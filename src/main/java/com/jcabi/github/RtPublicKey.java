@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github public key.
+ * GitHub public key.
  *
  */
 @Immutable

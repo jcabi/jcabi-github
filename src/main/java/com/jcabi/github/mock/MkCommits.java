@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github Commits.
+ * Mock of GitHub Commits.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

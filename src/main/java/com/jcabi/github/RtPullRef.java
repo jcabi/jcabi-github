@@ -19,7 +19,7 @@ final class RtPullRef implements PullRef {
     /**
      * API entry point.
      */
-    private final transient Github github;
+    private final transient GitHub github;
     /**
      * JSON of the pull request ref.
      */
@@ -27,10 +27,10 @@ final class RtPullRef implements PullRef {
 
     /**
      * Public ctor.
-     * @param gthb Github
+     * @param gthb GitHub
      * @param json Pull request ref JSON object
      */
-    RtPullRef(final Github gthb, final JsonObject json) {
+    RtPullRef(final GitHub gthb, final JsonObject json) {
         this.github = gthb;
         this.jsn = json;
     }

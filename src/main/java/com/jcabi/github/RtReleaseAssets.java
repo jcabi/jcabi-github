@@ -16,7 +16,7 @@ import java.net.URI;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release assets.
+ * GitHub release assets.
  *
  * @since 0.8
  */

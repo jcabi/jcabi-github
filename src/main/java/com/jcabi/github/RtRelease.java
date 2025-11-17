@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release.
+ * GitHub release.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -9,7 +9,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github comments.
+ * Mock GitHub comments.
  *
  * @since 0.5
  */
@@ -109,7 +109,7 @@ final class MkComments implements Comments {
         this.storage.lock();
         final long number;
         try {
-            final String timestamp = new Github.Time().toString();
+            final String timestamp = new GitHub.Time().toString();
             number = 1 + this.storage.xml()
                 .nodes("//comment/number").size();
             this.storage.apply(

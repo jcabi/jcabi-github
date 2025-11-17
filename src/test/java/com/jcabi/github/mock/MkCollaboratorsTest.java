@@ -48,12 +48,12 @@ public final class MkCollaboratorsTest {
     public void isCollaborator() throws Exception {
         final Collaborators collaborators = this.collaborators();
         final String collaborator = "collaborator";
-        final String stranger = "stranger";
         collaborators.add(collaborator);
         MatcherAssert.assertThat(
             collaborators.isCollaborator(collaborator),
             Matchers.equalTo(true)
         );
+        final String stranger = "stranger";
         MatcherAssert.assertThat(
             collaborators.isCollaborator(stranger),
             Matchers.equalTo(false)
@@ -65,6 +65,6 @@ public final class MkCollaboratorsTest {
      * @return Collaborators just created
      */
     private Collaborators collaborators() throws IOException {
-        return new MkGithub().randomRepo().collaborators();
+        return new MkGitHub().randomRepo().collaborators();
     }
 }

@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -72,7 +72,7 @@ public class RtGistCommentTest {
                 .start(this.resource.port())) {
             final RtGist gist =
                 new RtGist(
-                    new MkGithub(),
+                    new MkGitHub(),
                     new ApacheRequest(gistContainer.home()), "someName"
                 );
             final RtGistComment comment = new RtGistComment(
@@ -98,16 +98,16 @@ public class RtGistCommentTest {
      */
     @Test
     public final void removeGistComment() throws IOException {
-        final int identifier = 1;
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
                 "gistName"
             );
+            final int identifier = 1;
             final RtGistComment comment = new RtGistComment(
                 new ApacheRequest(container.home()), gist, identifier
             );

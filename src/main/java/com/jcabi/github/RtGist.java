@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github gist.
+ * GitHub gist.
  *
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -36,9 +36,9 @@ final class RtGist implements Gist {
     private final transient Request request;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful entry.
@@ -52,11 +52,11 @@ final class RtGist implements Gist {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param name Name of gist
      */
-    RtGist(final Github github, final Request req, final String name) {
+    RtGist(final GitHub github, final Request req, final String name) {
         this.ghub = github;
         this.entry = req;
         this.gist = name;
@@ -69,7 +69,7 @@ final class RtGist implements Gist {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

@@ -23,7 +23,7 @@ public final class MkPublicKeysTest {
      */
     @Test
     public void retrievesKeys() throws IOException {
-        final PublicKeys keys = new MkGithub().users().self().keys();
+        final PublicKeys keys = new MkGitHub().users().self().keys();
         final PublicKey key = keys.create("key", "ssh 1AA");
         MatcherAssert.assertThat(
             keys.iterate(),
@@ -37,7 +37,7 @@ public final class MkPublicKeysTest {
      */
     @Test
     public void canFetchSingleKey() throws IOException {
-        final PublicKeys keys = new MkGithub().users().add("jeff").keys();
+        final PublicKeys keys = new MkGitHub().users().add("jeff").keys();
         MatcherAssert.assertThat(
             keys.get(1),
             Matchers.notNullValue()
@@ -50,7 +50,7 @@ public final class MkPublicKeysTest {
      */
     @Test
     public void canCreatePublicKey() throws IOException {
-        final PublicKeys keys = new MkGithub().users().add("john").keys();
+        final PublicKeys keys = new MkGitHub().users().add("john").keys();
         final PublicKey key = keys.create("Title1", "PublicKey1");
         MatcherAssert.assertThat(
             keys.get(key.number()),
@@ -64,7 +64,7 @@ public final class MkPublicKeysTest {
      */
     @Test
     public void canRemoveKey() throws IOException {
-        final PublicKeys keys = new MkGithub().users().self().keys();
+        final PublicKeys keys = new MkGitHub().users().self().keys();
         final PublicKey key = keys.create("rsa", "rsa sh");
         MatcherAssert.assertThat(
             keys.iterate(),

@@ -109,7 +109,7 @@ public class RtRepoCommitsITCase {
      * @return Repo
      */
     private static Repo repo() {
-        return new GithubIT().connect().repos().get(
+        return new GitHubIT().connect().repos().get(
             new Coordinates.Simple("jcabi", "jcabi-github")
         );
     }

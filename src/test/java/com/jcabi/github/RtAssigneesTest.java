@@ -131,7 +131,7 @@ public final class RtAssigneesTest {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "assignee"))
             .when(repo).coordinates();
-        Mockito.doReturn(Mockito.mock(Github.class)).when(repo).github();
+        Mockito.doReturn(Mockito.mock(GitHub.class)).when(repo).github();
         return repo;
     }
 }

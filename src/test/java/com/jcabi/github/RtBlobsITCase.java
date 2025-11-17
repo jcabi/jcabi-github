@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -16,7 +15,7 @@ import org.junit.Test;
  * Test case for {@link RtBlobs}.
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtBlobsITCase {
 
     /**
@@ -40,7 +39,7 @@ public final class RtBlobsITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtBlobsITCase.repos = github.repos();
         RtBlobsITCase.repo = RtBlobsITCase.rule.repo(RtBlobsITCase.repos);
     }

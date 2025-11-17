@@ -12,7 +12,7 @@ import java.io.StringReader;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github commit status.
+ * GitHub commit status.
  * @since 0.23
  */
 @Immutable

@@ -10,7 +10,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Github issues.
+ * GitHub issues.
  *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
@@ -61,8 +61,8 @@ public interface Issues {
      * @see <a href="https://developer.github.com/v3/issues/#list-issues-for-a-repository">List issues for a repository</a>
      */
     Iterable<Issue> search(
-        Sort sort, Search.Order direction,
-        EnumMap<Qualifier, String> qualifiers);
+        Issues.Sort sort, Search.Order direction,
+        EnumMap<Issues.Qualifier, String> qualifiers);
 
     enum Qualifier implements StringEnum {
         /**

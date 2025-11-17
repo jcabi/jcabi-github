@@ -7,7 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github repos.
+ * GitHub repos.
  *
  * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -54,13 +54,13 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
     public Repo create(
-        final RepoCreate settings
+        final Repos.RepoCreate settings
     ) throws IOException {
         String owner = this.self;
         final String org = settings.organization();

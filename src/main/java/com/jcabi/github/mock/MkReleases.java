@@ -7,7 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github releases.
+ * Mock GitHub releases.
  * @since 0.8
  */
 @Immutable
@@ -106,8 +106,8 @@ final class MkReleases implements Releases {
                     .add("body").set("").up()
                     .add("draft").set("true").up()
                     .add("prerelease").set("false").up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("published_at").set(new Github.Time().toString()).up()
+                    .add("created_at").set(new GitHub.Time().toString()).up()
+                    .add("published_at").set(new GitHub.Time().toString()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("html_url").set("http://localhost/2").up()
                     .add("assets_url").set("http://localhost/3").up()

@@ -8,7 +8,7 @@ import com.jcabi.aspects.Loggable;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github repository language.
+ * GitHub repository language.
  */
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "txt", "length" })

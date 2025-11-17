@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github get labels.
+ * GitHub get labels.
  *
  * @since 0.1
  */

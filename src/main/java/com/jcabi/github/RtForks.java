@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github forks.
+ * GitHub forks.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>

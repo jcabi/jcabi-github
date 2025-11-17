@@ -17,7 +17,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github pull comment.
+ * GitHub pull comment.
  *
  */
 @Immutable

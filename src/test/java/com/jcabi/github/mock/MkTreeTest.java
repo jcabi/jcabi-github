@@ -44,7 +44,7 @@ public final class MkTreeTest {
                     .add("name", "v.0.1").build()
             )
         ).build();
-        return new MkGithub().randomRepo().git().trees().create(json);
+        return new MkGitHub().randomRepo().git().trees().create(json);
     }
 
 }

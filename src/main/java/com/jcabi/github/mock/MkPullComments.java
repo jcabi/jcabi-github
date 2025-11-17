@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
@@ -19,7 +19,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github pull comments.
+ * Mock GitHub pull comments.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
@@ -141,8 +141,8 @@ final class MkPullComments implements PullComments {
                     .add("commit_id").set(commit).up()
                     .add("original_commit_id").set(commit).up()
                     .add("body").set(body).up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("published_at").set(new Github.Time().toString()).up()
+                    .add("created_at").set(new GitHub.Time().toString()).up()
+                    .add("published_at").set(new GitHub.Time().toString()).up()
                     .add("user").add("login").set(this.self).up()
                     .add("pull_request_url").set("http://localhost/2").up()
             );

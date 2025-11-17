@@ -125,7 +125,7 @@ public final class MkCommentTest {
      * @return Comment just created
      */
     private Comment comment(final String text) throws IOException {
-        return new MkGithub().repos().create(
+        return new MkGitHub().repos().create(
             new Repos.RepoCreate("blueharvest", false)
         ).issues().create("hey", "how are you?").comments().post(text);
     }

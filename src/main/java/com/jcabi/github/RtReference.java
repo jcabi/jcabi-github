@@ -13,7 +13,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github reference.
+ * GitHub reference.
  *
  */
 @Immutable

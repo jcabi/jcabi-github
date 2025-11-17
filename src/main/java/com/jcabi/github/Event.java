@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github event.
+ * GitHub event.
  *
  * @since 0.4
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
@@ -211,7 +211,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {

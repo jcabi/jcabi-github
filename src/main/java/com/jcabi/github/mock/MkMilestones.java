@@ -14,7 +14,7 @@ import java.util.Map;
 import org.xembly.Directives;
 
 /**
- * Mock Github milestones.
+ * Mock GitHub milestones.
  */
 @Immutable
 final class MkMilestones implements Milestones {
@@ -64,8 +64,7 @@ final class MkMilestones implements Milestones {
     public Milestone create(
         final String title
     ) throws IOException {
-        final int number;
-        number = 1 + this.storage.xml().xpath(
+        final int number = 1 + this.storage.xml().xpath(
             String.format("%s/milestone/number/text()", this.xpath())
         ).size();
         this.storage.apply(

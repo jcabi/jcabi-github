@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github release.
+ * Mock GitHub release.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

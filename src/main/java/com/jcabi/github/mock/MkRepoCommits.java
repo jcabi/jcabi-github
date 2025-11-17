@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock commits of a Github repository.
+ * Mock commits of a GitHub repository.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

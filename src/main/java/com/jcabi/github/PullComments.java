@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github pull comments.
+ * GitHub pull comments.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>

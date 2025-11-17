@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github starring API.
+ * GitHub starring API.
  *
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>

@@ -4,7 +4,7 @@
  */
 
 /**
- * Object Oriented Github API.
+ * Object Oriented GitHub API.
  *
  * <p>The only dependency you need is (check our latest version available
  * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
@@ -28,9 +28,9 @@
  * (see {@link com.jcabi.github.Hooks}).
  * This is not a bug, it's done intentionally.
  * The logic is simple.
- * Class {@link javax.json.JsonObject} is used when Github API is
+ * Class {@link javax.json.JsonObject} is used when GitHub API is
  * expecting a JSON object as HTTP request body.
- * {@link java.util.Map} is used when Github API expects HTTP query parameters,
+ * {@link java.util.Map} is used when GitHub API expects HTTP query parameters,
  * and some of them are optional, and there are more than two of them.
  * In all other situations we're using plain Java types.
  *

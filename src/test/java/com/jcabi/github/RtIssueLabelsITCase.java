@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -17,7 +16,7 @@ import org.junit.Test;
  * @since 0.6
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtIssueLabelsITCase {
     /**
      * Test repos.
@@ -34,7 +33,7 @@ public final class RtIssueLabelsITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtIssueLabelsITCase.repos = github.repos();
         RtIssueLabelsITCase.repo = new RepoRule().repo(RtIssueLabelsITCase.repos);
     }

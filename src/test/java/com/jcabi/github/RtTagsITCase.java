@@ -6,7 +6,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -21,7 +20,7 @@ import org.junit.Test;
  * Integration testcase for RtTags.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtTagsITCase {
 
     /**
@@ -45,7 +44,7 @@ public final class RtTagsITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtTagsITCase.repos = github.repos();
         RtTagsITCase.repo = RtTagsITCase.rule.repo(RtTagsITCase.repos);
     }

@@ -10,7 +10,6 @@ import jakarta.json.JsonNumber;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
-import jakarta.json.JsonValue.ValueType;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -125,6 +124,6 @@ final class SmartJson {
     ) throws IOException {
         final JsonValue value = this.object.json().get(name);
         return value != null
-            && !ValueType.NULL.equals(value.getValueType());
+            && !JsonValue.ValueType.NULL.equals(value.getValueType());
     }
 }

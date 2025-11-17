@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github public keys.
+ * GitHub public keys.
  *
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  * @checkstyle MultipleStringLiteralsCheck (200 lines)

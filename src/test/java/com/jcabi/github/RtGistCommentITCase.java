@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import java.io.IOException;
 import java.util.Collections;
@@ -17,7 +16,7 @@ import org.junit.Test;
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
-@OAuthScope(Scope.GIST)
+@OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistCommentITCase {
 
     /**
@@ -108,7 +107,7 @@ public final class RtGistCommentITCase {
      * @return Gist
      */
     private static Gist gist() throws IOException {
-        return new GithubIT()
+        return new GitHubIT()
             .connect()
             .gists()
             .create(

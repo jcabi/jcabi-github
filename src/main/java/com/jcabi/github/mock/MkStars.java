@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
- * Github starring API.
+ * GitHub starring API.
  * @since 0.15
  */
 @Immutable

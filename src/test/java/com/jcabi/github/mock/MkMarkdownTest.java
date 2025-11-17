@@ -23,7 +23,7 @@ public class MkMarkdownTest {
     public final void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
-            new MkGithub().markdown().render(
+            new MkGitHub().markdown().render(
                 Json.createObjectBuilder()
                     .add("text", text)
                     .build()

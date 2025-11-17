@@ -15,7 +15,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
- * Mock Github commit.
+ * Mock GitHub commit.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

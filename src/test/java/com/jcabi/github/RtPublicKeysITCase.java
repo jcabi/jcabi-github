@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
@@ -18,7 +17,7 @@ import org.junit.Test;
  * Test case for {@link RtPublicKeys}.
  *
  */
-@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
+@OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
 public class RtPublicKeysITCase {
 
     /**
@@ -124,7 +123,7 @@ public class RtPublicKeysITCase {
      * @return PublicKeys
      */
     private PublicKeys keys() {
-        return new GithubIT().connect().users().self().keys();
+        return new GitHubIT().connect().users().self().keys();
     }
 
 }

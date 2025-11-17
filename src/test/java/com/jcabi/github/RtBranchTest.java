@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -31,7 +31,7 @@ public final class RtBranchTest {
      */
     @Test
     public void fetchesCommit() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
         MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(RtBranchTest.SHA));
         final Coordinates coords = commit.repo().coordinates();
@@ -51,7 +51,7 @@ public final class RtBranchTest {
     @Test
     public void fetchesName() throws IOException {
         MatcherAssert.assertThat(
-            RtBranchTest.newBranch(new MkGithub().randomRepo()).name(),
+            RtBranchTest.newBranch(new MkGitHub().randomRepo()).name(),
             Matchers.equalTo(RtBranchTest.BRANCH_NAME)
         );
     }
@@ -61,7 +61,7 @@ public final class RtBranchTest {
      */
     @Test
     public void fetchesRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();
         MatcherAssert.assertThat(

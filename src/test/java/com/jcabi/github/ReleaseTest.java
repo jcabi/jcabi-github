@@ -225,7 +225,7 @@ public final class ReleaseTest {
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.createdAt(),
-            Matchers.equalTo(new Github.Time(created).date())
+            Matchers.equalTo(new GitHub.Time(created).date())
         );
     }
 
@@ -244,7 +244,7 @@ public final class ReleaseTest {
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.publishedAt(),
-            Matchers.equalTo(new Github.Time(published).date())
+            Matchers.equalTo(new GitHub.Time(published).date())
         );
     }
 

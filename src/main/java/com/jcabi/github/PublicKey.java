@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github public key.
+ * GitHub public key.
  *
  * <p>PublicKey implements {@link JsonReadable}, that's how you can get its full
  * details in JSON format. For example, to get its title,

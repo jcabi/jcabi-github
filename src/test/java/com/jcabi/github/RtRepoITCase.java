@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
@@ -18,11 +17,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link GitHub}.
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtRepoITCase {
     /**
      * Test repos.
@@ -39,7 +38,7 @@ public final class RtRepoITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtRepoITCase.repos = github.repos();
         RtRepoITCase.repo = RtRepoITCase.repos.create(
             new Repos.RepoCreate(

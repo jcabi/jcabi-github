@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.http.wire.RetryWire;
 import com.jcabi.immutable.ArrayMap;
 import java.io.IOException;
@@ -21,7 +20,7 @@ import org.junit.Test;
  * Integration case for {@link Milestones}.
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtMilestonesITCase {
     /**
      * Test repos.
@@ -38,8 +37,8 @@ public final class RtMilestonesITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new RtGithub(
-            new GithubIT().connect().entry().through(RetryWire.class)
+        final GitHub github = new RtGitHub(
+            new GitHubIT().connect().entry().through(RetryWire.class)
         );
         RtMilestonesITCase.repos = github.repos();
         RtMilestonesITCase.repo = new RepoRule().repo(RtMilestonesITCase.repos);

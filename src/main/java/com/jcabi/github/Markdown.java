@@ -19,9 +19,9 @@ public interface Markdown {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Render.

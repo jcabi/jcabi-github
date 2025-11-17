@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github pull request.
+ * GitHub pull request.
  *
  * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)

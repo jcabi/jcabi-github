@@ -22,11 +22,11 @@ public final class RtGistITCase {
      */
     @Test
     public void readsAndWritesGists() throws IOException {
-        final String filename = "filename.txt";
-        final String content = "content of file";
         final Gists gists = RtGistITCase.github().gists();
         Gist.Smart smart = null;
         try {
+            final String content = "content of file";
+            final String filename = "filename.txt";
             final Gist gist = gists.create(
                 Collections.singletonMap(filename, content), false
             );
@@ -75,24 +75,24 @@ public final class RtGistITCase {
     /**
      * Return github to test. Property "failsafe.github.key" is used
      * for authentication.
-     * @return Github
+     * @return GitHub
      */
-    private static Github github() {
+    private static GitHub github() {
         return RtGistITCase.github("failsafe.github.key");
     }
 
     /**
      * Return github to test.
      * @param property Name of a property with github key
-     * @return Github
+     * @return GitHub
      */
-    private static Github github(final String property) {
+    private static GitHub github(final String property) {
         final String key = System.getProperty(property);
         Assume.assumeThat(
             key,
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
-        return new RtGithub(key);
+        return new RtGitHub(key);
     }
 
 }

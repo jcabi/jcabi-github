@@ -4,7 +4,7 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Organization;
 import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Github user organizations.
+ * GitHub user organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
@@ -25,7 +25,7 @@ public final class MkUserOrganizationsTest {
     @Test
     public void iteratesUserOrganizations() throws IOException {
         final String login = "orgTestIterate";
-        final Github github = new MkGithub(login);
+        final GitHub github = new MkGitHub(login);
         final UserOrganizations userOrgs = github.users().get(login)
             .organizations();
         github.organizations().get(login);

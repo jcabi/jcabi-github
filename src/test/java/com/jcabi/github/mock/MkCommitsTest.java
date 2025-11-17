@@ -30,7 +30,7 @@ public class MkCommitsTest {
             .add("date", "2008-07-09T16:13:30+12:00").build();
         final JsonArray tree = Json.createArrayBuilder()
             .add("xyzsha12").build();
-        final Commit newCommit = new MkGithub().randomRepo()
+        final Commit newCommit = new MkGitHub().randomRepo()
             .git().commits().create(
                 Json.createObjectBuilder().add("message", "my commit message")
                     .add("sha", "12ahscba")

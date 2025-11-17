@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -39,7 +39,7 @@ public final class RepoTest {
      */
     @Test
     public void canFetchPrivateStatus() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         repo.patch(
             Json.createObjectBuilder()
                 .add("private", true)

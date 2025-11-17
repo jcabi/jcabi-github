@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github public key.
+ * Mock GitHub public key.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

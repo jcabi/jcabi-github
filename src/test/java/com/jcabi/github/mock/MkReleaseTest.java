@@ -4,7 +4,7 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import jakarta.json.Json;
@@ -157,7 +157,7 @@ public final class MkReleaseTest {
         final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             smart.createdAt(),
-            Matchers.equalTo(new Github.Time(this.value(release, "created_at"))
+            Matchers.equalTo(new GitHub.Time(this.value(release, "created_at"))
                 .date()
             )
         );
@@ -190,7 +190,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             smart.publishedAt(),
             Matchers.equalTo(
-                new Github.Time(this.value(release, "published_at")).date()
+                new GitHub.Time(this.value(release, "published_at")).date()
             )
         );
     }
@@ -226,6 +226,6 @@ public final class MkReleaseTest {
      * @throws IOException if any I/O problems occur.
      */
     private static Releases releases() throws IOException {
-        return new MkGithub().randomRepo().releases();
+        return new MkGitHub().randomRepo().releases();
     }
 }

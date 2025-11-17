@@ -12,18 +12,18 @@ import org.junit.Assume;
  *
  * @since 1.0
  */
-public final class GithubIT {
+public final class GitHubIT {
 
     /**
-     * Return Github connected to live server.
+     * Return GitHub connected to live server.
      * @return The obj
      */
-    public Github connect() {
+    public GitHub connect() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(
             key,
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
-        return new RtGithub(key);
+        return new RtGitHub(key);
     }
 }

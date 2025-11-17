@@ -15,7 +15,7 @@ import java.util.Collection;
 import org.xembly.Directives;
 
 /**
- * Mock Github Checks.
+ * Mock GitHub Checks.
  *
  * @since 1.6.0
  */

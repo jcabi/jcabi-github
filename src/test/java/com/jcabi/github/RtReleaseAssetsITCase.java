@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -19,7 +18,7 @@ import org.junit.Test;
  *
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtReleaseAssetsITCase {
 
@@ -44,7 +43,7 @@ public final class RtReleaseAssetsITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtReleaseAssetsITCase.repos = github.repos();
         RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
         RtReleaseAssetsITCase.repo.releases().create(

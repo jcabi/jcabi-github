@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user organizations.
+ * GitHub user organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -28,9 +28,9 @@ final class RtUserOrganizations implements UserOrganizations {
     private final transient Request entry;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * User we're in.
@@ -39,12 +39,12 @@ final class RtUserOrganizations implements UserOrganizations {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param user User
      */
     RtUserOrganizations(
-        final Github github,
+        final GitHub github,
         final Request req,
         final User user
     ) {
@@ -54,7 +54,7 @@ final class RtUserOrganizations implements UserOrganizations {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github users.
+ * GitHub users.
  *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/users/">Users API</a>
@@ -16,10 +16,10 @@ import com.jcabi.aspects.Immutable;
 public interface Users {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get myself.

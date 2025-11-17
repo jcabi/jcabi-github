@@ -22,7 +22,6 @@ public final class CoordinatesTest {
             "https://github.com/yegor256/takes.git"
         );
         final String repo = "takes";
-        final String user = "yegor256";
         MatcherAssert.assertThat(
             String.format(
                 "Repo is retrieved incorrectly, we expect '%s', but was '%s'",
@@ -32,6 +31,7 @@ public final class CoordinatesTest {
             coords.repo(),
             Matchers.equalTo(repo)
         );
+        final String user = "yegor256";
         MatcherAssert.assertThat(
             String.format(
                 "User is retrieved incorrectly, we expect '%s', but was '%s'",

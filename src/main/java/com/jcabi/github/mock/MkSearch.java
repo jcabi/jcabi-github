@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Content;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github search.
+ * Mock GitHub search.
  *
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
@@ -53,15 +53,15 @@ final class MkSearch implements Search {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
     public Iterable<Repo> repos(
         final String keywords,
         final String sort,
-        final Order order
+        final Search.Order order
     ) {
         return new MkIterable<>(
             this.storage,
@@ -76,7 +76,7 @@ final class MkSearch implements Search {
     //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     public Iterable<Issue> issues(final String keywords, final String sort,
-        final Order order, final EnumMap<Qualifier, String> qualifiers
+        final Search.Order order, final EnumMap<Search.Qualifier, String> qualifiers
     ) {
         return new MkIterable<>(
             this.storage,
@@ -95,7 +95,7 @@ final class MkSearch implements Search {
     public Iterable<User> users(
         final String keywords,
         final String sort,
-        final Order order
+        final Search.Order order
     ) {
         return new MkIterable<>(
             this.storage,
@@ -111,7 +111,7 @@ final class MkSearch implements Search {
     public Iterable<Content> codes(
         final String keywords,
         final String sort,
-        final Order order
+        final Search.Order order
     ) {
         return new MkIterable<>(
             this.storage,

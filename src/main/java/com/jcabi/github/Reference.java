@@ -9,7 +9,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 
 /**
- * Github Git Data Reference.
+ * GitHub Git Data Reference.
  *
  */
 @Immutable

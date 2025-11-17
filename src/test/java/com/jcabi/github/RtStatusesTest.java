@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.google.common.base.Optional;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -47,7 +47,7 @@ public final class RtStatusesTest {
      */
     @Test
     public void fetchesCommit() throws IOException {
-        final Commit original = new MkGithub().randomRepo().git()
+        final Commit original = new MkGitHub().randomRepo().git()
             .commits().get("5e8d65e0dbfab0716db16493e03a0baba480625a");
         MatcherAssert.assertThat(
             new RtStatuses(new FakeRequest(), original).commit(),
@@ -83,7 +83,7 @@ public final class RtStatusesTest {
             entry,
             new RtCommit(
                 entry,
-                new MkGithub().randomRepo(),
+                new MkGitHub().randomRepo(),
                 "0abcd89jcabitest"
             )
         );

@@ -7,7 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Issues;
 import com.jcabi.github.Repo;
@@ -22,7 +22,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github issues.
+ * Mock GitHub issues.
  *
  * @since 0.5
  */
@@ -99,8 +99,8 @@ final class MkIssues implements Issues {
                     .add("state").set(Issue.OPEN_STATE).up()
                     .add("title").set(title).up()
                     .add("body").set(body).up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("updated_at").set(new Github.Time().toString()).up()
+                    .add("created_at").set(new GitHub.Time().toString()).up()
+                    .add("updated_at").set(new GitHub.Time().toString()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("html_url").set("http://localhost/2").up()
                     .add("user").add("login").set(this.self).up().up()
@@ -130,11 +130,11 @@ final class MkIssues implements Issues {
     @Override
     @SuppressWarnings("PMD.UseConcurrentHashMap")
     public Iterable<Issue> search(
-        final Sort sort,
+        final Issues.Sort sort,
         final Search.Order direction,
-        final EnumMap<Qualifier, String> qualifiers) {
+        final EnumMap<Issues.Qualifier, String> qualifiers) {
         final Map<String, String> params = new HashMap<>();
-        for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
+        for (final EnumMap.Entry<Issues.Qualifier, String> entry : qualifiers
             .entrySet()) {
             params.put(entry.getKey().identifier(), entry.getValue());
         }

@@ -23,7 +23,7 @@ public final class MkGistsTest {
      */
     @Test
     public void worksWithMockedGists() throws IOException {
-        final Gist gist = new MkGithub().gists().create(
+        final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap("test-file-name.txt", "none"), false
         );
         final String file = "t.txt";
@@ -39,7 +39,7 @@ public final class MkGistsTest {
      */
     @Test
     public void removesGistByIdentifier() throws IOException {
-        final Gists gists = new MkGithub().gists();
+        final Gists gists = new MkGitHub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content"), false
         );
@@ -59,7 +59,7 @@ public final class MkGistsTest {
      */
     @Test
     public void worksWithSeveralGists() throws IOException {
-        final Gists gists = new MkGithub().gists();
+        final Gists gists = new MkGitHub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test-file-name.txt", "none"), false
         );
@@ -84,7 +84,7 @@ public final class MkGistsTest {
      */
     @Test
     public void testStar() throws IOException {
-        final Gist gist = new MkGithub().gists().create(
+        final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
         MatcherAssert.assertThat(
@@ -103,7 +103,7 @@ public final class MkGistsTest {
      */
     @Test
     public void testUnstar() throws IOException {
-        final Gist gist = new MkGithub().gists().create(
+        final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
         MatcherAssert.assertThat(
@@ -129,7 +129,7 @@ public final class MkGistsTest {
     @Test
     public void createGistWithEmptyFile() throws IOException {
         final String filename = "file.txt";
-        final Gist gist = new MkGithub().gists().create(
+        final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap(filename, ""), false
         );
         MatcherAssert.assertThat(

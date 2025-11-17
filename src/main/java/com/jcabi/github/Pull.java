@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github pull request.
+ * GitHub pull request.
  *
  * @since 0.3
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
@@ -244,7 +244,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -259,7 +259,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -274,7 +274,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date closedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("closed_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -289,7 +289,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date mergedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("merged_at")
                 ).date();
             } catch (final ParseException ex) {

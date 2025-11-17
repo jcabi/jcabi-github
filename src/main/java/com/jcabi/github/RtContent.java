@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github content.
+ * GitHub content.
  *
  */
 @Immutable

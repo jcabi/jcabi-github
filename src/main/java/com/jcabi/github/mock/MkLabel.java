@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github label.
+ * Mock GitHub label.
  *
  * @since 0.6
  */

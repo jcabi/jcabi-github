@@ -63,7 +63,7 @@ public interface FileChange extends JsonReadable {
          * @return Status enum value
          */
         public static FileChange.Status forValue(final String name) {
-            return Status.valueOf(name.toUpperCase(Locale.ENGLISH));
+            return FileChange.Status.valueOf(name.toUpperCase(Locale.ENGLISH));
         }
     }
 

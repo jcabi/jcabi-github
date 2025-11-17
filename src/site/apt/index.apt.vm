@@ -1,25 +1,25 @@
  ------
- ObjectOriented Github Java API
+ ObjectOriented GitHub Java API
  ------
  Yegor Bugayenko
  ------
  2014-11-02
  ------
 
-Object Oriented Github API
+Object Oriented GitHub API
 
   Set of classes in `com.jcabi.github` package
   is an object oriented Java adapter of
-  {{{https://developer.github.com/v3/}Github API}}:
+  {{{https://developer.github.com/v3/}GitHub API}}:
 
 +--
-import com.jcabi.github.RtGithub;
+import com.jcabi.github.RtGitHub;
 import com.jcabi.github.Issue;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Repo;
 public class Main {
   public static void main(String[] args) {
-    Github github = new RtGithub(".. your OAuth token ..");
+    GitHub github = new RtGitHub(".. your OAuth token ..");
     Repo repo = github.repos().get(new Coordinates.Simple("jcabi", "jcabi-github"));
     Issue issue = repo.issues().create("How are you?", "Please tell me...");
     issue.comments().post("My first comment!");
@@ -31,20 +31,20 @@ public class Main {
   for more information and examples.
 
   There are {{{https://developer.github.com/libraries/}a few other Java adapters}}
-  of Github API, but our
+  of GitHub API, but our
   implementation has its advantages, including:
 
    * All classes are private and implement public interfaces
 
-   * Out-of-the-box in-memory mock of Github server
+   * Out-of-the-box in-memory mock of GitHub server
 
    * All classes are truly immutable and thread-safe
 
-   * Every Github object gives GET/PATCH access to its raw JSON
+   * Every GitHub object gives GET/PATCH access to its raw JSON
 
    * HTTP request is accessible for modifications
 
-   * Entire Github API is available, at least through a configurable HTTP request
+   * Entire GitHub API is available, at least through a configurable HTTP request
 
   Java 7 or higher is required. The only dependency you need is
   (you can also download

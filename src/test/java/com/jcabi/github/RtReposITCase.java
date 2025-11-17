@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -15,7 +14,7 @@ import org.junit.Test;
  * Integration case for {@link RtRepos}.
  *
  */
-@OAuthScope({ Scope.REPO, Scope.DELETE_REPO })
+@OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.DELETE_REPO })
 public class RtReposITCase {
 
     /**
@@ -31,7 +30,7 @@ public class RtReposITCase {
      */
     @Test
     public final void create() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(repo, Matchers.notNullValue());
@@ -45,7 +44,7 @@ public class RtReposITCase {
      */
     @Test(expected = AssertionError.class)
     public final void failsOnCreationOfTwoRepos() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             repos.create(
@@ -62,7 +61,7 @@ public class RtReposITCase {
      */
     @Test
     public final void exists() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -80,7 +79,7 @@ public class RtReposITCase {
      */
     @Test
     public final void createWithOrganization() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")
         );

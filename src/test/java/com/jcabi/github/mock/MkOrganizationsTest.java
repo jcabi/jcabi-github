@@ -4,7 +4,7 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Organizations;
 import java.io.IOException;
 import java.text.ParseException;
@@ -15,7 +15,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Github organizations.
+ * GitHub organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
@@ -49,13 +49,13 @@ public final class MkOrganizationsTest {
             new MkStorage.InFile()
         );
         final String created = "created_at";
-        final Date early = new Github.Time(
+        final Date early = new GitHub.Time(
             orgs.get(name)
                 .json()
                 .getString(created)
         ).date();
         TimeUnit.SECONDS.sleep(1L);
-        final Date later = new Github.Time(
+        final Date later = new GitHub.Time(
             orgs.get(name)
                 .json()
                 .getString(created)
@@ -68,7 +68,7 @@ public final class MkOrganizationsTest {
      */
     @Test
     public void iteratesCurrentUserOrganizations() throws IOException {
-        final Organizations orgs = new MkGithub().organizations();
+        final Organizations orgs = new MkGitHub().organizations();
         orgs.get("orgTestIterate");
         MatcherAssert.assertThat(
             orgs.iterate(),

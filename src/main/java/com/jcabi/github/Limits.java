@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Rate Limit API.
+ * GitHub Rate Limit API.
  *
  * @since 0.6
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
@@ -29,10 +29,10 @@ public interface Limits {
     String SEARCH = "search";
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get limit for the given resource.
@@ -71,7 +71,7 @@ public interface Limits {
             this.max = allowed;
         }
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.origin.github();
         }
         @Override

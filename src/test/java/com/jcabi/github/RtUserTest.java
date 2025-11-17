@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -48,7 +48,7 @@ public final class RtUserTest {
     public void checksWhoAmI() throws IOException {
         final String login = "monalia";
         final RtUser user = new RtUser(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
                     .add("login", login)
@@ -68,7 +68,7 @@ public final class RtUserTest {
     public void checksIfHeHasAName() throws IOException {
         final User.Smart smart = new User.Smart(
             new RtUser(
-                Mockito.mock(Github.class),
+                Mockito.mock(GitHub.class),
                 new FakeRequest().withBody(
                     Json.createObjectBuilder()
                         .add("name", "octoc")
@@ -91,7 +91,7 @@ public final class RtUserTest {
     public void checksIfHeHasNoName() throws IOException {
         final User.Smart smart = new User.Smart(
             new RtUser(
-                Mockito.mock(Github.class),
+                Mockito.mock(GitHub.class),
                 new FakeRequest().withBody(
                     Json.createObjectBuilder()
                         .build()
@@ -113,7 +113,7 @@ public final class RtUserTest {
     @Test
     public void describeAsJson() throws IOException {
         final RtUser user = new RtUser(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
                     .add("name", "monalisa")
@@ -144,7 +144,7 @@ public final class RtUserTest {
             )
         ).start(this.resource.port());
         final RtUser json = new RtUser(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())
         );
         json.patch(
@@ -164,7 +164,7 @@ public final class RtUserTest {
      */
     @Test
     public void fetchesEmails() {
-        final Github github = Mockito.mock(Github.class);
+        final GitHub github = Mockito.mock(GitHub.class);
         Mockito.when(github.entry()).thenReturn(new FakeRequest());
         final User user = new RtUser(github, new FakeRequest());
         MatcherAssert.assertThat(user.emails(), Matchers.notNullValue());
@@ -175,7 +175,7 @@ public final class RtUserTest {
      */
     @Test
     public void fetchesOrganizations() {
-        final Github github = Mockito.mock(Github.class);
+        final GitHub github = Mockito.mock(GitHub.class);
         Mockito.when(github.entry()).thenReturn(new FakeRequest());
         final User user = new RtUser(github, new FakeRequest());
         MatcherAssert.assertThat(user.organizations(), Matchers.notNullValue());
@@ -386,7 +386,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasCreated() throws ParseException, IOException {
-        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
+        final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(smart.created(), Matchers.is(value));
     }
@@ -396,7 +396,7 @@ public final class RtUserTest {
      */
     @Test
     public void hasUpdated() throws ParseException, IOException {
-        final Github.Time value = new Github.Time("2014-07-04T15:29:43Z");
+        final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(smart.updated(), Matchers.is(value));
     }
@@ -408,7 +408,7 @@ public final class RtUserTest {
     public void notifications() throws IOException {
         MatcherAssert.assertThat(
             new RtUser(
-                new MkGithub(),
+                new MkGitHub(),
                 new FakeRequest()
             ).notifications(),
             Matchers.not(Matchers.nullValue())
@@ -427,7 +427,7 @@ public final class RtUserTest {
                 new MkAnswer.Simple(HttpURLConnection.HTTP_RESET)
             ).start(this.resource.port());
             final Request req = new ApacheRequest(container.home());
-            final Github github = Mockito.mock(Github.class);
+            final GitHub github = Mockito.mock(GitHub.class);
             Mockito.when(github.entry()).thenReturn(req);
             new RtUser(
                 github,
@@ -449,7 +449,7 @@ public final class RtUserTest {
                 new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
             ).start(this.resource.port());
             final Request req = new ApacheRequest(container.home());
-            final Github github = Mockito.mock(Github.class);
+            final GitHub github = Mockito.mock(GitHub.class);
             Mockito.when(github.entry()).thenReturn(req);
             new RtUser(
                 github,
@@ -469,7 +469,7 @@ public final class RtUserTest {
     private User.Smart userWith(final String property, final String value) {
         return new User.Smart(
             new RtUser(
-                Mockito.mock(Github.class),
+                Mockito.mock(GitHub.class),
                 new FakeRequest().withBody(
                     Json.createObjectBuilder()
                         .add(property, value)

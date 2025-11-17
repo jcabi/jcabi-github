@@ -15,7 +15,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock Github blobs.
+ * Mock GitHub blobs.
  *
  */
 @Immutable

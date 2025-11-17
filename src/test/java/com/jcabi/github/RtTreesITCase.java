@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import org.junit.Test;
  * Test case for {@link RtTrees}.
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtTreesITCase {
 
     /**
@@ -42,7 +41,7 @@ public final class RtTreesITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtTreesITCase.repos = github.repos();
         RtTreesITCase.repo = RtTreesITCase.rule.repo(RtTreesITCase.repos);
     }

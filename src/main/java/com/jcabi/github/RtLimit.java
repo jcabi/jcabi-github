@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github limit rate.
+ * GitHub limit rate.
  *
  * @since 0.6
  */
@@ -27,9 +27,9 @@ final class RtLimit implements Limit {
     private final transient Request entry;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * Name of resource.
@@ -38,18 +38,18 @@ final class RtLimit implements Limit {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param name Name of resource
      */
-    RtLimit(final Github github, final Request req, final String name) {
+    RtLimit(final GitHub github, final Request req, final String name) {
         this.entry = req;
         this.ghub = github;
         this.res = name;
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

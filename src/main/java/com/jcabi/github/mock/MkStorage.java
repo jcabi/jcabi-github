@@ -17,7 +17,7 @@ import org.xembly.Directive;
 import org.xembly.Xembler;
 
 /**
- * Storage of Github data.
+ * Storage of GitHub data.
  *
  * @since 0.5
  * @checkstyle MultipleStringLiteralsCheck (200 lines)

@@ -59,7 +59,7 @@ final class RtCommitsComparison implements CommitsComparison {
 
     @Override
     public Iterable<FileChange> files() throws IOException {
-        return new FileChanges(this.json().getJsonArray("files"));
+        return new RtCommitsComparison.FileChanges(this.json().getJsonArray("files"));
     }
 
     @Override
@@ -137,7 +137,7 @@ final class RtCommitsComparison implements CommitsComparison {
 
         @Override
         public Iterator<FileChange> iterator() {
-            return new FileChangesIterator(this.list.iterator());
+            return new RtCommitsComparison.FileChangesIterator(this.list.iterator());
         }
     }
 }

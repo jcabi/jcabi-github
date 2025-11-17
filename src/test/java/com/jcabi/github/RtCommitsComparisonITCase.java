@@ -22,7 +22,7 @@ public final class RtCommitsComparisonITCase {
     @Test
     public void readsFiles() throws IOException {
         final String headsha = "3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4";
-        final Iterable<FileChange> files = new GithubIT().connect()
+        final Iterable<FileChange> files = new GitHubIT().connect()
             .repos()
             .get(new Coordinates.Simple("jcabi/jcabi-github"))
             .commits()

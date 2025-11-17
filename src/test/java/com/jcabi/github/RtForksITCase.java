@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -16,7 +15,7 @@ import org.junit.Test;
  * Test case for {@link RtForks}.
  *
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public class RtForksITCase {
 
     /**
@@ -57,10 +56,10 @@ public class RtForksITCase {
 
     /**
      * Returns github repos.
-     * @return Github repos.
+     * @return GitHub repos.
      */
     private static Repos repos() {
-        return new GithubIT().connect().repos();
+        return new GitHubIT().connect().repos();
     }
 
 }

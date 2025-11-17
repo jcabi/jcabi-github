@@ -9,7 +9,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github repository collaborators.
+ * GitHub repository collaborators.
  * @since 0.8
  */
 @Immutable

@@ -21,7 +21,7 @@ public final class RtLimitsITCase {
      */
     @Test
     public void checksRemainingRequests() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
             new Limit.Smart(github.limits().get("core")).remaining(),
             Matchers.notNullValue()

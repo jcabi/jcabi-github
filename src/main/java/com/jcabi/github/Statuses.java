@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github status.
+ * GitHub status.
  *
  * <p>The status exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
@@ -45,7 +45,7 @@ public interface Statuses extends JsonReadable {
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
     Status create(
-        final StatusCreate status
+        Statuses.StatusCreate status
     ) throws IOException;
 
     /**
@@ -55,7 +55,7 @@ public interface Statuses extends JsonReadable {
      * @see <a href="https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref">List Statuses for a specific Ref</a>
      */
     Iterable<Status> list(
-        final String ref
+        String ref
     );
 
     /**
@@ -130,8 +130,8 @@ public interface Statuses extends JsonReadable {
          * @param stat State
          * @return StatusCreate
          */
-        public StatusCreate withState(final Status.State stat) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withState(final Status.State stat) {
+            return new Statuses.StatusCreate(
                 stat,
                 this.description,
                 this.context,
@@ -144,8 +144,8 @@ public interface Statuses extends JsonReadable {
          * @param desc Description
          * @return StatusCreate
          */
-        public StatusCreate withDescription(final String desc) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withDescription(final String desc) {
+            return new Statuses.StatusCreate(
                 this.state,
                 desc,
                 this.context,
@@ -158,8 +158,8 @@ public interface Statuses extends JsonReadable {
          * @param cntxt Context
          * @return StatusCreate
          */
-        public StatusCreate withContext(final Optional<String> cntxt) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withContext(final Optional<String> cntxt) {
+            return new Statuses.StatusCreate(
                 this.state,
                 this.description,
                 cntxt,
@@ -172,8 +172,8 @@ public interface Statuses extends JsonReadable {
          * @param target Target URL
          * @return StatusCreate
          */
-        public StatusCreate withTargetUrl(final Optional<String> target) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withTargetUrl(final Optional<String> target) {
+            return new Statuses.StatusCreate(
                 this.state,
                 this.description,
                 this.context,

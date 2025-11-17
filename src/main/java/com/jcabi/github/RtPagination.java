@@ -10,14 +10,14 @@ import jakarta.json.JsonObject;
 import java.util.Iterator;
 
 /**
- * Github pagination.
+ * GitHub pagination.
  *
  * <p>This class is a convenient iterator over multiple JSON objects
- * returned by Github API. For example, to iterate through notifications
+ * returned by GitHub API. For example, to iterate through notifications
  * (see Notifications API) you can use this code:</p>
  *
  * <pre> Iterable&lt;JsonObject&gt; notifications = new RtPagination&lt;&gt;(
- *   new RtGithub(oauth).entry()
+ *   new RtGitHub(oauth).entry()
  *     .uri().path("/notifications").back(),
  *   RtPagination.COPYING
  * );</pre>

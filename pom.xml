@@ -14,7 +14,7 @@
   <version>2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>jcabi-github</name>
-  <description>Object Oriented Github API</description>
+  <description>Object Oriented GitHub API</description>
   <issueManagement>
     <system>github</system>
     <url>https://github.com/jcabi/jcabi-github/issues</url>

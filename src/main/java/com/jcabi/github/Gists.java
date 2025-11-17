@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github gists.
+ * GitHub gists.
  *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
@@ -18,10 +18,10 @@ import java.util.Map;
 public interface Gists {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Create a new gist.

@@ -38,7 +38,7 @@ public final class MkTreesTest {
                 )
             ).build();
         MatcherAssert.assertThat(
-            new MkGithub().randomRepo().git().trees().create(tree),
+            new MkGitHub().randomRepo().git().trees().create(tree),
             Matchers.notNullValue()
         );
     }
@@ -62,7 +62,7 @@ public final class MkTreesTest {
                     .build()
             ).build()
         ).build();
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         repo.git().trees().create(json);
         MatcherAssert.assertThat(
             repo.git().trees().getRec(sha).json().getString("sha"),

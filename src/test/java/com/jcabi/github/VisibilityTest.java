@@ -27,11 +27,11 @@ public final class VisibilityTest {
      * Set of classes/interfaces that can be public.
      */
     private static final Set<String> SKIP = ImmutableSet.<String>builder()
-        .add("com.jcabi.github.RtGithub")
+        .add("com.jcabi.github.RtGitHub")
         .add("com.jcabi.github.Bulk")
         .add("com.jcabi.github.Smarts")
         .add("com.jcabi.github.wire.CarefulWire")
-        .add("com.jcabi.github.mock.MkGithub")
+        .add("com.jcabi.github.mock.MkGitHub")
         .build();
 
     /**

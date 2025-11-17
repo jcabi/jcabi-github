@@ -95,7 +95,7 @@ public final class MkReleaseAssetsTest {
     @Test
     public void encodesContentsAsBase64() throws IOException {
         final String test = "This is a test asset.";
-        final ReleaseAsset asset = new MkGithub().randomRepo().releases()
+        final ReleaseAsset asset = new MkGitHub().randomRepo().releases()
             .create("v1.0")
             .assets()
             .upload(test.getBytes(), "type", "name");
@@ -110,6 +110,6 @@ public final class MkReleaseAssetsTest {
      * @return Repo
      */
     private static Release release() throws IOException {
-        return new MkGithub().randomRepo().releases().create("v1.0");
+        return new MkGitHub().randomRepo().releases().create("v1.0");
     }
 }

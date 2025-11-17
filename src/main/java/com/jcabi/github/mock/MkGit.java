@@ -20,7 +20,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github Mock Git.
+ * GitHub Mock Git.
  *
  * @since 0.8
  */

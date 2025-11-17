@@ -15,12 +15,12 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import java.io.IOException;
-import java.util.Map.Entry;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github Trees.
+ * Mock of GitHub Trees.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -82,7 +82,7 @@ final class MkTrees implements Trees {
             final String sha = tree.getString("sha");
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("tree");
-            for (final Entry<String, JsonValue> entry : tree.entrySet()) {
+            for (final Map.Entry<String, JsonValue> entry : tree.entrySet()) {
                 dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
             }
             this.storage.apply(dirs);

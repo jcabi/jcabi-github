@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -14,7 +13,7 @@ import org.junit.Test;
 /**
  * Integration case for {@link Gists}.
  */
-@OAuthScope(Scope.GIST)
+@OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistsITCase {
     /**
      * RtGists can create a gist.
@@ -91,6 +90,6 @@ public final class RtGistsITCase {
      * @return Gists
      */
     private static Gists gists() {
-        return new GithubIT().connect().gists();
+        return new GitHubIT().connect().gists();
     }
 }

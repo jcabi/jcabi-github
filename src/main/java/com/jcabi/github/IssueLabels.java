@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github labels of an issue.
+ * GitHub labels of an issue.
  *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>

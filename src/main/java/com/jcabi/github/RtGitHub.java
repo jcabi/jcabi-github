@@ -21,11 +21,11 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github client, starting point to the entire library.
+ * GitHub client, starting point to the entire library.
  *
- * <p>This is how you start communicating with Github API:
+ * <p>This is how you start communicating with GitHub API:
  *
- * <pre> Github github = new RtGithub(oauthKey);
+ * <pre> GitHub github = new RtGitHub(oauthKey);
  * Repo repo = github.repos().get(
  *     new Coordinates.Simple("jcabi/jcabi-github")
  * );
@@ -37,8 +37,8 @@ import lombok.ToString;
  * {@link com.jcabi.http.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
- * <pre> Github github = new RtGithub(
- *   new RtGithub(oauthKey).entry().through(RetryWire.class)
+ * <pre> GitHub github = new RtGitHub(
+ *   new RtGitHub(oauthKey).entry().through(RetryWire.class)
  * );</pre>
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
@@ -49,7 +49,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = "request")
 @SuppressWarnings("PMD.TooManyMethods")
-public final class RtGithub implements Github {
+public final class RtGitHub implements GitHub {
 
     /**
      * Default request to start with.
@@ -70,31 +70,31 @@ public final class RtGithub implements Github {
     private final transient Request request;
 
     /**
-     * Public ctor, for anonymous access to Github.
+     * Public ctor, for anonymous access to GitHub.
      * @since 0.4
      */
-    public RtGithub() {
-        this(RtGithub.REQUEST);
+    public RtGitHub() {
+        this(RtGitHub.REQUEST);
     }
 
     /**
-     * Public ctor, for anonymous access to Github.<br><br>
+     * Public ctor, for anonymous access to GitHub.<br><br>
      *
-     * Use this ctor when you want to access Github's API over a
+     * Use this ctor when you want to access GitHub's API over a
      * custom domain, other than https//api.github.com.<br><br>
      *
-     * For instance, if you have your own instance of Github deployed
+     * For instance, if you have your own instance of GitHub deployed
      * somewhere.
      *
      * <pre>
-     *     final Github myGithub = new RtGithub(
+     *     final GitHub myGitHub = new RtGitHub(
      *         URI.create("https://github.mydomain.com")
      *     );
      * </pre>
      * @param domain Your domain.
      */
-    public RtGithub(final URI domain) {
-        this(RtGithub.REQUEST.uri().set(domain).back());
+    public RtGitHub(final URI domain) {
+        this(RtGitHub.REQUEST.uri().set(domain).back());
     }
 
     /**
@@ -103,9 +103,9 @@ public final class RtGithub implements Github {
      * @param pwd Password
      * @since 0.4
      */
-    public RtGithub(final String user, final String pwd) {
+    public RtGitHub(final String user, final String pwd) {
         this(
-            RtGithub.REQUEST.header(
+            RtGitHub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
@@ -121,14 +121,14 @@ public final class RtGithub implements Github {
     /**
      * Public ctor, for HTTP Basic Authentication.
      *
-     * Use this ctor when you want to access Github's API over a
+     * Use this ctor when you want to access GitHub's API over a
      * custom domain, other than https//api.github.com.<br><br>
      *
-     * For instance, if you have your own instance of Github deployed
+     * For instance, if you have your own instance of GitHub deployed
      * somewhere.
      *
      * <pre>
-     *     final Github myGithub = new RtGithub(
+     *     final GitHub myGitHub = new RtGitHub(
      *         "john_doe", "johnspassword",
      *         URI.create("https://github.mydomain.com")
      *     );
@@ -137,9 +137,9 @@ public final class RtGithub implements Github {
      * @param pwd User's password.
      * @param domain Your custom domain.
      */
-    public RtGithub(final String user, final String pwd, final URI domain) {
+    public RtGitHub(final String user, final String pwd, final URI domain) {
         this(
-            RtGithub.REQUEST.uri().set(domain).back()
+            RtGitHub.REQUEST.uri().set(domain).back()
                 .header(
                     HttpHeaders.AUTHORIZATION,
                     String.format(
@@ -156,14 +156,14 @@ public final class RtGithub implements Github {
     /**
      * Public ctor, for authentication with OAuth2 token.
      *
-     * Use this ctor when you want to access Github's API over a
+     * Use this ctor when you want to access GitHub's API over a
      * custom domain, other than https//api.github.com.<br><br>
      *
-     * For instance, if you have your own instance of Github deployed
+     * For instance, if you have your own instance of GitHub deployed
      * somewhere.
      *
      * <pre>
-     *     final Github myGithub = new RtGithub(
+     *     final GitHub myGitHub = new RtGitHub(
      *         "john_doe", "johnspassword",
      *         URI.create("https://github.mydomain.com")
      *     );
@@ -172,9 +172,9 @@ public final class RtGithub implements Github {
      * @param token OAuth token
      * @param domain Your custom domain.
      */
-    public RtGithub(final String token, final URI domain) {
+    public RtGitHub(final String token, final URI domain) {
         this(
-            RtGithub.REQUEST.uri().set(domain).back()
+            RtGitHub.REQUEST.uri().set(domain).back()
                 .header(
                     HttpHeaders.AUTHORIZATION,
                     String.format("token %s", token)
@@ -186,9 +186,9 @@ public final class RtGithub implements Github {
      * Public ctor, for authentication with OAuth2 token.
      * @param token OAuth token
      */
-    public RtGithub(final String token) {
+    public RtGitHub(final String token) {
         this(
-            RtGithub.REQUEST.header(
+            RtGitHub.REQUEST.header(
                 HttpHeaders.AUTHORIZATION,
                 String.format("token %s", token)
             )
@@ -200,7 +200,7 @@ public final class RtGithub implements Github {
      * @param req Request to start from
      * @since 0.4
      */
-    public RtGithub(final Request req) {
+    public RtGitHub(final Request req) {
         this.request = req;
     }
 

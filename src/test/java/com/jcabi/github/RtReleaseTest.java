@@ -40,7 +40,7 @@ public class RtReleaseTest {
     public final transient RandomPort resource = new RandomPort();
 
     /**
-     * A mock container used in test to mimic the Github server.
+     * A mock container used in test to mimic the GitHub server.
      */
     private transient MkContainer container;
 

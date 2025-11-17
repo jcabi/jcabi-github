@@ -26,7 +26,7 @@ public final class MkPullsTest {
      */
     @Test
     public void canCreateAPull() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Pull pull = repo.pulls().create(
             "hello",
             "head-branch",

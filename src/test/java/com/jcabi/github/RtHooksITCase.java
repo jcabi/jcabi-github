@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +18,7 @@ import org.junit.Test;
  * Test case for {@link RtHooks}.
  * @since 0.8
  */
-@OAuthScope(Scope.ADMIN_REPO_HOOK)
+@OAuthScope(OAuthScope.Scope.ADMIN_REPO_HOOK)
 public final class RtHooksITCase {
 
     /**
@@ -105,7 +104,7 @@ public final class RtHooksITCase {
      * @return Repos
      */
     private static Repos repos() {
-        return new GithubIT().connect().repos();
+        return new GitHubIT().connect().repos();
     }
 
     /**

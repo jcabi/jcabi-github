@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github organization.
+ * GitHub organization.
  *
  * <p>Use a supplementary "smart" decorator to get other properties
  * from an organization, for example:
@@ -37,10 +37,10 @@ public interface Organization extends Comparable<Organization>,
     JsonReadable, JsonPatchable {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get this organization's login.
@@ -260,7 +260,7 @@ public interface Organization extends Comparable<Organization>,
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -319,7 +319,7 @@ public interface Organization extends Comparable<Organization>,
         }
 
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.org.github();
         }
 

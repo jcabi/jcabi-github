@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Notifications;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github user.
+ * GitHub user.
  *
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
@@ -53,8 +53,8 @@ final class MkUser implements User {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override

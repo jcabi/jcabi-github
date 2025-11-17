@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -39,7 +39,7 @@ public final class RtOrganizationTest {
     @Test
     public void canFetchIssueAsJson() throws IOException {
         final RtOrganization org = new RtOrganization(
-            new MkGithub(),
+            new MkGitHub(),
             new FakeRequest().withBody("{\"organization\":\"json\"}"),
             "testJson"
         );
@@ -61,7 +61,7 @@ public final class RtOrganizationTest {
             ).start(this.resource.port())
         ) {
             final RtOrganization org = new RtOrganization(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "testPatch"
             );
@@ -88,12 +88,12 @@ public final class RtOrganizationTest {
     @Test
     public void canCompareInstances() throws IOException {
         final RtOrganization less = new RtOrganization(
-            new MkGithub(),
+            new MkGitHub(),
             new FakeRequest(),
             "abc"
         );
         final RtOrganization greater = new RtOrganization(
-            new MkGithub(),
+            new MkGitHub(),
             new FakeRequest(),
             "def"
         );
@@ -121,7 +121,7 @@ public final class RtOrganizationTest {
             ).start(this.resource.port())
         ) {
             final RtOrganization org = new RtOrganization(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "testToString"
             );

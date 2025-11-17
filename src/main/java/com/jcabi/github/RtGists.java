@@ -18,7 +18,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github gists.
+ * GitHub gists.
  *
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -34,9 +34,9 @@ final class RtGists implements Gists {
     private final transient Request entry;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -45,10 +45,10 @@ final class RtGists implements Gists {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
-    RtGists(final Github github, final Request req) {
+    RtGists(final GitHub github, final Request req) {
         this.entry = req;
         this.ghub = github;
         this.request = this.entry.uri().path("/gists").back();
@@ -60,7 +60,7 @@ final class RtGists implements Gists {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

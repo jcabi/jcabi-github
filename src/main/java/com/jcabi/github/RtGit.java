@@ -10,7 +10,7 @@ import com.jcabi.http.Request;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
+ * GitHub Git.
  *
  * @since 0.8
  */

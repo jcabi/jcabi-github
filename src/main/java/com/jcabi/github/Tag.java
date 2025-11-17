@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github Git Data Tag.
+ * GitHub Git Data Tag.
  *
  * @since 0.8
  */

@@ -73,7 +73,7 @@ public final class RtGistCommentsITCase {
      * @return Gist
      */
     private static Gist gist() throws IOException {
-        return new GithubIT()
+        return new GitHubIT()
             .connect()
             .gists()
             .create(

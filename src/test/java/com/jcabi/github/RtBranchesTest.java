@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -59,7 +59,7 @@ public final class RtBranchesTest {
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 branches.iterate(),
@@ -109,7 +109,7 @@ public final class RtBranchesTest {
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 "could not find branch correctly",
@@ -128,7 +128,7 @@ public final class RtBranchesTest {
      */
     @Test
     public void fetchesRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final RtBranches branch = new RtBranches(new FakeRequest(), repo);
         final Coordinates coords = branch.repo().coordinates();
         MatcherAssert.assertThat(

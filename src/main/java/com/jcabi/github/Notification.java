@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github Notification.
+ * GitHub Notification.
  * <p>Use a supplementary "smart" decorator to get other properties
  * from an notification.
  *

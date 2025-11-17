@@ -15,7 +15,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Mock for Github Assignees.
+ * Mock for GitHub Assignees.
  *
  * @since 0.7
  */

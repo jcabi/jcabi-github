@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github event.
+ * Mock GitHub event.
  *
  * @since 0.6.1
  */

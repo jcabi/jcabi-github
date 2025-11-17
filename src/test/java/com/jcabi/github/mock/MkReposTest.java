@@ -107,7 +107,7 @@ public final class MkReposTest {
         final boolean priv = true;
         MatcherAssert.assertThat(
             new Repo.Smart(
-                new MkGithub().repos().create(
+                new MkGitHub().repos().create(
                     new Repos.RepoCreate("test", priv)
                 )
             ).isPrivate(),

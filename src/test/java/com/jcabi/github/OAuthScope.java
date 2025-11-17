@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  *  check if the supplied account can fulfill the IT case requirement before
  *  it is run and make the case fail if the required OAuth scopes is not
  *  present.
- * @see <a href="https://developer.github.com/v3/oauth/#scopes">Github OAuth
+ * @see <a href="https://developer.github.com/v3/oauth/#scopes">GitHub OAuth
  * scopes</a>
  */
 @Documented
@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface OAuthScope {
     /**
-     * The Github OAuth scopes required.
+     * The GitHub OAuth scopes required.
      */
-    Scope[] value();
+    OAuthScope.Scope[] value();
 
     /**
      * The enum represents the available OAuth scopes.

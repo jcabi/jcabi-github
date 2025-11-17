@@ -21,7 +21,7 @@ public final class MkForkTest {
      */
     @Test
     public void fetchAsJson() throws IOException {
-        final Fork fork = new MkGithub().randomRepo().forks().create("fork");
+        final Fork fork = new MkGitHub().randomRepo().forks().create("fork");
         MatcherAssert.assertThat(
             fork.json().toString(),
             Matchers.containsString("{")

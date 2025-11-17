@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
@@ -14,7 +13,7 @@ import org.junit.Test;
 /**
  * Test case for {@link RtUserEmails}.
  */
-@OAuthScope(Scope.USER_EMAIL)
+@OAuthScope(OAuthScope.Scope.USER_EMAIL)
 public final class RtUserEmailsITCase {
 
     /**
@@ -71,7 +70,7 @@ public final class RtUserEmailsITCase {
      * @return UserEmails
      */
     private static UserEmails userEmails() {
-        return new GithubIT().connect().users().self().emails();
+        return new GitHubIT().connect().users().self().emails();
     }
 
 }

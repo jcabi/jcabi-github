@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Github comments.
+ * GitHub comments.
  *
  * <p>Use this class to get access to all comments in an issue, for example:
  *

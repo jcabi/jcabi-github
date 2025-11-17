@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github release assets.
+ * GitHub release assets.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>

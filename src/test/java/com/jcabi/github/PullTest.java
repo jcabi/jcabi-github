@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -79,10 +79,10 @@ public final class PullTest {
      */
     @Test
     public void getsAuthor() throws IOException {
-        final String login = "rose";
         final Repo repo = Mockito.mock(Repo.class);
-        Mockito.when(repo.github()).thenReturn(new MkGithub());
+        Mockito.when(repo.github()).thenReturn(new MkGitHub());
         final Pull pull = Mockito.mock(Pull.class);
+        final String login = "rose";
         Mockito.when(pull.json()).thenReturn(
             Json.createObjectBuilder()
                 .add(

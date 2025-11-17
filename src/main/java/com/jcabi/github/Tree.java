@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github tree.
+ * GitHub tree.
  *
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
  */

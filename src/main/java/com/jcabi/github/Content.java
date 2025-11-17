@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github content.
+ * GitHub content.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>

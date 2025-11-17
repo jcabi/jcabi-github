@@ -7,7 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
@@ -18,7 +18,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github Release Assets.
+ * Mock GitHub Release Assets.
  *
  * @since 0.8
  */
@@ -120,8 +120,8 @@ final class MkReleaseAssets implements ReleaseAssets {
                     .add("content_type").set(type).up()
                     .add("size").set(Integer.toString(content.length)).up()
                     .add("download_count").set("42").up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("updated_at").set(new Github.Time().toString()).up()
+                    .add("created_at").set(new GitHub.Time().toString()).up()
+                    .add("updated_at").set(new GitHub.Time().toString()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("html_url").set("http://localhost/2").up()
             );

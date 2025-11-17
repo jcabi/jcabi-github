@@ -9,7 +9,7 @@ import com.jcabi.http.Request;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Github Notifications.
+ * GitHub Notifications.
  *
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -13,7 +12,7 @@ import org.junit.Test;
 /**
  * Integration case for {@link RtUser}.
  */
-@OAuthScope(Scope.USER)
+@OAuthScope(OAuthScope.Scope.USER)
 public final class RtUserITCase {
 
     /**
@@ -21,7 +20,7 @@ public final class RtUserITCase {
      */
     @Test
     public void checksWhoAmI() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         final User self = github.users().self();
         MatcherAssert.assertThat(
             self.login(),
@@ -35,7 +34,7 @@ public final class RtUserITCase {
     @Test
     public void readKeys() {
         MatcherAssert.assertThat(
-            new GithubIT().connect().users().self().keys().toString(),
+            new GitHubIT().connect().users().self().keys().toString(),
             Matchers.equalTo("https://api.github.com/user/keys")
         );
     }

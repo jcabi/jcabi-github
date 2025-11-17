@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Gitignores;
 import java.util.Collections;
 import java.util.Map;
@@ -34,20 +34,20 @@ final class MkGitignores implements Gitignores {
         );
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient MkGithub ghub;
+    private final transient MkGitHub ghub;
 
     /**
      * Public ctor.
      * @param github The github
      */
-    MkGitignores(final MkGithub github) {
+    MkGitignores(final MkGitHub github) {
         this.ghub = github;
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

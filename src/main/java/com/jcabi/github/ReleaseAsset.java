@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github release asset.
+ * GitHub release asset.
  * @since 0.8
  */
 @Immutable
@@ -156,7 +156,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -171,7 +171,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

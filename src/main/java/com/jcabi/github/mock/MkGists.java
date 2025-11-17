@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github gists.
+ * Mock GitHub gists.
  *
  * @since 0.5
  */
@@ -54,8 +54,8 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override

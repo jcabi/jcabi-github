@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -46,7 +46,7 @@ public final class RtReferencesTest {
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 refs.create("abceefgh3456", "refs/heads/feature-a"),
@@ -75,7 +75,7 @@ public final class RtReferencesTest {
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 refs.iterate(),
@@ -97,7 +97,7 @@ public final class RtReferencesTest {
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             refs.remove("heads/feature-a");
             MatcherAssert.assertThat(
@@ -123,7 +123,7 @@ public final class RtReferencesTest {
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 refs.tags(),
@@ -152,7 +152,7 @@ public final class RtReferencesTest {
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 refs.heads(),

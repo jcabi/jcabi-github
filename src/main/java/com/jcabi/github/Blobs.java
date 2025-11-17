@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github Git Data Blobs.
+ * GitHub Git Data Blobs.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>

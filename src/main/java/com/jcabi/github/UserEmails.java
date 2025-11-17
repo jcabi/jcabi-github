@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github user's emails.
+ * GitHub user's emails.
  * @since 0.8
  */
 @Immutable

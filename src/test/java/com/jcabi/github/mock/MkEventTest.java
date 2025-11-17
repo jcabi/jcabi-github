@@ -25,7 +25,7 @@ public final class MkEventTest {
     public void canGetCreatedAt() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
-        final Repo repo = new MkGithub(storage, user).randomRepo();
+        final Repo repo = new MkGitHub(storage, user).randomRepo();
         final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
         final int eventnum = events.create(
             "test_type",
@@ -52,7 +52,7 @@ public final class MkEventTest {
     public void canGetPresentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "ken";
-        final Repo repo = new MkGithub(storage, user).repos().create(
+        final Repo repo = new MkGitHub(storage, user).repos().create(
             new Repos.RepoCreate("foo", false)
         );
         final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
@@ -83,7 +83,7 @@ public final class MkEventTest {
     public void canGetAbsentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "barbie";
-        final Repo repo = new MkGithub(storage, user).repos().create(
+        final Repo repo = new MkGitHub(storage, user).repos().create(
             new Repos.RepoCreate("bar", false)
         );
         final int num = ((MkIssueEvents) repo.issueEvents()).create(

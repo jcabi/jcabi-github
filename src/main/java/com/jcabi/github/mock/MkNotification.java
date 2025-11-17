@@ -9,7 +9,7 @@ import com.jcabi.github.Notification;
 import com.jcabi.xml.XML;
 
 /**
- * Mock for Github Notification.
+ * Mock for GitHub Notification.
  *
  * @since 0.25
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>

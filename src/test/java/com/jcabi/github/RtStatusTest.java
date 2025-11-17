@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -67,7 +67,7 @@ public final class RtStatusTest {
      * @throws IOException If there is an I/O problem.
      */
     private static Commit commit() throws IOException {
-        return new MkGithub().randomRepo().git().commits()
+        return new MkGitHub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");
     }
 }

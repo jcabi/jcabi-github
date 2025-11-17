@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -12,18 +11,18 @@ import org.junit.Assume;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link GitHub}.
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@OAuthScope(Scope.REPO)
-public final class RtGithubITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+public final class RtGitHubITCase {
 
     /**
-     * RtGithub can authenticate itself.
+     * RtGitHub can authenticate itself.
      */
     @Test
     public void authenticatesItself() {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
             github.users().self(),
             Matchers.notNullValue()
@@ -31,11 +30,11 @@ public final class RtGithubITCase {
     }
 
     /**
-     * RtGithub can connect anonymously.
+     * RtGitHub can connect anonymously.
      */
     @Test
     public void connectsAnonymously() throws IOException {
-        final Github github = new RtGithub();
+        final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             new Issue.Smart(
                 github.repos().get(
@@ -47,11 +46,11 @@ public final class RtGithubITCase {
     }
 
     /**
-     * RtGithub can fetch meta information.
+     * RtGitHub can fetch meta information.
      */
     @Test
     public void fetchesMeta() throws IOException {
-        final Github github = new RtGithub();
+        final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             github.meta().getJsonArray("hooks"),
             Matchers.not(Matchers.empty())
@@ -59,11 +58,11 @@ public final class RtGithubITCase {
     }
 
     /**
-     * RtGithub can fetch emojis.
+     * RtGitHub can fetch emojis.
      */
     @Test
     public void fetchesEmojis() throws IOException {
-        final Github github = new RtGithub();
+        final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             github.emojis().getString("+1"),
             Matchers.startsWith("https://")
@@ -71,7 +70,7 @@ public final class RtGithubITCase {
     }
 
     /**
-     * RtGithub can authenticate with username and password through HTTP Basic.
+     * RtGitHub can authenticate with username and password through HTTP Basic.
      */
     @Test
     public void authenticatesWithUsernameAndPassword() throws IOException {
@@ -85,7 +84,7 @@ public final class RtGithubITCase {
             password,
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );
-        final Github github = new RtGithub(user, password);
+        final GitHub github = new RtGitHub(user, password);
         MatcherAssert.assertThat(
             new User.Smart(github.users().self()).login(),
             Matchers.is(user)
@@ -93,11 +92,11 @@ public final class RtGithubITCase {
     }
 
     /**
-     * RtGithub can fetch users.
+     * RtGitHub can fetch users.
      */
     @Test
     public void fetchesUsers() {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
             "Iterating over github.users() should return something",
             github.users().iterate("").iterator().next(),

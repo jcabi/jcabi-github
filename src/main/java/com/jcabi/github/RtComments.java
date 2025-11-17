@@ -17,7 +17,7 @@ import java.util.Date;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github comments.
+ * GitHub comments.
  *
  * @since 0.1
  */
@@ -96,7 +96,7 @@ final class RtComments implements Comments {
     public Iterable<Comment> iterate(final Date since) {
         return new RtPagination<>(
             this.request.uri()
-                .queryParam("since", new Github.Time(since))
+                .queryParam("since", new GitHub.Time(since))
                 .back(),
             object -> this.get(object.getJsonNumber("id").longValue())
         );

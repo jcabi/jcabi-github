@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Commits of a Github repository.
+ * Commits of a GitHub repository.
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
@@ -23,7 +23,7 @@ public interface RepoCommits extends JsonReadable {
      * @see <a href="https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     Iterable<RepoCommit> iterate(
-        final Map<String, String> params
+        Map<String, String> params
     );
 
     /**

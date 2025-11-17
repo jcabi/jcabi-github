@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github Git.
+ * GitHub Git.
  *
  * @since 0.8
  */

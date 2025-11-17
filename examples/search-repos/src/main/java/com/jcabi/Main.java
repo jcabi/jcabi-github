@@ -4,8 +4,8 @@
  */
 package com.jcabi;
 
-import com.jcabi.github.Github;
-import com.jcabi.github.RtGithub;
+import com.jcabi.github.GitHub;
+import com.jcabi.github.RtGitHub;
 import com.jcabi.http.response.JsonResponse;
 import java.util.List;
 import javax.json.JsonObject;
@@ -22,7 +22,7 @@ public final class Main {
      * @param args Command line arguments
      */
     public static void main(final String[] args) throws Exception {
-        final Github github = new RtGithub();
+        final GitHub github = new RtGitHub();
         final JsonResponse resp = github.entry()
             .uri().path("/search/repositories")
             .queryParam("q", "java").back()

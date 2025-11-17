@@ -22,21 +22,21 @@ import lombok.ToString;
  * Wire that waits if number of remaining request per hour is less than
  * a given threshold.
  *
- * <p>Github sets following headers in each response:
+ * <p>GitHub sets following headers in each response:
  * {@code X-RateLimit-Limit}, {@code X-RateLimit-Remaining}, and
  * {@code X-RateLimit-Reset}. If {@code X-RateLimit-Remaining} is
  * less than a given threshold, {@code CarefulWire} will sleep until a time
  * specified in the {@code X-RateLimit-Reset} header. For further information
- * about the Github rate limiting see
+ * about the GitHub rate limiting see
  * <a href="https://developer.github.com/v3/#rate-limiting">API
  * documentation</a>.
  *
- * <p>You can use {@code CarefulWire} with a {@link com.jcabi.github.Github}
+ * <p>You can use {@code CarefulWire} with a {@link com.jcabi.github.GitHub}
  * object:
  * <pre>
  * {@code
- * Github github = new RtGithub(
- *     new RtGithub().entry().through(CarefulWire.class, 50)
+ * GitHub github = new RtGitHub(
+ *     new RtGitHub().entry().through(CarefulWire.class, 50)
  * );
  * }
  * </pre>

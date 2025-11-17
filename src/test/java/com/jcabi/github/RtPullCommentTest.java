@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -45,7 +45,7 @@ public final class RtPullCommentTest {
     @Test
     public void canCompareInstances() throws IOException {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(new MkGithub().randomRepo()).when(pull).repo();
+        Mockito.doReturn(new MkGitHub().randomRepo()).when(pull).repo();
         final RtPullComment less =
             new RtPullComment(new FakeRequest(), pull, 1);
         final RtPullComment greater =
@@ -134,7 +134,7 @@ public final class RtPullCommentTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Pull pull = repo.pulls().create(
                 "Reaction adding test",
                 "This is a test for adding a reaction",
@@ -159,7 +159,7 @@ public final class RtPullCommentTest {
      * @return Repo - a repo to be used for test.
      */
     private static Repo repo() throws IOException {
-        return new MkGithub("joe").repos().create(
+        return new MkGitHub("joe").repos().create(
             new Repos.RepoCreate("blueharvest", false)
         );
     }

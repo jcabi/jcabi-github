@@ -20,7 +20,7 @@ public final class MkGitignoresTest {
      */
     @Test
     public void canFetchSingleRawTemplate() throws IOException {
-        final Gitignores gitignores = new MkGithub().gitignores();
+        final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
             gitignores.template("Java"),
             Matchers.startsWith("*.class")
@@ -32,7 +32,7 @@ public final class MkGitignoresTest {
      */
     @Test
     public void canIterateOverTemplates() throws IOException {
-        final Gitignores gitignores = new MkGithub().gitignores();
+        final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
             gitignores.iterate(),
             Matchers.not(Matchers.emptyIterable())

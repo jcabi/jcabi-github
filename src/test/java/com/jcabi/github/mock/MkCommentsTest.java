@@ -37,7 +37,7 @@ public final class MkCommentsTest {
      * @return Comments just created
      */
     private Comments comments() throws IOException {
-        return new MkGithub().randomRepo()
+        return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?")
             .comments();
     }

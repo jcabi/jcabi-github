@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -43,7 +43,7 @@ public final class RtCommentTest {
      */
     @Test
     public void canCompareInstances() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("title", "body");
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
         final RtComment greater = new RtComment(new FakeRequest(), issue, 2);
@@ -60,7 +60,7 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsIssue() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
         MatcherAssert.assertThat(comment.issue(), Matchers.is(issue));
@@ -71,7 +71,7 @@ public final class RtCommentTest {
      */
     @Test
     public void returnsItsNumber() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("testing2", "issue2");
         final long num = 10L;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
@@ -87,7 +87,7 @@ public final class RtCommentTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing3", "issue3");
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10
@@ -111,7 +111,7 @@ public final class RtCommentTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing4", "issue4");
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10
@@ -133,7 +133,7 @@ public final class RtCommentTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing5", "issue5");
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10
@@ -157,7 +157,7 @@ public final class RtCommentTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create(
                 "Reaction adding test", "This is a test for adding a reaction"
             );
@@ -191,7 +191,7 @@ public final class RtCommentTest {
                     ).build().toString()
                 )
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create(
                 "Reaction Listing test", "This is a test for listing reactions"
             );
@@ -214,7 +214,7 @@ public final class RtCommentTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing6", "issue6");
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10

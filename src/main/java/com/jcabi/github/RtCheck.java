@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 /**
- * Github check.
+ * GitHub check.
  *
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
@@ -15,12 +15,12 @@ class RtCheck implements Check {
     /**
      * Status.
      */
-    private final transient Status status;
+    private final transient Check.Status status;
 
     /**
      * Conclusion.
      */
-    private final transient Conclusion conclusion;
+    private final transient Check.Conclusion conclusion;
 
     /**
      * Ctor.
@@ -28,7 +28,7 @@ class RtCheck implements Check {
      * @param conc Conclusion.
      */
     RtCheck(final String stat, final String conc) {
-        this(Status.fromString(stat), Conclusion.fromString(conc));
+        this(Check.Status.fromString(stat), Check.Conclusion.fromString(conc));
     }
 
     /**
@@ -37,8 +37,8 @@ class RtCheck implements Check {
      * @param conc Conclusion.
      */
     RtCheck(
-        final Status stat,
-        final Conclusion conc
+        final Check.Status stat,
+        final Check.Conclusion conc
     ) {
         this.status = stat;
         this.conclusion = conc;

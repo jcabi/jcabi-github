@@ -24,7 +24,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void createsMkReference() throws IOException {
-        final References refs = new MkGithub().randomRepo()
+        final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
             refs.create("refs/heads/branch1", "abcderf122"),
@@ -37,7 +37,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void returnsRepo() throws IOException {
-        final References refs = new MkGithub().randomRepo()
+        final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
             refs.repo(),
@@ -50,7 +50,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesReferences() throws IOException {
-        final Repo owner = new MkGithub().randomRepo();
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
@@ -65,7 +65,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesReferencesInSubNamespace() throws IOException {
-        final Repo owner = new MkGithub().randomRepo();
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
@@ -84,7 +84,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesTags() throws IOException {
-        final Repo owner = new MkGithub().randomRepo();
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/tags/t2", "2322f34");
         MatcherAssert.assertThat(
@@ -98,7 +98,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void iteratesHeads() throws IOException {
-        final Repo owner = new MkGithub().randomRepo();
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/branch2", "blahblah");
         MatcherAssert.assertThat(
@@ -112,7 +112,7 @@ public final class MkReferencesTest {
      */
     @Test
     public void removesReference() throws IOException {
-        final Repo owner = new MkGithub().randomRepo();
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/testbr", "qweqwe22");
         refs.create("refs/tags/t2", "111teee");

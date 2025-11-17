@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import jakarta.json.Json;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -233,7 +233,7 @@ public final class RepositoryStatisticsTest {
      * @throws IOException If some problem with I/O happened.
      */
     private Repo repo() throws IOException {
-        return new MkGithub()
+        return new MkGitHub()
             .repos()
             .create(
                 new Repos.RepoCreate("volodya-lombrozo", false)

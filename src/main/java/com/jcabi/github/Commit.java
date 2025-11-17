@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github commit.
+ * GitHub commit.
  *
  * <p>The commit exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its

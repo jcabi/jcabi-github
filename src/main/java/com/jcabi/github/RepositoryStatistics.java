@@ -41,7 +41,7 @@ public final class RepositoryStatistics {
      */
     public Map<String, Object> toMap() throws IOException {
         final JsonObject json = this.repo.json();
-        return Arrays.stream(KEY.values())
+        return Arrays.stream(RepositoryStatistics.KEY.values())
             .collect(
                 Collectors.toMap(
                     key -> key.key,
@@ -192,7 +192,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int forks() throws IOException {
-            return this.integer(KEY.FORKS_COUNT);
+            return this.integer(RepositoryStatistics.KEY.FORKS_COUNT);
         }
 
         /**
@@ -201,7 +201,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int stargazers() throws IOException {
-            return this.integer(KEY.STARGAZERS_COUNT);
+            return this.integer(RepositoryStatistics.KEY.STARGAZERS_COUNT);
         }
 
         /**
@@ -210,7 +210,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int watchers() throws IOException {
-            return this.integer(KEY.WATCHERS_COUNT);
+            return this.integer(RepositoryStatistics.KEY.WATCHERS_COUNT);
         }
 
         /**
@@ -219,7 +219,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int size() throws IOException {
-            return this.integer(KEY.SIZE);
+            return this.integer(RepositoryStatistics.KEY.SIZE);
         }
 
         /**
@@ -228,7 +228,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int openIssues() throws IOException {
-            return this.integer(KEY.OPEN_ISSUES_COUNT);
+            return this.integer(RepositoryStatistics.KEY.OPEN_ISSUES_COUNT);
         }
 
         /**
@@ -237,7 +237,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public ZonedDateTime created() throws IOException {
-            return this.datetime(KEY.CREATED_AT);
+            return this.datetime(RepositoryStatistics.KEY.CREATED_AT);
         }
 
         /**
@@ -246,7 +246,7 @@ public final class RepositoryStatistics {
          * @return Integer value.
          * @throws IOException If there is any I/O problem
          */
-        private int integer(final KEY key) throws IOException {
+        private int integer(final RepositoryStatistics.KEY key) throws IOException {
             return Integer.parseInt(
                 String.valueOf(this.stats.toMap().get(key.getKey()))
             );
@@ -258,7 +258,7 @@ public final class RepositoryStatistics {
          * @return Datetime value.
          * @throws IOException If there is any I/O problem
          */
-        private ZonedDateTime datetime(final KEY key) throws IOException {
+        private ZonedDateTime datetime(final RepositoryStatistics.KEY key) throws IOException {
             return ZonedDateTime.parse(
                 String.valueOf(this.stats.toMap().get(key.getKey()))
             );

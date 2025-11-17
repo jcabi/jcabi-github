@@ -19,7 +19,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
- * Mock Github content.
+ * Mock GitHub content.
  *
  * @since 0.8
  */

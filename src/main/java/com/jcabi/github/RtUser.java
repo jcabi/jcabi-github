@@ -16,7 +16,7 @@ import java.util.Date;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user.
+ * GitHub user.
  *
  * @since 0.1
  */
@@ -31,9 +31,9 @@ final class RtUser implements User {
     private static final String NOTIF_PATH = "notifications";
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -47,11 +47,11 @@ final class RtUser implements User {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
     RtUser(
-        final Github github,
+        final GitHub github,
         final Request req
     ) {
         this(github, req, "");
@@ -59,12 +59,12 @@ final class RtUser implements User {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param login User identity/identity
      */
     RtUser(
-        final Github github,
+        final GitHub github,
         final Request req,
         final String login
     ) {
@@ -83,7 +83,7 @@ final class RtUser implements User {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

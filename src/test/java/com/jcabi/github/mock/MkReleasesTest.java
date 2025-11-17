@@ -22,7 +22,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canFetchEmptyListOfReleases() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
             releases.iterate(),
             Matchers.emptyIterable()
@@ -34,7 +34,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canFetchNonEmptyListOfReleases() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v1.0";
         releases.create(tag);
         MatcherAssert.assertThat(
@@ -49,7 +49,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canFetchSingleRelease() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
     }
 
@@ -58,7 +58,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canCreateRelease() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v1.0.0";
         final Release release = releases.create(tag);
         MatcherAssert.assertThat(
@@ -72,7 +72,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void iteratesReleases() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         releases.create("v1.0.1");
         releases.create("v1.0.2");
         MatcherAssert.assertThat(
@@ -86,7 +86,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void canRemoveRelease() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         releases.create("v1.1.1");
         releases.create("v1.1.2");
         MatcherAssert.assertThat(
@@ -105,7 +105,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void findsReleaseByTag() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v5.0";
         releases.create(tag);
         MatcherAssert.assertThat(
@@ -124,7 +124,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void releaseNameIsEmpty() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);
         MatcherAssert.assertThat(
@@ -140,7 +140,7 @@ public final class MkReleasesTest {
      */
     @Test
     public void releaseBodyIsEmpty() throws IOException {
-        final Releases releases = new MkGithub().randomRepo().releases();
+        final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);
         MatcherAssert.assertThat(

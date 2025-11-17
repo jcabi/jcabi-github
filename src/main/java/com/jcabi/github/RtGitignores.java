@@ -17,7 +17,7 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Gitignore.
+ * GitHub Gitignore.
  * <p>Defines storage of .gitignore templates
  *
  * @since 0.8
@@ -27,9 +27,9 @@ import lombok.EqualsAndHashCode;
 final class RtGitignores implements Gitignores {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -38,17 +38,17 @@ final class RtGitignores implements Gitignores {
 
     /**
      * Public CTOR.
-     * @param github Github
+     * @param github GitHub
      */
     public RtGitignores(
-        final Github github) {
+        final GitHub github) {
         this.ghub = github;
         this.request = github().entry().uri()
             .path("/gitignore/templates").back();
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

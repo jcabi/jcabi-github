@@ -83,7 +83,7 @@ public final class MkReferenceTest {
      * @return Reference
      */
     private Reference reference() throws IOException {
-        return new MkGithub().randomRepo().git()
+        return new MkGitHub().randomRepo().git()
             .references().create("refs/tags/hello", "testsha");
     }
 }

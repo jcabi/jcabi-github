@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.google.common.base.Optional;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -294,7 +294,7 @@ public final class StatusTest {
                     Json.createObjectBuilder().add("created_at", when).build()
                 )
             ).createdAt(),
-            Matchers.equalTo(new Github.Time(when).date())
+            Matchers.equalTo(new GitHub.Time(when).date())
         );
     }
 
@@ -312,7 +312,7 @@ public final class StatusTest {
                     Json.createObjectBuilder().add("updated_at", when).build()
                 )
             ).updatedAt(),
-            Matchers.equalTo(new Github.Time(when).date())
+            Matchers.equalTo(new GitHub.Time(when).date())
         );
     }
 
@@ -344,7 +344,7 @@ public final class StatusTest {
      * @return Commit
      */
     private static Commit commit() throws IOException {
-        return new MkGithub().randomRepo().git().commits()
+        return new MkGitHub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");
     }
 }

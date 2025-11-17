@@ -4,7 +4,7 @@
  */
 
 /**
- * Mock Github server.
+ * Mock GitHub server.
  *
  * @since 0.5
  */

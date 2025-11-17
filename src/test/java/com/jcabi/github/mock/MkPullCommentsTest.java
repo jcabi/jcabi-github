@@ -95,7 +95,7 @@ public final class MkPullCommentsTest {
         final String bodytext = "some text as a body";
         final String login = "jamie";
         final String reponame = "incredible";
-        final Repo repo = new MkGithub(storage, login).repos().create(
+        final Repo repo = new MkGitHub(storage, login).repos().create(
             new Repos.RepoCreate(reponame, false)
         );
         repo.pulls()
@@ -187,7 +187,7 @@ public final class MkPullCommentsTest {
      */
     private PullComments comments() throws IOException {
         // @checkstyle MultipleStringLiteralsCheck (1 line)
-        return new MkGithub().randomRepo().pulls()
+        return new MkGitHub().randomRepo().pulls()
             .create("hello", "awesome-head", "awesome-base")
             .comments();
     }

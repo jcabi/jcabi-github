@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Organization;
 import com.jcabi.github.PublicMembers;
 import com.jcabi.github.User;
@@ -64,8 +64,8 @@ public final class MkOrganization implements Organization {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
@@ -93,7 +93,7 @@ public final class MkOrganization implements Organization {
             .add("repos_url", "https://github.com/orgs/cat/repos")
             .add("events_url", "https://github.com/orgs/cat/events")
             .add("html_url", "https://github.com/cat")
-            .add("created_at", new Github.Time().toString())
+            .add("created_at", new GitHub.Time().toString())
             .add("type", "Organization")
             .build();
     }

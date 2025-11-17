@@ -6,7 +6,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -21,7 +20,7 @@ import org.junit.Test;
  * Integration testcase for RtTag.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtTagITCase {
 
     /**
@@ -45,7 +44,7 @@ public final class RtTagITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtTagITCase.repos = github.repos();
         RtTagITCase.repo = RtTagITCase.rule.repo(RtTagITCase.repos);
     }
@@ -66,8 +65,6 @@ public final class RtTagITCase {
     @Test
     public void fetchesJson() throws IOException {
         final String object = "object";
-        final String message = "message";
-        final String content = "initial version";
         final String tag = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final References refs = RtTagITCase.repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
@@ -76,6 +73,8 @@ public final class RtTagITCase {
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();
         try {
+            final String content = "initial version";
+            final String message = "message";
             MatcherAssert.assertThat(
                 RtTagITCase.repo.git().tags().create(
                     Json.createObjectBuilder().add("tag", tag)

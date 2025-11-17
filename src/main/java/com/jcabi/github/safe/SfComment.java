@@ -9,7 +9,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Reaction;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -95,7 +95,7 @@ public final class SfComment implements Comment {
             final String author = new Issue.Smart(
                 new SfIssue(this.origin.issue())
             ).author().login();
-            json = new MkGithub(author).randomRepo()
+            json = new MkGitHub(author).randomRepo()
                 .issues().create("", "")
                 .comments().post("deleted comment").json();
             Logger.warn(this, "failed to fetch comment: %[exception]s", ex);

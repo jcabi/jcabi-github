@@ -31,7 +31,7 @@ public final class MkPublicKeyTest {
     public void canRetrieveAsJson() throws IOException {
         final String title = "Title1";
         final String key = "PublicKey1";
-        final JsonObject json = new MkGithub().users().add("john").keys()
+        final JsonObject json = new MkGitHub().users().add("john").keys()
             .create(title, key).json();
         MatcherAssert.assertThat(
             json.getString("id"),
@@ -54,7 +54,7 @@ public final class MkPublicKeyTest {
     @Test
     public void canBePatched() throws IOException {
         final String original = "PublicKey2";
-        final PublicKey key = new MkGithub().users().add("jeff")
+        final PublicKey key = new MkGitHub().users().add("jeff")
             .keys().create("Title2", original);
         final String patched = String.format("%s_patch", original);
         key.patch(

@@ -14,7 +14,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github User Emails.
+ * Mock GitHub User Emails.
  *
  * @since 0.8
  */

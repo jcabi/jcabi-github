@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github milestone.
+ * GitHub milestone.
  * @since 0.7
  */
 @Immutable

@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github user.
+ * GitHub user.
  * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="https://developer.github.com/v3/users/">User API</a>
  * @since 0.1
@@ -28,11 +28,11 @@ import lombok.ToString;
 public interface User extends JsonReadable, JsonPatchable {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      * @since 0.4
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get his login.
@@ -79,7 +79,7 @@ public interface User extends JsonReadable, JsonPatchable {
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
      */
-    void markAsRead(final Date lastread) throws IOException;
+    void markAsRead(Date lastread) throws IOException;
 
     /**
      * Smart user with extra features.
@@ -166,7 +166,7 @@ public interface User extends JsonReadable, JsonPatchable {
                 throw new IllegalStateException(
                     String.format(
                         // @checkstyle LineLength (1 line)
-                        "User %s doesn't have a name specified in his/her Github account; use #hasName() first.",
+                        "User %s doesn't have a name specified in his/her GitHub account; use #hasName() first.",
                         this.login()
                     )
                 );
@@ -211,7 +211,7 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.user.github();
         }
 
@@ -433,9 +433,9 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'created_at' property value.
          * @throws IOException If any I/O error occurs.
          */
-        public Github.Time created() throws IOException {
+        public GitHub.Time created() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("created_at"));
+                return new GitHub.Time(this.jsn.text("created_at"));
             } catch (final ParseException ex) {
                 throw new IllegalArgumentException(
                     "Cannot parse value of 'created_at' property",
@@ -449,9 +449,9 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'updated_at' property value.
          * @throws IOException If any I/O error occurs.
          */
-        public Github.Time updated() throws IOException {
+        public GitHub.Time updated() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("updated_at"));
+                return new GitHub.Time(this.jsn.text("updated_at"));
             } catch (final ParseException ex) {
                 throw new IllegalArgumentException(
                     "Cannot parse value of 'updated_at' property",

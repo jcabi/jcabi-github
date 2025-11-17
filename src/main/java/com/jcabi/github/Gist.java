@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github gist.
+ * GitHub gist.
  *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
@@ -25,10 +25,10 @@ import lombok.ToString;
 public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get gist identifier.
@@ -132,7 +132,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
             return files;
         }
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.gist.github();
         }
         @Override

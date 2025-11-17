@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github forks.
+ * GitHub forks.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>

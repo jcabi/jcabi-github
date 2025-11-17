@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -81,7 +81,7 @@ public final class RtReleaseAssetsTest {
      */
     private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
-        final Repo repo = new MkGithub("john").randomRepo();
+        final Repo repo = new MkGitHub("john").randomRepo();
         Mockito.doReturn(repo).when(release).repo();
         Mockito.doReturn(1).when(release).number();
         return release;

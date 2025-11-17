@@ -202,7 +202,7 @@ public final class RtRepoTest {
     public void identifiesItself() {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest(),
             coords
         );
@@ -469,7 +469,7 @@ public final class RtRepoTest {
      */
     private static Repo repo(final Request request) {
         return new RtRepo(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             request,
             new Coordinates.Simple(RtRepoTest.TEST_USER, RtRepoTest.TEST_REPO)
         );

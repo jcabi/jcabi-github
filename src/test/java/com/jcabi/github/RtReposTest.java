@@ -56,7 +56,7 @@ public final class RtReposTest {
                 .start(this.resource.port())
         ) {
             final RtRepos repos = new RtRepos(
-                Mockito.mock(Github.class),
+                Mockito.mock(GitHub.class),
                 new ApacheRequest(container.home())
             );
             final Repo repo = this.rule.repo(repos);
@@ -90,7 +90,7 @@ public final class RtReposTest {
             ).start(this.resource.port())
         ) {
             final RtRepos repos = new RtRepos(
-                Mockito.mock(Github.class),
+                Mockito.mock(GitHub.class),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
@@ -112,7 +112,7 @@ public final class RtReposTest {
             ).start(this.resource.port())
         ) {
             final Repos repos = new RtRepos(
-                Mockito.mock(Github.class),
+                Mockito.mock(GitHub.class),
                 new ApacheRequest(container.home())
             );
             repos.remove(new Coordinates.Simple("", ""));

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.util.Date;
@@ -21,7 +20,7 @@ import org.junit.Test;
  * Integration case for {@link Issue}.
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtIssueITCase {
     /**
      * Test repos.
@@ -38,7 +37,7 @@ public final class RtIssueITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtIssueITCase.repos = github.repos();
         RtIssueITCase.repo = new RepoRule().repo(RtIssueITCase.repos);
     }
@@ -60,7 +59,7 @@ public final class RtIssueITCase {
      */
     @Ignore
     @Test
-    public void talksInGithubProject() throws Exception {
+    public void talksInGitHubProject() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -133,7 +132,7 @@ public final class RtIssueITCase {
      * <p> If you get AssertionError during this test execution and test was
      *  ignored it means that something happened with account that you try to
      *  edit with Issue.assign(). We had this problem when our account was
-     *  flagged as suspicious by Github. In this case you should contact Github
+     *  flagged as suspicious by GitHub. In this case you should contact GitHub
      *  support and ask them to unblock account you use.
      *
      * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
@@ -202,12 +201,12 @@ public final class RtIssueITCase {
     }
 
     /**
-     * RtIssue always exists in Github.
+     * RtIssue always exists in GitHub.
      *
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void issueAlwaysExistsInGithub() throws Exception {
+    public void issueAlwaysExistsInGitHub() throws Exception {
         MatcherAssert.assertThat(
             new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
         );

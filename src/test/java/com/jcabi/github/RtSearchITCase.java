@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import java.util.EnumMap;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
@@ -17,7 +16,7 @@ import org.junit.Test;
  *
  * @checkstyle MultipleStringLiterals (140 lines)
  */
-@OAuthScope({ Scope.REPO, Scope.USER })
+@OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtSearchITCase {
 
@@ -28,7 +27,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForRepos() {
         MatcherAssert.assertThat(
-            new GithubIT().connect()
+            new GitHubIT().connect()
                 .search().repos("repo", "stars", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
         );
@@ -40,7 +39,7 @@ public final class RtSearchITCase {
      */
     @Test
     public void canFetchMultiplePages() {
-        final Iterator<Repo> iter = new GithubIT().connect().search().repos(
+        final Iterator<Repo> iter = new GitHubIT().connect().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
         int count = 0;
@@ -64,7 +63,7 @@ public final class RtSearchITCase {
             new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
-            new GithubIT().connect().search().issues(
+            new GitHubIT().connect().search().issues(
                 "qualifiers",
                 "updated",
                 Search.Order.DESC,
@@ -81,7 +80,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForUsers() {
         MatcherAssert.assertThat(
-            new GithubIT().connect()
+            new GitHubIT().connect()
                 .search().users("jcabi", "joined", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
@@ -95,7 +94,7 @@ public final class RtSearchITCase {
     @Test
     public void canSearchForContents() {
         MatcherAssert.assertThat(
-            new GithubIT().connect().search().codes(
+            new GitHubIT().connect().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC
             ),
             Matchers.not(Matchers.emptyIterableOf(Content.class))

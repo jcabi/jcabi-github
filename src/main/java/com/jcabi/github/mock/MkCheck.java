@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github check.
+ * Mock GitHub check.
  *
  * @since 1.6.1
  */
@@ -68,14 +68,14 @@ public final class MkCheck implements Check {
     @Override
     public boolean successful() throws IOException {
         final XML node = this.storage.xml().nodes(this.xpath()).get(0);
-        final Status status = Status.fromString(
+        final Check.Status status = Check.Status.fromString(
             node.xpath("@status").get(0)
         );
-        final Conclusion conclusion = Conclusion.fromString(
+        final Check.Conclusion conclusion = Check.Conclusion.fromString(
             node.xpath("@conclusion").get(0)
         );
-        return status == Status.COMPLETED
-            && conclusion == Conclusion.SUCCESS;
+        return status == Check.Status.COMPLETED
+            && conclusion == Check.Conclusion.SUCCESS;
     }
 
     /**

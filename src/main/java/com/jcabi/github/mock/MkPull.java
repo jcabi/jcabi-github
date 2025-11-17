@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github pull.
+ * Mock GitHub pull.
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @since 0.5
  */

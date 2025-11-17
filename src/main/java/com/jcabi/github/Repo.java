@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github repository.
+ * GitHub repository.
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
@@ -23,9 +23,9 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get its coordinates.
@@ -204,7 +204,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         }
 
         /**
-         * Does this Repo actually exist in Github?
+         * Does this Repo actually exist in GitHub?
          * @return True if it exists, false otherwise.
          * @throws IOException If there is any I/O problem.
          */
@@ -244,7 +244,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         }
 
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.repo.github();
         }
 

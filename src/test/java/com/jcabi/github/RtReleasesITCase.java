@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -18,7 +17,7 @@ import org.junit.Test;
  * Test case for {@link RtReleases}.
  * @since 0.8
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtReleasesITCase {
 
     /**
@@ -42,7 +41,7 @@ public final class RtReleasesITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtReleasesITCase.repos = github.repos();
         RtReleasesITCase.repo = RtReleasesITCase.rule.repo(RtReleasesITCase.repos);
     }

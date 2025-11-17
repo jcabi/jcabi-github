@@ -44,7 +44,7 @@ public final class RtSearchTest {
     @Test
     public void canSearchForRepos() {
         final String coords = "test-user1/test-repo1";
-        final Search search = new RtGithub(
+        final Search search = new RtGitHub(
             new FakeRequest().withBody(
                 RtSearchTest.search(
                     Json.createObjectBuilder().add("full_name", coords).build()
@@ -65,7 +65,7 @@ public final class RtSearchTest {
     @Test
     public void canSearchForIssues() {
         final int number = 1;
-        final Search search = new RtGithub(
+        final Search search = new RtGitHub(
             new FakeRequest().withBody(
                 RtSearchTest.search(
                     Json.createObjectBuilder().add(
@@ -96,7 +96,7 @@ public final class RtSearchTest {
     @Test
     public void canSearchForUsers() throws IOException {
         final String login = "test-user";
-        final Search search = new RtGithub(
+        final Search search = new RtGitHub(
             new FakeRequest().withBody(
                 RtSearchTest.search(
                     Json.createObjectBuilder()
@@ -138,7 +138,7 @@ public final class RtSearchTest {
                 .next(new MkAnswer.Simple(second.toString()))
                 .start(this.resource.port())
         ) {
-            final Search search = new RtGithub(
+            final Search search = new RtGitHub(
                 new ApacheRequest(container.home())
             ).search();
             MatcherAssert.assertThat(

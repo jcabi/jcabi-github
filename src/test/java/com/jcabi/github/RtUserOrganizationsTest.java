@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -39,7 +39,7 @@ public final class RtUserOrganizationsTest {
     @Test
     public void canIterateOrganizationsForUnauthUser() throws IOException {
         final String username = "octopus";
-        final Github github = new MkGithub();
+        final GitHub github = new MkGitHub();
         final User user = github.users().get(username);
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

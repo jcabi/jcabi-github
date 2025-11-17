@@ -47,7 +47,7 @@ public final class RtUsersTest {
             )
         ).start(this.resource.port());
         final Users users = new RtUsers(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
@@ -71,7 +71,7 @@ public final class RtUsersTest {
             )
         ).start(this.resource.port());
         final Users users = new RtUsers(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(
@@ -95,7 +95,7 @@ public final class RtUsersTest {
             )
         ).start(this.resource.port());
         final Users users = new RtUsers(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())
         );
         MatcherAssert.assertThat(

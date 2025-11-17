@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -44,7 +44,7 @@ public final class RtOrganizationsTest {
             ).start(this.resource.port())
         ) {
             final Organizations orgs = new RtOrganizations(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
@@ -63,7 +63,7 @@ public final class RtOrganizationsTest {
      */
     @Test
     public void retrievesOrganizations() throws IOException {
-        final Github github = new MkGithub();
+        final GitHub github = new MkGitHub();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

@@ -41,7 +41,6 @@ public final class RtBlobsTest {
      */
     @Test
     public void canCreateBlob() throws IOException {
-        final String content = "Content of the blob";
         final String body = RtBlobsTest.blob().toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(
@@ -52,6 +51,7 @@ public final class RtBlobsTest {
                 new ApacheRequest(container.home()),
                 RtBlobsTest.repo()
             );
+            final String content = "Content of the blob";
             final Blob blob = blobs.create(content, "utf-8");
             MatcherAssert.assertThat(
                 container.take().method(),

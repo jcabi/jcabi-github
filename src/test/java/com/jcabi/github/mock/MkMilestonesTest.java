@@ -24,7 +24,7 @@ public final class MkMilestonesTest {
      */
     @Test
     public void returnsRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+        final Repo repo = new MkGitHub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(repo, Matchers.is(owner));
     }
@@ -34,7 +34,7 @@ public final class MkMilestonesTest {
      */
     @Test
     public void createsMilestone() throws IOException {
-        final Milestones milestones = new MkGithub().randomRepo()
+        final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
         MatcherAssert.assertThat(milestone, Matchers.notNullValue());
@@ -49,7 +49,7 @@ public final class MkMilestonesTest {
      */
     @Test
     public void getsMilestone() throws IOException {
-        final Milestones milestones = new MkGithub().randomRepo()
+        final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("test");
         MatcherAssert.assertThat(
@@ -62,7 +62,7 @@ public final class MkMilestonesTest {
      */
     @Test
     public void removesMilestone() throws IOException {
-        final Milestones milestones = new MkGithub().randomRepo()
+        final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("testTitle");
         MatcherAssert.assertThat(
@@ -81,7 +81,7 @@ public final class MkMilestonesTest {
      */
     @Test
     public void iteratesMilestones() throws IOException {
-        final Milestones milestones = new MkGithub().randomRepo()
+        final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         milestones.create("testMilestone");
         MatcherAssert.assertThat(

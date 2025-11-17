@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -170,7 +170,7 @@ public final class RtReleaseAssetTest {
      */
     private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
-        final Repo repo = new MkGithub("john").repos().create(
+        final Repo repo = new MkGitHub("john").repos().create(
             new Repos.RepoCreate("blueharvest", false)
         );
         Mockito.doReturn(repo).when(release).repo();

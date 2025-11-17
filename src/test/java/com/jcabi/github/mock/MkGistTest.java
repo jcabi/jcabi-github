@@ -23,7 +23,7 @@ public final class MkGistTest {
     public void readEmptyGistFile() throws IOException {
         // @checkstyle MultipleStringLiterals (1 lines)
         final String filename = "file.txt";
-        final Gist gist = new MkGithub().gists().create(
+        final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap(filename, ""), false
         );
         MatcherAssert.assertThat(
@@ -39,7 +39,7 @@ public final class MkGistTest {
     @Test
     public void fork() throws IOException {
         final String filename = "file.txt";
-        final Gist gist = new MkGithub().gists().create(
+        final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap(filename, ""), false
         );
         gist.write(filename, "Hello, github!");

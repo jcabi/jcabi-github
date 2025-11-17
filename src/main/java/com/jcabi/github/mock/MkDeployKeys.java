@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github deploy keys.
+ * Mock GitHub deploy keys.
  *
  * @since 0.8
  */

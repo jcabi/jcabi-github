@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -47,7 +47,7 @@ public final class RtGistTest {
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
                 .start(this.resource.port())) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "test"
             );
@@ -70,7 +70,7 @@ public final class RtGistTest {
             ).start(this.resource.port())
         ) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "testWrite"
             );
@@ -92,7 +92,6 @@ public final class RtGistTest {
      */
     @Test
     public void fork() throws IOException {
-        final String fileContent = "success";
         try (final MkContainer container = new MkGrizzlyContainer()) {
             container.next(
                 new MkAnswer.Simple(
@@ -100,6 +99,7 @@ public final class RtGistTest {
                     "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
                 )
             );
+            final String fileContent = "success";
             container.next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
             );
@@ -120,7 +120,7 @@ public final class RtGistTest {
             );
             container.start(this.resource.port());
             final Gist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "test"
             );
@@ -150,7 +150,7 @@ public final class RtGistTest {
         ) {
             final Gist.Smart smart = new Gist.Smart(
                 new RtGist(
-                    new MkGithub(),
+                    new MkGitHub(),
                     new ApacheRequest(container.home()),
                     "testGetFiles"
                 )
@@ -178,7 +178,7 @@ public final class RtGistTest {
             .start(this.resource.port())
         ) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "testToString"
             );
@@ -201,7 +201,7 @@ public final class RtGistTest {
             ).start(this.resource.port())
         ) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "unstar"
             );
@@ -233,7 +233,7 @@ public final class RtGistTest {
             ).start(this.resource.port())
         ) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "patch"
             );

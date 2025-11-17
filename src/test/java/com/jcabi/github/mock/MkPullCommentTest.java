@@ -51,7 +51,7 @@ public final class MkPullCommentTest {
      * @return PullComment
      */
     private static PullComment comment() throws IOException {
-        return new MkGithub()
+        return new MkGitHub()
             .randomRepo()
             .pulls()
             .create("hello", "head", "base")

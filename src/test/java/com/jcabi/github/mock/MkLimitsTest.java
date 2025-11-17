@@ -21,7 +21,7 @@ public final class MkLimitsTest {
      */
     @Test
     public void worksWithMockedData() throws IOException {
-        final Limits limits = new MkGithub().limits();
+        final Limits limits = new MkGitHub().limits();
         MatcherAssert.assertThat(
             new Limit.Smart(limits.get(Limits.CORE)).limit(),
             Matchers.greaterThan(0)

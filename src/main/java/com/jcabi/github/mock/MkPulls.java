@@ -18,7 +18,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github pull requests.
+ * Mock GitHub pull requests.
  *
  * @since 0.5
  */

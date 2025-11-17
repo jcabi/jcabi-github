@@ -12,18 +12,18 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
- * Test case for {@link RtGithub}.
+ * Test case for {@link RtGitHub}.
  *
  */
-public final class RtGithubTest {
+public final class RtGitHubTest {
 
     /**
-     * RtGithub can retrieve its repos.
+     * RtGitHub can retrieve its repos.
      *
      */
     @Test
     public void retrievesRepos() {
-        final RtGithub github = new RtGithub(new FakeRequest());
+        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             github.repos(),
             Matchers.notNullValue()
@@ -31,12 +31,12 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve its gists.
+     * RtGitHub can retrieve its gists.
      *
      */
     @Test
     public void retrievesGists() {
-        final RtGithub github = new RtGithub(new FakeRequest());
+        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             github.gists(),
             Matchers.notNullValue()
@@ -44,12 +44,12 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve users.
+     * RtGitHub can retrieve users.
      *
      */
     @Test
     public void retrievesUsers() {
-        final RtGithub github = new RtGithub(new FakeRequest());
+        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             github.users(),
             Matchers.notNullValue()
@@ -57,12 +57,12 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve meta information in JSON format.
+     * RtGitHub can retrieve meta information in JSON format.
      *
      */
     @Test
     public void retrievesMetaAsJson() throws IOException {
-        final RtGithub github = new RtGithub(
+        final RtGitHub github = new RtGitHub(
             new FakeRequest().withBody("{\"meta\":\"blah\"}")
         );
         MatcherAssert.assertThat(
@@ -72,12 +72,12 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve emoji information in JSON format.
+     * RtGitHub can retrieve emoji information in JSON format.
      *
      */
     @Test
     public void retrievesEmojisAsJson() throws IOException {
-        final RtGithub github = new RtGithub(
+        final RtGitHub github = new RtGitHub(
             new FakeRequest().withBody(
             "{ \"emojikey\": \"urlvalue\" }"
             )
@@ -89,12 +89,12 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve the markdown.
+     * RtGitHub can retrieve the markdown.
      *
      */
     @Test
     public void retrievesMarkdown() {
-        final RtGithub github = new RtGithub(new FakeRequest());
+        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             github.markdown(),
             Matchers.notNullValue()
@@ -102,11 +102,11 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can retrieve the gitignores.
+     * RtGitHub can retrieve the gitignores.
      */
     @Test
     public void retrievesGitignores() {
-        final RtGithub github = new RtGithub(new FakeRequest());
+        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             github.gitignores(),
             Matchers.notNullValue()
@@ -114,13 +114,13 @@ public final class RtGithubTest {
     }
 
     /**
-     * Github.Time can compare two same Times successfully.
+     * GitHub.Time can compare two same Times successfully.
      */
     @Test
     public void testSameTimesAreEqual() {
         final long time = System.currentTimeMillis();
-        final Github.Time first = new Github.Time(time);
-        final Github.Time second = new Github.Time(time);
+        final GitHub.Time first = new GitHub.Time(time);
+        final GitHub.Time second = new GitHub.Time(time);
         MatcherAssert.assertThat(
             first.equals(second),
             Matchers.is(true)
@@ -128,12 +128,12 @@ public final class RtGithubTest {
     }
 
     /**
-     * Github.Time can compare two different Times successfully.
+     * GitHub.Time can compare two different Times successfully.
      */
     @Test
     public void testDifferentTimesAreNotEqual() {
-        final Github.Time first = new Github.Time(System.currentTimeMillis());
-        final Github.Time second = new Github.Time(
+        final GitHub.Time first = new GitHub.Time(System.currentTimeMillis());
+        final GitHub.Time second = new GitHub.Time(
             System.currentTimeMillis() + 1
         );
         MatcherAssert.assertThat(
@@ -143,21 +143,21 @@ public final class RtGithubTest {
     }
 
     /**
-     * RtGithub can compare itself with another object.
+     * RtGitHub can compare itself with another object.
      */
     @Test
-    public void equalsToAnotherGithub() {
+    public void equalsToAnotherGitHub() {
         MatcherAssert.assertThat(
-            new RtGithub(new FakeRequest().header("abc", "cde")),
+            new RtGitHub(new FakeRequest().header("abc", "cde")),
             Matchers.not(
                 Matchers.equalTo(
-                    new RtGithub(new FakeRequest().header("fgh", "ikl"))
+                    new RtGitHub(new FakeRequest().header("fgh", "ikl"))
                 )
             )
         );
         MatcherAssert.assertThat(
-            new RtGithub(new FakeRequest()),
-            Matchers.equalTo(new RtGithub(new FakeRequest()))
+            new RtGitHub(new FakeRequest()),
+            Matchers.equalTo(new RtGitHub(new FakeRequest()))
         );
     }
 }

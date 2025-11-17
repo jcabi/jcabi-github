@@ -13,7 +13,7 @@ import java.util.Collection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github pull comment.
+ * GitHub pull comment.
  *
  * @since 0.8
  */

@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github deploy key.
+ * GitHub deploy key.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>

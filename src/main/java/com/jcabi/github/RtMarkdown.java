@@ -20,7 +20,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 /**
- * Github markdown.
+ * GitHub markdown.
  *
  * @since 0.6
  */
@@ -30,9 +30,9 @@ import org.hamcrest.Matchers;
 final class RtMarkdown implements Markdown {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -41,10 +41,10 @@ final class RtMarkdown implements Markdown {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
-    RtMarkdown(final Github github, final Request req) {
+    RtMarkdown(final GitHub github, final Request req) {
         this.ghub = github;
         this.request = req.uri().path("markdown").back().method(Request.POST);
     }
@@ -55,7 +55,7 @@ final class RtMarkdown implements Markdown {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

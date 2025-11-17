@@ -25,7 +25,7 @@ public final class RtLimitTest {
     @Test
     public void describeAsJson() throws IOException {
         final JsonReadable limit = new RtLimit(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest().withBody(this.body()),
             "core"
         );
@@ -44,7 +44,7 @@ public final class RtLimitTest {
     @Test(expected = IllegalStateException.class)
     public void throwsWhenResourceIsAbsent() throws IOException {
         final JsonReadable limit = new RtLimit(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest().withBody(this.body()),
             "absent"
         );

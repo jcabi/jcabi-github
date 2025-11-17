@@ -14,7 +14,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
- * Mock Github repository collaborators.
+ * Mock GitHub repository collaborators.
  *
  */
 @Immutable

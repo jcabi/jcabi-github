@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github Assignees.
+ * GitHub Assignees.
  *
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)

@@ -15,7 +15,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Mock of Github Reference.
+ * Mock of GitHub Reference.
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

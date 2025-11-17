@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github fork.
+ * GitHub fork.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>

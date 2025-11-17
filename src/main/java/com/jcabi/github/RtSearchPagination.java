@@ -24,7 +24,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github search pagination.
+ * GitHub search pagination.
  *
  * @param <T> Type of iterable objects
  */
@@ -90,7 +90,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         }
         @Override
         public RequestURI uri() {
-            return new SearchURI(this.request.uri());
+            return new RtSearchPagination.SearchURI(this.request.uri());
         }
         @Override
         public RequestBody body() {
@@ -104,19 +104,19 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
         @Override
         public Request header(final String name, final Object value) {
-            return new SearchRequest(this.request.header(name, value));
+            return new RtSearchPagination.SearchRequest(this.request.header(name, value));
         }
         @Override
         public Request reset(final String name) {
-            return new SearchRequest(this.request.reset(name));
+            return new RtSearchPagination.SearchRequest(this.request.reset(name));
         }
         @Override
         public Request method(final String method) {
-            return new SearchRequest(this.request.method(method));
+            return new RtSearchPagination.SearchRequest(this.request.method(method));
         }
         @Override
         public Request timeout(final int first, final int second) {
-            return new SearchRequest(this.request);
+            return new RtSearchPagination.SearchRequest(this.request);
         }
 
         /**
@@ -135,7 +135,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         @Override
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
-            return new SearchRequest(this.request.through(type, args));
+            return new RtSearchPagination.SearchRequest(this.request.through(type, args));
         }
 
         @Override
@@ -162,7 +162,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         }
         @Override
         public Request back() {
-            return new SearchRequest(this.response.back());
+            return new RtSearchPagination.SearchRequest(this.response.back());
         }
         @Override
         public int status() {
@@ -209,7 +209,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
     }
 
     /**
-     * Wrapper of RequestURI that returns {@link SearchRequest}.
+     * Wrapper of RequestURI that returns {@link RtSearchPagination.SearchRequest}.
      */
     @Immutable
     @EqualsAndHashCode(of = "address")
@@ -227,7 +227,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
         }
         @Override
         public Request back() {
-            return new SearchRequest(this.address.back());
+            return new RtSearchPagination.SearchRequest(this.address.back());
         }
         @Override
         public URI get() {
@@ -235,27 +235,27 @@ final class RtSearchPagination<T> implements Iterable<T> {
         }
         @Override
         public RequestURI set(final URI uri) {
-            return new SearchURI(this.address.set(uri));
+            return new RtSearchPagination.SearchURI(this.address.set(uri));
         }
         @Override
         public RequestURI queryParam(final String name, final Object value) {
-            return new SearchURI(this.address.queryParam(name, value));
+            return new RtSearchPagination.SearchURI(this.address.queryParam(name, value));
         }
         @Override
         public RequestURI queryParams(final Map<String, String> map) {
-            return new SearchURI(this.address.queryParams(map));
+            return new RtSearchPagination.SearchURI(this.address.queryParams(map));
         }
         @Override
         public RequestURI path(final String segment) {
-            return new SearchURI(this.address.path(segment));
+            return new RtSearchPagination.SearchURI(this.address.path(segment));
         }
         @Override
         public RequestURI userInfo(final String info) {
-            return new SearchURI(this.address.userInfo(info));
+            return new RtSearchPagination.SearchURI(this.address.userInfo(info));
         }
         @Override
         public RequestURI port(final int num) {
-            return new SearchURI(this.address.port(num));
+            return new RtSearchPagination.SearchURI(this.address.port(num));
         }
     }
 }

@@ -42,7 +42,7 @@ public final class RtReferencesITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtReferencesITCase.repos = github.repos();
         RtReferencesITCase.repo = RtReferencesITCase.rule.repo(RtReferencesITCase.repos);
     }

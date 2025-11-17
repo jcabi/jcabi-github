@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -14,7 +13,7 @@ import org.junit.Test;
 /**
  * Integration case for {@link RtMarkdown}.
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtMarkdownITCase {
 
     /**
@@ -22,7 +21,7 @@ public final class RtMarkdownITCase {
      */
     @Test
     public void rendersMarkdown() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
             github.markdown().render(
                 Json.createObjectBuilder()
@@ -38,7 +37,7 @@ public final class RtMarkdownITCase {
      */
     @Test
     public void rendersRawMarkdown() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         MatcherAssert.assertThat(
             github.markdown().raw(
                 "Hey, **world**!"

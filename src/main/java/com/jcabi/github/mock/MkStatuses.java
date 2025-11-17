@@ -44,7 +44,7 @@ final class MkStatuses implements Statuses {
 
     @Override
     public Status create(
-        final StatusCreate status
+        final Statuses.StatusCreate status
     ) {
         throw new UnsupportedOperationException("Not yet implemented");
     }

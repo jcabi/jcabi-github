@@ -230,7 +230,7 @@ public final class MkPullTest {
      * @return Repo
      */
     private static Repo repo() throws IOException {
-        return new MkGithub(MkPullTest.USERNAME).randomRepo();
+        return new MkGitHub(MkPullTest.USERNAME).randomRepo();
     }
 
     /**

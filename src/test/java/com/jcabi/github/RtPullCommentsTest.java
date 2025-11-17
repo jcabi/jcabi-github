@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -242,7 +242,7 @@ public final class RtPullCommentsTest {
      * @return Repo - a repo to be used for test.
      */
     private static Repo repo() throws IOException {
-        return new MkGithub("johnny").randomRepo();
+        return new MkGitHub("johnny").randomRepo();
     }
 
     /**

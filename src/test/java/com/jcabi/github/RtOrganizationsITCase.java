@@ -20,7 +20,7 @@ public final class RtOrganizationsITCase {
     @Test
     public void getOrganization() {
         final String login = "github";
-        final Organization org = new GithubIT().connect()
+        final Organization org = new GitHubIT().connect()
             .organizations().get(login);
         MatcherAssert.assertThat(org.login(), Matchers.equalTo(login));
     }

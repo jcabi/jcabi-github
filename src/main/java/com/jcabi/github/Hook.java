@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github hook.
+ * GitHub hook.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>

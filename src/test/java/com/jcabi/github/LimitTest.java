@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.Limit.Throttled;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import java.io.IOException;
@@ -28,7 +27,7 @@ public final class LimitTest {
     @Test(expected = IllegalStateException.class)
     public void throwsWhenResourceIsAbsent() throws IOException {
         final Limit limit = Mockito.mock(Limit.class);
-        final Throttled throttled = new Throttled(limit, 23);
+        final Limit.Throttled throttled = new Limit.Throttled(limit, 23);
         Mockito.when(limit.json()).thenReturn(
             Json.createObjectBuilder().add("absent", "absentValue").build()
         );
@@ -45,7 +44,7 @@ public final class LimitTest {
     public void timeIsCreatedForReset() throws IOException {
         // @checkstyle MagicNumberCheck (21 lines)
         final RtLimit limit = new RtLimit(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest().withBody(
                 Json.createObjectBuilder().add(
                     "rate", Json.createObjectBuilder()

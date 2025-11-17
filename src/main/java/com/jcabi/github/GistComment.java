@@ -22,7 +22,7 @@ import lombok.ToString;
  *
  * <p>Gist Comment implements {@link JsonReadable}, that's how you can get
  * its full details in JSON format.
- * For example, to get its author's Github login
+ * For example, to get its author's GitHub login
  * you get the entire JSON and then gets its element:
  *
  * <pre>String login = comment.json()
@@ -138,7 +138,7 @@ public interface GistComment
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -153,7 +153,7 @@ public interface GistComment
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

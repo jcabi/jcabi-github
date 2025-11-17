@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github Notification.
+ * GitHub Notification.
  *
  * @since 0.19
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>

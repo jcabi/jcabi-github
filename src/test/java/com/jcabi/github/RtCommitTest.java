@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -46,7 +46,7 @@ public class RtCommitTest {
             final Commit.Smart commit = new Commit.Smart(
                 new RtCommit(
                     new JdkRequest(container.home()),
-                    new MkGithub().randomRepo(),
+                    new MkGitHub().randomRepo(),
                     "sha"
                 )
             );

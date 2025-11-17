@@ -15,7 +15,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Git;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Issues;
@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github repo.
+ * Mock GitHub repo.
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
@@ -90,8 +90,8 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override

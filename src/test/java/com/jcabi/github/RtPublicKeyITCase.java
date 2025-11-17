@@ -20,7 +20,7 @@ public final class RtPublicKeyITCase {
     @Test
     public void retrievesURI() {
         MatcherAssert.assertThat(
-            new GithubIT().connect().users().self().keys().get(1).toString(),
+            new GitHubIT().connect().users().self().keys().get(1).toString(),
             Matchers.endsWith("/keys/1")
         );
     }

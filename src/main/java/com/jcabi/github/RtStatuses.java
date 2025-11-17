@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 /**
- * Github statuses for a given commit.
+ * GitHub statuses for a given commit.
  * @since 0.23
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
@@ -71,7 +71,7 @@ public class RtStatuses implements Statuses {
      */
     @Override
     public final Status create(
-        final StatusCreate status
+        final Statuses.StatusCreate status
     ) throws IOException {
         final JsonObject response = this.request.method(Request.POST)
             .body().set(status.json()).back()

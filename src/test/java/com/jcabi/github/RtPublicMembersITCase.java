@@ -39,7 +39,7 @@ public final class RtPublicMembersITCase {
      */
     @BeforeClass
     public static void setUp() {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         final Users users = github.users();
         RtPublicMembersITCase.org = github.organizations().get(RtPublicMembersITCase.ORG_NAME);
         RtPublicMembersITCase.member = users.get("yegor256");

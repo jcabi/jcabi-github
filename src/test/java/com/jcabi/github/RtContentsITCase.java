@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class RtContentsITCase {
 
@@ -38,7 +37,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void canFetchReadmeFiles() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -55,13 +54,12 @@ public final class RtContentsITCase {
      */
     @Test
     public void canUpdateFileContent() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
-        final String message = "commit message";
-        final String text = "new content";
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String message = "commit message";
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -70,6 +68,7 @@ public final class RtContentsITCase {
                     message
                 )
             );
+            final String text = "new content";
             contents.update(
                 path,
                 Json.createObjectBuilder()
@@ -98,13 +97,12 @@ public final class RtContentsITCase {
      */
     @Test
     public void canUpdateFileContentInSpecificBranch() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
-        final String message = "Commit message";
-        final String text = "Updated";
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String message = "Commit message";
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -113,6 +111,7 @@ public final class RtContentsITCase {
                     message
                 )
             );
+            final String text = "Updated";
             contents.update(
                 path,
                 Json.createObjectBuilder()
@@ -142,12 +141,12 @@ public final class RtContentsITCase {
      */
     @Test(expected = AssertionError.class)
     public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
-        final String message = "commit message";
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String message = "commit message";
             final Content content = contents.create(
                 this.jsonObject(
                     path, new String(
@@ -173,7 +172,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void canCreateFileContent() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -197,7 +196,7 @@ public final class RtContentsITCase {
      */
     @Test
     public void getContent() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -234,7 +233,7 @@ public final class RtContentsITCase {
     @Test
     @Ignore
     public void iteratesContent() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -292,9 +291,8 @@ public final class RtContentsITCase {
      */
     @Test
     public void checkExists() throws IOException {
-        final Repos repos = new GithubIT().connect().repos();
+        final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
-        final String branch = "master";
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String cont = new String(
@@ -305,6 +303,7 @@ public final class RtContentsITCase {
             );
             final Contents contents = repos.get(repo.coordinates()).contents();
             contents.create(this.jsonObject(path, cont, "test exist"));
+            final String branch = "master";
             MatcherAssert.assertThat(
                 contents.exists(path, branch),
                 Matchers.is(true)

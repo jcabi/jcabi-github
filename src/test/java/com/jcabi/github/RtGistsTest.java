@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -46,7 +46,7 @@ public final class RtGistsTest {
             )
         ).start(this.resource.port())) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
@@ -73,7 +73,7 @@ public final class RtGistsTest {
             ).start(this.resource.port())
         ) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
@@ -99,7 +99,7 @@ public final class RtGistsTest {
             ).start(this.resource.port())
         ) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
@@ -122,7 +122,7 @@ public final class RtGistsTest {
                 )
             ).start(this.resource.port())) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             gists.remove("12234");

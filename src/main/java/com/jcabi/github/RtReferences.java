@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github references.
+ * GitHub references.
  *
  * @checkstyle MultipleStringLiterals (500 lines)
  */

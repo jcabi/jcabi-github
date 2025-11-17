@@ -164,7 +164,7 @@ public final class MkIssueEventsTest {
      */
     private MkIssueEvents issueEvents() throws IOException {
         return MkIssueEvents.class.cast(
-            new MkGithub().randomRepo().issueEvents()
+            new MkGitHub().randomRepo().issueEvents()
         );
     }
 

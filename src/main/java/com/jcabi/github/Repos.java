@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Repo API.
+ * GitHub Repo API.
  *
  * @since 0.5
  * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
@@ -29,9 +29,9 @@ public interface Repos {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
     //byte[]
 
     /**
@@ -42,7 +42,7 @@ public interface Repos {
      * @since 0.5
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repository</a>
      */
-    Repo create(RepoCreate settings)
+    Repo create(Repos.RepoCreate settings)
         throws IOException;
 
     /**
@@ -76,12 +76,12 @@ public interface Repos {
     );
 
     /**
-     * Check if a repository exists on Github.
+     * Check if a repository exists on GitHub.
      * @param coords Coordinates of the repo.
      * @return True if it exists, false otherwise.
      * @throws IOException If something goes wrong.
      */
-    boolean exists(final Coordinates coords) throws IOException;
+    boolean exists(Coordinates coords) throws IOException;
 
     /**
      * Settings to use when creating a new GitHub repository.
@@ -227,10 +227,10 @@ public interface Repos {
          * @param nme Name of the new repo
          * @return RepoCreate
          */
-        public RepoCreate withName(
+        public Repos.RepoCreate withName(
             final String nme
         ) {
-            return new RepoCreate(
+            return new Repos.RepoCreate(
                 nme,
                 this.priv,
                 this.descr,
@@ -245,8 +245,8 @@ public interface Repos {
          * @param privacy Privateness of the new repo
          * @return RepoCreate
          */
-        public RepoCreate withPrivacy(final boolean privacy) {
-            return new RepoCreate(
+        public Repos.RepoCreate withPrivacy(final boolean privacy) {
+            return new Repos.RepoCreate(
                 this.nam,
                 privacy,
                 this.descr,
@@ -261,10 +261,10 @@ public interface Repos {
          * @param desc Description
          * @return RepoCreate
          */
-        public RepoCreate withDescription(
+        public Repos.RepoCreate withDescription(
             final String desc
         ) {
-            return new RepoCreate(
+            return new Repos.RepoCreate(
                 this.nam,
                 this.priv,
                 desc,
@@ -279,10 +279,10 @@ public interface Repos {
          * @param page Homepage URL
          * @return RepoCreate
          */
-        public RepoCreate withHomepage(
+        public Repos.RepoCreate withHomepage(
             final String page
         ) {
-            return new RepoCreate(
+            return new Repos.RepoCreate(
                 this.nam,
                 this.priv,
                 this.descr,
@@ -297,8 +297,8 @@ public interface Repos {
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
-        public RepoCreate withAutoInit(final Optional<Boolean> auto) {
-            return new RepoCreate(
+        public Repos.RepoCreate withAutoInit(final Optional<Boolean> auto) {
+            return new Repos.RepoCreate(
                 this.nam,
                 this.priv,
                 this.descr,
@@ -313,8 +313,8 @@ public interface Repos {
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
-        public RepoCreate withAutoInit(final boolean auto) {
-            return new RepoCreate(
+        public Repos.RepoCreate withAutoInit(final boolean auto) {
+            return new Repos.RepoCreate(
                 this.nam,
                 this.priv,
                 this.descr,
@@ -329,8 +329,8 @@ public interface Repos {
          * @param org Organization to which this repo belongs.
          * @return RepoCreate
          */
-        public RepoCreate withOrganization(final String org) {
-            return new RepoCreate(
+        public Repos.RepoCreate withOrganization(final String org) {
+            return new Repos.RepoCreate(
                 this.nam,
                 this.priv,
                 this.descr,
@@ -351,7 +351,7 @@ public interface Repos {
          *  Make the 'with' method immutable and return a new
          *  RepoCreate object with the new field.
          */
-        public RepoCreate with(final String key, final JsonValue value) {
+        public Repos.RepoCreate with(final String key, final JsonValue value) {
             this.other.put(key, value);
             return this;
         }

@@ -19,7 +19,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github issues.
+ * GitHub issues.
  *
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -107,11 +107,11 @@ final class RtIssues implements Issues {
     @Override
     @SuppressWarnings("PMD.UseConcurrentHashMap")
     public Iterable<Issue> search(
-        final Sort sort,
+        final Issues.Sort sort,
         final Search.Order direction,
-        final EnumMap<Qualifier, String> qualifiers) {
+        final EnumMap<Issues.Qualifier, String> qualifiers) {
         final Map<String, String> params = new HashMap<>();
-        for (final EnumMap.Entry<Qualifier, String> pair : qualifiers
+        for (final EnumMap.Entry<Issues.Qualifier, String> pair : qualifiers
             .entrySet()) {
             params.put(pair.getKey().identifier(), pair.getValue());
         }

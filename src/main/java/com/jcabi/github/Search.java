@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.util.EnumMap;
 
 /**
- * Github search.
+ * GitHub search.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/search/">Search API</a>
@@ -18,11 +18,11 @@ import java.util.EnumMap;
 public interface Search {
 
     /**
-     * Github we're in.
+     * GitHub we're in.
      *
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Search repositories.
@@ -36,7 +36,7 @@ public interface Search {
     Iterable<Repo> repos(
         String keywords,
         String sort,
-        Order order
+        Search.Order order
     );
 
     /**
@@ -53,8 +53,8 @@ public interface Search {
     Iterable<Issue> issues(
         String keywords,
         String sort,
-        Order order,
-        EnumMap<Qualifier, String> qualifiers);
+        Search.Order order,
+        EnumMap<Search.Qualifier, String> qualifiers);
 
     /**
      * Search users.
@@ -68,7 +68,7 @@ public interface Search {
     Iterable<User> users(
         String keywords,
         String sort,
-        Order order);
+        Search.Order order);
 
     /**
      * Search code.
@@ -82,7 +82,7 @@ public interface Search {
     Iterable<Content> codes(
         String keywords,
         String sort,
-        Order order);
+        Search.Order order);
 
     enum Qualifier implements StringEnum {
         /**

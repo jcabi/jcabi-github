@@ -163,7 +163,7 @@ public class ReleaseAssetTest {
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
             new ReleaseAsset.Smart(releaseAsset).createdAt(),
-            Matchers.equalTo(new Github.Time(prop).date())
+            Matchers.equalTo(new GitHub.Time(prop).date())
         );
     }
 
@@ -181,7 +181,7 @@ public class ReleaseAssetTest {
         ).when(releaseAsset).json();
         MatcherAssert.assertThat(
             new ReleaseAsset.Smart(releaseAsset).updatedAt(),
-            Matchers.equalTo(new Github.Time(prop).date())
+            Matchers.equalTo(new GitHub.Time(prop).date())
         );
     }
 

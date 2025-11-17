@@ -25,11 +25,11 @@ import lombok.ToString;
  * {@link CarefulWire} that wraps the underlying wire.
  *
  * <p>You can use {@code RetryCarefulWire} with a
- * {@link com.jcabi.github.Github} object:
+ * {@link com.jcabi.github.GitHub} object:
  * <pre>
  * {@code
- * Github github = new RtGithub(
- *     new RtGithub().entry().through(RetryCarefulWire.class, 50)
+ * GitHub github = new RtGitHub(
+ *     new RtGitHub().entry().through(RetryCarefulWire.class, 50)
  * );
  * }
  * </pre>

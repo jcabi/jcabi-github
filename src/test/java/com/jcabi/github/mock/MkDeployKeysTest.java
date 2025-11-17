@@ -21,7 +21,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canFetchEmptyListOfDeployKeys() throws IOException {
-        final DeployKeys deployKeys = new MkGithub().randomRepo().keys();
+        final DeployKeys deployKeys = new MkGitHub().randomRepo().keys();
         MatcherAssert.assertThat(
             deployKeys.iterate(),
             Matchers.emptyIterable()
@@ -33,7 +33,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canFetchSingleDeployKey() throws IOException {
-        final DeployKeys keys = new MkGithub().randomRepo().keys();
+        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title", "Key");
         MatcherAssert.assertThat(keys.get(key.number()), Matchers.equalTo(key));
     }
@@ -43,7 +43,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canCreateDeployKey() throws IOException {
-        final DeployKeys keys = new MkGithub().randomRepo().keys();
+        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title1", "Key1");
         MatcherAssert.assertThat(key, Matchers.equalTo(keys.get(key.number())));
     }
@@ -54,7 +54,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canCreateDistinctDeployKeys() throws IOException {
-        final DeployKeys keys = new MkGithub().randomRepo().keys();
+        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey first = keys.create("Title2", "Key2");
         final DeployKey second = keys.create("Title3", "Key3");
         MatcherAssert.assertThat(
@@ -73,7 +73,7 @@ public final class MkDeployKeysTest {
      */
     @Test
     public void canRepresentAsJson() throws IOException {
-        final DeployKeys keys = new MkGithub().randomRepo().keys();
+        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey first = keys.create("Title4", "Key4");
         MatcherAssert.assertThat(
             first.json().toString(),

@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github fork.
+ * GitHub fork.
  *
  * @since 0.8
  */

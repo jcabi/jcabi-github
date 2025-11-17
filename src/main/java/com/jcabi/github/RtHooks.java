@@ -19,7 +19,7 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github hooks.
+ * GitHub hooks.
  * @since 0.8
  */
 @Immutable

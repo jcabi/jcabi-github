@@ -18,7 +18,7 @@ we have a unique implemenation of GitHub server-side functionality,
 which you can use in your unit tests, eliminating the necessity to connect
 to GitHub during unit/integration testing.
 Please, read the blog post
-[_Object-Oriented Github API_][blog]
+[_Object-Oriented GitHub API_][blog]
 by [Yegor Bugayenko](https://www.yegor256.com), the creator of this library.
 
 Java 8 or higher is required.
@@ -31,15 +31,15 @@ The set of classes in the
 [`com.jcabi.github`][package]
 package is the object-oriented API. Use it like this:
 
-## Work with Github's API
+## Work with GitHub's API
 
-By default, the library works with Github's API (https://api.github.com)
+By default, the library works with GitHub's API (https://api.github.com)
 
 ```java
 import com.jcabi.github.*;
 public class Main {
   public static void main(String[] args) throws IOException {
-    Github github = new RtGithub(".. your OAuth token ..");
+    GitHub github = new RtGitHub(".. your OAuth token ..");
     Repo repo = github.repos().get(
         new Coordinates.Simple("octocat/Hello-World")
     );
@@ -49,56 +49,56 @@ public class Main {
 }
 ```
 
-## Work with Github Enterprise or other
+## Work with GitHub Enterprise or other
 
-If you want to work with Github's API through another domain,
+If you want to work with GitHub's API through another domain,
 you can use the URI-constructors
-of class `RtGithub`. For instance, if you have your own instance
-of Github deployed under the
+of class `RtGitHub`. For instance, if you have your own instance
+of GitHub deployed under the
 domain `https://github.mydomain.com`, do the following:
 
 ```java
-final Github github = new RtGithub(URI.create("https://github.mydomain.com"));
+final GitHub github = new RtGitHub(URI.create("https://github.mydomain.com"));
 
 //OR
 
-final Github github = new RtGithub(
+final GitHub github = new RtGitHub(
     "<<oauth2_token>>",
     URI.create("https://github.mydomain.com")
 );
 
 //OR
 
-final Github github = new RtGithub(
+final GitHub github = new RtGitHub(
     "username", "password",
     URI.create("https://github.mydomain.com")
 );
 ```
 
 **DO NOT** change or mask your URIs!
-Using Github under a different domain is fine but do not
+Using GitHub under a different domain is fine but do not
 change the URI **paths**. Changing the requests'
 paths is not possible since the whole architecture
-of this library relies on Github's URI paths.
+of this library relies on GitHub's URI paths.
 
 For more complex configurations, you can instantiate
-`RtGithub` with your own custom `Request`,
-by using the [RtGithub(Request)][RtGithub] constructor.
+`RtGitHub` with your own custom `Request`,
+by using the [RtGitHub(Request)][RtGitHub] constructor.
 Be sure to configure the `Request` properly.
 See how the [default Request][Request]
 is created -- you basically have to do the same thing.
 
 ## Mock Implementation Of The API
 
-We also provide [MkGithub],
+We also provide [MkGitHub],
 a mock version of the GitHub server, which
 you can use in your unit tests, for example:
 
 ```java
 import com.jcabi.github.*;
 public class FooTest {
-  public void submitsCommentToGithubIssue() {
-    final Repo repo = new MkGithub().repos().create(
+  public void submitsCommentToGitHubIssue() {
+    final Repo repo = new MkGitHub().repos().create(
       Json.createObjectBuilder().add("name", "test").build()
     );
     final Issue issue = repo.issues().create("how are you?", "");
@@ -124,8 +124,8 @@ mvn clean install -Pqulice
 ```
 
 There are many integration tests that check our classes against
-live Github accounts. In order to run them, you should create
-a new Github OAuth access tokens
+live GitHub accounts. In order to run them, you should create
+a new GitHub OAuth access tokens
 ([how?][pat),
 and provide them in command line, like this:
 
@@ -134,7 +134,7 @@ mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfailsaf
 ```
 
 Replace `<token>` and `<second-token>` with the OAuth access tokens
-  of two different Github
+  of two different GitHub
 accounts. This test case will try to fork a gist from first account
 into second. Replace
 `<repo>` with the name of repository you create in your first account
@@ -172,7 +172,7 @@ mvn clean install -DskipTests -Dinvoker.skip=true -Pqulice
 [GitHub RESTful API]: https://developer.github.com/v3/
 [blog]: https://www.yegor256.com/2014/05/14/object-oriented-github-java-sdk.html
 [pat]: https://help.github.com/articles/creating-an-access-token-for-command-line-use
-[MkGithub]: https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/mock/MkGithub.html
-[RtGithub]: https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L147
+[MkGitHub]: https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/mock/MkGitHub.html
+[RtGitHub]: https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGitHub.java#L147
 [package]: https://static.javadoc.io/com.jcabi/jcabi-github/1.0/com/jcabi/github/package-frame.html
-[Request]: https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGithub.java#L82
+[Request]: https://github.com/jcabi/jcabi-github/blob/master/src/main/java/com/jcabi/github/RtGitHub.java#L82

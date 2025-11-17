@@ -14,7 +14,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github organizations.
+ * GitHub organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */

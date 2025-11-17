@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github pull comment.
+ * Mock GitHub pull comment.
  *
  */
 @Immutable

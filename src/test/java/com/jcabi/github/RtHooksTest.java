@@ -137,11 +137,11 @@ public final class RtHooksTest {
      */
     @Test
     public void canCreateHook() throws IOException {
-        final String name = "hook name";
         final ConcurrentHashMap<String, String> config =
             new ConcurrentHashMap<>(2);
         config.put("url", "http://example.com");
         config.put("content_type", "json");
+        final String name = "hook name";
         final String body = RtHooksTest.hook(name, config).toString();
         try (
             final MkContainer container = new MkGrizzlyContainer().next(

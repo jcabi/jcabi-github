@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github deploy keys.
+ * GitHub deploy keys.
  *
  * @since 0.8
  */

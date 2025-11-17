@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
 import java.io.IOException;
 import java.util.Date;
@@ -18,9 +17,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link GitHub}.
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 public final class RtIssuesITCase {
     /**
      * Test repos.
@@ -37,7 +36,7 @@ public final class RtIssuesITCase {
      */
     @BeforeClass
     public static void setUp() throws IOException {
-        final Github github = new GithubIT().connect();
+        final GitHub github = new GitHubIT().connect();
         RtIssuesITCase.repos = github.repos();
         RtIssuesITCase.repo = new RepoRule().repo(RtIssuesITCase.repos);
     }

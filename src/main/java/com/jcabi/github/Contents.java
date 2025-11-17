@@ -9,7 +9,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 
 /**
- * Github contents.
+ * GitHub contents.
  *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>

@@ -38,7 +38,7 @@ public final class MkPullRefTest {
     @Test
     public void fetchesRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = new MkGithub(storage, MkPullRefTest.USERNAME)
+        final Repo repo = new MkGitHub(storage, MkPullRefTest.USERNAME)
             .randomRepo();
         MatcherAssert.assertThat(
             MkPullRefTest.pullRef(storage, repo).repo().coordinates(),
@@ -79,7 +79,7 @@ public final class MkPullRefTest {
         final MkStorage storage = new MkStorage.InFile();
         return new MkPullRef(
             storage,
-            ((MkBranches) new MkGithub(storage, MkPullRefTest.USERNAME)
+            ((MkBranches) new MkGitHub(storage, MkPullRefTest.USERNAME)
                 .randomRepo()
                 .branches()).create(MkPullRefTest.REF, MkPullRefTest.SHA)
         );

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock Github forks.
+ * Mock GitHub forks.
  *
  */
 @Immutable

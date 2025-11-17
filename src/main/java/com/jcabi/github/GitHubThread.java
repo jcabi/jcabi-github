@@ -32,8 +32,8 @@ public interface GitHubThread {
      *  thread.
      * @return Data of the subscription.
      */
-    ThreadSubscription setSubscription(final boolean subscribe,
-        final boolean ignore);
+    ThreadSubscription setSubscription(boolean subscribe,
+        boolean ignore);
 
     /**
      * Unsubscribes the user from this thread.

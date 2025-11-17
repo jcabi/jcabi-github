@@ -12,7 +12,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github label.
+ * GitHub label.
  *
  * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
