@@ -6,10 +6,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.io.IOException;
-import java.util.Collection;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
+import java.util.Collection;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

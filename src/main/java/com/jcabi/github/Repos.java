@@ -7,13 +7,13 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

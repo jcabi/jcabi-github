@@ -8,8 +8,8 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
-import java.io.IOException;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 
 /**
  * Mock Github milestone.

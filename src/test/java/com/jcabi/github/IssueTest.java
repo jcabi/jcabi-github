@@ -6,10 +6,10 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
-import java.io.IOException;
-import java.util.ArrayList;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
+import java.util.ArrayList;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;

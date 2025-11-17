@@ -6,9 +6,9 @@ package com.jcabi.github;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
-import java.io.IOException;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 
 /**
  * GitHub stargazers.

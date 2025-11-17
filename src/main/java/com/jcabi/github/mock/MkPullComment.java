@@ -9,9 +9,9 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.Reaction;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Collection;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

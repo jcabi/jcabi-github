@@ -10,8 +10,8 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Tree;
-import java.io.IOException;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**

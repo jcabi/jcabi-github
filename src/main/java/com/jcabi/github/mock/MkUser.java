@@ -13,10 +13,10 @@ import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import com.jcabi.github.UserOrganizations;
 import com.jcabi.xml.XML;
-import java.io.IOException;
-import java.util.Date;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
+import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

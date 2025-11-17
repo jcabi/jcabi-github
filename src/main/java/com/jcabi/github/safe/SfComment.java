@@ -11,8 +11,8 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Reaction;
 import com.jcabi.github.mock.MkGithub;
 import com.jcabi.log.Logger;
-import java.io.IOException;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**

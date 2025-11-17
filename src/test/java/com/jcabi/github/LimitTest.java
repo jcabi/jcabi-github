@@ -6,8 +6,8 @@ package com.jcabi.github;
 
 import com.jcabi.github.Limit.Throttled;
 import com.jcabi.http.request.FakeRequest;
-import java.util.Date;
 import jakarta.json.Json;
+import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**

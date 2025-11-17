@@ -9,14 +9,14 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import com.jcabi.http.response.WebLinkingResponse;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonValue;
 import lombok.EqualsAndHashCode;
 
 /**

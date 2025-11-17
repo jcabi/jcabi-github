@@ -9,13 +9,13 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Map;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonStructure;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**

@@ -6,8 +6,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
-import java.util.Iterator;
 import jakarta.json.JsonObject;
+import java.util.Iterator;
 
 /**
  * Github pagination.

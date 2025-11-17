@@ -4,10 +4,10 @@
  */
 package com.jcabi.github;
 
+import jakarta.json.JsonObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**

@@ -8,12 +8,12 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonString;
+import jakarta.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.json.JsonString;
-import jakarta.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**

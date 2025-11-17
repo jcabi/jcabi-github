@@ -19,10 +19,10 @@ import com.jcabi.github.Search;
 import com.jcabi.github.Users;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.RandomStringUtils;
 

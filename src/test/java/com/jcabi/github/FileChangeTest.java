@@ -6,8 +6,8 @@ package com.jcabi.github;
 
 import com.google.common.base.Optional;
 import com.jcabi.github.mock.MkFileChange;
-import java.io.IOException;
 import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

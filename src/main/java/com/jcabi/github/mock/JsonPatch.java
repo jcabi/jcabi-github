@@ -5,10 +5,10 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
-import java.util.Map;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import java.io.IOException;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 

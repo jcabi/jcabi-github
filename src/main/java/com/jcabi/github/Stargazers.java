@@ -4,8 +4,8 @@
  */
 package com.jcabi.github;
 
-import java.io.IOException;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 
 /**
  * List of stargazers.

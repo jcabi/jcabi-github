@@ -7,9 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Collection;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**

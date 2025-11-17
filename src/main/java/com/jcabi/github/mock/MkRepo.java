@@ -30,10 +30,10 @@ import com.jcabi.github.RepoCommits;
 import com.jcabi.github.RtLanguage;
 import com.jcabi.github.Stargazers;
 import com.jcabi.github.Stars;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

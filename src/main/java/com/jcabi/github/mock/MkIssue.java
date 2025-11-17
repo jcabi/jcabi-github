@@ -16,14 +16,14 @@ import com.jcabi.github.Label;
 import com.jcabi.github.Reaction;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**

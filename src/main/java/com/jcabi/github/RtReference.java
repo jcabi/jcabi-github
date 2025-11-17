@@ -8,8 +8,8 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import java.io.IOException;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**

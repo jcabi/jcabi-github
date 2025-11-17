@@ -5,9 +5,9 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
+import jakarta.json.JsonValue;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import jakarta.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;

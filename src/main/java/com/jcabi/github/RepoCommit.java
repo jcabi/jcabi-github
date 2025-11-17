@@ -6,11 +6,11 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

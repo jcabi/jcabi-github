@@ -7,9 +7,9 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Locale;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

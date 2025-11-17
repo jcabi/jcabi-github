@@ -6,9 +6,9 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import java.io.StringReader;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.StringReader;
 import lombok.EqualsAndHashCode;
 
 /**

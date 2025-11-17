@@ -7,14 +7,14 @@ package com.jcabi.github;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonValue;
 
 /**
  * Github Checks.

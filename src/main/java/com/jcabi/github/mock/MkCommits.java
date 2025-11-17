@@ -12,8 +12,8 @@ import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Statuses;
-import java.io.IOException;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 

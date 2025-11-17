@@ -9,11 +9,11 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Repo;
-import java.io.IOException;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

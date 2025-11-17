@@ -10,6 +10,8 @@ import com.jcabi.http.RequestBody;
 import com.jcabi.http.RequestURI;
 import com.jcabi.http.Response;
 import com.jcabi.http.Wire;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -19,8 +21,6 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**

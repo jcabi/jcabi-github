@@ -5,9 +5,9 @@
 package com.jcabi.github;
 
 import com.jcabi.github.mock.MkGithub;
-import java.io.IOException;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

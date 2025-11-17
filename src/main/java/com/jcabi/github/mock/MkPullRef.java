@@ -9,9 +9,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Branch;
 import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
-import java.io.IOException;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

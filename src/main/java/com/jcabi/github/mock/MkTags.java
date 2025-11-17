@@ -11,10 +11,10 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Tag;
 import com.jcabi.github.Tags;
-import java.io.IOException;
-import java.util.Map.Entry;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import java.io.IOException;
+import java.util.Map.Entry;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 

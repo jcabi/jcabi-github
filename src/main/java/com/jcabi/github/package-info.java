@@ -19,13 +19,13 @@
  *
  * <p>Sometimes we use {@link javax.json.JsonObject}
  * as an input argument for a method
- * (for example, in {@link Repos}),
+ * (for example, in {@link com.jcabi.github.Repos}),
  * somewhere else we use {@link java.util.Map}
- * (see {@link Issues#iterate(Map)}),
+ * (see {@link com.jcabi.github.Issues#iterate(Map)}),
  * in other case we use just a few plain Java types
- * (see {@link DeployKeys#create(String,String)}),
+ * (see {@link com.jcabi.github.DeployKeys#create(String,String)}),
  * and sometimes we combine them
- * (see {@link Hooks}).
+ * (see {@link com.jcabi.github.Hooks}).
  * This is not a bug, it's done intentionally.
  * The logic is simple.
  * Class {@link javax.json.JsonObject} is used when Github API is

@@ -4,8 +4,8 @@
  */
 package com.jcabi.github;
 
-import java.util.Collections;
 import jakarta.json.Json;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

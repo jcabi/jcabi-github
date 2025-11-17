@@ -10,12 +10,12 @@ import com.jcabi.http.Request;
 import com.jcabi.http.Response;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 

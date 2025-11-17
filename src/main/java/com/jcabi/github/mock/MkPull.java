@@ -15,13 +15,13 @@ import com.jcabi.github.PullComments;
 import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

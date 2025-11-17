@@ -5,8 +5,8 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import java.io.IOException;
 import jakarta.json.JsonObject;
+import java.io.IOException;
 
 /**
  * JSON readable.
