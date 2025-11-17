@@ -61,7 +61,6 @@ public final class MkRepoCommitTest {
 
     /**
      * MkRepoCommit should be able to compare different instances.
-     *
      */
     @Test
     public void canCompareInstances() throws IOException {

@@ -112,10 +112,6 @@ public interface Issues {
             this.qualifier = key;
         }
 
-        /**
-         * Get search qualifier.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.qualifier;
@@ -149,10 +145,6 @@ public interface Issues {
             this.sort = field;
         }
 
-        /**
-         * Get search results sort field.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.sort;

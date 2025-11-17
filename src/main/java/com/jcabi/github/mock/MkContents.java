@@ -189,13 +189,6 @@ final class MkContents implements Contents {
         }
     }
 
-    /**
-     * Updates a file.
-     * @param path The content path.
-     * @param json JSON object containing updates to the content.
-     * @return Commit related to this update.
-     * @throws IOException If any I/O problem occurs.
-     */
     @Override
     public RepoCommit update(
         final String path,

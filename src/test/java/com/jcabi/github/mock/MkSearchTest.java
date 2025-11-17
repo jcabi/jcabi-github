@@ -23,7 +23,6 @@ public final class MkSearchTest {
 
     /**
      * MkSearch can search for repos.
-     *
      */
     @Test
     public void canSearchForRepos() throws IOException {
@@ -40,7 +39,6 @@ public final class MkSearchTest {
 
     /**
      * MkSearch can search for issues.
-     *
      */
     @Test
     public void canSearchForIssues() throws IOException {
@@ -63,7 +61,6 @@ public final class MkSearchTest {
 
     /**
      * MkSearch can search for users.
-     *
      */
     @Test
     public void canSearchForUsers() throws IOException {
@@ -78,7 +75,6 @@ public final class MkSearchTest {
 
     /**
      * MkSearch can search for codes.
-     *
      */
     @Test
     public void canSearchForCodes() throws IOException {

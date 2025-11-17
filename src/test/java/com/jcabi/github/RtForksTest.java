@@ -97,7 +97,6 @@ public final class RtForksTest {
 
     /**
      * Create and return repo for testing.
-     *
      * @return Repo
      */
     private Repo repo() {

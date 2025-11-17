@@ -192,11 +192,6 @@ final class MkPull implements Pull {
         return new MkPullComments(this.storage, this.self, this.coords, this);
     }
 
-    /**
-     * Retrieve PR check runs.
-     * @return Checks
-     * @since 1.6.0
-     */
     @Override
     public Checks checks() {
         return new MkChecks(this.storage, this.coords, this);

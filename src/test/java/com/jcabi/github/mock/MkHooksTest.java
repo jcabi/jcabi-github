@@ -39,7 +39,6 @@ public final class MkHooksTest {
 
     /**
      * MkHooks can delete a single hook by ID.
-     *
      * @throws Exception if something goes wrong.
      */
     @Test

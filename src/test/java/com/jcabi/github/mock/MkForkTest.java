@@ -12,7 +12,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkFork}.
- *
  * @since 0.8
  */
 public final class MkForkTest {

@@ -125,11 +125,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
             return new RtSearchPagination.SearchRequest(this.request);
         }
 
-        /**
-         * Hide everything from the body but items.
-         * @return Response
-         * @throws IOException If any I/O problem occurs
-         */
         @Override
         public Response fetch() throws IOException {
             return new RtSearchPagination.Hidden(this.request.fetch());

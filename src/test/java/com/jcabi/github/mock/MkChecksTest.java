@@ -14,7 +14,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkChecks}.
- *
  * @since 1.6.1
  */
 public final class MkChecksTest {

@@ -118,11 +118,6 @@ final class MkGist implements Gist {
         );
     }
 
-    /**
-     * Stars.
-     * @throws IOException If there is any I/O problem
-     * @checkstyle MultipleStringLiterals (10 lines)
-     */
     @Override
     public void star() throws IOException {
         this.storage.apply(
@@ -132,11 +127,6 @@ final class MkGist implements Gist {
         );
     }
 
-    /**
-     * Unstars.
-     * @throws IOException If there is any I/O problem
-     * @checkstyle MultipleStringLiterals (10 lines)
-     */
     @Override
     public void unstar() throws IOException {
         this.storage.apply(
@@ -146,11 +136,6 @@ final class MkGist implements Gist {
         );
     }
 
-    /**
-     * Checks if starred.
-     * @return True if gist is starred
-     * @throws IOException If there is any I/O problem
-     */
     @Override
     public boolean starred() throws IOException {
         final List<String> xpath = this.storage.xml().xpath(

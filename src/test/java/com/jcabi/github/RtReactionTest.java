@@ -8,7 +8,6 @@ import org.junit.Test;
 
 /**
  * Tests for Runtime Reaction.
- *
  * @since 1.0
  */
 public final class RtReactionTest {

@@ -109,10 +109,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
             this.gist = gst;
         }
 
-        /**
-         * Get gist id.
-         * @return Gist id
-         */
         @Override
         public String identifier() {
             return this.gist.identifier();

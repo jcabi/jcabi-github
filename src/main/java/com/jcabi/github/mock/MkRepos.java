@@ -120,11 +120,6 @@ final class MkRepos implements Repos {
         }
     }
 
-    /**
-     * Iterate all public repos, starting with the one you've seen already.
-     * @param identifier The integer ID of the last Repo that you’ve seen.
-     * @return Iterator of repo
-     */
     @Override
     public Iterable<Repo> iterate(
         final String identifier) {

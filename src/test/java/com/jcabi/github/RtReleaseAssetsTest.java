@@ -22,7 +22,6 @@ public final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can list assets for a release.
-     *
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -40,7 +39,6 @@ public final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can upload a release asset.
-     *
      * @throws Exception If something goes wrong
      */
     @Test
@@ -61,7 +59,6 @@ public final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can get a single release asset.
-     *
      * @throws Exception if something goes wrong.
      */
     @Test

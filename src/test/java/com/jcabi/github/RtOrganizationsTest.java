@@ -58,7 +58,6 @@ public final class RtOrganizationsTest {
     /**
      * RtOrganizations should be able to iterate
      * the logged-in user's organizations.
-     *
      * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test

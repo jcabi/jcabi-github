@@ -107,12 +107,6 @@ final class MkTrees implements Trees {
         return new MkTree(this.storage, this.self, this.coords, sha);
     }
 
-    /**
-     * Gets a tree recursively.
-     * @param sha The tree sha.
-     * @return Trees
-     * @see <a href="https://developer.github.com/v3/git/trees/#get-a-tree-recursively">Trees API</a>
-     */
     @Override
     public Tree getRec(final String sha
     ) {

@@ -18,7 +18,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkReleaseAsset}.
- *
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
@@ -27,7 +26,6 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own Release.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -42,7 +40,6 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own number.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -57,7 +54,6 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -81,7 +77,6 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed several times.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -112,7 +107,6 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be represented in JSON format.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -136,7 +130,6 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can patch its JSON representation.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -165,7 +158,6 @@ public final class MkReleaseAssetTest {
     /**
      * Should return the Base64-encoded value of the input contents. When
      * decoded, should be equal to the input.
-     *
      */
     @Test
     public void fetchesRawRepresentation() throws IOException {

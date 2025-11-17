@@ -104,11 +104,6 @@ final class MkReleaseAsset implements ReleaseAsset {
         return this.num;
     }
 
-    /**
-     * Remove asset.
-     *
-     * @throws IOException If there is any I/O problem
-     */
     @Override
     public void remove() throws IOException {
         this.storage.apply(
@@ -116,13 +111,6 @@ final class MkReleaseAsset implements ReleaseAsset {
         );
     }
 
-    /**
-     * Get raw release asset content.
-     *
-     * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
-     * @return Stream with content
-     * @throws IOException If some problem inside.
-     */
     @Override
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(

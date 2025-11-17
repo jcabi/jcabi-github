@@ -370,12 +370,6 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             return this.pull.comments();
         }
 
-        /**
-         * Retrieve a PR check runs.
-         * @return Checks
-         * @throws IOException If there is any I/O problem.
-         * @since 1.6.0
-         */
         @Override
         public Checks checks() throws IOException {
             return this.pull.checks();

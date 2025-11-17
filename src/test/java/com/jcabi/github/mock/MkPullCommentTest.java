@@ -18,7 +18,6 @@ import org.junit.Test;
 public final class MkPullCommentTest {
     /**
      * MkPullComment can be represented as JSON.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -33,7 +32,6 @@ public final class MkPullCommentTest {
 
     /**
      * MkPullComment can accept a PATCH request.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test

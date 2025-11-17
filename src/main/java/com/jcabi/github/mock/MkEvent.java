@@ -99,14 +99,6 @@ final class MkEvent implements Event {
         throw new UnsupportedOperationException("#compareTo()");
     }
 
-    /**
-     * Describes the event in a JSON object.
-     * @return JSON object
-     * @throws IOException If there is any I/O problem
-     * @todo #1063:30min When the event has a label, retrieve and include the
-     *  label's color too. MkIssueEvents.create() will also need to be
-     *  updated accordingly.
-     */
     @Override
     public JsonObject json() throws IOException {
         final JsonObject obj = new JsonNode(

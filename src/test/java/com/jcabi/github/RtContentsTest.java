@@ -114,7 +114,6 @@ public final class RtContentsTest {
 
     /**
      * RtContents can fetch files from the repository.
-     *
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
@@ -233,7 +232,6 @@ public final class RtContentsTest {
 
     /**
      * RtContents can delete files from the repository.
-     *
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test

@@ -63,7 +63,6 @@ public final class MkContentsTest {
 
     /**
      * MkContents should be able to create new files.
-     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -128,7 +127,6 @@ public final class MkContentsTest {
 
     /**
      * MkContents should be able to create new files.
-     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -152,7 +150,6 @@ public final class MkContentsTest {
 
     /**
      * MkContents should be able to remove files from from non-default branches.
-     *
      * @throws Exception if some problem inside
      */
     @Test
