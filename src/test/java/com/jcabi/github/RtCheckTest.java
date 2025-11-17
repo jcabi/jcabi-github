@@ -6,7 +6,6 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -66,13 +65,23 @@ public final class RtCheckTest {
      */
     @Test
     public void createsWithUnexistingStatus() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
+        try {
+            new RtCheck(
                 "unexisting",
                 "success"
-            ).successful()
-        );
+            ).successful();
+            MatcherAssert.assertThat(
+                "IllegalArgumentException was expected",
+                false,
+                Matchers.is(true)
+            );
+        } catch (final IllegalArgumentException ex) {
+            MatcherAssert.assertThat(
+                "Exception was thrown as expected",
+                ex,
+                Matchers.notNullValue()
+            );
+        }
     }
 
     /**
@@ -80,12 +89,22 @@ public final class RtCheckTest {
      */
     @Test
     public void createsWithUnexistingConclusion() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
+        try {
+            new RtCheck(
                 "completed",
                 "unexist"
-            ).successful()
-        );
+            ).successful();
+            MatcherAssert.assertThat(
+                "IllegalArgumentException was expected",
+                false,
+                Matchers.is(true)
+            );
+        } catch (final IllegalArgumentException ex) {
+            MatcherAssert.assertThat(
+                "Exception was thrown as expected",
+                ex,
+                Matchers.notNullValue()
+            );
+        }
     }
 }

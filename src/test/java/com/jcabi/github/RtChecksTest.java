@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -121,10 +120,20 @@ public final class RtChecksTest {
                 new JdkRequest(container.home()),
                 this.repo().pulls().get(0)
             );
-            Assert.assertThrows(
-                AssertionError.class,
-                checks::all
-            );
+            try {
+                checks.all();
+                MatcherAssert.assertThat(
+                    "AssertionError was expected",
+                    false,
+                    Matchers.is(true)
+                );
+            } catch (final AssertionError ex) {
+                MatcherAssert.assertThat(
+                    "Exception was thrown as expected",
+                    ex,
+                    Matchers.notNullValue()
+                );
+            }
         }
     }
 
