@@ -17,7 +17,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkRelease}.
- *
+ * @since 0.1
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class MkReleaseTest {

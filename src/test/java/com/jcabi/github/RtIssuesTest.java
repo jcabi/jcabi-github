@@ -37,7 +37,6 @@ public final class RtIssuesTest {
 
     /**
      * RtIssues can create an issue.
-     *
      */
     @Test
     public void createIssue() throws IOException {

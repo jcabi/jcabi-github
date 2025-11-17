@@ -19,7 +19,6 @@ public final class MkGitTest {
 
     /**
      * MkGit can fetch its own repo.
-     *
      */
     @Test
     public void canFetchOwnRepo() throws IOException {

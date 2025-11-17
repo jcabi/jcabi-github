@@ -44,7 +44,6 @@ public final class MkContentsTest {
 
     /**
      * MkContents should be able to fetch readme from a branch.
-     *
      */
     @Test
     public void canFetchReadmeFromBranch() throws IOException {
@@ -93,7 +92,6 @@ public final class MkContentsTest {
 
     /**
      * MkContents can create new file in non default branch.
-     *
      */
     @Test
     public void canCreateFileInSomeBranch() throws IOException {

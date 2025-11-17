@@ -18,7 +18,6 @@ public final class MkBlobsTest {
 
     /**
      * MkBlobs should be able to create a blob.
-     *
      */
     @Test
     public void canCreateBlob() throws IOException {

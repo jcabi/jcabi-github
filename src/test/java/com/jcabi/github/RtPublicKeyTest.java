@@ -36,7 +36,6 @@ public final class RtPublicKeyTest {
 
     /**
      * RtPublicKey can obtain its own user.
-     *
      */
     @Test
     public void canObtainUser() {
@@ -51,7 +50,6 @@ public final class RtPublicKeyTest {
 
     /**
      * RtPublicKey can obtain its own number.
-     *
      */
     @Test
     public void canObtainNumber() {

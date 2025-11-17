@@ -26,7 +26,6 @@ public final class MkContentTest {
 
     /**
      * MkContent should be able to fetch its own repo.
-     *
      */
     @Test
     public void canGetOwnRepo() throws IOException {
@@ -44,7 +43,6 @@ public final class MkContentTest {
 
     /**
      * MkContent should be able to fetch its own path.
-     *
      */
     @Test
     public void canGetOwnPath() throws IOException {
@@ -62,7 +60,6 @@ public final class MkContentTest {
 
     /**
      * MkContent should be able to fetch its JSON representation.
-     *
      */
     @Test
     public void fetchesJsonRepresentation() throws IOException {
@@ -81,7 +78,6 @@ public final class MkContentTest {
 
     /**
      * MkContent should be able to fetch its raw representation.
-     *
      */
     @Test
     public void fetchesRawRepresentation() throws IOException {

@@ -21,7 +21,6 @@ public final class MkUserEmailsTest {
 
     /**
      * MkUserEmails should be able to add emails to a user.
-     *
      */
     @Test
     public void canAddEmails() throws IOException {
@@ -42,7 +41,6 @@ public final class MkUserEmailsTest {
 
     /**
      * MkUserEmails should be able to remove emails of a user.
-     *
      */
     @Test
     public void canRemoveEmails() throws IOException {
@@ -68,7 +66,6 @@ public final class MkUserEmailsTest {
 
     /**
      * MkUserEmails should be able to iterate emails of a user.
-     *
      */
     @Test
     public void canIterateEmails() throws IOException {
@@ -90,7 +87,6 @@ public final class MkUserEmailsTest {
 
     /**
      * MkUserEmails can be represented in JSON format.
-     *
      */
     @Test
     public void canRepresentAsJson() throws IOException {
