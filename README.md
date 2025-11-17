@@ -31,9 +31,7 @@ The set of classes in the
 [`com.jcabi.github`][package]
 package is the object-oriented API. Use it like this:
 
-## Work with GitHub's API
-
-By default, the library works with GitHub's API (https://api.github.com)
+By default, the library works with [GitHub RESTful API]:
 
 ```java
 import com.jcabi.github.*;
@@ -48,8 +46,6 @@ public class Main {
   }
 }
 ```
-
-## Work with GitHub Enterprise or other
 
 If you want to work with GitHub's API through another domain,
 you can use the URI-constructors
@@ -126,7 +122,7 @@ mvn clean install -Pqulice
 There are many integration tests that check our classes against
 live GitHub accounts. In order to run them, you should create
 a new GitHub OAuth access tokens
-([how?][pat),
+([how?][pat]),
 and provide them in command line, like this:
 
 ```bash
@@ -150,14 +146,14 @@ permissions to different
 To run all integration tests, the key should
 have the following OAuth scopes:
 
-  - `read:org`
-  - `repo`
-  - `delete_repo`
-  - `admin:public_key`
-  - `gist`
-  - `admin:repo_hook`
-  - `user`
-  - `user:email`
+- `read:org`
+- `repo`
+- `delete_repo`
+- `admin:public_key`
+- `gist`
+- `admin:repo_hook`
+- `user`
+- `user:email`
 
 `RtForksITCase` requires additional
 parameter `-Dfailsafe.github.organization=<organization>`
