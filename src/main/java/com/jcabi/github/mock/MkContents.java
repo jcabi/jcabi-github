@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,7 +15,7 @@ import com.jcabi.xml.XML;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;

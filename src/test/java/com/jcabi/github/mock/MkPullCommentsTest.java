@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,7 +11,7 @@ import com.jcabi.github.Repos;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

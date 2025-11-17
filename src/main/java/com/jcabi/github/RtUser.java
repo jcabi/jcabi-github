@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**

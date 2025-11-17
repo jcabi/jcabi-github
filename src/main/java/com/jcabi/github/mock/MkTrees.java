@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -13,9 +13,9 @@ import com.jcabi.github.Tree;
 import com.jcabi.github.Trees;
 import java.io.IOException;
 import java.util.Map.Entry;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 

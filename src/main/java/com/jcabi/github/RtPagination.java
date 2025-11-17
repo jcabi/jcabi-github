@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import java.util.Iterator;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 /**
  * Github pagination.

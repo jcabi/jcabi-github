@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.xml.bind.DatatypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

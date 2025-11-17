@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,8 +12,8 @@ import com.jcabi.http.response.RestResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
-import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**

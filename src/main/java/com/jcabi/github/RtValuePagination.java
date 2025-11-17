@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,8 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import javax.json.JsonArray;
-import javax.json.JsonValue;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonValue;
 import lombok.EqualsAndHashCode;
 
 /**

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,8 +7,8 @@ package com.jcabi.github;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import java.io.IOException;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 
 /**
  * GitHub stargazers.

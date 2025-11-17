@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,8 +11,8 @@ import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.FileChange;
 import com.jcabi.github.Repo;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import lombok.ToString;
 
 /**
