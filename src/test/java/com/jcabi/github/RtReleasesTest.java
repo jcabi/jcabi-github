@@ -98,7 +98,7 @@ public final class RtReleasesTest {
         final String tag = "v1.0.0";
         final String rel = RtReleasesTest.release(tag).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
                 .start(this.resource.port())
@@ -128,7 +128,7 @@ public final class RtReleasesTest {
     @Test
     public void canDeleteRelease() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""

@@ -54,7 +54,7 @@ public final class RtChecksTest {
      */
     @Test
     public void getsAllChecks() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -81,7 +81,7 @@ public final class RtChecksTest {
      */
     @Test
     public void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -108,7 +108,7 @@ public final class RtChecksTest {
      */
     @Test
     public void assertsOkResponse() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NOT_FOUND,
@@ -144,7 +144,7 @@ public final class RtChecksTest {
     @Test
     public void retrievesUnfinishedChecksWithoutConclusion()
         throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -182,7 +182,7 @@ public final class RtChecksTest {
     @Test
     public void retrievesUnfinishedChecksWithNullableConclusion()
         throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,

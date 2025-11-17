@@ -41,7 +41,7 @@ public final class RtHookTest {
     @Test
     public void performsValidRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"test\":\"hook\"}"
@@ -74,7 +74,7 @@ public final class RtHookTest {
     @Test
     public void returnsEvents() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{ \"id\": 1, \"events\": [ \"push\", \"pull_request\" ] }"

@@ -39,7 +39,7 @@ public final class RtGistTest {
     @Test
     public void readsFileWithContents() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
@@ -66,7 +66,7 @@ public final class RtGistTest {
     @Test
     public void writesFileContents() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
             ).start(this.resource.port())
         ) {
@@ -94,7 +94,7 @@ public final class RtGistTest {
      */
     @Test
     public void fork() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()) {
+        try (MkContainer container = new MkGrizzlyContainer()) {
             container.next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -144,7 +144,7 @@ public final class RtGistTest {
     @Test
     public void canIterateFiles() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
@@ -179,7 +179,7 @@ public final class RtGistTest {
     @Test
     public void canRepresentAsString() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
             .start(this.resource.port())
         ) {
             final RtGist gist = new RtGist(
@@ -202,7 +202,7 @@ public final class RtGistTest {
     @Test
     public void canUnstarAGist() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {
@@ -234,7 +234,7 @@ public final class RtGistTest {
     @Test
     public void executePatchRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}"
                 )
