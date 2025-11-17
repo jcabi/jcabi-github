@@ -223,7 +223,7 @@ public final class RtChecksTest {
     @Test
     public void retrievesUnfinishedChecksWithoutStatusAndConclusion()
         throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
