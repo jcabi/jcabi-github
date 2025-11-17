@@ -97,6 +97,7 @@ public interface User extends JsonReadable, JsonPatchable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
 
         /**

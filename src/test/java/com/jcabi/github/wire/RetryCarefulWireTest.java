@@ -31,11 +31,13 @@ public final class RetryCarefulWireTest {
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
+
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
+
     @Rule
     public final transient RandomPort resource = new RandomPort();
 

@@ -76,6 +76,7 @@ final class MkPullComments implements PullComments {
             ).addIf("comments")
         );
     }
+
     @Override
     public Pull pull() {
         return this.owner;

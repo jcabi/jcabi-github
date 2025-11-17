@@ -25,6 +25,7 @@ public final class MkRepoCommitTest {
     /**
      * The second test key.
      */
+
     private static final String SHA2 =
         "51cabb8e759852a6a40a7a2a76ef0afd4beef96d";
 
@@ -93,6 +94,7 @@ public final class MkRepoCommitTest {
     /**
      * MkRepoCommit can get a JSON.
      */
+
     @Test
     public void canGetJson() throws IOException {
         final MkStorage storage = new MkStorage.InFile();

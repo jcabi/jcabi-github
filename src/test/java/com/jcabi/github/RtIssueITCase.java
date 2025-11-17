@@ -169,6 +169,7 @@ public final class RtIssueITCase {
      * RtIssue can check whether it is a pull request.
      * @throws Exception If some problem inside
      */
+
     @Test
     public void checksForPullRequest() throws Exception {
         final Issue issue = RtIssueITCase.issue();

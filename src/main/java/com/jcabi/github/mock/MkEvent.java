@@ -34,10 +34,12 @@ final class MkEvent implements Event {
     /**
      * Event.
      */
+
     private static final String EVENT = "event";
     /**
      * Login.
      */
+
     private static final String LOGIN = "login";
 
     /**

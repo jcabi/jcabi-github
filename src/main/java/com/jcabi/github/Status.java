@@ -110,6 +110,7 @@ public interface Status extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
 
         /**

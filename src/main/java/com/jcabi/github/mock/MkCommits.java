@@ -64,6 +64,7 @@ public final class MkCommits implements Commits {
             ).addIf("commits")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);

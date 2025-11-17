@@ -83,6 +83,7 @@ public interface IssueLabels {
          * Public ctor.
          * @param lbl Labels
          */
+
         public Smart(final IssueLabels lbl) {
             this.labels = lbl;
         }
@@ -91,6 +92,7 @@ public interface IssueLabels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
+
         public boolean contains(final String name) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
@@ -107,6 +109,7 @@ public interface IssueLabels {
          * @return Label found (exception if not found)
          * @since 0.7
          */
+
         public Label get(final String name) {
             Label label = null;
             int count = 0;
@@ -134,6 +137,7 @@ public interface IssueLabels {
          * @return TRUE if it was added
          * @throws IOException If there is any I/O problem
          */
+
         public boolean addIfAbsent(final String name) throws IOException {
             final boolean added;
             if (this.contains(name)) {
@@ -154,6 +158,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
+
         public boolean addIfAbsent(
             final String name, final String color
         ) throws IOException {
@@ -184,6 +189,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
+
         public Collection<Label> findByColor(final String color)
             throws IOException {
             final Collection<Label> found = new LinkedList<>();
@@ -201,6 +207,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
+
         public boolean removeIfExists(final String name)
             throws IOException {
             boolean removed = false;
@@ -213,26 +220,32 @@ public interface IssueLabels {
             }
             return removed;
         }
+
         @Override
         public Issue issue() {
             return this.labels.issue();
         }
+
         @Override
         public void add(final Iterable<String> names) throws IOException {
             this.labels.add(names);
         }
+
         @Override
         public void replace(final Iterable<String> names) throws IOException {
             this.labels.replace(names);
         }
+
         @Override
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
+
         @Override
         public void remove(final String name) throws IOException {
             this.labels.remove(name);
         }
+
         @Override
         public void clear() throws IOException {
             this.labels.clear();

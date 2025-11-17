@@ -24,6 +24,7 @@ public final class CarefulWireTest {
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
+
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
 
     /**

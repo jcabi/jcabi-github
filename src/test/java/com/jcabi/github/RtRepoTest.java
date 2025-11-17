@@ -44,6 +44,7 @@ public final class RtRepoTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
+
     @Rule
     public final transient RandomPort resource = new RandomPort();
 

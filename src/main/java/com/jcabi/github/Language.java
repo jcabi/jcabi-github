@@ -23,5 +23,6 @@ public interface Language {
      * Number of bytes of code written in that language.
      * @return Number of bytes
      */
+
     long bytes();
 }

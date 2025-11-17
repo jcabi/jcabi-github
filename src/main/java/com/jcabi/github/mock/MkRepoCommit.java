@@ -35,6 +35,7 @@ final class MkRepoCommit implements RepoCommit {
     /**
      * The repository.
      */
+
     private final transient Repo repository;
 
     /**

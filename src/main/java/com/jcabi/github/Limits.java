@@ -57,12 +57,14 @@ public interface Limits {
         /**
          * Maximum allowed, instead of default 5000.
          */
+
         private final transient int max;
         /**
          * Public ctor.
          * @param limits Original limits
          * @param allowed Maximum allowed
          */
+
         public Throttled(
             final Limits limits,
             final int allowed
@@ -70,10 +72,12 @@ public interface Limits {
             this.origin = limits;
             this.max = allowed;
         }
+
         @Override
         public GitHub github() {
             return this.origin.github();
         }
+
         @Override
         public Limit get(
             final String resource

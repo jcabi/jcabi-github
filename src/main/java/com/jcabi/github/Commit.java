@@ -58,11 +58,13 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param cmt Commit
          */
+
         public Smart(final Commit cmt) {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
@@ -72,6 +74,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @return Message of commit
          * @throws IOException If there is any I/O problem
          */
+
         public String message() throws IOException {
             return this.jsn.json().getJsonObject("commit").getString("message");
         }
@@ -80,6 +83,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
+
         public URL url() throws IOException {
             try {
                 return new URI(this.jsn.text("url")).toURL();
@@ -87,18 +91,22 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         @Override
         public Repo repo() {
             return this.commit.repo();
         }
+
         @Override
         public String sha() {
             return this.commit.sha();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.commit.json();
         }
+
         @Override
         public int compareTo(final Commit obj) {
             return this.commit.compareTo(obj);

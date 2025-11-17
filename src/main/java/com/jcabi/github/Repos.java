@@ -104,22 +104,27 @@ public interface Repos {
         /**
          * Privateness of the new repo.
          */
+
         private final transient boolean priv;
         /**
          * Description of the new repo.
          */
+
         private final transient String descr;
         /**
          * Homepage of the new repo.
          */
+
         private final transient String home;
         /**
          * Auto-init the new repo?
          */
+
         private final transient Optional<Boolean> init;
         /**
          * Organization where the created repo belongs.
          */
+
         private final transient String organization;
 
         /**

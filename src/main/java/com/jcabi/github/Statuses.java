@@ -80,14 +80,17 @@ public interface Statuses extends JsonReadable {
         /**
          * Description.
          */
+
         private final transient String description;
         /**
          * Context string.
          */
+
         private final transient Optional<String> context;
         /**
          * Target URL.
          */
+
         private final transient Optional<String> targeturl;
 
         /**

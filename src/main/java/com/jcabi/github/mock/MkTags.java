@@ -48,6 +48,7 @@ final class MkTags implements Tags {
      * @param rep Repo's coordinates.
      * @throws IOException If something goes wrong.
      */
+
     MkTags(
         final MkStorage stg,
         final String login,
@@ -65,6 +66,7 @@ final class MkTags implements Tags {
             ).addIf("tags")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);

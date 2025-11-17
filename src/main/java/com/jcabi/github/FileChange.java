@@ -83,6 +83,7 @@ public interface FileChange extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
 
         /**

@@ -145,11 +145,13 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param iss Issue
          */
+
         public Smart(final Issue iss) {
             this.issue = iss;
             this.jsn = new SmartJson(iss);
@@ -159,6 +161,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Author of issue (who submitted it)
          * @throws IOException If there is any I/O problem
          */
+
         public User author() throws IOException {
             return this.issue.repo().github().users().get(
                 this.jsn.value(
@@ -171,6 +174,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return TRUE if it's open
          * @throws IOException If there is any I/O problem
          */
+
         public boolean isOpen() throws IOException {
             return Issue.OPEN_STATE.equals(this.state());
         }
@@ -178,6 +182,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Open it (make sure it's open).
          * @throws IOException If there is any I/O problem
          */
+
         public void open() throws IOException {
             this.state(Issue.OPEN_STATE);
         }
@@ -185,6 +190,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Close it (make sure it's closed).
          * @throws IOException If there is any I/O problem
          */
+
         public void close() throws IOException {
             this.state(Issue.CLOSED_STATE);
         }
@@ -193,6 +199,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
+
         public String state() throws IOException {
             return this.jsn.text("state");
         }
@@ -201,6 +208,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param state State of issue
          * @throws IOException If there is any I/O problem
          */
+
         public void state(final String state) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("state", state).build()
@@ -211,6 +219,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Title of issue
          * @throws IOException If there is any I/O problem
          */
+
         public String title() throws IOException {
             return this.jsn.text("title");
         }
@@ -219,6 +228,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param text Title of issue
          * @throws IOException If there is any I/O problem
          */
+
         public void title(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("title", text).build()
@@ -229,6 +239,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Body of issue
          * @throws IOException If there is any I/O problem
          */
+
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -237,6 +248,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param text Body of issue
          * @throws IOException If there is any I/O problem
          */
+
         public void body(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("body", text).build()
@@ -248,6 +260,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.22
          */
+
         public boolean hasBody() throws IOException {
             return this.jsn.hasNotNull("body");
         }
@@ -256,6 +269,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return TRUE if assignee exists
          * @throws IOException If there is any I/O problem
          */
+
         public boolean hasAssignee() throws IOException {
             return this.jsn.hasNotNull("assignee");
         }
@@ -264,6 +278,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return User Assignee of issue
          * @throws IOException If there is any I/O problem
          */
+
         public User assignee() throws IOException {
             if (!this.hasAssignee()) {
                 throw new IllegalArgumentException(
@@ -284,6 +299,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param login Login of the user to assign to
          * @throws IOException If there is any I/O problem
          */
+
         public void assign(final String login) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("assignee", login).build()
@@ -294,6 +310,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
+
         public URL url() throws IOException {
             try {
                 return new URI(this.jsn.text("url")).toURL();
@@ -306,6 +323,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
+
         public URL htmlUrl() throws IOException {
             try {
                 return new URI(this.jsn.text("html_url")).toURL();
@@ -318,6 +336,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
+
         public Date createdAt() throws IOException {
             try {
                 return new GitHub.Time(
@@ -333,6 +352,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.34
          */
+
         public Date closedAt() throws IOException {
             try {
                 return new GitHub.Time(
@@ -347,6 +367,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
+
         public Date updatedAt() throws IOException {
             try {
                 return new GitHub.Time(
@@ -361,6 +382,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return TRUE if it is a pull request
          * @throws IOException If there is any I/O problem
          */
+
         public boolean isPull() throws IOException {
             return this.json().containsKey("pull_request")
                 && !this.jsn.value("pull_request", JsonObject.class)
@@ -388,6 +410,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Latest event of the given type
          * @throws IOException If there is any I/O problem
          */
+
         public Event latestEvent(final String type) throws IOException {
             final Iterable<Event.Smart> events = new Smarts<>(
                 this.issue.events()
@@ -415,6 +438,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.6.2
          */
+
         public IssueLabels roLabels() throws IOException {
             final Collection<JsonObject> array =
                 this.jsn.value("labels", JsonArray.class)
@@ -434,6 +458,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 public Issue issue() {
                     return Issue.Smart.this;
                 }
+
                 @Override
                 public void add(
                     final Iterable<String> labels) {
@@ -441,6 +466,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                         "The issue is read-only."
                     );
                 }
+
                 @Override
                 public void replace(
                     final Iterable<String> labels) {
@@ -448,10 +474,12 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                         "The issue is read-only."
                     );
                 }
+
                 @Override
                 public Iterable<Label> iterate() {
                     return labels;
                 }
+
                 @Override
                 public void remove(
                     final String name) {
@@ -459,6 +487,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                         "This issue is read-only."
                     );
                 }
+
                 @Override
                 public void clear() {
                     throw new UnsupportedOperationException(
@@ -472,6 +501,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return True if has
          * @throws IOException If fails
          */
+
         public boolean hasMilestone() throws IOException {
             return this.jsn.hasNotNull("milestone");
         }
@@ -480,6 +510,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Milestone
          * @throws IOException If fails
          */
+
         public Milestone milestone() throws IOException {
             return this.repo().milestones().get(
                 this.jsn.value("milestone", JsonObject.class)
@@ -491,6 +522,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param milestone Milestone
          * @throws IOException If fails
          */
+
         public void milestone(final Milestone milestone) throws IOException {
             this.patch(
                 Json.createObjectBuilder().add(
@@ -498,38 +530,47 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 ).build()
             );
         }
+
         @Override
         public Repo repo() {
             return this.issue.repo();
         }
+
         @Override
         public int number() {
             return this.issue.number();
         }
+
         @Override
         public Comments comments() {
             return this.issue.comments();
         }
+
         @Override
         public IssueLabels labels() {
             return this.issue.labels();
         }
+
         @Override
         public Iterable<Event> events() throws IOException {
             return this.issue.events();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.issue.json();
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.issue.patch(json);
         }
+
         @Override
         public int compareTo(final Issue obj) {
             return this.issue.compareTo(obj);
         }
+
         @Override
         public boolean exists() throws IOException {
             return new Existence(this.issue).check();

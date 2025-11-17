@@ -47,11 +47,13 @@ public interface Hook extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param hoo Hook
          */
+
         public Smart(final Hook hoo) {
             this.hook = hoo;
             this.jsn = new SmartJson(hoo);
@@ -61,17 +63,21 @@ public interface Hook extends JsonReadable {
          * @return Name of hook
          * @throws IOException If there is any I/O problem
          */
+
         public String name() throws IOException {
             return this.jsn.text("name");
         }
+
         @Override
         public Repo repo() {
             return this.hook.repo();
         }
+
         @Override
         public int number() {
             return this.hook.number();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.hook.json();

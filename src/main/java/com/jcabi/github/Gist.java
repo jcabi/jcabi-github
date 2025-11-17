@@ -104,6 +104,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param gst Gist
          */
+
         public Smart(final Gist gst) {
             this.gist = gst;
         }
@@ -131,14 +132,17 @@ public interface Gist extends JsonReadable, JsonPatchable {
             }
             return files;
         }
+
         @Override
         public GitHub github() {
             return this.gist.github();
         }
+
         @Override
         public String read(final String name) throws IOException {
             return this.gist.read(name);
         }
+
         @Override
         public void write(final String name, final String content)
             throws IOException {

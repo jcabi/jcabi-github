@@ -27,6 +27,7 @@ public interface Blob extends JsonReadable {
     /**
      * Smart Blob with extra features.
      */
+
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
@@ -39,11 +40,13 @@ public interface Blob extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param blb Blob
          */
+
         public Smart(final Blob blb) {
             this.blob = blb;
             this.jsn = new SmartJson(blb);

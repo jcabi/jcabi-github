@@ -44,26 +44,32 @@ final class MkPull implements Pull {
     /**
      * Property name for ref in pull request ref JSON object.
      */
+
     private static final String REF_PROP = "ref";
     /**
      * Property name for label in pull request ref JSON object.
      */
+
     private static final String LABEL_PROP = "label";
     /**
      * Property name for number in pull request JSON object.
      */
+
     private static final String NUMBER_PROP = "number";
     /**
      * Property name for user in pull request JSON object.
      */
+
     private static final String USER_PROP = "user";
     /**
      * Property name for head in pull request JSON object.
      */
+
     private static final String HEAD_PROP = "head";
     /**
      * Property name for head in pull request JSON object.
      */
+
     private static final String BASE_PROP = "base";
 
     /**

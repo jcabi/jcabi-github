@@ -32,6 +32,7 @@ public final class RtUserEmailsTest {
     /**
      * RtUserEmails can fetch emails.
      */
+
     @Test
     public void fetchesEmails() throws IOException {
         final String email = "test@email.com";

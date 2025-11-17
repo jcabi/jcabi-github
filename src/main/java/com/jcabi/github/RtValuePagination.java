@@ -109,25 +109,30 @@ public final class RtValuePagination<T, P extends JsonValue> implements
         /**
          * Next entry to use.
          */
+
         private transient Request request;
         /**
          * Available objects.
          */
+
         private transient Queue<P> objects;
         /**
          * Current entry can be used to fetch objects.
          */
+
         private transient boolean more = true;
         /**
          * Ctor.
          * @param entry Entry
          * @param mpp Mapping
          */
+
         Items(final Request entry, final RtValuePagination.Mapping<X, P> mpp) {
             this.request = entry;
             this.mapping = mpp;
             this.objects = new LinkedList<>();
         }
+
         @Override
         public X next() {
             synchronized (this.mapping) {
@@ -139,10 +144,12 @@ public final class RtValuePagination<T, P extends JsonValue> implements
                 return this.mapping.map(this.objects.remove());
             }
         }
+
         @Override
         public void remove() {
             throw new UnsupportedOperationException("#remove()");
         }
+
         @Override
         public boolean hasNext() {
             synchronized (this.mapping) {
@@ -161,6 +168,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
          * Fetch the next portion, if available.
          * @throws IOException If there is any I/O problem
          */
+
         @SuppressWarnings("unchecked")
         private void fetch() throws IOException {
             final RestResponse response = this.request.fetch()

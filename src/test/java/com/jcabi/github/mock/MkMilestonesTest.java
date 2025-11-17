@@ -64,6 +64,7 @@ public final class MkMilestonesTest {
     /**
      * This tests that MkMilestones can remove a certain MkMilestone, by number.
      */
+
     @Test
     public void removesMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
@@ -85,6 +86,7 @@ public final class MkMilestonesTest {
      * This tests that the iterate(Map<String, String> params)
      * method in MkMilestones works fine.
      */
+
     @Test
     public void iteratesMilestones() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()

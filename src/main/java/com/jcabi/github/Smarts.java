@@ -59,10 +59,12 @@ public final class Smarts<T> implements Iterable<T> {
             public boolean hasNext() {
                 return iterator.hasNext();
             }
+
             @Override
             public T next() {
                 return Smarts.wrap(iterator.next());
             }
+
             @Override
             public void remove() {
                 iterator.remove();

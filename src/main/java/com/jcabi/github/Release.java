@@ -70,6 +70,7 @@ public interface Release extends JsonReadable, JsonPatchable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
 
         /**

@@ -66,10 +66,12 @@ final class MkIterable<T> implements Iterable<T> {
             public boolean hasNext() {
                 return nodes.hasNext();
             }
+
             @Override
             public T next() {
                 return MkIterable.this.mapping.map(nodes.next());
             }
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException("#remove()");

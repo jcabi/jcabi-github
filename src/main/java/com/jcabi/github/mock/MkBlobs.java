@@ -71,10 +71,12 @@ final class MkBlobs implements Blobs {
      * @param sha Blob sha
      * @return Mocked Blob
      */
+
     public Blob get(
         final String sha) {
         return new MkBlob(this.storage, sha, this.coords);
     }
+
     @Override
     public Blob create(
         final String content,

@@ -84,6 +84,7 @@ public interface MkStorage {
          * Public ctor.
          * @throws IOException If there is any I/O problem
          */
+
         public InFile() throws IOException {
             this(File.createTempFile("jcabi-github", ".xml"));
             new File(this.name).deleteOnExit();
@@ -93,12 +94,14 @@ public interface MkStorage {
          * @param file File to use
          * @throws IOException If there is any I/O problem
          */
+
         public InFile(
             final File file
         ) throws IOException {
             FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
             this.name = file.getAbsolutePath();
         }
+
         @Override
         public String toString() {
             try {
@@ -107,6 +110,7 @@ public interface MkStorage {
                 throw new IllegalStateException(ex);
             }
         }
+
         @Override
         public XML xml() throws IOException {
             synchronized (this.name) {
@@ -117,6 +121,7 @@ public interface MkStorage {
                 );
             }
         }
+
         @Override
         public void apply(
             final Iterable<Directive> dirs
@@ -131,10 +136,12 @@ public interface MkStorage {
                 );
             }
         }
+
         @Override
         public void lock() {
             // nothing
         }
+
         @Override
         public void unlock() {
             // nothing
@@ -155,31 +162,38 @@ public interface MkStorage {
         /**
          * Lock object.
          */
+
         private final transient ImmutableReentrantLock lock =
             new ImmutableReentrantLock();
         /**
          * Public ctor.
          * @param storage Original
          */
+
         public Synced(final MkStorage storage) {
             this.origin = storage;
         }
+
         @Override
         public String toString() {
             return this.origin.toString();
         }
+
         @Override
         public XML xml() throws IOException {
             return this.origin.xml();
         }
+
         @Override
         public void apply(final Iterable<Directive> dirs) throws IOException {
             this.origin.apply(dirs);
         }
+
         @Override
         public void lock() {
             this.lock.lock();
         }
+
         @Override
         public void unlock() {
             this.lock.unlock();

@@ -157,11 +157,13 @@ public interface Event extends Comparable<Event>, JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param evt Event
          */
+
         public Smart(final Event evt) {
             this.event = evt;
             this.jsn = new SmartJson(evt);
@@ -171,6 +173,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return TRUE if the author exists
          * @throws IOException If there is any I/O problem
          */
+
         public boolean hasAuthor() throws IOException {
             return !this.event.json().isNull("actor");
         }
@@ -179,6 +182,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
+
         public User author() throws IOException {
             return this.event.repo().github().users().get(
                 this.event.json().getJsonObject("actor").getString("login")
@@ -189,6 +193,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
+
         public String type() throws IOException {
             return this.jsn.text("event");
         }
@@ -197,6 +202,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
+
         public URL url() throws IOException {
             try {
                 return new URI(this.jsn.text("url")).toURL();
@@ -209,6 +215,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
+
         public Date createdAt() throws IOException {
             try {
                 return new GitHub.Time(
@@ -224,6 +231,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @throws IOException If there is any I/O problem
          * @since 0.24
          */
+
         public Optional<Label> label() throws IOException {
             Optional<Label> lab = Optional.absent();
             final JsonObject lbl = this.jsn.json().getJsonObject("label");
@@ -236,18 +244,22 @@ public interface Event extends Comparable<Event>, JsonReadable {
             }
             return lab;
         }
+
         @Override
         public Repo repo() {
             return this.event.repo();
         }
+
         @Override
         public int number() {
             return this.event.number();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.event.json();
         }
+
         @Override
         public int compareTo(final Event obj) {
             return this.event.compareTo(obj);

@@ -60,6 +60,7 @@ final class MkLimits implements Limits {
             public GitHub github() {
                 return MkLimits.this.github();
             }
+
             @Override
             public JsonObject json() {
                 return Json.createObjectBuilder()

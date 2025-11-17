@@ -33,10 +33,12 @@ final class MkStars implements Stars {
     /**
      * Login of the user logged in.
      */
+
     private final transient String self;
     /**
      * Repo's name.
      */
+
     private final transient Coordinates coords;
 
     /**

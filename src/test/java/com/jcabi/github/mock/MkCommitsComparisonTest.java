@@ -35,6 +35,7 @@ public final class MkCommitsComparisonTest {
     /**
      * MkCommitsComparison can get a JSON.
      */
+
     @Test
     public void canGetJson() throws IOException {
         MatcherAssert.assertThat(

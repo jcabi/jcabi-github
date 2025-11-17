@@ -62,14 +62,17 @@ final class MkHook implements Hook {
         this.coords = rep;
         this.num = number;
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
+
     @Override
     public int number() {
         return this.num;
     }
+
     @Override
     public JsonObject json() throws IOException {
         return new JsonNode(

@@ -38,6 +38,7 @@ final class RtForks implements Forks {
     /**
      * Repository.
      */
+
     private final transient Repo owner;
 
     /**

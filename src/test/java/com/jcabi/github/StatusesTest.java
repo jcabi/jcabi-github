@@ -22,22 +22,27 @@ public final class StatusesTest {
     /**
      * Name of description property in Status JSON object.
      */
+
     private static final String DESCRIPTION_PROP = "description";
     /**
      * Name of description property in Status JSON object.
      */
+
     private static final String TARGET_PROP = "target_url";
     /**
      * Name of context property in Status JSON object.
      */
+
     private static final String CONTEXT_PROP = "context";
     /**
      * Test status URL.
      */
+
     private static final String URL = "http://status.jcabi-github.invalid/42";
     /**
      * Test commit status context string.
      */
+
     private static final String CONTEXT = "jcabi/github/test";
 
     /**

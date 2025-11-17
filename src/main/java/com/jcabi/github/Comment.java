@@ -106,6 +106,7 @@ public interface Comment
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
+
         public User author() throws IOException {
             return this.comment.issue().repo().github().users().get(
                 this.comment.json().getJsonObject("user").getString("login")
@@ -116,6 +117,7 @@ public interface Comment
          * @return Body of comment
          * @throws IOException If there is any I/O problem
          */
+
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -124,6 +126,7 @@ public interface Comment
          * @param text Body of comment
          * @throws IOException If there is any I/O problem
          */
+
         public void body(final String text) throws IOException {
             this.comment.patch(
                 Json.createObjectBuilder().add("body", text).build()
@@ -134,6 +137,7 @@ public interface Comment
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
+
         public URL url() throws IOException {
             try {
                 return new URI(this.jsn.text("url")).toURL();
@@ -146,6 +150,7 @@ public interface Comment
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
+
         public Date createdAt() throws IOException {
             try {
                 return new GitHub.Time(
@@ -160,6 +165,7 @@ public interface Comment
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
+
         public Date updatedAt() throws IOException {
             try {
                 return new GitHub.Time(
@@ -169,14 +175,17 @@ public interface Comment
                 throw new IOException(ex);
             }
         }
+
         @Override
         public Issue issue() {
             return this.comment.issue();
         }
+
         @Override
         public long number() {
             return this.comment.number();
         }
+
         @Override
         public void remove() throws IOException {
             this.comment.remove();
@@ -198,10 +207,12 @@ public interface Comment
         public JsonObject json() throws IOException {
             return this.comment.json();
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.comment.patch(json);
         }
+
         @Override
         public int compareTo(final Comment obj) {
             return this.comment.compareTo(obj);

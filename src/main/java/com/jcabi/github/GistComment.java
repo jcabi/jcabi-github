@@ -76,6 +76,7 @@ public interface GistComment
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
 
         /**

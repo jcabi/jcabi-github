@@ -156,10 +156,12 @@ public interface GitHub {
         /**
          * The time zone we're in.
          */
+
         public static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
         /**
          * Encapsulated time in milliseconds.
          */
+
         private final transient long msec;
 
         /**

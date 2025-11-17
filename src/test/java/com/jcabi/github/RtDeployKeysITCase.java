@@ -55,6 +55,7 @@ public final class RtDeployKeysITCase {
      * RtDeployKeys can iterate deploy keys.
      * @throws Exception If some problem inside
      */
+
     @Test
     public void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();

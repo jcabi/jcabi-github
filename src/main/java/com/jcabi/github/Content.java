@@ -61,11 +61,13 @@ public interface Content extends Comparable<Content>,
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param cont Content
          */
+
         public Smart(
             final Content cont) {
             this.content = cont;
@@ -76,6 +78,7 @@ public interface Content extends Comparable<Content>,
          * @return Name of content
          * @throws IOException If there is any I/O problem
          */
+
         public String name() throws IOException {
             return this.jsn.text("name");
         }
@@ -84,6 +87,7 @@ public interface Content extends Comparable<Content>,
          * @return Type of content
          * @throws IOException If there is any I/O problem
          */
+
         public String type() throws IOException {
             return this.jsn.text("type");
         }
@@ -92,6 +96,7 @@ public interface Content extends Comparable<Content>,
          * @return Size content
          * @throws IOException If it fails
          */
+
         public int size() throws IOException {
             return this.jsn.number("size");
         }
@@ -100,6 +105,7 @@ public interface Content extends Comparable<Content>,
          * @return Sha hash of content
          * @throws IOException If there is any I/O problem
          */
+
         public String sha() throws IOException {
             return this.jsn.text("sha");
         }
@@ -108,6 +114,7 @@ public interface Content extends Comparable<Content>,
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
+
         public URL url() throws IOException {
             try {
                 return new URI(this.jsn.text("url")).toURL();
@@ -120,6 +127,7 @@ public interface Content extends Comparable<Content>,
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
+
         public URL htmlUrl() throws IOException {
             try {
                 return new URI(this.jsn.text("html_url")).toURL();
@@ -132,6 +140,7 @@ public interface Content extends Comparable<Content>,
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
+
         public URL gitUrl() throws IOException {
             try {
                 return new URI(this.jsn.text("git_url")).toURL();
@@ -144,6 +153,7 @@ public interface Content extends Comparable<Content>,
          * @return Base64 encoded content
          * @throws IOException If there is any I/O problem
          */
+
         public String content() throws IOException {
             return this.jsn.text("content");
         }
@@ -152,29 +162,36 @@ public interface Content extends Comparable<Content>,
          * @return Decoded content
          * @throws IOException If there is any I/O problem
          */
+
         public byte[] decoded() throws IOException {
             return DatatypeConverter.parseBase64Binary(this.content());
         }
+
         @Override
         public int compareTo(final Content cont) {
             return this.content.compareTo(cont);
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.content.patch(json);
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.content.json();
         }
+
         @Override
         public Repo repo() {
             return this.content.repo();
         }
+
         @Override
         public String path() {
             return this.content.path();
         }
+
         @Override
         public InputStream raw() throws IOException {
             return this.content.raw();

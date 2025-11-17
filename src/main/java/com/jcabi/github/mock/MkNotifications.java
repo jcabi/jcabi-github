@@ -29,6 +29,7 @@ final class MkNotifications implements Notifications {
     /**
      * XPath for the notifications in the storage.
      */
+
     private final transient String xpath;
 
     /**

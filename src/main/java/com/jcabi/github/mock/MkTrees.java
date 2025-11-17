@@ -49,6 +49,7 @@ final class MkTrees implements Trees {
      * @param rep Repo's coordinates.
      * @throws IOException If something goes wrong.
      */
+
     MkTrees(
         final MkStorage stg,
         final String login,
@@ -66,6 +67,7 @@ final class MkTrees implements Trees {
             ).addIf("trees")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);

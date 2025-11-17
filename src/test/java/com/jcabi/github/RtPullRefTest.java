@@ -26,6 +26,7 @@ public final class RtPullRefTest {
     /**
      * Test ref.
      */
+
     private static final String REF = "some-branch";
 
     /**

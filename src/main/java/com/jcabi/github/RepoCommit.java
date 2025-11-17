@@ -59,11 +59,13 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param cmt RepoCommit
          */
+
         public Smart(
             final RepoCommit cmt
         ) {
@@ -75,6 +77,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @return Message of repo commit
          * @throws IOException If there is any I/O problem
          */
+
         public String message() throws IOException {
             return this.jsn.json()
                 .getJsonObject("commit")
@@ -85,6 +88,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @return URL of repo commit
          * @throws IOException If there is any I/O problem
          */
+
         public URL url() throws IOException {
             try {
                 return new URI(this.jsn.text("url")).toURL();
@@ -98,6 +102,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @throws IOException If there is any I/O problem
          * @since 1.1
          */
+
         public String author() throws IOException {
             return this.jsn.json()
                 .getJsonObject("commit")
@@ -110,24 +115,29 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * @throws IOException If there is any I/O problem
          * @since 1.1
          */
+
         public boolean isVerified() throws IOException {
             return this.jsn.json()
                 .getJsonObject("commit")
                 .getJsonObject("verification")
                 .getBoolean("verified");
         }
+
         @Override
         public Repo repo() {
             return this.commit.repo();
         }
+
         @Override
         public String sha() {
             return this.commit.sha();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.commit.json();
         }
+
         @Override
         public int compareTo(
             final RepoCommit obj

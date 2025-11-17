@@ -38,6 +38,7 @@ public final class RtReposTest {
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
+
     @Rule
     public final transient RepoRule rule = new RepoRule();
 

@@ -33,10 +33,12 @@ public final class MkPullTest {
     /**
      * Base branch name.
      */
+
     private static final String BASE = "my-base-branch";
     /**
      * Head branch name.
      */
+
     private static final String HEAD = "my-head-branch";
 
     /**

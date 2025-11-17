@@ -123,6 +123,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
+
         private final transient SmartJson jsn;
 
         /**

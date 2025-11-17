@@ -78,6 +78,7 @@ public interface Labels {
          * Public ctor.
          * @param lbl Labels
          */
+
         public Smart(
             final Labels lbl
         ) {
@@ -88,6 +89,7 @@ public interface Labels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
+
         public boolean contains(
             final String name
         ) {
@@ -106,6 +108,7 @@ public interface Labels {
          * @return Label found or created
          * @throws IOException If there is any I/O problem
          */
+
         public Label createOrGet(
             final String name
         ) throws IOException {
@@ -119,6 +122,7 @@ public interface Labels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
+
         public Label createOrGet(
             final String name, final String color
         ) throws IOException {
@@ -133,26 +137,31 @@ public interface Labels {
             }
             return label;
         }
+
         @Override
         public Repo repo() {
             return this.labels.repo();
         }
+
         @Override
         public Label create(
             final String name, final String color
         ) throws IOException {
             return this.labels.create(name, color);
         }
+
         @Override
         public Label get(
             final String name
         ) {
             return this.labels.get(name);
         }
+
         @Override
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
+
         @Override
         public void delete(
             final String name

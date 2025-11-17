@@ -24,6 +24,7 @@ public final class RtBranchTest {
      * Commit SHA for test branch.
      * @checkstyle LineLengthCheck (2 lines)
      */
+
     private static final String SHA = "b9b0b8a357bbf70f7c9f8ef17160ee31feb508a9";
 
     /**
