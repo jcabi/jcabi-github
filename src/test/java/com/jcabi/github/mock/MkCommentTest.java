@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkComment}.
+ * @since 0.1
  */
 public final class MkCommentTest {
     /**
@@ -37,7 +38,6 @@ public final class MkCommentTest {
 
     /**
      * MkComment should be able to compare different instances.
-     *
      */
     @Test
     public void canCompareInstances() throws IOException {

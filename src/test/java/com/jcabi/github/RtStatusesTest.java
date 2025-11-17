@@ -25,13 +25,12 @@ import org.junit.Test;
 
 /**
  * Testcase for {@link RtStatuses}.
- *
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @todo #1130:30min Write RtStatusesITCase, an integration test case for
  *  RtStatuses/RtStatus against real GitHub commit status data.
  * @todo #1490:30min Continue to close grizzle servers open on tests. Use
  *  try-with-resource statement instead of try-catch whenever is possible.
+ * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtStatusesTest {
     /**

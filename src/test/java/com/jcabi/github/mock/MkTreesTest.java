@@ -46,7 +46,6 @@ public final class MkTreesTest {
 
     /**
      * MkTrees can get tree recursively.
-     *
      */
     @Test
     public void getTreeRec() throws IOException {

@@ -13,8 +13,9 @@ import org.junit.Test;
 
 /**
  * Testcase for MkStars.
+ * @since 0.1
  */
-public class MkStarsTest {
+public final class MkStarsTest {
 
     /**
      * MkStars can star repository.

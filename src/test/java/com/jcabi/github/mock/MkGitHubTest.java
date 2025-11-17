@@ -27,6 +27,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkGitHub}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class MkGitHubTest {
@@ -68,7 +69,6 @@ public final class MkGitHubTest {
 
     /**
      * MkGitHub can relogin.
-     *
      */
     @Test
     public void canRelogin() throws IOException {
@@ -102,7 +102,6 @@ public final class MkGitHubTest {
 
     /**
      * MkGitHub can retrieve the markdown.
-     *
      */
     @Test
     public void retrievesMarkdown() throws IOException {

@@ -18,7 +18,7 @@ import org.junit.Test;
  * Testcase for MkTags.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MkCommitsTest {
+public final class MkCommitsTest {
 
     /**
      * MkCommits can create commits.

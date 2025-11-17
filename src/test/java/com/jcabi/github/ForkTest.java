@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Fork}.
  */
-public class ForkTest {
+public final class ForkTest {
     /**
      * Fork.Smart can fetch name property from Fork.
      */

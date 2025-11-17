@@ -190,7 +190,7 @@ public final class RtCommentTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                     Json.createArrayBuilder()
+                    Json.createArrayBuilder()
                     .add(
                         Json.createObjectBuilder()
                         .add("id", "1")

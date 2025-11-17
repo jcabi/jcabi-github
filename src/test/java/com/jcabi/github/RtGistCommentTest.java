@@ -23,7 +23,7 @@ import org.junit.Test;
  * Test case for {@link RtGistComment}.
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
-public class RtGistCommentTest {
+public final class RtGistCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.

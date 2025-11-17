@@ -50,7 +50,7 @@ public final class ExistenceTest {
      * Existends throws the possible IOException resulted from the server call.
      */
     @Test(expected = IOException.class)
-    public void rethrowsIOException() throws IOException {
+    public void rethrowsIoException() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new IOException()).when(object).json();
         new Existence(object).check();

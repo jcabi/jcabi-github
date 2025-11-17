@@ -16,7 +16,7 @@ import org.junit.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public class RtForksITCase {
+public final class RtForksITCase {
 
     /**
      * RepoRule.

@@ -24,8 +24,8 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleases}.
- * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtReleasesTest {

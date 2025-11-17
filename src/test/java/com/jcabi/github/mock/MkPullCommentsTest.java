@@ -18,13 +18,12 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkPullComments}.
- *
+ * @since 0.1
  */
 public final class MkPullCommentsTest {
 
     /**
      * MkPullComments can fetch a single comment.
-     *
      */
     @Test
     public void fetchesPullComment() throws IOException {
@@ -39,7 +38,6 @@ public final class MkPullCommentsTest {
 
     /**
      * MkPullComments can fetch all pull comments for a repo.
-     *
      */
     @Test
     public void iteratesRepoPullComments() throws IOException {
@@ -70,7 +68,6 @@ public final class MkPullCommentsTest {
 
     /**
      * MkPullComments can fetch pull comments for a pull request.
-     *
      */
     @Test
     public void iteratesPullRequestComments() throws IOException {
@@ -89,7 +86,6 @@ public final class MkPullCommentsTest {
 
     /**
      * MkPullComments can create a pull comment.
-     *
      */
     @Test
     public void postsPullComment() throws IOException {
@@ -135,7 +131,6 @@ public final class MkPullCommentsTest {
 
     /**
      * MkPullComments can reply to an existing pull comment.
-     *
      */
     @Test
     public void createsPullCommentReply() throws IOException {
@@ -162,7 +157,6 @@ public final class MkPullCommentsTest {
 
     /**
      * MkPullComments can remove a pull comment.
-     *
      */
     @Test
     public void removesPullComment() throws IOException {

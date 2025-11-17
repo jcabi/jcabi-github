@@ -15,7 +15,7 @@ import org.mockito.Mockito;
  * Test case for {@link Milestone}.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MilestoneTest {
+public final class MilestoneTest {
     /**
      * Milestone.Smart can fetch title property from Milestone.
      */

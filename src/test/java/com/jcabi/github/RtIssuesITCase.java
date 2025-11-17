@@ -90,7 +90,7 @@ public final class RtIssuesITCase {
                 )
             )
         );
-        Date prevUpdated = null;
+        Date previous = null;
         final Set<String> labelNames = new HashSet<>();
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
@@ -98,14 +98,14 @@ public final class RtIssuesITCase {
                 issue.title(),
                 Matchers.notNullValue()
             );
-            if (prevUpdated != null) {
+            if (previous != null) {
                 MatcherAssert.assertThat(
                     "Value is not less than expected",
                     issue.updatedAt(),
-                    Matchers.lessThanOrEqualTo(prevUpdated)
+                    Matchers.lessThanOrEqualTo(previous)
                 );
             }
-            prevUpdated = issue.updatedAt();
+            previous = issue.updatedAt();
             labelNames.clear();
             for (final Label label : issue.roLabels().iterate()) {
                 labelNames.add(label.name());

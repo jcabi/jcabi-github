@@ -177,9 +177,9 @@ public final class MkReleaseAssetTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             new String(
-              DatatypeConverter.parseBase64Binary(
-                  IOUtils.toString(asset.raw(), StandardCharsets.UTF_8)
-              )
+                DatatypeConverter.parseBase64Binary(
+                    IOUtils.toString(asset.raw(), StandardCharsets.UTF_8)
+                )
             ),
             Matchers.is(test)
         );

@@ -22,7 +22,7 @@ import org.junit.Test;
  * RtRepoCommits
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public class RtRepoCommitsITCase {
+public final class RtRepoCommitsITCase {
 
     /**
      * RtRepoCommits can fetch repo commits.

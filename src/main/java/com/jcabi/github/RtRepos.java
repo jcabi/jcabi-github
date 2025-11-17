@@ -57,14 +57,14 @@ final class RtRepos implements Repos {
 
     @Override
     public Repo create(final Repos.RepoCreate settings) throws IOException {
-        String uriPath = "user/repos";
+        String path = "user/repos";
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
-            uriPath = "/orgs/".concat(org).concat("/repos");
+            path = "/orgs/".concat(org).concat("/repos");
         }
         return this.get(
             new Coordinates.Simple(
-                this.entry.uri().path(uriPath)
+                this.entry.uri().path(path)
                     .back().method(Request.POST)
                     .body().set(settings.json()).back()
                     .fetch().as(RestResponse.class)

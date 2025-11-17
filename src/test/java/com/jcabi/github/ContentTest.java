@@ -20,7 +20,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class ContentTest {
+public final class ContentTest {
     /**
      * Content.Smart can fetch type property from Content.
      */

@@ -18,7 +18,7 @@ public final class RtPublicKeyITCase {
      * RtPublicKey can retrieve correctly URI.
      */
     @Test
-    public void retrievesURI() {
+    public void retrievesUri() {
         MatcherAssert.assertThat(
             "String does not end with expected value",
             new GitHubIT().connect().users().self().keys().get(1).toString(),

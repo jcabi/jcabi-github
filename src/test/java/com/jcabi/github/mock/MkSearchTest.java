@@ -15,7 +15,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkSearch}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

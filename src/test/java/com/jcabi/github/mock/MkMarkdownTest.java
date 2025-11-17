@@ -14,7 +14,7 @@ import org.junit.Test;
  * Test case for {@link MkMarkdown}.
  * @since 0.1
  */
-public class MkMarkdownTest {
+public final class MkMarkdownTest {
 
     /**
      * MkMarkdown can be rendered.

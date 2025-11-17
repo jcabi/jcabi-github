@@ -51,7 +51,6 @@ public final class MkPublicKeyTest {
 
     /**
      * MkPublicKey can accept a PATCH request.
-     *
      */
     @Test
     public void canBePatched() throws IOException {

@@ -12,10 +12,9 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RtRepos}.
- *
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.DELETE_REPO })
-public class RtReposITCase {
+public final class RtReposITCase {
 
     /**
      * RepoRule.

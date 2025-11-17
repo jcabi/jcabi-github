@@ -13,9 +13,8 @@ import org.junit.Test;
 
 /**
  * Unit tests for the MkUser class.
- *
  */
-public class MkMilestoneTest {
+public final class MkMilestoneTest {
 
     /**
      * MkMilestone returns a repo with same coordinates.

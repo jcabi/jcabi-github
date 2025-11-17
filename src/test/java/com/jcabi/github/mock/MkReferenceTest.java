@@ -15,6 +15,7 @@ import org.junit.Test;
 
 /**
  * Testcase for {@link MkReference}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReferenceTest {

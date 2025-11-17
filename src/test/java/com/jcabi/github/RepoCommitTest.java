@@ -18,7 +18,7 @@ import org.mockito.Mockito;
  * Test case for {@link RepoCommit}.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RepoCommitTest {
+public final class RepoCommitTest {
 
     /**
      * RepoCommit.Smart can fetch url property from RepoCommit.

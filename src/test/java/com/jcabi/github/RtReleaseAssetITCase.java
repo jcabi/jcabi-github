@@ -66,7 +66,7 @@ public final class RtReleaseAssetITCase {
      * RtReleaseAsset can fetch as JSON object.
      */
     @Test
-    public void fetchAsJSON() throws IOException {
+    public void fetchAsJson() throws IOException {
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = RtReleaseAssetITCase.repo.releases().create(name);
         try {

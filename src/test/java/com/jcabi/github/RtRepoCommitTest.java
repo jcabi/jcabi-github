@@ -14,7 +14,7 @@ import org.junit.Test;
  * Test case for {@link RtRepoCommit}.
  * @since 0.1
  */
-public class RtRepoCommitTest {
+public final class RtRepoCommitTest {
     /**
      * RtRepoCommit has proper request URL.
      */

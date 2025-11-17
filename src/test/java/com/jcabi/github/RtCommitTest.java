@@ -18,11 +18,10 @@ import org.junit.Test;
 
 /**
  * Test case for RtCommit.
- *
  * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.18.2
  */
-public class RtCommitTest {
+public final class RtCommitTest {
 
     /**
      * The rule for skipping test if there's BindException.

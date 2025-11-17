@@ -26,7 +26,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtRelease}.
  */
-public class RtReleaseTest {
+public final class RtReleaseTest {
     /**
      * An empty JSON string.
      */

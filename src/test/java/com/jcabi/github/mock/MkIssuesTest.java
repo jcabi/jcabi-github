@@ -17,6 +17,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkIssues}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkIssuesTest {

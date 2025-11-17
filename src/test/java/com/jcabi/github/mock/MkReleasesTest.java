@@ -129,7 +129,6 @@ public final class MkReleasesTest {
 
     /**
      * The release's name should be empty upon initial creation.
-     *
      */
     @Test
     public void releaseNameIsEmpty() throws IOException {
@@ -146,7 +145,6 @@ public final class MkReleasesTest {
 
     /**
      * The release's body should be empty upon initial creation.
-     *
      */
     @Test
     public void releaseBodyIsEmpty() throws IOException {

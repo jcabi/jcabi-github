@@ -21,7 +21,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class ReleaseAssetTest {
+public final class ReleaseAssetTest {
 
     /**
      * ReleaseAsset.Smart can fetch url property from ReleaseAsset.
