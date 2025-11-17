@@ -40,7 +40,7 @@ public final class RtMarkdownTest {
     @Test
     public void returnsJsonOutput() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
                     .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
             ).start(this.resource.port())
@@ -72,7 +72,7 @@ public final class RtMarkdownTest {
     @Test
     public void returnsRawOutput() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
                     .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
             ).start(this.resource.port())

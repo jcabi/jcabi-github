@@ -40,14 +40,14 @@ public final class RtForkTest {
         final String original = "some organization";
         final String patched = "some patched organization";
         try (
-            final MkContainer container =
+            MkContainer container =
                 new MkGrizzlyContainer().next(this.answer(original))
                     .next(
                         this.answer(patched)
                     ).next(this.answer(original)).start(
                         this.resource.port()
                     );
-            final MkContainer forksContainer = new MkGrizzlyContainer().start(
+            MkContainer forksContainer = new MkGrizzlyContainer().start(
                 this.resource.port()
         )) {
             final RtRepo repo =

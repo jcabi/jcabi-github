@@ -187,7 +187,7 @@ public final class RtCommentTest {
     @Test
     public void reactions() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                      Json.createArrayBuilder()
@@ -220,7 +220,7 @@ public final class RtCommentTest {
     @Test
     public void givesToString() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();

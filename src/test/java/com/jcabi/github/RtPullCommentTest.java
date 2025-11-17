@@ -73,7 +73,7 @@ public final class RtPullCommentTest {
     public void canDescribeAsJson() throws Exception {
         final String body = "{\"body\":\"test\"}";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
             ).start(this.resource.port())
         ) {
@@ -103,7 +103,7 @@ public final class RtPullCommentTest {
     @Test
     public void patchesComment() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())
         ) {
@@ -140,7 +140,7 @@ public final class RtPullCommentTest {
     @Ignore
     public void reacts() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();

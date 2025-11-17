@@ -47,7 +47,7 @@ public final class RtHooksTest {
     @Test
     public void canFetchEmptyListOfHooks() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
             ).start(this.resource.port())
         ) {
@@ -70,7 +70,7 @@ public final class RtHooksTest {
     @Test
     public void canFetchNonEmptyListOfHooks() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -110,7 +110,7 @@ public final class RtHooksTest {
     public void canFetchSingleHook() throws IOException {
         final String name = "hook name";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtHooksTest.hook(
@@ -147,7 +147,7 @@ public final class RtHooksTest {
         final String name = "hook name";
         final String body = RtHooksTest.hook(name, config).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
                 .start(this.resource.port())
@@ -180,7 +180,7 @@ public final class RtHooksTest {
     @Test
     public void canDeleteHook() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {
