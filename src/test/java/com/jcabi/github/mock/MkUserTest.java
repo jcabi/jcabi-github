@@ -24,7 +24,6 @@ public final class MkUserTest {
 
     /**
      * Tests that MkUser.organizations() returns a value.
-     *
      * @throws IOException when there is an error creating the MkUser begin tested
      */
     @Test

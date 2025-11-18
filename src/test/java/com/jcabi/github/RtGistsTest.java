@@ -116,7 +116,6 @@ public final class RtGistsTest {
     /**
      * RtGists can remove a gist by name.
      */
-
     @Test
     public void removesGistByName() throws IOException {
         try (

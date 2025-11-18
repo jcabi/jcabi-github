@@ -75,7 +75,6 @@ public final class ForkTest {
     /**
      * Fork.Smart can fetch size property from Fork.
      */
-
     @Test
     public final void fetchesSize() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -164,7 +163,6 @@ public final class ForkTest {
      * Fork.Smart can fetch the number of forks, stargazers, and watchers
      * from Fork.
      */
-
     @Test
     public final void fetchesCounts() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);

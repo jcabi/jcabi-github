@@ -20,7 +20,6 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkPull}.
- *
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
@@ -33,17 +32,14 @@ public final class MkPullTest {
     /**
      * Base branch name.
      */
-
     private static final String BASE = "my-base-branch";
     /**
      * Head branch name.
      */
-
     private static final String HEAD = "my-head-branch";
 
     /**
      * MkPull should be able to compare different instances.
-     *
      */
     @Test
     public void canCompareInstances() throws IOException {
@@ -73,7 +69,6 @@ public final class MkPullTest {
 
     /**
      * MkPull can get comments number if no comments.
-     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -88,7 +83,6 @@ public final class MkPullTest {
 
     /**
      * MkPull can get comments number if some comments exist.
-     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -105,7 +99,6 @@ public final class MkPullTest {
 
     /**
      * MkPull can get comments.
-     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -152,7 +145,6 @@ public final class MkPullTest {
 
     /**
      * MkPull can be represented as JSON.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -198,7 +190,6 @@ public final class MkPullTest {
 
     /**
      * MkPull can perform JSON patch operation.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test

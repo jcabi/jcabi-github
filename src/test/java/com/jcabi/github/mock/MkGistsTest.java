@@ -61,7 +61,6 @@ public final class MkGistsTest {
      * MkGists can work several gists.
      * Test to check issue #128
      */
-
     @Test
     public void worksWithSeveralGists() throws IOException {
         final Gists gists = new MkGitHub().gists();

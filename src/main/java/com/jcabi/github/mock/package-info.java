@@ -5,7 +5,6 @@
 
 /**
  * Mock GitHub server.
- *
  * @since 0.5
  */
 package com.jcabi.github.mock;

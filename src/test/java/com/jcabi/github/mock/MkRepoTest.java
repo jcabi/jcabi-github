@@ -54,7 +54,6 @@ public final class MkRepoTest {
 
     /**
      * Repo can fetch its commits.
-     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -71,7 +70,6 @@ public final class MkRepoTest {
 
     /**
      * Repo can fetch its branches.
-     *
      * @throws IOException if some problem inside
      */
     @Test

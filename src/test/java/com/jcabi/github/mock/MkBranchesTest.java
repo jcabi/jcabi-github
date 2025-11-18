@@ -15,7 +15,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkBranches}.
- *
  */
 public final class MkBranchesTest {
     /**

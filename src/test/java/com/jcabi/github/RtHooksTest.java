@@ -136,7 +136,6 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can create a hook.
-     *
      */
     @Test
     public void canCreateHook() throws IOException {
@@ -175,7 +174,6 @@ public final class RtHooksTest {
 
     /**
      * RtHooks can delete a hook.
-     *
      */
     @Test
     public void canDeleteHook() throws IOException {

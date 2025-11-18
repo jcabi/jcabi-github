@@ -21,7 +21,6 @@ public final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve its keys.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -38,7 +37,6 @@ public final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve a single key.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -55,7 +53,6 @@ public final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to remove a key.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -77,7 +74,6 @@ public final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to create a key.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test

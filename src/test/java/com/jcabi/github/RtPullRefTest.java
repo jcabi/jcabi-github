@@ -26,7 +26,6 @@ public final class RtPullRefTest {
      * Test ref.
      */
     private static final String REF = "some-branch";
-
     /**
      * RtPullRef can fetch its repo.
      * @throws IOException If there is an I/O problem.

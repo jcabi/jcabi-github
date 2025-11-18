@@ -15,13 +15,11 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkForks}.
- *
  */
 public final class MkForksTest {
 
     /**
      * RtForks should be able to create a new fork.
-     *
      */
     @Test
     @Ignore

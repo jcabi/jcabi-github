@@ -17,7 +17,6 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkReleaseAssets}.
- *
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle MethodNameCheck (200 lines)
@@ -26,7 +25,6 @@ public final class MkReleaseAssetsTest {
 
     /**
      * MkReleaseAssets can upload a new Release Asset.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -44,7 +42,6 @@ public final class MkReleaseAssetsTest {
 
     /**
      * MkReleaseAssets can fetch a single Release Asset.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -62,7 +59,6 @@ public final class MkReleaseAssetsTest {
 
     /**
      * MkReleaseAssets can iterate through Release Assets.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -80,7 +76,6 @@ public final class MkReleaseAssetsTest {
 
     /**
      * MkReleaseAssets can fetch its own Release.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
