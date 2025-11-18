@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPublicKeys}.
- *
+ * @since 0.8
  */
 public final class RtPublicKeysTest {
     /**

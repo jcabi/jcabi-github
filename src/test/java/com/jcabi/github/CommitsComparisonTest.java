@@ -13,6 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link CommitsComparison}.
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (75 lines)
  */
 public final class CommitsComparisonTest {

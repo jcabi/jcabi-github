@@ -26,7 +26,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRepo}.
- *
+ * @since 0.1
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtRepoTest {

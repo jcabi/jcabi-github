@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RtMarkdown}.
+ * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtMarkdownITCase {

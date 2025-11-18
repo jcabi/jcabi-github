@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtGist}.
- *
+ * @since 0.1
  */
 public final class RtGistTest {
     /**

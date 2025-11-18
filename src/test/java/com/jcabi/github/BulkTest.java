@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Bulk}.
+ * @since 0.17
  */
 public final class BulkTest {
 

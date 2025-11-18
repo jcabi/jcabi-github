@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Smarts}.
+ * @since 0.5
  */
 public final class SmartsTest {
 

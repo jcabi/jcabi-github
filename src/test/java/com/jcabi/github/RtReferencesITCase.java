@@ -15,6 +15,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtReferences}.
+ * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

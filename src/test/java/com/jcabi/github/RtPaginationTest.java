@@ -22,7 +22,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtPagination}.
- *
+ * @since 0.4
  */
 public final class RtPaginationTest {
     /**

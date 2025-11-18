@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Pull}.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class PullTest {

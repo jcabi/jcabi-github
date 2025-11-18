@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtEvent}.
- *
+ * @since 0.6.1
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtEventTest {

@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLabel}.
- *
+ * @since 0.6
  */
 public final class RtLabelTest {
 
