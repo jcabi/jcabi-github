@@ -18,6 +18,7 @@ import org.junit.Test;
 
 /**
  * Integration testcase for RtTag.
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

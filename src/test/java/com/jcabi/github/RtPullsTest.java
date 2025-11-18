@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPulls}.
- *
+ * @since 0.7
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 public final class RtPullsTest {

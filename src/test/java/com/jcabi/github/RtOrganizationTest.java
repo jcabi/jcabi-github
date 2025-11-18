@@ -22,7 +22,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtOrganization}.
- *
+ * @since 0.24
  */
 public final class RtOrganizationTest {
     /**

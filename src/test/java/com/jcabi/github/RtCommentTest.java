@@ -25,6 +25,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtComment}.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */

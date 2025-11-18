@@ -19,6 +19,7 @@ import org.junit.Test;
 
 /**
  * Testcase for RtTag.
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class RtTagTest {

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  * Integration test case for {@link RtStars}.
- *
+ * @since 0.8
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
 public final class RtStarsITCase {

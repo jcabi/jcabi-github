@@ -21,6 +21,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtGistComment}.
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
 public final class RtGistCommentTest {

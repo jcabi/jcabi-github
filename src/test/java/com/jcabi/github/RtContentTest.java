@@ -63,7 +63,7 @@ public final class RtContentTest {
      */
     @Test
     public void patchWithJson() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
         ).start(this.resource.port())) {
             final RtContent content = new RtContent(
@@ -125,7 +125,7 @@ public final class RtContentTest {
     @Test
     public void fetchesRawContent() throws IOException {
         final String raw = "the raw \u20ac";
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
         ).start(this.resource.port())) {
             final InputStream stream = new RtContent(

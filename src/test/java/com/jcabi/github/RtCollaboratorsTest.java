@@ -45,7 +45,7 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void canIterate() throws Exception {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -72,7 +72,7 @@ public final class RtCollaboratorsTest {
      */
     @Test
     public void userCanBeAddedAsCollaborator() throws Exception {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
@@ -103,7 +103,7 @@ public final class RtCollaboratorsTest {
     @Test
     public void userCanBeTestForBeingCollaborator() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     Json.createArrayBuilder()
@@ -133,7 +133,7 @@ public final class RtCollaboratorsTest {
     @Test
     public void userCanBeRemoved() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     Json.createArrayBuilder()

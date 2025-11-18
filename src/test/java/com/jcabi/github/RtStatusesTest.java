@@ -25,6 +25,7 @@ import org.junit.Test;
 
 /**
  * Testcase for {@link RtStatuses}.
+ * @since 0.24
  * @todo #1130:30min Write RtStatusesITCase, an integration test case for
  *  RtStatuses/RtStatus against real GitHub commit status data.
  * @todo #1490:30min Continue to close grizzle servers open on tests. Use

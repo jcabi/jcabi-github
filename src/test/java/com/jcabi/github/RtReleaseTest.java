@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRelease}.
+ * @since 0.8
  */
 public final class RtReleaseTest {
     /**

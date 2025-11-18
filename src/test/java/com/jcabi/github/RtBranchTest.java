@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtBranch}.
- *
+ * @since 0.8
  */
 public final class RtBranchTest {
     /**

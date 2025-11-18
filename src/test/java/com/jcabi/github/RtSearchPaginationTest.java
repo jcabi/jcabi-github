@@ -12,7 +12,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtSearchPagination}.
- *
+ * @since 0.9
  */
 public final class RtSearchPaginationTest {
 

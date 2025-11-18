@@ -27,7 +27,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPullComment}.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */

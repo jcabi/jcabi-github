@@ -17,6 +17,7 @@ import org.junit.runners.model.Statement;
 
 /**
  * Test resource for skipping tests when random port is busy.
+ * @since 0.8
  */
 public class RandomPort extends ExternalResource {
     @Override

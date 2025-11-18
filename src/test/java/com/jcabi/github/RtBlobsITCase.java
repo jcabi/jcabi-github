@@ -13,6 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtBlobs}.
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

@@ -27,7 +27,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPullComments}.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")

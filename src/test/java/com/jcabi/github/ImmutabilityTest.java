@@ -18,7 +18,7 @@ import org.junit.Test;
  * Test for immutability.
  * Checks that all classes in package {@code com.jcabi.github }
  * have {@code @Immutable} annotation.
- *
+ * @since 0.13
  */
 public final class ImmutabilityTest {
 
