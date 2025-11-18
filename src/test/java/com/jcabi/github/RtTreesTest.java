@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtTrees}.
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtTreesTest {

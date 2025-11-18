@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtMarkdown}.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 public final class RtMarkdownTest {

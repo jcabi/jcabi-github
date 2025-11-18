@@ -20,7 +20,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtFork}.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtForkTest {

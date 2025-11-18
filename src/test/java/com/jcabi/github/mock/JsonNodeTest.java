@@ -14,6 +14,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link JsonNode}.
+ * @since 0.5
  */
 public final class JsonNodeTest {
 
