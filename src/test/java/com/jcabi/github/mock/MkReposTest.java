@@ -15,6 +15,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link MkRepos}.
+ * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReposTest {

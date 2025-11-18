@@ -14,6 +14,7 @@ import org.junit.Test;
 
 /**
  * Testcase for MkTags.
+ * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkTagsTest {

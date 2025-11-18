@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtBranches}.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class RtBranchesTest {
