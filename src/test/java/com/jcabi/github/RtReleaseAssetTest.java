@@ -98,7 +98,8 @@ public final class RtReleaseAssetTest {
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(), Matchers.equalTo(Request.PATCH)
+                query.method(),
+                Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
                 "String does not contain expected value",
@@ -161,7 +162,8 @@ public final class RtReleaseAssetTest {
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(), Matchers.equalTo(Request.GET)
+                query.method(),
+                Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
                 "Value is null",

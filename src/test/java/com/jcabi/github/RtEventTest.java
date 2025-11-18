@@ -33,7 +33,6 @@ public final class RtEventTest {
 
     /**
      * RtEvent can retrieve its own repo.
-     *
      */
     @Test
     public void canRetrieveOwnRepo() {
@@ -48,7 +47,6 @@ public final class RtEventTest {
 
     /**
      * RtEvent can retrieve its own number.
-     *
      */
     @Test
     public void canRetrieveOwnNumber() {
@@ -63,7 +61,6 @@ public final class RtEventTest {
 
     /**
      * RtEvent can be retrieved in JSON form.
-     *
      */
     @Test
     public void retrieveEventAsJson() throws IOException {
@@ -88,7 +85,6 @@ public final class RtEventTest {
 
     /**
      * RtEvent should be able to compare different instances.
-     *
      */
     @Test
     public void canCompareInstances() {

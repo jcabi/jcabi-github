@@ -49,7 +49,6 @@ public final class RtChecksTest {
 
     /**
      * Checks whether RtChecks can get all checks.
-     *
      * @throws IOException If some problem happens.
      */
     @Test
@@ -76,7 +75,6 @@ public final class RtChecksTest {
 
     /**
      * Checks whether RtChecks can return empty checks if they are absent.
-     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -103,7 +101,6 @@ public final class RtChecksTest {
     /**
      * Checks whether RtChecks can throw an exception
      * if response code is not 200.
-     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -164,7 +161,7 @@ public final class RtChecksTest {
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect",all, Matchers.hasSize(1));
+                "Collection size is incorrect", all, Matchers.hasSize(1));
             for (final Check check : all) {
                 MatcherAssert.assertThat(
                     "Values are not equal",
@@ -205,7 +202,7 @@ public final class RtChecksTest {
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect",all, Matchers.hasSize(1));
+                "Collection size is incorrect", all, Matchers.hasSize(1));
             for (final Check check : all) {
                 MatcherAssert.assertThat(
                     "Values are not equal",
@@ -239,7 +236,7 @@ public final class RtChecksTest {
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect",all, Matchers.hasSize(1));
+                "Collection size is incorrect", all, Matchers.hasSize(1));
             for (final Check check : all) {
                 MatcherAssert.assertThat(
                     "Values are not equal",

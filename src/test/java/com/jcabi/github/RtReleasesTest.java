@@ -87,7 +87,7 @@ public final class RtReleasesTest {
             new FakeRequest(), RtReleasesTest.repo()
         );
         MatcherAssert.assertThat(
-            "Value is null",releases.get(1), Matchers.notNullValue());
+            "Value is null", releases.get(1), Matchers.notNullValue());
     }
 
     /**

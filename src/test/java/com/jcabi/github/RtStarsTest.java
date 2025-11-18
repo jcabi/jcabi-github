@@ -35,7 +35,6 @@ public final class RtStarsTest {
 
     /**
      * RtStars can check if repo is starred.
-     *
      */
     @Test
     public void checkIfRepoStarred() throws IOException {
@@ -67,7 +66,6 @@ public final class RtStarsTest {
 
     /**
      * RtStars can star repository.
-     *
      */
     @Test
     public void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
@@ -105,7 +103,6 @@ public final class RtStarsTest {
 
     /**
      * RtStars can unstar repository.
-     *
      */
     @Test
     public void unstarRepository() throws IOException, IllegalArgumentException, UriBuilderException {

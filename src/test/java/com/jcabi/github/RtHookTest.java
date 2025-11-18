@@ -36,7 +36,6 @@ public final class RtHookTest {
 
     /**
      * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
-     *
      */
     @Test
     public void performsValidRequest() throws IOException {
@@ -69,7 +68,6 @@ public final class RtHookTest {
 
     /**
      * RtHook.json() should return a json array with the hook's events.
-     *
      */
     @Test
     public void returnsEvents() throws IOException {

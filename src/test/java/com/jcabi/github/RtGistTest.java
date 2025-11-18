@@ -33,7 +33,6 @@ public final class RtGistTest {
 
     /**
      * RtGist should be able to do reads.
-     *
      * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
@@ -89,7 +88,6 @@ public final class RtGistTest {
 
     /**
      * RtGist can fork itself.
-     *
      * @throws IOException If there is a problem.
      */
     @Test
@@ -139,7 +137,6 @@ public final class RtGistTest {
 
     /**
      * Gist.Smart can iterate through its files.
-     *
      */
     @Test
     public void canIterateFiles() throws IOException {
@@ -174,7 +171,6 @@ public final class RtGistTest {
 
     /**
      * RtGist can return a String representation correctly reflecting its URI.
-     *
      */
     @Test
     public void canRepresentAsString() throws IOException {
@@ -229,7 +225,6 @@ public final class RtGistTest {
 
     /**
      * RtGist can execute PATCH request.
-     *
      */
     @Test
     public void executePatchRequest() throws IOException {

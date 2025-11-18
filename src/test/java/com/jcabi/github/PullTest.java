@@ -21,7 +21,6 @@ public final class PullTest {
 
     /**
      * Pull.Smart can fetch comments count from Pull.
-     *
      */
     @Test
     public void canFetchCommentsCount() throws IOException {
