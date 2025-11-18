@@ -15,6 +15,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtPublicKeys}.
+ * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
 public final class RtPublicKeysITCase {

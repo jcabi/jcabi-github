@@ -23,6 +23,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtValuePagination}.
+ * @since 0.4
  */
 public final class RtValuePaginationTest {
     /**

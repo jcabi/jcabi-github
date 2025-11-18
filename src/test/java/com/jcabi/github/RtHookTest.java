@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtHook}.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (2 lines)
  */
 public final class RtHookTest {

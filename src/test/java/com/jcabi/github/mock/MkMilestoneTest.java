@@ -13,6 +13,7 @@ import org.junit.Test;
 
 /**
  * Unit tests for the MkUser class.
+ * @since 0.7
  */
 public final class MkMilestoneTest {
 

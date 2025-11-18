@@ -20,6 +20,7 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link RtGitignores}.
+ * @since 0.8
  * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
  */
 @Immutable

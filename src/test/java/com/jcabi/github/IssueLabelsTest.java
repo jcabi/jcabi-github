@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link IssueLabels}.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class IssueLabelsTest {

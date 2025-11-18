@@ -10,6 +10,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link Coordinates}.
+ * @since 0.1
  */
 public final class CoordinatesTest {
 
