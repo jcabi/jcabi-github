@@ -149,7 +149,7 @@ public final class MkHookTest {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(xml);
         MatcherAssert.assertThat(
-            "",
+            "Hook events are incorrect",
             new MkHook(
                 storage, "", coords, number
             ).json().getJsonArray("events")

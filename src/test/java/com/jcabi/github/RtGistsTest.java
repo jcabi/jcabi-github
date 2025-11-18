@@ -34,7 +34,6 @@ public final class RtGistsTest {
 
     /**
      * RtGists can create new files.
-     *
      */
     @Test
     public void canCreateFiles() throws IOException {
@@ -65,7 +64,6 @@ public final class RtGistsTest {
 
     /**
      * RtGists can retrieve a specific Gist.
-     *
      */
     @Test
     public void canRetrieveSpecificGist() throws IOException {
@@ -89,7 +87,6 @@ public final class RtGistsTest {
 
     /**
      * RtGists can iterate through its contents.
-     *
      */
     @Test
     public void canIterateThrouRtGists() throws IOException {

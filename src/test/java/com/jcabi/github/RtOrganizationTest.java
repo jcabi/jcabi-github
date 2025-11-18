@@ -34,7 +34,6 @@ public final class RtOrganizationTest {
 
     /**
      * RtOrganization should be able to describe itself in JSON format.
-     *
      */
     @Test
     public void canFetchIssueAsJson() throws IOException {
@@ -52,7 +51,6 @@ public final class RtOrganizationTest {
 
     /**
      * RtOrganization should be able to perform a patch request.
-     *
      */
     @Test
     public void patchWithJson() throws IOException {
@@ -86,7 +84,6 @@ public final class RtOrganizationTest {
 
     /**
      * RtOrganization should be able to compare instances of each other.
-     *
      */
     @Test
     public void canCompareInstances() throws IOException {
@@ -117,7 +114,6 @@ public final class RtOrganizationTest {
     /**
      * RtOrganization can return a String representation correctly reflecting
      * its URI.
-     *
      */
     @Test
     public void canRepresentAsString() throws IOException {

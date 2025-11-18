@@ -151,7 +151,7 @@ public final class IssueTest {
         labels.clear();
         final Label label = labels.iterate().iterator().next();
         MatcherAssert.assertThat(
-            "Value is null",label, Matchers.notNullValue());
+            "Value is null", label, Matchers.notNullValue());
         this.thrown.expect(UnsupportedOperationException.class);
         label.patch(Mockito.mock(JsonObject.class));
     }

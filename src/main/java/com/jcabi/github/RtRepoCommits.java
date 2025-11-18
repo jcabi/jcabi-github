@@ -67,7 +67,7 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public  Iterable<RepoCommit> iterate(
+    public Iterable<RepoCommit> iterate(
         final Map<String, String> params
     ) {
         return new RtPagination<>(

@@ -52,7 +52,7 @@ public class RandomPort extends ExternalResource {
     @RetryOnFailure
     public final int port() throws IOException {
         final ServerSocket socket = new ServerSocket();
-        try  {
+        try {
             socket.setReuseAddress(true);
             socket.bind(
                 new InetSocketAddress("localhost", 0)
