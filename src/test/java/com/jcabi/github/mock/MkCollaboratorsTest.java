@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkCollaborators}.
+ * @since 0.7
  */
 public final class MkCollaboratorsTest {
 

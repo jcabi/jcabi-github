@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkIssue}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */

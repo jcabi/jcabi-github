@@ -14,6 +14,7 @@ import org.xembly.Directives;
 
 /**
  * Test case for {@link MkRepoCommit}.
+ * @since 0.8
  */
 public final class MkRepoCommitTest {
 

@@ -13,6 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkBlobs}.
+ * @since 0.8
  */
 public final class MkBlobsTest {
 

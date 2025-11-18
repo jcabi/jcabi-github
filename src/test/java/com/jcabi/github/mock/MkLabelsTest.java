@@ -16,6 +16,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkLabels}.
+ * @since 0.6
  */
 public final class MkLabelsTest {
 

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 /**
  * Testcase for MkTrees.
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

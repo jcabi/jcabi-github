@@ -18,6 +18,7 @@ import org.xembly.Directives;
 
 /**
  * Test case for {@link MkStorage}.
+ * @since 0.5
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.DoNotUseThreads")
