@@ -24,7 +24,7 @@ import org.mockito.Mockito;
 public final class ReleaseAssetTest {
 
     @Test
-    public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
+    public void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/octo/Hello/releases/assets/1";
@@ -41,7 +41,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public final void fetchesName() throws IOException {
+    public void fetchesName() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "assetname.ext";
         Mockito.doReturn(
@@ -57,7 +57,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public final void fetchesLabel() throws IOException {
+    public void fetchesLabel() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "short description";
         Mockito.doReturn(
@@ -73,7 +73,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public final void fetchesState() throws IOException {
+    public void fetchesState() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "uploaded";
         Mockito.doReturn(
@@ -89,7 +89,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public final void fetchesContentType() throws IOException {
+    public void fetchesContentType() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "application/zip";
         Mockito.doReturn(
@@ -105,85 +105,85 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public final void fetchesSize() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+    public void fetchesSize() throws IOException {
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final int prop = 1024;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("size", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).size(),
+            new ReleaseAsset.Smart(asset).size(),
             Matchers.is(prop)
         );
     }
 
     @Test
-    public final void fetchesDownloadCount() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+    public void fetchesDownloadCount() throws IOException {
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final int prop = 42;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("download_count", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).downloadCount(),
+            new ReleaseAsset.Smart(asset).downloadCount(),
             Matchers.is(prop)
         );
     }
 
     @Test
-    public final void fetchesCreatedAt() throws IOException, ParseException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+    public void fetchesCreatedAt() throws IOException, ParseException {
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("created_at", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).createdAt(),
+            new ReleaseAsset.Smart(asset).createdAt(),
             Matchers.equalTo(new GitHub.Time(prop).date())
         );
     }
 
     @Test
-    public final void fetchesUpdatedAt() throws IOException, ParseException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+    public void fetchesUpdatedAt() throws IOException, ParseException {
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("updated_at", prop)
                 .build()
-        ).when(releaseAsset).json();
+        ).when(asset).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new ReleaseAsset.Smart(releaseAsset).updatedAt(),
+            new ReleaseAsset.Smart(asset).updatedAt(),
             Matchers.equalTo(new GitHub.Time(prop).date())
         );
     }
 
     @Test
-    public final void updatesName() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+    public void updatesName() throws IOException {
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_name";
-        new ReleaseAsset.Smart(releaseAsset).name(prop);
-        Mockito.verify(releaseAsset).patch(
+        new ReleaseAsset.Smart(asset).name(prop);
+        Mockito.verify(asset).patch(
             Json.createObjectBuilder().add("name", prop).build()
         );
     }
 
     @Test
-    public final void updatesLabel() throws IOException {
-        final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
+    public void updatesLabel() throws IOException {
+        final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_label";
-        new ReleaseAsset.Smart(releaseAsset).label(prop);
-        Mockito.verify(releaseAsset).patch(
+        new ReleaseAsset.Smart(asset).label(prop);
+        Mockito.verify(asset).patch(
             Json.createObjectBuilder().add("label", prop).build()
         );
     }

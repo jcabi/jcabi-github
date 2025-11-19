@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public final class RtRepoCommitTest {
     @Test
-    public final void hasProperRequestUrl() {
+    public void hasProperRequestUrl() {
         final String sha = RandomStringUtils.randomAlphanumeric(50);
         final RtRepoCommit commit = new RtRepoCommit(
             new FakeRequest(), RtRepoCommitTest.repo(), sha

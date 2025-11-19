@@ -26,7 +26,7 @@ public final class RtForksITCase {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public final void retrievesForks() throws IOException {
+    public void retrievesForks() throws IOException {
         final String organization = System.getProperty(
             "failsafe.github.organization"
         );

@@ -40,7 +40,7 @@ public final class RtIssuesTest {
         final String title = "Found a bug";
         final String body = RtIssuesTest.issue(title).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
                 .start(this.resource.port())
@@ -70,7 +70,7 @@ public final class RtIssuesTest {
     public void getSingleIssue() throws IOException {
         final String title = "Unit test";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtIssuesTest.issue(title).toString()
@@ -94,7 +94,7 @@ public final class RtIssuesTest {
     @Test
     public void iterateIssues() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -120,7 +120,7 @@ public final class RtIssuesTest {
     @Test
     public void searchIssues() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
