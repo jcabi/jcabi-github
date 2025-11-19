@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub public key.
- *
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -42,7 +42,7 @@ final class RtPublicKey implements PublicKey {
      * @param user Owner of this comment
      * @param number Number of the get
      */
-    public RtPublicKey(final Request req, final User user, final int number) {
+    RtPublicKey(final Request req, final User user, final int number) {
         this.request = req.uri()
             .path("/user")
             .path("/keys")

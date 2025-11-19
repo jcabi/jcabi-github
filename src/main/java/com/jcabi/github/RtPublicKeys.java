@@ -16,8 +16,8 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub public keys.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable

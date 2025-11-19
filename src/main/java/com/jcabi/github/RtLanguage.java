@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repository language.
+ * @since 0.15
  */
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "txt", "length" })
