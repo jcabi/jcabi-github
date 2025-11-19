@@ -154,7 +154,8 @@ public final class RtUserTest {
         Mockito.when(github.entry()).thenReturn(new FakeRequest());
         final User user = new RtUser(github, new FakeRequest());
         MatcherAssert.assertThat(
-            "Value is null", user.emails(), Matchers.notNullValue());
+            "Value is null", user.emails(), Matchers.notNullValue()
+        );
     }
 
     @Test
@@ -163,7 +164,8 @@ public final class RtUserTest {
         Mockito.when(github.entry()).thenReturn(new FakeRequest());
         final User user = new RtUser(github, new FakeRequest());
         MatcherAssert.assertThat(
-            "Value is null", user.organizations(), Matchers.notNullValue());
+            "Value is null", user.organizations(), Matchers.notNullValue()
+        );
     }
 
     @Test
@@ -171,7 +173,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com";
         final User.Smart smart = this.userWith("html_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.htmlUrl(), Matchers.is(value));
+            "Values are not equal", smart.htmlUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -179,7 +182,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/followers";
         final User.Smart smart = this.userWith("followers_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.followersUrl(), Matchers.is(value));
+            "Values are not equal", smart.followersUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -187,7 +191,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/following";
         final User.Smart smart = this.userWith("following_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.followingUrl(), Matchers.is(value));
+            "Values are not equal", smart.followingUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -195,7 +200,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/gists";
         final User.Smart smart = this.userWith("gists_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.gistsUrl(), Matchers.is(value));
+            "Values are not equal", smart.gistsUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -203,7 +209,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/starred";
         final User.Smart smart = this.userWith("starred_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.starredUrl(), Matchers.is(value));
+            "Values are not equal", smart.starredUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -211,7 +218,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/subscriptions";
         final User.Smart smart = this.userWith("subscriptions_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.subscriptionsUrl(), Matchers.is(value));
+            "Values are not equal", smart.subscriptionsUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -219,7 +227,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/organizations";
         final User.Smart smart = this.userWith("organizations_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.organizationsUrl(), Matchers.is(value));
+            "Values are not equal", smart.organizationsUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -227,7 +236,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/repos";
         final User.Smart smart = this.userWith("repos_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.reposUrl(), Matchers.is(value));
+            "Values are not equal", smart.reposUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -235,7 +245,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/events";
         final User.Smart smart = this.userWith("events_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.eventsUrl(), Matchers.is(value));
+            "Values are not equal", smart.eventsUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -243,7 +254,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/received_events";
         final User.Smart smart = this.userWith("received_events_url", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.receivedEventsUrl(), Matchers.is(value));
+            "Values are not equal", smart.receivedEventsUrl(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -251,14 +263,16 @@ public final class RtUserTest {
         final String value = "http://github.example.com/organizations";
         final User.Smart smart = this.userWith("type", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.type(), Matchers.is(value));
+            "Values are not equal", smart.type(), Matchers.is(value)
+        );
     }
 
     @Test
     public void hasSiteAdmin() throws IOException {
         final User.Smart smart = this.userWith("site_admin", "true");
         MatcherAssert.assertThat(
-            "Values are not equal", smart.siteAdmin(), Matchers.is(true));
+            "Values are not equal", smart.siteAdmin(), Matchers.is(true)
+        );
     }
 
     @Test
@@ -266,14 +280,16 @@ public final class RtUserTest {
         final String value = "http://blog.example.com";
         final User.Smart smart = this.userWith("blog", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.blog(), Matchers.is(value));
+            "Values are not equal", smart.blog(), Matchers.is(value)
+        );
     }
 
     @Test
     public void hasHireable() throws IOException {
         final User.Smart smart = this.userWith("hireable", "true");
         MatcherAssert.assertThat(
-            "Values are not equal", smart.hireable(), Matchers.is(true));
+            "Values are not equal", smart.hireable(), Matchers.is(true)
+        );
     }
 
     @Test
@@ -281,7 +297,8 @@ public final class RtUserTest {
         final String value = "http://github.example.com/bio";
         final User.Smart smart = this.userWith("bio", value);
         MatcherAssert.assertThat(
-            "Values are not equal", smart.bio(), Matchers.is(value));
+            "Values are not equal", smart.bio(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -292,7 +309,8 @@ public final class RtUserTest {
             String.valueOf(value)
         );
         MatcherAssert.assertThat(
-            "Values are not equal", smart.publicRepos(), Matchers.is(value));
+            "Values are not equal", smart.publicRepos(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -303,7 +321,8 @@ public final class RtUserTest {
             String.valueOf(value)
         );
         MatcherAssert.assertThat(
-            "Values are not equal", smart.publicGists(), Matchers.is(value));
+            "Values are not equal", smart.publicGists(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -314,7 +333,8 @@ public final class RtUserTest {
             String.valueOf(value)
         );
         MatcherAssert.assertThat(
-            "Values are not equal", smart.followersCount(), Matchers.is(value));
+            "Values are not equal", smart.followersCount(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -325,7 +345,8 @@ public final class RtUserTest {
             String.valueOf(value)
         );
         MatcherAssert.assertThat(
-            "Values are not equal", smart.followingCount(), Matchers.is(value));
+            "Values are not equal", smart.followingCount(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -333,7 +354,8 @@ public final class RtUserTest {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("created_at", value.toString());
         MatcherAssert.assertThat(
-            "Values are not equal", smart.created(), Matchers.is(value));
+            "Values are not equal", smart.created(), Matchers.is(value)
+        );
     }
 
     @Test
@@ -341,7 +363,8 @@ public final class RtUserTest {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = this.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(
-            "Values are not equal", smart.updated(), Matchers.is(value));
+            "Values are not equal", smart.updated(), Matchers.is(value)
+        );
     }
 
     @Test

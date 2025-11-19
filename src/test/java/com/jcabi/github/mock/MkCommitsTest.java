@@ -21,13 +21,13 @@ import org.junit.Test;
 public final class MkCommitsTest {
 
     @Test
-    public final void createsMkCommit() throws IOException {
+    public void createsMkCommit() throws IOException {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();
         final JsonArray tree = Json.createArrayBuilder()
             .add("xyzsha12").build();
-        final Commit newCommit = new MkGitHub().randomRepo()
+        final Commit commit = new MkGitHub().randomRepo()
             .git().commits().create(
                 Json.createObjectBuilder().add("message", "my commit message")
                     .add("sha", "12ahscba")
@@ -37,12 +37,12 @@ public final class MkCommitsTest {
             );
         MatcherAssert.assertThat(
             "Value is null",
-            newCommit,
+            commit,
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
             "Values are not equal",
-            newCommit.sha(),
+            commit.sha(),
             Matchers.equalTo("12ahscba")
         );
     }

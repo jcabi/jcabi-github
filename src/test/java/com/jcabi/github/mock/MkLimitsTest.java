@@ -13,6 +13,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link MkLimits}.
+ * @since 0.1
  */
 public final class MkLimitsTest {
 

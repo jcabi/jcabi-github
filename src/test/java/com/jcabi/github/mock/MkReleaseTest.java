@@ -213,10 +213,10 @@ public final class MkReleaseTest {
      */
     private String value(final Release release, final String name)
         throws IOException {
-        final JsonValue jsonValue = release.json().get(name);
+        final JsonValue json = release.json().get(name);
         String result = null;
-        if (jsonValue instanceof JsonString) {
-            result = ((JsonString) jsonValue).getString();
+        if (json instanceof JsonString) {
+            result = ((JsonString) json).getString();
         }
         return result;
     }

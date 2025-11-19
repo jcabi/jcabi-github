@@ -22,23 +22,23 @@ public final class MkCollaboratorsTest {
      */
     @Test
     public void addAndRemove() throws Exception {
-        final Collaborators collaborators = this.collaborators();
+        final Collaborators collabs = this.collaborators();
         final String login = "some_user";
-        collaborators.add(login);
+        collabs.add(login);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            collaborators.iterate(),
+            collabs.iterate(),
             Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
             "Values are not equal",
-            collaborators.iterate().iterator().next().login(),
+            collabs.iterate().iterator().next().login(),
             Matchers.equalTo(login)
         );
-        collaborators.remove(login);
+        collabs.remove(login);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            collaborators.iterate(),
+            collabs.iterate(),
             Matchers.iterableWithSize(0)
         );
     }
@@ -49,18 +49,18 @@ public final class MkCollaboratorsTest {
      */
     @Test
     public void isCollaborator() throws Exception {
-        final Collaborators collaborators = this.collaborators();
+        final Collaborators collabs = this.collaborators();
         final String collaborator = "collaborator";
-        collaborators.add(collaborator);
+        collabs.add(collaborator);
         MatcherAssert.assertThat(
             "Values are not equal",
-            collaborators.isCollaborator(collaborator),
+            collabs.isCollaborator(collaborator),
             Matchers.equalTo(true)
         );
         final String stranger = "stranger";
         MatcherAssert.assertThat(
             "Values are not equal",
-            collaborators.isCollaborator(stranger),
+            collabs.isCollaborator(stranger),
             Matchers.equalTo(false)
         );
     }

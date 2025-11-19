@@ -97,12 +97,12 @@ public final class MkRepoCommitTest {
                 .add("repo").attr("coords", "test_login/test_repo")
                 .add("commits").add("commit").add("sha").set(MkRepoCommitTest.SHA1)
         );
-        final MkRepoCommit repoCommit = new MkRepoCommit(
+        final MkRepoCommit commit = new MkRepoCommit(
             storage, this.repo(storage), MkRepoCommitTest.SHA1
         );
         MatcherAssert.assertThat(
             "Value is null",
-            repoCommit.json(), Matchers.notNullValue()
+            commit.json(), Matchers.notNullValue()
         );
     }
 

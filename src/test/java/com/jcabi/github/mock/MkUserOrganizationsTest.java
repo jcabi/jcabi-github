@@ -22,12 +22,12 @@ public final class MkUserOrganizationsTest {
     public void iteratesUserOrganizations() throws IOException {
         final String login = "orgTestIterate";
         final GitHub github = new MkGitHub(login);
-        final UserOrganizations userOrgs = github.users().get(login)
+        final UserOrganizations orgs = github.users().get(login)
             .organizations();
         github.organizations().get(login);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            userOrgs.iterate(),
+            orgs.iterate(),
             Matchers.iterableWithSize(1)
         );
     }
