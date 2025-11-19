@@ -36,7 +36,7 @@ public final class RtStarsTest {
     @Test
     public void checkIfRepoStarred() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                     new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
                 ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
                 .start(this.resource.port())
@@ -64,7 +64,7 @@ public final class RtStarsTest {
     @Test
     public void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
             ).start(this.resource.port())
         ) {
@@ -98,7 +98,7 @@ public final class RtStarsTest {
     @Test
     public void unstarRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
             ).start(this.resource.port())
         ) {

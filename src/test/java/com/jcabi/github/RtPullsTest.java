@@ -40,7 +40,7 @@ public final class RtPullsTest {
         final String title = "new feature";
         final String body = RtPullsTest.pull(title).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
                 .start(this.resource.port())
@@ -68,7 +68,7 @@ public final class RtPullsTest {
     public void getSinglePull() throws IOException {
         final String title = "new-feature";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtPullsTest.pull(title).toString()
@@ -92,7 +92,7 @@ public final class RtPullsTest {
     @Test
     public void iteratePulls() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()

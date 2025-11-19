@@ -48,7 +48,7 @@ public final class RtReposTest {
         final String name = "test-repo";
         final String response = RtReposTest.response(owner, name).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
                 .start(this.resource.port())
@@ -76,7 +76,7 @@ public final class RtReposTest {
     public void iterateRepos() throws IOException {
         final String identifier = "1";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -102,7 +102,7 @@ public final class RtReposTest {
     @Test
     public void removeRepo() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {

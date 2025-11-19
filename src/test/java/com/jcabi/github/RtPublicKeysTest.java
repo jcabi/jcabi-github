@@ -61,7 +61,7 @@ public final class RtPublicKeysTest {
     @Test
     public void canFetchSingleKey() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     ""
@@ -84,7 +84,7 @@ public final class RtPublicKeysTest {
     @Test
     public void canRemoveKey() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
@@ -118,7 +118,7 @@ public final class RtPublicKeysTest {
     @Test
     public void canCreatePublicKey() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_CREATED, RtPublicKeysTest.key(1).toString()
                 )

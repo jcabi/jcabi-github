@@ -35,7 +35,7 @@ public final class RtStargazers implements Stargazers {
     public Iterable<JsonValue> iterable() throws IOException {
         final Iterable<JsonValue> res;
         try (
-            final JsonReader json = new JsonResponse(
+            JsonReader json = new JsonResponse(
                 this.request.method(Request.GET).fetch()
             ).json()
         ) {

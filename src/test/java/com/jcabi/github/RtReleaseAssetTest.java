@@ -83,7 +83,7 @@ public final class RtReleaseAssetTest {
     @Test
     public void patchesAsset() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())
         ) {
@@ -122,7 +122,7 @@ public final class RtReleaseAssetTest {
     @Test
     public void removesAsset() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port());
         ) {
@@ -149,7 +149,7 @@ public final class RtReleaseAssetTest {
     @Test
     public void rawAsset() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port());
         ) {

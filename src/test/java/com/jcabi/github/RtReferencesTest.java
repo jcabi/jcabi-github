@@ -34,7 +34,7 @@ public final class RtReferencesTest {
     @Test
     public void createsReference() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_CREATED,
                     "{\"ref\":\"refs/heads/feature-a\"}"
@@ -62,7 +62,7 @@ public final class RtReferencesTest {
     @Test
     public void iteratesReferences() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/feature-a\"}"
@@ -85,7 +85,7 @@ public final class RtReferencesTest {
     @Test
     public void removesReference() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {
@@ -106,7 +106,7 @@ public final class RtReferencesTest {
     @Test
     public void iteratesTags() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "[{\"ref\":\"refs/tags/feature-b\"}]"
@@ -134,7 +134,7 @@ public final class RtReferencesTest {
     @Test
     public void iteratesHeads() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "[{\"ref\":\"refs/heads/feature-c\"}]"

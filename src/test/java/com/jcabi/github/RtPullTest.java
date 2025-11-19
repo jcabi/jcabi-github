@@ -50,7 +50,7 @@ public final class RtPullTest {
     @Test
     public void fetchesCommits() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "[{\"commits\":\"test\"}]"
@@ -74,7 +74,7 @@ public final class RtPullTest {
     @Test
     public void fetchesFiles() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "[{\"file1\":\"testFile\"}]"
@@ -104,7 +104,7 @@ public final class RtPullTest {
         final String ref = "sweet-feature-branch";
         final String sha = "e93c6a2216c69daa574abc16e7c14767fce44ad6";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
@@ -154,7 +154,7 @@ public final class RtPullTest {
         final String ref = "neat-other-branch";
         final String sha = "9c717b4716e4fc4d917f546e8e6b562e810e3922";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtPullTest.head(ref, sha).toString()
@@ -189,7 +189,7 @@ public final class RtPullTest {
     @Test
     public void executeMerge() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
             ).start(this.resource.port())
         ) {
@@ -221,7 +221,7 @@ public final class RtPullTest {
     @Test
     public void canFetchChecks() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(
                     new MkAnswer.Simple(
                         HttpURLConnection.HTTP_OK,

@@ -49,7 +49,7 @@ public final class RtBranchesTest {
                 .build().toString()
         );
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
                 .start(this.resource.port())
@@ -101,7 +101,7 @@ public final class RtBranchesTest {
                 .build().toString()
         );
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
                 .start(this.resource.port());

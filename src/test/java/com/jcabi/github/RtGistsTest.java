@@ -35,7 +35,7 @@ public final class RtGistsTest {
     @Test
     public void canCreateFiles() throws IOException {
         try (
-        final MkContainer container = new MkGrizzlyContainer().next(
+        MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 "{\"id\":\"1\"}"
@@ -62,7 +62,7 @@ public final class RtGistsTest {
     @Test
     public void canRetrieveSpecificGist() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
             ).start(this.resource.port())
         ) {
@@ -82,7 +82,7 @@ public final class RtGistsTest {
     @Test
     public void canIterateThrouRtGists() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "[{\"id\":\"hello\"}]"
@@ -105,7 +105,7 @@ public final class RtGistsTest {
     @Test
     public void removesGistByName() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""

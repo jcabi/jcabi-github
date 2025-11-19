@@ -48,8 +48,8 @@ public final class RtNotificationsTest {
             "Assertion failed",
             new RtNotifications(
                 new FakeRequest().withBody(
-                    // @checkstyle StringLiteralsConcatenationCheck (50 lines)
-                    // @checkstyle LineLength (50 lines)
+                    // @checkstyle StringLiteralsConcatenationCheck (65 lines)
+                    // @checkstyle LineLength (65 lines)
                     "[\n"
                     + "  {\n"
                     + "    \"id\": \"1\", \n"

@@ -34,7 +34,7 @@ public final class RtLabelTest {
     @Test
     public void sendHttpRequestAndWriteResponseAsJson() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"msg\": \"hi\"}"
@@ -58,7 +58,7 @@ public final class RtLabelTest {
     @Test
     public void executePatchRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"msg\":\"hi\"}"

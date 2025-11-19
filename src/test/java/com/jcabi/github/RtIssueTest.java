@@ -83,7 +83,7 @@ public final class RtIssueTest {
     @Test
     public void patchWithJson() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
             ).start(this.resource.port())
         ) {
@@ -127,7 +127,7 @@ public final class RtIssueTest {
     @Test
     public void reacts() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();

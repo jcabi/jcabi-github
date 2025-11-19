@@ -35,7 +35,7 @@ public final class RtAssigneesTest {
     @Test
     public void iteratesAssignees() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -60,7 +60,7 @@ public final class RtAssigneesTest {
     @Test
     public void checkUserIsAssigneeForRepo() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     Json.createArrayBuilder()
@@ -84,7 +84,7 @@ public final class RtAssigneesTest {
     @Test
     public void checkUserIsNotAssigneeForRepo() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NOT_FOUND,
                     Json.createArrayBuilder()

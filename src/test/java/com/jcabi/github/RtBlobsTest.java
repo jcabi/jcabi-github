@@ -39,7 +39,7 @@ public final class RtBlobsTest {
     public void canCreateBlob() throws IOException {
         final String body = RtBlobsTest.blob().toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
             .start(this.resource.port())) {

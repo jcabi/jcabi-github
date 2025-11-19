@@ -68,7 +68,7 @@ public final class RtPullCommentsTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -100,7 +100,7 @@ public final class RtPullCommentsTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -136,7 +136,7 @@ public final class RtPullCommentsTest {
         final int position = 4;
         final String response = RtPullCommentsTest.pulls(body, commit, path, position).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
                 .start(this.resource.port())
@@ -181,7 +181,7 @@ public final class RtPullCommentsTest {
             .build()
             .toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
                 .start(this.resource.port())
@@ -217,7 +217,7 @@ public final class RtPullCommentsTest {
     @Test
     public void removesPullComment() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())
         ) {

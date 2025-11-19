@@ -17,8 +17,8 @@ import org.junit.Test;
  * Integration case for {@link RepoCommits}.
  * @since 0.1
  * <p>WARNING: As there is no way to create Commit directly it was decided to
- *  use real commits from jcabi-github repository for integration testing of
- *  RtRepoCommits
+ * use real commits from jcabi-github repository for integration testing of
+ * RtRepoCommits
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtRepoCommitsITCase {

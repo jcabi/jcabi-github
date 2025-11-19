@@ -66,7 +66,7 @@ public final class RtGistCommentTest {
                 .build().toString()
         );
         try (
-            final MkContainer container =
+            MkContainer container =
                 new MkGrizzlyContainer().next(first).next(second).next(third)
                     .start(this.resource.port());
             final MkContainer gistContainer = new MkGrizzlyContainer()
@@ -101,7 +101,7 @@ public final class RtGistCommentTest {
     @Test
     public final void removeGistComment() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())) {
             final RtGist gist = new RtGist(

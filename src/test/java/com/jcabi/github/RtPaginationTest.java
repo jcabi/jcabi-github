@@ -35,7 +35,7 @@ public final class RtPaginationTest {
     @Test
     public void jumpNextPage() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 RtPaginationTest.simple("Hi Jeff")
                     .withHeader(
                         "Link",
@@ -67,7 +67,7 @@ public final class RtPaginationTest {
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(RtPaginationTest.simple("Hi there")).start(this.resource.port())
         ) {
             final Request request = new ApacheRequest(container.home());
