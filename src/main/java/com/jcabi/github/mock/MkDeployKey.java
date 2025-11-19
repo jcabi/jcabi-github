@@ -16,6 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub deploy key.
+ * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

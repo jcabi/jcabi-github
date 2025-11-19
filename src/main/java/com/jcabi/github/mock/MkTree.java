@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub Tree.
+ * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

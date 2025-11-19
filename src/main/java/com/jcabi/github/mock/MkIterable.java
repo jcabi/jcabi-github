@@ -80,6 +80,8 @@ final class MkIterable<T> implements Iterable<T> {
 
     /**
      * Mapping.
+     * @param <X> Type of item
+     * @since 0.5
      */
     @Immutable
     public interface Mapping<X> {

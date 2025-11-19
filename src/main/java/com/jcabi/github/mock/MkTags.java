@@ -19,6 +19,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub Tags.
+ * @since 0.15
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

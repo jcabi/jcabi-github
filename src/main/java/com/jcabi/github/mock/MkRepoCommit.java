@@ -16,6 +16,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock GitHub commit.
+ * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

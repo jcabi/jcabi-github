@@ -16,7 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock github public keys.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
@@ -41,7 +41,7 @@ final class MkPublicKeys implements PublicKeys {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    public MkPublicKeys(
+    MkPublicKeys(
         final MkStorage stg,
         final String login
     ) throws IOException {

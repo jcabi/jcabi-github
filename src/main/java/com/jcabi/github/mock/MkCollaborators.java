@@ -15,7 +15,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub repository collaborators.
- *
+ * @since 0.1
  */
 @Immutable
 final class MkCollaborators implements Collaborators {
@@ -42,7 +42,7 @@ final class MkCollaborators implements Collaborators {
      * @param crds Coordinates
      * @throws IOException If there is any I/O problem
      */
-    public MkCollaborators(
+    MkCollaborators(
         final MkStorage stg,
         final String login,
         final Coordinates crds
