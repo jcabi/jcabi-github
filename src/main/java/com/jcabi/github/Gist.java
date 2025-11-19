@@ -103,7 +103,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param gst Gist
          */
-
         public Smart(final Gist gst) {
             this.gist = gst;
         }

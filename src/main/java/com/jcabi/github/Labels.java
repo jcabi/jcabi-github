@@ -77,7 +77,6 @@ public interface Labels {
          * Public ctor.
          * @param lbl Labels
          */
-
         public Smart(
             final Labels lbl
         ) {
@@ -88,7 +87,6 @@ public interface Labels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
-
         public boolean contains(
             final String name
         ) {
@@ -107,7 +105,6 @@ public interface Labels {
          * @return Label found or created
          * @throws IOException If there is any I/O problem
          */
-
         public Label createOrGet(
             final String name
         ) throws IOException {
@@ -121,7 +118,6 @@ public interface Labels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-
         public Label createOrGet(
             final String name, final String color
         ) throws IOException {

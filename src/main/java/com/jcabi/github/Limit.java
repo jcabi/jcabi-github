@@ -45,7 +45,6 @@ public interface Limit extends JsonReadable {
          * Public ctor.
          * @param limit Limit
          */
-
         public Smart(
             final Limit limit
         ) {
@@ -56,7 +55,6 @@ public interface Limit extends JsonReadable {
          * @return Number of requests you can make in total
          * @throws IOException If it fails
          */
-
         public int limit() throws IOException {
             return new SmartJson(this.origin).number("limit");
         }
@@ -65,7 +63,6 @@ public interface Limit extends JsonReadable {
          * @return Number of requests you can still make
          * @throws IOException If it fails
          */
-
         public int remaining() throws IOException {
             return new SmartJson(this.origin).number("remaining");
         }
@@ -74,7 +71,6 @@ public interface Limit extends JsonReadable {
          * @return Date when this will happen
          * @throws IOException If it fails
          */
-
         public Date reset() throws IOException {
             return new Date(
                 TimeUnit.MILLISECONDS.convert(
@@ -111,19 +107,16 @@ public interface Limit extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
-
         private final transient SmartJson jsn;
         /**
          * Maximum allowed, instead of default 5000.
          */
-
         private final transient int max;
         /**
          * Public ctor.
          * @param limit Original limit
          * @param allowed Maximum allowed
          */
-
         public Throttled(
             final Limit limit,
             final int allowed

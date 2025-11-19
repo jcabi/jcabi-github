@@ -53,7 +53,6 @@ public interface PullRef extends JsonReadable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
-
         private final transient SmartJson jsn;
 
         /**

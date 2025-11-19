@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -49,7 +48,6 @@ final class MkTrees implements Trees {
      * @param rep Repo's coordinates.
      * @throws IOException If something goes wrong.
      */
-
     MkTrees(
         final MkStorage stg,
         final String login,

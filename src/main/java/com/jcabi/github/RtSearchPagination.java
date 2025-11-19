@@ -85,7 +85,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Ctor.
          * @param req Request to wrap
          */
-
         SearchRequest(final Request req) {
             this.request = req;
         }
@@ -160,7 +159,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Ctor.
          * @param resp Response
          */
-
         Hidden(final Response resp) {
             this.response = resp;
         }
@@ -233,7 +231,6 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Ctor.
          * @param uri The URI
          */
-
         public SearchUri(final RequestURI uri) {
             this.address = uri;
         }

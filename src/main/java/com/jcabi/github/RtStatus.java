@@ -26,7 +26,6 @@ public final class RtStatus implements Status {
     /**
      * Encapsulated status JSON.
      */
-
     private final transient String jsn;
 
     /**

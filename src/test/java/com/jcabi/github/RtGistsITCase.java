@@ -54,7 +54,6 @@ public final class RtGistsITCase {
     /**
      * RtGists can get a single gist.
      */
-
     @Test
     public void singleGist() throws IOException {
         final String filename = "single-name.txt";
@@ -72,7 +71,6 @@ public final class RtGistsITCase {
     /**
      * This tests that RtGists can remove a gist by name.
      */
-
     @Test
     public void removesGistByName() throws IOException {
         final Gists gists = RtGistsITCase.gists();
@@ -96,7 +94,6 @@ public final class RtGistsITCase {
      * Return gists to test.
      * @return Gists
      */
-
     private static Gists gists() {
         return new GitHubIT().connect().gists();
     }

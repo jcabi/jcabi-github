@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -48,7 +47,6 @@ final class MkTags implements Tags {
      * @param rep Repo's coordinates.
      * @throws IOException If something goes wrong.
      */
-
     MkTags(
         final MkStorage stg,
         final String login,

@@ -56,14 +56,12 @@ public interface Limits {
         /**
          * Maximum allowed, instead of default 5000.
          */
-
         private final transient int max;
         /**
          * Public ctor.
          * @param limits Original limits
          * @param allowed Maximum allowed
          */
-
         public Throttled(
             final Limits limits,
             final int allowed

@@ -42,7 +42,6 @@ public final class RtPullCommentTest {
     /**
      * RtPullComment should be able to compare different instances.
      */
-
     @Test
     public void canCompareInstances() throws IOException {
         final Pull pull = Mockito.mock(Pull.class);

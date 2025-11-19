@@ -82,7 +82,6 @@ public interface IssueLabels {
          * Public ctor.
          * @param lbl Labels
          */
-
         public Smart(final IssueLabels lbl) {
             this.labels = lbl;
         }
@@ -91,7 +90,6 @@ public interface IssueLabels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
-
         public boolean contains(final String name) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
@@ -108,7 +106,6 @@ public interface IssueLabels {
          * @return Label found (exception if not found)
          * @since 0.7
          */
-
         public Label get(final String name) {
             Label label = null;
             int count = 0;
@@ -136,7 +133,6 @@ public interface IssueLabels {
          * @return TRUE if it was added
          * @throws IOException If there is any I/O problem
          */
-
         public boolean addIfAbsent(final String name) throws IOException {
             final boolean added;
             if (this.contains(name)) {
@@ -157,7 +153,6 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-
         public boolean addIfAbsent(
             final String name, final String color
         ) throws IOException {
@@ -188,7 +183,6 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-
         public Collection<Label> findByColor(final String color)
             throws IOException {
             final Collection<Label> found = new LinkedList<>();
@@ -206,7 +200,6 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-
         public boolean removeIfExists(final String name)
             throws IOException {
             boolean removed = false;

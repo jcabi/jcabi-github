@@ -45,7 +45,6 @@ public interface Coordinates extends Comparable<Coordinates> {
         /**
          * Repository name.
          */
-
         private final transient String rpo;
 
         /**

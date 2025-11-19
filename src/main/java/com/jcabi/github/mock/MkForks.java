@@ -71,7 +71,6 @@ final class MkForks implements Forks {
      * @param forkid Fork id
      * @return Mocked Fork
      */
-
     public Fork get(final int forkid) {
         return new MkFork(this.storage, forkid, this.coords);
     }

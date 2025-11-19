@@ -145,13 +145,11 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         /**
          * SmartJson object for convenient JSON parsing.
          */
-
         private final transient SmartJson jsn;
         /**
          * Public ctor.
          * @param iss Issue
          */
-
         public Smart(final Issue iss) {
             this.issue = iss;
             this.jsn = new SmartJson(iss);
@@ -161,7 +159,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Author of issue (who submitted it)
          * @throws IOException If there is any I/O problem
          */
-
         public User author() throws IOException {
             return this.issue.repo().github().users().get(
                 this.jsn.value(
@@ -174,7 +171,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return TRUE if it's open
          * @throws IOException If there is any I/O problem
          */
-
         public boolean isOpen() throws IOException {
             return Issue.OPEN_STATE.equals(this.state());
         }
@@ -182,7 +178,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Open it (make sure it's open).
          * @throws IOException If there is any I/O problem
          */
-
         public void open() throws IOException {
             this.state(Issue.OPEN_STATE);
         }
@@ -190,7 +185,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Close it (make sure it's closed).
          * @throws IOException If there is any I/O problem
          */
-
         public void close() throws IOException {
             this.state(Issue.CLOSED_STATE);
         }
@@ -199,7 +193,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
-
         public String state() throws IOException {
             return this.jsn.text("state");
         }
@@ -208,7 +201,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param state State of issue
          * @throws IOException If there is any I/O problem
          */
-
         public void state(final String state) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("state", state).build()
@@ -219,7 +211,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Title of issue
          * @throws IOException If there is any I/O problem
          */
-
         public String title() throws IOException {
             return this.jsn.text("title");
         }
@@ -228,7 +219,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param text Title of issue
          * @throws IOException If there is any I/O problem
          */
-
         public void title(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("title", text).build()
@@ -239,7 +229,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Body of issue
          * @throws IOException If there is any I/O problem
          */
-
         public String body() throws IOException {
             return this.jsn.text("body");
         }
@@ -248,7 +237,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @param text Body of issue
          * @throws IOException If there is any I/O problem
          */
-
         public void body(final String text) throws IOException {
             this.issue.patch(
                 Json.createObjectBuilder().add("body", text).build()

@@ -22,7 +22,6 @@ final class RtPullRef implements PullRef {
     /**
      * JSON of the pull request ref.
      */
-
     private final transient JsonObject jsn;
 
     /**

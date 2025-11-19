@@ -190,7 +190,6 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         /**
          * SmartJson object for convenient JSON parsing.
          */
-
         private final transient SmartJson jsn;
 
         /**

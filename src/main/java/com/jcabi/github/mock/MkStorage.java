@@ -84,7 +84,6 @@ public interface MkStorage {
          * Public ctor.
          * @throws IOException If there is any I/O problem
          */
-
         public InFile() throws IOException {
             this(File.createTempFile("jcabi-github", ".xml"));
             new File(this.name).deleteOnExit();
@@ -94,7 +93,6 @@ public interface MkStorage {
          * @param file File to use
          * @throws IOException If there is any I/O problem
          */
-
         public InFile(
             final File file
         ) throws IOException {
@@ -162,14 +160,12 @@ public interface MkStorage {
         /**
          * Lock object.
          */
-
         private final transient ImmutableReentrantLock lock =
             new ImmutableReentrantLock();
         /**
          * Public ctor.
          * @param storage Original
          */
-
         public Synced(final MkStorage storage) {
             this.origin = storage;
         }

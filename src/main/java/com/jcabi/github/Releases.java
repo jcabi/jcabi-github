@@ -110,7 +110,6 @@ public interface Releases {
          * @return TRUE if it already exists
          * @throws IOException If fails
          */
-
         public boolean exists(final String tag) throws IOException {
             boolean exists = false;
             final Iterable<Release.Smart> rels = new Smarts<>(
@@ -130,7 +129,6 @@ public interface Releases {
          * @return Release found
          * @throws IOException If fails
          */
-
         public Release find(final String tag) throws IOException {
             Release found = null;
             final Iterable<Release.Smart> rels = new Smarts<>(
