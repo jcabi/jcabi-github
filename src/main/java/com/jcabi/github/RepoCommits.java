@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Commits of a GitHub repository.
+ * @since 0.3
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  */
 @Immutable
@@ -18,8 +19,8 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Iterate all repository's commits.
-     * @return All commits
      * @param params Url's parameters
+     * @return All commits
      * @see <a href="https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     Iterable<RepoCommit> iterate(

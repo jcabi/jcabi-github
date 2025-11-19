@@ -23,8 +23,8 @@ public interface Git {
     /**
      * Get its blobs.
      * @return Blobs
-     * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
      * @throws IOException If some io problem occurs
+     * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
      */
     Blobs blobs() throws IOException;
 

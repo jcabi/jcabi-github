@@ -17,8 +17,8 @@ import lombok.ToString;
 
 /**
  * GitHub deploy key.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -39,6 +39,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
     /**
      * Smart DeployKey with extra features.
+     * @since 0.8
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable

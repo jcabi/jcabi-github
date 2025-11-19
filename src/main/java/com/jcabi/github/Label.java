@@ -16,9 +16,9 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * GitHub label.
- * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -39,6 +39,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * Smart Label with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -112,6 +113,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * Unmodified Label with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString

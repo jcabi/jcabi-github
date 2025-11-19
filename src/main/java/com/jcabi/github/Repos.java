@@ -38,8 +38,8 @@ public interface Repos {
      * @param settings Settings to use for creating the new repository
      * @return Repository
      * @throws IOException If there is any I/O problem
-     * @since 0.5
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repository</a>
+     * @since 0.5
      */
     Repo create(Repos.RepoCreate settings)
         throws IOException;
@@ -84,9 +84,8 @@ public interface Repos {
 
     /**
      * Settings to use when creating a new GitHub repository.
-     *
-             * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repo API</a>
+     * @since 0.24
      * @todo #1095:30m Add the ability to set the other parameters of
      *  the repo creation API (has_issues, has_wiki, has_downloads,
      *  team_id, gitignore_template, license_template).

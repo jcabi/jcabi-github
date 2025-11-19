@@ -177,6 +177,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Smart Repo with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString

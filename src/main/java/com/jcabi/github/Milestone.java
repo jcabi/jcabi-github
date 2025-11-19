@@ -61,6 +61,7 @@ public interface Milestone extends Comparable<Milestone>,
 
     /**
      * Smart Milestone with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString

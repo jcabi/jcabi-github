@@ -24,9 +24,9 @@ import lombok.ToString;
  *
  * <pre> URL url = new Commit.Smart(commit).url();</pre>
  *
- * @since 0.3
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
+ * @since 0.3
  */
 @Immutable
 public interface Commit extends Comparable<Commit>, JsonReadable {
@@ -45,6 +45,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
 
     /**
      * Smart commit.
+     * @since 0.3
      */
     @Immutable
     @ToString
