@@ -70,7 +70,7 @@ final class MkStars implements Stars {
     @Override
     public boolean starred() throws IOException {
         final List<String> xpath = this.storage.xml().xpath(
-            String.format("%s/star/login/text()", this.xpath())
+            this.xpath().concat("/star/login/text()")
         );
         return !xpath.isEmpty()
             && StringUtils.equalsIgnoreCase(this.self, xpath.get(0));

@@ -76,7 +76,7 @@ final class MkHooks implements Hooks {
     public Iterable<Hook> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/hook", this.xpath()),
+            this.xpath().concat("/hook"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -126,7 +126,7 @@ final class MkHooks implements Hooks {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/hook[id='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/hook[id='%d']", number))
             ).remove()
         );
     }

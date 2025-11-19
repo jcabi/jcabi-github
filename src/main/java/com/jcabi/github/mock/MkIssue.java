@@ -132,7 +132,7 @@ final class MkIssue implements Issue {
     @Override
     public boolean exists() throws IOException {
         return this.storage.xml().xpath(
-            String.format("%s/number/text()", this.xpath())
+            this.xpath().concat("/number/text()")
         ).size() == 1;
     }
 

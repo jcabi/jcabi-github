@@ -120,7 +120,7 @@ final class MkIssues implements Issues {
     ) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/issue", this.xpath()),
+            this.xpath().concat("/issue"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )

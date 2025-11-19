@@ -79,7 +79,7 @@ public final class MkBranches implements Branches {
     public Iterable<Branch> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/branch", this.xpath()),
+            this.xpath().concat("/branch"),
             xml -> new MkBranch(
                 this.storage,
                 this.self,

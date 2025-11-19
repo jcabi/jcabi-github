@@ -144,7 +144,7 @@ final class MkGist implements Gist {
     @Override
     public boolean starred() throws IOException {
         final List<String> xpath = this.storage.xml().xpath(
-            String.format("%s/@starred", this.xpath())
+            this.xpath().concat("/@starred")
         );
         return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
             Boolean.toString(true),
@@ -166,7 +166,7 @@ final class MkGist implements Gist {
                 .add("id").set(number).up()
                 .add("files");
             final List<XML> files = xml.nodes(
-                String.format("%s/files/file", this.xpath())
+                this.xpath().concat("/files/file")
             );
             for (final XML file : files) {
                 final String filename = file.xpath("filename/text()").get(0);

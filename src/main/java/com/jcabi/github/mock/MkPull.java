@@ -132,7 +132,7 @@ final class MkPull implements Pull {
                 this.coords
             ).get(
                 this.storage.xml().xpath(
-                    String.format("%s/base/text()", this.xpath())
+                    this.xpath().concat("/base/text()")
                 ).get(0)
             )
         );
@@ -141,7 +141,7 @@ final class MkPull implements Pull {
     @Override
     public PullRef head() throws IOException {
         final String userbranch = this.storage.xml()
-            .xpath(String.format("%s/head/text()", this.xpath()))
+            .xpath(this.xpath().concat("/head/text()"))
             .get(0);
         final String[] parts = userbranch.split(MkPull.USER_BRANCH_SEP, 2);
         if (parts.length != 2) {

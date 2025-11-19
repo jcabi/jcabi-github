@@ -95,7 +95,7 @@ final class MkReferences implements References {
     public Iterable<Reference> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/reference", this.xpath()),
+            this.xpath().concat("/reference"),
             xml -> this.get(
                 xml.xpath("ref/text()").get(0)
             )

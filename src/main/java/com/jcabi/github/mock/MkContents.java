@@ -148,7 +148,7 @@ final class MkContents implements Contents {
         final String ref
     ) throws IOException {
         final Collection<XML> nodes = this.storage.xml().nodes(
-            String.format("%s/content[@ref='%s']", this.xpath(), ref)
+            this.xpath().concat(String.format("/content[@ref='%s']", ref))
         );
         final Collection<Content> result = new ArrayList<>(nodes.size());
         for (final XML node : nodes) {
@@ -219,7 +219,7 @@ final class MkContents implements Contents {
     public boolean exists(final String path, final String ref)
         throws IOException {
         return this.storage.xml().nodes(
-            String.format("%s/content[path='%s']", this.xpath(), path)
+            this.xpath().concat(String.format("/content[path='%s']", path))
         ).size() > 0;
     }
 

@@ -115,7 +115,7 @@ final class MkReleaseAsset implements ReleaseAsset {
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             this.storage.xml().xpath(
-                String.format("%s/content/text()", this.xpath())
+                this.xpath().concat("/content/text()")
             ).get(0).getBytes(StandardCharsets.UTF_8)
         );
     }

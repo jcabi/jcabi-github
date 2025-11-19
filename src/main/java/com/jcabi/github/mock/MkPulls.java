@@ -132,7 +132,7 @@ final class MkPulls implements Pulls {
     public Iterable<Pull> iterate(final Map<String, String> params) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/pull", this.xpath()),
+            this.xpath().concat("/pull"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )

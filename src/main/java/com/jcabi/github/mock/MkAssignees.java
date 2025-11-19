@@ -59,7 +59,7 @@ final class MkAssignees implements Assignees {
         assignees.add(new MkUser(this.storage, this.self));
         final Iterable<User> collabs = new MkIterable<>(
             this.storage,
-            String.format("%s/user", this.xpath()),
+            this.xpath().concat("/user"),
             xml -> new MkUser(
                 this.storage,
                 xml.xpath("login/text()").get(0)
@@ -77,7 +77,7 @@ final class MkAssignees implements Assignees {
     ) {
         try {
             final List<String> xpath = this.storage.xml().xpath(
-                String.format("%s/user/login/text()", this.xpath())
+                this.xpath().concat("/user/login/text()")
             );
             return this.self.equalsIgnoreCase(login) || !xpath.isEmpty()
                 && StringUtils.equalsIgnoreCase(login, xpath.get(0));

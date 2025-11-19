@@ -61,7 +61,7 @@ final class MkPublicKeys implements PublicKeys {
     public Iterable<PublicKey> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/key", this.xpath()),
+            this.xpath().concat("/key"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -101,7 +101,7 @@ final class MkPublicKeys implements PublicKeys {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/key[id='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/key[id='%d']", number))
             ).remove()
         );
     }

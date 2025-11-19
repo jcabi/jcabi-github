@@ -108,7 +108,7 @@ final class MkPullComments implements PullComments {
         final Map<String, String> params
     ) {
         return new MkIterable<>(
-            this.storage, String.format("%s/comment", this.xpath()),
+            this.storage, this.xpath().concat("/comment"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -181,7 +181,7 @@ final class MkPullComments implements PullComments {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/comment[id='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/comment[id='%d']", number))
             ).remove()
         );
     }

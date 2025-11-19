@@ -57,7 +57,7 @@ public final class MkChecks implements Checks {
         return ImmutableList.copyOf(
             new MkIterable<>(
                 this.storage,
-                String.format("%s/check", this.xpath()),
+                this.xpath().concat("/check"),
                 item -> new MkCheck(
                     this.storage,
                     this.coordinates,

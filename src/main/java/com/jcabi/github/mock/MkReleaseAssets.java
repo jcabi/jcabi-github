@@ -91,7 +91,7 @@ final class MkReleaseAssets implements ReleaseAssets {
     public Iterable<ReleaseAsset> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/asset", this.xpath()),
+            this.xpath().concat("/asset"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )

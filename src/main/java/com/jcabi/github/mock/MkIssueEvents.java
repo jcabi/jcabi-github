@@ -82,7 +82,7 @@ final class MkIssueEvents implements IssueEvents {
     public Iterable<Event> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/issue-event", this.xpath()),
+            this.xpath().concat("/issue-event"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )

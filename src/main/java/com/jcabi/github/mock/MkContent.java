@@ -116,7 +116,7 @@ final class MkContent implements Content {
         return new ByteArrayInputStream(
             DatatypeConverter.parseBase64Binary(
                 this.storage.xml().xpath(
-                    String.format("%s/content/text()", this.xpath())
+                    this.xpath().concat("/content/text()")
                 ).get(0)
             )
         );

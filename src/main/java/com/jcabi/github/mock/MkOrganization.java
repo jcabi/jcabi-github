@@ -128,7 +128,7 @@ public final class MkOrganization implements Organization {
         try {
             this.storage.apply(
                 new Directives()
-                    .xpath(String.format("%s/members", this.xpath()))
+                    .xpath(this.xpath().concat("/members"))
                     .add("member")
                     .add(MkOrganization.LOGIN_KEY).set(user.login()).up()
                     .add("public").set("false").up()

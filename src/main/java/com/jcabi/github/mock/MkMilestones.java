@@ -90,7 +90,7 @@ final class MkMilestones implements Milestones {
     ) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/milestone", this.xpath()),
+            this.xpath().concat("/milestone"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )
@@ -101,7 +101,7 @@ final class MkMilestones implements Milestones {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/milestone[number='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/milestone[number='%d']", number))
             ).remove()
         );
     }

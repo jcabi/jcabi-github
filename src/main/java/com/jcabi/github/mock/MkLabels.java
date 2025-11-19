@@ -100,7 +100,7 @@ final class MkLabels implements Labels {
     public Iterable<Label> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/label", this.xpath()),
+            this.xpath().concat("/label"),
             xml -> this.get(
                 xml.xpath("name/text()").get(0)
             )

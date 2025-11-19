@@ -69,7 +69,7 @@ final class MkCollaborators implements Collaborators {
         final String user
     ) throws IOException {
         return !this.storage.xml().xpath(
-            String.format("%s/user[login='%s']/text()", this.xpath(), user)
+            this.xpath().concat(String.format("/user[login='%s']/text()", user))
         ).isEmpty();
     }
 
@@ -94,7 +94,7 @@ final class MkCollaborators implements Collaborators {
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/user[login='%s']", this.xpath(), user)
+                this.xpath().concat(String.format("/user[login='%s']", user))
             ).remove()
         );
     }
@@ -102,7 +102,7 @@ final class MkCollaborators implements Collaborators {
     @Override
     public Iterable<User> iterate() {
         return new MkIterable<>(
-            this.storage, String.format("%s/user", this.xpath()),
+            this.storage, this.xpath().concat("/user"),
             xml -> new MkUser(
                 this.storage,
                 xml.xpath("login/text()").get(0)

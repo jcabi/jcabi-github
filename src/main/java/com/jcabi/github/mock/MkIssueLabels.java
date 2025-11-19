@@ -127,7 +127,7 @@ final class MkIssueLabels implements IssueLabels {
     public Iterable<Label> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/*", this.xpath()),
+            this.xpath().concat("/*"),
             xml -> new MkLabel(
                 this.storage,
                 this.self,
@@ -143,7 +143,7 @@ final class MkIssueLabels implements IssueLabels {
         if (this.labels().contains(name)) {
             this.storage.apply(
                 new Directives().xpath(
-                    String.format("%s/label[.='%s']", this.xpath(), name)
+                    this.xpath().concat(String.format("/label[.='%s']", name))
                 ).remove()
             );
             new MkIssueEvents(

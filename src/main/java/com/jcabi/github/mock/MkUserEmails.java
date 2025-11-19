@@ -68,7 +68,7 @@ final class MkUserEmails implements UserEmails {
     public Iterable<String> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/email", this.xpath()),
+            this.xpath().concat("/email"),
             MkUserEmails.MAPPING
         );
     }
@@ -97,7 +97,7 @@ final class MkUserEmails implements UserEmails {
         final Directives directives = new Directives();
         for (final String email : emails) {
             directives.xpath(
-                String.format("%s/email[.='%s']", this.xpath(), email)
+                this.xpath().concat(String.format("/email[.='%s']", email))
             ).remove();
         }
         this.storage.apply(directives);
