@@ -15,7 +15,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub Blob.
- *
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

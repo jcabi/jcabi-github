@@ -18,6 +18,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub Commits.
+ * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

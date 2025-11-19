@@ -16,7 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub blobs.
- *
+ * @since 0.5
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
@@ -44,7 +44,7 @@ final class MkBlobs implements Blobs {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkBlobs(
+    MkBlobs(
         final MkStorage stg,
         final String login,
         final Coordinates rep

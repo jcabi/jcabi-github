@@ -71,6 +71,7 @@ public interface MkStorage {
 
     /**
      * In file.
+     * @since 0.5
      */
     @Immutable
     @EqualsAndHashCode(of = "name")
@@ -150,6 +151,7 @@ public interface MkStorage {
 
     /**
      * Syncronized.
+     * @since 0.5
      */
     @Immutable
     @EqualsAndHashCode(of = { "origin", "lock" })

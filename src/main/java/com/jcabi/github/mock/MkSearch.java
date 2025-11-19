@@ -19,7 +19,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub search.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable

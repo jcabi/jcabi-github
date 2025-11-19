@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * Mock commits' comparison of a GitHub repository.
+ * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

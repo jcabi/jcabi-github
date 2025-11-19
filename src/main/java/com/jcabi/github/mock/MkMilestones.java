@@ -15,6 +15,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub milestones.
+ * @since 0.7
  */
 @Immutable
 final class MkMilestones implements Milestones {
