@@ -10,8 +10,8 @@ import java.util.Map;
 
 /**
  * Commits of a GitHub repository.
- * @since 0.3
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @since 0.3
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

@@ -10,8 +10,8 @@ import java.util.Map;
 
 /**
  * GitHub pull comments.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @since 0.8
  */
 @Immutable
 public interface PullComments {
