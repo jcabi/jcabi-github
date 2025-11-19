@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * Markdown API.
- *
  * @see <a href="https://developer.github.com/v3/markdown/">Markdown API</a>
  * @since 0.6
  */

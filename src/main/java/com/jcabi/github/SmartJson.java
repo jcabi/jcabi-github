@@ -16,7 +16,6 @@ import lombok.ToString;
 
 /**
  * Smart JSON (supplementary help class).
- *
  * @since 0.5
  */
 @Immutable

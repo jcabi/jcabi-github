@@ -8,7 +8,6 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * GitHub Git Data Tag.
- *
  * @since 0.8
  */
 @Immutable

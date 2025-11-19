@@ -13,10 +13,8 @@ import lombok.ToString;
 
 /**
  * GitHub pull request ref.
- *
  * @since 0.24
  * @see <a href="https://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a single pull request API</a>
- *
  */
 @Immutable
 public interface PullRef extends JsonReadable {

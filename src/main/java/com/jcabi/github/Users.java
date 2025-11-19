@@ -8,7 +8,6 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * GitHub users.
- *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/users/">Users API</a>
  */

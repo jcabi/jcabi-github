@@ -8,7 +8,6 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * GitHub Notifications API.
- *
  * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  */

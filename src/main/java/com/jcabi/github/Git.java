@@ -9,7 +9,6 @@ import java.io.IOException;
 
 /**
  * GitHub Git.
- *
  * @since 0.8
  */
 @Immutable

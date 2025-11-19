@@ -10,7 +10,6 @@ import java.util.Map;
 
 /**
  * GitHub pull comments.
- *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  */
@@ -19,15 +18,13 @@ public interface PullComments {
 
     /**
      * Pull we're in.
-     *
-     * @return Pull
+     * @returnPull
      */
     Pull pull();
 
     /**
      * Get specific pull comment by number.
-     *
-     * @param number Pull comment number
+     * @paramnumber Pull comment number
      * @return Pull comment
      * @see <a href="https://developer.github.com/v3/pulls/comments/#get-a-single-comment">Get a single comment</a>
      */
@@ -35,8 +32,7 @@ public interface PullComments {
 
     /**
      * Iterate all pull comments for this repo.
-     *
-     * @param params Iterating parameters, as specified by API
+     * @paramparams Iterating parameters, as specified by API
      * @return Iterable of pull comments
      * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
      */
@@ -45,8 +41,7 @@ public interface PullComments {
 
     /**
      * Iterate all pull comments for a pull request.
-     *
-     * @param number Pull comment number
+     * @paramnumber Pull comment number
      * @param params Iterating parameters, as specified by API
      * @return Iterable of pull comments
      * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a>
@@ -56,8 +51,7 @@ public interface PullComments {
 
     /**
      * Post a new pull comment.
-     *
-     * @param body Body of it
+     * @parambody Body of it
      * @param commit Commit ID (SHA) of it
      * @param path Path of the file to comment on
      * @param position Line index in the diff to comment on
@@ -75,8 +69,7 @@ public interface PullComments {
 
     /**
      * Create a new comment as a reply to an existing pull comment.
-     *
-     * @param body Body of it
+     * @parambody Body of it
      * @param comment Commit ID (SHA) of it
      * @return PullComment just created
      * @throws IOException If there is any I/O problem
@@ -89,8 +82,7 @@ public interface PullComments {
 
     /**
      * Removes a pull comment by ID.
-     *
-     * @param number The ID of the pull comment to delete.
+     * @paramnumber The ID of the pull comment to delete.
      * @throws IOException If there is any I/O problem.
      */
     void remove(int number) throws IOException;

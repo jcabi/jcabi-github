@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Check if a GitHub JSON object actually exists on the server.
- *
  * @since 0.38
  */
 @Immutable

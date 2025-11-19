@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub users.
- *
  * @since 0.4
  */
 @Immutable
