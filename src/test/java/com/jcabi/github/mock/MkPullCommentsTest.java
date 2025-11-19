@@ -115,7 +115,8 @@ public final class MkPullCommentsTest {
         );
         MatcherAssert.assertThat(
             "Value is null",
-            position.get(0), Matchers.notNullValue()
+            position.get(0),
+            Matchers.notNullValue()
         );
         final List<String> body = storage.xml().xpath(
             String.format(
@@ -126,7 +127,7 @@ public final class MkPullCommentsTest {
             )
         );
         MatcherAssert.assertThat(
-            "Values are not equal",body.get(0), Matchers.equalTo(bodytext));
+            "Values are not equal", body.get(0), Matchers.equalTo(bodytext));
     }
 
     /**

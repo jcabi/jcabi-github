@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * JSON patchable.
- *
  * @since 0.4
  */
 @Immutable

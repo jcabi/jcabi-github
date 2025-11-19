@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub labels of a repo.
- *
  * @since 0.6
  */
 @Immutable
