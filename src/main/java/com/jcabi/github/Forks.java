@@ -9,8 +9,8 @@ import java.io.IOException;
 
 /**
  * GitHub forks.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Forks {

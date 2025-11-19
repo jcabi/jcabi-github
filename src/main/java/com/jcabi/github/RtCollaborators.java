@@ -43,8 +43,8 @@ final class RtCollaborators implements Collaborators {
 
     /**
      * Public ctor.
-     * @param repo Repo
      * @param req Request
+     * @param repo Repo
      */
     RtCollaborators(final Request req, final Repo repo) {
         this.entry = req;

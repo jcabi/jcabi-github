@@ -74,25 +74,26 @@ final class RtUserOrganizations implements UserOrganizations {
 
     /**
      * Maps organization JSON objects to Organization instances.
+     * @since 0.24
      */
     private static final class OrganizationMapping
         implements RtValuePagination.Mapping<Organization, JsonObject> {
         /**
          * Organizations.
          */
-        private final transient Organizations organizations;
+        private final transient Organizations orgs;
 
         /**
          * Ctor.
-         * @param orgs Organizations
+         * @param organizations Organizations
          */
-        OrganizationMapping(final Organizations orgs) {
-            this.organizations = orgs;
+        OrganizationMapping(final Organizations organizations) {
+            this.orgs = organizations;
         }
 
         @Override
         public Organization map(final JsonObject object) {
-            return this.organizations.get(object.getString("login"));
+            return this.orgs.get(object.getString("login"));
         }
     }
 }

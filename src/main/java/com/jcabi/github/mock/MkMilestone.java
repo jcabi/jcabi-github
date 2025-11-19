@@ -13,6 +13,7 @@ import java.io.IOException;
 
 /**
  * Mock GitHub milestone.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

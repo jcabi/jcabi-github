@@ -38,7 +38,7 @@ import lombok.ToString;
  */
 @Immutable
 @ToString
-@EqualsAndHashCode(of = { "real" })
+@EqualsAndHashCode(of = "real")
 public final class RetryCarefulWire implements Wire {
     /**
      * RetryWire which we're merely wrapping.

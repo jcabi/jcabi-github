@@ -14,6 +14,7 @@ import lombok.ToString;
 /**
  * GitHub Git blob.
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
+ * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -26,6 +27,7 @@ public interface Blob extends JsonReadable {
 
     /**
      * Smart Blob with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString

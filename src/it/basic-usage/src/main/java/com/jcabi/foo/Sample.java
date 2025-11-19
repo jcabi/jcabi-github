@@ -6,6 +6,7 @@ package com.jcabi.foo;
 
 /**
  * Sample class.
+ * @since 1.0
  */
 public final class Sample {
 }

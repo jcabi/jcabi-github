@@ -14,6 +14,7 @@ import org.junit.Test;
 
 /**
  * Sample test.
+ * @since 1.0
  */
 public final class SampleTest {
 

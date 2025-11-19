@@ -20,6 +20,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub Trees.
+ * @since 0.24
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

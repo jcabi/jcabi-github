@@ -40,7 +40,7 @@ import lombok.ToString;
  * );
  * }
  * </pre>
- *
+ * @since 0.4
  */
 @Immutable
 @ToString

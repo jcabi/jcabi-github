@@ -45,7 +45,7 @@ final class RtReleases implements Releases {
      * @param req RESTful API entry point
      * @param repo Repository
      */
-    public RtReleases(final Request req, final Repo repo) {
+    RtReleases(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
         this.request = this.entry.uri()

@@ -16,8 +16,8 @@ import lombok.ToString;
 
 /**
  * GitHub Rate Limit API, one resource limit.
- * @since 0.6
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
+ * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -31,6 +31,7 @@ public interface Limit extends JsonReadable {
 
     /**
      * Smart limits with extra features.
+     * @since 0.6
      */
     @Immutable
     @ToString

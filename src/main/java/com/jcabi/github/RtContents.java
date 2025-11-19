@@ -48,7 +48,7 @@ final class RtContents implements Contents {
      * @param req RESTful API entry point
      * @param repo Repository
      */
-    public RtContents(final Request req, final Repo repo) {
+    RtContents(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
         this.request = req.uri()
@@ -227,16 +227,16 @@ final class RtContents implements Contents {
         final String name = "ref";
         RtContent content = null;
         final JsonStructure structure = this.request.method(Request.GET)
-                .uri().path(path).queryParam(name, ref).back()
-                .fetch()
-                .as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_OK)
-                .as(JsonResponse.class)
-                .json().read();
+            .uri().path(path).queryParam(name, ref).back()
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_OK)
+            .as(JsonResponse.class)
+            .json().read();
         if (JsonValue.ValueType.OBJECT.equals(structure.getValueType())) {
             content = new RtContent(
-                    this.entry.uri().queryParam(name, ref).back(), this.owner,
-                    ((JsonObject) structure).getString("path")
+                this.entry.uri().queryParam(name, ref).back(), this.owner,
+                ((JsonObject) structure).getString("path")
             );
         }
         return content;

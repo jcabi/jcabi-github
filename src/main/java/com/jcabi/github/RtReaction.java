@@ -29,9 +29,9 @@ public final class RtReaction implements Reaction {
     @Override
     public String type() {
         if (Arrays.asList(
-                Reaction.CONFUSED, Reaction.HEART, Reaction.HOORAY,
-                Reaction.LAUGH, Reaction.THUMBSDOWN, Reaction.THUMBSUP
-            ).contains(this.origin.type())
+            Reaction.CONFUSED, Reaction.HEART, Reaction.HOORAY,
+            Reaction.LAUGH, Reaction.THUMBSDOWN, Reaction.THUMBSUP
+        ).contains(this.origin.type())
         ) {
             return this.origin.type();
         }

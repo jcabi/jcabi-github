@@ -5,6 +5,5 @@
 
 /**
  * Integration testing.
- *
  */
 package com.jcabi.foo;

@@ -9,8 +9,8 @@ import java.io.IOException;
 
 /**
  * GitHub starring API.
- * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
+ * @since 0.15
  */
 @Immutable
 public interface Stars {

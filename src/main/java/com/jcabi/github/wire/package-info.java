@@ -5,6 +5,5 @@
 
 /**
  * Wires.
- *
  */
 package com.jcabi.github.wire;
