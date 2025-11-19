@@ -25,12 +25,10 @@ public final class StatusTest {
     /**
      * Name of description property in Status JSON object.
      */
-
     private static final String DESCRIPTION_PROP = "description";
     /**
      * Name of description property in Status JSON object.
      */
-
     private static final String TARGET_PROP = "target_url";
 
     /**

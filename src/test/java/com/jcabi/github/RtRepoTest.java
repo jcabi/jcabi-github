@@ -44,13 +44,11 @@ public final class RtRepoTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtRepo can fetch events.
-     *
      */
     @Test
     public void iteratesEvents() throws IOException {
@@ -79,7 +77,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its labels.
-     *
      */
     @Test
     public void fetchesLabels() {
@@ -95,7 +92,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its issues.
-     *
      */
     @Test
     public void fetchesIssues() {
@@ -111,7 +107,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its branches.
-     *
      */
     @Test
     public void fetchesBranches() {
@@ -127,7 +122,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its pulls.
-     *
      */
     @Test
     public void fetchesPulls() {
@@ -143,7 +137,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its hooks.
-     *
      */
     @Test
     public void fetchHooks() {
@@ -159,7 +152,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its keys.
-     *
      */
     @Test
     public void fetchKeys() {
@@ -175,7 +167,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its releases.
-     *
      */
     @Test
     public void fetchReleases() {
@@ -191,7 +182,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can fetch its contents.
-     *
      */
     @Test
     public void fetchContents() {
@@ -225,7 +215,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can execute PATCH request.
-     *
      */
     @Test
     public void executePatchRequest() throws IOException {
@@ -252,7 +241,6 @@ public final class RtRepoTest {
 
     /**
      * RtRepo can describe as a JSON object.
-     *
      */
     @Test
     public void describeAsJson() throws IOException {
@@ -283,7 +271,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null",repo.commits(), Matchers.notNullValue());
+            "Value is null", repo.commits(), Matchers.notNullValue());
     }
 
     /**
@@ -295,7 +283,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null",repo.git(), Matchers.notNullValue());
+            "Value is null", repo.git(), Matchers.notNullValue());
     }
 
     /**
@@ -307,7 +295,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null",repo.stars(), Matchers.notNullValue());
+            "Value is null", repo.stars(), Matchers.notNullValue());
     }
 
     /**
@@ -348,7 +336,7 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null",repo.notifications(), Matchers.notNullValue());
+            "Value is null", repo.notifications(), Matchers.notNullValue());
     }
 
     /**
@@ -370,14 +358,13 @@ public final class RtRepoTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
-                "Value is null",repo.languages(), Matchers.notNullValue());
+                "Value is null", repo.languages(), Matchers.notNullValue());
             container.stop();
         }
     }
 
     /**
      * RtRepo can iterate languages.
-     *
      */
     @Test
     public void iteratesLanguages() throws IOException {

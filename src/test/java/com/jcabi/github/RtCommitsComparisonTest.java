@@ -70,11 +70,13 @@ public final class RtCommitsComparisonTest {
         final JsonObject json = comparison.json();
         MatcherAssert.assertThat(
             "Value is null",
-            json.getJsonObject("base_commit"), Matchers.notNullValue()
+            json.getJsonObject("base_commit"),
+            Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
             "Value is null",
-            json.getJsonArray("commits"), Matchers.notNullValue()
+            json.getJsonArray("commits"),
+            Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
@@ -85,15 +87,15 @@ public final class RtCommitsComparisonTest {
             comparison.files().iterator().next()
         );
         MatcherAssert.assertThat(
-            "Values are not equal",file.sha(), Matchers.equalTo(sha));
+            "Values are not equal", file.sha(), Matchers.equalTo(sha));
         MatcherAssert.assertThat(
-            "Values are not equal",file.filename(), Matchers.equalTo(filename));
+            "Values are not equal", file.filename(), Matchers.equalTo(filename));
         MatcherAssert.assertThat(
-            "Values are not equal",file.additions(), Matchers.equalTo(additions));
+            "Values are not equal", file.additions(), Matchers.equalTo(additions));
         MatcherAssert.assertThat(
-            "Values are not equal",file.deletions(), Matchers.equalTo(deletions));
+            "Values are not equal", file.deletions(), Matchers.equalTo(deletions));
         MatcherAssert.assertThat(
-            "Values are not equal",file.changes(), Matchers.equalTo(changes));
+            "Values are not equal", file.changes(), Matchers.equalTo(changes));
         MatcherAssert.assertThat(
             "Values are not equal",
             file.status(),

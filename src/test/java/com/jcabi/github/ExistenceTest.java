@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 
 /**
  * Unit tests for {@link Existence}.
- *
  * @since 0.38
  */
 public final class ExistenceTest {
@@ -29,7 +28,8 @@ public final class ExistenceTest {
         );
         MatcherAssert.assertThat(
             "Values are not equal",
-            new Existence(object).check(), Matchers.is(Boolean.TRUE)
+            new Existence(object).check(),
+            Matchers.is(Boolean.TRUE)
         );
     }
 
@@ -42,7 +42,8 @@ public final class ExistenceTest {
         Mockito.doThrow(new AssertionError()).when(object).json();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new Existence(object).check(), Matchers.is(Boolean.FALSE)
+            new Existence(object).check(),
+            Matchers.is(Boolean.FALSE)
         );
     }
 
