@@ -147,7 +147,7 @@ public interface GitHub {
      * @since 0.2
      */
     @Immutable
-    @EqualsAndHashCode(of = { "msec" })
+    @EqualsAndHashCode(of = "msec")
     final class Time {
         /**
          * Pattern to present day in ISO-8601.

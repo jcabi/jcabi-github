@@ -131,19 +131,19 @@ final class RtPull implements Pull {
                     )
                 )
             );
-        final MergeState mergeState;
+        final MergeState state;
         switch (response.status()) {
             case HttpURLConnection.HTTP_OK:
-                mergeState = MergeState.SUCCESS;
+                state = MergeState.SUCCESS;
                 break;
             case HttpURLConnection.HTTP_BAD_METHOD:
-                mergeState = MergeState.NOT_MERGEABLE;
+                state = MergeState.NOT_MERGEABLE;
                 break;
             default:
-                mergeState = MergeState.BAD_HEAD;
+                state = MergeState.BAD_HEAD;
                 break;
         }
-        return mergeState;
+        return state;
     }
 
     @Override

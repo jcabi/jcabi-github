@@ -46,7 +46,7 @@ final class RtHooks implements Hooks {
      * @param req Request
      * @param repo Repository
      */
-    public RtHooks(final Request req, final Repo repo) {
+    RtHooks(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
         this.request = this.entry.uri()

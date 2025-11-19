@@ -19,8 +19,8 @@ import lombok.ToString;
 
 /**
  * GitHub Repo API.
- * @since 0.5
  * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
+ * @since 0.5
  */
 @SuppressWarnings("PMD.TooManyMethods")
 @Immutable
