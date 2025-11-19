@@ -66,6 +66,7 @@ final class MkForks implements Forks {
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
+
     /**
      * Gets a mocked Fork.
      * @param forkid Fork id

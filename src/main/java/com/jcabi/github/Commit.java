@@ -67,6 +67,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
         }
+
         /**
          * Get its message.
          * @return Message of commit
@@ -75,6 +76,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
         public String message() throws IOException {
             return this.jsn.json().getJsonObject("commit").getString("message");
         }
+
         /**
          * Get its URL.
          * @return URL of comment

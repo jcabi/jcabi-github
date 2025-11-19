@@ -82,6 +82,7 @@ public interface Labels {
         ) {
             this.labels = lbl;
         }
+
         /**
          * Label exists?
          * @param name Name of the label
@@ -99,6 +100,7 @@ public interface Labels {
             }
             return contains;
         }
+
         /**
          * Create or get label.
          * @param name Name of the label
@@ -110,6 +112,7 @@ public interface Labels {
         ) throws IOException {
             return this.createOrGet(name, "c0c0c0");
         }
+
         /**
          * Create or get label (with this explicit color).
          * @param name Name of the label

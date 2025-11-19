@@ -164,6 +164,7 @@ public final class RtIssueITCase {
             Matchers.equalTo(login)
         );
     }
+
     /**
      * RtIssue can check whether it is a pull request.
      * @throws Exception If some problem inside

@@ -51,6 +51,7 @@ public final class RtGistsITCase {
         );
         gists.remove(gist.identifier());
     }
+
     /**
      * RtGists can get a single gist.
      */
@@ -68,6 +69,7 @@ public final class RtGistsITCase {
         );
         gists.remove(gist.identifier());
     }
+
     /**
      * This tests that RtGists can remove a gist by name.
      */
@@ -90,6 +92,7 @@ public final class RtGistsITCase {
             Matchers.not(Matchers.hasItem(gist))
         );
     }
+
     /**
      * Return gists to test.
      * @return Gists

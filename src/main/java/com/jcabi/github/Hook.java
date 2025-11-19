@@ -56,6 +56,7 @@ public interface Hook extends JsonReadable {
             this.hook = hoo;
             this.jsn = new SmartJson(hoo);
         }
+
         /**
          * Get its name.
          * @return Name of hook

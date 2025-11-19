@@ -32,6 +32,7 @@ public final class MkCommitsComparisonTest {
             ).repo(), Matchers.notNullValue()
         );
     }
+
     /**
      * MkCommitsComparison can get a JSON.
      */

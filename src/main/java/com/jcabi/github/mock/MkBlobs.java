@@ -66,6 +66,7 @@ final class MkBlobs implements Blobs {
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
+
     /**
      * Gets a mocked Blob.
      * @param sha Blob sha

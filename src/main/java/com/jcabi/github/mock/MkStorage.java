@@ -88,6 +88,7 @@ public interface MkStorage {
             this(File.createTempFile("jcabi-github", ".xml"));
             new File(this.name).deleteOnExit();
         }
+
         /**
          * Public ctor.
          * @param file File to use

@@ -70,6 +70,7 @@ public interface Content extends Comparable<Content>,
             this.content = cont;
             this.jsn = new SmartJson(cont);
         }
+
         /**
          * Get its name.
          * @return Name of content
@@ -78,6 +79,7 @@ public interface Content extends Comparable<Content>,
         public String name() throws IOException {
             return this.jsn.text("name");
         }
+
         /**
          * Get its type.
          * @return Type of content
@@ -86,6 +88,7 @@ public interface Content extends Comparable<Content>,
         public String type() throws IOException {
             return this.jsn.text("type");
         }
+
         /**
          * Get its size.
          * @return Size content
@@ -94,6 +97,7 @@ public interface Content extends Comparable<Content>,
         public int size() throws IOException {
             return this.jsn.number("size");
         }
+
         /**
          * Get its sha hash.
          * @return Sha hash of content
@@ -102,6 +106,7 @@ public interface Content extends Comparable<Content>,
         public String sha() throws IOException {
             return this.jsn.text("sha");
         }
+
         /**
          * Get its URL.
          * @return URL of content
@@ -114,6 +119,7 @@ public interface Content extends Comparable<Content>,
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * Get its HTML URL.
          * @return URL of content
@@ -126,6 +132,7 @@ public interface Content extends Comparable<Content>,
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * Get its GIT URL.
          * @return URL of content
@@ -138,6 +145,7 @@ public interface Content extends Comparable<Content>,
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * Get its encoded content.
          * @return Base64 encoded content
@@ -146,6 +154,7 @@ public interface Content extends Comparable<Content>,
         public String content() throws IOException {
             return this.jsn.text("content");
         }
+
         /**
          * Get its decoded content.
          * @return Decoded content

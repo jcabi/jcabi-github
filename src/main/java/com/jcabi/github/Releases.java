@@ -104,6 +104,7 @@ public interface Releases {
         public void remove(final int number) throws IOException {
             this.releases.remove(number);
         }
+
         /**
          * This release exists by the tag.
          * @param tag The tag
@@ -123,6 +124,7 @@ public interface Releases {
             }
             return exists;
         }
+
         /**
          * Find release by the tag (runtime exception if not found).
          * @param tag The tag

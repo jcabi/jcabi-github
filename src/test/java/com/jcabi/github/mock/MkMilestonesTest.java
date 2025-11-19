@@ -61,6 +61,7 @@ public final class MkMilestonesTest {
             Matchers.notNullValue()
         );
     }
+
     /**
      * This tests that MkMilestones can remove a certain MkMilestone, by number.
      */
@@ -81,6 +82,7 @@ public final class MkMilestonesTest {
             Matchers.iterableWithSize(0)
         );
     }
+
     /**
      * This tests that the iterate(Map<String, String> params)
      * method in MkMilestones works fine.

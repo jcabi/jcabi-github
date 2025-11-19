@@ -57,6 +57,7 @@ public final class MkGistsTest {
             Matchers.not(Matchers.hasItem(gist))
         );
     }
+
     /**
      * MkGists can work several gists.
      * Test to check issue #128

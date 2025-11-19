@@ -50,6 +50,7 @@ public interface Limit extends JsonReadable {
         ) {
             this.origin = limit;
         }
+
         /**
          * Limit of number of requests.
          * @return Number of requests you can make in total
@@ -58,6 +59,7 @@ public interface Limit extends JsonReadable {
         public int limit() throws IOException {
             return new SmartJson(this.origin).number("limit");
         }
+
         /**
          * Remaining number of requests.
          * @return Number of requests you can still make
@@ -66,6 +68,7 @@ public interface Limit extends JsonReadable {
         public int remaining() throws IOException {
             return new SmartJson(this.origin).number("remaining");
         }
+
         /**
          * When will the limit be reset.
          * @return Date when this will happen

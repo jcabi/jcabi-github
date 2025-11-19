@@ -154,6 +154,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             this.issue = iss;
             this.jsn = new SmartJson(iss);
         }
+
         /**
          * Get its author.
          * @return Author of issue (who submitted it)
@@ -166,6 +167,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 ).getString("login")
             );
         }
+
         /**
          * Is it open?
          * @return TRUE if it's open
@@ -174,6 +176,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public boolean isOpen() throws IOException {
             return Issue.OPEN_STATE.equals(this.state());
         }
+
         /**
          * Open it (make sure it's open).
          * @throws IOException If there is any I/O problem
@@ -181,6 +184,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public void open() throws IOException {
             this.state(Issue.OPEN_STATE);
         }
+
         /**
          * Close it (make sure it's closed).
          * @throws IOException If there is any I/O problem
@@ -188,6 +192,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public void close() throws IOException {
             this.state(Issue.CLOSED_STATE);
         }
+
         /**
          * Get its state.
          * @return State of issue
@@ -196,6 +201,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public String state() throws IOException {
             return this.jsn.text("state");
         }
+
         /**
          * Change its state.
          * @param state State of issue
@@ -206,6 +212,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("state", state).build()
             );
         }
+
         /**
          * Get its title.
          * @return Title of issue
@@ -214,6 +221,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public String title() throws IOException {
             return this.jsn.text("title");
         }
+
         /**
          * Change its title.
          * @param text Title of issue
@@ -224,6 +232,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("title", text).build()
             );
         }
+
         /**
          * Get its body.
          * @return Body of issue
@@ -232,6 +241,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public String body() throws IOException {
             return this.jsn.text("body");
         }
+
         /**
          * Change its body.
          * @param text Body of issue
@@ -242,6 +252,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
+
         /**
          * Has body?
          * @return TRUE if body exists
@@ -251,6 +262,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public boolean hasBody() throws IOException {
             return this.jsn.hasNotNull("body");
         }
+
         /**
          * Has assignee?
          * @return TRUE if assignee exists
@@ -259,6 +271,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public boolean hasAssignee() throws IOException {
             return this.jsn.hasNotNull("assignee");
         }
+
         /**
          * Get its assignee.
          * @return User Assignee of issue
@@ -279,6 +292,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 ).getString("login")
             );
         }
+
         /**
          * Assign this issue to another user.
          * @param login Login of the user to assign to
@@ -289,6 +303,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Json.createObjectBuilder().add("assignee", login).build()
             );
         }
+
         /**
          * Get its URL.
          * @return URL of issue
@@ -301,6 +316,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * Get its HTML URL.
          * @return URL of issue
@@ -313,6 +329,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * When this issue was created.
          * @return Date of creation
@@ -327,6 +344,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * When this issue was closed.
          * @return Date of creation
@@ -342,6 +360,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * When this issue was updated.
          * @return Date of update
@@ -356,6 +375,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * Is it a pull request?
          * @return TRUE if it is a pull request
@@ -380,6 +400,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 Integer.parseInt(url.substring(url.lastIndexOf('/') + 1))
             );
         }
+
         /**
          * Get the latest event of a given type.
          * Throws {@link IllegalStateException} if the issue has no events of
@@ -409,6 +430,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             }
             return found;
         }
+
         /**
          * Get read-only labels.
          * @return Collection of labels
@@ -428,6 +450,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     )
                 );
             }
+
             // @checkstyle AnonInnerLength (1 line)
             return new IssueLabels() {
                 @Override
@@ -472,6 +495,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 }
             };
         }
+
         /**
          * Does issue have milestone?
          * @return True if has
@@ -480,6 +504,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
         public boolean hasMilestone() throws IOException {
             return this.jsn.hasNotNull("milestone");
         }
+
         /**
          * Get milestone for this issue.
          * @return Milestone
@@ -491,6 +516,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     .getInt("number")
             );
         }
+
         /**
          * Add issueto milestone.
          * @param milestone Milestone

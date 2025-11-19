@@ -164,6 +164,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
                 return !this.objects.isEmpty();
             }
         }
+
         /**
          * Fetch the next portion, if available.
          * @throws IOException If there is any I/O problem

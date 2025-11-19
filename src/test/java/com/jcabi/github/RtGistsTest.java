@@ -110,6 +110,7 @@ public final class RtGistsTest {
             container.stop();
         }
     }
+
     /**
      * RtGists can remove a gist by name.
      */

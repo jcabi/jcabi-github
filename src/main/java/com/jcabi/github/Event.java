@@ -165,6 +165,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
             this.event = evt;
             this.jsn = new SmartJson(evt);
         }
+
         /**
          * Does it have an author?
          * @return TRUE if the author exists
@@ -173,6 +174,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         public boolean hasAuthor() throws IOException {
             return !this.event.json().isNull("actor");
         }
+
         /**
          * Get its author.
          * @return Author of comment
@@ -183,6 +185,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
                 this.event.json().getJsonObject("actor").getString("login")
             );
         }
+
         /**
          * Get its type.
          * @return State of issue
@@ -191,6 +194,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         public String type() throws IOException {
             return this.jsn.text("event");
         }
+
         /**
          * Get its URL.
          * @return URL of issue
@@ -203,6 +207,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * When this issue was created.
          * @return Date of creation
@@ -217,6 +222,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * Label that was added or removed in this event (if any).
          * @return Label that was added or removed

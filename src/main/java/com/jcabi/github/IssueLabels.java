@@ -85,6 +85,7 @@ public interface IssueLabels {
         public Smart(final IssueLabels lbl) {
             this.labels = lbl;
         }
+
         /**
          * Label exists?
          * @param name Name of the label
@@ -100,6 +101,7 @@ public interface IssueLabels {
             }
             return contains;
         }
+
         /**
          * Get label by name (runtime exception if absent).
          * @param name Name of the label
@@ -127,6 +129,7 @@ public interface IssueLabels {
             }
             return label;
         }
+
         /**
          * Add label if it is absent, don't touch its color if exists.
          * @param name Name of the label
@@ -145,6 +148,7 @@ public interface IssueLabels {
             }
             return added;
         }
+
         /**
          * Add label if it is absent, and set its color in any case.
          * @param name Name of the label
@@ -176,6 +180,7 @@ public interface IssueLabels {
             }
             return added;
         }
+
         /**
          * Select all labels with the given color.
          * @param color Color
@@ -193,6 +198,7 @@ public interface IssueLabels {
             }
             return found;
         }
+
         /**
          * Remove label if it exists (do nothing otherwise).
          * @param name Label to remove

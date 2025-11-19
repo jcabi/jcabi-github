@@ -73,6 +73,7 @@ public final class ForkTest {
             Matchers.is(description)
         );
     }
+
     /**
      * Fork.Smart can fetch size property from Fork.
      */
@@ -160,6 +161,7 @@ public final class ForkTest {
             Matchers.is(homepage)
         );
     }
+
     /**
      * Fork.Smart can fetch the number of forks, stargazers, and watchers
      * from Fork.

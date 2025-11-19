@@ -70,6 +70,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
         }
+
         /**
          * Get its message.
          * @return Message of repo commit
@@ -80,6 +81,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 .getJsonObject("commit")
                 .getString("message");
         }
+
         /**
          * Get its URL.
          * @return URL of repo commit
@@ -92,6 +94,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * Returns the login of the author.
          * @return The login
@@ -104,6 +107,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 .getJsonObject("author")
                 .getString("name");
         }
+
         /**
          * Returns TRUE if the commit is verified.
          * @return TRUE if verified

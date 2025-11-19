@@ -197,6 +197,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
                 throw new IllegalStateException(ex);
             }
         }
+
         // @checkstyle MethodName (4 lines)
 
         @Override

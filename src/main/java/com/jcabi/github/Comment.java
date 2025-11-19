@@ -101,6 +101,7 @@ public interface Comment
             this.comment = cmt;
             this.jsn = new SmartJson(cmt);
         }
+
         /**
          * Get its author.
          * @return Author of comment
@@ -111,6 +112,7 @@ public interface Comment
                 this.comment.json().getJsonObject("user").getString("login")
             );
         }
+
         /**
          * Get its body.
          * @return Body of comment
@@ -119,6 +121,7 @@ public interface Comment
         public String body() throws IOException {
             return this.jsn.text("body");
         }
+
         /**
          * Change comment body.
          * @param text Body of comment
@@ -129,6 +132,7 @@ public interface Comment
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
+
         /**
          * Get its URL.
          * @return URL of comment
@@ -141,6 +145,7 @@ public interface Comment
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * When this comment was created.
          * @return Date of creation
@@ -155,6 +160,7 @@ public interface Comment
                 throw new IOException(ex);
             }
         }
+
         /**
          * When this comment was updated last time.
          * @return Date of update

@@ -90,6 +90,7 @@ public final class MkRepoCommitTest {
             Matchers.greaterThan(0)
         );
     }
+
     /**
      * MkRepoCommit can get a JSON.
      */
